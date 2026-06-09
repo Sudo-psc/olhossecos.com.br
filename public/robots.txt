@@ -1,0 +1,15 @@
+# robots.txt para olhossecos.com.br
+# Saraiva Vision Care LTDA
+
+User-agent: *
+Allow: /
+
+# Bloquear páginas administrativas e internas do Astro
+Disallow: /api/*
+Disallow: /_astro/*
+
+# Sitemap
+Sitemap: https://olhossecos.com.br/sitemap-index.xml
+
+# Crawl-delay sugerido (em segundos)
+Crawl-delay: 1

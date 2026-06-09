@@ -1,0 +1,382 @@
+---
+// src/pages/testerapido.astro
+import Header from '../components/Header.astro';
+
+// Standalone Landing Page for "Teste Rápido de Olho Seco"
+// Context: Medical Tech / Minimalist / Mobile-First
+---
+
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teste Rápido de Olho Seco | Dr. Philipe Saraiva Cruz</title>
+    <meta name="description" content="Faça o teste interativo de 10 segundos e descubra se você pode ter Olho Seco. Dr. Philipe Saraiva Cruz - Médico pós-graduado em Oftalmologia em Caratinga/MG." />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#003D7A" />
+    <link rel="canonical" href="https://olhossecos.com.br/testerapido" />
+    
+    <!-- Fonts: Outfit (Headings) & Inter (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://olhossecos.com.br/testerapido" />
+    <meta property="og:title" content="Teste Rápido de Olho Seco | Dr. Philipe Saraiva Cruz" />
+    <meta property="og:description" content="Faça o teste interativo de 10 segundos e descubra se você pode ter Olho Seco. Dr. Philipe Saraiva Cruz - Médico pós-graduado em Oftalmologia em Caratinga/MG." />
+    <meta property="og:image" content="https://olhossecos.com.br/heroeye.png" />
+    <meta property="og:image:alt" content="Teste rápido de olho seco - Saraiva Vision" />
+    <meta property="og:image:width" content="1376" />
+    <meta property="og:image:height" content="768" />
+    <meta property="og:site_name" content="Olhos Secos" />
+    <meta property="og:locale" content="pt_BR" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://olhossecos.com.br/testerapido" />
+    <meta property="twitter:title" content="Teste Rápido de Olho Seco | Dr. Philipe Saraiva Cruz" />
+    <meta property="twitter:description" content="Faça o teste interativo de 10 segundos e descubra se você pode ter Olho Seco. Dr. Philipe Saraiva Cruz - Médico pós-graduado em Oftalmologia em Caratinga/MG." />
+    <meta property="twitter:image" content="https://olhossecos.com.br/heroeye.png" />
+    <meta property="twitter:image:alt" content="Teste rápido de olho seco - Saraiva Vision" />
+
+    <script is:inline type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Teste Rápido de Olho Seco",
+        "description": "Teste interativo de 10 segundos para identificar sinais de olho seco em Caratinga.",
+        "url": "https://olhossecos.com.br/testerapido",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "Olhos Secos",
+          "url": "https://olhossecos.com.br"
+        }
+      }
+    </script>
+
+    <style>
+        :root {
+            --navy: #003D7A; /* Brand Navy */
+            --cyan: #06b6d4; /* Tech Cyan */
+            --silver: #f1f5f9; /* Background Silver */
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--silver);
+            color: #1e293b;
+        }
+
+        h1, h2, h3, .font-heading {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Utility for the blinking eye animation */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
+        
+        .animate-pulse-ring {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .eye-lid {
+            /* Removed animation styles as we are using static image */
+            display: none; 
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- A. HEADER (Imported) -->
+    <Header />
+
+    <!-- B. HERO SECTION INTERATIVA -->
+    <main class="flex-grow">
+        <section class="relative pt-12 pb-20 overflow-hidden bg-gradient-to-b from-[#003D7A] to-[#0f172a] text-white min-h-[600px] flex items-center">
+            
+            <!-- Background Decorative Elements -->
+            <div class="absolute inset-0 overflow-hidden opacity-20 pointer-events-none">
+                <div class="absolute -top-24 -right-24 w-96 h-96 bg-cyan-500 rounded-full blur-3xl"></div>
+                <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-600 rounded-full blur-3xl"></div>
+            </div>
+
+            <div class="container mx-auto px-4 relative z-10 text-center">
+                
+                <!-- Status Badge -->
+                <div id="test-status" class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-1 rounded-full text-cyan-300 text-sm font-bold mb-8 transition-all duration-300">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                    TESTE INTERATIVO DE LÁGRIMA
+                </div>
+
+                <!-- SVG Character Area -->
+                <div class="relative w-48 h-48 mx-auto mb-8 cursor-pointer group" id="character-container">
+                    
+                    <!-- Progress Ring (Hidden initially) -->
+                    <svg class="absolute inset-0 w-full h-full -rotate-90 opacity-0 transition-opacity duration-300" id="progress-ring">
+                        <circle cx="96" cy="96" r="90" stroke="currentColor" stroke-width="4" fill="transparent" class="text-white/10" />
+                        <circle cx="96" cy="96" r="90" stroke="currentColor" stroke-width="4" fill="transparent" stroke-dasharray="565.48" stroke-dashoffset="565.48" class="text-cyan-400 transition-all duration-100 ease-linear" id="progress-circle" />
+                    </svg>
+
+                    <img src="/icons/Fundo de icon_desafio10s Removido.png" alt="Desafio 10s Olho Seco" class="w-full h-full object-contain drop-shadow-2xl transition-transform duration-300 group-hover:scale-105" id="doctor-img" />
+                </div>
+
+                <!-- Text Content (Dynamic) -->
+                <div id="hero-content" class="max-w-xl mx-auto transition-opacity duration-300">
+                    <h2 id="main-title" class="text-3xl md:text-5xl font-bold mb-4 font-heading leading-tight">
+                        Desafio dos <span class="text-cyan-400">10 Segundos</span>
+                    </h2>
+                    <p id="sub-title" class="text-lg text-blue-100 mb-8 font-light">
+                        Você consegue manter os olhos abertos por 10 segundos sem piscar?
+                        Seu tempo revela a saúde do seu filme lacrimal.
+                    </p>
+                    
+                    <!-- Buttons -->
+                    <div id="action-area">
+                        <button id="start-btn" class="bg-[#06b6d4] hover:bg-cyan-600 text-white font-bold py-4 px-10 rounded-full text-lg shadow-lg shadow-cyan-500/40 transition-all hover:scale-105 active:scale-95 animate-pulse-ring">
+                            Iniciar Desafio
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Result Card (Hidden by default) -->
+                <div id="result-card" class="hidden max-w-lg mx-auto bg-white text-gray-800 rounded-3xl p-8 shadow-2xl transform transition-all duration-500 scale-95 opacity-0">
+                    <div id="result-icon" class="text-6xl mb-4">🎉</div>
+                    <h3 id="result-title" class="text-2xl font-bold text-[#003D7A] mb-3 font-heading">Resultado</h3>
+                    <p id="result-message" class="text-gray-600 mb-6 leading-relaxed">Mensagem de resultado aqui.</p>
+                    
+                    <a id="result-cta" href="#" target="_blank" class="block w-full bg-[#003D7A] text-white font-bold py-3 rounded-xl hover:bg-blue-900 transition-colors shadow-lg">
+                        Ação Recomendada
+                    </a>
+                    <button id="retry-btn" class="mt-4 text-sm text-gray-400 underline hover:text-cyan-600">
+                        Tentar Novamente
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- C. AUTORIDADE E TRATAMENTOS -->
+        <section class="py-16 bg-white section-padding">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row items-center gap-12 max-w-5xl mx-auto">
+                    
+                    <div class="md:w-1/2">
+                        <span class="text-cyan-600 font-bold uppercase text-xs tracking-widest mb-2 block">Por que fazer este teste?</span>
+                        <h2 class="text-3xl font-bold text-[#003D7A] mb-4 font-heading">O que o tempo de ruptura lacrimal diz sobre você?</h2>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            O "Break-Up Time" (BUT) é um indicador clínico fundamental. Se você sente desconforto ao manter os olhos abertos por menos de 10 segundos, suas lágrimas podem estar evaporando muito rápido.
+                        </p>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-[#003D7A] font-bold">1</div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Tecnologia em Caratinga</h4>
+                                    <p class="text-sm text-gray-500">Dispomos de aparelhos modernos (E-Eye IRPL, Meibografia) para diagnóstico preciso.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-[#003D7A] font-bold">2</div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Tratamentos Avançados</h4>
+                                    <p class="text-sm text-gray-500">De plugs lacrimais a luz pulsada, tratamos a causa raiz do problema.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/2 bg-gray-50 rounded-3xl p-8 border border-gray-100">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-16 h-16 bg-white rounded-full overflow-hidden border-2 border-cyan-100 shadow-sm">
+                                <img src="/doctor-portrait.jpg" alt="Dr. Philipe Saraiva" class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-[#003D7A]">Dr. Philipe Saraiva Cruz</h3>
+                                <p class="text-xs text-cyan-600 font-bold uppercase">Olho Seco e Superfície Ocular</p>
+                            </div>
+                        </div>
+                        <p class="italic text-gray-600 text-sm mb-6">
+                            "O olho seco não tratado pode levar a danos na superfície ocular e baixa qualidade de vida. O diagnóstico precoce é o melhor caminho."
+                        </p>
+                        <hr class="border-gray-200 mb-6">
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- D. RODAPÉ E CONVERSÃO -->
+    <footer class="bg-[#0f172a] text-white py-12 border-t border-gray-800">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-2xl font-bold mb-6 font-heading">Sinta o mundo com mais conforto</h2>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-10">
+                <a href="https://wa.me/553399898026" target="_blank" class="inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg hover:shadow-green-500/20">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    Falar no WhatsApp
+                </a>
+                <a href="https://saraivavision.com.br/agendamento" target="_blank" class="inline-flex items-center justify-center gap-2 bg-white text-[#0f172a] font-bold py-3 px-8 rounded-xl border border-gray-600 hover:bg-gray-100 transition-all">
+                    Agendamento Online
+                </a>
+            </div>
+
+            <p class="text-xs text-gray-500 mb-2">Este teste tem caráter meramente informativo e educacional, não substituindo a consulta médica presencial.</p>
+            <p class="text-xs text-gray-600">CNPJ 53.864.119/0001-79 | Saraiva Vision Care LTDA</p>
+        </div>
+    </footer>
+
+    <!-- LOGIC -->
+    <script is:inline>
+        document.addEventListener('DOMContentLoaded', () => {
+            const startBtn = document.getElementById('start-btn');
+            const retryBtn = document.getElementById('retry-btn');
+            const mainTitle = document.getElementById('main-title');
+            const subTitle = document.getElementById('sub-title');
+            const actionArea = document.getElementById('action-area');
+            const progressRing = document.getElementById('progress-ring');
+            const progressCircle = document.getElementById('progress-circle');
+            const resultCard = document.getElementById('result-card');
+            const testStatus = document.getElementById('test-status');
+            /* Removed lids selector */
+            
+            let startTime = 0;
+            let timerInterval;
+            let isRunning = false;
+            
+            // Audio Context for Beep (Optional, simplistic)
+            // const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+            function resetTest() {
+                isRunning = false;
+                clearInterval(timerInterval);
+                
+                // Reset UI
+                mainTitle.innerHTML = 'Desafio dos <span class="text-cyan-400">10 Segundos</span>';
+                subTitle.textContent = 'Mantenha os olhos abertos sem piscar.';
+                
+                actionArea.innerHTML = '';
+                actionArea.appendChild(startBtn);
+                startBtn.textContent = 'Iniciar Desafio';
+                startBtn.classList.remove('hidden');
+                startBtn.className = "bg-[#06b6d4] hover:bg-cyan-600 text-white font-bold py-4 px-10 rounded-full text-lg shadow-lg shadow-cyan-500/40 transition-all hover:scale-105 active:scale-95 animate-pulse-ring";
+
+                progressRing.classList.add('opacity-0');
+                
+                // Show Character
+                document.getElementById('doctor-img').classList.remove('opacity-0');
+                
+                // Hide Result
+                resultCard.classList.add('hidden', 'scale-95', 'opacity-0');
+                resultCard.classList.remove('block');
+                
+                // Show Hero Content
+                document.getElementById('hero-content').classList.remove('opacity-0', 'hidden');
+                
+                // Show Character
+                document.getElementById('doctor-img').classList.remove('opacity-0');
+            }
+
+            function finishTest(success, timeElapsed) {
+                clearInterval(timerInterval);
+                isRunning = false;
+                
+                // Hide Active UI
+                document.getElementById('hero-content').classList.add('hidden');
+                progressRing.classList.add('opacity-0');
+                
+                // Show Character
+                document.getElementById('doctor-img').classList.remove('opacity-0');
+                
+                // Show Result
+                resultCard.classList.remove('hidden');
+                
+                // Trigger animation frame for transition
+                setTimeout(() => {
+                    resultCard.classList.remove('scale-95', 'opacity-0');
+                }, 10);
+                
+                const resultTitle = document.getElementById('result-title');
+                const resultMessage = document.getElementById('result-message');
+                const resultIcon = document.getElementById('result-icon');
+                const resultCta = document.getElementById('result-cta');
+
+                if (success) {
+                    resultIcon.textContent = '🌟';
+                    resultTitle.textContent = 'Excelente Estabilidade!';
+                    resultTitle.className = "text-2xl font-bold text-green-600 mb-3 font-heading";
+                    resultMessage.innerHTML = `Você aguentou os 10 segundos! Isso indica um bom filme lacrimal.<br><br>Mas lembre-se: prevenção é essencial. Agende seu check-up anual.`;
+                    resultCta.textContent = 'Agendar Check-up Preventivo';
+                    resultCta.href = "https://saraivavision.com.br/agendamento";
+                    resultCta.className = "block w-full bg-green-600 text-white font-bold py-3 rounded-xl hover:bg-green-700 transition-colors shadow-lg";
+                } else {
+                    const seconds = (timeElapsed / 1000).toFixed(1);
+                    resultIcon.textContent = '💧';
+                    resultTitle.textContent = `Atenção: ${seconds}s`;
+                    resultTitle.className = "text-2xl font-bold text-[#003D7A] mb-3 font-heading";
+                    resultMessage.innerHTML = `Você piscou antes dos 10 segundos.<br>Um "Break-Up Time" reduzido pode indicar <strong>Olho Seco Evaporativo</strong>.<br><br>Não ignore os sinais. Temos tecnologia especializada para você.`;
+                    resultCta.textContent = 'Agendar Avaliação de Olho Seco';
+                    resultCta.href = "https://wa.me/553399898026?text=Olá, fiz o teste do site e pisquei antes de 10 segundos. Gostaria de agendar uma avaliação.";
+                    resultCta.className = "block w-full bg-[#003D7A] text-white font-bold py-3 rounded-xl hover:bg-blue-900 transition-colors shadow-lg";
+                }
+            }
+
+            function startTest() {
+                isRunning = true;
+                startTime = Date.now();
+                
+                // Update UI for Active State
+                startBtn.remove(); // Remove start button
+                
+                // Create Blink Button
+                const blinkBtn = document.createElement('button');
+                blinkBtn.textContent = 'Pisquei! (Parar)';
+                blinkBtn.className = "bg-red-500 hover:bg-red-600 text-white font-bold py-4 px-12 rounded-full text-xl shadow-lg shadow-red-500/30 transition-all transform hover:scale-105";
+                blinkBtn.onclick = () => finishTest(false, Date.now() - startTime);
+                actionArea.appendChild(blinkBtn);
+
+                mainTitle.innerHTML = 'Segure... <span id="timer-display" class="tabular-nums text-cyan-300">0.0</span>s';
+                subTitle.textContent = 'Olhos bem abertos! Não pisque!';
+
+                // Hide Character for Timer visibility
+                document.getElementById('doctor-img').classList.add('opacity-0');
+
+
+                
+                // Progress Ring
+                progressRing.classList.remove('opacity-0');
+                const circumference = 90 * 2 * Math.PI;
+                progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+                progressCircle.style.strokeDashoffset = circumference;
+
+                timerInterval = setInterval(() => {
+                    const elapsed = Date.now() - startTime;
+                    const remaining = 10000 - elapsed;
+                    
+                    // Update Text
+                    const seconds = (elapsed / 1000).toFixed(1);
+                    document.getElementById('timer-display').textContent = seconds;
+
+                    // Update Circle
+                    const offset = circumference - (elapsed / 10000) * circumference;
+                    progressCircle.style.strokeDashoffset = offset;
+
+                    if (elapsed >= 10000) {
+                        finishTest(true, 10000);
+                    }
+                }, 50); // High refresh rate for smooth circle
+            }
+
+            startBtn.addEventListener('click', startTest);
+            retryBtn.addEventListener('click', resetTest);
+        });
+    </script>
+</body>
+</html>

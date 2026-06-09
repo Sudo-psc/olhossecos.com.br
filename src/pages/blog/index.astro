@@ -1,0 +1,295 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import OfficialBlogCTA from '../../components/OfficialBlogCTA.astro';
+import { client, urlFor, type SanityPost } from '../../lib/sanity';
+import groq from 'groq';
+
+let posts: SanityPost[] = [];
+let usingSanity = false;
+
+// Fallback content (Static) if Sanity is not connected
+const staticPosts = [
+  {
+    title: "Olho Seco e Rosácea Ocular: Tratamento com IRPL E-Eye em Caratinga",
+    slug: { current: "olho-seco-rosacea-ocular-tratamento-irpl-e-eye-caratinga-mg" },
+    publishedAt: "2026-02-16",
+    excerpt: "Descubra como o tratamento com IRPL E-Eye pode ajudar no olho seco e rosácea ocular. Tecnologia avançada aprovada pela ANVISA em Caratinga, MG.",
+    mainImage: null,
+    staticImage: "/Capas/irpl-e-eye-tratamento.png",
+    isStatic: true
+  },
+  {
+    title: "Meibografia no olho seco: por que esse exame faz diferença no diagnóstico",
+    slug: { current: "meibografia-olho-seco-caratinga-mg" },
+    publishedAt: "2026-02-02",
+    excerpt: "Entenda o que é meibografia, como ela ajuda no diagnóstico do olho seco e quando procurar oftalmologista em Caratinga, MG.",
+    mainImage: null,
+    staticImage: "/Capas/meibografia.png",
+    isStatic: true
+  },
+  {
+    title: "A importância do seguimento no olho seco crônico",
+    slug: { current: "importancia-seguimento-olho-seco-cronico" },
+    publishedAt: "2026-01-29",
+    excerpt: "Por que o acompanhamento regular é decisivo no olho seco crônico: ajuste terapêutico, prevenção de recaídas e estabilidade do filme lacrimal.",
+    mainImage: null,
+    staticImage: "/Capas/tratamento-olho-seco.png",
+    isStatic: true
+  },
+  {
+    title: "Olho Seco Evaporativo vs. Inflamatório: Por Que o Tratamento Muda",
+    slug: { current: "olho-seco-evaporativo-vs-inflamatorio" },
+    publishedAt: "2026-01-29",
+    excerpt: "Entenda as diferenças entre olho seco evaporativo e inflamatório e por que cada tipo exige tratamento específico. Diagnóstico disponível em Caratinga.",
+    mainImage: null,
+    staticImage: "/Capas/tratamento-olho-seco.png",
+    isStatic: true
+  },
+  {
+    title: "IRPL com E-EYE no olho seco: vale a pena? Comparativo de custo-benefício",
+    slug: { current: "caratinga-olho-seco-irpl-e-eye-custo-beneficio" },
+    publishedAt: "2025-02-24",
+    excerpt: "Entenda o custo-benefício do IRPL com E-EYE no olho seco e compare com alternativas. Guia prático para Caratinga, MG.",
+    mainImage: null,
+    staticImage: "/Capas/irpl-e-eye-tratamento.png",
+    isStatic: true
+  },
+  {
+    title: "Luz Pulsada para Olho Seco em Caratinga: E-Eye IRPL",
+    slug: { current: "luz-pulsada-olho-seco-caratinga" },
+    publishedAt: "2025-02-20",
+    excerpt: "Descubra como o tratamento com luz pulsada (E-Eye IRPL) está revolucionando o tratamento de olho seco em Caratinga. Tecnologia de ponta disponível na região.",
+    mainImage: null,
+    staticImage: "/Capas/tratamento-olho-seco-irpl.png",
+    isStatic: true
+  },
+  {
+    title: "Meibografia em Caratinga: Diagnóstico Avançado",
+    slug: { current: "meibografia-caratinga" },
+    publishedAt: "2025-02-18",
+    excerpt: "Conheça a Meibografia, exame que visualiza as glândulas de Meibomius e revoluciona o diagnóstico de olho seco em Caratinga.",
+    mainImage: null,
+    staticImage: "/Capas/meibografia.png",
+    isStatic: true
+  },
+  {
+    title: "Tratamento de Olho Seco em Caratinga: Guia Completo",
+    slug: { current: "olho-seco-tratamento-caratinga" },
+    publishedAt: "2025-02-15",
+    excerpt: "Guia completo sobre tratamento de olho seco em Caratinga. Luz pulsada, plugs lacrimais, meibografia e mais opções disponíveis.",
+    mainImage: null,
+    staticImage: "/Capas/tratamento-olho-seco.png",
+    isStatic: true
+  },
+  {
+    title: "Mitos e Verdades sobre o Olho Seco",
+    slug: { current: "mitos-e-verdades" },
+    publishedAt: "2025-02-10",
+    excerpt: "Você sabia que olhos lacrimejando podem ser sinal de olho seco? Desvendamos os principais mitos com base na ciência.",
+    mainImage: null,
+    staticImage: "/Capas/capa-mitos.png",
+    isStatic: true
+  },
+  {
+    title: "Sintomas de Olho Seco: Quando Procurar Ajuda",
+    slug: { current: "sintomas-olho-seco-caratinga" },
+    publishedAt: "2025-02-05",
+    excerpt: "Reconheça os sintomas de olho seco e saiba quando procurar um oftalmologista em Caratinga. Guia completo sobre causas e sinais de alerta.",
+    mainImage: null,
+    staticImage: "/Capas/tratamento-olho-seco.png",
+    isStatic: true
+  },
+  {
+    title: "DGM: A Causa de 85% dos Casos de Olho Seco",
+    slug: { current: "disfuncao-glandulas-meibomius-dgm" },
+    publishedAt: "2025-02-01",
+    excerpt: "Entenda a Disfunção das Glândulas de Meibomius (DGM), responsável pela maioria dos casos de olho seco. Diagnóstico e tratamento em Caratinga.",
+    mainImage: null,
+    staticImage: "/Capas/dgm-85-causas.png",
+    isStatic: true
+  },
+  {
+    title: "Telas e Seus Olhos: Uma Relação Perigosa?",
+    slug: { current: "telas-e-olho-seco" },
+    publishedAt: "2025-01-25",
+    excerpt: "O uso excessivo de celulares e computadores está criando uma epidemia de olho seco. Entenda o porquê e como se proteger.",
+    mainImage: null,
+    staticImage: "/Capas/tela-e-seus-olhos.png",
+    isStatic: true
+  }
+];
+
+try {
+  if (import.meta.env.PUBLIC_SANITY_PROJECT_ID) {
+    posts = await client.fetch(groq`*[_type == "post" && defined(slug.current)] | order(publishedAt desc) {
+      _id,
+      title,
+      slug,
+      mainImage,
+      publishedAt,
+      excerpt,
+      categories[]->{title}
+    }`);
+    usingSanity = true;
+  }
+} catch (e) {
+  console.warn("Sanity connection failed or not configured. Using static content.");
+}
+
+const displayPosts = usingSanity && posts.length > 0 ? posts : staticPosts;
+---
+
+<Layout title="Blog | Olhos Secos" description="Artigos e novidades sobre saúde ocular e tratamentos.">
+  <main class="min-h-screen bg-white">
+    
+    <!-- Editorial Hero -->
+    <section class="pt-32 pb-16 bg-[#fafafa] border-b border-gray-100">
+      <div class="container mx-auto px-6 text-center">
+        <span class="text-cyan-600 font-bold uppercase tracking-widest text-xs mb-3 block">Conteúdo Especializado</span>
+        <h1 class="text-5xl md:text-7xl font-bold text-[#003D7A] mb-6 font-heading tracking-tight">Journal</h1>
+        <p class="text-xl text-gray-500 max-w-2xl mx-auto font-light">
+          Medicina baseada em evidências, traduzida para o seu dia a dia.
+        </p>
+         {!usingSanity && (
+            <div class="mt-6 inline-block bg-amber-50 text-amber-800 text-xs px-4 py-2 rounded-full border border-amber-200">
+                Modo Demonstrativo (Sanity Offline)
+            </div>
+        )}
+      </div>
+    </section>
+
+    <section class="py-16">
+      <div class="container mx-auto px-6">
+        
+        {displayPosts.length > 0 && (
+          <>
+            <!-- Featured Post (First Item) -->
+            <div class="mb-20">
+                {(() => {
+                    const featured: any = displayPosts[0];
+                    const featuredSanityUrl = !featured.isStatic && featured.mainImage
+                      ? urlFor(featured.mainImage)?.width(1000).url()
+                      : null;
+                    const featuredFallback = "/optimized/heroeye-800.webp";
+                    const featuredSrc = featured.isStatic
+                      ? featured.staticImage
+                      : (featuredSanityUrl || featuredFallback);
+                    const featuredSrcset = !featured.isStatic && !featuredSanityUrl
+                      ? "/optimized/heroeye-637.webp 637w, /optimized/heroeye-800.webp 800w"
+                      : undefined;
+                    const featuredSizes = featuredSrcset
+                      ? "(min-width: 1024px) 50vw, 100vw"
+                      : undefined;
+                    return (
+                        <div class="group relative rounded-[2rem] overflow-hidden shadow-2xl shadow-blue-900/5 grid md:grid-cols-2 min-h-[500px]">
+                             <div class="relative overflow-hidden h-full min-h-[300px]">
+                                <img 
+                                    src={featuredSrc}
+                                    srcset={featuredSrcset}
+                                    sizes={featuredSizes}
+                                    alt={featured.title}
+                                    loading="eager"
+                                    decoding="async"
+                                    fetchpriority="high"
+                                    class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                />
+                                <div class="absolute inset-0 bg-blue-900/10 group-hover:bg-transparent transition-colors"></div>
+                            </div>
+                            <div class="bg-white p-12 md:p-16 flex flex-col justify-center">
+                                <span class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide w-fit mb-6">
+                                    Destaque da Semana
+                                </span>
+                                <h2 class="text-3xl md:text-4xl font-bold text-[#003D7A] mb-6 leading-tight group-hover:text-blue-600 transition-colors">
+                                    <a href={`/blog/${featured.slug.current}`}>
+                                        {featured.title}
+                                    </a>
+                                </h2>
+                                <p class="text-gray-500 text-lg mb-8 leading-relaxed line-clamp-3">
+                                    {featured.excerpt}
+                                </p>
+                                <div class="flex items-center justify-between mt-auto pt-6 border-t border-gray-100">
+                                    <span class="text-gray-400 text-sm font-medium">
+                                        {featured.publishedAt ? new Date(featured.publishedAt).toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Data indefinida'}
+                                    </span>
+                                    <a href={`/blog/${featured.slug.current}`} class="text-[#003D7A] font-bold hover:underline">
+                                        Ler Artigo Completo →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })()}
+            </div>
+
+            <!-- Recent Articles Grid -->
+            <div class="mb-12 flex items-center gap-4">
+                <h3 class="text-2xl font-bold text-gray-900">Mais Artigos</h3>
+                <div class="h-px bg-gray-200 flex-1"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+                {displayPosts.slice(1).map((post: any) => {
+                  const postSanityUrl = !post.isStatic && post.mainImage
+                    ? urlFor(post.mainImage)?.width(600).url()
+                    : null;
+                  const postFallback = "/optimized/heroeye-637.webp";
+                  const postSrc = post.isStatic
+                    ? post.staticImage
+                    : (postSanityUrl || postFallback);
+                  const postSrcset = !post.isStatic && !postSanityUrl
+                    ? "/optimized/heroeye-637.webp 637w, /optimized/heroeye-800.webp 800w"
+                    : undefined;
+                  const postSizes = postSrcset
+                    ? "(min-width: 1024px) 33vw, 100vw"
+                    : undefined;
+                  return (
+                    <article class="group flex flex-col h-full">
+                        <a href={`/blog/${post.slug.current}`} class="block overflow-hidden rounded-2xl mb-6 aspect-[4/3] relative shadow-sm hover:shadow-lg transition-all">
+                            <img 
+                                src={postSrc}
+                                srcset={postSrcset}
+                                sizes={postSizes}
+                                alt={post.title}
+                                loading="lazy"
+                                decoding="async"
+                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                            />
+                             <div class="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors"></div>
+                        </a>
+                        
+                        <div class="flex-1 flex flex-col">
+                            <div class="flex items-center gap-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+                                <span>{post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' }) : ''}</span>
+                                <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+                                <span class="text-cyan-600">Leitura Rápida</span>
+                            </div>
+                            
+                            <h3 class="text-xl font-bold text-[#003D7A] mb-3 leading-snug group-hover:text-blue-600 transition-colors">
+                                <a href={`/blog/${post.slug.current}`}>
+                                    {post.title}
+                                </a>
+                            </h3>
+                            
+                            <p class="text-gray-500 text-sm leading-relaxed line-clamp-3 mb-4 flex-1">
+                                {post.excerpt}
+                            </p>
+                            
+                            <a href={`/blog/${post.slug.current}`} class="text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors inline-flex items-center gap-1 group/link">
+                                Ler mais 
+                                <span class="transform group-hover/link:translate-x-1 transition-transform">→</span>
+                            </a>
+                        </div>
+                    </article>
+                  );
+                })}
+            </div>
+          </>
+        )}
+      </div>
+      
+      <div class="mt-20">
+         <OfficialBlogCTA />
+      </div>
+    </section>
+  </main>
+</Layout>

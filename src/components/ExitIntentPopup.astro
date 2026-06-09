@@ -1,0 +1,89 @@
+---
+---
+<div id="exit-intent-popup" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true">
+  <!-- Backdrop -->
+  <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity opacity-0" id="popup-backdrop"></div>
+  
+  <!-- Modal -->
+  <div class="flex items-center justify-center min-h-screen p-4">
+    <div class="relative bg-white rounded-2xl shadow-2xl max-w-lg w-full transform scale-95 opacity-0 transition-all duration-300 p-8 text-center" id="popup-content">
+      <button id="close-popup" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors" aria-label="Fechar">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+      </button>
+
+      <div class="w-16 h-16 bg-cyan-100 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl shadow-sm">
+        ⏱️
+      </div>
+      
+      <h3 class="text-2xl font-bold text-[#003D7A] mb-2">Já fez o teste dos 10 segundos?</h3>
+      <p class="text-gray-600 mb-8 leading-relaxed">
+        Antes de ir, descubra em apenas <strong>10 segundos</strong> se você pode ter Disfunção das Glândulas de Meibomius.
+      </p>
+      
+      <div class="flex flex-col gap-3">
+        <a href="/testerapido" class="btn-premium btn-premium-primary w-full justify-center">
+          Fazer o Teste Agora
+        </a>
+        <button id="dismiss-popup" class="text-gray-400 text-sm hover:text-gray-600 underline transition-colors">
+          Não, obrigado. Continuar navegando.
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const initExitIntent = () => {
+    const popup = document.getElementById('exit-intent-popup');
+    const backdrop = document.getElementById('popup-backdrop');
+    const content = document.getElementById('popup-content');
+    const closeBtn = document.getElementById('close-popup');
+    const dismissBtn = document.getElementById('dismiss-popup');
+    
+    let hasShown = false; // Only show once per session
+
+    const showPopup = () => {
+      // Check session storage first (per session)
+      if (hasShown || sessionStorage.getItem('exitIntentShown')) return;
+      
+      popup?.classList.remove('hidden');
+      // Small delay for transition
+      setTimeout(() => {
+          backdrop?.classList.remove('opacity-0');
+          content?.classList.remove('scale-95', 'opacity-0');
+          content?.classList.add('scale-100', 'opacity-100');
+      }, 10);
+      
+      hasShown = true;
+      sessionStorage.setItem('exitIntentShown', 'true');
+    };
+
+    const hidePopup = () => {
+      backdrop?.classList.add('opacity-0');
+      content?.classList.remove('scale-100', 'opacity-100');
+      content?.classList.add('scale-95', 'opacity-0');
+      
+      setTimeout(() => {
+          popup?.classList.add('hidden');
+      }, 300);
+    };
+
+    // Exit Intent Logic (Mouse leaving top of viewport)
+    document.addEventListener('mouseleave', (e) => {
+      if (e.clientY < 0) {
+        showPopup();
+      }
+    });
+
+    closeBtn?.addEventListener('click', hidePopup);
+    dismissBtn?.addEventListener('click', hidePopup);
+    backdrop?.addEventListener('click', hidePopup);
+  };
+
+  // Initialize when the browser is idle
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(initExitIntent);
+  } else {
+    setTimeout(initExitIntent, 3000);
+  }
+</script>

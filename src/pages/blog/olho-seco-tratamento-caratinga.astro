@@ -1,0 +1,244 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Tratamento de Olho Seco em Caratinga: Guia Completo",
+  "description": "Guia completo sobre tratamento de olho seco em Caratinga. Conheça todas as opções disponíveis na Clínica Saraiva Vision.",
+  "author": {
+    "@type": "Person",
+    "name": "Dr. Philipe Saraiva Cruz",
+    "jobTitle": "Médico pós-graduado em oftalmologia com área de atuação em oftalmologia clínica geral, procedimentos minimamente invasivos e olho seco"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Saraiva Vision",
+    "url": "https://saraivavision.com.br"
+  },
+  "datePublished": "2025-12-15",
+  "dateModified": "2025-12-23"
+};
+---
+
+<Layout 
+  title="Tratamento de Olho Seco em Caratinga | Guia Completo | Saraiva Vision" 
+  description="Tratamento especializado de olho seco em Caratinga. Luz pulsada, plugs lacrimais, meibografia e mais. Agende sua avaliação na Clínica Saraiva Vision."
+>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+  
+  <article class="pt-24 pb-16 bg-white">
+    <div class="container mx-auto px-6 max-w-4xl">
+        <!-- Breadcrumb -->
+        <nav class="mb-8 text-sm">
+          <ol class="flex items-center gap-2 text-gray-500">
+            <li><a href="/" class="hover:text-blue-600">Início</a></li>
+            <li>/</li>
+            <li><a href="/blog" class="hover:text-blue-600">Blog</a></li>
+            <li>/</li>
+            <li class="text-blue-600">Tratamento Olho Seco Caratinga</li>
+          </ol>
+        </nav>
+
+        <div class="text-center mb-12">
+            <span class="inline-block bg-green-100 text-green-700 font-bold uppercase tracking-widest text-xs px-4 py-2 rounded-full mb-4">Guia Completo</span>
+            <h1 class="text-3xl md:text-5xl font-bold text-[#003D7A] mt-4 mb-6 leading-tight">
+              Tratamento de Olho Seco em Caratinga: Todas as Opções Disponíveis
+            </h1>
+            <div class="flex items-center justify-center gap-4 text-gray-500 text-sm flex-wrap">
+                <span>Por Dr. Philipe Saraiva Cruz</span>
+                <span>•</span>
+                <span>15 de Dezembro, 2025</span>
+                <span>•</span>
+                <span>Leitura de 10 min</span>
+            </div>
+        </div>
+
+        <!-- Featured Image -->
+        <div class="mb-10 rounded-2xl overflow-hidden shadow-xl">
+          <img src="/Capas/tratamento-olho-seco.png" alt="Tratamento de olho seco em Caratinga na Clínica Saraiva Vision" class="w-full h-auto" />
+        </div>
+
+        <div class="prose prose-lg prose-blue mx-auto text-gray-600">
+            <p class="lead text-xl text-gray-800 font-medium mb-8">
+                Se você sofre com <strong>olho seco em Caratinga</strong>, saiba que não está sozinho. A síndrome do olho seco afeta milhões de brasileiros, mas hoje existem tratamentos altamente eficazes disponíveis em nossa região.
+            </p>
+
+            <div class="bg-blue-50 p-6 rounded-xl border border-blue-100 my-8">
+              <h3 class="text-blue-800 font-bold text-lg mb-3">📍 Você sabia?</h3>
+              <p class="text-blue-700 mb-0">
+                Caratinga e região do Vale do Rio Doce agora contam com tratamentos de ponta para olho seco. A Clínica Saraiva Vision é referência em diagnóstico e tratamento especializado.
+              </p>
+            </div>
+
+            <h2 id="entenda">Entendendo o Olho Seco</h2>
+            <p>
+                O olho seco não é apenas "falta de lágrima". É uma doença multifatorial da superfície ocular caracterizada por instabilidade do filme lacrimal. Pode causar:
+            </p>
+            <ul>
+              <li>Sensação de areia nos olhos</li>
+              <li>Ardência e coceira</li>
+              <li>Vermelhidão</li>
+              <li>Visão embaçada</li>
+              <li>Fadiga ocular</li>
+              <li>Lacrimejamento excessivo (reflexo)</li>
+            </ul>
+
+            <h2 id="diagnostico">Diagnóstico em Caratinga</h2>
+            <p>
+                O primeiro passo para o tratamento correto é um diagnóstico preciso. Em Caratinga, oferecemos:
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-4 my-8">
+              <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                <h4 class="text-[#003D7A] font-bold mb-2">🔬 Meibografia</h4>
+                <p class="text-gray-600 text-sm mb-0">Visualização das glândulas de Meibomius para identificar atrofia ou obstrução.</p>
+              </div>
+              <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                <h4 class="text-[#003D7A] font-bold mb-2">📏 Meniscometria</h4>
+                <p class="text-gray-600 text-sm mb-0">Medição do volume lacrimal na superfície ocular.</p>
+              </div>
+              <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                <h4 class="text-[#003D7A] font-bold mb-2">⏱️ Tempo de Ruptura (BUT)</h4>
+                <p class="text-gray-600 text-sm mb-0">Avaliação da estabilidade do filme lacrimal.</p>
+              </div>
+              <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                <h4 class="text-[#003D7A] font-bold mb-2">🔎 Biomicroscopia</h4>
+                <p class="text-gray-600 text-sm mb-0">Exame detalhado da superfície ocular e pálpebras.</p>
+              </div>
+            </div>
+
+            <h2 id="tratamentos">Tratamentos Disponíveis em Caratinga</h2>
+            
+            <h3>1. Luz Pulsada Intensa (E-Eye IRPL)</h3>
+            <p>
+                O tratamento com <strong>luz pulsada em Caratinga</strong> é a opção mais avançada para olho seco evaporativo. O E-Eye IRPL estimula as glândulas de Meibomius a voltarem a funcionar, tratando a causa raiz do problema.
+            </p>
+            <ul>
+              <li><strong>Indicação:</strong> Disfunção das Glândulas de Meibomius (DGM)</li>
+              <li><strong>Protocolo:</strong> 3 sessões (Dia 0, 15 e 45) + manutenção anual</li>
+              <li><strong>Resultado:</strong> Melhora significativa em 80-90% dos pacientes</li>
+            </ul>
+
+            <h3>2. Plugs Lacrimais</h3>
+            <p>
+                Micro-dispositivos inseridos nos pontos lacrimais para reter a lágrima por mais tempo no olho. Excelente opção para olho seco aquoso.
+            </p>
+            <ul>
+              <li><strong>Indicação:</strong> Olho seco por deficiência aquosa</li>
+              <li><strong>Procedimento:</strong> Ambulatorial, indolor</li>
+              <li><strong>Duração:</strong> Temporários (dissolvem) ou permanentes</li>
+            </ul>
+
+            <h3>3. Expressão das Glândulas de Meibomius</h3>
+            <p>
+                Técnica manual para desobstruir as glândulas entupidas, liberando a secreção acumulada.
+            </p>
+            <ul>
+              <li><strong>Indicação:</strong> Glândulas obstruídas identificadas na Meibografia</li>
+              <li><strong>Complemento:</strong> Geralmente associada à luz pulsada</li>
+            </ul>
+
+            <h3>4. Higiene Palpebral Profissional</h3>
+            <p>
+                Limpeza especializada da margem palpebral para remover biofilme bacteriano e debris.
+            </p>
+            <ul>
+              <li><strong>Indicação:</strong> Blefarite, rosácea ocular</li>
+              <li><strong>Manutenção:</strong> Orientação para higiene domiciliar</li>
+            </ul>
+
+            <h3>5. Colírios Especializados</h3>
+            <p>
+                Nem todo colírio é igual. Prescrevemos formulações específicas para cada tipo de olho seco:
+            </p>
+            <ul>
+              <li><strong>Lágrimas artificiais sem conservantes:</strong> Para uso crônico</li>
+              <li><strong>Colírios lipídicos:</strong> Para deficiência da camada oleosa</li>
+              <li><strong>Anti-inflamatórios:</strong> Para controle da inflamação crônica</li>
+              <li><strong>Ciclosporina:</strong> Para casos moderados a graves</li>
+            </ul>
+
+            <h3>6. Terapia Térmica</h3>
+            <p>
+                Aplicação de calor controlado para liquefazer a secreção solidificada nas glândulas.
+            </p>
+
+            <h3>7. Ácido Hipocloroso</h3>
+            <p>
+                Solução antimicrobiana natural para higiene palpebral, combatendo infecções e blefarite.
+            </p>
+
+            <h2 id="fluxo">Como Funciona o Tratamento na Saraiva Vision?</h2>
+            
+            <ol class="space-y-4">
+              <li>
+                <strong>Consulta Inicial:</strong> Avaliação completa dos sintomas e histórico
+              </li>
+              <li>
+                <strong>Exames Diagnósticos:</strong> Meibografia, meniscometria e outros exames necessários
+              </li>
+              <li>
+                <strong>Plano Personalizado:</strong> Tratamento específico para o seu tipo de olho seco
+              </li>
+              <li>
+                <strong>Execução do Tratamento:</strong> Procedimentos em consultório quando necessário
+              </li>
+              <li>
+                <strong>Acompanhamento:</strong> Retornos para ajuste e manutenção
+              </li>
+            </ol>
+
+            <h2 id="prevencao">Dicas de Prevenção</h2>
+            <p>
+                Além do tratamento médico, algumas medidas ajudam no controle do olho seco:
+            </p>
+            <ul>
+              <li><strong>Regra 20-20-20:</strong> A cada 20 minutos de tela, olhe para algo a 20 pés (6m) por 20 segundos</li>
+              <li><strong>Pisque conscientemente:</strong> Especialmente ao usar celular ou computador</li>
+              <li><strong>Hidratação:</strong> Beba bastante água</li>
+              <li><strong>Umidificador:</strong> Em ambientes com ar-condicionado</li>
+              <li><strong>Ômega 3:</strong> Pode ajudar na qualidade da lágrima</li>
+              <li><strong>Higiene palpebral:</strong> Limpeza diária das pálpebras</li>
+            </ul>
+
+            <h2 id="agendar">Agende sua Avaliação em Caratinga</h2>
+            <p>
+                Não espere o olho seco comprometer sua qualidade de vida. Com diagnóstico e tratamento adequados, é possível viver sem desconforto.
+            </p>
+        </div>
+        
+        <!-- CTA Section -->
+        <div class="mt-16 bg-gradient-to-br from-[#003D7A] to-blue-800 rounded-2xl p-8 md:p-12 text-center text-white">
+          <h3 class="text-2xl md:text-3xl font-bold mb-4">Tratamento Especializado em Caratinga</h3>
+          <p class="text-blue-100 mb-8 max-w-2xl mx-auto">
+            A Clínica Saraiva Vision é referência regional em tratamento de olho seco. Agende sua avaliação e descubra o tratamento ideal para você.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="https://saraivavision.com.br" target="_blank" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-[#003D7A] rounded-xl font-bold hover:bg-blue-50 transition-all">
+              Agendar Consulta
+            </a>
+            <a href="https://wa.me/5533998601427?text=Olá! Estou com sintomas de olho seco e gostaria de agendar uma avaliação." target="_blank" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-green-500 text-white rounded-xl font-bold hover:bg-green-600 transition-all">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              WhatsApp
+            </a>
+          </div>
+        </div>
+
+        <!-- Related Posts -->
+        <div class="mt-16">
+          <h3 class="text-2xl font-bold text-[#003D7A] mb-8">Artigos Relacionados</h3>
+          <div class="grid md:grid-cols-2 gap-6">
+            <a href="/blog/luz-pulsada-olho-seco-caratinga" class="block p-6 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+              <h4 class="font-bold text-[#003D7A] mb-2">Luz Pulsada para Olho Seco em Caratinga</h4>
+              <p class="text-gray-600 text-sm">Conheça o tratamento E-Eye IRPL disponível na região.</p>
+            </a>
+            <a href="/blog/meibografia-caratinga" class="block p-6 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+              <h4 class="font-bold text-[#003D7A] mb-2">Meibografia em Caratinga</h4>
+              <p class="text-gray-600 text-sm">Exame que revela a causa do seu olho seco.</p>
+            </a>
+          </div>
+        </div>
+    </div>
+  </article>
+</Layout>

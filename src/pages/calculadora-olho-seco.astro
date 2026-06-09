@@ -1,0 +1,593 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Calculadora de Impacto Econômico do Olho Seco | Saraiva Vision"
+  description="Estime o impacto produtivo do olho seco em trabalhadores de telas, considerando prevalência, presenteísmo, triagem, tratamento e ROI."
+>
+  <main id="main-content" class="pt-24 pb-16 bg-slate-50 min-h-screen">
+    <div class="container mx-auto px-4 max-w-6xl">
+      
+      <!-- Header Section -->
+      <div class="text-center mb-10">
+        <span class="inline-block bg-[#003D7A]/10 text-[#003D7A] font-bold uppercase tracking-widest text-xs px-4 py-2 rounded-full mb-4">Ferramenta Corporativa & Individual</span>
+        <h1 class="text-3xl md:text-5xl font-bold text-slate-900 mt-2 mb-4 leading-tight">
+          Calculadora de Impacto Econômico do Olho Seco
+        </h1>
+        <p class="text-slate-600 text-lg max-w-3xl mx-auto">
+          Estime a perda de produtividade por presenteísmo e o retorno sobre investimento (ROI) em programas de saúde ocular baseados em evidências.
+        </p>
+        
+        <div class="flex justify-center mt-8 no-print">
+            <div class="inline-flex bg-white p-1 rounded-xl shadow-sm border border-slate-200" role="tablist">
+                <button id="btnIndividual" class="px-6 py-2.5 rounded-lg font-semibold transition-all bg-[#003D7A] text-white shadow-md" role="tab" aria-selected="true">Individual</button>
+                <button id="btnCorporativo" class="px-6 py-2.5 rounded-lg font-semibold transition-all text-slate-600 hover:text-[#003D7A]" role="tab" aria-selected="false">Corporativo / Equipe</button>
+            </div>
+        </div>
+      </div>
+
+      <!-- Scientific Basis -->
+      <section class="bg-white border border-slate-200 rounded-3xl p-6 md:p-8 mb-8 shadow-sm no-print">
+        <div class="flex flex-col md:flex-row gap-8 items-center">
+            <div class="flex-1">
+                <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-[#003D7A]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+                    Base científica da estimativa
+                </h2>
+                <div class="space-y-4 text-slate-600 text-sm md:text-base">
+                    <p>A doença do olho seco é uma condição multifatorial associada à perda da homeostase do filme lacrimal. Em trabalhadores de terminais visuais (VDT), a prevalência pode chegar a 49,5%.</p>
+                    <p>O impacto manifesta-se como <strong>presenteísmo</strong> — redução de desempenho em atividade. Utilizamos parâmetros de estudos como OSDI e WPAI para estimar o impacto econômico e o ROI.</p>
+                </div>
+            </div>
+            <div class="md:w-1/3 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                <h3 class="font-bold text-slate-800 mb-2 text-sm">Principais Métricas</h3>
+                <ul class="space-y-2 text-xs text-slate-500">
+                    <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-[#003D7A]"></div> Perda produtiva (Presenteísmo)</li>
+                    <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-emerald-500"></div> Economia líquida potencial</li>
+                    <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-amber-500"></div> Retorno sobre Investimento (ROI)</li>
+                </ul>
+            </div>
+        </div>
+      </section>
+
+      <!-- CORPORATE SCENARIOS (Only Corporate Mode) -->
+      <section id="scenariosSection" class="hidden no-print mb-8">
+        <h2 class="text-lg font-bold text-slate-900 mb-4">Escolha um Cenário Corporativo</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <button onclick="setScenario('conservador')" class="scenario-card p-4 border-2 border-slate-200 rounded-2xl text-center hover:border-[#003D7A] transition-all bg-white shadow-sm">
+                <h3 class="font-bold text-sm mb-1">Conservador</h3>
+                <p class="text-[10px] text-slate-500 uppercase tracking-tighter">Prevalência 20%</p>
+            </button>
+            <button onclick="setScenario('moderado')" class="scenario-card p-4 border-2 border-[#003D7A] rounded-2xl text-center hover:border-[#003D7A] transition-all bg-[#003D7A]/5 shadow-sm active">
+                <h3 class="font-bold text-sm mb-1">Moderado (Padrão)</h3>
+                <p class="text-[10px] text-slate-500 uppercase tracking-tighter">Prevalência 30%</p>
+            </button>
+            <button onclick="setScenario('alto_risco')" class="scenario-card p-4 border-2 border-slate-200 rounded-2xl text-center hover:border-[#003D7A] transition-all bg-white shadow-sm">
+                <h3 class="font-bold text-sm mb-1">Alto Risco</h3>
+                <p class="text-[10px] text-slate-500 uppercase tracking-tighter">Prevalência 40%</p>
+            </button>
+            <button onclick="setScenario('wpai')" class="scenario-card p-4 border-2 border-slate-200 rounded-2xl text-center hover:border-[#003D7A] transition-all bg-white shadow-sm">
+                <h3 class="font-bold text-sm mb-1">Impacto (WPAI)</h3>
+                <p class="text-[10px] text-slate-500 uppercase tracking-tighter">Científico</p>
+            </button>
+        </div>
+      </section>
+
+      <div class="grid md:grid-cols-12 gap-8">
+        <!-- INPUTS COLUMN -->
+        <div class="md:col-span-5 lg:col-span-4 space-y-6">
+            <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
+                <h2 class="text-xl font-bold text-slate-900 mb-6 pb-2 border-b border-slate-100">Configurações</h2>
+                
+                <div id="corporateInputs" class="hidden space-y-4">
+                    <div class="form-group">
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" for="numColaboradores">Número de Colaboradores</label>
+                        <input type="number" id="numColaboradores" value="100" min="1" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#003D7A]/20 focus:border-[#003D7A] outline-none transition-all">
+                    </div>
+                    <div class="form-group">
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" for="pctExpostos">Expostos a Telas (%)</label>
+                        <input type="number" id="pctExpostos" value="80" min="0" max="100" class="w-full px-4 py-2.5 rounded-xl border border-slate-200">
+                    </div>
+                    <div class="form-group">
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" for="prevalencia">Prevalência Olho Seco (%)</label>
+                        <div class="flex items-center gap-3">
+                            <input type="number" id="prevalencia" value="30" min="0" max="100" class="w-20 px-3 py-2 rounded-lg border border-slate-200">
+                            <input type="range" id="prevalenciaRange" min="0" max="70" value="30" class="flex-1 accent-[#003D7A]">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="individualInputs" class="space-y-4">
+                    <div class="form-group">
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" for="gravidadeInd">Gravidade dos Sintomas</label>
+                        <select id="gravidadeInd" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50">
+                            <option value="0">Sem sintomas (0%)</option>
+                            <option value="3">Leve (3%)</option>
+                            <option value="8" selected>Moderado (8%)</option>
+                            <option value="15">Grave (15%)</option>
+                            <option value="custom">Personalizado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-6 border-t border-slate-100 space-y-4">
+                    <div class="form-group">
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" for="horasTela">Horas de Tela / Dia</label>
+                        <input type="number" id="horasTela" value="7" min="0" max="16" step="0.5" class="w-full px-4 py-2.5 rounded-xl border border-slate-200">
+                    </div>
+                    <div class="form-group">
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" for="valorHora">Custo Hora (R$)</label>
+                        <input type="number" id="valorHora" value="60" min="0" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 font-mono">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" for="perdaProd">
+                            Perda Produtiva (%)
+                            <span class="text-xs text-slate-400 font-normal ml-1">(Presenteísmo)</span>
+                        </label>
+                        <div class="flex items-center gap-3">
+                            <input type="number" id="perdaProd" value="8" min="0" max="40" step="0.5" class="w-20 px-3 py-2 rounded-lg border border-slate-200">
+                            <input type="range" id="perdaProdRange" min="0" max="40" value="8" step="0.5" class="flex-1 accent-[#003D7A]">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" for="fracaoRecuperavel">
+                            Fração Recuperável (%)
+                        </label>
+                        <div class="flex items-center gap-3">
+                            <input type="number" id="fracaoRecuperavel" value="40" min="0" max="100" class="w-20 px-3 py-2 rounded-lg border border-slate-200">
+                            <input type="range" id="fracaoRecuperavelRange" min="0" max="100" value="40" class="flex-1 accent-emerald-500">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DISTRIBUTION (Only Corporate) -->
+            <div id="distributionCard" class="hidden bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
+                <h2 class="text-lg font-bold text-slate-900 mb-4">Distribuição por Gravidade</h2>
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="form-group">
+                        <label class="text-[10px] font-bold text-slate-500 uppercase">Leve</label>
+                        <input type="number" id="pctLeve" value="50" class="w-full px-2 py-2 rounded-lg border border-slate-200 text-center text-sm">
+                    </div>
+                    <div class="form-group">
+                        <label class="text-[10px] font-bold text-slate-500 uppercase">Mod</label>
+                        <input type="number" id="pctModerado" value="35" class="w-full px-2 py-2 rounded-lg border border-slate-200 text-center text-sm">
+                    </div>
+                    <div class="form-group">
+                        <label class="text-[10px] font-bold text-slate-500 uppercase">Grave</label>
+                        <input type="number" id="pctGrave" value="15" class="w-full px-2 py-2 rounded-lg border border-slate-200 text-center text-sm">
+                    </div>
+                </div>
+                <div id="distAlert" class="mt-2 text-[10px] text-red-500 font-bold hidden">A soma deve ser 100%.</div>
+                <button class="mt-4 text-xs font-bold text-[#003D7A] hover:underline w-full text-center" onclick="normalizeDistribution()">Normalizar para 100%</button>
+            </div>
+
+            <!-- TREATMENT COSTS -->
+            <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
+                <h2 class="text-lg font-bold text-slate-900 mb-4">Custos de Tratamento</h2>
+                <div class="space-y-3">
+                    <label class="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-100 transition-all">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" class="treatment-check w-5 h-5 rounded text-[#003D7A]" data-cost="350" checked>
+                            <span class="text-sm font-medium text-slate-700">Consulta Especializada</span>
+                        </div>
+                        <span class="text-xs font-bold text-slate-400">R$ 350</span>
+                    </label>
+                    <label class="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-100 transition-all">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" class="treatment-check w-5 h-5 rounded text-[#003D7A]" data-cost="900" checked>
+                            <span class="text-sm font-medium text-slate-700">Lubrificantes (Anual)</span>
+                        </div>
+                        <span class="text-xs font-bold text-slate-400">R$ 900</span>
+                    </label>
+                    <label class="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-100 transition-all">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" class="treatment-check w-5 h-5 rounded text-[#003D7A]" data-cost="3000">
+                            <span class="text-sm font-medium text-slate-700">Tratamento IRPL/IPL</span>
+                        </div>
+                        <span class="text-xs font-bold text-slate-400">R$ 3.000</span>
+                    </label>
+                    <div id="corpOnlyCosts" class="hidden pt-2 border-t border-slate-100">
+                        <label class="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 cursor-pointer transition-all">
+                            <div class="flex items-center gap-3">
+                                <input type="checkbox" class="treatment-check w-5 h-5 rounded text-[#003D7A]" data-cost="30">
+                                <span class="text-sm font-medium text-slate-700">Triagem p/ Colaborador</span>
+                            </div>
+                            <span class="text-xs font-bold text-slate-400">R$ 30</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-slate-100">
+                    <div class="flex justify-between items-center px-3">
+                        <span class="text-sm font-bold text-slate-600">Total Investimento:</span>
+                        <span id="totalCostLabel" class="text-sm font-bold text-[#003D7A] font-mono">R$ 1.250</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RESULTS COLUMN -->
+        <div class="md:col-span-7 lg:col-span-8 space-y-8">
+            <!-- Main Result Cards -->
+            <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col justify-center items-center text-center">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Impacto Anual</span>
+                    <span id="resPerdaAnual" class="text-xl md:text-2xl font-black text-red-500 font-mono">R$ 0</span>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col justify-center items-center text-center">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Custo Programa</span>
+                    <span id="resCustoTotal" class="text-xl md:text-2xl font-black text-orange-500 font-mono">R$ 0</span>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col justify-center items-center text-center col-span-2 lg:col-span-1 border-b-4 border-b-emerald-500">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Economia Líquida</span>
+                    <span id="resEconomiaLiquida" class="text-xl md:text-2xl font-black text-emerald-500 font-mono">R$ 0</span>
+                </div>
+                <div class="bg-[#003D7A] text-white rounded-3xl p-6 shadow-lg flex flex-col justify-center items-center text-center">
+                    <span class="text-[10px] font-bold opacity-80 uppercase tracking-widest mb-2">ROI Estimado</span>
+                    <span id="resROI" class="text-3xl font-black">0x</span>
+                </div>
+                <div class="bg-slate-800 text-white rounded-3xl p-6 shadow-sm flex flex-col justify-center items-center text-center">
+                    <span class="text-[10px] font-bold opacity-80 uppercase tracking-widest mb-2">Payback (Meses)</span>
+                    <span id="resPayback" class="text-3xl font-black">0</span>
+                </div>
+                <div id="corpResultsExtra" class="hidden bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col justify-center items-center text-center">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Casos Estimados</span>
+                    <span id="resCasosTotal" class="text-3xl font-black text-slate-800">0</span>
+                </div>
+            </div>
+
+            <!-- Chart Card -->
+            <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm no-print">
+                <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center justify-between">
+                    Análise Visual
+                    <span class="text-[10px] font-normal text-slate-400">VALORES ANUAIS AGREGADOS</span>
+                </h2>
+                <div class="h-64">
+                    <canvas id="mainChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Interpretation -->
+            <div class="bg-cyan-50 border border-cyan-100 rounded-3xl p-8 relative overflow-hidden">
+                <div class="absolute -right-8 -bottom-8 opacity-10 text-cyan-500 rotate-12">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                </div>
+                <h2 class="text-lg font-bold text-cyan-900 mb-4">Interpretação da Estimativa</h2>
+                <p id="interpretationText" class="text-cyan-800 leading-relaxed font-medium">
+                    Aguardando preenchimento dos dados...
+                </p>
+            </div>
+
+            <!-- Actions -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 no-print">
+                <button onclick="window.print()" class="flex items-center justify-center gap-3 bg-white hover:bg-slate-50 text-slate-800 font-bold py-4 rounded-2xl border border-slate-200 shadow-sm transition-all group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-400 group-hover:text-[#003D7A]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
+                    Exportar Relatório (PDF)
+                </button>
+                <button onclick="shareWhatsApp()" class="flex items-center justify-center gap-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-2xl shadow-md transition-all">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    Compartilhar WhatsApp
+                </button>
+            </div>
+        </div>
+      </div>
+
+      <!-- References & Disclaimer (Always at bottom) -->
+      <section class="mt-16 pt-10 border-t border-slate-200">
+        <div class="grid md:grid-cols-2 gap-10">
+            <div class="references text-xs text-slate-500 leading-relaxed">
+                <h3 class="font-bold text-slate-800 mb-4 text-sm uppercase tracking-wider">Referências Científicas</h3>
+                <ol class="list-decimal pl-4 space-y-2">
+                    <li>Courtin R, et al. Prevalence of dry eye disease in visual display terminal workers: a systematic review and meta-analysis. BMJ Open. 2016.</li>
+                    <li>Fjaervoll H, et al. The association between visual display terminal use and dry eye: a review. Acta Ophthalmologica. 2021.</li>
+                    <li>Nichols KK, et al. Impact of Dry Eye Disease on Work Productivity, and Patients’ Satisfaction. IOVS. 2016.</li>
+                    <li>McDonald M, et al. Economic and Humanistic Burden of Dry Eye Disease. The Ocular Surface. 2016.</li>
+                    <li>Stapleton F, et al. TFOS DEWS II Epidemiology Report. The Ocular Surface. 2017.</li>
+                </ol>
+            </div>
+            <div class="disclaimer p-6 bg-slate-100 rounded-3xl text-xs text-slate-600 border border-slate-200">
+                <strong class="block text-slate-800 mb-2 uppercase tracking-wider">Aviso Médico & Legal</strong>
+                <p>Esta calculadora é uma ferramenta educativa de apoio à decisão. Os valores apresentados são estimativas baseadas em premissas epidemiológicas e econômicas ajustáveis. Ela não substitui avaliação médica, diagnóstico oftalmológico ou estudo econômico formal. A presença de sintomas como ardor, vermelhidão ou visão turva deve motivar avaliação com médico oftalmologista. Os resultados não representam promessa de cura ou garantia de retorno financeiro.</p>
+            </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script is:inline>
+    // State & Config
+    let currentMode = localStorage.getItem('calcMode') || 'individual';
+    let mainChart = null;
+
+    // Mode Buttons
+    const btnInd = document.getElementById('btnIndividual');
+    const btnCorp = document.getElementById('btnCorporativo');
+
+    function switchMode(mode) {
+        currentMode = mode;
+        localStorage.setItem('calcMode', mode);
+        const activeClass = ['bg-[#003D7A]', 'text-white', 'shadow-md'];
+        const inactiveClass = ['text-slate-600', 'hover:text-[#003D7A]'];
+
+        if (mode === 'individual') {
+            btnInd.classList.add(...activeClass);
+            btnInd.classList.remove(...inactiveClass);
+            btnCorp.classList.remove(...activeClass);
+            btnCorp.classList.add(...inactiveClass);
+            btnInd.setAttribute('aria-selected', 'true');
+            btnCorp.setAttribute('aria-selected', 'false');
+            
+            document.getElementById('individualInputs').classList.remove('hidden');
+            document.getElementById('corporateInputs').classList.add('hidden');
+            document.getElementById('scenariosSection').classList.add('hidden');
+            document.getElementById('distributionCard').classList.add('hidden');
+            document.getElementById('corpResultsExtra').classList.add('hidden');
+            document.getElementById('corpOnlyCosts').classList.add('hidden');
+        } else {
+            btnCorp.classList.add(...activeClass);
+            btnCorp.classList.remove(...inactiveClass);
+            btnInd.classList.remove(...activeClass);
+            btnInd.classList.add(...inactiveClass);
+            btnCorp.setAttribute('aria-selected', 'true');
+            btnInd.setAttribute('aria-selected', 'false');
+
+            document.getElementById('individualInputs').classList.add('hidden');
+            document.getElementById('corporateInputs').classList.remove('hidden');
+            document.getElementById('scenariosSection').classList.remove('hidden');
+            document.getElementById('distributionCard').classList.remove('hidden');
+            document.getElementById('corpResultsExtra').classList.remove('hidden');
+            document.getElementById('corpOnlyCosts').classList.remove('hidden');
+        }
+        calculate();
+    }
+
+    btnInd.addEventListener('click', () => switchMode('individual'));
+    btnCorp.addEventListener('click', () => switchMode('corporativo'));
+
+    // Persistence
+    const inputIds = ['numColaboradores', 'pctExpostos', 'prevalencia', 'horasTela', 'valorHora', 'perdaProd', 'fracaoRecuperavel', 'pctLeve', 'pctModerado', 'pctGrave', 'gravidadeInd'];
+    
+    function saveState() {
+        const state = {};
+        inputIds.forEach(id => {
+            state[id] = document.getElementById(id).value;
+        });
+        localStorage.setItem('calcInputs', JSON.stringify(state));
+    }
+
+    function loadState() {
+        const saved = localStorage.getItem('calcInputs');
+        if (saved) {
+            const state = JSON.parse(saved);
+            inputIds.forEach(id => {
+                if (state[id] !== undefined) {
+                    const el = document.getElementById(id);
+                    el.value = state[id];
+                    // Also sync ranges
+                    const range = document.getElementById(id + 'Range');
+                    if (range) range.value = state[id];
+                }
+            });
+        }
+        switchMode(currentMode);
+    }
+
+    // Scenarios
+    window.setScenario = function(scen) {
+        document.querySelectorAll('.scenario-card').forEach(c => {
+            c.classList.remove('border-[#003D7A]', 'bg-[#003D7A]/5', 'active');
+            c.classList.add('border-slate-200', 'bg-white');
+        });
+        
+        const cardMap = {
+            'conservador': 0,
+            'moderado': 1,
+            'alto_risco': 2,
+            'wpai': 3
+        };
+        const activeCard = document.querySelectorAll('.scenario-card')[cardMap[scen]];
+        activeCard.classList.remove('border-slate-200', 'bg-white');
+        activeCard.classList.add('border-[#003D7A]', 'bg-[#003D7A]/5', 'active');
+
+        if (scen === 'conservador') {
+            updateInputs({ prevalencia: 20, pctLeve: 60, pctModerado: 30, pctGrave: 10, perdaProd: 3, fracaoRecuperavel: 20 });
+        } else if (scen === 'moderado') {
+            updateInputs({ prevalencia: 30, pctLeve: 50, pctModerado: 35, pctGrave: 15, perdaProd: 8, fracaoRecuperavel: 40 });
+        } else if (scen === 'alto_risco') {
+            updateInputs({ prevalencia: 40, pctLeve: 40, pctModerado: 40, pctGrave: 20, perdaProd: 12, fracaoRecuperavel: 50 });
+        } else if (scen === 'wpai') {
+            updateInputs({ prevalencia: 50, pctLeve: 40, pctModerado: 40, pctGrave: 20, perdaProd: 18, fracaoRecuperavel: 50 });
+        }
+    };
+
+    function updateInputs(vals) {
+        if (vals.prevalencia !== undefined) {
+            document.getElementById('prevalencia').value = vals.prevalencia;
+            document.getElementById('prevalenciaRange').value = vals.prevalencia;
+        }
+        if (vals.pctLeve !== undefined) document.getElementById('pctLeve').value = vals.pctLeve;
+        if (vals.pctModerado !== undefined) document.getElementById('pctModerado').value = vals.pctModerado;
+        if (vals.pctGrave !== undefined) document.getElementById('pctGrave').value = vals.pctGrave;
+        if (vals.perdaProd !== undefined) {
+            document.getElementById('perdaProd').value = vals.perdaProd;
+            document.getElementById('perdaProdRange').value = vals.perdaProd;
+        }
+        if (vals.fracaoRecuperavel !== undefined) {
+            document.getElementById('fracaoRecuperavel').value = vals.fracaoRecuperavel;
+            document.getElementById('fracaoRecuperavelRange').value = vals.fracaoRecuperavel;
+        }
+        calculate();
+    }
+
+    // Calculations
+    function calculate() {
+        const numColab = parseFloat(document.getElementById('numColaboradores').value) || 0;
+        const pctExp = parseFloat(document.getElementById('pctExpostos').value) / 100 || 0;
+        const prevalencia = parseFloat(document.getElementById('prevalencia').value) / 100 || 0;
+        const horasTela = parseFloat(document.getElementById('horasTela').value) || 0;
+        const valorHora = parseFloat(document.getElementById('valorHora').value) || 0;
+        const perdaProd = parseFloat(document.getElementById('perdaProd').value) / 100 || 0;
+        const fracaoRec = parseFloat(document.getElementById('fracaoRecuperavel').value) / 100 || 0;
+        const pctLeve = parseFloat(document.getElementById('pctLeve').value) / 100 || 0;
+        const pctMod = parseFloat(document.getElementById('pctModerado').value) / 100 || 0;
+        const pctGrave = parseFloat(document.getElementById('pctGrave').value) / 100 || 0;
+
+        const weeksPerYear = 48;
+        const daysPerWeek = 5;
+        const annualScreenValue = horasTela * daysPerWeek * weeksPerYear * valorHora;
+
+        let totalTratCost = 0;
+        document.querySelectorAll('.treatment-check:checked').forEach(ch => {
+            totalTratCost += parseFloat(ch.dataset.cost);
+        });
+        document.getElementById('totalCostLabel').innerText = formatCurrency(totalTratCost);
+
+        let perdaAnualTotal = 0;
+        let custoTotalPrograma = 0;
+        let economiaBruta = 0;
+        let casosTotal = 0;
+
+        if (currentMode === 'individual') {
+            perdaAnualTotal = annualScreenValue * perdaProd;
+            custoTotalPrograma = totalTratCost;
+            economiaBruta = perdaAnualTotal * fracaoRec;
+        } else {
+            const colabExpostos = numColab * pctExp;
+            casosTotal = colabExpostos * prevalencia;
+            
+            const pLeve = document.querySelector('.scenario-card.active')?.innerText.includes('WPAI') ? 0.11 : 0.03;
+            const pMod = document.querySelector('.scenario-card.active')?.innerText.includes('WPAI') ? 0.18 : 0.08;
+            const pGrave = document.querySelector('.scenario-card.active')?.innerText.includes('WPAI') ? 0.35 : 0.15;
+
+            const perdaLeve = (casosTotal * pctLeve) * annualScreenValue * pLeve;
+            const perdaMod = (casosTotal * pctMod) * annualScreenValue * pMod;
+            const perdaGrave = (casosTotal * pctGrave) * annualScreenValue * pGrave;
+            
+            perdaAnualTotal = perdaLeve + perdaMod + perdaGrave;
+            const triagemCheck = document.querySelector('[data-cost="30"]');
+            const triagemCost = triagemCheck.checked ? 30 * colabExpostos : 0;
+            custoTotalPrograma = triagemCost + (totalTratCost * casosTotal);
+            economiaBruta = perdaAnualTotal * fracaoRec;
+        }
+
+        const economiaLiquida = economiaBruta - custoTotalPrograma;
+        const roi = custoTotalPrograma > 0 ? (economiaBruta / custoTotalPrograma).toFixed(1) : 0;
+        const payback = economiaBruta > 0 ? (custoTotalPrograma / (economiaBruta / 12)).toFixed(1) : 0;
+
+        // UI Update
+        document.getElementById('resPerdaAnual').innerText = formatCurrency(perdaAnualTotal);
+        document.getElementById('resCustoTotal').innerText = formatCurrency(custoTotalPrograma);
+        document.getElementById('resEconomiaBruta').innerText = formatCurrency(economiaBruta);
+        document.getElementById('resEconomiaLiquida').innerText = formatCurrency(economiaLiquida);
+        document.getElementById('resROI').innerText = roi + 'x';
+        document.getElementById('resPayback').innerText = payback;
+
+        if (currentMode === 'corporativo') {
+            document.getElementById('resCasosTotal').innerText = Math.round(casosTotal);
+        }
+
+        updateInterpretation(numColab, casosTotal, perdaAnualTotal, custoTotalPrograma, economiaBruta, economiaLiquida, roi, payback);
+        updateChart(perdaAnualTotal, custoTotalPrograma, economiaBruta);
+    }
+
+    function formatCurrency(val) {
+        return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(val);
+    }
+
+    window.normalizeDistribution = function() {
+        document.getElementById('pctLeve').value = 50;
+        document.getElementById('pctModerado').value = 35;
+        document.getElementById('pctGrave').value = 15;
+        calculate();
+    };
+
+    function updateInterpretation(numColab, casos, perda, custo, econBruta, econLiq, roi, payback) {
+        let text = "";
+        if (currentMode === 'individual') {
+            text = `Para um perfil individual com os parâmetros informados, a perda econômica anual estimada por presenteísmo é de <strong>${formatCurrency(perda)}</strong>. `;
+            text += `Com um investimento de ${formatCurrency(custo)} em tratamento e manejo adequado, a economia líquida potencial é de <strong>${formatCurrency(econLiq)}</strong>, com retorno total do investimento em aproximadamente <strong>${payback} meses</strong>.`;
+        } else {
+            text = `Em uma equipe de ${numColab} colaboradores, estima-se que <strong>${Math.round(casos)}</strong> trabalhadores possam apresentar olho seco. `;
+            text += `A perda produtiva agregada para a empresa é estimada em <strong>${formatCurrency(perda)}/ano</strong>. `;
+            if (roi > 1) {
+                text += `O ROI de <strong>${roi}x</strong> indica que o programa de saúde ocular é financeiramente sustentável, gerando uma economia líquida de <strong>${formatCurrency(econLiq)}</strong> após cobrir todos os custos.`;
+            } else {
+                text += `Neste cenário simulado, o benefício econômico direto estimado é próximo ou inferior ao custo do programa. Recomenda-se focar em triagem de alta precisão para identificar os casos de maior impacto funcional.`;
+            }
+        }
+        document.getElementById('interpretationText').innerHTML = text;
+    }
+
+    function updateChart(perda, custo, economia) {
+        const ctx = document.getElementById('mainChart').getContext('2d');
+        if (mainChart) mainChart.destroy();
+        
+        const isDark = document.documentElement.classList.contains('dark');
+        const textColor = isDark ? '#94a3b8' : '#64748b';
+
+        mainChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Perda Produtiva', 'Custo Programa', 'Economia Bruta'],
+                datasets: [{
+                    data: [perda, custo, economia],
+                    backgroundColor: ['#ef4444', '#f59e0b', '#10b981'],
+                    borderRadius: 8,
+                    barThickness: 40
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: isDark ? '#1e293b' : '#f1f5f9' }, ticks: { color: textColor, font: { size: 10 } } },
+                    x: { grid: { display: false }, ticks: { color: textColor, font: { weight: 'bold', size: 10 } } }
+                }
+            }
+        });
+    }
+
+    window.shareWhatsApp = function() {
+        const text = encodeURIComponent(`*Calculadora de Impacto Econômico do Olho Seco*\n\nModo: ${currentMode.toUpperCase()}\nPerda Produtiva: ${document.getElementById('resPerdaAnual').innerText}\nEconomia Líquida: ${document.getElementById('resEconomiaLiquida').innerText}\nROI: ${document.getElementById('resROI').innerText}\n\nSimule o impacto em sua equipe: ${window.location.href}`);
+        window.open(`https://wa.me/?text=${text}`, '_blank');
+    };
+
+    // Setup Sync
+    function setupSync(inputId, rangeId) {
+        const inp = document.getElementById(inputId);
+        const rng = document.getElementById(rangeId);
+        inp.addEventListener('input', () => { rng.value = inp.value; calculate(); });
+        rng.addEventListener('input', () => { inp.value = rng.value; calculate(); });
+    }
+    setupSync('prevalencia', 'prevalenciaRange');
+    setupSync('perdaProd', 'perdaProdRange');
+    setupSync('fracaoRecuperavel', 'fracaoRecuperavelRange');
+
+    ['numColaboradores', 'pctExpostos', 'horasTela', 'valorHora', 'pctLeve', 'pctModerado', 'pctGrave', 'gravidadeInd', 'prevalencia', 'perdaProd', 'fracaoRecuperavel'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', () => {
+                calculate();
+                saveState();
+            });
+        }
+    });
+    document.querySelectorAll('.treatment-check').forEach(ch => {
+        ch.addEventListener('change', () => {
+            calculate();
+            saveState();
+        });
+    });
+
+    // Initial
+    loadState();
+    calculate();
+  </script>
+</Layout>

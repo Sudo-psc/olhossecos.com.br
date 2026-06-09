@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Impacto Econômico do Olho Seco em Trabalhadores de Tela</title>
+    <meta name="description" content="Ferramenta educativa para estimar o impacto econômico do olho seco em trabalhadores de telas, considerando prevalência, presenteísmo, triagem, tratamento e ROI.">
+    <meta name="keywords" content="olho seco, produtividade, trabalhadores de tela, DVT, VDT, saúde ocupacional, oftalmologia, presenteísmo, OSDI, WPAI, IRPL, IPL">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-hover: #1D4ED8;
+            --secondary: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --bg: #F8FAFC;
+            --surface: #FFFFFF;
+            --text: #0F172A;
+            --text-muted: #64748B;
+            --border: #E2E8F0;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg: #020617;
+            --surface: #0F172A;
+            --text: #F8FAFC;
+            --text-muted: #94A3B8;
+            --border: #1E293B;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            transition: background-color 0.3s, color 0.3s;
+            padding-bottom: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Accessibility: Skip link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px;
+            z-index: 100;
+            transition: top 0.3s;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* Header & Hero */
+        header {
+            padding: 3rem 0;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+            color: white;
+            margin-bottom: 2rem;
+            border-bottom-left-radius: 2rem;
+            border-bottom-right-radius: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Mode Toggle */
+        .mode-toggle {
+            display: inline-flex;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem;
+            border-radius: var(--radius);
+            gap: 0.5rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .mode-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: calc(var(--radius) - 4px);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            background: transparent;
+            color: white;
+        }
+
+        .mode-btn.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+
+        .mode-btn:focus-visible {
+            outline: 3px solid var(--warning);
+            outline-offset: 2px;
+        }
+
+        /* Utility: Visibility */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Sections & Cards */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 768px) {
+            .grid-2 { grid-template-columns: repeat(2, 1fr); }
+            .grid-3 { grid-template-columns: repeat(3, 1fr); }
+            .grid-4 { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        input[type="number"], 
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--surface);
+            color: var(--text);
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            ring: 2px solid var(--primary);
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: var(--border);
+            border-radius: 5px;
+            appearance: none;
+            margin: 1rem 0;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .input-with-hint {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .tooltip-trigger {
+            cursor: help;
+            color: var(--primary);
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        /* Scenarios Cards */
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .scenario-card {
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .scenario-card:hover {
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .scenario-card.active {
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        .scenario-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Results Cards */
+        .result-card {
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: 140px;
+        }
+
+        .result-card.primary { background: var(--primary); }
+        .result-card.secondary { background: var(--secondary); }
+        .result-card.warning { background: var(--warning); }
+        .result-card.danger { background: var(--danger); }
+        .result-card.muted { background: var(--muted); }
+
+        .result-value {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin: 0.5rem 0;
+        }
+
+        .result-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Scientific Basis Section */
+        .scientific-basis {
+            background: #f1f5f9;
+            padding: 2rem;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--primary);
+        }
+
+        .scientific-basis h2 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        /* Action Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            gap: 0.5rem;
+        }
+
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-hover); }
+
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+        .btn-outline:hover { background: var(--primary); color: white; }
+
+        .btn-ghost { background: transparent; color: var(--text-muted); }
+        .btn-ghost:hover { color: var(--text); background: rgba(0,0,0,0.05); }
+
+        /* Floating Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Treatment Program Items */
+        .treatment-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .treatment-item:last-child { border-bottom: none; }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Print styles */
+        @media print {
+            .no-print, .theme-toggle, .mode-toggle, .btn, .scenario-grid {
+                display: none !important;
+            }
+            body { background: white; color: black; padding: 0; }
+            .card { border: none; box-shadow: none; padding: 0; margin-bottom: 2cm; }
+            .container { max-width: 100%; width: 100%; }
+            header { background: white; color: black; border-bottom: 2pt solid black; padding: 1cm 0; }
+            .grid { grid-template-columns: 1fr 1fr; }
+            .scientific-basis { border: 1pt solid #ccc; background: white; }
+        }
+
+        /* Footer & References */
+        footer {
+            margin-top: 4rem;
+            padding: 4rem 0;
+            border-top: 1px solid var(--border);
+            background: var(--surface);
+        }
+
+        .references {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .references ol {
+            padding-left: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .disclaimer {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #fff7ed;
+            border-radius: 8px;
+            border: 1px solid #ffedd5;
+            font-size: 0.875rem;
+            color: #9a3412;
+        }
+
+        /* Tooltip style */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -125px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.75rem;
+            font-weight: normal;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+
+    <button class="theme-toggle no-print" id="themeToggle" aria-label="Alternar modo escuro">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon dark-icon hidden"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun light-icon"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+    </button>
+
+    <header>
+        <div class="container hero">
+            <h1>Calculadora de Impacto Econômico do Olho Seco</h1>
+            <p>Uma ferramenta baseada em evidências para estimar a perda de produtividade por presenteísmo e o retorno sobre investimento (ROI) em programas de saúde ocular.</p>
+            
+            <div class="mode-toggle no-print" role="tablist">
+                <button id="btnIndividual" class="mode-btn active" role="tab" aria-selected="true">Modo Individual</button>
+                <button id="btnCorporativo" class="mode-btn" role="tab" aria-selected="false">Modo Corporativo</button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content" class="container">
+        
+        <!-- Scientific Basis -->
+        <section class="scientific-basis no-print">
+            <h2>Base científica da estimativa</h2>
+            <p>A doença do olho seco é uma condição multifatorial associada à perda da homeostase do filme lacrimal. Em trabalhadores que utilizam terminais visuais digitais (VDT), a prevalência pode chegar a 49,5%.</p>
+            <p>O impacto produtivo manifesta-se principalmente como <strong>presenteísmo</strong> — redução do desempenho enquanto o trabalhador permanece em atividade. Esta calculadora utiliza parâmetros de estudos como OSDI e WPAI para estimar o impacto econômico e o potencial de recuperação funcional.</p>
+        </section>
+
+        <!-- CORPORATE SCENARIOS (Only Corporate Mode) -->
+        <section id="scenariosSection" class="hidden no-print">
+            <h2 class="section-title">Escolha um Cenário Corporativo</h2>
+            <div class="scenario-grid">
+                <div class="scenario-card" onclick="setScenario('conservador')" tabindex="0" role="button">
+                    <h3>Conservador</h3>
+                    <p class="hint">Prevalência 20%, Impacto mínimo</p>
+                </div>
+                <div class="scenario-card active" onclick="setScenario('moderado')" tabindex="0" role="button">
+                    <h3>Moderado (Padrão)</h3>
+                    <p class="hint">Prevalência 30%, Perdas médias</p>
+                </div>
+                <div class="scenario-card" onclick="setScenario('alto_risco')" tabindex="0" role="button">
+                    <h3>Alto Risco</h3>
+                    <p class="hint">Prevalência 40%, Uso intensivo</p>
+                </div>
+                <div class="scenario-card" onclick="setScenario('wpai')" tabindex="0" role="button">
+                    <h3>Alto Impacto (WPAI)</h3>
+                    <p class="hint">Baseado em produtividade científica</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="grid grid-2">
+            <!-- INPUTS COLUMN -->
+            <section>
+                <div class="card">
+                    <h2 class="section-title">Dados de Entrada</h2>
+                    
+                    <div id="corporateInputs" class="hidden">
+                        <div class="form-group">
+                            <label for="numColaboradores">Número de Colaboradores</label>
+                            <input type="number" id="numColaboradores" value="100" min="1" step="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="pctExpostos">Percentual Exposto a Telas (%)</label>
+                            <input type="number" id="pctExpostos" value="80" min="0" max="100">
+                        </div>
+                        <div class="form-group">
+                            <label for="prevalencia">Prevalência Estimada de Olho Seco (%)</label>
+                            <input type="number" id="prevalencia" value="30" min="0" max="100">
+                            <input type="range" id="prevalenciaRange" min="0" max="70" value="30">
+                        </div>
+                    </div>
+
+                    <div id="individualInputs">
+                        <div class="form-group">
+                            <label for="gravidadeInd">Gravidade dos Sintomas</label>
+                            <select id="gravidadeInd">
+                                <option value="0">Sem sintomas relevantes (0%)</option>
+                                <option value="3">Leve (3%)</option>
+                                <option value="8" selected>Moderado (8%)</option>
+                                <option value="15">Grave (15%)</option>
+                                <option value="custom">Personalizado</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="horasTela">Horas de Tela por Dia</label>
+                        <input type="number" id="horasTela" value="7" min="0" max="16" step="0.5">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="diasSemana">Dias de Trabalho por Semana</label>
+                        <input type="number" id="diasSemana" value="5" min="1" max="7">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="valorHora">Valor da Hora de Trabalho (R$)</label>
+                        <input type="number" id="valorHora" value="60" min="0" step="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="semanasAno">Semanas Trabalhadas por Ano</label>
+                        <input type="number" id="semanasAno" value="48" min="40" max="52">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="perdaProd">
+                            Perda Estimada de Produtividade (%) 
+                            <span class="tooltip">
+                                <span class="tooltip-trigger">ⓘ</span>
+                                <span class="tooltiptext">Redução de eficiência enquanto trabalha (presenteísmo).</span>
+                            </span>
+                        </label>
+                        <input type="number" id="perdaProd" value="8" min="0" max="40" step="0.5">
+                        <input type="range" id="perdaProdRange" min="0" max="40" value="8" step="0.5">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fracaoRecuperavel">
+                            Fração Recuperável (%)
+                            <span class="tooltip">
+                                <span class="tooltip-trigger">ⓘ</span>
+                                <span class="tooltiptext">Parcela da perda que pode ser revertida com tratamento e mudanças ambientais.</span>
+                            </span>
+                        </label>
+                        <input type="number" id="fracaoRecuperavel" value="40" min="0" max="100">
+                        <input type="range" id="fracaoRecuperavelRange" min="0" max="100" value="40">
+                    </div>
+                </div>
+
+                <!-- DISTRIBUTION (Only Corporate) -->
+                <div id="distributionCard" class="card hidden">
+                    <h2 class="section-title">Distribuição por Gravidade</h2>
+                    <div class="grid grid-3">
+                        <div class="form-group">
+                            <label>Leve (%)</label>
+                            <input type="number" id="pctLeve" value="50">
+                        </div>
+                        <div class="form-group">
+                            <label>Mod (%)</label>
+                            <input type="number" id="pctModerado" value="35">
+                        </div>
+                        <div class="form-group">
+                            <label>Grave (%)</label>
+                            <input type="number" id="pctGrave" value="15">
+                        </div>
+                    </div>
+                    <p id="distAlert" class="hint danger hidden">A soma deve ser 100%.</p>
+                    <button class="btn btn-ghost" onclick="normalizeDistribution()">Normalizar automaticamente</button>
+                </div>
+
+                <!-- TREATMENT PROGRAM COSTS -->
+                <div class="card">
+                    <h2 class="section-title">Custos de Tratamento / Programa</h2>
+                    <div id="treatmentList">
+                        <!-- Items will be inserted here or hardcoded -->
+                        <div class="treatment-item">
+                            <label class="checkbox-container">
+                                <input type="checkbox" class="treatment-check" data-cost="350" checked>
+                                Consulta Oftalmológica
+                            </label>
+                            <span class="cost-value">R$ 350</span>
+                        </div>
+                        <div class="treatment-item">
+                            <label class="checkbox-container">
+                                <input type="checkbox" class="treatment-check" data-cost="900" checked>
+                                Lubrificantes (Anual)
+                            </label>
+                            <span class="cost-value">R$ 900</span>
+                        </div>
+                        <div class="treatment-item">
+                            <label class="checkbox-container">
+                                <input type="checkbox" class="treatment-check" data-cost="3000">
+                                Tratamento IRPL/IPL
+                            </label>
+                            <span class="cost-value">R$ 3.000</span>
+                        </div>
+                        <div id="corpOnlyCosts" class="hidden">
+                            <div class="treatment-item">
+                                <label class="checkbox-container">
+                                    <input type="checkbox" class="treatment-check" data-cost="30">
+                                    Triagem por Colaborador
+                                </label>
+                                <span class="cost-value">R$ 30</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label>Custo Total Informado: <span id="totalCostLabel">R$ 1.250</span></label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RESULTS COLUMN -->
+            <section>
+                <div class="card">
+                    <h2 class="section-title">Resultados Estimados</h2>
+                    <div class="grid grid-2">
+                        <div class="result-card muted">
+                            <span class="result-label">Impacto Anual</span>
+                            <span id="resPerdaAnual" class="result-value">R$ 0</span>
+                        </div>
+                        <div class="result-card warning">
+                            <span class="result-label">Custo Programa</span>
+                            <span id="resCustoTotal" class="result-value">R$ 0</span>
+                        </div>
+                        <div class="result-card secondary">
+                            <span class="result-label">Economia Bruta</span>
+                            <span id="resEconomiaBruta" class="result-value">R$ 0</span>
+                        </div>
+                        <div class="result-card primary">
+                            <span class="result-label">Economia Líquida</span>
+                            <span id="resEconomiaLiquida" class="result-value">R$ 0</span>
+                        </div>
+                        <div class="result-card primary">
+                            <span class="result-label">ROI (Retorno)</span>
+                            <span id="resROI" class="result-value">0x</span>
+                        </div>
+                        <div class="result-card muted">
+                            <span class="result-label">Payback (Meses)</span>
+                            <span id="resPayback" class="result-value">0</span>
+                        </div>
+                    </div>
+
+                    <div id="corpResultsExtra" class="hidden" style="margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem;">
+                        <p class="hint"><strong>Casos estimados:</strong> <span id="resCasosTotal">0</span></p>
+                        <p class="hint"><strong>Perda média/colaborador:</strong> <span id="resPerdaMedia">R$ 0</span></p>
+                    </div>
+
+                    <div id="interpretationBox" class="disclaimer" style="margin-top: 1.5rem; background: var(--bg); border-color: var(--border); color: var(--text);">
+                        <p id="interpretationText">Aguardando dados...</p>
+                    </div>
+                </div>
+
+                <div class="card no-print">
+                    <h2 class="section-title">Visualização</h2>
+                    <canvas id="mainChart" height="250"></canvas>
+                </div>
+
+                <div class="grid grid-2 no-print">
+                    <button class="btn btn-primary" onclick="window.print()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+                        Exportar Relatório (PDF)
+                    </button>
+                    <button class="btn btn-outline" onclick="shareWhatsApp()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        Compartilhar WhatsApp
+                    </button>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="references">
+                <h3>Referências científicas resumidas</h3>
+                <ol>
+                    <li>Courtin R, et al. Prevalence of dry eye disease in visual display terminal workers: a systematic review and meta-analysis. BMJ Open. 2016.</li>
+                    <li>Fjaervoll H, et al. The association between visual display terminal use and dry eye: a review. Acta Ophthalmologica. 2021.</li>
+                    <li>Nichols KK, et al. Impact of Dry Eye Disease on Work Productivity, and Patients’ Satisfaction. IOVS. 2016.</li>
+                    <li>McDonald M, et al. Economic and Humanistic Burden of Dry Eye Disease. The Ocular Surface. 2016.</li>
+                    <li>Stapleton F, et al. TFOS DEWS II Epidemiology Report. The Ocular Surface. 2017.</li>
+                </ol>
+            </div>
+
+            <div class="disclaimer">
+                <strong>Aviso Legal:</strong> Esta calculadora é uma ferramenta educativa de apoio à decisão. Os valores são estimativas baseadas em premissas epidemiológicas. Não substitui avaliação médica, diagnóstico oftalmológico ou estudo econômico formal. A resposta clínica varia individualmente.
+            </div>
+
+            <p style="text-align: center; margin-top: 2rem; color: var(--text-muted); font-size: 0.875rem;">
+                &copy; 2026 Olhos Secos. Todos os direitos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // State
+        let currentMode = 'individual';
+        let mainChart = null;
+
+        // Elements
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        // Theme Handling
+        themeToggle.addEventListener('click', () => {
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+            updateThemeIcons();
+        });
+
+        function updateThemeIcons() {
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            document.querySelector('.dark-icon').classList.toggle('hidden', !isDark);
+            document.querySelector('.light-icon').classList.toggle('hidden', isDark);
+        }
+
+        // Initialize theme
+        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        html.setAttribute('data-theme', savedTheme);
+        updateThemeIcons();
+
+        // Mode Switching
+        document.getElementById('btnIndividual').addEventListener('click', () => switchMode('individual'));
+        document.getElementById('btnCorporativo').addEventListener('click', () => switchMode('corporativo'));
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.getElementById('btnIndividual').classList.toggle('active', mode === 'individual');
+            document.getElementById('btnCorporativo').classList.toggle('active', mode === 'corporativo');
+            document.getElementById('btnIndividual').setAttribute('aria-selected', mode === 'individual');
+            document.getElementById('btnCorporativo').setAttribute('aria-selected', mode === 'corporativo');
+
+            document.getElementById('individualInputs').classList.toggle('hidden', mode !== 'individual');
+            document.getElementById('corporateInputs').classList.toggle('hidden', mode !== 'corporativo');
+            document.getElementById('scenariosSection').classList.toggle('hidden', mode !== 'corporativo');
+            document.getElementById('distributionCard').classList.toggle('hidden', mode !== 'corporativo');
+            document.getElementById('corpResultsExtra').classList.toggle('hidden', mode !== 'corporativo');
+            document.getElementById('corpOnlyCosts').classList.toggle('hidden', mode !== 'corporativo');
+
+            calculate();
+        }
+
+        // Scenarios
+        function setScenario(scen) {
+            document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('active'));
+            const cards = document.querySelectorAll('.scenario-card');
+            
+            if (scen === 'conservador') {
+                cards[0].classList.add('active');
+                updateInputs({ prevalencia: 20, pctLeve: 60, pctModerado: 30, pctGrave: 10, perdaProd: 3, fracaoRecuperavel: 20 });
+            } else if (scen === 'moderado') {
+                cards[1].classList.add('active');
+                updateInputs({ prevalencia: 30, pctLeve: 50, pctModerado: 35, pctGrave: 15, perdaProd: 8, fracaoRecuperavel: 40 });
+            } else if (scen === 'alto_risco') {
+                cards[2].classList.add('active');
+                updateInputs({ prevalencia: 40, pctLeve: 40, pctModerado: 40, pctGrave: 20, perdaProd: 12, fracaoRecuperavel: 50 });
+            } else if (scen === 'wpai') {
+                cards[3].classList.add('active');
+                updateInputs({ prevalencia: 50, pctLeve: 40, pctModerado: 40, pctGrave: 20, perdaProd: 18, fracaoRecuperavel: 50 });
+            }
+        }
+
+        function updateInputs(vals) {
+            if (vals.prevalencia !== undefined) {
+                document.getElementById('prevalencia').value = vals.prevalencia;
+                document.getElementById('prevalenciaRange').value = vals.prevalencia;
+            }
+            if (vals.pctLeve !== undefined) document.getElementById('pctLeve').value = vals.pctLeve;
+            if (vals.pctModerado !== undefined) document.getElementById('pctModerado').value = vals.pctModerado;
+            if (vals.pctGrave !== undefined) document.getElementById('pctGrave').value = vals.pctGrave;
+            if (vals.perdaProd !== undefined) {
+                document.getElementById('perdaProd').value = vals.perdaProd;
+                document.getElementById('perdaProdRange').value = vals.perdaProd;
+            }
+            if (vals.fracaoRecuperavel !== undefined) {
+                document.getElementById('fracaoRecuperavel').value = vals.fracaoRecuperavel;
+                document.getElementById('fracaoRecuperavelRange').value = vals.fracaoRecuperavel;
+            }
+            calculate();
+        }
+
+        // Sync inputs and ranges
+        function setupSync(inputId, rangeId) {
+            const input = document.getElementById(inputId);
+            const range = document.getElementById(rangeId);
+            input.addEventListener('input', () => { range.value = input.value; calculate(); });
+            range.addEventListener('input', () => { input.value = range.value; calculate(); });
+        }
+
+        setupSync('prevalencia', 'prevalenciaRange');
+        setupSync('perdaProd', 'perdaProdRange');
+        setupSync('fracaoRecuperavel', 'fracaoRecuperavelRange');
+
+        // Other inputs
+        ['numColaboradores', 'pctExpostos', 'horasTela', 'diasSemana', 'valorHora', 'semanasAno', 'pctLeve', 'pctModerado', 'pctGrave'].forEach(id => {
+            document.getElementById(id).addEventListener('input', calculate);
+        });
+
+        document.getElementById('gravidadeInd').addEventListener('change', (e) => {
+            if (e.target.value !== 'custom') {
+                document.getElementById('perdaProd').value = e.target.value;
+                document.getElementById('perdaProdRange').value = e.target.value;
+            }
+            calculate();
+        });
+
+        document.querySelectorAll('.treatment-check').forEach(ch => {
+            ch.addEventListener('change', calculate);
+        });
+
+        // Main Calculation Logic
+        function calculate() {
+            // Inputs
+            const numColab = parseFloat(document.getElementById('numColaboradores').value) || 0;
+            const pctExp = parseFloat(document.getElementById('pctExpostos').value) / 100 || 0;
+            const prevalencia = parseFloat(document.getElementById('prevalencia').value) / 100 || 0;
+            const horasTela = parseFloat(document.getElementById('horasTela').value) || 0;
+            const diasSemana = parseFloat(document.getElementById('diasSemana').value) || 0;
+            const valorHora = parseFloat(document.getElementById('valorHora').value) || 0;
+            const semanasAno = parseFloat(document.getElementById('semanasAno').value) || 0;
+            const perdaProd = parseFloat(document.getElementById('perdaProd').value) / 100 || 0;
+            const fracaoRec = parseFloat(document.getElementById('fracaoRecuperavel').value) / 100 || 0;
+
+            const pctLeve = parseFloat(document.getElementById('pctLeve').value) / 100 || 0;
+            const pctMod = parseFloat(document.getElementById('pctModerado').value) / 100 || 0;
+            const pctGrave = parseFloat(document.getElementById('pctGrave').value) / 100 || 0;
+
+            // Distribution validation
+            const distSum = (pctLeve + pctMod + pctGrave).toFixed(2);
+            document.getElementById('distAlert').classList.toggle('hidden', distSum === '1.00');
+
+            // Treatment Cost
+            let totalTratCost = 0;
+            document.querySelectorAll('.treatment-check:checked').forEach(ch => {
+                totalTratCost += parseFloat(ch.dataset.cost);
+            });
+            document.getElementById('totalCostLabel').innerText = formatCurrency(totalTratCost);
+
+            // Calculation Constants
+            const valorAnualTempoTela = horasTela * diasSemana * semanasAno * valorHora;
+
+            let perdaAnualTotal = 0;
+            let custoTotalPrograma = 0;
+            let economiaBruta = 0;
+            let casosTotal = 0;
+
+            if (currentMode === 'individual') {
+                perdaAnualTotal = valorAnualTempoTela * perdaProd;
+                custoTotalPrograma = totalTratCost;
+                economiaBruta = perdaAnualTotal * fracaoRec;
+            } else {
+                const colabExpostos = numColab * pctExp;
+                casosTotal = colabExpostos * prevalencia;
+                
+                // For corporate, we assume distribution affects different loss rates if edited, 
+                // but for simplicity in this baseline, we use the global perdaProd or weighted if wanted.
+                // Let's use weighted: Leve=perdaProd/2, Mod=perdaProd, Grave=perdaProd*2 roughly,
+                // or just apply perdaProd to all cases for consistency with prompt logic.
+                // Prompt asks for: perda_total_anual = (casos_leves * val * p_leve) + ...
+                // Let's use standard defaults from prompt:
+                const pLeve = currentMode === 'wpai' ? 0.11 : 0.03;
+                const pMod = currentMode === 'wpai' ? 0.18 : 0.08;
+                const pGrave = currentMode === 'wpai' ? 0.35 : 0.15;
+
+                const perdaAnualLeve = (casosTotal * pctLeve) * valorAnualTempoTela * pLeve;
+                const perdaAnualMod = (casosTotal * pctMod) * valorAnualTempoTela * pMod;
+                const perdaAnualGrave = (casosTotal * pctGrave) * valorAnualTempoTela * pGrave;
+                
+                perdaAnualTotal = perdaAnualLeve + perdaAnualMod + perdaAnualGrave;
+                
+                // Corporate cost: Triagem * expostos + (Tratamento * casos)
+                const triagemCost = document.querySelector('[data-cost="30"]').checked ? 30 * colabExpostos : 0;
+                custoTotalPrograma = triagemCost + (totalTratCost * casosTotal);
+                
+                economiaBruta = perdaAnualTotal * fracaoRec;
+            }
+
+            const economiaLiquida = economiaBruta - custoTotalPrograma;
+            const roi = custoTotalPrograma > 0 ? (economiaBruta / custoTotalPrograma).toFixed(1) : 0;
+            const payback = economiaBruta > 0 ? (custoTotalPrograma / (economiaBruta / 12)).toFixed(1) : 0;
+
+            // Update UI
+            document.getElementById('resPerdaAnual').innerText = formatCurrency(perdaAnualTotal);
+            document.getElementById('resCustoTotal').innerText = formatCurrency(custoTotalPrograma);
+            document.getElementById('resEconomiaBruta').innerText = formatCurrency(economiaBruta);
+            document.getElementById('resEconomiaLiquida').innerText = formatCurrency(economiaLiquida);
+            document.getElementById('resROI').innerText = roi + 'x';
+            document.getElementById('resPayback').innerText = payback;
+
+            if (currentMode === 'corporativo') {
+                document.getElementById('resCasosTotal').innerText = Math.round(casosTotal);
+                document.getElementById('resPerdaMedia').innerText = formatCurrency(perdaAnualTotal / numColab);
+            }
+
+            updateInterpretation(numColab, casosTotal, perdaAnualTotal, custoTotalPrograma, economiaBruta, economiaLiquida, roi, payback);
+            updateChart(perdaAnualTotal, custoTotalPrograma, economiaBruta);
+        }
+
+        function formatCurrency(val) {
+            return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
+        }
+
+        function normalizeDistribution() {
+            document.getElementById('pctLeve').value = 50;
+            document.getElementById('pctModerado').value = 35;
+            document.getElementById('pctGrave').value = 15;
+            calculate();
+        }
+
+        function updateInterpretation(numColab, casos, perda, custo, econBruta, econLiq, roi, payback) {
+            let text = "";
+            if (currentMode === 'individual') {
+                text = `Para um perfil individual com os parâmetros informados, a perda econômica anual estimada por presenteísmo é de ${formatCurrency(perda)}. `;
+                text += `Com um investimento de ${formatCurrency(custo)} em tratamento, a economia líquida potencial é de ${formatCurrency(econLiq)}, com payback em ${payback} meses.`;
+            } else {
+                text = `Em uma equipe de ${numColab} colaboradores, estima-se que ${Math.round(casos)} possam apresentar olho seco. `;
+                text += `A perda produtiva agregada é de ${formatCurrency(perda)}/ano. `;
+                if (roi > 1) {
+                    text += `O ROI de ${roi}x indica que o programa de saúde ocular é altamente sustentável, gerando uma economia líquida de ${formatCurrency(econLiq)}.`;
+                } else {
+                    text += `Neste cenário, o custo do programa supera o benefício econômico direto. Considere otimizar custos ou focar em triagem de alto risco.`;
+                }
+            }
+            document.getElementById('interpretationText').innerText = text;
+        }
+
+        function updateChart(perda, custo, economia) {
+            const ctx = document.getElementById('mainChart').getContext('2d');
+            
+            if (mainChart) mainChart.destroy();
+
+            mainChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Perda Anual', 'Custo Programa', 'Economia Bruta'],
+                    datasets: [{
+                        label: 'Valores em R$',
+                        data: [perda, custo, economia],
+                        backgroundColor: [
+                            'rgba(239, 68, 68, 0.7)',  // Danger
+                            'rgba(245, 158, 11, 0.7)', // Warning
+                            'rgba(16, 185, 129, 0.7)'  // Secondary
+                        ],
+                        borderColor: [
+                            '#ef4444', '#f59e0b', '#10b981'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        function shareWhatsApp() {
+            const perda = document.getElementById('resPerdaAnual').innerText;
+            const economia = document.getElementById('resEconomiaLiquida').innerText;
+            const roi = document.getElementById('resROI').innerText;
+            
+            const text = encodeURIComponent(`*Estimativa de Impacto do Olho Seco*\n\nModo: ${currentMode === 'individual' ? 'Individual' : 'Corporativo'}\nImpacto Anual: ${perda}\nEconomia Líquida Potencial: ${economia}\nROI Estimado: ${roi}\n\nCalcule o seu em: ${window.location.href}`);
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+        }
+
+        // Initial Calc
+        calculate();
+
+    </script>
+</body>
+</html>

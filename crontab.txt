@@ -1,0 +1,16 @@
+# ============================================
+# Crontab para tarefas agendadas
+# Instalar: crontab crontab.txt
+# ============================================
+
+# Renovar certificado SSL (diariamente às 3:00)
+0 3 * * * cd /opt/olhossecos && docker compose -f docker-compose.prod.yml run --rm certbot renew --quiet && docker compose -f docker-compose.prod.yml restart nginx
+
+# Backup diário (às 2:00)
+0 2 * * * /opt/olhossecos/scripts/backup.sh >> /opt/olhossecos/logs/backup.log 2>&1
+
+# Limpeza de recursos Docker (semanalmente, domingo às 4:00)
+0 4 * * 0 docker system prune -f >> /opt/olhossecos/logs/docker-prune.log 2>&1
+
+# Health check a cada 5 minutos (opcional - para monitoramento)
+*/5 * * * * curl -sf https://olhossecos.com.br/api/health > /dev/null || echo "Health check failed at $(date)" >> /opt/olhossecos/logs/health.log

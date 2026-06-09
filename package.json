@@ -1,0 +1,40 @@
+{
+    "name": "olhossecos-astro",
+    "type": "module",
+    "version": "1.0.0",
+    "description": "Site especializado em tratamento de olho seco - Astro + WordPress Headless CMS",
+    "scripts": {
+        "dev": "astro dev",
+        "start": "astro dev",
+        "build": "astro check && astro build",
+        "preview": "astro preview",
+        "astro": "astro",
+        "lint": "eslint src --ext .ts,.astro",
+        "format": "prettier --write ."
+    },
+    "dependencies": {
+        "@astrojs/check": "^0.9.0",
+        "@astrojs/node": "^9.5.1",
+        "@astrojs/sitemap": "^3.1.0",
+        "@astrojs/tailwind": "^5.1.0",
+        "@sanity/client": "^7.13.2",
+        "@sanity/image-url": "^2.0.2",
+        "astro": "^5.16.6",
+        "astro-portabletext": "^0.12.0",
+        "astro-seo": "^0.8.0",
+        "groq": "^5.1.0",
+        "html-entities": "^2.5.0",
+        "sanitize-html": "^2.13.0",
+        "tailwindcss": "^3.4.10"
+    },
+    "devDependencies": {
+        "@types/node": "^20.14.9",
+        "@types/sanitize-html": "^2.11.0",
+        "prettier": "^3.3.0",
+        "prettier-plugin-astro": "^0.14.0",
+        "typescript": "^5.5.2"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    }
+}

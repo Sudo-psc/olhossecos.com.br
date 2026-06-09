@@ -1,0 +1,71 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "MedicalDevice",
+  "name": "Lentes Esclerais",
+  "description": "Lentes de contato especiais de grande diâmetro que se apoiam na esclera e criam um reservatório líquido sobre a córnea.",
+  "purpose": "Tratamento de Olho Seco Severo, Ceratocone e Irregularidades de Córnea"
+};
+---
+
+<Layout 
+  title="Lentes Esclerais | Olho Seco Severo" 
+  description="Lentes Esclerais: uma revolução para pacientes com olho seco severo e doenças da superfície ocular."
+  schema={schema}
+>
+  <section class="bg-blue-50 py-16">
+    <div class="container mx-auto px-6">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="text-4xl font-bold text-[#003D7A] mb-4">Lentes Esclerais</h1>
+        <p class="text-gray-600 text-lg">Proteção máxima e recuperação visual para casos severos.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-padding bg-white">
+    <div class="container mx-auto px-6 max-w-4xl">
+      <div class="flex flex-col md:flex-row gap-8 items-center mb-12">
+          <div class="md:w-1/2">
+               <div class="prose prose-lg prose-blue">
+                <p>
+                    As lentes esclerais são lentes rígidas de grande diâmetro que se apoiam na esclera (parte branca) e não tocam a córnea. Elas criam um <strong>reservatório de líquido</strong> constante entre a lente e o olho.
+                </p>
+                <p>
+                    Para pacientes com olho seco severo, Síndrome de Sjögren ou Stevens-Johnson, essas lentes funcionam como um escudo líquido, mantendo o olho hidratado 100% do tempo.
+                </p>
+               </div>
+          </div>
+          <div class="md:w-1/2 bg-gray-100 rounded-xl p-8 flex items-center justify-center">
+              <img src="/icons/06_lentes_terapeuticas_v3.png" alt="Ilustração Lente Escleral" class="max-h-64 object-contain" />
+          </div>
+      </div>
+
+      <div class="bg-blue-900 text-white rounded-2xl p-8 md:p-12">
+          <h3 class="text-2xl font-bold mb-6 text-center">Benefícios Terapêuticos</h3>
+          <div class="grid md:grid-cols-3 gap-6">
+              <div class="text-center">
+                  <span class="text-4xl mb-3 block">💧</span>
+                  <h4 class="font-bold mb-2">Hidratação Contínua</h4>
+                  <p class="text-sm text-blue-200">O olho fica mergulhado em soro fisiológico o dia todo.</p>
+              </div>
+              <div class="text-center">
+                  <span class="text-4xl mb-3 block">🛡️</span>
+                  <h4 class="font-bold mb-2">Proteção Mecânica</h4>
+                  <p class="text-sm text-blue-200">Impede o atrito da pálpebra com a córnea sensível.</p>
+              </div>
+              <div class="text-center">
+                  <span class="text-4xl mb-3 block">👁️</span>
+                  <h4 class="font-bold mb-2">Visão Nítida</h4>
+                  <p class="text-sm text-blue-200">Corrige irregularidades da córnea, proporcionando visão superior.</p>
+              </div>
+          </div>
+      </div>
+
+       <div class="mt-12 text-center">
+          <a href="/tratamentos" class="text-blue-600 font-bold hover:underline">← Voltar para Tratamentos</a>
+      </div>
+    </div>
+  </section>
+</Layout>
