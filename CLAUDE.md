@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Olhos Secos Caratinga** (Dry Eye Clinic) website built with Astro and Sanity CMS. This is a static-first marketing site for Saraiva Vision clinic in Caratinga, MG, Brazil, specializing in dry eye treatment. The site features informational pages, blog content, and video library.
+**Olhos Secos Caratinga** (Dry Eye Clinic) website built with Astro 5 and Sanity CMS. Marketing/lead-generation site for Saraiva Vision clinic in Caratinga, MG, Brazil, specializing in dry eye treatment. Features informational pages, blog content, interactive tools (quiz, symptom test, calculator), video library, and lead-capture API endpoints.
 
 **Business Context:**
 - Medical clinic: Saraiva Vision (CNPJ: 53.864.119/0001-79)
@@ -14,120 +14,89 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Technology Stack
 
-- **Framework**: Astro 5.16.6 (static site generation)
-- **CMS**: Sanity.io (headless CMS for blog/video content)
-- **Styling**: Tailwind CSS 3.4.10
-- **Language**: TypeScript 5.5.2
-- **Package Manager**: npm (use `npm` commands, not pnpm/yarn)
-- **Output**: Static site (configured in astro.config.mjs)
+- **Framework**: Astro 5 with **hybrid rendering** — static pages + on-demand SSR via `@astrojs/node` (standalone mode)
+- **CMS**: Sanity.io (headless CMS for dynamic blog content)
+- **Styling**: Tailwind CSS 3.4
+- **Language**: TypeScript
+- **Package Manager**: npm (use `npm` commands; ignore the stale `pnpm-lock.yaml`)
+- **Deploy**: Docker on VPS via GitHub Actions (push to `master`)
+
+Note: `package.json` description mentions "WordPress Headless CMS" — this is stale; the actual CMS is Sanity.
 
 ## Development Commands
 
 ```bash
-# Development server (http://localhost:4321)
-npm run dev
-
-# Type checking + production build
-npm run build
-
-# Preview production build locally
-npm run preview
-
-# Linting
-npm run lint
-
-# Code formatting
-npm run format        # Format all files with Prettier
+npm run dev        # Dev server at http://localhost:4321
+npm run build      # astro check (type checking) + production build
+npm run preview    # Preview production build locally
+npm run format     # Prettier (with prettier-plugin-astro)
+npm run lint       # CAVEAT: eslint is NOT in devDependencies and there is no
+                   # eslint config in the repo — this script currently fails.
+                   # Use `npm run build` (astro check) for validation instead.
 ```
+
+There are no automated tests configured (`TESTING.md` documents manual/security testing procedures).
 
 ## Architecture
 
-### Directory Structure
+### Rendering Model (important)
 
-```
-src/
-├── components/           # Astro components
-│   ├── Header.astro     # Site header with navigation
-│   ├── Footer.astro     # Site footer
-│   ├── VideoCard.astro  # Video display component
-│   └── OfficialBlogCTA.astro
-├── layouts/
-│   └── Layout.astro     # Base layout with SEO, fonts, structured data
-├── lib/
-│   ├── sanity.ts        # Sanity client and types
-│   └── config.ts        # Site configuration and structured data helpers
-├── pages/               # File-based routing
-│   ├── index.astro      # Homepage (dry eye info, symptoms, treatments)
-│   ├── blog/            # Blog section
-│   │   ├── index.astro  # Blog listing (static posts)
-│   │   ├── [slug].astro # Dynamic blog posts (Sanity CMS)
-│   │   └── *.astro      # Static blog posts
-│   ├── videos/          # Video section
-│   │   └── index.astro  # Video listing
-│   ├── tratamentos/     # Treatment pages
-│   │   ├── luz-pulsada-irpl.astro
-│   │   ├── higiene-palpebral.astro
-│   │   ├── medicamentos.astro
-│   │   └── lentes-esclerais.astro
-│   ├── olho-seco.astro  # Dry eye information page
-│   ├── exames.astro     # Diagnostic exams page
-│   ├── contato.astro    # Contact page
-│   ├── testerapido.astro # Quick symptom test
-│   └── 404.astro        # Error page
-└── middleware.ts        # Astro middleware (if any)
-```
+`astro.config.mjs` sets `output: 'static'` **with the Node adapter** (`@astrojs/node`, standalone). This means:
+
+- Most pages are pre-rendered at build time (static HTML).
+- Routes with `export const prerender = false` are server-rendered at request time:
+  - `src/pages/api/contact.ts` — contact form endpoint
+  - `src/pages/api/test-result.ts` — symptom test lead capture
+  - `src/pages/blog/[slug].astro` — dynamic blog posts fetched from Sanity (SSR, not SSG)
+- Build output (`dist/`) contains both `client/` (static assets) and `server/` (Node entry). Production runs as a Node server, **not** a purely static host.
+- `src/middleware.ts` adds OWASP security headers (X-Frame-Options, CSP-related, Permissions-Policy, etc.) to all responses — runs on the Node server.
+
+### Lead Capture Flow
+
+API endpoints validate input (Brazilian phone format, email) then fan out notifications via services in `src/lib/services/`:
+
+- **`email.ts`** — SendPulse (primary) with automatic fallback to Resend. Generates clinic-notification and patient-confirmation emails.
+- **`whatsapp.ts`** — Evolution API for WhatsApp messages (clinic + patient), with optional n8n webhook integration. Clinic phone defaults to `5533998601427`.
 
 ### Key Files
 
-**src/lib/config.ts** - Central configuration file containing:
-- Site metadata (name, description, URL)
-- Business information (address, phone, hours, coordinates)
-- Doctor information (name, title, CRM, specialties)
-- Social media links
-- Navigation structure
-- Structured data helpers for Schema.org (clinic, doctor, breadcrumbs, FAQ, articles)
+**`src/lib/config.ts`** — Central configuration: site metadata, business info (address, phone, hours), doctor credentials, navigation, and Schema.org structured-data helpers (`getClinicStructuredData()`, `getDoctorStructuredData()`, `getBreadcrumbStructuredData()`, `getFAQStructuredData()`, `getArticleStructuredData()`).
 
-**src/lib/sanity.ts** - Sanity CMS integration:
-- Client configuration (project ID: `qum5qhgj`, dataset: `production`)
-- Image URL builder helper (`urlFor()`)
-- TypeScript interfaces for Sanity content (`SanityPost`)
+**`src/lib/sanity.ts`** — Sanity client (project ID `qum5qhgj`, dataset `production`, CDN enabled, apiVersion `2024-01-01`), `urlFor()` image URL builder, and `SanityPost` types. Fetch content with `client.fetch()` + GROQ queries.
 
-**src/layouts/Layout.astro** - Base layout providing:
-- SEO meta tags (OpenGraph, Twitter Cards)
-- Structured data for every page (clinic, doctor, webpage, breadcrumbs)
-- Font loading (Outfit for headings, Inter for body)
-- Global CSS variables and styles
-- Header and Footer components
+**`src/layouts/Layout.astro`** — Base layout: SEO meta tags (OpenGraph/Twitter), per-page structured data (LocalBusiness, Physician, WebPage, WebSite, BreadcrumbList), font loading (Outfit headings / Inter body), global CSS variables, Header/Footer.
 
-### Sanity CMS Integration
+### Page Structure
 
-The site uses Sanity.io primarily for dynamic blog posts. Configuration:
-
-```typescript
-// src/lib/sanity.ts
-projectId: 'qum5qhgj'
-dataset: 'production'
-useCdn: true
-apiVersion: '2024-01-01'
+```
+src/pages/
+├── index.astro                  # Homepage
+├── olho-seco.astro              # Dry eye information
+├── tratamentos.astro            # Treatments listing
+├── tratamentos/                 # Individual treatments (luz-pulsada-irpl,
+│                                #   higiene-palpebral, medicamentos, lentes-esclerais)
+├── blog/
+│   ├── index.astro              # Blog listing
+│   ├── [slug].astro             # Sanity-backed posts (SSR, prerender=false)
+│   └── *.astro                  # ~12 static blog posts (SEO content)
+├── videos/                      # Video library
+├── exames.astro                 # Diagnostic exams
+├── contato.astro                # Contact page
+├── testerapido.astro            # Quick symptom test (posts to /api/test-result)
+├── quiz.astro                   # Interactive quiz
+├── calculadora-olho-seco.astro  # Dry eye calculator
+├── irpl-olho-seco-caratinga.astro  # IRPL landing page (ads)
+├── widget.astro                 # Featured page for the Dry Eye Widget (see below)
+└── api/                         # SSR endpoints (contact, test-result)
 ```
 
-**Environment Variables** (.env):
-```bash
-PUBLIC_SANITY_PROJECT_ID=qum5qhgj
-PUBLIC_SANITY_DATASET=production
-```
+**Dry Eye Widget**: open-source desktop app (20-20-20 rule, Flutter, MIT, macOS/Windows) by Dr. Philipe Saraiva Cruz. Featured at `/widget`; the app's own landing lives at `olhossecos.com.br/app/` (separate codebase, served by nginx on the VPS) and source at `github.com/Sudo-psc/dry-eye-widget`. URLs centralized in `SITE_CONFIG.widget` (src/lib/config.ts).
 
-**Image Handling**: Use the `urlFor()` helper for Sanity images:
-```typescript
-import { urlFor } from '@/lib/sanity'
-const imageUrl = urlFor(image).width(800).url()
-```
-
-**Dynamic Blog Posts**: The `[slug].astro` file fetches posts from Sanity using GROQ queries. Static blog posts are also available as individual `.astro` files in `/pages/blog/`.
+Conversion-focused components: `WhatsAppFloat.astro` (floating WhatsApp button), `ExitIntentPopup.astro`.
 
 ### Styling System
 
-**Tailwind CSS** with custom design tokens defined in Layout.astro:
+Custom design tokens defined in Layout.astro:
 
 ```css
 --primary: #003D7A       /* Deep blue for headings */
@@ -135,153 +104,66 @@ const imageUrl = urlFor(image).width(800).url()
 --secondary: #64748b     /* Slate-500 for secondary text */
 --accent: #ecfeff        /* Cyan-50 for backgrounds */
 --text-main: #1e293b     /* Slate-800 for main text */
---bg-body: #f8fafc       /* Slate-50 for global background */
+--bg-body: #f8fafc       /* Slate-50 global background */
 --bg-alt: #ffffff        /* White for cards */
 ```
 
-**Typography**:
-- Headings: `Outfit` (Google Fonts)
-- Body: `Inter` (Google Fonts)
+Patterns: `.container`, `.section-padding`, `.btn-premium`, `.glass`. Components use PascalCase filenames; pages use lowercase/kebab-case. Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`, `ci:`) are used in history.
 
-**Component Patterns**:
-- `.container` - Max-width container with horizontal padding
-- `.section-padding` - Responsive vertical padding (5rem desktop, 3.5rem mobile)
-- `.btn-premium` - Button base class with variants
-- `.glass` - Glassmorphism utility
+### Image Handling
 
-### SEO and Structured Data
+Remote images restricted to `cdn.sanity.io`, `olhossecos.com.br`, `olhossecos.com` (astro.config.mjs). Sanity images via `urlFor(image).width(800).url()`. Local images in `/public/`.
 
-Every page includes comprehensive structured data via Layout.astro:
+## Environment Variables
 
-1. **LocalBusiness** - Clinic information, address, hours, contact
-2. **Physician** - Doctor profile with medical specialty and credentials
-3. **WebPage** - Page-specific metadata and medical condition information
-4. **WebSite** - Site-level metadata with search action
-5. **BreadcrumbList** - Breadcrumb navigation
-
-Additional structured data helpers in `src/lib/config.ts`:
-- `getClinicStructuredData()` - Detailed clinic Schema.org
-- `getDoctorStructuredData()` - Physician Schema.org
-- `getBreadcrumbStructuredData(items)` - Custom breadcrumbs
-- `getFAQStructuredData(faqs)` - FAQ page Schema.org
-- `getArticleStructuredData(article)` - Blog post Schema.org
-
-### Static Site Generation
-
-Astro is configured for static output (`output: 'static'`) with:
-- Sitemap generation (excludes `/studio/` paths)
-- Image optimization (restricted to `cdn.sanity.io` and own domain)
-- HTML compression
-- Prefetch enabled for faster navigation
-
-## Common Development Tasks
-
-### Adding a New Page
-
-1. Create `.astro` file in `src/pages/` (e.g., `sobre.astro`)
-2. Use Layout component with proper SEO props:
-   ```astro
-   ---
-   import Layout from '../layouts/Layout.astro';
-   ---
-   <Layout
-     title="Sobre a Clínica"
-     description="História da Saraiva Vision..."
-     image="/og-sobre.jpg"
-   >
-     <!-- Content -->
-   </Layout>
-   ```
-3. Update navigation in `src/lib/config.ts` if needed
-
-### Adding a New Treatment Page
-
-1. Create file in `src/pages/tratamentos/` (e.g., `novo-tratamento.astro`)
-2. Follow existing treatment page structure
-3. Add treatment card to homepage (`src/pages/index.astro` in treatments section)
-4. Use appropriate icons from `/public/icons/`
-
-### Working with Sanity Content
-
-For dynamic blog posts:
-1. Content is managed in Sanity Studio (separate repo or hosted)
-2. Fetch content using `client.fetch()` with GROQ queries
-3. Example query pattern:
-   ```typescript
-   const posts = await client.fetch(`
-     *[_type == "post"] | order(publishedAt desc) {
-       title, slug, excerpt, mainImage, publishedAt
-     }
-   `)
-   ```
-
-### Updating Site Configuration
-
-All site-wide constants live in `src/lib/config.ts`:
-- Business hours, address, phone numbers
-- Doctor credentials and bio text
-- Navigation structure
-- Social media links
-
-**Important**: When updating doctor information, ensure compliance with CFM (Conselho Federal de Medicina) regulations:
-- Use `titleFormal` for structured data and legal contexts
-- Use `title` for user-facing UI
-- Always include CRM number
-
-### Image Optimization
-
-Images are restricted to trusted domains (configured in `astro.config.mjs`):
-- `cdn.sanity.io` - For Sanity CMS images
-- `olhossecos.com.br` - Own domain
-- `olhossecos.com` - Alternate domain
-
-Local images go in `/public/` directory and are referenced as `/image.png`.
-
-## Production Build
-
-The site is optimized for static hosting (Vercel, Netlify, Cloudflare Pages):
+See `.env.example` for the base set. Full list used by the codebase:
 
 ```bash
-npm run build  # Creates ./dist/ directory
+# Sanity (build-time, public)
+PUBLIC_SANITY_PROJECT_ID=qum5qhgj
+PUBLIC_SANITY_DATASET=production
+
+# Email service (runtime, server-only)
+SENDPULSE_CLIENT_ID=          # Primary provider
+SENDPULSE_CLIENT_SECRET=
+SENDPULSE_FROM_EMAIL=         # default: noreply@olhossecos.com.br
+SENDPULSE_FROM_NAME=
+RESEND_API_KEY=               # Fallback provider
+RESEND_FROM_EMAIL=
+
+# WhatsApp (runtime, server-only)
+EVOLUTION_API_URL=
+EVOLUTION_API_KEY=
+EVOLUTION_INSTANCE_NAME=      # default: saraivavision
+N8N_WHATSAPP_WEBHOOK_URL=     # optional
+CLINIC_WHATSAPP=              # default: 5533998601427
 ```
 
-Build output is static HTML with:
-- Pre-rendered pages
-- Optimized images
-- Compressed HTML
-- Generated sitemap
-- Prefetch hints
+## Deployment
+
+- **CI/CD**: `.github/workflows/deploy.yml` — on push to `master`: type check, lint, build, then Docker deploy to VPS.
+- **VPS layout**: app lives at `/opt/olhossecos` on the server with `docker-compose.prod.yml`, nginx, and certbot (those files live on the VPS, not in this repo). Full guide: `docs/VPS-DEPLOY.md`.
+- **Scheduled jobs**: `crontab.txt` (SSL renewal, backups, Docker prune, health check at `/api/health`).
+- Other docs: `docs/SANITY_INTEGRATION.md`, `docs/SEO-STRATEGY.md`, `SECURITY.md`, `TESTING.md`.
 
 ## Medical and Legal Compliance
 
 **CFM Compliance** (Brazilian medical advertising regulations):
-- Doctor titles must be accurate and complete in structured data
-- Use `titleFormal` from config for legal contexts: "Médico pós-graduado em oftalmologia com área de atuação em oftalmologia clínica geral, procedimentos minimamente invasivos e olho seco"
-- Always display CRM number: CRM-MG 69.870
+- Use `titleFormal` from config for structured data/legal contexts: "Médico pós-graduado em oftalmologia com área de atuação em oftalmologia clínica geral, procedimentos minimamente invasivos e olho seco"
+- Use `title` for user-facing UI; always display CRM-MG 69.870
 - No promises of guaranteed results in copy
 
-**LGPD Considerations** (Brazilian data protection):
-- Contact forms should link to privacy policy
-- Patient data handling follows clinic protocols
-- Privacy policy page expected at `/privacidade`
+**LGPD** (Brazilian data protection):
+- Contact/lead forms collect `consentimento` and must link to the privacy policy (`/privacidade`)
+- API endpoints handle personal data (name, phone, email) — never log or expose it
 
 ## Key Business Information
 
-**Clinic Details:**
-- Name: Saraiva Vision Clínica Especializada em Olho Seco
-- Address: Rua Catarina Maria Passos, 97, Bairro Santa Zita (Amor e Saúde), Caratinga/MG, CEP 35300-299
-- Phone/WhatsApp: (33) 99860-1427
-- Email: contato@saraivavision.com.br
-- Hours: Mon-Fri 08:00-18:00, Sat 08:00-12:00
+- **Name**: Saraiva Vision Clínica Especializada em Olho Seco
+- **Address**: Rua Catarina Maria Passos, 97, Bairro Santa Zita (Amor e Saúde), Caratinga/MG, CEP 35300-299
+- **Phone/WhatsApp**: (33) 99860-1427 | **Email**: contato@saraivavision.com.br
+- **Hours**: Mon–Fri 08:00–18:00, Sat 08:00–12:00
+- **Featured treatments**: E-Eye IRPL (flagship), higiene palpebral, medicamentos, lentes esclerais
+- **Target conditions**: Síndrome do Olho Seco, Disfunção das Glândulas de Meibomius, Blefarites, Superfície Ocular
 
-**Primary Treatments Featured:**
-1. E-Eye IRPL (Intense Regulated Pulsed Light) - Featured treatment
-2. Higiene Palpebral (Eyelid hygiene)
-3. Medicamentos (Medications - preservative-free drops, omega-3, immunomodulators)
-4. Lentes Esclerais (Scleral lenses for severe cases)
-
-**Target Conditions:**
-- Síndrome do Olho Seco (Dry Eye Syndrome)
-- Disfunção das Glândulas de Meibomius (Meibomian Gland Dysfunction)
-- Blefarites (Blepharitis)
-- Superfície Ocular (Ocular Surface disorders)
+All site-wide business constants live in `src/lib/config.ts` — update there, not in individual pages.

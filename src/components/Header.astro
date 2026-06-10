@@ -4,18 +4,19 @@ const links = [
   { name: "Exames", href: "/exames" },
   { name: "Tratamentos", href: "/tratamentos" },
   { name: "IRPL E-Eye", href: "/tratamentos/luz-pulsada-irpl" },
-  { name: "Quiz Olho Seco", href: "/quiz" },
-  { name: "Calculadora", href: "/calculadora-olho-seco" },
+  { name: "Quiz", href: "/quiz" },
   { name: "Vídeos", href: "/videos" },
   { name: "Blog", href: "/blog" },
 ];
 
 const currentPath = Astro.url.pathname;
 const isTestPage = currentPath === '/testerapido';
+const isWidgetPage = currentPath === '/widget' || currentPath.startsWith('/widget/');
 ---
 
-<header class="fixed w-full z-50 transition-all duration-300 border-b border-slate-200 shadow-sm bg-white/90 backdrop-blur-md">
-  <div class="container py-3 flex justify-between items-center">
+<header class="fixed w-full z-50 transition-all duration-300 glass border-b border-slate-200/70 shadow-sm">
+  <div class="h-0.5 w-full bg-gradient-to-r from-cyan-400 via-blue-500 to-[#003D7A]"></div>
+  <div class="container py-2.5 flex justify-between items-center">
     <a href="/" class="block transition-transform hover:scale-[1.02]">
       <picture>
         <source
@@ -35,29 +36,39 @@ const isTestPage = currentPath === '/testerapido';
           height="224"
           loading="eager"
           decoding="async"
-          class="h-14 md:h-16 w-auto object-contain"
+          class="h-12 md:h-14 w-auto object-contain"
         />
       </picture>
     </a>
 
-    <nav class="hidden md:flex items-center gap-10">
+    <nav class="hidden md:flex items-center gap-1 lg:gap-2">
       {links.map((link) => (
-        <a 
-          href={link.href} 
-          class="text-slate-600 hover:text-cyan-600 font-medium text-sm transition-all relative group"
+        <a
+          href={link.href}
+          class={`px-3 py-2 rounded-full font-medium text-sm transition-all ${currentPath === link.href ? 'text-cyan-700 bg-cyan-50' : 'text-slate-600 hover:text-cyan-700 hover:bg-cyan-50/80'}`}
         >
           {link.name}
-          <span class="absolute inset-x-0 -bottom-1 h-0.5 bg-cyan-400 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
         </a>
       ))}
+      <a
+        href="/widget"
+        class={`relative px-3 py-2 rounded-full font-semibold text-sm transition-all flex items-center gap-1.5 ${isWidgetPage ? 'text-blue-700 bg-blue-50' : 'text-blue-700 hover:bg-blue-50'}`}
+      >
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+        App 20-20-20
+        <span class="absolute -top-0.5 -right-0.5 flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+        </span>
+      </a>
       {!isTestPage && (
-        <a href="/testerapido" class="hidden lg:flex items-center gap-2 px-4 py-2 bg-cyan-50 text-cyan-600 rounded-lg hover:bg-cyan-100 font-bold transition-colors text-sm border border-cyan-200 shadow-sm animate-pulse-slow">
+        <a href="/testerapido" class="hidden lg:flex items-center gap-2 px-4 py-2 bg-cyan-50 text-cyan-700 rounded-full hover:bg-cyan-100 font-bold transition-colors text-sm border border-cyan-200/80 shadow-sm">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           Teste 10s
         </a>
       )}
       {isTestPage && (
-        <a href="https://saraivavision.com.br" target="_blank" class="hidden lg:flex items-center gap-2 px-4 py-2 bg-[#003D7A] text-white rounded-lg hover:bg-blue-900 font-bold transition-colors text-sm shadow-sm">
+        <a href="https://saraivavision.com.br" target="_blank" class="hidden lg:flex items-center gap-2 px-4 py-2 bg-[#003D7A] text-white rounded-full hover:bg-blue-900 font-bold transition-colors text-sm shadow-sm">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
           Site Principal
         </a>
@@ -77,17 +88,21 @@ const isTestPage = currentPath === '/testerapido';
   </div>
 
   <!-- Mobile Menu -->
-  <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white border-b border-gray-100 shadow-xl overflow-hidden" role="dialog" aria-modal="true">
-    <div class="flex flex-col p-6 space-y-3">
+  <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl border-b border-gray-100 shadow-xl overflow-hidden" role="dialog" aria-modal="true">
+    <div class="flex flex-col p-6 space-y-2">
       {links.map((link) => (
-        <a 
-          href={link.href} 
+        <a
+          href={link.href}
           data-mobile-link
-          class="text-[var(--text-main)] font-semibold p-4 block rounded-xl hover:bg-[var(--accent)] transition-all"
+          class="text-[var(--text-main)] font-semibold p-4 block rounded-2xl hover:bg-[var(--accent)] transition-all"
         >
           {link.name}
         </a>
       ))}
+      <a href="/widget" data-mobile-link class="flex items-center gap-3 p-4 rounded-2xl bg-blue-50 border border-blue-100 transition-all hover:bg-blue-100">
+        <svg class="w-5 h-5 text-blue-700 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+        <span class="font-bold text-blue-800">App 20-20-20 <span class="text-[10px] font-bold uppercase tracking-wider text-cyan-600 ml-1">Gratuito</span></span>
+      </a>
       {!isTestPage && (
         <a href="/testerapido" data-mobile-link class="rounded-xl border border-cyan-200 bg-cyan-50 p-4 text-center font-bold text-cyan-600 shadow-sm transition-all hover:bg-cyan-100 flex items-center justify-center gap-2">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>

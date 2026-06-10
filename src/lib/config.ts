@@ -74,11 +74,21 @@ export const SITE_CONFIG = {
     { name: "Início", href: "/" },
     { name: "Olho Seco", href: "/olho-seco" },
     { name: "Tratamentos", href: "/tratamentos" },
+    { name: "App 20-20-20", href: "/widget" },
     { name: "Vídeos", href: "/videos" },
     { name: "Blog", href: "/blog" },
     { name: "Sobre", href: "/sobre" },
     { name: "Contato", href: "/contato" },
   ],
+
+  // Dry Eye Widget — open source desktop app (20-20-20 rule)
+  widget: {
+    name: "Dry Eye Widget",
+    page: "/widget",
+    landing: "https://olhossecos.com.br/app/",
+    github: "https://github.com/Sudo-psc/dry-eye-widget",
+    download: "https://github.com/Sudo-psc/dry-eye-widget/releases/latest",
+  },
 
   // Footer Links
   footerLinks: {
@@ -86,6 +96,7 @@ export const SITE_CONFIG = {
       { name: "Início", href: "/" },
       { name: "Olho Seco", href: "/olho-seco" },
       { name: "Tratamentos", href: "/tratamentos" },
+      { name: "App 20-20-20", href: "/widget" },
       { name: "Blog", href: "/blog" },
       { name: "FAQ", href: "/faq" },
       { name: "Contato", href: "/contato" },
