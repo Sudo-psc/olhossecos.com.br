@@ -139,11 +139,14 @@ N8N_WHATSAPP_WEBHOOK_URL=     # optional
 CLINIC_WHATSAPP=              # default: 5533998601427
 ```
 
-## Deployment
+## Deployment (actual production setup — June 2026)
 
-- **CI/CD**: `.github/workflows/deploy.yml` — on push to `master`: type check, lint, build, then Docker deploy to VPS.
-- **VPS layout**: app lives at `/opt/olhossecos` on the server with `docker-compose.prod.yml`, nginx, and certbot (those files live on the VPS, not in this repo). Full guide: `docs/VPS-DEPLOY.md`.
-- **Scheduled jobs**: `crontab.txt` (SSL renewal, backups, Docker prune, health check at `/api/health`).
+This repo lives ON the production VPS at `/root/olhossecos.com.br-site` (the VPS IP is the DNS target of olhossecos.com.br). Production topology:
+
+- **Node server**: systemd unit `olhossecos-astro.service` runs `node dist/server/entry.mjs` on `127.0.0.1:4321` (enabled at boot). Deploy = `npm run build && systemctl restart olhossecos-astro`.
+- **Nginx** (`/etc/nginx/sites-available/olhossecos.com.br`): proxies `/` to the Node server; serves the Dry Eye Widget landing statically from `/var/www/olhossecos/app/` at `/app/` (separate codebase). `/sitemap.xml` is aliased to the app's legacy sitemap; the clinic site's sitemap is `/sitemap-index.xml`.
+- **Security headers**: prerendered pages do NOT go through `src/middleware.ts` (it only runs on SSR routes), so nginx adds the basic headers on the proxied location; the middleware's CSP applies only to SSR routes.
+- **Stale docs**: `.github/workflows/deploy.yml` and `docs/VPS-DEPLOY.md` describe a Docker deploy to `/opt/olhossecos` that is NOT in use — do not follow them; `crontab.txt` references an `/api/health` endpoint that does not exist.
 - Other docs: `docs/SANITY_INTEGRATION.md`, `docs/SEO-STRATEGY.md`, `SECURITY.md`, `TESTING.md`.
 
 ## Medical and Legal Compliance
