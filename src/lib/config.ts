@@ -5,7 +5,7 @@
 export const SITE_CONFIG = {
   name: "Saraiva Vision Clínica Especializada em Olho Seco",
   description:
-    "Referência em tratamento de olho seco em Caratinga. Tecnologia avançada e atendimento humanizado na Clínica Saraiva Vision.",
+    "Referência em tratamento de olho seco. Tecnologia avançada e atendimento humanizado na Clínica Saraiva Vision.",
   url: "https://olhossecos.com.br",
   locale: "pt_BR",
   language: "pt-BR",
@@ -65,7 +65,7 @@ export const SITE_CONFIG = {
     defaultTitle:
       "Saraiva Vision Clínica Especializada em Olho Seco | Dr. Philipe Saraiva Cruz",
     defaultDescription:
-      "Saraiva Vision - Clínica Especializada em Olho Seco em Caratinga/MG. Dr. Philipe Saraiva Cruz, médico pós-graduado em oftalmologia com área de atuação em oftalmologia clínica geral, procedimentos minimamente invasivos e olho seco.",
+      "Saraiva Vision - Clínica Especializada em Olho Seco. Dr. Philipe Saraiva Cruz, médico pós-graduado em oftalmologia com área de atuação em oftalmologia clínica geral, procedimentos minimamente invasivos e olho seco.",
     defaultImage: "/og-image.jpg",
   },
 

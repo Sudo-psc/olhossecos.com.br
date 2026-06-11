@@ -41,13 +41,13 @@ const resolvedImageHeight = imageHeight || (image ? undefined : defaultImage.hei
 // Meta tags básicas
 const meta = {
     title,
-    description: description || "Saraiva Vision Clínica Especializada em Olho Seco - Caratinga/MG. Tratamento com Luz Pulsada (IRPL), Lentes Esclerais e termoterapia.",
+    description: description || "Saraiva Vision Clínica Especializada em Olho Seco. Tratamento com Luz Pulsada (IRPL), Lentes Esclerais e termoterapia.",
     image: resolvedImage,
     url: canonicalUrl,
     type,
     siteName: "Saraiva Vision Clínica Especializada em Olho Seco",
     locale: "pt_BR",
-    keywords: "olho seco, caratinga, oftalmologista, luz pulsada, irpl, e-eye, lentes esclerais, tratamento olho seco, minas gerais, saraiva vision"
+    keywords: "olho seco, oftalmologista, luz pulsada, irpl, e-eye, lentes esclerais, tratamento olho seco, saraiva vision"
 };
 
 // Structured Data para a clínica
@@ -58,7 +58,7 @@ const baseStructuredData = {
             "@type": ["LocalBusiness", "MedicalBusiness"],
             "@id": "https://olhossecos.com.br/#clinic",
             name: "Saraiva Vision",
-            description: "Clínica especializada em tratamento de olho seco e doenças oculares em Caratinga, MG",
+            description: "Clínica especializada em tratamento de olho seco e doenças da superfície ocular",
             url: "https://olhossecos.com.br",
             telephone: "(33) 99860-1427",
             email: "contato@saraivavision.com.br",
@@ -118,7 +118,7 @@ const baseStructuredData = {
             "@id": "https://olhossecos.com.br/#website",
             url: "https://olhossecos.com.br",
             name: "Olhos Secos",
-            description: "Clínica especializada em tratamento de olho seco em Caratinga, MG",
+            description: "Clínica especializada em tratamento de olho seco",
             publisher: {
                 "@type": "Organization",
                 name: "Saraiva Vision"
