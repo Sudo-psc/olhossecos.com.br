@@ -283,7 +283,7 @@ export async function notifyTestResult(data: {
 
 Vi que você fez o *Teste dos 10 Segundos* no nosso site e piscou em ${data.tempoSegundos.toFixed(1)}s.
 
-Isso pode indicar *Olho Seco Evaporativo*, uma condição tratável com tecnologia avançada disponível aqui em Caratinga.
+Isso pode indicar *Olho Seco Evaporativo*, uma condição tratável com tecnologia avançada disponível na clínica.
 
 🔬 Oferecemos exames como Meibografia e tratamentos como o E-Eye IRPL.
 
