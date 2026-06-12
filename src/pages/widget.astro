@@ -80,7 +80,7 @@ const breadcrumbSchema = getBreadcrumbStructuredData([
     schema={[softwareSchema, breadcrumbSchema]}
 >
     <!-- Hero -->
-    <section class="relative overflow-hidden bg-gradient-to-br from-[#022B57] via-[#003D7A] to-[#0c4a6e] text-white">
+    <section class="relative overflow-hidden bg-gradient-to-br from-brand-dark via-brand to-sky-900 text-white">
         <div class="absolute -top-32 -right-32 w-[32rem] h-[32rem] bg-cyan-400/10 rounded-full blur-3xl"></div>
         <div class="absolute -bottom-32 -left-32 w-[32rem] h-[32rem] bg-blue-500/10 rounded-full blur-3xl"></div>
         <div class="container relative z-10 py-24 md:py-32">
@@ -114,7 +114,7 @@ const breadcrumbSchema = getBreadcrumbStructuredData([
                 <div class="hidden lg:flex justify-center">
                     <div class="relative">
                         <div class="absolute inset-0 bg-cyan-400/20 rounded-full blur-3xl"></div>
-                        <div class="relative bg-slate-900/80 backdrop-blur-xl rounded-[2rem] border border-white/15 p-8 w-80 shadow-2xl animate-float">
+                        <div class="relative bg-slate-900/80 backdrop-blur-xl rounded-3xl border border-white/15 p-8 w-80 shadow-2xl animate-float">
                             <div class="flex items-center justify-between mb-6">
                                 <div class="flex items-center gap-2">
                                     <span class="w-3 h-3 rounded-full bg-red-400/80"></span>
@@ -150,7 +150,7 @@ const breadcrumbSchema = getBreadcrumbStructuredData([
         <div class="container">
             <div class="max-w-3xl mx-auto text-center">
                 <span class="eyebrow mb-3 justify-center">Por que existe</span>
-                <h2 class="text-3xl md:text-5xl font-bold text-[#003D7A] mb-6">Olhamos para telas o dia inteiro. Piscamos 60% menos quando o fazemos.</h2>
+                <h2 class="text-3xl md:text-5xl font-bold text-brand mb-6">Olhamos para telas o dia inteiro. Piscamos 60% menos quando o fazemos.</h2>
                 <p class="text-gray-600 text-lg leading-relaxed">
                     Durante o trabalho concentrado em telas, a frequência do piscar despenca e o filme lacrimal evapora — resultando em ardência, visão turva e cansaço ao fim do dia. O Dry Eye Widget nasceu no consultório: uma resposta prática à queixa mais comum da era digital, transformada em software livre para qualquer pessoa usar.
                 </p>
@@ -163,14 +163,14 @@ const breadcrumbSchema = getBreadcrumbStructuredData([
         <div class="container">
             <div class="text-center max-w-2xl mx-auto mb-16">
                 <span class="eyebrow mb-3 justify-center">A intervenção</span>
-                <h2 class="text-3xl md:text-5xl font-bold text-[#003D7A] mb-4">A regra 20-20-20</h2>
+                <h2 class="text-3xl md:text-5xl font-bold text-brand mb-4">A regra 20-20-20</h2>
                 <p class="text-gray-600 text-lg">Recomendada pelas sociedades internacionais de oftalmologia como primeira linha de prevenção da fadiga visual digital.</p>
             </div>
             <div class="grid md:grid-cols-3 gap-8">
                 {rule.map((r) => (
                     <div class="card-premium p-8 text-center">
                         <p class="text-gradient font-bold text-5xl mb-4 font-heading">{r.value}</p>
-                        <h3 class="font-bold text-[#003D7A] text-xl mb-3">{r.title}</h3>
+                        <h3 class="font-bold text-brand text-xl mb-3">{r.title}</h3>
                         <p class="text-gray-600 leading-relaxed text-sm">{r.desc}</p>
                     </div>
                 ))}
@@ -183,12 +183,12 @@ const breadcrumbSchema = getBreadcrumbStructuredData([
         <div class="container">
             <div class="text-center max-w-2xl mx-auto mb-16">
                 <span class="eyebrow mb-3 justify-center">Evidências científicas</span>
-                <h2 class="text-3xl md:text-5xl font-bold text-[#003D7A] mb-4">O problema é real — e mensurável</h2>
+                <h2 class="text-3xl md:text-5xl font-bold text-brand mb-4">O problema é real — e mensurável</h2>
                 <p class="text-gray-600 text-lg">Números de meta-análises e estudos clínicos revisados por pares, com referências completas na página do aplicativo.</p>
             </div>
             <div class="grid md:grid-cols-3 gap-8">
                 {evidence.map((e) => (
-                    <div class="rounded-3xl bg-gradient-to-br from-[#003D7A] to-[#022B57] text-white p-8 text-center shadow-lg">
+                    <div class="rounded-3xl bg-gradient-to-br from-brand to-brand-dark text-white p-8 text-center shadow-lg">
                         <p class="text-cyan-300 font-bold text-5xl mb-4 font-heading">{e.value}</p>
                         <p class="text-blue-100 leading-relaxed text-sm">{e.desc}</p>
                     </div>
@@ -202,7 +202,7 @@ const breadcrumbSchema = getBreadcrumbStructuredData([
         <div class="container">
             <div class="text-center max-w-2xl mx-auto mb-16">
                 <span class="eyebrow mb-3 justify-center">Recursos</span>
-                <h2 class="text-3xl md:text-5xl font-bold text-[#003D7A] mb-4">Pequeno na tela, sério no propósito</h2>
+                <h2 class="text-3xl md:text-5xl font-bold text-brand mb-4">Pequeno na tela, sério no propósito</h2>
             </div>
             <div class="grid md:grid-cols-2 gap-8">
                 {features.map((f) => (
@@ -211,7 +211,7 @@ const breadcrumbSchema = getBreadcrumbStructuredData([
                             <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d={f.icon} /></svg>
                         </div>
                         <div>
-                            <h3 class="font-bold text-[#003D7A] text-xl mb-2">{f.title}</h3>
+                            <h3 class="font-bold text-brand text-xl mb-2">{f.title}</h3>
                             <p class="text-gray-600 leading-relaxed text-sm">{f.desc}</p>
                         </div>
                     </div>
@@ -223,7 +223,7 @@ const breadcrumbSchema = getBreadcrumbStructuredData([
     <!-- Open Source / Downloads -->
     <section class="section-padding bg-white">
         <div class="container">
-            <div class="bg-slate-900 rounded-[2.5rem] p-10 md:p-16 text-white relative overflow-hidden">
+            <div class="bg-slate-900 rounded-3xl p-10 md:p-16 text-white relative overflow-hidden">
                 <div class="absolute -top-20 -right-20 w-72 h-72 bg-cyan-400/10 rounded-full blur-3xl"></div>
                 <div class="grid lg:grid-cols-2 gap-12 items-center relative z-10">
                     <div>
@@ -291,7 +291,7 @@ const breadcrumbSchema = getBreadcrumbStructuredData([
                 />
                 <div>
                     <span class="eyebrow mb-2">Quem desenvolveu</span>
-                    <h2 class="text-2xl md:text-3xl font-bold text-[#003D7A] mb-3">Dr. Philipe Saraiva Cruz</h2>
+                    <h2 class="text-2xl md:text-3xl font-bold text-brand mb-3">Dr. Philipe Saraiva Cruz</h2>
                     <p class="text-blue-600 font-semibold mb-1">{SITE_CONFIG.doctor.title}</p>
                     <p class="text-gray-500 text-sm mb-5">{SITE_CONFIG.doctor.crm} | {SITE_CONFIG.doctor.rqe}</p>
                     <p class="text-gray-600 leading-relaxed">
@@ -305,7 +305,7 @@ const breadcrumbSchema = getBreadcrumbStructuredData([
     <!-- CTA final -->
     <section class="section-padding bg-white">
         <div class="container">
-            <div class="bg-gradient-to-br from-cyan-500 to-blue-700 rounded-[3rem] p-10 md:p-16 text-white text-center shadow-2xl relative overflow-hidden">
+            <div class="bg-gradient-to-br from-cyan-500 to-blue-700 rounded-3xl p-10 md:p-16 text-white text-center shadow-2xl relative overflow-hidden">
                 <div class="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
                 <div class="max-w-2xl mx-auto space-y-6 relative z-10">
                     <h2 class="text-3xl md:text-4xl font-bold">Proteja seus olhos enquanto trabalha</h2>

@@ -236,7 +236,7 @@ const totalVideos = videos.length;
   title="Vídeos | Olhos Secos"
   description="Assista a vídeos educativos sobre tratamento de olho seco e saúde ocular."
 >
-  <main class="min-h-screen bg-[#020617]"> <!-- Dark Background for Cinema Feel -->
+  <main class="min-h-screen bg-slate-950"> <!-- Dark Background for Cinema Feel -->
     
     <!-- Hero Section -->
     <section class="relative pt-32 pb-20 overflow-hidden">
@@ -278,7 +278,7 @@ const totalVideos = videos.length;
     {videos.length > 0 && featuredVideo && (
       <section class="pb-16">
         <div class="container mx-auto px-6">
-            <div class="bg-[#0f172a] rounded-3xl p-1 border border-white/5 shadow-2xl shadow-blue-900/20 max-w-5xl mx-auto">
+            <div class="bg-slate-900 rounded-3xl p-1 border border-white/5 shadow-2xl shadow-blue-900/20 max-w-5xl mx-auto">
                 <!-- Container do vídeo -->
                 <div class="bg-black rounded-t-[1.25rem] overflow-hidden relative aspect-video group">
                     <video
@@ -315,7 +315,7 @@ const totalVideos = videos.length;
                     )}
                 </div>
                 {featuredVideo.transcript && (
-                  <div class="rounded-b-[1.25rem] bg-[#0b1222] px-8 py-6 border-t border-white/5">
+                  <div class="rounded-b-[1.25rem] bg-slate-950 px-8 py-6 border-t border-white/5">
                     <details class="text-sm text-gray-300">
                       <summary class="cursor-pointer text-[11px] font-semibold uppercase tracking-widest text-cyan-200">
                         Resumo e transcrição
@@ -330,7 +330,7 @@ const totalVideos = videos.length;
     )}
 
     <!-- Videos Grid -->
-    <section id="lista-videos" class="py-20 bg-[#020617] border-t border-white/5">
+    <section id="lista-videos" class="py-20 bg-slate-950 border-t border-white/5">
       <div class="container mx-auto px-6">
         <div class="flex items-center justify-between mb-12">
             <div>
@@ -342,7 +342,7 @@ const totalVideos = videos.length;
 
         {videos.length > 0 ? (
           <>
-            <div class="rounded-3xl border border-white/10 bg-[#0b1222]/80 p-6 mb-10">
+            <div class="rounded-3xl border border-white/10 bg-slate-950/80 p-6 mb-10">
               <div class="grid gap-6 lg:grid-cols-[1.2fr_1fr]">
                 <div>
                   <label for="video-search" class="text-xs font-semibold uppercase tracking-widest text-gray-400">
@@ -451,13 +451,13 @@ const totalVideos = videos.length;
                 </div>
               ))}
             </div>
-            <div id="no-video-results" class="hidden text-center py-16 mt-10 bg-[#0f172a] rounded-3xl border border-dashed border-gray-800">
+            <div id="no-video-results" class="hidden text-center py-16 mt-10 bg-slate-900 rounded-3xl border border-dashed border-gray-800">
               <p class="text-gray-400 text-lg">Nenhum resultado para o filtro atual.</p>
               <p class="text-gray-500 text-sm mt-2">Tente outro termo ou limpe os filtros.</p>
             </div>
           </>
         ) : (
-          <div class="text-center py-24 bg-[#0f172a] rounded-3xl border border-dashed border-gray-800">
+          <div class="text-center py-24 bg-slate-900 rounded-3xl border border-dashed border-gray-800">
             <p class="text-gray-500 text-lg">Nenhum vídeo disponível no momento.</p>
             <a href="/contato" class="inline-flex items-center gap-2 mt-6 rounded-full border border-cyan-500/30 px-6 py-3 text-sm font-semibold text-cyan-200 hover:bg-cyan-500/10 transition-colors">
               Falar com a equipe

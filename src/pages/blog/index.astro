@@ -146,7 +146,7 @@ const displayPosts = usingSanity && posts.length > 0 ? posts : staticPosts;
     <section class="pt-32 pb-16 bg-[#fafafa] border-b border-gray-100">
       <div class="container mx-auto px-6 text-center">
         <span class="text-cyan-600 font-bold uppercase tracking-widest text-xs mb-3 block">Conteúdo Especializado</span>
-        <h1 class="text-5xl md:text-7xl font-bold text-[#003D7A] mb-6 font-heading tracking-tight">Journal</h1>
+        <h1 class="text-5xl md:text-7xl font-bold text-brand mb-6 font-heading tracking-tight">Journal</h1>
         <p class="text-xl text-gray-500 max-w-2xl mx-auto font-light">
           Medicina baseada em evidências, traduzida para o seu dia a dia.
         </p>
@@ -181,7 +181,7 @@ const displayPosts = usingSanity && posts.length > 0 ? posts : staticPosts;
                       ? "(min-width: 1024px) 50vw, 100vw"
                       : undefined;
                     return (
-                        <div class="group relative rounded-[2rem] overflow-hidden shadow-2xl shadow-blue-900/5 grid md:grid-cols-2 min-h-[500px]">
+                        <div class="group relative rounded-3xl overflow-hidden shadow-2xl shadow-blue-900/5 grid md:grid-cols-2 min-h-[500px]">
                              <div class="relative overflow-hidden h-full min-h-[300px]">
                                 <img 
                                     src={featuredSrc}
@@ -199,7 +199,7 @@ const displayPosts = usingSanity && posts.length > 0 ? posts : staticPosts;
                                 <span class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide w-fit mb-6">
                                     Destaque da Semana
                                 </span>
-                                <h2 class="text-3xl md:text-4xl font-bold text-[#003D7A] mb-6 leading-tight group-hover:text-blue-600 transition-colors">
+                                <h2 class="text-3xl md:text-4xl font-bold text-brand mb-6 leading-tight group-hover:text-blue-600 transition-colors">
                                     <a href={`/blog/${featured.slug.current}`}>
                                         {featured.title}
                                     </a>
@@ -211,7 +211,7 @@ const displayPosts = usingSanity && posts.length > 0 ? posts : staticPosts;
                                     <span class="text-gray-400 text-sm font-medium">
                                         {featured.publishedAt ? new Date(featured.publishedAt).toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Data indefinida'}
                                     </span>
-                                    <a href={`/blog/${featured.slug.current}`} class="text-[#003D7A] font-bold hover:underline">
+                                    <a href={`/blog/${featured.slug.current}`} class="text-brand font-bold hover:underline">
                                         Ler Artigo Completo →
                                     </a>
                                 </div>
@@ -264,7 +264,7 @@ const displayPosts = usingSanity && posts.length > 0 ? posts : staticPosts;
                                 <span class="text-cyan-600">Leitura Rápida</span>
                             </div>
                             
-                            <h3 class="text-xl font-bold text-[#003D7A] mb-3 leading-snug group-hover:text-blue-600 transition-colors">
+                            <h3 class="text-xl font-bold text-brand mb-3 leading-snug group-hover:text-blue-600 transition-colors">
                                 <a href={`/blog/${post.slug.current}`}>
                                     {post.title}
                                 </a>
