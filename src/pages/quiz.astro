@@ -17,9 +17,9 @@ import Layout from '../layouts/Layout.astro';
       <!-- Intro Step -->
       <div id="step-intro" class="text-center space-y-6">
         <div class="inline-flex items-center justify-center w-20 h-20 bg-cyan-50 rounded-full mb-4">
-          <span class="text-4xl">👁️</span>
+          <svg class="w-10 h-10 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
         </div>
-        <h1 class="text-3xl md:text-4xl font-bold text-[#003D7A] leading-tight">
+        <h1 class="text-3xl md:text-4xl font-bold text-brand leading-tight">
           Descubra o Tipo do Seu Olho Seco em <span class="text-cyan-600">2 Minutos</span>
         </h1>
         <p class="text-gray-600 text-lg max-w-lg mx-auto">
@@ -39,7 +39,7 @@ import Layout from '../layouts/Layout.astro';
       <div id="step-quiz" class="hidden space-y-8">
         <div id="question-container" class="space-y-6">
           <span id="question-number" class="text-cyan-600 font-bold uppercase tracking-widest text-sm block">Pergunta 1 de 8</span>
-          <h2 id="question-text" class="text-2xl font-bold text-[#003D7A]">Texto da Pergunta</h2>
+          <h2 id="question-text" class="text-2xl font-bold text-brand">Texto da Pergunta</h2>
           <div id="options-container" class="grid gap-4">
             <!-- Options will be injected here -->
           </div>
@@ -49,7 +49,7 @@ import Layout from '../layouts/Layout.astro';
       <!-- Lead Capture Step -->
       <div id="step-lead" class="hidden space-y-8">
         <div class="text-center">
-          <h2 class="text-3xl font-bold text-[#003D7A] mb-4">Quase lá!</h2>
+          <h2 class="text-3xl font-bold text-brand mb-4">Quase lá!</h2>
           <p class="text-gray-600">
             Para ver seu resultado e receber seu <strong>cupom de desconto especial</strong> para consulta, preencha os dados abaixo:
           </p>
@@ -79,7 +79,7 @@ import Layout from '../layouts/Layout.astro';
         <div id="result-icon-container" class="inline-flex items-center justify-center w-20 h-20 bg-green-50 rounded-full mb-4">
           <span id="result-emoji" class="text-4xl">✅</span>
         </div>
-        <h2 id="result-title" class="text-3xl font-bold text-[#003D7A]">Seu Perfil: Olho Seco Evaporativo</h2>
+        <h2 id="result-title" class="text-3xl font-bold text-brand">Seu Perfil: Olho Seco Evaporativo</h2>
         <div id="result-description" class="text-gray-600 text-lg space-y-4 text-left">
           <!-- Description will be injected here -->
         </div>

@@ -485,6 +485,18 @@ const structuredData = schema ? {
             box-shadow: var(--shadow-sm);
         }
 
+        /* Respect user preference for reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            html {
+                scroll-behavior: auto;
+            }
+        }
+
         /* Glassmorphism utility */
         .glass {
             background: rgba(255, 255, 255, 0.75);

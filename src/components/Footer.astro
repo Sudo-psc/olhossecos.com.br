@@ -47,12 +47,11 @@ const social = [
             <!-- Brand & Mission -->
             <div class="lg:col-span-1">
                 <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-cyan-500/20">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                        </svg>
-                    </div>
+                    <picture>
+                        <source type="image/avif" srcset="/optimized/logo_prata-77.avif 77w, /optimized/logo_prata-224.avif 224w" sizes="48px" />
+                        <source type="image/webp" srcset="/optimized/logo_prata-77.webp 77w, /optimized/logo_prata-224.webp 224w" sizes="48px" />
+                        <img src="/optimized/logo_prata-224.webp" alt="Saraiva Vision - Olhos Secos" width="224" height="224" loading="lazy" decoding="async" class="h-12 w-auto object-contain" />
+                    </picture>
                     <span class="text-xl font-bold text-white">Olhos Secos</span>
                 </div>
                 <p class="text-gray-400 mb-6 leading-relaxed text-sm">
