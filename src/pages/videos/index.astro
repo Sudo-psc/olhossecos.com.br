@@ -15,12 +15,14 @@ type VideoMeta = {
   theme: PosterTheme;
 };
 
+/* Paleta sóbria "Premium Editorial Clínico": duotones discretos navy/teal/ardósia.
+   As chaves originais são mantidas por compatibilidade com videoData. */
 const posterThemes = {
-  cyan: { from: '#0ea5e9', to: '#22d3ee', glow: '#38bdf8' },
-  emerald: { from: '#10b981', to: '#34d399', glow: '#6ee7b7' },
-  amber: { from: '#f59e0b', to: '#fbbf24', glow: '#fcd34d' },
-  rose: { from: '#f43f5e', to: '#fb7185', glow: '#fecdd3' },
-  slate: { from: '#64748b', to: '#94a3b8', glow: '#cbd5f5' }
+  cyan: { from: '#10314F', to: '#14425F' },
+  emerald: { from: '#0F766E', to: '#115E59' },
+  amber: { from: '#0B2239', to: '#10314F' },
+  rose: { from: '#14425F', to: '#0B2239' },
+  slate: { from: '#3F4A56', to: '#2B3440' }
 } as const;
 
 type PosterTheme = keyof typeof posterThemes;
@@ -44,26 +46,21 @@ const createPoster = (title: string, subtitle: string, theme: PosterTheme) => {
           <stop offset="0%" stop-color="${palette.from}" />
           <stop offset="100%" stop-color="${palette.to}" />
         </linearGradient>
-        <radialGradient id="glow" cx="0.8" cy="0.2" r="0.6">
-          <stop offset="0%" stop-color="${palette.glow}" stop-opacity="0.6" />
-          <stop offset="100%" stop-color="${palette.glow}" stop-opacity="0" />
-        </radialGradient>
       </defs>
       <rect width="1280" height="720" fill="url(#bg)" />
-      <rect width="1280" height="720" fill="url(#glow)" />
-      <rect x="72" y="84" width="1136" height="552" rx="36" fill="rgba(2,6,23,0.55)" stroke="rgba(255,255,255,0.18)" />
-      <text x="120" y="240" fill="#e2e8f0" font-size="18" font-weight="700" letter-spacing="4" text-transform="uppercase" font-family="system-ui, sans-serif">
-        Olhos Secos
+      <rect x="72" y="84" width="1136" height="552" rx="16" fill="rgba(11,34,57,0.35)" stroke="rgba(247,246,243,0.22)" />
+      <text x="120" y="220" fill="#A9C3BD" font-size="17" font-weight="600" letter-spacing="5" font-family="system-ui, sans-serif">
+        OLHOS SECOS
       </text>
-      <text x="120" y="330" fill="#f8fafc" font-size="54" font-weight="700" font-family="system-ui, sans-serif">
+      <text x="120" y="316" fill="#F7F6F3" font-size="52" font-weight="600" font-family="Georgia, 'Times New Roman', serif">
         ${safeTitle}
       </text>
-      <text x="120" y="390" fill="#cbd5f5" font-size="22" font-weight="500" font-family="system-ui, sans-serif">
+      <text x="120" y="378" fill="rgba(247,246,243,0.72)" font-size="21" font-weight="500" font-family="system-ui, sans-serif">
         ${safeSubtitle}
       </text>
-      <rect x="120" y="450" width="180" height="54" rx="27" fill="rgba(2,6,23,0.7)" stroke="rgba(255,255,255,0.25)" />
-      <polygon points="210,477 210,495 230,486" fill="#f8fafc" />
-      <text x="245" y="489" fill="#f8fafc" font-size="16" font-weight="600" font-family="system-ui, sans-serif">
+      <rect x="120" y="444" width="176" height="52" rx="26" fill="rgba(247,246,243,0.10)" stroke="rgba(247,246,243,0.30)" />
+      <polygon points="208,470 208,488 228,479" fill="#F7F6F3" />
+      <text x="243" y="482" fill="#F7F6F3" font-size="16" font-weight="600" font-family="system-ui, sans-serif">
         Assistir
       </text>
     </svg>
@@ -230,43 +227,35 @@ const allTags = Array.from(new Set(videos.flatMap((video) => video.tags)))
 const featuredVideo = videos.find((video) => video.filename.includes("cynthia")) ?? videos[0];
 const otherVideos = featuredVideo ? videos.filter((video) => video.filename !== featuredVideo.filename) : [];
 const totalVideos = videos.length;
+
+const filterButtonClass = "rounded-full border border-[#D6D3CC] bg-white px-4 py-2 text-[11px] font-semibold uppercase tracking-widest text-slate-600 transition-colors hover:border-brand-light hover:text-brand data-[active=true]:bg-[#EEF2F1] data-[active=true]:border-brand-light data-[active=true]:text-brand";
 ---
 
 <Layout 
   title="Vídeos | Olhos Secos"
   description="Assista a vídeos educativos sobre tratamento de olho seco e saúde ocular."
 >
-  <main class="min-h-screen bg-slate-950"> <!-- Dark Background for Cinema Feel -->
-    
-    <!-- Hero Section -->
-    <section class="relative pt-32 pb-20 overflow-hidden">
-        <!-- Background Glow effects -->
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-blue-900/20 blur-[120px] rounded-full pointer-events-none"></div>
-        <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-blue-900/10 to-transparent pointer-events-none"></div>
+  <main class="min-h-screen">
 
-      <div class="container mx-auto px-6 relative z-10 text-center">
-          <span class="inline-block py-1 px-3 rounded-full bg-blue-900/50 border border-blue-700/50 text-blue-300 text-xs font-bold uppercase tracking-widest mb-6 backdrop-blur-sm">
-            Portal Audiovisual
-          </span>
-          <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
-            Educação em <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Alta Definição</span>
+    <!-- Hero Section -->
+    <section class="pt-24 pb-14 border-b border-[#E7E5E0]">
+      <div class="container mx-auto px-6 text-center">
+          <span class="eyebrow mb-4">Videoteca</span>
+          <h1 class="text-4xl md:text-6xl font-bold text-brand mt-4 mb-6 tracking-tight">
+            Educação em <span class="text-gradient">vídeo</span>
           </h1>
-          <p class="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            Entenda seu diagnóstico e descubra como a tecnologia pode transformar sua saúde ocular.
+          <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            Entenda seu diagnóstico e descubra como a tecnologia pode ajudar na sua saúde ocular.
           </p>
-          <div class="mt-10 flex flex-wrap items-center justify-center gap-4 text-sm text-gray-400">
-            <div class="flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 bg-white/5">
-              <span class="h-2 w-2 rounded-full bg-cyan-400"></span>
-              <span>{totalVideos} vídeos disponíveis</span>
-            </div>
-            <div class="hidden md:block h-px w-12 bg-white/10"></div>
-            <div class="flex items-center gap-2">
-              <span class="text-cyan-300 font-semibold">Curadoria clínica</span>
-              <span class="text-gray-500">conteúdo objetivo e confiável</span>
-            </div>
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-4 text-sm text-slate-600">
+            <span class="badge-soft">
+              <span class="h-2 w-2 rounded-full bg-brand-light"></span>
+              {totalVideos} vídeos disponíveis
+            </span>
+            <span class="badge-soft">Curadoria clínica · conteúdo objetivo e confiável</span>
           </div>
-          <div class="mt-10">
-            <a href="#lista-videos" class="inline-flex items-center gap-2 rounded-full border border-cyan-500/40 px-6 py-3 text-sm font-semibold text-cyan-200 hover:bg-cyan-500/10 transition-colors">
+          <div class="mt-8">
+            <a href="#lista-videos" class="btn-premium btn-premium-secondary text-sm">
               Explorar todos os vídeos
               <span aria-hidden="true">↓</span>
             </a>
@@ -276,11 +265,11 @@ const totalVideos = videos.length;
 
     <!-- Featured Video Section -->
     {videos.length > 0 && featuredVideo && (
-      <section class="pb-16">
+      <section class="py-16">
         <div class="container mx-auto px-6">
-            <div class="bg-slate-900 rounded-3xl p-1 border border-white/5 shadow-2xl shadow-blue-900/20 max-w-5xl mx-auto">
+            <div class="card-premium overflow-hidden max-w-5xl mx-auto">
                 <!-- Container do vídeo -->
-                <div class="bg-black rounded-t-[1.25rem] overflow-hidden relative aspect-video group">
+                <div class="bg-brand-dark overflow-hidden relative aspect-video group border-b border-[#E7E5E0]">
                     <video
                         controls
                         playsinline
@@ -291,33 +280,29 @@ const totalVideos = videos.length;
                         Seu navegador não suporta vídeos.
                     </video>
                     <!-- Badge de duração no canto superior direito -->
-                    <span class="absolute right-4 top-4 rounded-full border border-white/20 bg-black/50 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-white/80">
+                    <span class="absolute right-4 top-4 rounded-full bg-brand-dark/80 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-white/90 border border-white/20">
                       {featuredVideo.duration}
                     </span>
                 </div>
 
                 <!-- Container de texto separado -->
-                <div class="bg-black rounded-b-[1.25rem] p-8">
-                    <span class="text-cyan-400 font-bold text-sm uppercase tracking-wide mb-2 block">Vídeo Destaque</span>
-                    <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">{featuredVideo.title}</h2>
-                    <p class="text-gray-300 max-w-2xl">{featuredVideo.description}</p>
-                    <div class="mt-4 flex flex-wrap gap-3 text-[11px] font-semibold uppercase tracking-widest text-cyan-100">
-                      <span class="rounded-full border border-cyan-400/30 bg-cyan-500/10 px-3 py-1">
+                <div class="bg-white p-8">
+                    <span class="eyebrow mb-3">Vídeo em destaque</span>
+                    <h2 class="text-2xl md:text-3xl font-bold text-brand mb-3">{featuredVideo.title}</h2>
+                    <p class="text-slate-600 max-w-2xl leading-relaxed">{featuredVideo.description}</p>
+                    <div class="mt-5 flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-widest text-brand-light">
+                      <span class="rounded-full border border-[#E7E5E0] bg-alt px-3 py-1">
                         {audienceLabel(featuredVideo.audience)}
                       </span>
+                      {featuredVideo.tags?.map((tag) => (
+                        <span class="rounded-full border border-[#E7E5E0] bg-alt px-3 py-1">{tag}</span>
+                      ))}
                     </div>
-                    {featuredVideo.tags?.length > 0 && (
-                      <div class="mt-4 flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-widest text-cyan-200">
-                        {featuredVideo.tags.map((tag) => (
-                          <span class="rounded-full border border-cyan-400/30 bg-cyan-500/10 px-3 py-1">{tag}</span>
-                        ))}
-                      </div>
-                    )}
                 </div>
                 {featuredVideo.transcript && (
-                  <div class="rounded-b-[1.25rem] bg-slate-950 px-8 py-6 border-t border-white/5">
-                    <details class="text-sm text-gray-300">
-                      <summary class="cursor-pointer text-[11px] font-semibold uppercase tracking-widest text-cyan-200">
+                  <div class="bg-alt px-8 py-6 border-t border-[#E7E5E0]">
+                    <details class="text-sm text-slate-600">
+                      <summary class="cursor-pointer text-[11px] font-semibold uppercase tracking-widest text-brand-light">
                         Resumo e transcrição
                       </summary>
                       <p class="mt-3 leading-relaxed">{featuredVideo.transcript}</p>
@@ -330,36 +315,36 @@ const totalVideos = videos.length;
     )}
 
     <!-- Videos Grid -->
-    <section id="lista-videos" class="py-20 bg-slate-950 border-t border-white/5">
+    <section id="lista-videos" class="py-20 bg-alt border-t border-[#E7E5E0]">
       <div class="container mx-auto px-6">
         <div class="flex items-center justify-between mb-12">
             <div>
-              <h2 class="text-2xl font-bold text-white">Todos os Vídeos</h2>
-              <p class="text-sm text-gray-500 mt-2">Selecione um tema e assista em sequência.</p>
+              <h2 class="text-2xl font-bold text-brand">Todos os Vídeos</h2>
+              <p class="text-sm text-slate-500 mt-2">Selecione um tema e assista em sequência.</p>
             </div>
-            <div class="h-px bg-white/10 flex-1 ml-8"></div>
+            <div class="h-px bg-[#E7E5E0] flex-1 ml-8"></div>
         </div>
 
         {videos.length > 0 ? (
           <>
-            <div class="rounded-3xl border border-white/10 bg-slate-950/80 p-6 mb-10">
+            <div class="card-premium p-6 mb-10">
               <div class="grid gap-6 lg:grid-cols-[1.2fr_1fr]">
                 <div>
-                  <label for="video-search" class="text-xs font-semibold uppercase tracking-widest text-gray-400">
+                  <label for="video-search" class="eyebrow">
                     Buscar
                   </label>
-                  <div class="mt-3 flex items-center gap-3 rounded-2xl border border-white/10 bg-black/40 px-4 py-3">
+                  <div class="mt-3 flex items-center gap-3 rounded-lg border border-[#D6D3CC] bg-white px-4 py-3">
                     <input
                       id="video-search"
                       type="search"
                       placeholder="Busque por tema, tratamento ou sintoma"
-                      class="w-full bg-transparent text-sm text-white placeholder:text-gray-500 focus:outline-none"
+                      class="w-full bg-transparent text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none"
                       autocomplete="off"
                     />
                   </div>
                 </div>
                 <div>
-                  <span class="text-xs font-semibold uppercase tracking-widest text-gray-400">
+                  <span class="eyebrow">
                     Temas
                   </span>
                   <div class="mt-3 flex flex-wrap gap-2">
@@ -367,7 +352,7 @@ const totalVideos = videos.length;
                       type="button"
                       data-tag-filter="todos"
                       data-active="true"
-                      class="rounded-full border border-white/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-widest text-gray-300 transition-colors hover:border-cyan-400/50 hover:text-cyan-100 data-[active=true]:bg-cyan-500/20 data-[active=true]:border-cyan-400/60 data-[active=true]:text-cyan-100"
+                      class={filterButtonClass}
                     >
                       Todos
                     </button>
@@ -376,7 +361,7 @@ const totalVideos = videos.length;
                         type="button"
                         data-tag-filter={tag}
                         data-active="false"
-                        class="rounded-full border border-white/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-widest text-gray-300 transition-colors hover:border-cyan-400/50 hover:text-cyan-100 data-[active=true]:bg-cyan-500/20 data-[active=true]:border-cyan-400/60 data-[active=true]:text-cyan-100"
+                        class={filterButtonClass}
                       >
                         {tag}
                       </button>
@@ -385,14 +370,14 @@ const totalVideos = videos.length;
                 </div>
               </div>
               <div class="mt-6 flex flex-wrap items-center gap-3">
-                <span class="text-xs font-semibold uppercase tracking-widest text-gray-400">
+                <span class="eyebrow">
                   Público
                 </span>
                 <button
                   type="button"
                   data-audience-filter="todos"
                   data-active="true"
-                  class="rounded-full border border-white/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-widest text-gray-300 transition-colors hover:border-cyan-400/50 hover:text-cyan-100 data-[active=true]:bg-cyan-500/20 data-[active=true]:border-cyan-400/60 data-[active=true]:text-cyan-100"
+                  class={filterButtonClass}
                 >
                   Todos
                 </button>
@@ -400,7 +385,7 @@ const totalVideos = videos.length;
                   type="button"
                   data-audience-filter="pacientes"
                   data-active="false"
-                  class="rounded-full border border-white/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-widest text-gray-300 transition-colors hover:border-cyan-400/50 hover:text-cyan-100 data-[active=true]:bg-cyan-500/20 data-[active=true]:border-cyan-400/60 data-[active=true]:text-cyan-100"
+                  class={filterButtonClass}
                 >
                   Para pacientes
                 </button>
@@ -408,20 +393,20 @@ const totalVideos = videos.length;
                   type="button"
                   data-audience-filter="profissionais"
                   data-active="false"
-                  class="rounded-full border border-white/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-widest text-gray-300 transition-colors hover:border-cyan-400/50 hover:text-cyan-100 data-[active=true]:bg-cyan-500/20 data-[active=true]:border-cyan-400/60 data-[active=true]:text-cyan-100"
+                  class={filterButtonClass}
                 >
                   Para profissionais
                 </button>
-                <span class="text-xs text-gray-500">
+                <span class="text-xs text-slate-500">
                   Duração estimada indicada em cada card.
                 </span>
               </div>
-              <div class="mt-6 flex flex-wrap items-center justify-between gap-4 text-sm text-gray-500">
+              <div class="mt-6 flex flex-wrap items-center justify-between gap-4 text-sm text-slate-500">
                 <span id="video-result-count">{otherVideos.length} resultados</span>
                 <button
                   type="button"
                   id="clear-filters"
-                  class="rounded-full border border-white/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-widest text-gray-300 hover:border-cyan-400/50 hover:text-cyan-100 transition-colors"
+                  class={filterButtonClass}
                 >
                   Limpar filtros
                 </button>
@@ -438,8 +423,8 @@ const totalVideos = videos.length;
                   data-tags={video.tags.join(',')}
                   data-audience={video.audience}
                 >
-                  <VideoCard 
-                    title={video.title} 
+                  <VideoCard
+                    title={video.title}
                     description={video.description}
                     src={`/videos/${video.filename}`}
                     poster={video.poster}
@@ -451,15 +436,15 @@ const totalVideos = videos.length;
                 </div>
               ))}
             </div>
-            <div id="no-video-results" class="hidden text-center py-16 mt-10 bg-slate-900 rounded-3xl border border-dashed border-gray-800">
-              <p class="text-gray-400 text-lg">Nenhum resultado para o filtro atual.</p>
-              <p class="text-gray-500 text-sm mt-2">Tente outro termo ou limpe os filtros.</p>
+            <div id="no-video-results" class="hidden text-center py-16 mt-10 bg-white rounded-xl border border-dashed border-[#D6D3CC]">
+              <p class="text-slate-600 text-lg">Nenhum resultado para o filtro atual.</p>
+              <p class="text-slate-500 text-sm mt-2">Tente outro termo ou limpe os filtros.</p>
             </div>
           </>
         ) : (
-          <div class="text-center py-24 bg-slate-900 rounded-3xl border border-dashed border-gray-800">
-            <p class="text-gray-500 text-lg">Nenhum vídeo disponível no momento.</p>
-            <a href="/contato" class="inline-flex items-center gap-2 mt-6 rounded-full border border-cyan-500/30 px-6 py-3 text-sm font-semibold text-cyan-200 hover:bg-cyan-500/10 transition-colors">
+          <div class="text-center py-24 bg-white rounded-xl border border-dashed border-[#D6D3CC]">
+            <p class="text-slate-600 text-lg">Nenhum vídeo disponível no momento.</p>
+            <a href="/contato" class="btn-premium btn-premium-secondary mt-6 text-sm">
               Falar com a equipe
             </a>
           </div>

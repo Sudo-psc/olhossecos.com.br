@@ -15,208 +15,208 @@ const schema = {
 };
 ---
 
-<Layout 
-  title="E-Eye IRPL | Tratamento para Olho Seco" 
-  description="O único IRPL do interior de MG. Tecnologia francesa, resultados duradouros e procedimento indolor para olho seco evaporativo."
+<Layout
+  title="E-Eye IRPL | Tratamento para Olho Seco"
+  description="O único IRPL do interior de MG. Tecnologia francesa e procedimento indolor para olho seco evaporativo. Resultados podem variar."
   schema={schema}
 >
   <!-- Hero Section -->
-  <section class="relative bg-gradient-to-r from-brand to-blue-900 py-24 text-white overflow-hidden">
-    <div class="absolute inset-0 bg-[url('/pattern.svg')] opacity-10"></div>
+  <section class="relative bg-brand-dark py-24 text-white overflow-hidden">
     <div class="container mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center gap-12">
       <div class="md:w-1/2">
-        <span class="inline-block py-1 px-3 rounded-full bg-green-400/20 text-green-300 font-bold text-sm mb-6 border border-green-400/30">
+        <span class="font-ui inline-block py-1 px-3 rounded-full border border-teal-200/40 text-teal-200 font-semibold text-xs uppercase tracking-wider mb-6">
           Tecnologia Exclusiva no Interior de MG
         </span>
-        <h1 class="text-4xl md:text-6xl font-bold font-heading mb-6 leading-tight">
-          E-Eye <span class="text-blue-300">IRPL®</span>
+        <h1 class="text-4xl md:text-6xl font-heading text-white mb-6 leading-tight">
+          E-Eye IRPL®
         </h1>
-        <p class="text-xl text-blue-100 leading-relaxed max-w-xl mb-8">
+        <p class="text-xl text-white/80 leading-relaxed max-w-xl mb-8">
           A primeira e única tecnologia de Luz Pulsada Intensa Regulada do mundo desenvolvida especificamente para o tratamento do Olho Seco (DGM).
         </p>
         <div class="flex flex-wrap gap-4">
-          <a href="/contato" class="btn-premium bg-white text-brand border-transparent hover:bg-gray-100">
+          <a href="/contato" class="btn-premium bg-white text-brand border border-white hover:bg-[#FBFAF8]">
             Agendar Avaliação
           </a>
         </div>
       </div>
       <div class="md:w-1/2 flex justify-center">
-         <img src="/icons/e_eye_machine_made_in_france_anvisa_logo.jpg" alt="E-Eye IRPL Machine Made in France" class="max-w-full max-h-[400px] object-contain drop-shadow-2xl animate-float rounded-xl" />
+         <img src="/icons/e_eye_machine_made_in_france_anvisa_logo.jpg" alt="Equipamento E-Eye IRPL fabricado na França" class="max-w-full max-h-[400px] object-contain rounded-xl border border-white/15" />
       </div>
     </div>
   </section>
 
   <!-- Highlights Grid -->
-  <section class="py-16 bg-white relative -mt-10 z-20">
+  <section class="py-16">
     <div class="container mx-auto px-6">
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="bg-white p-6 rounded-2xl shadow-xl border border-gray-100 text-center">
-                <div class="text-4xl mb-4">🇫🇷</div>
-                <h3 class="font-bold text-brand mb-2">Tecnologia Francesa</h3>
-                <p class="text-sm text-gray-500">Desenvolvido pela E-Swin na França, líder mundial em óptica biomédica.</p>
+            <div class="card-premium p-6 text-center">
+                <div class="mb-4"><svg class="w-10 h-10 text-brand-light mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+                <h3 class="font-heading mb-2">Tecnologia Francesa</h3>
+                <p class="text-sm text-slate-500">Desenvolvido pela E-Swin na França, referência em óptica biomédica.</p>
             </div>
-            <div class="bg-white p-6 rounded-2xl shadow-xl border border-gray-100 text-center">
-                <div class="text-4xl mb-4">🏆</div>
-                <h3 class="font-bold text-brand mb-2">Padrão Ouro</h3>
-                <p class="text-sm text-gray-500">Reconhecido pelas diretrizes americanas e TFOS DEWS II como referência.</p>
+            <div class="card-premium p-6 text-center">
+                <div class="mb-4"><svg class="w-10 h-10 text-brand-light mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg></div>
+                <h3 class="font-heading mb-2">Respaldo Científico</h3>
+                <p class="text-sm text-slate-500">Reconhecido por diretrizes internacionais, incluindo o TFOS DEWS II, como referência.</p>
             </div>
-            <div class="bg-white p-6 rounded-2xl shadow-xl border border-gray-100 text-center">
-                <div class="mb-4"><svg class="w-10 h-10 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg></div>
-                <h3 class="font-bold text-brand mb-2">Certificado ANVISA</h3>
-                <p class="text-sm text-gray-500">O único IRPL com certificação específica para tratamento de Olho Seco.</p>
+            <div class="card-premium p-6 text-center">
+                <div class="mb-4"><svg class="w-10 h-10 text-brand-light mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg></div>
+                <h3 class="font-heading mb-2">Certificado ANVISA</h3>
+                <p class="text-sm text-slate-500">O único IRPL com certificação específica para tratamento de Olho Seco.</p>
             </div>
-             <div class="bg-white p-6 rounded-2xl shadow-xl border border-gray-100 text-center">
-                <div class="mb-4"><svg class="w-10 h-10 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
-                <h3 class="font-bold text-brand mb-2">90% Satisfação</h3>
-                <p class="text-sm text-gray-500">Resultados clínicos comprovados e alta taxa de satisfação dos pacientes.</p>
+             <div class="card-premium p-6 text-center">
+                <div class="mb-4"><svg class="w-10 h-10 text-brand-light mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+                <h3 class="font-heading mb-2">Alta Satisfação Relatada</h3>
+                <p class="text-sm text-slate-500">Estudos clínicos relatam elevada satisfação dos pacientes. Resultados podem variar.</p>
             </div>
         </div>
     </div>
   </section>
 
   <!-- Deep Dive Content -->
-  <section class="section-padding bg-gray-50">
+  <section class="section-padding bg-alt">
     <div class="container mx-auto px-6">
       <div class="flex flex-col lg:flex-row gap-16 items-start">
-        
+
         <!-- Main Content -->
         <div class="lg:w-2/3">
-            <h2 class="text-3xl font-bold text-brand mb-6">Por que o E-Eye é diferente?</h2>
-            <div class="prose prose-lg text-gray-600 mb-8">
+            <span class="eyebrow mb-3">Entenda a tecnologia</span>
+            <h2 class="text-3xl font-heading mb-6">Por que o E-Eye é diferente?</h2>
+            <div class="space-y-4 text-lg text-slate-600 mb-8 leading-relaxed">
                 <p>
-                    Diferente de equipamentos estéticos adaptados, o <strong>E-Eye IRPL®</strong> foi criado desde o início com um único propósito: tratar a Disfunção das Glândulas de Meibomius (DGM), causa de mais de 80% dos casos de olho seco.
+                    Diferente de equipamentos estéticos adaptados, o <strong class="text-brand">E-Eye IRPL®</strong> foi criado desde o início com um único propósito: tratar a Disfunção das Glândulas de Meibomius (DGM), causa de mais de 80% dos casos de olho seco.
                 </p>
                 <p>
                     Ele emite pulsos de luz poli-cromática perfeitamente calibrados que estimulam os nervos parassimpáticos ligados às glândulas de Meibomius (ver diagrama abaixo).
                 </p>
                 <p>
-                    <strong>Ação Neurológica:</strong> Ao contrário da luz pulsada convencional usada em estética (que atua pelo calor), o E-Eye dispara sequências de pulsos que criam uma microestimulação nos ramos nervosos periorbitais. Isso "acorda" as glândulas de Meibomius, ordenando que voltem a produzir e liberar a camada lipídica do filme lacrimal.
+                    <strong class="text-brand">Ação Neurológica:</strong> Ao contrário da luz pulsada convencional usada em estética (que atua pelo calor), o E-Eye dispara sequências de pulsos que criam uma microestimulação nos ramos nervosos periorbitais. Isso "acorda" as glândulas de Meibomius, ordenando que voltem a produzir e liberar a camada lipídica do filme lacrimal.
                 </p>
             </div>
 
-            <div class="mb-12 rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-white">
-                <div class="p-6 border-b border-gray-100">
-                     <h3 class="font-bold text-brand mb-2 flex items-center gap-2">
-                        <span class="text-xl">📊</span> Classificação da Atrofia (Meibografia)
+            <div class="mb-12 card-premium overflow-hidden">
+                <div class="p-6 border-b border-[#E7E5E0]">
+                     <h3 class="font-heading mb-2 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-brand-light shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                        Classificação da Atrofia (Meibografia)
                     </h3>
-                    <p class="text-sm text-gray-600">
-                        O monitoramento das glândulas é crucial. A escala abaixo mostra a progressão da perda glandular (atrofia). O tratamento com IRPL visa paralisar essa perca e recuperar a funcionalidade das glândulas restantes.
+                    <p class="text-sm text-slate-600">
+                        O monitoramento das glândulas é crucial. A escala abaixo mostra a progressão da perda glandular (atrofia). O tratamento com IRPL visa paralisar essa perda e recuperar a funcionalidade das glândulas restantes.
                     </p>
                 </div>
                 <img src="/Classificacaoo meibografia.png" alt="Classificação de Meibografia - Graus de Atrofia" class="w-full h-auto p-4" />
-                <p class="text-xs text-center text-gray-400 pb-4">Escala de severidade da Disfunção das Glândulas de Meibomius</p>
+                <p class="text-xs text-center text-slate-400 pb-4">Escala de severidade da Disfunção das Glândulas de Meibomius</p>
             </div>
 
             <!-- Image: Neurologic Effect -->
-            <!-- Image: Neurologic Effect -->
-            <div class="mb-12 rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-white">
+            <div class="mb-12 card-premium overflow-hidden">
                 <img src="/icons/irpl_neurologic_effect_text_diagram.jpg" alt="Diagrama do Efeito Neurológico do IRPL" class="w-full h-auto" />
-                <div class="p-4 bg-cyan-50">
+                <div class="p-4 bg-[#EEF2F1] border-t border-[#E7E5E0]">
                     <p class="text-sm text-center text-brand font-semibold">
                         O diagrama ilustra o caminho do estímulo: Aplicação na região malar → Estímulo do nervo infraorbital → Ativação do Gânglio Pterigopalatino → Secreção das Glândulas.
                     </p>
                 </div>
             </div>
 
-            <div class="bg-cyan-50 rounded-2xl p-8 mb-12 border border-cyan-100">
-                <h3 class="text-xl font-bold text-brand mb-4 flex items-center gap-2">
-                    <span class="text-2xl">⚡</span> Como funciona o tratamento?
+            <div class="card-premium p-8 mb-12">
+                <h3 class="text-xl font-heading mb-4 flex items-center gap-2">
+                    <svg class="w-6 h-6 text-brand-light shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                    Como funciona o tratamento?
                 </h3>
-                
+
                 <!-- Image: Treatment Info -->
-                 <div class="mb-8 rounded-xl overflow-hidden shadow-sm">
+                 <div class="mb-8 rounded-xl overflow-hidden border border-[#E7E5E0]">
                     <img src="/icons/e_eye_irpl_treatment_info_portuguese.jpg" alt="Infográfico do Tratamento E-Eye" class="w-full h-auto" />
                 </div>
 
                 <ul class="space-y-4">
                     <li class="flex gap-4">
-                        <span class="font-bold text-cyan-600 bg-white w-8 h-8 rounded-full flex items-center justify-center shrink-0">1</span>
+                        <span class="font-ui font-semibold text-brand-light bg-[#EEF2F1] border border-[#E7E5E0] w-8 h-8 rounded-full flex items-center justify-center shrink-0">1</span>
                         <div>
-                            <strong class="block text-gray-800">Sessão Rápida e Indolor</strong>
-                            <p class="text-sm text-gray-600">A aplicação dura apenas alguns minutos. O paciente sente apenas um leve aquecimento, sem dor.</p>
+                            <strong class="block text-brand">Sessão Rápida e Indolor</strong>
+                            <p class="text-sm text-slate-600">A aplicação dura apenas alguns minutos. O paciente sente apenas um leve aquecimento, sem dor.</p>
                         </div>
                     </li>
                     <li class="flex gap-4">
-                        <span class="font-bold text-cyan-600 bg-white w-8 h-8 rounded-full flex items-center justify-center shrink-0">2</span>
+                        <span class="font-ui font-semibold text-brand-light bg-[#EEF2F1] border border-[#E7E5E0] w-8 h-8 rounded-full flex items-center justify-center shrink-0">2</span>
                         <div>
-                            <strong class="block text-gray-800">Protocolo de 3 a 4 Sessões</strong>
-                            <p class="text-sm text-gray-600">Realizadas nos dias 0, 15 e 45. O efeito é cumulativo: a cada sessão, a qualidade da lágrima melhora.</p>
+                            <strong class="block text-brand">Protocolo de 3 a 4 Sessões</strong>
+                            <p class="text-sm text-slate-600">Realizadas nos dias 0, 15 e 45. O efeito é cumulativo: a cada sessão, a qualidade da lágrima tende a melhorar.</p>
                         </div>
                     </li>
                     <li class="flex gap-4">
-                        <span class="font-bold text-cyan-600 bg-white w-8 h-8 rounded-full flex items-center justify-center shrink-0">3</span>
+                        <span class="font-ui font-semibold text-brand-light bg-[#EEF2F1] border border-[#E7E5E0] w-8 h-8 rounded-full flex items-center justify-center shrink-0">3</span>
                         <div>
-                            <strong class="block text-gray-800">Resultados Duradouros</strong>
-                            <p class="text-sm text-gray-600">Diferente de colírios que oferecem alívio momentâneo, o IRPL trata a causa, oferecendo conforto por meses ou anos (com manutenção anual).</p>
+                            <strong class="block text-brand">Efeito Prolongado</strong>
+                            <p class="text-sm text-slate-600">Diferente de colírios que oferecem alívio momentâneo, o IRPL trata a causa, podendo oferecer conforto por meses (com manutenção periódica). Resultados podem variar de paciente para paciente.</p>
                         </div>
                     </li>
                 </ul>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 mb-12">
-                <h3 class="font-bold text-brand mb-6">Comparativo: E-Eye vs Outras Opções</h3>
-                
+            <div class="card-premium p-8 mb-12">
+                <h3 class="font-heading mb-6">Comparativo: E-Eye vs Outras Opções</h3>
+
                 <!-- Image: Comparison Diagram -->
-                <div class="mb-8 rounded-xl overflow-hidden border border-gray-100">
+                <div class="mb-8 rounded-xl overflow-hidden border border-[#E7E5E0]">
                      <img src="/icons/irpl_ipl_comparison_diagram_description.jpg" alt="Comparativo IRPL vs IPL Convencional" class="w-full h-auto" />
                 </div>
 
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm">
                         <thead>
-                            <tr class="bg-gray-50 border-b">
-                                <th class="p-3 text-left">Característica</th>
-                                <th class="p-3 text-left text-cyan-600 font-bold">E-Eye IRPL</th>
-                                <th class="p-3 text-left">Compressa Morna</th>
-                                <th class="p-3 text-left">Luz Pulsada Estética</th>
+                            <tr class="bg-[#F1EFEA] border-b border-[#E7E5E0]">
+                                <th class="p-3 text-left font-ui">Característica</th>
+                                <th class="p-3 text-left text-brand-light font-ui font-semibold">E-Eye IRPL</th>
+                                <th class="p-3 text-left font-ui">Compressa Morna</th>
+                                <th class="p-3 text-left font-ui">Luz Pulsada Estética</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="border-b">
+                            <tr class="border-b border-[#E7E5E0]">
                                 <td class="p-3 font-medium">Foco do tratamento</td>
-                                <td class="p-3 font-bold text-cyan-600">Estimulação Nervosa (Causa)</td>
-                                <td class="p-3 text-gray-500">Derretimento Térmico (Sintoma)</td>
-                                <td class="p-3 text-gray-500">Vasos Sanguíneos (Pele)</td>
+                                <td class="p-3 font-semibold text-brand-light">Estimulação Nervosa (Causa)</td>
+                                <td class="p-3 text-slate-500">Derretimento Térmico (Sintoma)</td>
+                                <td class="p-3 text-slate-500">Vasos Sanguíneos (Pele)</td>
                             </tr>
-                            <tr class="border-b">
+                            <tr class="border-b border-[#E7E5E0]">
                                 <td class="p-3 font-medium">Duração do Efeito</td>
-                                <td class="p-3 font-bold text-cyan-600">6 a 12 meses+</td>
-                                <td class="p-3 text-gray-500">Algumas horas</td>
-                                <td class="p-3 text-gray-500">Variável / Inespecífico</td>
+                                <td class="p-3 font-semibold text-brand-light">6 a 12 meses+</td>
+                                <td class="p-3 text-slate-500">Algumas horas</td>
+                                <td class="p-3 text-slate-500">Variável / Inespecífico</td>
                             </tr>
-                            <tr class="border-b">
+                            <tr class="border-b border-[#E7E5E0]">
                                 <td class="p-3 font-medium">Certificação Olho Seco</td>
-                                <td class="p-3 font-bold text-cyan-600">SIM (ANVISA)</td>
-                                <td class="p-3 text-gray-500">-</td>
-                                <td class="p-3 text-gray-500">Não (Geralmente Pele)</td>
+                                <td class="p-3 font-semibold text-brand-light">SIM (ANVISA)</td>
+                                <td class="p-3 text-slate-500">-</td>
+                                <td class="p-3 text-slate-500">Não (Geralmente Pele)</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Demodex Section (New) -->
-            <!-- Demodex Section (New) -->
-            <div class="flex flex-col md:flex-row items-center gap-6 bg-red-50 p-6 rounded-2xl border border-red-100 mt-8">
+            <!-- Demodex Section -->
+            <div class="flex flex-col md:flex-row items-center gap-6 card-premium p-6 mt-8">
                 <div class="md:w-1/3">
-                    <img src="/icons/irpl-demodex.avif" alt="Controle de Demodex" class="rounded-xl shadow-md border border-red-200" />
-                    <p class="text-[10px] text-center text-red-800 mt-2 font-semibold">Excrementos cilíndricos (caspas) característicos do Demodex</p>
+                    <img src="/icons/irpl-demodex.avif" alt="Controle de Demodex" class="rounded-xl border border-[#E7E5E0]" />
+                    <p class="text-[10px] text-center text-slate-500 mt-2 font-semibold">Excrementos cilíndricos (caspas) característicos do Demodex</p>
                 </div>
                 <div class="md:w-2/3">
-                    <h3 class="font-bold text-[#b91c1c] mb-2 flex items-center gap-2">
+                    <h3 class="font-heading mb-2 flex items-center gap-2">
                          Combate ao Demodex
                     </h3>
-                    <p class="text-sm text-gray-700 leading-relaxed mb-4">
-                        A blefarite por <em>Demodex folliculorum</em> é muito comum em pacientes com olho seco. O E-Eye IRPL atua de duas formas fatais para o ácaro:
+                    <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                        A blefarite por <em>Demodex folliculorum</em> é muito comum em pacientes com olho seco. O E-Eye IRPL atua de duas formas contra o ácaro:
                     </p>
-                    <ul class="space-y-2 text-sm text-gray-700">
+                    <ul class="space-y-2 text-sm text-slate-600">
                         <li class="flex items-start gap-2">
-                             <span class="text-red-500 font-bold">1.</span>
-                             <span><strong>Coagulação do Exoesqueleto:</strong> A luz é absorvida pelo pigmento do exoesqueleto do ácaro, superaquecendo-o e causando sua eliminação imediata.</span>
+                             <span class="text-brand-light font-semibold">1.</span>
+                             <span><strong class="text-brand">Coagulação do Exoesqueleto:</strong> A luz é absorvida pelo pigmento do exoesqueleto do ácaro, superaquecendo-o e causando sua eliminação imediata.</span>
                         </li>
                          <li class="flex items-start gap-2">
-                             <span class="text-red-500 font-bold">2.</span>
-                             <span><strong>Redução da Carga Bacteriana:</strong> Diminui a população de <em>Bacillus olerinus</em>, bactéria carreada pelo ácaro que desencadeia a inflamação.</span>
+                             <span class="text-brand-light font-semibold">2.</span>
+                             <span><strong class="text-brand">Redução da Carga Bacteriana:</strong> Diminui a população de <em>Bacillus olerinus</em>, bactéria carreada pelo ácaro que desencadeia a inflamação.</span>
                         </li>
                     </ul>
                 </div>
@@ -225,28 +225,28 @@ const schema = {
 
         <!-- Sidebar / CTA -->
         <div class="lg:w-1/3 space-y-8 sticky top-24">
-            <div class="bg-brand text-white p-8 rounded-2xl shadow-xl">
-                <h3 class="text-2xl font-bold mb-4">Agende sua Sessão</h3>
-                <p class="text-blue-200 mb-6 text-sm">
-                    Disponível com exclusividade na Saraiva Vision.
+            <div class="bg-brand-dark text-white p-8 rounded-xl border border-brand-dark shadow-lg">
+                <h3 class="text-2xl font-heading text-white mb-4">Agende sua Avaliação</h3>
+                <p class="text-white/75 mb-6 text-sm">
+                    Disponível com exclusividade no nosso centro especializado em olho seco, em Caratinga/MG.
                 </p>
                 <div class="space-y-4">
-                    <a href="https://wa.me/5533998601427" class="flex items-center justify-center gap-3 bg-green-500 hover:bg-green-600 text-white font-bold py-4 rounded-xl transition-all w-full">
+                    <a href="https://wa.me/5533998601427" onclick="return gtag_report_conversion('https://wa.me/5533998601427')" class="flex items-center justify-center gap-3 bg-white text-brand hover:bg-[#FBFAF8] font-semibold py-4 rounded-[10px] transition-colors w-full">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                         Agendar via WhatsApp
                     </a>
                 </div>
             </div>
 
-            <div class="bg-gray-100 p-6 rounded-xl border border-gray-200">
-                <h4 class="font-bold text-gray-700 mb-2">Dúvidas Frequentes</h4>
-                <ul class="space-y-3 text-sm text-gray-600">
+            <div class="card-premium p-6">
+                <h4 class="font-heading mb-2">Dúvidas Frequentes</h4>
+                <ul class="space-y-3 text-sm text-slate-600">
                     <li>
                         <details class="group">
                             <summary class="cursor-pointer font-medium hover:text-brand flex items-center justify-between">
                                 O procedimento dói? <span class="group-open:rotate-180 transition md:ml-2">▼</span>
                             </summary>
-                            <p class="mt-2 text-xs pl-2 border-l-2 border-blue-300">Não. O paciente sente apenas um leve calor na região das maçãs do rosto.</p>
+                            <p class="mt-2 text-xs pl-2 border-l-2 border-brand-light">Não. O paciente sente apenas um leve calor na região das maçãs do rosto.</p>
                         </details>
                     </li>
                     <li>
@@ -254,7 +254,7 @@ const schema = {
                             <summary class="cursor-pointer font-medium hover:text-brand flex items-center justify-between">
                                 Existem contraindicações? <span class="group-open:rotate-180 transition md:ml-2">▼</span>
                             </summary>
-                            <p class="mt-2 text-xs pl-2 border-l-2 border-blue-300">Evitamos em pacientes com epilepsia, gravidez ou uso de certos medicamentos fotossensibilizantes.</p>
+                            <p class="mt-2 text-xs pl-2 border-l-2 border-brand-light">Evitamos em pacientes com epilepsia, gravidez ou uso de certos medicamentos fotossensibilizantes.</p>
                         </details>
                     </li>
                 </ul>

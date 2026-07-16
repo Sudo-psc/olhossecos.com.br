@@ -2,53 +2,52 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Diagnóstico Avançado de Olho Seco | Saraiva Vision" description="Tecnologia digital para identificar a raiz do olho seco. Meibografia, NIBUT e Meniscometria para um tratamento preciso. Agende sua avaliação.">
-  
+<Layout title="Diagnóstico Avançado de Olho Seco | Olhos Secos" description="Tecnologia digital para identificar a raiz do olho seco. Meibografia, NIBUT e Meniscometria para um tratamento preciso. Agende sua avaliação.">
+
   <!-- HERO SECTION -->
-  <section class="relative bg-gradient-to-r from-blue-900 to-brand text-white py-20 overflow-hidden">
-    <div class="absolute inset-0 bg-[url('/pattern.svg')] opacity-10"></div>
+  <section class="relative bg-brand-dark text-white py-20 overflow-hidden">
     <div class="container mx-auto px-6 relative z-10">
       <div class="flex flex-col md:flex-row items-center gap-12">
         <div class="md:w-1/2">
-          <span class="inline-block py-1 px-3 rounded-full bg-cyan-500/20 text-cyan-300 font-bold text-sm mb-6 border border-cyan-500/30">
-            Tecnologia Digital & Precisão
+          <span class="font-ui inline-block py-1 px-3 rounded-full border border-teal-200/40 text-teal-200 font-semibold text-xs uppercase tracking-wider mb-6">
+            Tecnologia Digital &amp; Precisão
           </span>
-          <h1 class="text-4xl md:text-5xl font-bold font-heading mb-6 leading-tight">
-            Diagnóstico Avançado de <span class="text-cyan-400">Olho Seco</span>
+          <h1 class="text-4xl md:text-5xl font-heading text-white mb-6 leading-tight">
+            Diagnóstico Avançado de Olho Seco
           </h1>
-          <p class="text-lg text-blue-100 mb-8 leading-relaxed max-w-xl">
-            Não é "apenas um desconforto". Na Saraiva Vision, usamos tecnologia digital para medir com precisão o que está causando a irritação nos seus olhos. Entenda a raiz do problema para tratar do jeito certo.
+          <p class="text-lg text-white/80 mb-8 leading-relaxed max-w-xl">
+            Não é "apenas um desconforto". No nosso centro especializado, usamos tecnologia digital para medir com precisão o que está causando a irritação nos seus olhos. Entenda a raiz do problema para tratar do jeito certo.
           </p>
           <div class="flex flex-col sm:flex-row gap-4">
-            <a href="https://wa.me/5533998601427" class="btn-premium btn-premium-primary text-lg shadow-lg hover:shadow-cyan-500/30 flex items-center justify-center gap-2">
+            <a href="https://wa.me/5533998601427" onclick="return gtag_report_conversion('https://wa.me/5533998601427')" class="btn-premium bg-white text-brand border border-white hover:bg-[#FBFAF8] text-lg flex items-center justify-center gap-2">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
               Agendar meus exames
             </a>
-            <a href="/sobre" class="btn-premium btn-premium-secondary text-lg">
+            <a href="/sobre" class="btn-premium border border-white/40 text-white hover:border-white hover:bg-white/5 text-lg">
               Conhecer a Clínica
             </a>
           </div>
         </div>
-        
+
         <!-- Infográfico 1: As Camadas da Lágrima (Visual representation) -->
         <div class="md:w-1/2 flex justify-center">
-            <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20 w-full max-w-md">
-                <h3 class="text-center font-bold mb-4 text-cyan-200">A Lágrima Não É Só Água</h3>
+            <div class="bg-white border border-[#E7E5E0] p-6 rounded-xl shadow-lg w-full max-w-md">
+                <h3 class="text-center font-heading mb-4">A Lágrima Não É Só Água</h3>
                 <div class="space-y-2">
-                    <div class="h-12 bg-gradient-to-r from-amber-300 to-yellow-500 rounded-lg flex items-center justify-center relative group cursor-help">
-                        <span class="font-bold text-yellow-900 drop-shadow-sm">Óleo (Lipídica)</span>
-                        <div class="absolute opacity-0 group-hover:opacity-100 transition-opacity bg-black/80 text-white text-xs p-2 rounded -top-10 whitespace-nowrap">Impede a evaporação</div>
+                    <div class="h-12 bg-[#E9E0C9] border border-[#DCD1B4] rounded-lg flex items-center justify-center relative group cursor-help">
+                        <span class="font-ui font-semibold text-[#6B5A2A]">Óleo (Lipídica)</span>
+                        <div class="absolute opacity-0 group-hover:opacity-100 transition-opacity bg-brand-dark text-white text-xs p-2 rounded -top-10 whitespace-nowrap">Impede a evaporação</div>
                     </div>
-                    <div class="h-20 bg-gradient-to-r from-blue-300 to-cyan-400 rounded-lg flex items-center justify-center relative group cursor-help">
-                        <span class="font-bold text-blue-900 drop-shadow-sm">Água (Aquosa)</span>
-                        <div class="absolute opacity-0 group-hover:opacity-100 transition-opacity bg-black/80 text-white text-xs p-2 rounded -top-10 whitespace-nowrap">Nutre e limpa</div>
+                    <div class="h-20 bg-[#CBDBE5] border border-[#B7CBD8] rounded-lg flex items-center justify-center relative group cursor-help">
+                        <span class="font-ui font-semibold text-brand">Água (Aquosa)</span>
+                        <div class="absolute opacity-0 group-hover:opacity-100 transition-opacity bg-brand-dark text-white text-xs p-2 rounded -top-10 whitespace-nowrap">Nutre e limpa</div>
                     </div>
-                    <div class="h-8 bg-gradient-to-r from-pink-300 to-rose-400 rounded-lg flex items-center justify-center relative group cursor-help">
-                        <span class="font-bold text-rose-900 drop-shadow-sm">Mucina</span>
-                        <div class="absolute opacity-0 group-hover:opacity-100 transition-opacity bg-black/80 text-white text-xs p-2 rounded -top-10 whitespace-nowrap">Gruda a lágrima no olho</div>
+                    <div class="h-8 bg-[#E6D6D3] border border-[#D9C2BE] rounded-lg flex items-center justify-center relative group cursor-help">
+                        <span class="font-ui font-semibold text-[#7A4A44]">Mucina</span>
+                        <div class="absolute opacity-0 group-hover:opacity-100 transition-opacity bg-brand-dark text-white text-xs p-2 rounded -top-10 whitespace-nowrap">Gruda a lágrima no olho</div>
                     </div>
                 </div>
-                <p class="text-center text-xs text-blue-200 mt-4">Qualquer falha nessas camadas causa olho seco.</p>
+                <p class="text-center text-xs text-slate-500 mt-4">Qualquer falha nessas camadas causa olho seco.</p>
             </div>
         </div>
       </div>
@@ -58,43 +57,45 @@ import Layout from '../layouts/Layout.astro';
   <!-- POR QUE EXAMES ESPECÍFICOS? -->
   <section class="py-16">
     <div class="container mx-auto px-6 text-center max-w-4xl">
-      <h2 class="text-3xl font-bold text-brand mb-6">Por que não basta usar um colírio qualquer?</h2>
-      <p class="text-lg text-gray-600 mb-12">
+      <span class="eyebrow mb-3">Diagnóstico de precisão</span>
+      <h2 class="text-3xl font-heading mb-6">Por que não basta usar um colírio qualquer?</h2>
+      <p class="text-lg text-slate-600 mb-12">
         O "olho seco" não é uma doença única, mas um desequilíbrio na lágrima. Sem exames, o tratamento é feito no escuro.
       </p>
-      
+
       <div class="grid md:grid-cols-3 gap-8">
-        <div class="p-6 bg-blue-50 rounded-2xl border border-blue-100">
-          <div class="w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center mb-4"><svg class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg></div>
-          <h3 class="font-bold text-brand mb-2">Descobrir a Causa</h3>
-          <p class="text-sm text-gray-600">É falta de água ou a lágrima está evaporando rápido demais?</p>
+        <div class="card-premium p-6">
+          <div class="w-12 h-12 rounded-lg bg-[#EEF2F1] border border-[#E7E5E0] flex items-center justify-center mb-4 mx-auto"><svg class="w-6 h-6 text-brand-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg></div>
+          <h3 class="font-heading mb-2">Descobrir a Causa</h3>
+          <p class="text-sm text-slate-600">É falta de água ou a lágrima está evaporando rápido demais?</p>
         </div>
-        <div class="p-6 bg-blue-50 rounded-2xl border border-blue-100">
-          <div class="text-4xl mb-4">📊</div>
-          <h3 class="font-bold text-brand mb-2">Classificar o Tipo</h3>
-          <p class="text-sm text-gray-600">Seu olho seco é evaporativo (80% dos casos), aquoso ou misto?</p>
+        <div class="card-premium p-6">
+          <div class="w-12 h-12 rounded-lg bg-[#EEF2F1] border border-[#E7E5E0] flex items-center justify-center mb-4 mx-auto"><svg class="w-6 h-6 text-brand-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg></div>
+          <h3 class="font-heading mb-2">Classificar o Tipo</h3>
+          <p class="text-sm text-slate-600">Seu olho seco é evaporativo (80% dos casos), aquoso ou misto?</p>
         </div>
-        <div class="p-6 bg-blue-50 rounded-2xl border border-blue-100">
-          <div class="text-4xl mb-4">📈</div>
-          <h3 class="font-bold text-brand mb-2">Monitorar</h3>
-          <p class="text-sm text-gray-600">Com imagens digitais, comparamos a melhora real das glândulas após o tratamento.</p>
+        <div class="card-premium p-6">
+          <div class="w-12 h-12 rounded-lg bg-[#EEF2F1] border border-[#E7E5E0] flex items-center justify-center mb-4 mx-auto"><svg class="w-6 h-6 text-brand-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg></div>
+          <h3 class="font-heading mb-2">Monitorar</h3>
+          <p class="text-sm text-slate-600">Com imagens digitais, comparamos a melhora real das glândulas após o tratamento.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- MAPA VISUAL DOS EXAMES -->
-  <section class="bg-gray-50 py-16">
+  <section class="bg-alt border-y border-[#E7E5E0] py-16">
     <div class="container mx-auto px-6">
       <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-brand">O Check-up Digital da sua Lágrima</h2>
-        <p class="text-gray-600 mt-2">Tecnologia de ponta para um diagnóstico preciso</p>
+        <span class="eyebrow mb-3">Protocolo diagnóstico</span>
+        <h2 class="text-3xl font-heading">O Check-up Digital da sua Lágrima</h2>
+        <p class="text-slate-600 mt-2">Tecnologia de ponta para um diagnóstico preciso</p>
       </div>
 
       <div class="grid md:grid-cols-3 gap-8">
         <!-- Meibografia Preview -->
-        <a href="#meibografia" class="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all group">
-            <div class="h-40 bg-gray-900 rounded-xl mb-6 flex items-center justify-center relative overflow-hidden">
+        <a href="#meibografia" class="card-premium p-6 group">
+            <div class="h-40 bg-brand-dark rounded-lg mb-6 flex items-center justify-center relative overflow-hidden">
                 <!-- Visual representation of meibography -->
                 <div class="flex gap-1 h-full items-start pt-4 opacity-50">
                      <div class="w-2 h-24 bg-white/80 rounded-full"></div>
@@ -104,35 +105,34 @@ import Layout from '../layouts/Layout.astro';
                      <div class="w-2 h-24 bg-white/80 rounded-full"></div>
                 </div>
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <span class="text-white font-bold text-xl drop-shadow-md">Meibografia</span>
+                    <span class="text-white font-heading text-xl">Meibografia</span>
                 </div>
             </div>
-            <h3 class="font-bold text-brand text-xl mb-2 group-hover:text-blue-600 transition-colors">O raio-x das glândulas</h3>
-            <p class="text-gray-600 text-sm">Mostra a saúde das suas glândulas de óleo.</p>
+            <h3 class="font-heading text-xl mb-2 group-hover:text-brand-light transition-colors">O raio-x das glândulas</h3>
+            <p class="text-slate-600 text-sm">Mostra a saúde das suas glândulas de óleo.</p>
         </a>
 
         <!-- NIBUT Preview -->
-        <a href="#nibut" class="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all group">
-             <div class="h-40 bg-blue-50 rounded-xl mb-6 flex items-center justify-center relative">
-                <div class="w-24 h-24 rounded-full border-4 border-blue-200 border-t-blue-600 animate-spin"></div>
+        <a href="#nibut" class="card-premium p-6 group">
+             <div class="h-40 bg-[#EEF2F1] border border-[#E7E5E0] rounded-lg mb-6 flex items-center justify-center relative">
+                <div class="w-24 h-24 rounded-full border-4 border-[#D6D3CC] border-t-brand-light animate-spin"></div>
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <span class="text-blue-800 font-bold text-xl">NIBUT</span>
+                    <span class="text-brand font-heading text-xl">NIBUT</span>
                 </div>
             </div>
-            <h3 class="font-bold text-brand text-xl mb-2 group-hover:text-blue-600 transition-colors">O cronômetro da lágrima</h3>
-            <p class="text-gray-600 text-sm">Mede quantos segundos sua lágrima protege o olho.</p>
+            <h3 class="font-heading text-xl mb-2 group-hover:text-brand-light transition-colors">O cronômetro da lágrima</h3>
+            <p class="text-slate-600 text-sm">Mede quantos segundos sua lágrima protege o olho.</p>
         </a>
 
         <!-- Meniscometria Preview -->
-        <a href="#meniscometria" class="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all group">
-             <div class="h-40 bg-cyan-50 rounded-xl mb-6 flex items-end justify-center pb-4 relative overflow-hidden">
-                <div class="w-48 h-10 bg-blue-400 rounded-full blur-xl opacity-50 absolute bottom-0"></div>
-                <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center text-white shadow-lg z-10">
+        <a href="#meniscometria" class="card-premium p-6 group">
+             <div class="h-40 bg-[#EEF2F1] border border-[#E7E5E0] rounded-lg mb-6 flex items-end justify-center pb-4 relative overflow-hidden">
+                <div class="w-16 h-16 bg-brand rounded-full flex items-center justify-center text-white shadow-md z-10">
                     <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3c4.5 5.25 6.75 8.25 6.75 11.25a6.75 6.75 0 11-13.5 0C5.25 11.25 7.5 8.25 12 3z" /></svg>
                 </div>
             </div>
-            <h3 class="font-bold text-brand text-xl mb-2 group-hover:text-blue-600 transition-colors">Volume Lacrimal</h3>
-            <p class="text-gray-600 text-sm">A medição exata do seu "reservatório" de lágrima.</p>
+            <h3 class="font-heading text-xl mb-2 group-hover:text-brand-light transition-colors">Volume Lacrimal</h3>
+            <p class="text-slate-600 text-sm">A medição exata do seu "reservatório" de lágrima.</p>
         </a>
       </div>
     </div>
@@ -143,95 +143,95 @@ import Layout from '../layouts/Layout.astro';
     <div class="container mx-auto px-6">
       <div class="flex flex-col lg:flex-row items-center gap-12">
         <div class="lg:w-1/2">
-            <span class="text-orange-500 font-bold tracking-wider text-sm uppercase mb-2 block">Estrutural</span>
-            <h2 class="text-3xl font-bold text-brand mb-6">Meibografia: O raio-x das glândulas de óleo</h2>
-            <p class="text-gray-600 mb-6 text-lg">
+            <span class="eyebrow mb-2">Estrutural</span>
+            <h2 class="text-3xl font-heading mb-6">Meibografia: O raio-x das glândulas de óleo</h2>
+            <p class="text-slate-600 mb-6 text-lg">
                 Você possui glândulas dentro das pálpebras que produzem óleo para a lágrima não secar. Se elas entopem ou morrem, o olho arde.
             </p>
             <ul class="space-y-4 mb-8">
                 <li class="flex items-start gap-3">
-                    <span class="bg-red-100 text-red-600 p-1.5 rounded mt-1 shrink-0"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg></span>
+                    <span class="bg-[#EEF2F1] border border-[#E7E5E0] text-brand p-1.5 rounded mt-1 shrink-0"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg></span>
                     <div>
-                        <strong class="text-gray-800">O perigo da Atrofia</strong>
-                        <p class="text-sm text-gray-600">Glândula que se perde não se recupera. O diagnóstico precoce evita a perda permanente.</p>
+                        <strong class="text-brand">O perigo da Atrofia</strong>
+                        <p class="text-sm text-slate-600">Glândula que se perde não se recupera. O diagnóstico precoce evita a perda permanente.</p>
                     </div>
                 </li>
                 <li class="flex items-start gap-3">
-                    <span class="bg-orange-100 text-orange-600 p-1.5 rounded mt-1 shrink-0"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg></span>
+                    <span class="bg-[#EEF2F1] border border-[#E7E5E0] text-brand-light p-1.5 rounded mt-1 shrink-0"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg></span>
                     <div>
-                        <strong class="text-gray-800">Sintomas comuns</strong>
-                        <p class="text-sm text-gray-600">Sensação de areia, vermelhidão e visão que borra ao longo do dia.</p>
+                        <strong class="text-brand">Sintomas comuns</strong>
+                        <p class="text-sm text-slate-600">Sensação de areia, vermelhidão e visão que borra ao longo do dia.</p>
                     </div>
                 </li>
             </ul>
-            <a href="https://wa.me/5533998601427" class="btn-premium btn-premium-secondary inline-flex gap-2">
+            <a href="https://wa.me/5533998601427" onclick="return gtag_report_conversion('https://wa.me/5533998601427')" class="btn-premium btn-premium-secondary inline-flex gap-2">
                 Quero avaliar minhas glândulas
             </a>
         </div>
-        
-        <!-- TECLAS DE PIANO REAL VS ATROFIA -->
+
+        <!-- IMAGEM: CLASSIFICAÇÃO DE ATROFIA -->
         <div class="lg:w-1/2">
-            <div class="bg-gray-900 rounded-2xl p-2 shadow-2xl border border-gray-800 relative group overflow-hidden">
-                <img 
-                  src="/Classificacaoo meibografia.png" 
-                  alt="Classificação da Meibografia - Graus de Atrofia" 
-                  class="w-full h-auto rounded-xl transform transition-transform duration-500 group-hover:scale-105"
+            <div class="bg-brand-dark rounded-xl p-2 shadow-lg border border-brand-dark relative overflow-hidden">
+                <img
+                  src="/Classificacaoo meibografia.png"
+                  alt="Classificação da Meibografia - Graus de Atrofia"
+                  class="w-full h-auto rounded-lg"
                 />
-                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                <div class="absolute bottom-0 left-0 right-0 bg-brand-dark/85 p-4">
                     <p class="text-white text-center text-sm font-medium">Escala de Atrofia Glandular (Meiboscore)</p>
                 </div>
             </div>
-             <p class="text-center text-xs text-gray-500 mt-4">Nossa tecnologia classifica o grau exato da sua perda glandular.</p>
+             <p class="text-center text-xs text-slate-500 mt-4">Nossa tecnologia classifica o grau exato da sua perda glandular.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- SEÇÃO NIBUT -->
-  <section id="nibut" class="py-20 bg-blue-50">
+  <section id="nibut" class="py-20 bg-alt border-y border-[#E7E5E0]">
     <div class="container mx-auto px-6">
       <div class="flex flex-col-reverse lg:flex-row items-center gap-12">
         <!-- NIBUT RULER VISUAL -->
         <div class="lg:w-1/2 w-full">
-            <div class="bg-white rounded-2xl p-8 shadow-xl border border-blue-100">
-                <h4 class="text-brand font-bold text-center mb-6">Tempo de Ruptura (Segundos)</h4>
-                
-                <div class="relative h-16 w-full bg-gray-200 rounded-full overflow-hidden flex mb-2">
+            <div class="card-premium p-8">
+                <h4 class="font-heading text-center mb-6">Tempo de Ruptura (Segundos)</h4>
+
+                <div class="relative h-16 w-full bg-[#F1EFEA] rounded-full overflow-hidden flex mb-2 border border-[#E7E5E0]">
                     <!-- Red Zone -->
-                    <div class="w-1/4 h-full bg-red-500 flex items-center justify-center text-white font-bold text-xs">0-5s</div>
+                    <div class="w-1/4 h-full bg-[#A8503E] flex items-center justify-center text-white font-ui font-semibold text-xs">0-5s</div>
                     <!-- Warning Zone -->
-                    <div class="w-1/4 h-full bg-orange-400 flex items-center justify-center text-white font-bold text-xs">5-10s</div>
+                    <div class="w-1/4 h-full bg-[#BE8A3F] flex items-center justify-center text-white font-ui font-semibold text-xs">5-10s</div>
                     <!-- Green Zone -->
-                    <div class="w-2/4 h-full bg-green-500 flex items-center justify-center text-white font-bold text-xs">10-20s+</div>
+                    <div class="w-2/4 h-full bg-[#3E7455] flex items-center justify-center text-white font-ui font-semibold text-xs">10-20s+</div>
                 </div>
-                
-                <div class="flex justify-between text-xs text-gray-500 font-bold mb-8">
+
+                <div class="flex justify-between text-xs text-slate-500 font-ui font-semibold mb-8">
                     <span>Crítico</span>
                     <span>Instável</span>
                     <span>Saudável</span>
                 </div>
 
-                <div class="p-4 bg-red-50 border border-red-100 rounded-xl flex items-center gap-3">
-                     <span class="text-2xl">📉</span>
-                     <p class="text-sm text-red-800 font-medium">Se a sua lágrima rompe em menos de 10s (área vermelha/laranja), seus olhos ficam desprotegidos a maior parte do tempo.</p>
+                <div class="p-4 bg-[#F7F3F1] border border-[#E7DBD5] rounded-lg flex items-center gap-3">
+                     <svg class="w-6 h-6 text-[#A8503E] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" /></svg>
+                     <p class="text-sm text-[#7A4A44] font-medium">Se a sua lágrima rompe em menos de 10s (área vermelha/laranja), seus olhos ficam desprotegidos a maior parte do tempo.</p>
                 </div>
             </div>
         </div>
 
         <div class="lg:w-1/2">
-             <span class="text-blue-500 font-bold tracking-wider text-sm uppercase mb-2 block">Estabilidade</span>
-            <h2 class="text-3xl font-bold text-brand mb-6">NIBUT: Quanto tempo sua lágrima resiste?</h2>
-            <p class="text-gray-600 mb-6 text-lg">
+             <span class="eyebrow mb-2">Estabilidade</span>
+            <h2 class="text-3xl font-heading mb-6">NIBUT: Quanto tempo sua lágrima resiste?</h2>
+            <p class="text-slate-600 mb-6 text-lg">
                 Sua lágrima deve formar uma camada protetora. O NIBUT mede quanto tempo essa camada leva para "quebrar" sem que você precise piscar.
             </p>
             <ul class="space-y-4">
                 <li class="flex items-start gap-3">
-                    <span class="font-bold text-blue-600">✓</span>
-                    <p class="text-sm text-gray-600"><strong>Sem contato e sem dor:</strong> O exame é digital e não utiliza colírios de anestesia ou corantes.</p>
+                    <span class="font-semibold text-brand-light">✓</span>
+                    <p class="text-sm text-slate-600"><strong class="text-brand">Sem contato e sem dor:</strong> O exame é digital e não utiliza colírios de anestesia ou corantes.</p>
                 </li>
                 <li class="flex items-start gap-3">
-                    <span class="font-bold text-blue-600">✓</span>
-                     <p class="text-sm text-gray-600"><strong>O que o resultado diz:</strong> Exibe exatamente a qualidade da proteção visual que você tem.</p>
+                    <span class="font-semibold text-brand-light">✓</span>
+                     <p class="text-sm text-slate-600"><strong class="text-brand">O que o resultado diz:</strong> Exibe exatamente a qualidade da proteção visual que você tem.</p>
                 </li>
             </ul>
         </div>
@@ -244,29 +244,29 @@ import Layout from '../layouts/Layout.astro';
     <div class="container mx-auto px-6">
       <div class="flex flex-col lg:flex-row items-center gap-12">
         <div class="lg:w-1/2">
-             <span class="text-cyan-500 font-bold tracking-wider text-sm uppercase mb-2 block">Volume</span>
-            <h2 class="text-3xl font-bold text-brand mb-6">Meniscometria: Medindo o seu "estoque"</h2>
-            <p class="text-gray-600 mb-6 text-lg">
+             <span class="eyebrow mb-2">Volume</span>
+            <h2 class="text-3xl font-heading mb-6">Meniscometria: Medindo o seu "estoque"</h2>
+            <p class="text-slate-600 mb-6 text-lg">
                 Alguns pacientes simplesmente produzem pouca água. A Meniscometria mede a altura do menisco lacrimal (o pequeno lago de lágrima que fica na borda da pálpebra).
             </p>
-             <div class="p-6 bg-cyan-50 border-l-4 border-cyan-500 rounded-r-xl">
-                 <h4 class="font-bold text-brand mb-2">Diferencial Importante</h4>
-                 <p class="text-sm text-gray-700">Essencial para diagnosticar se o seu problema é a produção insuficiente (comum em doenças autoimunes ou uso de certos medicamentos).</p>
+             <div class="p-6 bg-alt border-l-4 border-brand-light border border-[#E7E5E0] rounded-r-lg">
+                 <h4 class="font-heading mb-2">Diferencial Importante</h4>
+                 <p class="text-sm text-slate-600">Essencial para diagnosticar se o seu problema é a produção insuficiente (comum em doenças autoimunes ou uso de certos medicamentos).</p>
              </div>
         </div>
-        
+
         <!-- VISUAL LAGO -->
         <div class="lg:w-1/2 flex justify-center">
-            <div class="relative w-64 h-64 bg-gray-100 rounded-full flex items-end justify-center overflow-hidden border-4 border-white shadow-2xl">
+            <div class="relative w-64 h-64 bg-[#F1EFEA] rounded-full flex items-end justify-center overflow-hidden border border-[#E7E5E0] shadow-md">
                  <!-- Eye Surface -->
                  <div class="absolute inset-0 bg-white rounded-full"></div>
-                 <div class="absolute bottom-0 w-full h-1/2 bg-rose-100 border-t border-rose-200"></div> <!-- Eyelid -->
-                 
+                 <div class="absolute bottom-0 w-full h-1/2 bg-[#F1EFEA] border-t border-[#D6D3CC]"></div> <!-- Eyelid -->
+
                  <!-- Tear Meniscus -->
-                 <div class="absolute bottom-[50%] w-32 h-8 bg-blue-500 rounded-t-full blur-sm opacity-80 animate-pulse"></div>
-                 
+                 <div class="absolute bottom-[50%] w-32 h-8 bg-[#CBDBE5] rounded-t-full blur-sm"></div>
+
                  <!-- Label -->
-                 <div class="absolute top-10 right-10 bg-white shadow p-2 rounded text-xs font-bold text-blue-600">
+                 <div class="absolute top-10 right-10 bg-white border border-[#E7E5E0] shadow-sm p-2 rounded text-xs font-ui font-semibold text-brand-light">
                     ⬆ Altura do Menisco
                  </div>
             </div>
@@ -276,60 +276,61 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <!-- SEÇÃO INTEGRAÇÃO: ÁRVORE DE DECISÃO -->
-  <section class="py-20 bg-gray-50 border-t border-gray-200">
+  <section class="py-20 bg-alt border-t border-[#E7E5E0]">
       <div class="container mx-auto px-6">
           <div class="text-center mb-12">
-              <h2 class="text-3xl font-bold text-brand">Como unimos essas peças?</h2>
-              <p class="text-gray-600 mt-2">O cruzamento destes exames define o seu tratamento personalizado.</p>
+              <span class="eyebrow mb-3">Interpretação clínica</span>
+              <h2 class="text-3xl font-heading">Como unimos essas peças?</h2>
+              <p class="text-slate-600 mt-2">O cruzamento destes exames define o seu tratamento personalizado.</p>
           </div>
 
           <div class="max-w-4xl mx-auto">
-              <div class="bg-white p-8 rounded-2xl shadow-xl border border-blue-100 relative overflow-hidden">
-                  <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-400 to-cyan-400"></div>
-                  
+              <div class="card-premium p-8 relative overflow-hidden">
+                  <div class="absolute top-0 left-0 w-full h-1 bg-brand"></div>
+
                   <!-- Root -->
                   <div class="flex justify-center mb-12">
-                      <div class="bg-brand text-white px-8 py-4 rounded-xl font-bold text-center shadow-lg relative z-10">
+                      <div class="bg-brand text-white px-8 py-4 rounded-lg font-heading text-center shadow-md relative z-10">
                           Sintomas de Olho Seco
-                          <div class="absolute top-full left-1/2 w-0.5 h-8 bg-blue-200 -translate-x-1/2"></div>
+                          <div class="absolute top-full left-1/2 w-0.5 h-8 bg-[#D6D3CC] -translate-x-1/2"></div>
                       </div>
                   </div>
 
                   <div class="grid md:grid-cols-3 gap-8 relative">
                       <!-- Connecting Line Horizontal -->
-                      <div class="absolute top-0 left-[16%] right-[16%] h-0.5 bg-blue-200 -translate-y-4 hidden md:block"></div>
+                      <div class="absolute top-0 left-[16%] right-[16%] h-0.5 bg-[#D6D3CC] -translate-y-4 hidden md:block"></div>
 
                         <!-- Branch 1 -->
                       <div class="text-center relative pt-4">
-                          <div class="absolute top-0 left-1/2 w-0.5 h-4 bg-blue-200 -translate-x-1/2 -mt-4 hidden md:block"></div>
-                          <div class="bg-red-50 p-4 rounded-xl border border-red-100 mb-4 h-32 flex flex-col justify-center">
-                              <span class="text-2xl mb-2">📉</span>
-                              <strong class="text-red-800 text-sm block">NIBUT Baixo +<br>Glândulas Atrofiadas</strong>
+                          <div class="absolute top-0 left-1/2 w-0.5 h-4 bg-[#D6D3CC] -translate-x-1/2 -mt-4 hidden md:block"></div>
+                          <div class="bg-[#F1EFEA] p-4 rounded-lg border border-[#E7E5E0] mb-4 h-32 flex flex-col justify-center">
+                              <svg class="w-7 h-7 text-brand mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" /></svg>
+                              <strong class="text-brand text-sm block">NIBUT Baixo +<br>Glândulas Atrofiadas</strong>
                           </div>
-                          <div class="text-blue-600 font-bold mb-1">Tipo Evaporativo</div>
-                          <p class="text-xs text-gray-500">Falta de óleo. Tratamento focado em desobstrução (Luz Pulsada).</p>
+                          <div class="text-brand-light font-semibold mb-1">Tipo Evaporativo</div>
+                          <p class="text-xs text-slate-500">Falta de óleo. Tratamento focado em desobstrução (Luz Pulsada).</p>
                       </div>
 
                       <!-- Branch 2 -->
                       <div class="text-center relative pt-4">
-                           <div class="absolute top-0 left-1/2 w-0.5 h-4 bg-blue-200 -translate-x-1/2 -mt-4 hidden md:block"></div>
-                          <div class="bg-purple-50 p-4 rounded-xl border border-purple-100 mb-4 h-32 flex flex-col justify-center">
-                              <span class="text-2xl mb-2">⚖️</span>
-                              <strong class="text-purple-800 text-sm block">Ambos<br>Alterados</strong>
+                           <div class="absolute top-0 left-1/2 w-0.5 h-4 bg-[#D6D3CC] -translate-x-1/2 -mt-4 hidden md:block"></div>
+                          <div class="bg-[#F1EFEA] p-4 rounded-lg border border-[#E7E5E0] mb-4 h-32 flex flex-col justify-center">
+                              <svg class="w-7 h-7 text-brand mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" /></svg>
+                              <strong class="text-brand text-sm block">Ambos<br>Alterados</strong>
                           </div>
-                          <div class="text-purple-600 font-bold mb-1">Tipo Misto</div>
-                          <p class="text-xs text-gray-500">O mais comum. Requer abordagem combinada (Luz + Lubrificação).</p>
+                          <div class="text-brand font-semibold mb-1">Tipo Misto</div>
+                          <p class="text-xs text-slate-500">O mais comum. Requer abordagem combinada (Luz + Lubrificação).</p>
                       </div>
 
                       <!-- Branch 3 -->
                       <div class="text-center relative pt-4">
-                           <div class="absolute top-0 left-1/2 w-0.5 h-4 bg-blue-200 -translate-x-1/2 -mt-4 hidden md:block"></div>
-                          <div class="bg-cyan-50 p-4 rounded-xl border border-cyan-100 mb-4 h-32 flex flex-col justify-center">
-                              <svg class="w-7 h-7 text-cyan-600 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3c4.5 5.25 6.75 8.25 6.75 11.25a6.75 6.75 0 11-13.5 0C5.25 11.25 7.5 8.25 12 3z" /></svg>
-                              <strong class="text-cyan-800 text-sm block">Menisco Baixo +<br>Glândulas Normais</strong>
+                           <div class="absolute top-0 left-1/2 w-0.5 h-4 bg-[#D6D3CC] -translate-x-1/2 -mt-4 hidden md:block"></div>
+                          <div class="bg-[#F1EFEA] p-4 rounded-lg border border-[#E7E5E0] mb-4 h-32 flex flex-col justify-center">
+                              <svg class="w-7 h-7 text-brand-light mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3c4.5 5.25 6.75 8.25 6.75 11.25a6.75 6.75 0 11-13.5 0C5.25 11.25 7.5 8.25 12 3z" /></svg>
+                              <strong class="text-brand text-sm block">Menisco Baixo +<br>Glândulas Normais</strong>
                           </div>
-                          <div class="text-cyan-600 font-bold mb-1">Tipo Aquoso</div>
-                          <p class="text-xs text-gray-500">Falta de água. Foco em oclusão (Plugs) e reposição.</p>
+                          <div class="text-brand-light font-semibold mb-1">Tipo Aquoso</div>
+                          <p class="text-xs text-slate-500">Falta de água. Foco em oclusão (Plugs) e reposição.</p>
                       </div>
                   </div>
               </div>
@@ -338,38 +339,38 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <!-- COMO É O DIA DO EXAME -->
-  <section class="py-20 bg-brand text-white">
+  <section class="py-20 bg-brand-dark text-white">
     <div class="container mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center mb-16">O que esperar da sua avaliação na Saraiva Vision</h2>
-        
+        <h2 class="text-3xl font-heading text-white text-center mb-16">O que esperar da sua avaliação</h2>
+
         <div class="grid md:grid-cols-4 gap-8">
             <div class="text-center relative">
-                <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl border border-white/20">🗣️</div>
-                <h3 class="font-bold text-xl mb-2">1. Conversa</h3>
-                <p class="text-blue-200 text-sm">Você nos conta seus sintomas e rotina (uso de telas, ar-condicionado).</p>
+                <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-white/20"><svg class="w-7 h-7 text-teal-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg></div>
+                <h3 class="font-heading text-white text-xl mb-2">1. Conversa</h3>
+                <p class="text-white/75 text-sm">Você nos conta seus sintomas e rotina (uso de telas, ar-condicionado).</p>
                 <div class="hidden md:block absolute top-8 left-full w-full h-0.5 bg-white/10 -translate-x-1/2 -z-10"></div>
             </div>
             <div class="text-center relative">
-                <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl border border-white/20">📷</div>
-                <h3 class="font-bold text-xl mb-2">2. Escaneamento</h3>
-                <p class="text-blue-200 text-sm">Capturamos imagens das glândulas (Meibografia) — rápido e indolor.</p>
+                <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-white/20"><svg class="w-7 h-7 text-teal-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg></div>
+                <h3 class="font-heading text-white text-xl mb-2">2. Escaneamento</h3>
+                <p class="text-white/75 text-sm">Capturamos imagens das glândulas (Meibografia) — rápido e indolor.</p>
                 <div class="hidden md:block absolute top-8 left-full w-full h-0.5 bg-white/10 -translate-x-1/2 -z-10"></div>
             </div>
             <div class="text-center relative">
-                <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl border border-white/20">💻</div>
-                <h3 class="font-bold text-xl mb-2">3. Análise Digital</h3>
-                <p class="text-blue-200 text-sm">O software mede a estabilidade e o volume da lágrima.</p>
+                <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-white/20"><svg class="w-7 h-7 text-teal-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg></div>
+                <h3 class="font-heading text-white text-xl mb-2">3. Análise Digital</h3>
+                <p class="text-white/75 text-sm">O software mede a estabilidade e o volume da lágrima.</p>
                 <div class="hidden md:block absolute top-8 left-full w-full h-0.5 bg-white/10 -translate-x-1/2 -z-10"></div>
             </div>
             <div class="text-center">
-                <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-green-900/50"><svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
-                <h3 class="font-bold text-xl mb-2">4. Plano de Ação</h3>
-                <p class="text-blue-200 text-sm">O Dr. Philipe Saraiva define o tratamento ideal para o seu tipo.</p>
+                <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-teal-200/40"><svg class="w-8 h-8 text-teal-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+                <h3 class="font-heading text-white text-xl mb-2">4. Plano de Ação</h3>
+                <p class="text-white/75 text-sm">O Dr. Philipe Saraiva Cruz define o tratamento indicado para o seu tipo.</p>
             </div>
         </div>
 
         <div class="mt-16 text-center">
-             <a href="https://wa.me/5533998601427" class="btn-premium btn-premium-primary inline-flex gap-3 text-lg py-4 px-8">
+             <a href="https://wa.me/5533998601427" onclick="return gtag_report_conversion('https://wa.me/5533998601427')" class="btn-premium bg-white text-brand border border-white hover:bg-[#FBFAF8] inline-flex gap-3 text-lg py-4 px-8">
                 Agendar meu diagnóstico digital
              </a>
         </div>
@@ -377,9 +378,9 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <!-- RODAPÉ TÉCNICO -->
-  <section class="bg-gray-950 py-8 border-t border-gray-900">
-      <div class="container mx-auto px-6 text-center text-gray-500 text-xs leading-relaxed">
-        <p class="font-bold text-gray-400 mb-1">Clínica Saraiva Vision Care LTDA</p>
+  <section class="bg-brand-dark py-8 border-t border-white/10">
+      <div class="container mx-auto px-6 text-center text-white/60 text-xs leading-relaxed">
+        <p class="font-semibold text-white/80 mb-1">Olhos Secos — Centro Especializado em Olho Seco</p>
         <p class="mb-4">Responsável Técnico: Dr. Philipe Saraiva Cruz (CRM-MG 69.870 | RQE 307527)</p>
         <p class="italic">Conteúdo meramente educativo. A avaliação médica é indispensável.</p>
       </div>

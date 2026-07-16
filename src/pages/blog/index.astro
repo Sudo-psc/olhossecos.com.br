@@ -140,18 +140,19 @@ const displayPosts = usingSanity && posts.length > 0 ? posts : staticPosts;
 ---
 
 <Layout title="Blog | Olhos Secos" description="Artigos e novidades sobre saúde ocular e tratamentos.">
-  <main class="min-h-screen bg-white">
-    
+  <main class="min-h-screen">
+
     <!-- Editorial Hero -->
-    <section class="pt-32 pb-16 bg-[#fafafa] border-b border-gray-100">
+    <section class="pt-24 pb-14 border-b border-[#E7E5E0]">
       <div class="container mx-auto px-6 text-center">
-        <span class="text-cyan-600 font-bold uppercase tracking-widest text-xs mb-3 block">Conteúdo Especializado</span>
-        <h1 class="text-5xl md:text-7xl font-bold text-brand mb-6 font-heading tracking-tight">Journal</h1>
-        <p class="text-xl text-gray-500 max-w-2xl mx-auto font-light">
-          Medicina baseada em evidências, traduzida para o seu dia a dia.
+        <span class="eyebrow mb-4">Conteúdo Especializado</span>
+        <h1 class="text-4xl md:text-6xl font-bold text-brand mt-4 mb-6 tracking-tight">Blog</h1>
+        <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto">
+          Medicina baseada em evidências, traduzida para o seu dia a dia — por
+          <span class="font-medium text-brand">Dr. Philipe Saraiva Cruz · CRM-MG 69.870</span>.
         </p>
          {!usingSanity && (
-            <div class="mt-6 inline-block bg-amber-50 text-amber-800 text-xs px-4 py-2 rounded-full border border-amber-200">
+            <div class="mt-6 badge-soft text-xs">
                 Modo Demonstrativo (Sanity Offline)
             </div>
         )}
@@ -181,9 +182,9 @@ const displayPosts = usingSanity && posts.length > 0 ? posts : staticPosts;
                       ? "(min-width: 1024px) 50vw, 100vw"
                       : undefined;
                     return (
-                        <div class="group relative rounded-3xl overflow-hidden shadow-2xl shadow-blue-900/5 grid md:grid-cols-2 min-h-[500px]">
+                        <div class="group card-premium relative overflow-hidden grid md:grid-cols-2 min-h-[440px]">
                              <div class="relative overflow-hidden h-full min-h-[300px]">
-                                <img 
+                                <img
                                     src={featuredSrc}
                                     srcset={featuredSrcset}
                                     sizes={featuredSizes}
@@ -191,28 +192,25 @@ const displayPosts = usingSanity && posts.length > 0 ? posts : staticPosts;
                                     loading="eager"
                                     decoding="async"
                                     fetchpriority="high"
-                                    class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                    class="absolute inset-0 w-full h-full object-cover"
                                 />
-                                <div class="absolute inset-0 bg-blue-900/10 group-hover:bg-transparent transition-colors"></div>
                             </div>
-                            <div class="bg-white p-12 md:p-16 flex flex-col justify-center">
-                                <span class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide w-fit mb-6">
-                                    Destaque da Semana
-                                </span>
-                                <h2 class="text-3xl md:text-4xl font-bold text-brand mb-6 leading-tight group-hover:text-blue-600 transition-colors">
-                                    <a href={`/blog/${featured.slug.current}`}>
+                            <div class="bg-white p-10 md:p-14 flex flex-col justify-center">
+                                <span class="eyebrow mb-5">Em destaque</span>
+                                <h2 class="text-2xl md:text-4xl font-bold text-brand mb-5 leading-tight">
+                                    <a href={`/blog/${featured.slug.current}`} class="hover:text-brand-light transition-colors">
                                         {featured.title}
                                     </a>
                                 </h2>
-                                <p class="text-gray-500 text-lg mb-8 leading-relaxed line-clamp-3">
+                                <p class="text-slate-600 text-lg mb-8 leading-relaxed line-clamp-3">
                                     {featured.excerpt}
                                 </p>
-                                <div class="flex items-center justify-between mt-auto pt-6 border-t border-gray-100">
-                                    <span class="text-gray-400 text-sm font-medium">
+                                <div class="flex items-center justify-between mt-auto pt-6 border-t border-[#E7E5E0]">
+                                    <span class="text-slate-500 text-sm font-medium">
                                         {featured.publishedAt ? new Date(featured.publishedAt).toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Data indefinida'}
                                     </span>
-                                    <a href={`/blog/${featured.slug.current}`} class="text-brand font-bold hover:underline">
-                                        Ler Artigo Completo →
+                                    <a href={`/blog/${featured.slug.current}`} class="text-brand-light font-semibold hover:text-brand transition-colors">
+                                        Ler artigo completo →
                                     </a>
                                 </div>
                             </div>
@@ -223,8 +221,8 @@ const displayPosts = usingSanity && posts.length > 0 ? posts : staticPosts;
 
             <!-- Recent Articles Grid -->
             <div class="mb-12 flex items-center gap-4">
-                <h3 class="text-2xl font-bold text-gray-900">Mais Artigos</h3>
-                <div class="h-px bg-gray-200 flex-1"></div>
+                <h3 class="text-2xl font-bold text-brand">Mais Artigos</h3>
+                <div class="h-px bg-[#E7E5E0] flex-1"></div>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
@@ -243,39 +241,40 @@ const displayPosts = usingSanity && posts.length > 0 ? posts : staticPosts;
                     ? "(min-width: 1024px) 33vw, 100vw"
                     : undefined;
                   return (
-                    <article class="group flex flex-col h-full">
-                        <a href={`/blog/${post.slug.current}`} class="block overflow-hidden rounded-2xl mb-6 aspect-[4/3] relative shadow-sm hover:shadow-lg transition-all">
-                            <img 
+                    <article class="group card-premium flex flex-col h-full overflow-hidden">
+                        <a href={`/blog/${post.slug.current}`} class="block overflow-hidden aspect-[4/3] relative border-b border-[#E7E5E0]">
+                            <img
                                 src={postSrc}
                                 srcset={postSrcset}
                                 sizes={postSizes}
                                 alt={post.title}
                                 loading="lazy"
                                 decoding="async"
-                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                class="w-full h-full object-cover"
                             />
-                             <div class="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors"></div>
                         </a>
-                        
-                        <div class="flex-1 flex flex-col">
-                            <div class="flex items-center gap-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
-                                <span>{post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' }) : ''}</span>
-                                <span class="w-1 h-1 rounded-full bg-gray-300"></span>
-                                <span class="text-cyan-600">Leitura Rápida</span>
+
+                        <div class="flex-1 flex flex-col p-6">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="eyebrow">{post.categories?.[0]?.title ?? 'Artigo'}</span>
+                                <span class="w-1 h-1 rounded-full bg-[#D6D3CC]"></span>
+                                <span class="text-xs font-medium text-slate-500 uppercase tracking-wider">
+                                    {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' }) : ''}
+                                </span>
                             </div>
-                            
-                            <h3 class="text-xl font-bold text-brand mb-3 leading-snug group-hover:text-blue-600 transition-colors">
-                                <a href={`/blog/${post.slug.current}`}>
+
+                            <h3 class="text-xl font-bold text-brand mb-3 leading-snug">
+                                <a href={`/blog/${post.slug.current}`} class="hover:text-brand-light transition-colors">
                                     {post.title}
                                 </a>
                             </h3>
-                            
-                            <p class="text-gray-500 text-sm leading-relaxed line-clamp-3 mb-4 flex-1">
+
+                            <p class="text-slate-600 text-sm leading-relaxed line-clamp-3 mb-4 flex-1">
                                 {post.excerpt}
                             </p>
-                            
-                            <a href={`/blog/${post.slug.current}`} class="text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors inline-flex items-center gap-1 group/link">
-                                Ler mais 
+
+                            <a href={`/blog/${post.slug.current}`} class="text-sm font-semibold text-brand-light hover:text-brand transition-colors inline-flex items-center gap-1 group/link">
+                                Ler mais
                                 <span class="transform group-hover/link:translate-x-1 transition-transform">→</span>
                             </a>
                         </div>

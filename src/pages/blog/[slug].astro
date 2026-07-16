@@ -4,6 +4,7 @@ import Layout from '../../layouts/Layout.astro';
 import { client, urlFor } from '../../lib/sanity';
 import { PortableText } from "astro-portabletext";
 import groq from 'groq';
+import '../../styles/article.css';
 
 const { slug } = Astro.params;
 
@@ -33,77 +34,81 @@ const postImage = post?.mainImage
   ? urlFor(post.mainImage)!.width(1200).height(630).url()
   : undefined;
 
-const lcpImage = post?.mainImage 
-  ? { src: urlFor(post.mainImage)!.width(1200).height(600).url(), type: "image/webp" } 
+const lcpImage = post?.mainImage
+  ? { src: urlFor(post.mainImage)!.width(1200).height(600).url(), type: "image/webp" }
   : undefined;
+
+const authorName: string = post.author?.name || 'Dr. Philipe Saraiva Cruz';
+const byline = authorName.includes('Philipe Saraiva')
+  ? `${authorName} · CRM-MG 69.870`
+  : authorName;
 ---
 
-<Layout 
-    title={`${post.title} | Blog Saraiva Vision`} 
-    description={post.excerpt || post.title} 
-    image={postImage} 
-    imageAlt={post.title} 
-    imageWidth={1200} 
+<Layout
+    title={`${post.title} | Blog Olhos Secos`}
+    description={post.excerpt || post.title}
+    image={postImage}
+    imageAlt={post.title}
+    imageWidth={1200}
     imageHeight={630}
     preloadImage={lcpImage}
 >
-  <article class="bg-white min-h-screen pb-20">
-    <!-- Header com Imagem -->
-    <div class="relative h-[400px] md:h-[500px] w-full bg-blue-900 overflow-hidden">
-        {post.mainImage ? (
-            <img 
-                src={urlFor(post.mainImage!)!.width(1200).height(600).url()} 
-                alt={post.title} 
-                width="1200"
-                height="600"
-                loading="eager"
-                decoding="async"
-                fetchpriority="high"
-                class="w-full h-full object-cover opacity-80"
-            />
-        ) : (
-             <div class="absolute inset-0 bg-[url('/pattern.svg')] opacity-20"></div>
-        )}
-        <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div>
-    </div>
+  <article class="pt-24 pb-16 bg-white min-h-screen">
+    <div class="container mx-auto px-6 max-w-4xl">
 
-    <div class="container mx-auto px-6 relative -mt-32 z-10">
-        <div class="bg-white rounded-3xl shadow-xl p-8 md:p-12 border border-gray-100 max-w-4xl mx-auto">
-            
-            <!-- Meta Data -->
-            <div class="flex flex-wrap text-sm gap-4 text-gray-500 mb-6 font-medium">
-                 {post.categories && post.categories.length > 0 && (
-                    <span class="text-blue-600 bg-blue-50 px-3 py-1 rounded-full">{post.categories[0].title}</span>
-                )}
-                <span class="flex items-center gap-2">
-                    📅 {new Date(post.publishedAt).toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' })}
-                </span>
-                {post.author && (
-                    <span class="flex items-center gap-2">
-                        ✍️ {post.author.name}
-                    </span>
-                )}
-            </div>
+        <!-- Breadcrumb -->
+        <nav class="mb-10 text-sm">
+          <ol class="flex items-center gap-2 text-gray-500">
+            <li><a href="/" class="hover:text-brand-light">Início</a></li>
+            <li>/</li>
+            <li><a href="/blog" class="hover:text-brand-light">Blog</a></li>
+          </ol>
+        </nav>
 
-            <!-- Title -->
-            <h1 class="text-3xl md:text-5xl font-bold text-brand mb-8 leading-tight">
+        <!-- Cabeçalho editorial -->
+        <header class="text-center mb-12">
+            {post.categories && post.categories.length > 0 && (
+                <span class="eyebrow mb-4">{post.categories[0].title}</span>
+            )}
+            <h1 class="text-3xl md:text-5xl font-bold text-brand mt-4 mb-6 leading-tight">
                 {post.title}
             </h1>
-
-            <!-- Content -->
-            <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
-                <PortableText value={post.body} />
+            <div class="flex items-center justify-center gap-4 text-gray-500 text-sm flex-wrap">
+                <span class="font-medium text-brand">{byline}</span>
+                <span>•</span>
+                <span>{new Date(post.publishedAt).toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
             </div>
+        </header>
 
-            <!-- Share/Footer -->
-            <div class="mt-12 pt-8 border-t border-gray-100 flex justify-between items-center">
-                <a href="/blog" class="text-gray-500 hover:text-brand font-semibold flex items-center gap-2 transition-colors">
-                    ← Voltar para o Blog
-                </a>
-                <a href="/contato" class="btn-premium btn-premium-primary text-sm px-6 py-2">
-                    Agendar Avaliação
-                </a>
-            </div>
+        <!-- Imagem de capa -->
+        {post.mainImage && (
+            <figure class="mb-12 rounded-xl overflow-hidden border border-[#E7E5E0] shadow-sm">
+                <img
+                    src={urlFor(post.mainImage!)!.width(1200).height(600).url()}
+                    alt={post.title}
+                    width="1200"
+                    height="600"
+                    loading="eager"
+                    decoding="async"
+                    fetchpriority="high"
+                    class="w-full h-auto"
+                />
+            </figure>
+        )}
+
+        <!-- Conteúdo -->
+        <div class="article-body mx-auto text-slate-700">
+            <PortableText value={post.body} />
+        </div>
+
+        <!-- Rodapé do artigo -->
+        <div class="max-w-[70ch] mx-auto mt-14 pt-8 border-t border-[#E7E5E0] flex flex-col sm:flex-row gap-4 justify-between items-center">
+            <a href="/blog" class="text-slate-500 hover:text-brand font-semibold flex items-center gap-2 transition-colors">
+                ← Voltar para o Blog
+            </a>
+            <a href="/contato" class="btn-premium btn-premium-primary text-sm px-6 py-2">
+                Agendar Avaliação
+            </a>
         </div>
     </div>
   </article>

@@ -19,7 +19,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Styling**: Tailwind CSS 3.4
 - **Language**: TypeScript
 - **Package Manager**: npm (use `npm` commands; ignore the stale `pnpm-lock.yaml`)
-- **Deploy**: Docker on VPS via GitHub Actions (push to `master`)
+- **Deploy**: systemd Node server on this VPS (see Deployment section — the Docker/GitHub Actions docs in the repo are stale)
 
 Note: `package.json` description mentions "WordPress Headless CMS" — this is stale; the actual CMS is Sanity.
 
@@ -64,7 +64,7 @@ API endpoints validate input (Brazilian phone format, email) then fan out notifi
 
 **`src/lib/sanity.ts`** — Sanity client (project ID `qum5qhgj`, dataset `production`, CDN enabled, apiVersion `2024-01-01`), `urlFor()` image URL builder, and `SanityPost` types. Fetch content with `client.fetch()` + GROQ queries.
 
-**`src/layouts/Layout.astro`** — Base layout: SEO meta tags (OpenGraph/Twitter), per-page structured data (LocalBusiness, Physician, WebPage, WebSite, BreadcrumbList), font loading (Outfit headings / Inter body), global CSS variables, Header/Footer.
+**`src/layouts/Layout.astro`** — Base layout: SEO meta tags (OpenGraph/Twitter), per-page structured data (LocalBusiness, Physician, WebPage, WebSite, BreadcrumbList), font loading, global CSS variables and utility classes, Header/Footer.
 
 ### Page Structure
 
@@ -94,21 +94,30 @@ src/pages/
 
 Conversion-focused components: `WhatsAppFloat.astro` (floating WhatsApp button), `ExitIntentPopup.astro`.
 
-### Styling System
+### Styling System ("Premium Editorial Clínico")
 
-Custom design tokens defined in Layout.astro:
+Design tokens live in `:root` in Layout.astro (colors, radii, shadows, gradients). Core palette:
 
 ```css
---primary: #003D7A       /* Deep blue for headings */
---primary-light: #22d3ee /* Cyan-400 for accents */
---secondary: #64748b     /* Slate-500 for secondary text */
---accent: #ecfeff        /* Cyan-50 for backgrounds */
---text-main: #1e293b     /* Slate-800 for main text */
---bg-body: #f8fafc       /* Slate-50 global background */
---bg-alt: #ffffff        /* White for cards */
+--primary: #10314F        /* Deep navy ink — headings and buttons */
+--primary-dark: #0B2239   /* Near-ink navy for hover/dark backgrounds */
+--primary-light: #0F766E  /* The single accent: deep teal (links, details) */
+--accent-ink: #0F766E     /* Semantic alias for the teal accent */
+--secondary: #57616C      /* Slate gray for secondary text */
+--accent: #EEF2F1         /* Soft neutral background with a teal hint */
+--text-main: #2B3440      /* Dark slate for body text */
+--bg-body: #F7F6F3        /* Warm paper-like off-white */
+--bg-alt: #ffffff         /* White for cards */
+--border: #E7E5E0         /* Stone hairline */
 ```
 
-Patterns: `.container`, `.section-padding`, `.btn-premium`, `.glass`. Components use PascalCase filenames; pages use lowercase/kebab-case. Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`, `ci:`) are used in history.
+No neon/cyan colors — the palette is deliberately sober (navy + one teal accent on warm paper). Prefer the CSS variables over hardcoded hex; `tailwind.config.mjs` also exposes `brand` colors matching the navy.
+
+**Typography**: self-hosted fonts in `public/fonts/fonts.css` — **Fraunces** (serif) for headings, **Inter** for body, Outfit available only for UI labels via `.font-ui`.
+
+**`src/styles/article.css`** — editorial typography for blog article bodies (`.article-body`), imported by `blog/[slug].astro` and the static blog posts. Its selectors use `:not([class])` so Tailwind utilities applied inside articles are not overridden — keep that convention when extending it.
+
+Utility patterns from Layout.astro: `.container`, `.section-padding`, `.btn-premium` (+ `-primary`/`-secondary`/`-dark` variants). Components use PascalCase filenames; pages use lowercase/kebab-case. Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`, `ci:`) are used in history.
 
 ### Image Handling
 
@@ -159,6 +168,8 @@ This repo lives ON the production VPS at `/root/olhossecos.com.br-site` (the VPS
 **LGPD** (Brazilian data protection):
 - Contact/lead forms collect `consentimento` and must link to the privacy policy (`/privacidade`)
 - API endpoints handle personal data (name, phone, email) — never log or expose it
+
+The repo ships a project skill, `skills/saraiva-vision-compliance-review`, for reviewing diffs/pages/copy against CFM compliance and Saraiva Vision visual identity — use it when asked to review changes to this site.
 
 ## Key Business Information
 

@@ -3,50 +3,51 @@ import Layout from '../../layouts/Layout.astro';
 ---
 
 <Layout title="Medicamentos e Suplementação | Olho Seco" description="Lágrimas artificiais, imunomoduladores e ômega 3: o papel dos medicamentos no tratamento do olho seco.">
-  <section class="bg-blue-50 py-16">
+  <section class="bg-alt border-b border-[#E7E5E0] py-16">
     <div class="container mx-auto px-6">
       <div class="max-w-3xl mx-auto text-center">
-        <h1 class="text-4xl font-bold text-brand mb-4">Colírios & Medicamentos</h1>
-        <p class="text-gray-600 text-lg">Indicações precisas para cada tipo e estágio da doença.</p>
+        <span class="eyebrow mb-4">Tratamentos · Farmacologia</span>
+        <h1 class="text-4xl font-heading mb-4">Colírios &amp; Medicamentos</h1>
+        <p class="text-slate-600 text-lg">Indicações precisas para cada tipo e estágio da doença.</p>
       </div>
     </div>
   </section>
 
-  <section class="section-padding bg-white">
+  <section class="section-padding">
     <div class="container mx-auto px-6 max-w-4xl">
-      
+
       <div class="grid gap-12">
         <!-- Tears -->
         <div class="flex flex-col md:flex-row gap-6">
-            <div class="md:w-1/6 text-center pt-2"><svg class="w-10 h-10 text-blue-500 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3c4.5 5.25 6.75 8.25 6.75 11.25a6.75 6.75 0 11-13.5 0C5.25 11.25 7.5 8.25 12 3z" /></svg></div>
+            <div class="md:w-1/6 text-center pt-2"><span class="inline-flex w-14 h-14 items-center justify-center rounded-lg bg-[#EEF2F1] border border-[#E7E5E0]"><svg class="w-8 h-8 text-brand-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3c4.5 5.25 6.75 8.25 6.75 11.25a6.75 6.75 0 11-13.5 0C5.25 11.25 7.5 8.25 12 3z" /></svg></span></div>
             <div class="md:w-5/6">
-                <h3 class="text-2xl font-bold text-brand mb-2">Lágrimas Artificiais (Lubrificantes)</h3>
-                <p class="text-gray-600 mb-4">
-                    Não são todos iguais. Na Saraiva Vision, priorizamos lubrificantes <strong>sem conservantes</strong> de última geração, contendo ácido hialurônico, trealose ou lipídios, dependendo se o seu olho seco é aquoso ou evaporativo.
+                <h3 class="text-2xl font-heading mb-2">Lágrimas Artificiais (Lubrificantes)</h3>
+                <p class="text-slate-600 mb-4">
+                    Não são todos iguais. No nosso centro especializado, priorizamos lubrificantes <strong class="text-brand">sem conservantes</strong> de última geração, contendo ácido hialurônico, trealose ou lipídios, dependendo se o seu olho seco é aquoso ou evaporativo.
                 </p>
             </div>
         </div>
 
         <!-- Anti-inflammatory -->
         <div class="flex flex-col md:flex-row gap-6">
-            <div class="md:w-1/6 text-center pt-2"><svg class="w-10 h-10 text-cyan-600 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg></div>
+            <div class="md:w-1/6 text-center pt-2"><span class="inline-flex w-14 h-14 items-center justify-center rounded-lg bg-[#EEF2F1] border border-[#E7E5E0]"><svg class="w-8 h-8 text-brand-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg></span></div>
             <div class="md:w-5/6">
-                <h3 class="text-2xl font-bold text-brand mb-2">Imunomoduladores e Anti-inflamatórios</h3>
-                <p class="text-gray-600 mb-4">
+                <h3 class="text-2xl font-heading mb-2">Imunomoduladores e Anti-inflamatórios</h3>
+                <p class="text-slate-600 mb-4">
                     Para quebrar o ciclo vicioso da inflamação. Medicamentos como Ciclosporina podem ser prescritos para uso crônico seguro, enquanto corticoides são usados em pulsos curtos (soft steroids) para alívio rápido.
                 </p>
-                <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200 text-sm text-yellow-800">
-                    ⚠️ Nunca use corticoides sem prescrição médica devido ao risco de glaucoma e catarata.
+                <div class="bg-alt p-4 rounded-lg border border-[#D6D3CC] text-sm text-brand-dark">
+                    <strong>Atenção:</strong> nunca use corticoides sem prescrição médica devido ao risco de glaucoma e catarata.
                 </div>
             </div>
         </div>
 
         <!-- Omega 3 -->
         <div class="flex flex-col md:flex-row gap-6">
-             <div class="md:w-1/6 text-4xl text-center pt-2">🐟</div>
+             <div class="md:w-1/6 text-center pt-2"><span class="inline-flex w-14 h-14 items-center justify-center rounded-lg bg-[#EEF2F1] border border-[#E7E5E0]"><svg class="w-8 h-8 text-brand-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></span></div>
              <div class="md:w-5/6">
-                <h3 class="text-2xl font-bold text-brand mb-2">Suplementação Oral (Ômega 3)</h3>
-                <p class="text-gray-600 mb-4">
+                <h3 class="text-2xl font-heading mb-2">Suplementação Oral (Ômega 3)</h3>
+                <p class="text-slate-600 mb-4">
                     Ácidos graxos essenciais (EPA e DHA) de alta qualidade, na forma reesterificada (maior absorção), ajudam a afinar a secreção das glândulas de Meibomius e têm potente ação anti-inflamatória sistêmica.
                 </p>
              </div>
@@ -54,7 +55,7 @@ import Layout from '../../layouts/Layout.astro';
       </div>
 
        <div class="mt-12 text-center">
-          <a href="/tratamentos" class="text-blue-600 font-bold hover:underline">← Voltar para Tratamentos</a>
+          <a href="/tratamentos" class="text-brand-light font-semibold hover:text-[#115E59] hover:underline">← Voltar para Tratamentos</a>
       </div>
     </div>
   </section>

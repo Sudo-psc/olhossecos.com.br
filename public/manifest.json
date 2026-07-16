@@ -1,11 +1,11 @@
 {
-  "name": "Saraiva Vision - Olhos Secos",
+  "name": "Olhos Secos — Centro Especializado em Olho Seco",
   "short_name": "Olhos Secos",
-  "description": "Clínica especializada em tratamento de olho seco em Caratinga, MG. Tratamento com Luz Pulsada (IRPL), Lentes Esclerais e termoterapia.",
+  "description": "Centro especializado em tratamento de olho seco em Caratinga, MG. Tratamento com Luz Pulsada (IRPL), Lentes Esclerais e higiene palpebral.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f8fafc",
-  "theme_color": "#003D7A",
+  "background_color": "#F7F6F3",
+  "theme_color": "#10314F",
   "orientation": "portrait-primary",
   "icons": [
     {

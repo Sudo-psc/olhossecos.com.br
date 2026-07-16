@@ -3,19 +3,20 @@
  */
 
 export const SITE_CONFIG = {
-  name: "Saraiva Vision Clínica Especializada em Olho Seco",
+  name: "Olhos Secos — Centro Especializado em Olho Seco",
   description:
-    "Referência em tratamento de olho seco. Tecnologia avançada e atendimento humanizado na Clínica Saraiva Vision.",
+    "Centro especializado em diagnóstico e tratamento de olho seco em Caratinga, MG. Conteúdo educativo, exames e tratamentos para a saúde da superfície ocular.",
   url: "https://olhossecos.com.br",
   locale: "pt_BR",
   language: "pt-BR",
 
   // Business Info
   business: {
-    name: "Saraiva Vision Clínica Especializada em Olho Seco",
+    name: "Olhos Secos — Centro Especializado em Olho Seco",
     cnpj: "53.864.119/0001-79",
     phone: "(33) 99860-1427",
     whatsapp: "5533998601427",
+    // Uso interno (backend de e-mail/notificações). NÃO exibir em UI nem em structured data.
     email: "contato@saraivavision.com.br",
     hours: {
       weekdays: "08:00 - 18:00",
@@ -51,21 +52,19 @@ export const SITE_CONFIG = {
     ],
   },
 
-  // Social Media
+  // Social Media — marca puramente editorial: sem redes sociais da clínica.
+  // Mantido apenas o GitHub do Dry Eye Widget (projeto open source).
   social: {
-    instagram: "https://instagram.com/saraiva_vision",
-    facebook: "https://facebook.com/saraivavision",
-    youtube: "https://youtube.com/@saraivavision",
-    linkedin: "https://linkedin.com/company/saraivavision",
+    github: "https://github.com/Sudo-psc/dry-eye-widget",
   },
 
   // SEO Defaults
   seo: {
-    titleTemplate: "%s | Saraiva Vision - Olhos Secos",
+    titleTemplate: "%s | Olhos Secos",
     defaultTitle:
-      "Saraiva Vision Clínica Especializada em Olho Seco | Dr. Philipe Saraiva Cruz",
+      "Olhos Secos — Centro Especializado em Olho Seco | Dr. Philipe Saraiva Cruz",
     defaultDescription:
-      "Saraiva Vision - Clínica Especializada em Olho Seco. Dr. Philipe Saraiva Cruz, médico pós-graduado em oftalmologia com área de atuação em oftalmologia clínica geral, procedimentos minimamente invasivos e olho seco.",
+      "Centro Especializado em Olho Seco em Caratinga, MG. Dr. Philipe Saraiva Cruz (CRM-MG 69.870), médico pós-graduado em oftalmologia com área de atuação em oftalmologia clínica geral, procedimentos minimamente invasivos e olho seco.",
     defaultImage: "/og-image.jpg",
   },
 
@@ -108,10 +107,7 @@ export const SITE_CONFIG = {
       { name: "Meibografia", href: "/tratamentos#meibografia" },
       { name: "Consulta Oftalmológica", href: "/contato" },
     ],
-    legal: [
-      { name: "Política de Privacidade", href: "/privacidade" },
-      { name: "Termos de Uso", href: "/termos" },
-    ],
+    legal: [{ name: "Política de Privacidade", href: "/privacidade" }],
   },
 };
 
@@ -121,12 +117,11 @@ export function getClinicStructuredData() {
     "@context": "https://schema.org",
     "@type": "MedicalBusiness",
     "@id": `${SITE_CONFIG.url}/#clinic`,
-    name: SITE_CONFIG.business.name,
-    alternateName: SITE_CONFIG.name,
+    name: "Olhos Secos",
+    alternateName: SITE_CONFIG.business.name,
     description: SITE_CONFIG.description,
     url: SITE_CONFIG.url,
     telephone: SITE_CONFIG.business.phone,
-    email: SITE_CONFIG.business.email,
     geo: {
       "@type": "GeoCoordinates",
       latitude: SITE_CONFIG.business.coordinates.lat,

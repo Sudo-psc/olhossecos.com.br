@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import '../../styles/article.css';
 
 const schema = {
   "@context": "https://schema.org",
@@ -13,8 +14,8 @@ const schema = {
   },
   "publisher": {
     "@type": "Organization",
-    "name": "Saraiva Vision",
-    "url": "https://saraivavision.com.br"
+    "name": "Olhos Secos",
+    "url": "https://olhossecos.com.br"
   },
   "datePublished": "2025-12-18",
   "dateModified": "2025-12-23"
@@ -22,8 +23,8 @@ const schema = {
 ---
 
 <Layout 
-  title="Meibografia | Exame de Olho Seco | Saraiva Vision" 
-  description="Meibografia: exame que visualiza as glândulas de Meibomius para diagnóstico preciso de olho seco. Agende na Clínica Saraiva Vision."
+  title="Meibografia | Exame de Olho Seco | Olhos Secos" 
+  description="Meibografia: exame que visualiza as glândulas de Meibomius para diagnóstico preciso de olho seco. Agende sua avaliação em nosso centro especializado."
 >
   <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
   
@@ -32,21 +33,21 @@ const schema = {
         <!-- Breadcrumb -->
         <nav class="mb-8 text-sm">
           <ol class="flex items-center gap-2 text-gray-500">
-            <li><a href="/" class="hover:text-blue-600">Início</a></li>
+            <li><a href="/" class="hover:text-brand-light">Início</a></li>
             <li>/</li>
-            <li><a href="/blog" class="hover:text-blue-600">Blog</a></li>
+            <li><a href="/blog" class="hover:text-brand-light">Blog</a></li>
             <li>/</li>
-            <li class="text-blue-600">Meibografia</li>
+            <li class="text-brand-light">Meibografia</li>
           </ol>
         </nav>
 
         <div class="text-center mb-12">
-            <span class="inline-block bg-purple-100 text-purple-700 font-bold uppercase tracking-widest text-xs px-4 py-2 rounded-full mb-4">Exame Diagnóstico</span>
+            <span class="eyebrow mb-4">Exame Diagnóstico</span>
             <h1 class="text-3xl md:text-5xl font-bold text-brand mt-4 mb-6 leading-tight">
               Meibografia: O Exame que Revela a Causa do Seu Olho Seco
             </h1>
             <div class="flex items-center justify-center gap-4 text-gray-500 text-sm flex-wrap">
-                <span>Por Dr. Philipe Saraiva Cruz</span>
+                <span class="font-medium text-brand">Dr. Philipe Saraiva Cruz · CRM-MG 69.870</span>
                 <span>•</span>
                 <span>18 de Dezembro, 2025</span>
                 <span>•</span>
@@ -55,13 +56,13 @@ const schema = {
         </div>
 
         <!-- Featured Image -->
-        <div class="mb-10 rounded-2xl overflow-hidden shadow-xl bg-gray-50 p-8">
+        <div class="mb-10 rounded-xl overflow-hidden border border-[#E7E5E0] shadow-sm bg-gray-50 p-8">
           <img src="/Capas/meibografia.png" alt="Imagem de Meibografia mostrando as glândulas de Meibomius" class="w-full h-auto max-h-[400px] object-contain mx-auto" />
         </div>
 
-        <div class="prose prose-lg prose-blue mx-auto text-gray-600">
+        <div class="article-body mx-auto text-slate-700">
             <p class="lead text-xl text-gray-800 font-medium mb-8">
-                Você já ouviu falar em <strong>Meibografia</strong>? Este exame revolucionário permite visualizar diretamente as <em>glândulas de Meibomius</em>, responsáveis pela camada oleosa da lágrima. A Clínica Saraiva Vision oferece este diagnóstico de ponta.
+                Você já ouviu falar em <strong>Meibografia</strong>? Este exame revolucionário permite visualizar diretamente as <em>glândulas de Meibomius</em>, responsáveis pela camada oleosa da lágrima. Nosso centro especializado em olho seco oferece este diagnóstico de ponta.
             </p>
 
             <h2 id="o-que-e">O que é Meibografia?</h2>
@@ -69,9 +70,9 @@ const schema = {
                 A <strong>Meibografia</strong> é um exame de imagem não invasivo que utiliza luz infravermelha para fotografar as glândulas de Meibomius, localizadas nas pálpebras. Essas glândulas produzem a camada oleosa (lipídica) do filme lacrimal, essencial para evitar a evaporação da lágrima.
             </p>
             
-            <div class="bg-purple-50 p-6 rounded-xl border border-purple-100 my-8">
-              <h3 class="text-purple-800 font-bold text-lg mb-3">🔬 Fato Científico</h3>
-              <p class="text-purple-700 mb-0">
+            <div class="bg-alt p-6 rounded-xl border border-[#E7E5E0] my-8">
+              <h3 class="text-brand font-bold text-lg mb-3">🔬 Fato Científico</h3>
+              <p class="text-slate-700 mb-0">
                 Segundo o relatório TFOS DEWS II, mais de 85% dos casos de olho seco têm componente evaporativo, relacionado diretamente à disfunção das glândulas de Meibomius. A Meibografia é essencial para identificar esses casos.
               </p>
             </div>
@@ -108,9 +109,9 @@ const schema = {
               </li>
             </ol>
 
-            <div class="bg-green-50 p-6 rounded-xl border border-green-100 my-8">
-              <h3 class="text-green-800 font-bold text-lg mb-3">⏱️ Tempo do Exame</h3>
-              <p class="text-green-700 mb-0">
+            <div class="bg-alt p-6 rounded-xl border border-[#E7E5E0] my-8">
+              <h3 class="text-brand font-bold text-lg mb-3">⏱️ Tempo do Exame</h3>
+              <p class="text-slate-700 mb-0">
                 Todo o procedimento leva menos de 5 minutos e não requer nenhum preparo especial. Você pode dirigir normalmente após o exame.
               </p>
             </div>
@@ -118,21 +119,21 @@ const schema = {
             <h2 id="o-que-revela">O que a Meibografia Pode Revelar?</h2>
             
             <div class="grid md:grid-cols-2 gap-4 my-8">
-              <div class="bg-red-50 p-5 rounded-xl border border-red-100">
-                <h4 class="text-red-800 font-bold mb-2">🔴 Glândulas Atrofiadas</h4>
-                <p class="text-red-700 text-sm mb-0">Glândulas que "secaram" e não produzem mais óleo, comum em olho seco crônico não tratado.</p>
+              <div class="bg-alt p-5 rounded-xl border border-[#E7E5E0]">
+                <h4 class="text-brand font-bold mb-2">🔴 Glândulas Atrofiadas</h4>
+                <p class="text-slate-700 text-sm mb-0">Glândulas que "secaram" e não produzem mais óleo, comum em olho seco crônico não tratado.</p>
               </div>
-              <div class="bg-orange-50 p-5 rounded-xl border border-orange-100">
-                <h4 class="text-orange-800 font-bold mb-2">🟠 Glândulas Obstruídas</h4>
-                <p class="text-orange-700 text-sm mb-0">Glândulas entupidas que podem ser desobstruídas com tratamento adequado.</p>
+              <div class="bg-alt p-5 rounded-xl border border-[#E7E5E0]">
+                <h4 class="text-brand font-bold mb-2">🟠 Glândulas Obstruídas</h4>
+                <p class="text-slate-700 text-sm mb-0">Glândulas entupidas que podem ser desobstruídas com tratamento adequado.</p>
               </div>
-              <div class="bg-yellow-50 p-5 rounded-xl border border-yellow-100">
-                <h4 class="text-yellow-800 font-bold mb-2">🟡 Glândulas Encurtadas</h4>
-                <p class="text-yellow-700 text-sm mb-0">Início de atrofia, ainda reversível com intervenção precoce.</p>
+              <div class="bg-alt p-5 rounded-xl border border-[#E7E5E0]">
+                <h4 class="text-brand font-bold mb-2">🟡 Glândulas Encurtadas</h4>
+                <p class="text-slate-700 text-sm mb-0">Início de atrofia, ainda reversível com intervenção precoce.</p>
               </div>
-              <div class="bg-green-50 p-5 rounded-xl border border-green-100">
-                <h4 class="text-green-800 font-bold mb-2">🟢 Glândulas Saudáveis</h4>
-                <p class="text-green-700 text-sm mb-0">Estrutura íntegra e funcional, indicando boa saúde das pálpebras.</p>
+              <div class="bg-alt p-5 rounded-xl border border-[#E7E5E0]">
+                <h4 class="text-brand font-bold mb-2">🟢 Glândulas Saudáveis</h4>
+                <p class="text-slate-700 text-sm mb-0">Estrutura íntegra e funcional, indicando boa saúde das pálpebras.</p>
               </div>
             </div>
 
@@ -165,7 +166,7 @@ const schema = {
 
             <h2 id="onde-fazer">Onde Fazer Meibografia?</h2>
             <p>
-                A <strong>Clínica Saraiva Vision</strong> é o centro de referência para Meibografia do Vale do Rio Doce. Oferecemos:
+                Nosso centro especializado em olho seco realiza Meibografia no Vale do Rio Doce. Oferecemos:
             </p>
             <ul>
               <li>Equipamento de última geração para imagens de alta resolução</li>
@@ -176,16 +177,16 @@ const schema = {
         </div>
         
         <!-- CTA Section -->
-        <div class="mt-16 bg-gradient-to-br from-purple-600 to-purple-800 rounded-2xl p-8 md:p-12 text-center text-white">
-          <h3 class="text-2xl md:text-3xl font-bold mb-4">Descubra a Saúde das Suas Glândulas</h3>
-          <p class="text-purple-100 mb-8 max-w-2xl mx-auto">
+        <div class="mt-16 bg-brand-dark rounded-2xl p-8 md:p-12 text-center text-white">
+          <h3 class="text-2xl md:text-3xl font-bold mb-4 text-white">Descubra a Saúde das Suas Glândulas</h3>
+          <p class="text-slate-200 mb-8 max-w-2xl mx-auto">
             Agende sua Meibografia e tenha um diagnóstico preciso do seu olho seco. O exame é rápido, indolor e essencial para o tratamento correto.
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="https://saraivavision.com.br" target="_blank" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-purple-700 rounded-xl font-bold hover:bg-purple-50 transition-all">
+            <a href="/contato" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-brand rounded-xl font-bold hover:bg-[#FBFAF8] transition-all">
               Agendar Meibografia
             </a>
-            <a href="https://wa.me/5533998601427?text=Olá! Gostaria de agendar uma Meibografia para avaliar meu olho seco." target="_blank" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-green-500 text-white rounded-xl font-bold hover:bg-green-600 transition-all">
+            <a href="https://wa.me/5533998601427?text=Olá! Gostaria de agendar uma Meibografia para avaliar meu olho seco." target="_blank" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-brand-light text-white rounded-xl font-bold hover:bg-[#115E59] transition-all">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
               WhatsApp
             </a>
@@ -196,11 +197,11 @@ const schema = {
         <div class="mt-16">
           <h3 class="text-2xl font-bold text-brand mb-8">Artigos Relacionados</h3>
           <div class="grid md:grid-cols-2 gap-6">
-            <a href="/blog/luz-pulsada-olho-seco-caratinga" class="block p-6 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+            <a href="/blog/luz-pulsada-olho-seco-caratinga" class="card-premium block p-6">
               <h4 class="font-bold text-brand mb-2">Luz Pulsada para Olho Seco</h4>
               <p class="text-gray-600 text-sm">Conheça o tratamento E-Eye IRPL disponível na região.</p>
             </a>
-            <a href="/blog/olho-seco-tratamento-caratinga" class="block p-6 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+            <a href="/blog/olho-seco-tratamento-caratinga" class="card-premium block p-6">
               <h4 class="font-bold text-brand mb-2">Tratamento de Olho Seco</h4>
               <p class="text-gray-600 text-sm">Guia completo sobre as opções de tratamento disponíveis.</p>
             </a>

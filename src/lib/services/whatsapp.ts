@@ -228,7 +228,7 @@ Sábado: 08h às 12h
 Se precisar de atendimento imediato, responda esta mensagem ou ligue para (33) 99860-1427.
 
 Atenciosamente,
-*Equipe Saraiva Vision*
+*Equipe Olhos Secos — Centro Especializado em Olho Seco*
 Dr. Philipe Saraiva Cruz
 CRM-MG 69.870 | RQE 307527`;
 
@@ -287,10 +287,11 @@ Isso pode indicar *Olho Seco Evaporativo*, uma condição tratável com tecnolog
 
 🔬 Oferecemos exames como Meibografia e tratamentos como o E-Eye IRPL.
 
-Gostaria de agendar uma avaliação? Responda esta mensagem ou acesse: https://saraivavision.com.br/agendamento
+Gostaria de agendar uma avaliação? Responda esta mensagem ou acesse: https://olhossecos.com.br/contato
 
 Atenciosamente,
-*Dr. Philipe Saraiva Cruz*
+*Olhos Secos — Centro Especializado em Olho Seco*
+Dr. Philipe Saraiva Cruz
 CRM-MG 69.870 | RQE 307527`
       : `Parabéns, ${firstName}! 🌟
 
@@ -298,10 +299,11 @@ Você completou o *Teste dos 10 Segundos* com sucesso! Isso indica uma boa estab
 
 Mesmo assim, recomendamos check-ups regulares para manter sua saúde ocular em dia.
 
-Agende sua avaliação preventiva: https://saraivavision.com.br/agendamento
+Agende sua avaliação preventiva: https://olhossecos.com.br/contato
 
 Atenciosamente,
-*Dr. Philipe Saraiva Cruz*
+*Olhos Secos — Centro Especializado em Olho Seco*
+Dr. Philipe Saraiva Cruz
 CRM-MG 69.870 | RQE 307527`;
 
   const [clinicResult, patientResult] = await Promise.all([

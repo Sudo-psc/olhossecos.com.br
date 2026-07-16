@@ -2,29 +2,29 @@
 ---
 <div id="exit-intent-popup" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true">
   <!-- Backdrop -->
-  <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity opacity-0" id="popup-backdrop"></div>
-  
+  <div class="absolute inset-0 bg-[#0B2239]/60 transition-opacity opacity-0" id="popup-backdrop"></div>
+
   <!-- Modal -->
   <div class="flex items-center justify-center min-h-screen p-4">
-    <div class="relative bg-white rounded-2xl shadow-2xl max-w-lg w-full transform scale-95 opacity-0 transition-all duration-300 p-8 text-center" id="popup-content">
-      <button id="close-popup" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors" aria-label="Fechar">
+    <div class="relative bg-white rounded-xl border border-[var(--border)] shadow-lg max-w-lg w-full transform scale-95 opacity-0 transition-all duration-300 p-8 text-center" id="popup-content">
+      <button id="close-popup" class="absolute top-4 right-4 text-[var(--secondary)] hover:text-[var(--text-main)] transition-colors" aria-label="Fechar">
         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
       </button>
 
-      <div class="w-16 h-16 bg-cyan-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
-        <svg class="w-8 h-8 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+      <div class="w-16 h-16 bg-[var(--accent)] rounded-full flex items-center justify-center mx-auto mb-6 border border-[var(--border)]">
+        <svg class="w-8 h-8 text-[var(--accent-ink)]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
       </div>
-      
-      <h3 class="text-2xl font-bold text-brand mb-2">Já fez o teste dos 10 segundos?</h3>
-      <p class="text-gray-600 mb-8 leading-relaxed">
+
+      <h3 class="text-2xl text-[var(--primary)] mb-2">Já fez o teste dos 10 segundos?</h3>
+      <p class="text-[var(--text-muted)] mb-8 leading-relaxed">
         Antes de ir, descubra em apenas <strong>10 segundos</strong> se você pode ter Disfunção das Glândulas de Meibomius.
       </p>
-      
+
       <div class="flex flex-col gap-3">
         <a href="/testerapido" class="btn-premium btn-premium-primary w-full justify-center">
           Fazer o Teste Agora
         </a>
-        <button id="dismiss-popup" class="text-gray-400 text-sm hover:text-gray-600 underline transition-colors">
+        <button id="dismiss-popup" class="text-[var(--secondary)] text-sm hover:text-[var(--text-main)] underline transition-colors">
           Não, obrigado. Continuar navegando.
         </button>
       </div>

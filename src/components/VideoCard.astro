@@ -13,28 +13,28 @@ interface Props {
 const { title, src, poster = "/video-placeholder.svg", description, tags = [], duration, audience, transcript } = Astro.props;
 ---
 
-<div class="video-card-container group relative bg-slate-900/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 hover:border-cyan-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-500/10">
+<div class="video-card-container card-premium group relative overflow-hidden">
   <!-- Poster/Thumbnail Container -->
-  <div class="relative aspect-video bg-black overflow-hidden">
+  <div class="relative aspect-video bg-brand-dark overflow-hidden">
     <video
       data-video-player
       controls
       preload="none"
       playsinline
       poster={poster}
-      class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-300"
+      class="w-full h-full object-cover"
     >
       <source src={src} type="video/mp4" />
       Seu navegador não suporta o elemento de vídeo.
     </video>
 
     {audience && (
-      <span class="absolute left-4 top-4 rounded-full bg-black/60 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-cyan-200 border border-cyan-400/30">
+      <span class="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-brand border border-[#E7E5E0]">
         {audience === 'pacientes' ? 'Para pacientes' : 'Para profissionais'}
       </span>
     )}
     {duration && (
-      <span class="absolute right-4 top-4 rounded-full bg-black/60 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-white/80 border border-white/20">
+      <span class="absolute right-4 top-4 rounded-full bg-brand-dark/80 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-white/90 border border-white/20">
         {duration}
       </span>
     )}
@@ -42,10 +42,10 @@ const { title, src, poster = "/video-placeholder.svg", description, tags = [], d
     <!-- Play Icon Overlay (Hidden when video is playing) -->
     <div
       data-play-overlay
-      class="absolute inset-0 flex items-center justify-center pointer-events-none group-hover:scale-110 transition-all duration-300"
+      class="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300"
     >
-      <div class="w-16 h-16 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-lg group-hover:bg-cyan-500/20 group-hover:border-cyan-400/50">
-        <svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+      <div class="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center border border-[#E7E5E0] shadow-sm">
+        <svg class="w-8 h-8 text-brand ml-1" fill="currentColor" viewBox="0 0 24 24">
           <path d="M8 5v14l11-7z"/>
         </svg>
       </div>
@@ -53,28 +53,28 @@ const { title, src, poster = "/video-placeholder.svg", description, tags = [], d
   </div>
 
   <div class="p-6">
-    <h3 class="text-lg font-bold text-white group-hover:text-cyan-400 transition-colors line-clamp-2 mb-3">
+    <h3 class="text-lg font-bold text-brand group-hover:text-brand-light transition-colors line-clamp-2 mb-3">
       {title}
     </h3>
     {description && (
-      <p class="text-gray-400 text-sm leading-relaxed line-clamp-2 group-hover:text-gray-300 transition-colors">
+      <p class="text-slate-600 text-sm leading-relaxed line-clamp-2">
         {description}
       </p>
     )}
     {tags.length > 0 && (
-      <div class="mt-4 flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-widest text-cyan-200">
+      <div class="mt-4 flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-widest text-brand-light">
         {tags.map((tag) => (
-          <span class="rounded-full border border-cyan-400/30 bg-cyan-500/10 px-3 py-1">{tag}</span>
+          <span class="rounded-full border border-[#E7E5E0] bg-alt px-3 py-1">{tag}</span>
         ))}
       </div>
     )}
     {transcript && (
-      <details class="mt-4 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-xs text-gray-400">
-        <summary class="cursor-pointer text-[11px] font-semibold uppercase tracking-widest text-cyan-200">
+      <details class="mt-4 rounded-lg border border-[#E7E5E0] bg-alt px-4 py-3 text-xs text-slate-600">
+        <summary class="cursor-pointer text-[11px] font-semibold uppercase tracking-widest text-brand-light">
           Resumo e transcrição
         </summary>
         <div class="mt-3 leading-relaxed">
-          <span class="text-gray-300 font-semibold">Transcrição rápida:</span> {transcript}
+          <span class="text-slate-700 font-semibold">Transcrição rápida:</span> {transcript}
         </div>
       </details>
     )}
