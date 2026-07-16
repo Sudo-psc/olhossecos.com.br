@@ -1,10 +1,11 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import ExitIntentPopup from '../components/ExitIntentPopup.astro';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
 export interface Props {
     title: string;
+    /** Botão flutuante de WhatsApp — apenas em páginas de contato/tratamentos */
+    whatsappFloat?: boolean;
     description?: string;
     image?: string;
     imageAlt?: string;
@@ -22,7 +23,7 @@ export interface Props {
     };
 }
 
-const { title, description, image, imageAlt, imageWidth, imageHeight, type = "website", canonical, noindex, schema, preloadImage } = Astro.props;
+const { title, description, image, imageAlt, imageWidth, imageHeight, type = "website", canonical, noindex, schema, preloadImage, whatsappFloat = false } = Astro.props;
 
 const canonicalUrl = canonical || new URL(Astro.url.pathname, Astro.site).href;
 const defaultImage = {
@@ -520,8 +521,7 @@ const structuredData = schema ? {
     <main id="main-content" class="pt-16 md:pt-20"> <!-- Added padding-top to account for fixed header -->
         <slot />
     </main>
-    <WhatsAppFloat />
-    <ExitIntentPopup />
+    {whatsappFloat && <WhatsAppFloat />}
     <Footer />
 </body>
 </html>
