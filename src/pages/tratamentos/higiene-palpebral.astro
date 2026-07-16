@@ -14,56 +14,57 @@ const schema = {
 };
 ---
 
-<Layout 
-  title="Higiene Palpebral | Tratamento Inicial Olho Seco" 
+<Layout
+  title="Higiene Palpebral | Tratamento Inicial Olho Seco"
   description="Aprenda sobre a importância da higiene palpebral, o primeiro passo no tratamento do olho seco segundo o TFOS DEWS II."
   schema={schema}
 >
-  <section class="bg-blue-50 py-16">
+  <section class="bg-alt border-b border-[#E7E5E0] py-16">
     <div class="container mx-auto px-6">
       <div class="max-w-3xl mx-auto text-center">
-        <h1 class="text-4xl font-bold text-brand mb-4">Higiene Palpebral & Cuidados Diários</h1>
-        <p class="text-gray-600 text-lg">O alicerce de qualquer tratamento de sucesso para Olho Seco e Blefarite.</p>
+        <span class="eyebrow mb-4">Tratamentos · Passo 1</span>
+        <h1 class="text-4xl font-heading mb-4">Higiene Palpebral &amp; Cuidados Diários</h1>
+        <p class="text-slate-600 text-lg">O alicerce de qualquer tratamento para Olho Seco e Blefarite.</p>
       </div>
     </div>
   </section>
 
-  <section class="section-padding bg-white">
+  <section class="section-padding">
     <div class="container mx-auto px-6 max-w-4xl">
-      <div class="prose prose-lg prose-blue mx-auto">
-        <p class="lead">
-          Conforme as diretrizes do TFOS DEWS II, a educação e a higiene palpebral compõem o “Passo 1” do tratamento. Sem uma limpeza adequada, as glândulas de Meibomius permanecem obstruídas por crostas, bactérias e biossuor.
+      <div class="mx-auto space-y-6 text-slate-600 leading-relaxed">
+        <p class="text-xl text-brand leading-relaxed">
+          Conforme as diretrizes do TFOS DEWS II, a educação e a higiene palpebral compõem o "Passo 1" do tratamento. Sem uma limpeza adequada, as glândulas de Meibomius permanecem obstruídas por crostas, bactérias e biossuor.
         </p>
 
-        <h3>Por que limpar as pálpebras?</h3>
-        <ul>
-            <li><strong>Remover o Biofilme:</strong> Uma camada de bactérias que se forma na margem palpebral e agrava a inflamação.</li>
-            <li><strong>Desobstruir Glândulas:</strong> Retirar a queratina e óleo endurecido que tampam a saída das glândulas.</li>
-            <li><strong>Controlar Demodex:</strong> Reduzir a população de ácaros microscópicos que vivem nos cílios.</li>
+        <h3 class="text-2xl font-heading pt-4">Por que limpar as pálpebras?</h3>
+        <ul class="space-y-3 list-none">
+            <li class="flex items-start gap-3"><span class="text-brand-light font-semibold mt-0.5">—</span><span><strong class="text-brand">Remover o Biofilme:</strong> Uma camada de bactérias que se forma na margem palpebral e agrava a inflamação.</span></li>
+            <li class="flex items-start gap-3"><span class="text-brand-light font-semibold mt-0.5">—</span><span><strong class="text-brand">Desobstruir Glândulas:</strong> Retirar a queratina e óleo endurecido que tampam a saída das glândulas.</span></li>
+            <li class="flex items-start gap-3"><span class="text-brand-light font-semibold mt-0.5">—</span><span><strong class="text-brand">Controlar Demodex:</strong> Reduzir a população de ácaros microscópicos que vivem nos cílios.</span></li>
         </ul>
 
-        <div class="grid md:grid-cols-2 gap-8 my-12 not-prose">
-            <div class="bg-gray-50 p-6 rounded-xl border-l-4 border-blue-500">
-                <h4 class="font-bold text-brand text-xl mb-3">1. Calor Úmido</h4>
-                <p class="text-gray-600 text-sm">
+        <div class="grid md:grid-cols-2 gap-8 my-12">
+            <div class="card-premium p-6 border-l-4 border-l-brand">
+                <h4 class="font-heading text-xl mb-3">1. Calor Úmido</h4>
+                <p class="text-slate-600 text-sm">
                     O uso de compressas mornas (40-42°C) por 5 a 10 minutos ajuda a derreter a secreção lipídica endurecida dentro das glândulas, facilitando sua liberação.
                 </p>
             </div>
-            <div class="bg-gray-50 p-6 rounded-xl border-l-4 border-green-500">
-                <h4 class="font-bold text-brand text-xl mb-3">2. Limpeza Mecânica</h4>
-                <p class="text-gray-600 text-sm">
+            <div class="card-premium p-6 border-l-4 border-l-brand-light">
+                <h4 class="font-heading text-xl mb-3">2. Limpeza Mecânica</h4>
+                <p class="text-slate-600 text-sm">
                     O uso de espumas, géis ou lenços específicos (prescritos pelo oftalmologista) remove as crostas e alérgenos de forma segura, sem agredir o olho.
                 </p>
             </div>
         </div>
 
-        <h3>Microesfoliação de Consultório (BlephEx)</h3>
+        <h3 class="text-2xl font-heading">Microesfoliação de Consultório (BlephEx)</h3>
         <p>
             Em casos onde a higiene domiciliar não é suficiente, realizamos a limpeza profissional em consultório para remover o biofilme resistente e "resetar" a saúde da margem palpebral.
         </p>
       </div>
        <div class="mt-12 text-center">
-          <a href="/tratamentos" class="text-blue-600 font-bold hover:underline">← Voltar para Tratamentos</a>
+          <a href="/tratamentos" class="text-brand-light font-semibold hover:text-[#115E59] hover:underline">← Voltar para Tratamentos</a>
       </div>
     </div>
   </section>

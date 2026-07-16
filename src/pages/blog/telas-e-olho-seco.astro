@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import '../../styles/article.css';
 
 const schema = {
   "@context": "https://schema.org",
@@ -21,21 +22,21 @@ const schema = {
   <article class="pt-24 pb-16 bg-white">
     <div class="container mx-auto px-6 max-w-4xl">
         <div class="text-center mb-12">
-            <span class="text-blue-600 font-bold uppercase tracking-widest text-sm">Estilo de Vida</span>
+            <span class="eyebrow">Estilo de Vida</span>
             <h1 class="text-3xl md:text-5xl font-bold text-brand mt-4 mb-6">Telas e Seus Olhos: Uma Relação Perigosa?</h1>
             <div class="flex items-center justify-center gap-4 text-gray-500 text-sm">
-                <span>Por Dr. Philipe Saraiva Cruz</span>
+                <span class="font-medium text-brand">Dr. Philipe Saraiva Cruz · CRM-MG 69.870</span>
                 <span>•</span>
                 <span>Leitura de 4 min</span>
             </div>
         </div>
 
         <!-- Featured Image -->
-        <div class="mb-10 rounded-2xl overflow-hidden shadow-xl">
+        <div class="mb-10 rounded-xl overflow-hidden border border-[#E7E5E0] shadow-sm">
           <img src="/Capas/tela-e-seus-olhos.png" alt="Telas e Olho Seco: uma relação perigosa" class="w-full h-auto" />
         </div>
 
-        <div class="prose prose-lg prose-blue mx-auto text-gray-600">
+        <div class="article-body mx-auto text-slate-700">
             <p class="lead text-xl text-gray-800 font-medium mb-8">
                 Vivemos conectados. Mas você sabia que o uso prolongado de dispositivos digitais é uma das principais causas do aumento exponencial de casos de Olho Seco Evaporativo?
             </p>
@@ -48,7 +49,7 @@ const schema = {
                 Pior ainda: muitas vezes não fechamos os olhos completamente. Esse "piscar incompleto" impede que as glândulas de Meibomius (na pálpebra) sejam pressionadas para liberar o óleo que protege a lágrima. Resultado? A lágrima evapora em segundos.
             </p>
 
-            <div class="bg-blue-50 p-8 rounded-xl my-8">
+            <div class="bg-alt p-8 rounded-xl my-8">
                 <h3 class="text-brand font-bold text-xl mb-4">A Regra 20-20-20</h3>
                 <p>Uma técnica simples recomendada mundialmente para aliviar a fadiga ocular:</p>
                 <ul class="list-disc pl-5 space-y-2 mt-2">

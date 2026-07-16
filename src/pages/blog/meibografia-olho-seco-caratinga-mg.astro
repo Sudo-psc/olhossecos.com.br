@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import '../../styles/article.css';
 
 const schema = {
   "@context": "https://schema.org",
@@ -13,8 +14,8 @@ const schema = {
   },
   "publisher": {
     "@type": "Organization",
-    "name": "Saraiva Vision",
-    "url": "https://saraivavision.com.br"
+    "name": "Olhos Secos",
+    "url": "https://olhossecos.com.br"
   },
   "datePublished": "2026-02-02",
   "dateModified": "2026-02-02"
@@ -32,22 +33,22 @@ const schema = {
       <!-- Breadcrumb -->
       <nav class="mb-8 text-sm">
         <ol class="flex items-center gap-2 text-gray-500">
-          <li><a href="/" class="hover:text-blue-600">Início</a></li>
+          <li><a href="/" class="hover:text-brand-light">Início</a></li>
           <li>/</li>
-          <li><a href="/blog" class="hover:text-blue-600">Blog</a></li>
+          <li><a href="/blog" class="hover:text-brand-light">Blog</a></li>
           <li>/</li>
-          <li class="text-blue-600">Meibografia no olho seco</li>
+          <li class="text-brand-light">Meibografia no olho seco</li>
         </ol>
       </nav>
 
       <div class="text-center mb-12">
-        <span class="inline-block bg-cyan-50 text-cyan-700 font-bold uppercase tracking-widest text-xs px-4 py-2 rounded-full mb-4">Diagnóstico Avançado</span>
+        <span class="eyebrow mb-4">Diagnóstico Avançado</span>
         <h1 class="text-3xl md:text-5xl font-bold text-brand mt-4 mb-6 leading-tight">
           Meibografia e a importância diagnóstica no olho seco<br />
-          <span class="text-cyan-600">Como o exame das glândulas de Meibômio ajuda a tratar melhor o ressecamento ocular</span>
+          <span class="text-brand-light">Como o exame das glândulas de Meibômio ajuda a tratar melhor o ressecamento ocular</span>
         </h1>
         <div class="flex items-center justify-center gap-4 text-gray-500 text-sm flex-wrap">
-          <span>Por Dr. Philipe Saraiva Cruz</span>
+          <span class="font-medium text-brand">Dr. Philipe Saraiva Cruz · CRM-MG 69.870</span>
           <span>•</span>
           <span>02 de Fevereiro, 2026</span>
           <span>•</span>
@@ -56,7 +57,7 @@ const schema = {
       </div>
 
       <!-- Featured Image -->
-      <div class="mb-10 rounded-2xl overflow-hidden shadow-xl">
+      <div class="mb-10 rounded-xl overflow-hidden border border-[#E7E5E0] shadow-sm">
         <img
           src="/Capas/meibografia.png"
           alt="Meibografia: exame das glândulas de Meibômio"
@@ -69,17 +70,17 @@ const schema = {
         />
       </div>
 
-      <div class="prose prose-lg prose-blue mx-auto text-gray-600">
+      <div class="article-body mx-auto text-slate-700">
         <p class="lead text-xl text-gray-800 font-medium mb-8">
           Olhos ardendo, sensação de areia, lacrimejamento “do nada” e visão que embaça ao longo do dia: muita gente convive com isso achando que é “normal”, “da idade” ou “do tempo seco”. Só que, na prática, esses sinais podem indicar <strong>síndrome do olho seco</strong>, especialmente quando o problema está na <strong>camada oleosa da lágrima</strong>.
         </p>
 
         <p>
-          Na Clínica Saraiva Vision, (MG), o cuidado é conduzido com atendimento humanizado pelo <strong>Dr. Philipe Saraiva Cruz (CRM‑MG 69.870 | RQE 307527)</strong> e equipe, com apoio de tecnologia diagnóstica para enxergar além dos sintomas. Neste artigo, você vai entender o que é meibografia, por que ela é tão útil no diagnóstico do olho seco e como ela orienta um tratamento mais direcionado.
+          Em nossa clínica especializada em olho seco, em Caratinga (MG), o cuidado é conduzido com atendimento humanizado pelo <strong>Dr. Philipe Saraiva Cruz (CRM‑MG 69.870 | RQE 307527)</strong> e equipe, com apoio de tecnologia diagnóstica para enxergar além dos sintomas. Neste artigo, você vai entender o que é meibografia, por que ela é tão útil no diagnóstico do olho seco e como ela orienta um tratamento mais direcionado.
         </p>
 
-        <div class="bg-blue-50 p-6 rounded-xl border border-blue-100 my-8">
-          <h3 class="text-blue-800 font-bold text-lg mb-3">Sumário</h3>
+        <div class="bg-alt p-6 rounded-xl border border-[#E7E5E0] my-8">
+          <h3 class="text-brand font-bold text-lg mb-3">Sumário</h3>
           <ul class="list-disc pl-6 mb-0">
             <li><a href="#o-que-e-meibografia">O que é meibografia (e o que ela avalia)</a></li>
             <li><a href="#colirio-comum">Olho seco: por que “colírio comum” nem sempre resolve</a></li>
@@ -151,8 +152,8 @@ const schema = {
           Em muitos protocolos, a perda glandular pode ser classificada em escalas (por exemplo, escores de 0 a 4), ajudando a padronizar a análise e a conversa sobre gravidade e prognóstico.
         </p>
 
-        <div class="bg-cyan-50 p-6 rounded-xl border border-cyan-100 my-8">
-          <h3 class="text-cyan-800 font-bold text-lg mb-3">Por que isso importa na vida real?</h3>
+        <div class="bg-alt p-6 rounded-xl border border-[#E7E5E0] my-8">
+          <h3 class="text-brand font-bold text-lg mb-3">Por que isso importa na vida real?</h3>
           <p class="mb-2">Dois pacientes podem ter “o mesmo sintoma” (ardor), mas necessidades diferentes:</p>
           <ul class="mb-0">
             <li><strong>Paciente A:</strong> glândulas preservadas, mas com obstrução → foco em desobstrução, higiene palpebral e controle de inflamação.</li>
@@ -195,7 +196,7 @@ const schema = {
         </ul>
 
         <p>
-          Na Clínica Saraiva Vision, realizamos exames diagnósticos para olho seco e superfície ocular, adaptação de lentes de contato com acompanhamento médico e tratamentos personalizados — sempre com orientação clara sobre benefícios esperados e limitações, sem promessas irreais.
+          Em nossa clínica, realizamos exames diagnósticos para olho seco e superfície ocular, adaptação de lentes de contato com acompanhamento médico e tratamentos personalizados — sempre com orientação clara sobre benefícios esperados e limitações, sem promessas irreais.
         </p>
 
         <h3>Acompanhamento regular: por que é indispensável?</h3>
@@ -235,8 +236,8 @@ const schema = {
         <p>
           Se você suspeita de olho seco — ou já tenta tratar, mas sente que está “enxugando gelo” — o próximo passo é uma avaliação completa da superfície ocular.
         </p>
-        <div class="bg-cyan-50 p-6 rounded-xl border border-cyan-100 my-8">
-          <h3 class="text-cyan-800 font-bold text-lg mb-3">Agende sua avaliação</h3>
+        <div class="bg-alt p-6 rounded-xl border border-[#E7E5E0] my-8">
+          <h3 class="text-brand font-bold text-lg mb-3">Agende sua avaliação</h3>
           <ul class="mb-4">
             <li>Consultas oftalmológicas com escuta qualificada</li>
             <li>Exames diagnósticos (incluindo meibografia)</li>
@@ -282,7 +283,7 @@ const schema = {
           A meibografia é um exame que traz clareza para algo muito comum: olho seco que não melhora só com colírio. Ao avaliar as glândulas de Meibômio, conseguimos entender melhor se a lágrima está evaporando rápido e por quê — e, assim, direcionar hábitos, tratamentos e acompanhamento de forma mais inteligente.
         </p>
         <p>
-          Se você quer investigar com segurança e sem achismos, conte com a Clínica Saraiva Vision, com o cuidado humanizado do Dr. Philipe Saraiva Cruz (CRM‑MG 69.870 | RQE 307527) e equipe.
+          Se você quer investigar com segurança e sem achismos, conte com nossa clínica especializada em olho seco, com o cuidado humanizado do Dr. Philipe Saraiva Cruz (CRM‑MG 69.870 | RQE 307527) e equipe.
         </p>
 
         <h2 class="mt-12">Referências</h2>

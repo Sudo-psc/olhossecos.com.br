@@ -3,16 +3,16 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout
-  title="Calculadora de Impacto Econômico do Olho Seco | Saraiva Vision"
+  title="Calculadora de Impacto Econômico do Olho Seco | Olhos Secos"
   description="Estime o impacto produtivo do olho seco em trabalhadores de telas, considerando prevalência, presenteísmo, triagem, tratamento e ROI."
 >
-  <main id="main-content" class="pt-24 pb-16 bg-slate-50 min-h-screen">
+  <div class="pt-8 pb-16 min-h-screen">
     <div class="container mx-auto px-4 max-w-6xl">
-      
+
       <!-- Header Section -->
       <div class="text-center mb-10">
-        <span class="inline-block bg-brand/10 text-brand font-bold uppercase tracking-widest text-xs px-4 py-2 rounded-full mb-4">Ferramenta Corporativa & Individual</span>
-        <h1 class="text-3xl md:text-5xl font-bold text-slate-900 mt-2 mb-4 leading-tight">
+        <span class="badge-soft uppercase tracking-widest text-xs font-ui mb-4">Ferramenta Corporativa & Individual</span>
+        <h1 class="text-3xl md:text-5xl font-semibold text-brand mt-2 mb-4 leading-tight">
           Calculadora de Impacto Econômico do Olho Seco
         </h1>
         <p class="text-slate-600 text-lg max-w-3xl mx-auto">
@@ -20,7 +20,7 @@ import Layout from '../layouts/Layout.astro';
         </p>
         
         <div class="flex justify-center mt-8 no-print">
-            <div class="inline-flex bg-white p-1 rounded-xl shadow-sm border border-slate-200" role="tablist">
+            <div class="inline-flex bg-white p-1 rounded-xl shadow-sm border border-stone-200" role="tablist">
                 <button id="btnIndividual" class="px-6 py-2.5 rounded-lg font-semibold transition-all bg-brand text-white shadow-md" role="tab" aria-selected="true">Individual</button>
                 <button id="btnCorporativo" class="px-6 py-2.5 rounded-lg font-semibold transition-all text-slate-600 hover:text-brand" role="tab" aria-selected="false">Corporativo / Equipe</button>
             </div>
@@ -31,7 +31,7 @@ import Layout from '../layouts/Layout.astro';
       <section class="bg-white border border-slate-200 rounded-3xl p-6 md:p-8 mb-8 shadow-sm no-print">
         <div class="flex flex-col md:flex-row gap-8 items-center">
             <div class="flex-1">
-                <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <h2 class="text-xl font-semibold text-brand mb-4 flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
                     Base científica da estimativa
                 </h2>
@@ -53,7 +53,7 @@ import Layout from '../layouts/Layout.astro';
 
       <!-- CORPORATE SCENARIOS (Only Corporate Mode) -->
       <section id="scenariosSection" class="hidden no-print mb-8">
-        <h2 class="text-lg font-bold text-slate-900 mb-4">Escolha um Cenário Corporativo</h2>
+        <h2 class="text-lg font-semibold text-brand mb-4">Escolha um Cenário Corporativo</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <button onclick="setScenario('conservador')" class="scenario-card p-4 border-2 border-slate-200 rounded-2xl text-center hover:border-brand transition-all bg-white shadow-sm">
                 <h3 class="font-bold text-sm mb-1">Conservador</h3>
@@ -78,7 +78,7 @@ import Layout from '../layouts/Layout.astro';
         <!-- INPUTS COLUMN -->
         <div class="md:col-span-5 lg:col-span-4 space-y-6">
             <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
-                <h2 class="text-xl font-bold text-slate-900 mb-6 pb-2 border-b border-slate-100">Configurações</h2>
+                <h2 class="text-xl font-semibold text-brand mb-6 pb-2 border-b border-slate-100">Configurações</h2>
                 
                 <div id="corporateInputs" class="hidden space-y-4">
                     <div class="form-group">
@@ -138,7 +138,7 @@ import Layout from '../layouts/Layout.astro';
                         </label>
                         <div class="flex items-center gap-3">
                             <input type="number" id="fracaoRecuperavel" value="40" min="0" max="100" class="w-20 px-3 py-2 rounded-lg border border-slate-200">
-                            <input type="range" id="fracaoRecuperavelRange" min="0" max="100" value="40" class="flex-1 accent-emerald-500">
+                            <input type="range" id="fracaoRecuperavelRange" min="0" max="100" value="40" class="flex-1 accent-teal-700">
                         </div>
                     </div>
                 </div>
@@ -146,7 +146,7 @@ import Layout from '../layouts/Layout.astro';
 
             <!-- DISTRIBUTION (Only Corporate) -->
             <div id="distributionCard" class="hidden bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
-                <h2 class="text-lg font-bold text-slate-900 mb-4">Distribuição por Gravidade</h2>
+                <h2 class="text-lg font-semibold text-brand mb-4">Distribuição por Gravidade</h2>
                 <div class="grid grid-cols-3 gap-3">
                     <div class="form-group">
                         <label class="text-[10px] font-bold text-slate-500 uppercase">Leve</label>
@@ -167,7 +167,7 @@ import Layout from '../layouts/Layout.astro';
 
             <!-- TREATMENT COSTS -->
             <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
-                <h2 class="text-lg font-bold text-slate-900 mb-4">Custos de Tratamento</h2>
+                <h2 class="text-lg font-semibold text-brand mb-4">Custos de Tratamento</h2>
                 <div class="space-y-3">
                     <label class="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-100 transition-all">
                         <div class="flex items-center gap-3">
@@ -215,33 +215,33 @@ import Layout from '../layouts/Layout.astro';
             <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
                 <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col justify-center items-center text-center">
                     <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Impacto Anual</span>
-                    <span id="resPerdaAnual" class="text-xl md:text-2xl font-black text-red-500 font-mono">R$ 0</span>
+                    <span id="resPerdaAnual" class="text-xl md:text-2xl font-bold text-red-700 font-mono">R$ 0</span>
                 </div>
                 <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col justify-center items-center text-center">
                     <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Custo Programa</span>
-                    <span id="resCustoTotal" class="text-xl md:text-2xl font-black text-orange-500 font-mono">R$ 0</span>
+                    <span id="resCustoTotal" class="text-xl md:text-2xl font-bold text-amber-700 font-mono">R$ 0</span>
                 </div>
-                <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col justify-center items-center text-center col-span-2 lg:col-span-1 border-b-4 border-b-emerald-500">
+                <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col justify-center items-center text-center col-span-2 lg:col-span-1 border-b-4 border-b-teal-700">
                     <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Economia Líquida</span>
-                    <span id="resEconomiaLiquida" class="text-xl md:text-2xl font-black text-emerald-500 font-mono">R$ 0</span>
+                    <span id="resEconomiaLiquida" class="text-xl md:text-2xl font-bold text-teal-700 font-mono">R$ 0</span>
                 </div>
                 <div class="bg-brand text-white rounded-3xl p-6 shadow-lg flex flex-col justify-center items-center text-center">
                     <span class="text-[10px] font-bold opacity-80 uppercase tracking-widest mb-2">ROI Estimado</span>
-                    <span id="resROI" class="text-3xl font-black">0x</span>
+                    <span id="resROI" class="text-3xl font-bold">0x</span>
                 </div>
-                <div class="bg-slate-800 text-white rounded-3xl p-6 shadow-sm flex flex-col justify-center items-center text-center">
+                <div class="bg-brand-dark text-white rounded-3xl p-6 shadow-sm flex flex-col justify-center items-center text-center">
                     <span class="text-[10px] font-bold opacity-80 uppercase tracking-widest mb-2">Payback (Meses)</span>
-                    <span id="resPayback" class="text-3xl font-black">0</span>
+                    <span id="resPayback" class="text-3xl font-bold">0</span>
                 </div>
                 <div id="corpResultsExtra" class="hidden bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col justify-center items-center text-center">
                     <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Casos Estimados</span>
-                    <span id="resCasosTotal" class="text-3xl font-black text-slate-800">0</span>
+                    <span id="resCasosTotal" class="text-3xl font-bold text-slate-800">0</span>
                 </div>
             </div>
 
             <!-- Chart Card -->
             <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm no-print">
-                <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center justify-between">
+                <h2 class="text-lg font-semibold text-brand mb-6 flex items-center justify-between">
                     Análise Visual
                     <span class="text-[10px] font-normal text-slate-400">VALORES ANUAIS AGREGADOS</span>
                 </h2>
@@ -251,12 +251,12 @@ import Layout from '../layouts/Layout.astro';
             </div>
 
             <!-- Interpretation -->
-            <div class="bg-cyan-50 border border-cyan-100 rounded-3xl p-8 relative overflow-hidden">
-                <div class="absolute -right-8 -bottom-8 opacity-10 text-cyan-500 rotate-12">
+            <div class="bg-alt border border-stone-200 rounded-3xl p-8 relative overflow-hidden">
+                <div class="absolute -right-8 -bottom-8 opacity-10 text-teal-700 rotate-12">
                     <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                 </div>
-                <h2 class="text-lg font-bold text-cyan-900 mb-4">Interpretação da Estimativa</h2>
-                <p id="interpretationText" class="text-cyan-800 leading-relaxed font-medium">
+                <h2 class="text-lg font-semibold text-brand mb-4">Interpretação da Estimativa</h2>
+                <p id="interpretationText" class="text-slate-700 leading-relaxed font-medium">
                     Aguardando preenchimento dos dados...
                 </p>
             </div>
@@ -267,7 +267,7 @@ import Layout from '../layouts/Layout.astro';
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-400 group-hover:text-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
                     Exportar Relatório (PDF)
                 </button>
-                <button onclick="shareWhatsApp()" class="flex items-center justify-center gap-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-2xl shadow-md transition-all">
+                <button onclick="shareWhatsApp()" class="flex items-center justify-center gap-3 bg-teal-700 hover:bg-teal-800 text-white font-bold py-4 rounded-2xl shadow-sm transition-all">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                     Compartilhar WhatsApp
                 </button>
@@ -296,7 +296,7 @@ import Layout from '../layouts/Layout.astro';
       </section>
 
     </div>
-  </main>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -483,7 +483,8 @@ import Layout from '../layouts/Layout.astro';
         // UI Update
         document.getElementById('resPerdaAnual').innerText = formatCurrency(perdaAnualTotal);
         document.getElementById('resCustoTotal').innerText = formatCurrency(custoTotalPrograma);
-        document.getElementById('resEconomiaBruta').innerText = formatCurrency(economiaBruta);
+        const resEconomiaBruta = document.getElementById('resEconomiaBruta');
+        if (resEconomiaBruta) resEconomiaBruta.innerText = formatCurrency(economiaBruta);
         document.getElementById('resEconomiaLiquida').innerText = formatCurrency(economiaLiquida);
         document.getElementById('resROI').innerText = roi + 'x';
         document.getElementById('resPayback').innerText = payback;

@@ -94,7 +94,8 @@ async function sendViaSendPulse(payload: EmailPayload): Promise<EmailResult> {
   const fromEmail =
     import.meta.env.SENDPULSE_FROM_EMAIL || "noreply@olhossecos.com.br";
   const fromName =
-    import.meta.env.SENDPULSE_FROM_NAME || "Saraiva Vision - Olho Seco";
+    import.meta.env.SENDPULSE_FROM_NAME ||
+    "Olhos Secos — Centro Especializado em Olho Seco";
 
   try {
     const response = await fetch("https://api.sendpulse.com/smtp/emails", {
@@ -255,12 +256,12 @@ export function generateClinicNotificationEmail(data: {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #1e293b; max-width: 600px; margin: 0 auto; padding: 20px;">
-  <div style="background: linear-gradient(135deg, #003D7A 0%, #0f172a 100%); padding: 30px; border-radius: 16px 16px 0 0;">
+  <div style="background: #10314F; padding: 30px; border-radius: 16px 16px 0 0;">
     <h1 style="color: white; margin: 0; font-size: 24px;">🆕 Novo Contato do Site</h1>
-    <p style="color: #94a3b8; margin: 10px 0 0 0; font-size: 14px;">Olhos Secos</p>
+    <p style="color: #B8C7D4; margin: 10px 0 0 0; font-size: 14px;">Olhos Secos — Centro Especializado em Olho Seco</p>
   </div>
 
-  <div style="background: #f8fafc; padding: 30px; border: 1px solid #e2e8f0; border-top: none;">
+  <div style="background: #F7F6F3; padding: 30px; border: 1px solid #e2e8f0; border-top: none;">
     <table style="width: 100%; border-collapse: collapse;">
       <tr>
         <td style="padding: 12px 0; border-bottom: 1px solid #e2e8f0;">
@@ -279,7 +280,7 @@ export function generateClinicNotificationEmail(data: {
       <tr>
         <td style="padding: 12px 0; border-bottom: 1px solid #e2e8f0;">
           <strong style="color: #64748b; font-size: 12px; text-transform: uppercase;">Mensagem</strong><br>
-          <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 8px; border-left: 4px solid #06b6d4;">
+          <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 8px; border-left: 4px solid #0F766E;">
             ${escapeHtml(data.mensagem).replace(/\n/g, "<br>")}
           </div>
         </td>
@@ -303,9 +304,9 @@ export function generateClinicNotificationEmail(data: {
     </div>
   </div>
 
-  <div style="background: #1e293b; padding: 20px; border-radius: 0 0 16px 16px; text-align: center;">
-    <p style="color: #94a3b8; margin: 0; font-size: 12px;">
-      Saraiva Vision - Clínica Especializada em Olho Seco
+  <div style="background: #10314F; padding: 20px; border-radius: 0 0 16px 16px; text-align: center;">
+    <p style="color: #B8C7D4; margin: 0; font-size: 12px;">
+      Olhos Secos — Centro Especializado em Olho Seco
     </p>
   </div>
 </body>
@@ -337,7 +338,7 @@ export function generatePatientConfirmationEmail(data: { nome: string }): {
   html: string;
   text: string;
 } {
-  const subject = `✅ Recebemos sua mensagem - Saraiva Vision | Olhos Secos`;
+  const subject = `✅ Recebemos sua mensagem | Olhos Secos — Centro Especializado em Olho Seco`;
 
   const html = `
 <!DOCTYPE html>
@@ -347,12 +348,12 @@ export function generatePatientConfirmationEmail(data: { nome: string }): {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #1e293b; max-width: 600px; margin: 0 auto; padding: 20px;">
-  <div style="background: linear-gradient(135deg, #003D7A 0%, #0f172a 100%); padding: 30px; border-radius: 16px 16px 0 0; text-align: center;">
-    <img src="https://olhossecos.com.br/logo_prata.jpeg" alt="Saraiva Vision" style="height: 60px; margin-bottom: 15px;">
+  <div style="background: #10314F; padding: 30px; border-radius: 16px 16px 0 0; text-align: center;">
+    <img src="https://olhossecos.com.br/logo_prata.jpeg" alt="Olhos Secos — Centro Especializado em Olho Seco" style="height: 60px; margin-bottom: 15px;">
     <h1 style="color: white; margin: 0; font-size: 24px;">Mensagem Recebida! ✅</h1>
   </div>
 
-  <div style="background: #f8fafc; padding: 30px; border: 1px solid #e2e8f0; border-top: none;">
+  <div style="background: #F7F6F3; padding: 30px; border: 1px solid #e2e8f0; border-top: none;">
     <p style="font-size: 18px; color: #1e293b;">
       Olá, <strong>${escapeHtml(data.nome)}</strong>!
     </p>
@@ -361,8 +362,8 @@ export function generatePatientConfirmationEmail(data: { nome: string }): {
       Recebemos sua mensagem e entraremos em contato em breve pelo WhatsApp ou telefone informado.
     </p>
 
-    <div style="background: #ecfeff; border: 1px solid #06b6d4; border-radius: 12px; padding: 20px; margin: 20px 0;">
-      <p style="margin: 0; color: #0e7490; font-weight: 500;">
+    <div style="background: #ffffff; border: 1px solid #0F766E; border-radius: 12px; padding: 20px; margin: 20px 0;">
+      <p style="margin: 0; color: #0F766E; font-weight: 500;">
         ⏰ <strong>Horário de Atendimento:</strong><br>
         Segunda a Sexta: 08h às 18h<br>
         Sábado: 08h às 12h
@@ -389,12 +390,12 @@ export function generatePatientConfirmationEmail(data: { nome: string }): {
     </p>
   </div>
 
-  <div style="background: #1e293b; padding: 20px; border-radius: 0 0 16px 16px; text-align: center;">
-    <p style="color: #94a3b8; margin: 0 0 10px 0; font-size: 12px;">
-      Saraiva Vision - Clínica Especializada em Olho Seco
+  <div style="background: #10314F; padding: 20px; border-radius: 0 0 16px 16px; text-align: center;">
+    <p style="color: #B8C7D4; margin: 0 0 10px 0; font-size: 12px;">
+      Olhos Secos — Centro Especializado em Olho Seco
     </p>
     <p style="margin: 0;">
-      <a href="https://olhossecos.com.br" style="color: #22d3ee; text-decoration: none; font-size: 12px;">olhossecos.com.br</a>
+      <a href="https://olhossecos.com.br" style="color: #A7D3CC; text-decoration: none; font-size: 12px;">olhossecos.com.br</a>
     </p>
   </div>
 </body>
@@ -418,7 +419,7 @@ Dr. Philipe Saraiva Cruz
 Médico pós-graduado em Oftalmologia
 CRM-MG 69.870 | RQE 307527
 
-Saraiva Vision - Clínica Especializada em Olho Seco
+Olhos Secos — Centro Especializado em Olho Seco
 https://olhossecos.com.br
   `;
 

@@ -29,7 +29,7 @@ const defaultImage = {
     src: "/og-image.jpg",
     width: 1200,
     height: 630,
-    alt: "Saraiva Vision - Olhos Secos"
+    alt: "Olhos Secos — Centro Especializado em Olho Seco"
 };
 const resolvedImage = image
     ? (image.startsWith("http") ? image : new URL(image, Astro.site).href)
@@ -41,13 +41,13 @@ const resolvedImageHeight = imageHeight || (image ? undefined : defaultImage.hei
 // Meta tags básicas
 const meta = {
     title,
-    description: description || "Saraiva Vision Clínica Especializada em Olho Seco. Tratamento com Luz Pulsada (IRPL), Lentes Esclerais e termoterapia.",
+    description: description || "Olhos Secos — Centro Especializado em Olho Seco em Caratinga, MG. Tratamento com Luz Pulsada (IRPL), Lentes Esclerais e higiene palpebral.",
     image: resolvedImage,
     url: canonicalUrl,
     type,
-    siteName: "Saraiva Vision Clínica Especializada em Olho Seco",
+    siteName: "Olhos Secos — Centro Especializado em Olho Seco",
     locale: "pt_BR",
-    keywords: "olho seco, oftalmologista, luz pulsada, irpl, e-eye, lentes esclerais, tratamento olho seco, saraiva vision"
+    keywords: "olho seco, oftalmologista, luz pulsada, irpl, e-eye, lentes esclerais, tratamento olho seco, caratinga"
 };
 
 // Structured Data para a clínica
@@ -57,11 +57,11 @@ const baseStructuredData = {
         {
             "@type": ["LocalBusiness", "MedicalBusiness"],
             "@id": "https://olhossecos.com.br/#clinic",
-            name: "Saraiva Vision",
-            description: "Clínica especializada em tratamento de olho seco e doenças da superfície ocular",
+            name: "Olhos Secos",
+            alternateName: "Olhos Secos — Centro Especializado em Olho Seco",
+            description: "Centro especializado em tratamento de olho seco e doenças da superfície ocular",
             url: "https://olhossecos.com.br",
             telephone: "(33) 99860-1427",
-            email: "contato@saraivavision.com.br",
             openingHours: [
                 "Mo-Fr 08:00-18:00",
                 "Sa 08:00-12:00"
@@ -86,7 +86,7 @@ const baseStructuredData = {
             description: "Médico pós-graduado em oftalmologia com área de atuação em oftalmologia clínica geral, procedimentos minimamente invasivos e olho seco",
             worksFor: {
                 "@type": "Organization",
-                name: "Saraiva Vision"
+                name: "Olhos Secos"
             },
             medicalSpecialty: "Oftalmologia",
             knowsAbout: ["Olho Seco", "Superfície Ocular", "Cirurgia Ocular Minimamente Invasiva"],
@@ -118,10 +118,10 @@ const baseStructuredData = {
             "@id": "https://olhossecos.com.br/#website",
             url: "https://olhossecos.com.br",
             name: "Olhos Secos",
-            description: "Clínica especializada em tratamento de olho seco",
+            description: "Centro especializado em tratamento de olho seco",
             publisher: {
                 "@type": "Organization",
-                name: "Saraiva Vision"
+                name: "Olhos Secos"
             },
             inLanguage: "pt-BR"
         },
@@ -162,7 +162,7 @@ const structuredData = schema ? {
     <meta name="keywords" content={meta.keywords} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content={noindex ? "noindex,nofollow" : "index,follow"} />
-    <meta name="theme-color" content="#003D7A" />
+    <meta name="theme-color" content="#10314F" />
 
     <!-- Favicons - Optimized for Google Search -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -211,7 +211,7 @@ const structuredData = schema ? {
 
     <!-- Fonts (Local) -->
     <link rel="preload" href="/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/fonts/QGYvz_MVcBeNP4NJtEtqUYLknw.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/fraunces-600-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/fonts/fonts.css" />
 
     <!-- LCP Image Preload -->
@@ -269,26 +269,31 @@ const structuredData = schema ? {
     <!-- Styles -->
     <style is:global>
         :root {
-            --primary: #003D7A; /* Deep navy — brand anchor for headings */
-            --primary-dark: #022B57; /* Darker navy for gradients */
-            --primary-light: #22d3ee; /* Cyan-400 for accents/hover */
-            --sky: #0ea5e9; /* Sky-500 bridge tone */
-            --secondary: #64748b; /* Slate-500 for secondary text */
-            --accent: #ecfeff; /* Cyan-50 for backgrounds */
-            --text-main: #1e293b; /* Slate-800 for main text */
-            --text-muted: #475569; /* Slate-600 */
-            --bg-body: #f6f9fc; /* Cool off-white global background */
-            --bg-alt: #ffffff; /* White for cards */
-            --border: #e2e8f0; /* Slate-200 */
-            --radius-sm: 0.625rem;
-            --radius-md: 0.875rem;
-            --radius-lg: 1.25rem;
-            --radius-xl: 2rem;
-            --shadow-sm: 0 1px 2px 0 rgb(2 43 87 / 0.06);
-            --shadow-md: 0 4px 12px -2px rgb(2 43 87 / 0.08), 0 2px 4px -2px rgb(2 43 87 / 0.06);
-            --shadow-lg: 0 16px 40px -12px rgb(2 43 87 / 0.18), 0 4px 10px -4px rgb(2 43 87 / 0.08);
-            --gradient-brand: linear-gradient(135deg, #06b6d4 0%, #2563eb 100%);
-            --gradient-navy: linear-gradient(135deg, #003D7A 0%, #022B57 100%);
+            /* "Premium Editorial Clínico" — paleta sóbria */
+            --primary: #10314F; /* Tinta navy/azul-petróleo profundo — headings e botões */
+            --primary-dark: #0B2239; /* Navy quase-tinta para hover/fundos escuros */
+            --primary-light: #0F766E; /* Acento único: teal profundo (links, detalhes) */
+            --accent-ink: #0F766E; /* Alias semântico do acento teal */
+            --accent-ink-dark: #115E59; /* Teal escuro para hover de links */
+            --sky: #10314F; /* Compat: tom de foco agora em navy */
+            --secondary: #57616C; /* Cinza-ardósia médio para texto secundário */
+            --accent: #EEF2F1; /* Fundo suave neutro com leve tom teal */
+            --text-main: #2B3440; /* Cinza-ardósia escuro para texto corrido */
+            --text-muted: #4B5563; /* Cinza médio-escuro */
+            --bg-body: #F7F6F3; /* Off-white quente tipo papel */
+            --bg-alt: #ffffff; /* Branco para cards */
+            --border: #E7E5E0; /* Hairline stone */
+            --border-strong: #D6D3CC; /* Hairline mais presente (hover) */
+            --radius-sm: 0.5rem;
+            --radius-md: 0.625rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --shadow-sm: 0 1px 2px 0 rgb(16 49 79 / 0.04);
+            --shadow-md: 0 2px 8px -2px rgb(16 49 79 / 0.07), 0 1px 3px -1px rgb(16 49 79 / 0.05);
+            --shadow-lg: 0 8px 24px -8px rgb(16 49 79 / 0.10), 0 2px 6px -2px rgb(16 49 79 / 0.06);
+            /* Duotone muito discreto navy → petróleo (sem cores neon) */
+            --gradient-brand: linear-gradient(135deg, #10314F 0%, #14425F 100%);
+            --gradient-navy: linear-gradient(135deg, #10314F 0%, #0B2239 100%);
         }
 
         * {
@@ -303,24 +308,20 @@ const structuredData = schema ? {
 
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            font-size: 16px;
-            line-height: 1.65;
+            font-size: 17px;
+            line-height: 1.7;
             color: var(--text-main);
             background-color: var(--bg-body);
-            background-image:
-                radial-gradient(60rem 32rem at 85% -5%, rgba(34, 211, 238, 0.10), transparent 60%),
-                radial-gradient(48rem 28rem at 0% 10%, rgba(37, 99, 235, 0.06), transparent 55%);
-            background-repeat: no-repeat;
             -webkit-font-smoothing: antialiased;
         }
 
         ::selection {
-            background: rgba(34, 211, 238, 0.3);
+            background: rgba(15, 118, 110, 0.18);
             color: var(--primary-dark);
         }
 
         :focus-visible {
-            outline: 2px solid var(--sky);
+            outline: 2px solid var(--accent-ink);
             outline-offset: 2px;
         }
 
@@ -342,10 +343,16 @@ const structuredData = schema ? {
         }
 
         h1, h2, h3, h4, .font-heading {
-            font-family: 'Outfit', sans-serif;
-            font-weight: 700;
-            line-height: 1.15;
-            letter-spacing: -0.02em;
+            font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+            font-weight: 600;
+            line-height: 1.18;
+            letter-spacing: -0.015em;
+            color: var(--primary);
+        }
+
+        /* Outfit fica disponível apenas para UI/labels via .font-ui */
+        .font-ui {
+            font-family: 'Outfit', 'Inter', system-ui, sans-serif;
         }
 
         .container {
@@ -375,84 +382,83 @@ const structuredData = schema ? {
             align-items: center;
             gap: 0.5rem;
             font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.18em;
+            font-weight: 600;
+            letter-spacing: 0.16em;
             text-transform: uppercase;
-            color: #0891b2;
+            color: var(--accent-ink);
         }
 
         /* Alternate section background (pairs with bg-white sections) */
         .bg-alt {
-            background-color: #f0f6fb;
+            background-color: #F1EFEA;
         }
 
-        /* Gradient text utility for highlights */
+        /* Highlight utility (nome mantido por compat; agora cor sólida sóbria) */
         .text-gradient {
-            background: linear-gradient(120deg, #06b6d4 0%, #2563eb 90%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            background: none;
+            -webkit-background-clip: initial;
+            background-clip: initial;
+            color: var(--accent-ink);
         }
 
         .btn-premium {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.75rem 1.625rem;
+            padding: 0.75rem 1.5rem;
             font-size: 0.875rem;
             font-weight: 600;
-            border-radius: 9999px;
-            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s, border-color 0.25s, filter 0.25s;
+            border-radius: 0.625rem;
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
             cursor: pointer;
             gap: 0.5rem;
         }
 
         @media (min-width: 640px) {
             .btn-premium {
-                padding: 0.875rem 2rem;
-                font-size: 1rem;
+                padding: 0.875rem 1.875rem;
+                font-size: 0.9375rem;
             }
         }
 
         .btn-premium-primary {
-            background: var(--gradient-brand);
+            background: var(--primary);
             color: white;
-            box-shadow: 0 10px 24px -6px rgba(6, 182, 212, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-            border: none;
+            border: 1px solid var(--primary);
+            box-shadow: var(--shadow-sm);
         }
 
         .btn-premium-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 18px 32px -8px rgba(6, 182, 212, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-            filter: brightness(1.08);
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+            box-shadow: var(--shadow-md);
         }
 
         .btn-premium-secondary {
             background-color: white;
             color: var(--primary);
-            border: 1px solid var(--border);
+            border: 1px solid var(--border-strong);
             box-shadow: var(--shadow-sm);
         }
 
         .btn-premium-secondary:hover {
-            border-color: rgba(6, 182, 212, 0.5);
-            background-color: #f0fbff;
-            transform: translateY(-2px);
+            border-color: var(--primary);
+            background-color: #FBFAF8;
             box-shadow: var(--shadow-md);
         }
 
-        /* Dark pill button (navy) */
+        /* Dark button (navy-tinta) */
         .btn-premium-dark {
-            background: var(--gradient-navy);
+            background: var(--primary-dark);
             color: white;
-            border: none;
-            box-shadow: 0 10px 24px -8px rgba(2, 43, 87, 0.5);
+            border: 1px solid var(--primary-dark);
+            box-shadow: var(--shadow-sm);
         }
 
         .btn-premium-dark:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.12);
-            box-shadow: 0 16px 32px -10px rgba(2, 43, 87, 0.6);
+            background: #142F47;
+            border-color: #142F47;
+            box-shadow: var(--shadow-md);
         }
 
         /* Premium card surface */
@@ -461,13 +467,12 @@ const structuredData = schema ? {
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow-sm);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
         .card-premium:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: rgba(34, 211, 238, 0.4);
+            border-color: var(--border-strong);
+            box-shadow: var(--shadow-md);
         }
 
         /* Soft badge/chip */
@@ -479,10 +484,9 @@ const structuredData = schema ? {
             border-radius: 9999px;
             font-size: 0.8125rem;
             font-weight: 600;
-            background: rgba(236, 254, 255, 0.9);
-            color: #0e7490;
-            border: 1px solid rgba(165, 243, 252, 0.8);
-            box-shadow: var(--shadow-sm);
+            background: var(--accent);
+            color: var(--accent-ink-dark);
+            border: 1px solid var(--border);
         }
 
         /* Respect user preference for reduced motion */
@@ -497,12 +501,12 @@ const structuredData = schema ? {
             }
         }
 
-        /* Glassmorphism utility */
+        /* Superfície translúcida sóbria (nome mantido por compat; sem glassmorphism) */
         .glass {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(251, 250, 248, 0.92);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
         }
     </style>
 </head>

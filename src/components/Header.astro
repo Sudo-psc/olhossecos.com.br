@@ -14,69 +14,54 @@ const isTestPage = currentPath === '/testerapido';
 const isWidgetPage = currentPath === '/widget' || currentPath.startsWith('/widget/');
 ---
 
-<header class="fixed w-full z-50 transition-all duration-300 glass border-b border-slate-200/70 shadow-sm">
-  <div class="h-0.5 w-full bg-gradient-to-r from-cyan-400 via-blue-500 to-brand"></div>
-  <div class="container py-2.5 flex justify-between items-center">
-    <a href="/" class="block transition-transform hover:scale-[1.02]">
-      <picture>
-        <source
-          type="image/avif"
-          srcset="/optimized/logo_prata-77.avif 77w, /optimized/logo_prata-224.avif 224w"
-          sizes="(min-width: 768px) 64px, 56px"
-        />
-        <source
-          type="image/webp"
-          srcset="/optimized/logo_prata-77.webp 77w, /optimized/logo_prata-224.webp 224w"
-          sizes="(min-width: 768px) 64px, 56px"
-        />
-        <img
-          src="/optimized/logo_prata-224.webp"
-          alt="Saraiva Vision - Olhos Secos"
-          width="224"
-          height="224"
-          loading="eager"
-          decoding="async"
-          class="h-12 md:h-14 w-auto object-contain"
-        />
-      </picture>
+<header class="fixed w-full z-50 glass border-b border-[var(--border)]">
+  <div class="container py-3 flex justify-between items-center">
+    <!-- Wordmark tipográfico -->
+    <a href="/" class="block group" aria-label="Olhos Secos — Centro Especializado em Olho Seco — Página inicial">
+      <span class="block font-serif text-xl md:text-2xl leading-none text-[var(--primary)] tracking-tight" style="font-family: 'Fraunces', Georgia, serif; font-weight: 600;">
+        Olhos Secos
+      </span>
+      <span class="block mt-1 text-[0.6rem] md:text-[0.65rem] font-medium uppercase tracking-[0.16em] text-[var(--secondary)]">
+        Centro Especializado em Olho Seco
+      </span>
     </a>
 
-    <nav class="hidden md:flex items-center gap-1 lg:gap-2">
+    <nav class="hidden md:flex items-center gap-0.5 lg:gap-1">
       {links.map((link) => (
         <a
           href={link.href}
-          class={`px-3 py-2 rounded-full font-medium text-sm transition-all ${currentPath === link.href ? 'text-cyan-700 bg-cyan-50' : 'text-slate-600 hover:text-cyan-700 hover:bg-cyan-50/80'}`}
+          class={`px-3 py-2 rounded-lg font-medium text-sm transition-colors ${currentPath === link.href ? 'text-[var(--primary)] bg-[var(--accent)]' : 'text-[var(--secondary)] hover:text-[var(--primary)] hover:bg-[var(--accent)]'}`}
         >
           {link.name}
         </a>
       ))}
       <a
         href="/widget"
-        class={`relative px-3 py-2 rounded-full font-semibold text-sm transition-all flex items-center gap-1.5 ${isWidgetPage ? 'text-blue-700 bg-blue-50' : 'text-blue-700 hover:bg-blue-50'}`}
+        class={`px-3 py-2 rounded-lg font-medium text-sm transition-colors flex items-center gap-1.5 ${isWidgetPage ? 'text-[var(--primary)] bg-[var(--accent)]' : 'text-[var(--secondary)] hover:text-[var(--primary)] hover:bg-[var(--accent)]'}`}
       >
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
         App 20-20-20
       </a>
       {!isTestPage && (
-        <a href="/testerapido" class="hidden lg:flex items-center gap-2 px-4 py-2 bg-cyan-50 text-cyan-700 rounded-full hover:bg-cyan-100 font-bold transition-colors text-sm border border-cyan-200/80 shadow-sm">
+        <a href="/testerapido" class="hidden lg:inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-colors text-[var(--accent-ink)] border border-[var(--border-strong)] hover:border-[var(--accent-ink)] hover:bg-[var(--accent)]">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           Teste 10s
         </a>
       )}
       {isTestPage && (
-        <a href="https://saraivavision.com.br" target="_blank" class="hidden lg:flex items-center gap-2 px-4 py-2 bg-brand text-white rounded-full hover:bg-blue-900 font-bold transition-colors text-sm shadow-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
-          Site Principal
+        <a href="/contato" class="hidden lg:inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-colors text-[var(--primary)] border border-[var(--border-strong)] hover:border-[var(--primary)] hover:bg-[var(--accent)]">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+          Fale Conosco
         </a>
       )}
-      <a href="https://wa.me/5533998601427" target="_blank" onclick="return gtag_report_conversion('https://wa.me/5533998601427')" class="btn-premium btn-premium-primary !py-2 md:!py-2.5 !px-4 md:!px-6 text-xs md:text-sm shadow-md flex items-center gap-2 whitespace-nowrap">
+      <a href="https://wa.me/5533998601427" target="_blank" onclick="return gtag_report_conversion('https://wa.me/5533998601427')" class="btn-premium btn-premium-primary !py-2 md:!py-2.5 !px-4 md:!px-5 text-xs md:text-sm flex items-center gap-2 whitespace-nowrap ml-1">
         <svg class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         <span>Agendar</span>
       </a>
     </nav>
 
     <!-- Mobile Menu Button (Hamburger) -->
-    <button id="mobile-menu-btn" class="md:hidden text-gray-700 focus:outline-none" aria-controls="mobile-menu" aria-expanded="false" aria-label="Abrir menu">
+    <button id="mobile-menu-btn" class="md:hidden text-[var(--text-main)] focus:outline-none" aria-controls="mobile-menu" aria-expanded="false" aria-label="Abrir menu">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
       </svg>
@@ -84,34 +69,34 @@ const isWidgetPage = currentPath === '/widget' || currentPath.startsWith('/widge
   </div>
 
   <!-- Mobile Menu -->
-  <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl border-b border-gray-100 shadow-xl overflow-hidden" role="dialog" aria-modal="true">
-    <div class="flex flex-col p-6 space-y-2">
+  <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white border-b border-[var(--border)] shadow-md overflow-hidden" role="dialog" aria-modal="true">
+    <div class="flex flex-col p-6 space-y-1">
       {links.map((link) => (
         <a
           href={link.href}
           data-mobile-link
-          class="text-[var(--text-main)] font-semibold p-4 block rounded-2xl hover:bg-[var(--accent)] transition-all"
+          class="text-[var(--text-main)] font-semibold p-4 block rounded-lg hover:bg-[var(--accent)] transition-colors"
         >
           {link.name}
         </a>
       ))}
-      <a href="/widget" data-mobile-link class="flex items-center gap-3 p-4 rounded-2xl bg-blue-50 border border-blue-100 transition-all hover:bg-blue-100">
-        <svg class="w-5 h-5 text-blue-700 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-        <span class="font-bold text-blue-800">App 20-20-20 <span class="text-[10px] font-bold uppercase tracking-wider text-cyan-600 ml-1">Gratuito</span></span>
+      <a href="/widget" data-mobile-link class="flex items-center gap-3 p-4 rounded-lg border border-[var(--border)] transition-colors hover:bg-[var(--accent)]">
+        <svg class="w-5 h-5 text-[var(--primary)] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+        <span class="font-semibold text-[var(--primary)]">App 20-20-20 <span class="text-[10px] font-semibold uppercase tracking-wider text-[var(--accent-ink)] ml-1">Gratuito</span></span>
       </a>
       {!isTestPage && (
-        <a href="/testerapido" data-mobile-link class="rounded-xl border border-cyan-200 bg-cyan-50 p-4 text-center font-bold text-cyan-600 shadow-sm transition-all hover:bg-cyan-100 flex items-center justify-center gap-2">
+        <a href="/testerapido" data-mobile-link class="rounded-lg border border-[var(--border-strong)] p-4 text-center font-semibold text-[var(--accent-ink)] transition-colors hover:bg-[var(--accent)] flex items-center justify-center gap-2">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           Fazer Teste dos 10 Segundos
         </a>
       )}
       {isTestPage && (
-        <a href="https://saraivavision.com.br" target="_blank" data-mobile-link class="rounded-xl border border-blue-200 bg-brand p-4 text-center font-bold text-white shadow-sm transition-all hover:bg-blue-900 flex items-center justify-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
-          Ir para Site Principal
+        <a href="/contato" data-mobile-link class="rounded-lg border border-[var(--border-strong)] p-4 text-center font-semibold text-[var(--primary)] transition-colors hover:bg-[var(--accent)] flex items-center justify-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+          Fale Conosco
         </a>
       )}
-      <a href="https://wa.me/5533998601427" target="_blank" onclick="return gtag_report_conversion('https://wa.me/5533998601427')" data-mobile-link class="btn-premium btn-premium-primary w-full mt-4 flex justify-center items-center gap-2">
+      <a href="https://wa.me/5533998601427" target="_blank" onclick="return gtag_report_conversion('https://wa.me/5533998601427')" data-mobile-link class="btn-premium btn-premium-primary w-full !mt-4 flex justify-center items-center gap-2">
         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         Agendar via WhatsApp
       </a>
