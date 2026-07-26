@@ -58,8 +58,13 @@ const articles = [
   <section class="hero">
     <div class="page-shell hero-grid">
       <div class="hero-copy">
-        <h1>Entender o olho seco muda a forma de cuidar.</h1>
-        <p>
+        <h1>
+          <span class="desktop-title"
+            >Entender o olho seco muda a forma de cuidar.</span
+          >
+          <span class="mobile-title">Entenda seus sintomas com clareza</span>
+        </h1>
+        <p class="hero-lead">
           Entenda por que os olhos podem arder, lacrimejar ou embaçar — e como
           organizar sintomas, cuidados e perguntas sem cair em receitas
           universais.
@@ -75,6 +80,30 @@ const articles = [
             </svg>
           </a>
         </div>
+
+        <div class="mobile-education" aria-label="Em poucas palavras">
+          <picture class="mobile-education-art">
+            <source
+              type="image/avif"
+              srcset="/images/hero-tear-film-720.avif"
+            />
+            <source
+              type="image/webp"
+              srcset="/images/hero-tear-film-720.webp"
+            />
+            <img
+              src="/images/hero-tear-film.png"
+              alt=""
+              width="1448"
+              height="1086"
+            />
+          </picture>
+          <ul>
+            <li>Sintomas podem ter mecanismos diferentes</li>
+            <li>Entender o padrão ajuda nas decisões</li>
+          </ul>
+        </div>
+
         <form class="portal-search" action="/guias" method="get">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="10.8" cy="10.8" r="6.7"></circle>
@@ -85,7 +114,7 @@ const articles = [
             id="home-search"
             name="q"
             type="search"
-            placeholder="Digite um sintoma, dúvida ou termo"
+            placeholder="Busque um sintoma ou dúvida"
           />
           <button class="search-submit" type="submit">
             <span>Buscar</span>
@@ -94,6 +123,11 @@ const articles = [
             </svg>
           </button>
         </form>
+        <nav class="search-suggestions" aria-label="Sugestões de busca">
+          <a href="/guias?q=ardor">Ardor</a>
+          <a href="/guias?q=vis%C3%A3o%20emba%C3%A7ada">Visão embaçada</a>
+          <a href="/guias?q=lentes%20de%20contato">Lentes de contato</a>
+        </nav>
       </div>
 
       <div class="hero-visual">
@@ -142,19 +176,30 @@ const articles = [
         <path d="M17 35h14M20 39h8M14 31h20l-3-5V17a7 7 0 0 0-14 0v9z"></path>
         <path d="M24 4v4M8 12l3 2M40 12l-3 2"></path>
       </svg>
-      <h2 id="urgent-title">Quando procurar ajuda rapidamente</h2>
+      <h2 id="urgent-title">
+        <span class="desktop-urgent-title"
+          >Quando procurar ajuda rapidamente</span
+        >
+        <span class="mobile-urgent-title"
+          >Dor intensa ou mudança súbita da visão?</span
+        >
+      </h2>
       <ul>
         <li>Dor intensa</li>
         <li>Perda ou mudança súbita da visão</li>
         <li>Trauma ou produto químico</li>
       </ul>
       <a class="text-link urgent-link" href="/sinais-de-alerta">
-        Conheça todos os sinais
+        <span class="desktop-urgent-link">Conheça todos os sinais</span>
+        <span class="mobile-urgent-link">Ver sinais de alerta</span>
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M4 12h16m-5-5 5 5-5 5"></path>
         </svg>
       </a>
     </div>
+    <a class="mobile-secondary-link" href="/olho-seco">
+      Entender o olho seco
+    </a>
   </aside>
 
   <section class="pathways">
@@ -401,6 +446,15 @@ const articles = [
     font-weight: 600;
     letter-spacing: -0.055em;
     line-height: 0.94;
+  }
+
+  .mobile-title,
+  .mobile-education,
+  .search-suggestions,
+  .mobile-urgent-title,
+  .mobile-urgent-link,
+  .mobile-secondary-link {
+    display: none;
   }
 
   .hero-copy > p {
@@ -1115,68 +1169,175 @@ const articles = [
 
   @media (max-width: 720px) {
     .hero {
-      padding-top: 3rem;
+      padding: 2rem 0 1.4rem;
     }
 
     .hero h1 {
-      font-size: clamp(3.25rem, 15vw, 4.8rem);
+      max-width: 350px;
+      font-size: clamp(3rem, 13.5vw, 3.4rem);
+      line-height: 0.96;
     }
 
-    .hero-actions {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: 1.5rem;
+    .desktop-title,
+    .hero-lead,
+    .hero-actions,
+    .hero-visual,
+    .tear-line,
+    .desktop-urgent-title,
+    .desktop-urgent-link {
+      display: none;
+    }
+
+    .mobile-title,
+    .mobile-urgent-title,
+    .mobile-urgent-link {
+      display: inline;
+    }
+
+    .mobile-education {
+      min-height: 132px;
+      display: grid;
+      grid-template-columns: 126px minmax(0, 1fr);
+      margin-top: 1.5rem;
+      overflow: hidden;
+      border-block: 1px solid var(--line);
+    }
+
+    .mobile-education-art {
+      min-width: 0;
+      overflow: hidden;
+      background: var(--mist);
+    }
+
+    .mobile-education-art img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 43% center;
+    }
+
+    .mobile-education ul {
+      display: grid;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .mobile-education li {
+      display: flex;
+      align-items: center;
+      padding: 0.8rem 0 0.8rem 1rem;
+      color: var(--ink);
+      font-size: 0.82rem;
+      font-weight: 650;
+      line-height: 1.35;
+    }
+
+    .mobile-education li + li {
+      border-top: 1px solid var(--line);
     }
 
     .portal-search {
       grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 0.35rem;
+      min-height: 58px;
+      margin-top: 1.4rem;
+      padding: 0.35rem 0.3rem 0.35rem 0.65rem;
+    }
+
+    .portal-search > svg {
+      width: 24px;
     }
 
     .portal-search .search-submit {
-      width: 44px;
-      padding: 0;
+      min-width: 64px;
+      padding: 0.5rem;
+      font-size: 0.76rem;
     }
 
-    .portal-search .search-submit span {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-    }
-
-    .hero-visual {
-      min-height: 390px;
-    }
-
-    .hero-visual img {
-      right: 0;
-      width: 100%;
-    }
-
-    .layer-label {
+    .portal-search .search-submit svg {
       display: none;
     }
 
-    .urgent-grid {
-      grid-template-columns: 1fr;
+    .portal-search input {
+      font-size: 0.78rem;
     }
 
-    .urgent-grid ul,
-    .urgent-link {
-      grid-column: 1;
+    .search-suggestions {
+      display: flex;
+      gap: 0.35rem;
+      justify-content: space-between;
+      margin-top: 0.7rem;
+    }
+
+    .search-suggestions a {
+      min-height: 44px;
+      display: inline-flex;
+      flex: 0 1 auto;
+      align-items: center;
+      justify-content: center;
+      padding: 0.45rem 0.55rem;
+      border: 1px solid var(--teal);
+      border-radius: 999px;
+      color: var(--teal-dark);
+      font-size: 0.7rem;
+      font-weight: 700;
+      line-height: 1.15;
+      text-align: center;
+    }
+
+    .urgent-grid {
+      grid-template-columns: 38px minmax(0, 1fr) auto;
+      gap: 0.55rem;
+      min-height: auto;
+      padding-block: 0.8rem;
+    }
+
+    .urgent-icon {
+      width: 38px;
+    }
+
+    .urgent-grid h2 {
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      font-weight: 750;
+      letter-spacing: 0;
+      line-height: 1.35;
     }
 
     .urgent-grid ul {
-      grid-template-columns: 1fr;
+      display: none;
     }
 
-    .urgent-grid li {
-      padding-block: 0.8rem;
-      padding-inline: 0;
+    .urgent-link {
+      min-height: 44px;
+      display: inline-flex;
+      grid-column: auto;
+      align-items: center;
+      font-size: 0.76rem;
+      white-space: nowrap;
+    }
+
+    .mobile-secondary-link {
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       border-top: 1px solid #efbcb5;
-      border-left: 0;
+      background: white;
+      color: var(--teal-dark);
+      font-weight: 750;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+    }
+
+    .urgent-link svg {
+      width: 17px;
+    }
+
+    .urgent-band {
+      border-bottom: 0;
     }
 
     .pathway-list {
@@ -1244,6 +1405,17 @@ const articles = [
 
     .trust-grid > .text-link {
       justify-self: start;
+    }
+  }
+
+  @media (max-width: 350px) {
+    .mobile-education {
+      grid-template-columns: 108px minmax(0, 1fr);
+    }
+
+    .search-suggestions {
+      flex-wrap: wrap;
+      justify-content: flex-start;
     }
   }
 </style>
