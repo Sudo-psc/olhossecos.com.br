@@ -452,6 +452,108 @@ export const guides: Guide[] = [
       },
     ],
   },
+  {
+    slug: "olho-seco-lentes-de-contato",
+    category: "Vida diária",
+    title: "Olho seco e lentes de contato: conforto, adaptação e segurança",
+    description:
+      "Entenda como as lentes interagem com as lágrimas, quais padrões observar e quando interromper o uso para proteger os olhos.",
+    readingTime: "7 min",
+    updated: "26 de julho de 2026",
+    datePublished: "2026-07-26",
+    dateModified: "2026-07-26",
+    sourcesVerified: "26 de julho de 2026",
+    tags: [
+      "lentes de contato",
+      "olho seco",
+      "filme lacrimal",
+      "conforto",
+      "higiene",
+      "lentes esclerais",
+      "ceratite",
+    ],
+    sections: [
+      {
+        heading: "Como as lentes interagem com as lágrimas",
+        paragraphs: [
+          "A lente de contato fica sobre a superfície ocular e divide o filme lacrimal em camadas à frente e atrás da lente. Material, desenho, adaptação, tempo de uso, piscadas, ambiente e condição prévia das lágrimas e das pálpebras influenciam essa interação.",
+          "Isso não significa que toda pessoa que usa lentes terá olho seco. Em algumas, porém, a lente pode revelar ou agravar instabilidade das lágrimas, evaporação e desconforto que aumentam ao longo do dia.",
+        ],
+        note: "Desconforto com lentes não deve ser atribuído automaticamente ao olho seco. Adaptação inadequada, alergia, inflamação, lesão e infecção também precisam ser consideradas.",
+      },
+      {
+        heading: "Padrões úteis para observar",
+        bullets: [
+          "ardor, ressecamento ou sensação crescente da lente após algumas horas;",
+          "visão que oscila e melhora temporariamente ao piscar;",
+          "piora em telas, ar-condicionado, vento ou ambientes secos;",
+          "necessidade de retirar as lentes antes do horário habitual;",
+          "diferença persistente entre os olhos ou sintomas logo após colocar a lente.",
+        ],
+        paragraphs: [
+          "Anote o tipo de lente, frequência de troca, solução de cuidado, horas de uso e atividades relacionadas à piora. Registre também se os sintomas melhoram após retirar as lentes. Esse contexto ajuda a avaliação, mas não substitui o exame.",
+        ],
+      },
+      {
+        heading: "O que pode ser revisto na avaliação",
+        paragraphs: [
+          "A investigação pode incluir adaptação e movimento da lente, material, tempo e calendário de uso, produtos de limpeza, alergias, pálpebras, glândulas de Meibomius e produção e estabilidade das lágrimas.",
+          "Mudanças de material, desenho, rotina de troca, tempo de uso ou solução devem ser individualizadas. Use somente colírios ou gotas de reumidificação indicados como compatíveis com seu tipo de lente e com orientação profissional.",
+        ],
+        note: "Não aplique saliva, água, soro caseiro ou qualquer solução improvisada nas lentes. Solução salina, quando indicada para uma etapa específica, não substitui a desinfecção.",
+      },
+      {
+        heading: "Hábitos que reduzem riscos",
+        bullets: [
+          "lave e seque bem as mãos antes de tocar nas lentes;",
+          "não durma com as lentes, a menos que isso tenha sido especificamente orientado;",
+          "retire as lentes antes de nadar, tomar banho ou entrar em banheira de hidromassagem;",
+          "use solução desinfetante nova e nunca complete a solução antiga do estojo;",
+          "respeite o calendário de troca das lentes e substitua o estojo regularmente;",
+          "tenha óculos disponíveis para interromper o uso quando necessário.",
+        ],
+        paragraphs: [
+          "Lentes são dispositivos médicos, inclusive as coloridas sem grau. Não compartilhe lentes nem compre modelos sem avaliação e adaptação adequadas.",
+        ],
+      },
+      {
+        heading: "Quando uma lente faz parte do tratamento",
+        paragraphs: [
+          "Em situações selecionadas, lentes terapêuticas podem proteger a superfície ocular. Lentes esclerais, por exemplo, formam um reservatório líquido sobre a córnea e podem ser consideradas em doença da superfície ocular mais grave.",
+          "Esse uso não é equivalente ao de uma lente gelatinosa corretiva comum. Seleção, adaptação, manuseio, produtos e acompanhamento precisam ser conduzidos por uma equipe habilitada, porque benefício e risco dependem do caso.",
+        ],
+      },
+      {
+        heading: "Quando retirar e procurar ajuda",
+        paragraphs: [
+          "Retire as lentes e não as recoloque se houver dor, vermelhidão importante, sensibilidade à luz, secreção, piora súbita da visão ou desconforto que persiste ou aumenta após a retirada.",
+          "Esses sinais podem ocorrer em infecções da córnea e outras condições que exigem avaliação rápida. Leve as lentes, o estojo e os produtos usados se a equipe de saúde orientar.",
+        ],
+        alert:
+          "Dor, fotofobia ou redução da visão em quem usa lentes de contato não devem ser tratados como simples ressecamento. Procure atendimento oftalmológico rapidamente.",
+      },
+    ],
+    sources: [
+      {
+        label:
+          "TFOS Lifestyle — Impact of contact lenses on the ocular surface",
+        url: "https://pubmed.ncbi.nlm.nih.gov/37149139/",
+      },
+      {
+        label:
+          "Indian Journal of Ophthalmology — Contact lenses in dry eye disease and ocular surface disorders",
+        url: "https://pubmed.ncbi.nlm.nih.gov/37026246/",
+      },
+      {
+        label: "CDC — Preventing eye infections when wearing contacts",
+        url: "https://www.cdc.gov/contact-lenses/prevention/index.html",
+      },
+      {
+        label: "FDA — Contact lens risks",
+        url: "https://www.fda.gov/medical-devices/contact-lenses/contact-lens-risks",
+      },
+    ],
+  },
 ];
 
 export const getGuide = (slug: string) =>
