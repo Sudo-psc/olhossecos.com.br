@@ -5,6 +5,7 @@ import node from "@astrojs/node";
 export default defineConfig({
   site: "https://olhossecos.com.br",
   output: "static",
+  trailingSlash: "never",
   devToolbar: {
     enabled: false,
   },
@@ -13,10 +14,14 @@ export default defineConfig({
   }),
   integrations: [
     sitemap({
-      filter: (page) => !page.includes("/studio/"),
-      changefreq: "weekly",
-      priority: 0.7,
-      lastmod: new Date(),
+      filter: (page) => {
+        const path = new URL(page).pathname.replace(/\/$/, "") || "/";
+        return !new Set(["/blog", "/videos", "/exames"]).has(path);
+      },
+      serialize(item) {
+        item.lastmod = "2026-07-25";
+        return item;
+      },
     }),
   ],
   vite: {

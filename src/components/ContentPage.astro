@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
 
 interface PageLink {
   label: string;
@@ -32,9 +33,24 @@ const {
 } = Astro.props;
 ---
 
-<Layout title={title} description={description}>
+<Layout
+  title={title}
+  description={description}
+  schemaType="MedicalWebPage"
+  dateModified="2026-07-25"
+  breadcrumbs={[
+    { name: "Início", url: "/" },
+    { name: title, url: Astro.url.pathname },
+  ]}
+>
   <header class="page-intro">
     <div class="page-shell">
+      <Breadcrumbs
+        items={[
+          { name: "Início", url: "/" },
+          { name: title, url: Astro.url.pathname },
+        ]}
+      />
       <h1 class="page-title">{title}</h1>
       <p>{intro}</p>
     </div>

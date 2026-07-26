@@ -1,0 +1,78 @@
+---
+interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+  inverse?: boolean;
+}
+
+const { items, inverse = false } = Astro.props;
+---
+
+<nav
+  class:list={["breadcrumbs", { "breadcrumbs-inverse": inverse }]}
+  aria-label="Navegação estrutural"
+>
+  <ol>
+    {
+      items.map((item, index) => (
+        <li>
+          {index === items.length - 1 ? (
+            <span aria-current="page">{item.name}</span>
+          ) : (
+            <a href={item.url}>{item.name}</a>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<style>
+  .breadcrumbs {
+    margin-bottom: 1.5rem;
+    color: var(--ink-soft);
+    font-size: 0.76rem;
+    font-weight: 650;
+  }
+
+  .breadcrumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .breadcrumbs li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .breadcrumbs li:not(:last-child)::after {
+    color: var(--teal-dark);
+    content: "/";
+  }
+
+  .breadcrumbs a {
+    color: var(--teal-dark);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 0.2em;
+  }
+
+  .breadcrumbs a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  .breadcrumbs-inverse,
+  .breadcrumbs-inverse a,
+  .breadcrumbs-inverse li:not(:last-child)::after {
+    color: white;
+  }
+</style>

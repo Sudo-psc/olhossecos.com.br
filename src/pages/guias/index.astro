@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import { guides } from "@/lib/guides";
 import { portalPages } from "@/lib/search";
 
@@ -9,9 +10,21 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
 <Layout
   title="Guias para entender e viver com olho seco"
   description="Biblioteca independente de guias sobre sintomas, rotina, tratamentos e decisões de cuidado no olho seco."
+  schemaType="CollectionPage"
+  dateModified="2026-07-25"
+  breadcrumbs={[
+    { name: "Início", url: "/" },
+    { name: "Guias", url: "/guias" },
+  ]}
 >
   <header class="page-intro library-intro">
     <div class="page-shell">
+      <Breadcrumbs
+        items={[
+          { name: "Início", url: "/" },
+          { name: "Guias", url: "/guias" },
+        ]}
+      />
       <h1 class="page-title">Guias para entender e viver com olho seco</h1>
       <p>
         Conteúdo organizado por perguntas reais, escrito em linguagem clara e

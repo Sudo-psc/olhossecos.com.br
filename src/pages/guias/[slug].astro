@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import { guides, type Guide } from "@/lib/guides";
 
 export function getStaticPaths() {
@@ -14,13 +15,29 @@ interface Props {
 }
 
 const { guide } = Astro.props;
+const relatedGuides = guides
+  .filter((candidate) => candidate.slug !== guide.slug)
+  .slice(0, 3);
+const breadcrumbs = [
+  { name: "Início", url: "/" },
+  { name: "Guias", url: "/guias" },
+  { name: guide.title, url: `/guias/${guide.slug}` },
+];
 ---
 
-<Layout title={guide.title} description={guide.description}>
+<Layout
+  title={guide.title}
+  description={guide.description}
+  schemaType="Article"
+  datePublished="2026-07-25"
+  dateModified="2026-07-25"
+  breadcrumbs={breadcrumbs}
+>
   <article>
     <header class="article-header">
       <div class="page-shell article-header-grid">
         <div>
+          <Breadcrumbs items={breadcrumbs} />
           <a class="back-link" href="/guias">← Todos os guias</a>
           <p>{guide.category}</p>
           <h1 class="article-title">{guide.title}</h1>
@@ -82,6 +99,22 @@ const { guide } = Astro.props;
             }
           </ul>
           <small>Links verificados em 25 de julho de 2026.</small>
+        </section>
+
+        <section class="related-guides" aria-labelledby="related-guides-title">
+          <h2 id="related-guides-title">Continue aprendendo</h2>
+          <ul>
+            {
+              relatedGuides.map((relatedGuide) => (
+                <li>
+                  <a href={`/guias/${relatedGuide.slug}`}>
+                    <span>{relatedGuide.category}</span>
+                    <strong>{relatedGuide.title}</strong>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
         </section>
 
         <footer class="guide-footer">
@@ -216,6 +249,44 @@ const { guide } = Astro.props;
     margin-top: 4rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--line);
+  }
+
+  .related-guides {
+    margin-top: 4rem;
+  }
+
+  .related-guides ul {
+    display: grid;
+    gap: 0;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+    list-style: none;
+  }
+
+  .related-guides li {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .related-guides a {
+    display: grid;
+    gap: 0.25rem;
+    padding: 1rem 0;
+  }
+
+  .related-guides span {
+    color: var(--teal-dark);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .related-guides strong {
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    line-height: 1.25;
   }
 
   .guide-footer p {

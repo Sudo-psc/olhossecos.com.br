@@ -6,31 +6,130 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  imageAlt?: string;
   noindex?: boolean;
+  schemaType?: "WebPage" | "MedicalWebPage" | "CollectionPage" | "Article";
+  datePublished?: string;
+  dateModified?: string;
+  breadcrumbs?: { name: string; url: string }[];
 }
 
 const {
-  title = "Olho Seco — Portal do paciente",
+  title = "Olho seco: sintomas, causas e cuidados",
   description = "Informação clara, independente e baseada em evidências sobre sintomas, causas, autocuidado e tratamentos do olho seco.",
-  image = "/og-image.svg",
+  image = "/og-image.png",
+  imageAlt = "Olho Seco — Portal do paciente",
   noindex = false,
+  schemaType = "WebPage",
+  datePublished,
+  dateModified = "2026-07-25",
+  breadcrumbs,
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site);
-const fullTitle = title.includes("Olho Seco") ? title : `${title} | Olho Seco`;
+const siteUrl = new URL("/", Astro.site);
+const canonical = new URL(Astro.url.pathname, siteUrl);
+const imageUrl = new URL(image, siteUrl);
+const isHome = canonical.pathname === "/";
+const shouldNoindex = noindex;
+const fullTitle = isHome
+  ? `${title} | Portal do paciente`
+  : title.toLocaleLowerCase("pt-BR").includes("olho seco")
+    ? title
+    : `${title} | Olho Seco`;
+const breadcrumbItems =
+  breadcrumbs ??
+  (isHome
+    ? []
+    : [
+        { name: "Início", url: "/" },
+        { name: title, url: canonical.pathname },
+      ]);
+
+const organization = {
+  "@type": "Organization",
+  "@id": `${siteUrl.href}#organization`,
+  name: "Olho Seco — Portal do paciente",
+  url: siteUrl.href,
+  logo: {
+    "@type": "ImageObject",
+    url: new URL("/favicon.svg", siteUrl).href,
+  },
+};
+
+const website = {
+  "@type": "WebSite",
+  "@id": `${siteUrl.href}#website`,
+  url: siteUrl.href,
+  name: "Olho Seco — Portal do paciente",
+  alternateName: "Portal Olho Seco",
+  description,
+  inLanguage: "pt-BR",
+  publisher: { "@id": organization["@id"] },
+};
+
+const page = {
+  "@type": schemaType,
+  "@id": `${canonical.href}#webpage`,
+  url: canonical.href,
+  name: fullTitle,
+  headline: title,
+  description,
+  inLanguage: "pt-BR",
+  isPartOf: { "@id": website["@id"] },
+  primaryImageOfPage: { "@id": `${imageUrl.href}#primaryimage` },
+  breadcrumb:
+    breadcrumbItems.length > 0
+      ? { "@id": `${canonical.href}#breadcrumb` }
+      : undefined,
+  datePublished,
+  dateModified,
+  about:
+    schemaType === "MedicalWebPage" || schemaType === "Article"
+      ? {
+          "@type": "MedicalCondition",
+          name: "Doença do olho seco",
+          alternateName: "Olho seco",
+        }
+      : undefined,
+  author:
+    schemaType === "Article" ? { "@id": organization["@id"] } : undefined,
+  publisher:
+    schemaType === "Article" ? { "@id": organization["@id"] } : undefined,
+};
+
+const imageObject = {
+  "@type": "ImageObject",
+  "@id": `${imageUrl.href}#primaryimage`,
+  url: imageUrl.href,
+  contentUrl: imageUrl.href,
+  width: 1200,
+  height: 630,
+  caption: imageAlt,
+};
+
+const breadcrumbSchema =
+  breadcrumbItems.length > 0
+    ? {
+        "@type": "BreadcrumbList",
+        "@id": `${canonical.href}#breadcrumb`,
+        itemListElement: breadcrumbItems.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: item.name,
+          item: new URL(item.url, siteUrl).href,
+        })),
+      }
+    : undefined;
 
 const structuredData = {
   "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: "Olho Seco — Portal do paciente",
-  url: Astro.site?.toString(),
-  description,
-  inLanguage: "pt-BR",
-  publisher: {
-    "@type": "Organization",
-    name: "Olho Seco — Portal do paciente",
-    url: Astro.site?.toString(),
-  },
+  "@graph": [
+    organization,
+    website,
+    imageObject,
+    page,
+    ...(breadcrumbSchema ? [breadcrumbSchema] : []),
+  ],
 };
 ---
 
@@ -41,7 +140,12 @@ const structuredData = {
     <meta name="viewport" content="width=device-width" />
     <meta name="theme-color" content="#071D45" />
     <meta name="description" content={description} />
-    <meta name="robots" content={noindex ? "noindex,nofollow" : "index,follow"} />
+    <meta
+      name="robots"
+      content={shouldNoindex
+        ? "noindex,follow"
+        : "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"}
+    />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="manifest" href="/manifest.json" />
@@ -51,10 +155,17 @@ const structuredData = {
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:secure_url" content={imageUrl} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={imageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={imageAlt} />
     <title>{fullTitle}</title>
     <script
       is:inline
