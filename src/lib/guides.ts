@@ -13,6 +13,9 @@ export interface Guide {
   description: string;
   readingTime: string;
   updated: string;
+  datePublished?: string;
+  dateModified?: string;
+  sourcesVerified?: string;
   tags: string[];
   sections: GuideSection[];
   sources: { label: string; url: string }[];
@@ -361,6 +364,91 @@ export const guides: Guide[] = [
       {
         label: "TFOS DEWS III — atualização interdisciplinar",
         url: "https://pubmed.ncbi.nlm.nih.gov/40472874/",
+      },
+    ],
+  },
+  {
+    slug: "conjuntivocalase-olho-seco-mecanico",
+    category: "Mecanismos",
+    title: "Conjuntivocálase e atrito: o componente mecânico do olho seco",
+    description:
+      "Entenda como dobras da conjuntiva podem alterar o caminho das lágrimas, aumentar o atrito e produzir sintomas parecidos com olho seco.",
+    readingTime: "7 min",
+    updated: "26 de julho de 2026",
+    datePublished: "2026-07-26",
+    dateModified: "2026-07-26",
+    sourcesVerified: "26 de julho de 2026",
+    tags: [
+      "conjuntivocálase",
+      "conjunctivochalasis",
+      "olho seco mecânico",
+      "atrito",
+      "conjuntiva",
+      "menisco lacrimal",
+      "lacrimejamento",
+    ],
+    sections: [
+      {
+        heading: "O que é conjuntivocálase",
+        paragraphs: [
+          "Conjuntivocálase é a presença de pregas frouxas e redundantes na conjuntiva, a membrana transparente que recobre a parte branca do olho. Elas aparecem com mais frequência entre o globo ocular e a pálpebra inferior e se tornam mais comuns com o envelhecimento.",
+          "Muitas pessoas não apresentam sintomas. O que importa não é apenas existir uma dobra, mas sua localização, seu volume e a forma como ela interage com as pálpebras, as lágrimas e os pontos de drenagem.",
+        ],
+      },
+      {
+        heading: "Por que pode haver um componente mecânico",
+        paragraphs: [
+          "A cada piscada, as pálpebras espalham as lágrimas e ajudam a levá-las do reservatório da conjuntiva para o menisco lacrimal. Uma prega pode ocupar esse espaço, dificultar a reposição ou a eliminação das lágrimas e aumentar o contato entre pálpebra e superfície ocular.",
+          "Neste guia, “olho seco mecânico” descreve esse componente de atrito e alteração do fluxo lacrimal; não é apresentado como uma categoria diagnóstica isolada. Conjuntivocálase pode coexistir com baixa produção aquosa, disfunção das glândulas de Meibomius, instabilidade das lágrimas e inflamação.",
+        ],
+      },
+      {
+        heading: "Padrões que merecem ser relatados",
+        bullets: [
+          "sensação de areia, ardor, queimação ou dor localizada;",
+          "visão que oscila e pode melhorar ao piscar;",
+          "lacrimejamento apesar da sensação de secura;",
+          "piora durante leitura, ao olhar para baixo ou após piscar com força;",
+          "desconforto mais intenso em um olho ou em uma região específica.",
+        ],
+        note: "Esses padrões não confirmam conjuntivocálase. Alergia, blefarite, alterações palpebrais e outras doenças da superfície ocular podem causar sintomas semelhantes.",
+      },
+      {
+        heading: "Como é investigada",
+        paragraphs: [
+          "A avaliação costuma observar a conjuntiva com ampliação, inclusive durante as piscadas e em diferentes posições do olhar. A relação das pregas com o menisco lacrimal e os pontos de drenagem pode ser mais informativa do que a presença de uma dobra isolada.",
+          "Corantes, estabilidade e volume das lágrimas, condição das pálpebras e das glândulas de Meibomius e sinais de inflamação ajudam a verificar quais mecanismos realmente participam. Em alguns contextos, imagens do segmento anterior podem documentar a anatomia.",
+        ],
+      },
+      {
+        heading: "Como o cuidado é decidido",
+        paragraphs: [
+          "Quando não há sintomas ou repercussão relevante, pode não ser necessário tratar a conjuntivocálase. Nos casos sintomáticos, o cuidado pode começar por lubrificação e pelo controle de fatores coexistentes da superfície ocular.",
+          "Se os sintomas persistem e a avaliação mostra relação clara com as pregas, um especialista pode discutir procedimentos para reposicionar ou reduzir o tecido redundante. A indicação depende da anatomia, dos demais mecanismos e da resposta às medidas conservadoras.",
+        ],
+        alert:
+          "Procedimentos na conjuntiva não são autocuidado. Dor intensa, mudança súbita da visão, trauma ou produto químico no olho exigem avaliação rápida.",
+      },
+    ],
+    sources: [
+      {
+        label: "Marmalidou et al. — Conjunctivochalasis: a systematic review",
+        url: "https://pubmed.ncbi.nlm.nih.gov/29128574/",
+      },
+      {
+        label:
+          "Huang et al. — Conjunctivochalasis interferes with tear flow from fornix to tear meniscus",
+        url: "https://pubmed.ncbi.nlm.nih.gov/23583167/",
+      },
+      {
+        label:
+          "Di Pascuale et al. — Clinical characteristics of conjunctivochalasis",
+        url: "https://pubmed.ncbi.nlm.nih.gov/14977775/",
+      },
+      {
+        label:
+          "Ahn et al. — Effects of tear-film mechanisms on friction-related disease",
+        url: "https://pubmed.ncbi.nlm.nih.gov/35219899/",
       },
     ],
   },

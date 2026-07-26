@@ -41,6 +41,10 @@ export const portalPages: PortalSearchEntry[] = [
       "rosácea",
       "medicamentos",
       "lentes de contato",
+      "conjuntivocálase",
+      "conjunctivochalasis",
+      "olho seco mecânico",
+      "atrito",
     ],
   },
   {
@@ -49,7 +53,15 @@ export const portalPages: PortalSearchEntry[] = [
     title: "Como o olho seco é investigado",
     description:
       "História dos sintomas, observação das pálpebras, lágrimas e testes possíveis.",
-    tags: ["diagnóstico", "exames", "testes", "osmolaridade", "meibografia"],
+    tags: [
+      "diagnóstico",
+      "exames",
+      "testes",
+      "osmolaridade",
+      "meibografia",
+      "conjuntivocálase",
+      "olho seco mecânico",
+    ],
   },
   {
     href: "/autocuidado",
@@ -87,7 +99,14 @@ export const portalPages: PortalSearchEntry[] = [
     title: "Glossário do olho seco",
     description:
       "Explicações simples para os termos usados em conteúdos e avaliações.",
-    tags: ["termos", "dicionário", "significado", "definições"],
+    tags: [
+      "termos",
+      "dicionário",
+      "significado",
+      "definições",
+      "conjuntivocálase",
+      "olho seco mecânico",
+    ],
   },
   {
     href: "/fontes",

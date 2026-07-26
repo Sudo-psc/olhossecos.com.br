@@ -74,6 +74,30 @@ export const sources = {
       "Recursos de educação e apoio produzidos para pessoas que vivem com olho seco e condições associadas.",
     verified,
   },
+  conjunctivochalasisReview: {
+    name: "Marmalidou et al. — Conjunctivochalasis: a systematic review",
+    type: "Revisão sistemática",
+    url: "https://pubmed.ncbi.nlm.nih.gov/29128574/",
+    description:
+      "Síntese sobre pregas conjuntivais redundantes, sintomas, fluxo lacrimal, atrito, inflamação e opções de cuidado.",
+    verified: verifiedToday,
+  },
+  conjunctivochalasisTearFlow: {
+    name: "Huang et al. — fluxo lacrimal na conjuntivocálase",
+    type: "Estudo clínico comparativo",
+    url: "https://pubmed.ncbi.nlm.nih.gov/23583167/",
+    description:
+      "Avaliação da interferência da conjuntivocálase na reposição das lágrimas entre o fórnice e o menisco lacrimal.",
+    verified: verifiedToday,
+  },
+  frictionRelatedDisease: {
+    name: "Ahn et al. — doença da superfície ocular relacionada ao atrito",
+    type: "Estudo clínico transversal",
+    url: "https://pubmed.ncbi.nlm.nih.gov/35219899/",
+    description:
+      "Estudo da associação entre atrito, disfunção das glândulas de Meibomius, deficiência aquosa e alterações como conjuntivocálase.",
+    verified: verifiedToday,
+  },
   sjogrens: {
     name: "Sjögren’s Foundation — Dry Eye",
     type: "Fundação de pacientes",
@@ -101,6 +125,9 @@ export const primarySources: EditorialSource[] = [
   sources.nhs,
   sources.nhsEyeInjuries,
   sources.dryEyeAssociation,
+  sources.conjunctivochalasisReview,
+  sources.conjunctivochalasisTearFlow,
+  sources.frictionRelatedDisease,
   sources.sjogrens,
   sources.preventBlindness,
 ];

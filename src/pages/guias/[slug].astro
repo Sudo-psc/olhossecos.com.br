@@ -29,8 +29,8 @@ const breadcrumbs = [
   title={guide.title}
   description={guide.description}
   schemaType="Article"
-  datePublished="2026-07-25"
-  dateModified="2026-07-25"
+  datePublished={guide.datePublished ?? "2026-07-25"}
+  dateModified={guide.dateModified ?? "2026-07-25"}
   breadcrumbs={breadcrumbs}
 >
   <article>
@@ -69,10 +69,14 @@ const breadcrumbs = [
           guide.sections.map((section, index) => (
             <section id={`secao-${index + 1}`}>
               <h2>{section.heading}</h2>
-              {section.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+              {section.paragraphs?.map((paragraph) => (
+                <p>{paragraph}</p>
+              ))}
               {section.bullets && (
                 <ul>
-                  {section.bullets.map((bullet) => <li>{bullet}</li>)}
+                  {section.bullets.map((bullet) => (
+                    <li>{bullet}</li>
+                  ))}
                 </ul>
               )}
               {section.note && <div class="info-note">{section.note}</div>}
@@ -91,14 +95,22 @@ const breadcrumbs = [
             {
               guide.sources.map((source) => (
                 <li>
-                  <a href={source.url} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={source.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     {source.label}
                   </a>
                 </li>
               ))
             }
           </ul>
-          <small>Links verificados em 25 de julho de 2026.</small>
+          <small>
+            Links verificados em {
+              guide.sourcesVerified ?? "25 de julho de 2026"
+            }.
+          </small>
         </section>
 
         <section class="related-guides" aria-labelledby="related-guides-title">
