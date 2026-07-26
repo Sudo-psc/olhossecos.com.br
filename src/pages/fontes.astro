@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { openImageCredits } from "@/lib/figures";
 import { primarySources } from "@/lib/sources";
 ---
 
@@ -55,11 +56,129 @@ import { primarySources } from "@/lib/sources";
       </div>
     </div>
   </section>
+
+  <section class="image-credits-section" aria-labelledby="image-credits-title">
+    <div class="page-shell image-credits-layout">
+      <div>
+        <p class="eyebrow">Transparência visual</p>
+        <h2 id="image-credits-title">Créditos das figuras abertas</h2>
+        <p>
+          Figuras externas só são usadas quando autoria, arquivo e licença podem
+          ser conferidos. As adaptações técnicas são informadas, e o crédito
+          também aparece junto da imagem.
+        </p>
+      </div>
+      <div class="image-credit-list">
+        {
+          openImageCredits.map((image) => (
+            <article>
+              <h3>{image.title}</h3>
+              <p>
+                Autor: {image.author}. {image.modification}
+              </p>
+              <div>
+                <a
+                  href={image.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Ver arquivo original ↗
+                </a>
+                <a
+                  href={image.licenseUrl}
+                  target="_blank"
+                  rel="noopener noreferrer license"
+                >
+                  {image.licenseLabel} ↗
+                </a>
+              </div>
+            </article>
+          ))
+        }
+        <p class="ai-disclosure">
+          As ilustrações originais geradas com IA são identificadas nas próprias
+          legendas e tratadas como esquemas educativos, não como exames,
+          protocolos ou resultados clínicos reais.
+        </p>
+      </div>
+    </div>
+  </section>
 </Layout>
 
 <style>
   .sources-section {
     padding-block: clamp(4rem, 9vw, 8rem);
+  }
+
+  .image-credits-section {
+    padding-block: clamp(4rem, 8vw, 7rem);
+    border-top: 1px solid var(--line);
+    background: var(--mist);
+  }
+
+  .image-credits-layout {
+    display: grid;
+    grid-template-columns: 0.65fr 1.35fr;
+    gap: clamp(4rem, 9vw, 9rem);
+  }
+
+  .image-credits-layout > div:first-child h2 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    line-height: 1;
+  }
+
+  .image-credits-layout > div:first-child > p:last-child {
+    max-width: 440px;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+
+  .eyebrow {
+    margin: 0 0 0.8rem;
+    color: var(--teal-dark);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .image-credit-list {
+    border-top: 1px solid var(--line);
+  }
+
+  .image-credit-list article {
+    padding-block: 1.8rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .image-credit-list h3 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: 1.7rem;
+  }
+
+  .image-credit-list article p,
+  .ai-disclosure {
+    color: var(--ink-soft);
+    font-size: 0.84rem;
+  }
+
+  .image-credit-list article div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.2rem;
+  }
+
+  .image-credit-list a {
+    color: var(--teal-dark);
+    font-size: 0.76rem;
+    font-weight: 750;
+  }
+
+  .ai-disclosure {
+    margin: 1.5rem 0 0;
   }
 
   .sources-layout {
@@ -141,7 +260,8 @@ import { primarySources } from "@/lib/sources";
   }
 
   @media (max-width: 850px) {
-    .sources-layout {
+    .sources-layout,
+    .image-credits-layout {
       grid-template-columns: 1fr;
     }
 

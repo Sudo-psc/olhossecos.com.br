@@ -1,9 +1,12 @@
+import { figures, type FigureAsset } from "@/lib/figures";
+
 export interface GuideSection {
   heading: string;
   paragraphs?: string[];
   bullets?: string[];
   note?: string;
   alert?: string;
+  figure?: FigureAsset;
 }
 
 export interface Guide {
@@ -605,6 +608,7 @@ export const guides: Guide[] = [
           "Dos pontos, seguem pelos canalículos até o saco lacrimal e depois pelo ducto nasolacrimal, que termina dentro do nariz. O movimento das pálpebras e do músculo ao redor dos olhos ajuda a funcionar como uma bomba.",
           "Pontos fora de posição, pálpebras frouxas ou viradas, piscadas ineficientes, estreitamentos e obstruções em diferentes trechos podem reduzir o escoamento mesmo quando a produção de lágrimas é normal.",
         ],
+        figure: figures.lacrimalSystemPtOpen,
       },
       {
         heading: "Padrões úteis para relatar",

@@ -1,0 +1,138 @@
+---
+import type { FigureAsset } from "@/lib/figures";
+
+interface Props {
+  figure: FigureAsset;
+  sizes?: string;
+}
+
+const {
+  figure,
+  sizes = "(max-width: 850px) calc(100vw - 2.5rem), 780px",
+} = Astro.props;
+---
+
+<figure
+  class:list={[
+    "educational-figure",
+    figure.presentation === "compact" && "educational-figure--compact",
+  ]}
+>
+  <picture>
+    <source
+      type="image/avif"
+      srcset={figure.avifSrcSet}
+      sizes={sizes}
+    />
+    <source
+      type="image/webp"
+      srcset={figure.webpSrcSet}
+      sizes={sizes}
+    />
+    <img
+      src={figure.src}
+      width={figure.width}
+      height={figure.height}
+      alt={figure.alt}
+      loading="lazy"
+      decoding="async"
+    />
+  </picture>
+  <figcaption>
+    <p>{figure.caption}</p>
+    <small>
+      {
+        figure.credit.url ? (
+          <a
+            href={figure.credit.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {figure.credit.label}
+          </a>
+        ) : (
+          <span>{figure.credit.label}</span>
+        )
+      }
+      {
+        figure.license && (
+          <>
+            {" · "}
+            <a
+              href={figure.license.url}
+              target="_blank"
+              rel="noopener noreferrer license"
+            >
+              {figure.license.label}
+            </a>
+          </>
+        )
+      }
+      {figure.modification && <> · {figure.modification}</>}
+      {figure.disclosure && <> · {figure.disclosure}</>}
+    </small>
+  </figcaption>
+</figure>
+
+<style>
+  .educational-figure {
+    overflow: hidden;
+    margin: clamp(2rem, 5vw, 3.4rem) 0;
+    border: 1px solid var(--line);
+    border-radius: 1.1rem;
+    background: #fff;
+    box-shadow: 0 18px 45px rgb(15 40 62 / 0.08);
+  }
+
+  .educational-figure--compact {
+    max-width: 620px;
+    margin-inline: auto;
+  }
+
+  .educational-figure picture {
+    display: block;
+    background: linear-gradient(145deg, #f3fbfa, #fff);
+  }
+
+  .educational-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .educational-figure figcaption {
+    padding: clamp(1rem, 3vw, 1.4rem);
+    border-top: 1px solid var(--line);
+  }
+
+  .educational-figure figcaption p {
+    margin: 0;
+    color: var(--ink);
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .educational-figure figcaption small {
+    display: block;
+    margin-top: 0.65rem;
+    color: #64748a;
+    font-size: 0.7rem;
+    line-height: 1.55;
+  }
+
+  .educational-figure figcaption a {
+    color: var(--teal-dark);
+    font-weight: 700;
+    text-underline-offset: 0.18em;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .educational-figure img {
+      transition: transform 240ms ease;
+    }
+
+    .educational-figure:hover img {
+      transform: scale(1.008);
+    }
+  }
+</style>

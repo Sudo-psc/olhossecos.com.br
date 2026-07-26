@@ -1,5 +1,7 @@
 ---
 import ContentPage from "@/components/ContentPage.astro";
+import EducationalFigure from "@/components/EducationalFigure.astro";
+import { figures } from "@/lib/figures";
 import { sourceLink, sources } from "@/lib/sources";
 ---
 
@@ -41,6 +43,8 @@ import { sourceLink, sources } from "@/lib/sources";
     diferentes e precisar de estratégias distintas.
   </div>
 
+  <EducationalFigure figure={figures.tearFilmEducation} />
+
   <h2 id="filme-lacrimal">O filme lacrimal trabalha em conjunto</h2>
   <p>
     Uma forma didática de entender o filme lacrimal é pensar em três componentes
@@ -63,6 +67,8 @@ import { sourceLink, sources } from "@/lib/sources";
     Essa divisão é útil para aprender, mas o filme lacrimal real é dinâmico:
     suas partes se misturam e mudam a cada piscada.
   </p>
+
+  <EducationalFigure figure={figures.tearFilmLayersOpen} />
 
   <h2 id="multifatorial">Por que se diz que é multifatorial?</h2>
   <p>

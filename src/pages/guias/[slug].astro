@@ -1,6 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import EducationalFigure from "@/components/EducationalFigure.astro";
 import { guides, type Guide } from "@/lib/guides";
 
 export function getStaticPaths() {
@@ -72,6 +73,7 @@ const breadcrumbs = [
               {section.paragraphs?.map((paragraph) => (
                 <p>{paragraph}</p>
               ))}
+              {section.figure && <EducationalFigure figure={section.figure} />}
               {section.bullets && (
                 <ul>
                   {section.bullets.map((bullet) => (
