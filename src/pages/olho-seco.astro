@@ -1,258 +1,112 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { client } from '../lib/sanity';
-import { PortableText } from "astro-portabletext";
-import groq from 'groq';
-
-let cmsData = null;
-
-try {
-  if (import.meta.env.PUBLIC_SANITY_PROJECT_ID) {
-    cmsData = await client.fetch(groq`*[_type == "pageOlhoSeco"][0]{
-      title,
-      body,
-      targetAudience,
-      regionHighlight
-    }`);
-  }
-} catch (e) {
-  console.warn("Sanity fetch failed or no document found:", e);
-}
+import ContentPage from "@/components/ContentPage.astro";
+import { sourceLink, sources } from "@/lib/sources";
 ---
 
+<ContentPage
+  title="O que é olho seco?"
+  description="Entenda o que é a doença do olho seco, como o filme lacrimal protege os olhos e por que existem diferentes tipos e causas."
+  intro="Olho seco é uma doença multifatorial e sintomática em que o filme lacrimal e/ou a superfície ocular perdem estabilidade e proteção. Quantidade e qualidade das lágrimas, inflamação, pálpebras e percepção nervosa podem participar."
+  links={[
+    { label: "O filme lacrimal", href: "#filme-lacrimal" },
+    { label: "Por que é multifatorial", href: "#multifatorial" },
+    { label: "Tipos mais comuns", href: "#tipos" },
+    { label: "Sintomas e sinais", href: "#sintomas-e-sinais" },
+    { label: "Próximos passos", href: "#proximos-passos" },
+  ]}
+  sources={[
+    sourceLink(sources.dews3Executive),
+    sourceLink(sources.dews3Diagnostic),
+    sourceLink(sources.nei),
+  ]}
+>
+  <p>
+    As lágrimas formam uma película fina sobre a parte da frente dos olhos. Essa
+    película lubrifica, ajuda a manter a visão nítida, leva nutrientes e participa
+    da defesa da superfície ocular. Quando ela se rompe cedo demais, evapora
+    rapidamente ou é produzida em quantidade insuficiente, podem surgir sintomas.
+  </p>
 
-<Layout title="Síndrome do Olho Seco: Diagnóstico e Tratamento | Olhos Secos" description="Entenda a Síndrome do Olho Seco (TFOS DEWS III) e conheça o tratamento especializado do Olhos Secos — Centro Especializado em Olho Seco, com IRPL E-Eye e diagnóstico avançado.">
-  <section class="relative bg-brand-dark py-24 text-white overflow-hidden">
-    <div class="container mx-auto px-6 relative z-10">
-      <div class="max-w-4xl mx-auto text-center">
-        <span class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-teal-200 font-ui mb-6">Educação e Tratamento</span>
-        <h1 class="text-4xl md:text-6xl text-white mb-6 leading-tight">
-          {cmsData?.title ? cmsData.title : (
-            <>Síndrome do <span class="text-teal-300">Olho Seco</span></>
-          )}
-        </h1>
-        <p class="text-xl text-slate-300 leading-relaxed max-w-3xl mx-auto">
-          Uma abordagem moderna, científica e personalizada para o seu conforto visual, baseada no relatório TFOS DEWS III.
-        </p>
-      </div>
-    </div>
-  </section>
+  <div class="info-note">
+    O termo “olho seco” pode parecer simples, mas descreve uma condição complexa.
+    Duas pessoas com sintomas parecidos podem ter mecanismos diferentes e precisar
+    de estratégias distintas.
+  </div>
 
-  <section class="section-padding bg-white">
-    <div class="container mx-auto px-6">
-      <div class="max-w-4xl mx-auto">
+  <h2 id="filme-lacrimal">O filme lacrimal trabalha em conjunto</h2>
+  <p>
+    Uma forma didática de entender o filme lacrimal é pensar em três componentes
+    que cooperam: uma porção lipídica, associada principalmente às glândulas das
+    pálpebras; uma porção aquosa, rica em água e proteínas; e mucinas, que ajudam
+    as lágrimas a aderirem e se distribuírem pela superfície do olho.
+  </p>
+  <ul>
+    <li>
+      <strong>Componente lipídico:</strong> reduz a evaporação e ajuda na
+      estabilidade.
+    </li>
+    <li>
+      <strong>Componente aquoso:</strong> hidrata, nutre e participa da proteção.
+    </li>
+    <li>
+      <strong>Mucinas:</strong> favorecem a distribuição uniforme das lágrimas.
+    </li>
+  </ul>
+  <p>
+    Essa divisão é útil para aprender, mas o filme lacrimal real é dinâmico: suas
+    partes se misturam e mudam a cada piscada.
+  </p>
 
-        <!-- Main Content Area -->
-        <div class="prose prose-lg text-slate-600 max-w-none prose-headings:text-brand prose-a:text-brand-light hover:prose-a:text-[#115E59] prose-img:rounded-xl">
-          {cmsData?.body ? (
-            <PortableText value={cmsData.body} />
-          ) : (
-            <>
-              <h2 class="text-3xl text-brand mb-6">O que é Síndrome do Olho Seco hoje</h2>
-              <p>
-                Antigamente, acreditava-se que ter "olho seco" significava apenas não produzir lágrimas suficientes. Hoje, com os avanços da ciência e o relatório internacional <strong>TFOS DEWS III</strong> sobre olho seco, sabemos que essa é uma <strong>doença multifatorial complexa</strong>.
-              </p>
-              <p>
-                Ela envolve não apenas a falta de lágrima, mas principalmente a instabilidade do filme lacrimal — a fina camada líquida que protege os olhos —, o aumento da concentração de sais na lágrima (hiperosmolaridade), a inflamação da superfície ocular e, em muitos casos, alterações na sensibilidade dos nervos da córnea.
-              </p>
+  <h2 id="multifatorial">Por que se diz que é multifatorial?</h2>
+  <p>
+    Porque diversos fatores podem participar ao mesmo tempo. Ambiente seco, uso
+    prolongado de telas, alterações das pálpebras, lentes de contato, idade,
+    mudanças hormonais, alguns medicamentos e doenças sistêmicas estão entre os
+    contextos que podem contribuir.
+  </p>
+  <p>
+    O consenso internacional TFOS também reconhece que instabilidade do filme
+    lacrimal, inflamação, dano da superfície e alterações neurossensoriais podem
+    ter papéis diferentes em cada pessoa.
+  </p>
 
-              <div class="bg-alt border-l-4 border-brand-light p-6 my-8 rounded-r-lg">
-                <h3 class="text-xl text-brand mt-0 mb-3">O "Ciclo Vicioso" do Olho Seco</h3>
-                <p class="mb-0">
-                  Quando o filme lacrimal se rompe precocemente, a superfície do olho fica exposta e sofre pequenas lesões. Isso gera inflamação, que por sua vez piora a qualidade da lágrima, criando um ciclo contínuo de desconforto e dano ocular se não for tratado adequadamente.
-                </p>
-              </div>
+  <h2 id="tipos">Tipos mais comuns</h2>
+  <h3>Predomínio evaporativo</h3>
+  <p>
+    As lágrimas evaporam rápido demais. Alterações das glândulas de Meibomius,
+    responsáveis por parte dos lipídios do filme lacrimal, são uma causa frequente.
+  </p>
+  <h3>Predomínio aquodeficiente</h3>
+  <p>
+    Há produção insuficiente da porção aquosa das lágrimas. Pode ocorrer de forma
+    isolada ou associada a condições como a doença de Sjögren.
+  </p>
+  <h3>Forma mista</h3>
+  <p>
+    Componentes evaporativos e de baixa produção coexistem. Na prática, as formas
+    se sobrepõem com frequência, por isso rótulos isolados nem sempre contam toda
+    a história.
+  </p>
 
-              <!-- DIAGRAMA CICLO VICIOSO -->
-              <figure class="my-10 text-center not-prose">
-                  <img
-                      src="/Ciclo-vicioso-DOS.png"
-                      alt="Diagrama do Ciclo Vicioso da Doença do Olho Seco (TFOS DEWS II)"
-                      class="w-full max-w-2xl mx-auto rounded-xl shadow-sm border border-[#E7E5E0]"
-                  />
-                  <figcaption class="text-sm text-slate-500 mt-3 italic">
-                      O ciclo autoperpetuante da doença, conforme descrito pelo TFOS DEWS II.
-                  </figcaption>
-              </figure>
+  <h2 id="sintomas-e-sinais">Sintomas e sinais nem sempre caminham juntos</h2>
+  <p>
+    Ardor, sensação de areia, visão que oscila, lacrimejamento e sensibilidade à
+    luz são relatos comuns. No exame, podem aparecer instabilidade das lágrimas,
+    alterações nas pálpebras ou sinais de sofrimento da superfície ocular.
+  </p>
+  <p>
+    A intensidade do que a pessoa sente nem sempre corresponde à intensidade dos
+    sinais observados. Isso não invalida o sintoma; indica que percepção nervosa,
+    ambiente e outras condições também precisam ser considerados.
+  </p>
 
-              <h2 class="text-3xl text-brand mt-12 mb-6">Causas e tipos de Olho Seco</h2>
-              <p>
-                Para tratar corretamente, precisamos identificar o tipo de olho seco. Basicamente, existem duas categorias principais, que frequentemente se sobrepõem:
-              </p>
-              <ul>
-                <li><strong>Olho Seco por Deficiência Aquosa:</strong> Ocorre quando as glândulas lacrimais não produzem volume suficiente de lágrima. É menos comum de forma isolada e pode estar associado a doenças autoimunes (como Síndrome de Sjögren) e ao envelhecimento natural.</li>
-                <li><strong>Olho Seco Evaporativo:</strong> É a forma mais frequente. Nela, a quantidade de lágrima pode até ser normal, mas ela evapora rápido demais porque falta a camada de gordura (lipídios) que retém a umidade. Isso geralmente é causado pela <strong>Disfunção das Glândulas de Meibômio (DGM)</strong>, as glândulas nas pálpebras responsáveis por secretar essa gordura protetora.</li>
-              </ul>
-
-              <h3 class="text-xl text-brand mt-8 mb-4">Fatores de Risco no Dia a Dia</h3>
-              <p>Vários fatores contribuem para o desenvolvimento ou piora dos sintomas:</p>
-              <ul class="grid md:grid-cols-2 gap-x-4 gap-y-2">
-                <li>Uso excessivo de telas (computador, celular), que reduz o piscar.</li>
-                <li>Ambientes com ar-condicionado ou baixa umidade.</li>
-                <li>Idade avançada e menopausa (especialmente em mulheres).</li>
-                <li>Uso crônico de colírios com conservantes (como os de glaucoma).</li>
-                <li>Cirurgias oculares prévias e uso de lentes de contato.</li>
-                <li>Doenças sistêmicas e medicamentos (antialérgicos, antidepressivos).</li>
-              </ul>
-
-              <hr class="border-[#E7E5E0] my-12" />
-
-              <h2 class="text-3xl text-brand mb-6">Identificando os Sinais: Faça o Teste Rápido</h2>
-              <p>
-                Muitas vezes, acostumamos com o desconforto e achamos que é "cansaço normal". A imagem abaixo ilustra os principais sinais de alerta. Se você se identifica com 5 ou mais itens desta lista, a probabilidade de Olho Seco significativo é alta.
-              </p>
-
-              <!-- INFOGRÁFICO SINTOMAS -->
-              <figure class="my-10 text-center not-prose">
-                  <img
-                      src="/infograficos/sintomas_checklist_olho_seco.png"
-                      alt="Infográfico: Principais Sintomas de Olho Seco e Ficha de Verificação"
-                      class="w-full max-w-3xl mx-auto rounded-xl shadow-sm border border-[#E7E5E0]"
-                  />
-                  <figcaption class="text-sm text-slate-500 mt-3 italic">
-                      Guia visual de sintomas e autoverificação.
-                  </figcaption>
-              </figure>
-
-              <div class="bg-alt border-l-4 border-[#D6D3CC] p-4 rounded-r-lg mb-12">
-                <p class="text-slate-700 text-sm mb-0">
-                  <strong>Atenção:</strong> Esta ficha é educativa e não substitui o diagnóstico médico. Se você marcou vários itens, agende uma avaliação especializada para investigar a causa.
-                </p>
-              </div>
-
-              <hr class="border-[#E7E5E0] my-12" />
-
-              <h2 class="text-3xl text-brand mb-6">Como é feito o diagnóstico no nosso centro</h2>
-              <p>
-                No Olhos Secos — Centro Especializado em Olho Seco, não tratamos todo olho seco da mesma forma. Nosso protocolo diagnóstico segue os rigorosos critérios do TFOS DEWS III para identificar a causa raiz (o "driver") do problema em cada paciente.
-              </p>
-              <p>O processo inclui:</p>
-              <ol>
-                <li><strong>Questionários Validados:</strong> Para mensurar objetivamente a intensidade e frequência dos seus sintomas.</li>
-                <li><strong>Avaliação da Lágrima:</strong> Medimos o tempo que a lágrima permanece estável no olho antes de romper (testes como NIBUT e TBUT) e, quando necessário, sua composição.</li>
-                <li><strong>Avaliação Estrutural e Funcional:</strong> Utilizamos tecnologias avançadas para analisar as glândulas de Meibômio.
-                  <ul>
-                    <li><strong>Meibografia:</strong> Permite visualizar a estrutura das glândulas dentro das pálpebras, identificando atrofias ou obstruções invisíveis a olho nu.</li>
-                    <li><strong>Testes de Superfície:</strong> Uso de corantes vitais para identificar áreas de sofrimento celular na córnea e conjuntiva.</li>
-                  </ul>
-                </li>
-              </ol>
-              <p>
-                Com exames como meibografia e NIBUT, conseguimos classificar se o seu caso é predominantemente evaporativo, por deficiência de produção ou misto, permitindo um tratamento personalizado e não apenas o uso genérico de colírios.
-              </p>
-
-              <h2 class="text-3xl text-brand mt-12 mb-6">Tratamento do Olho Seco: do básico ao avançado</h2>
-              <p>
-                O tratamento moderno do olho seco é escalonado, começando com medidas básicas e avançando conforme a necessidade de cada caso.
-              </p>
-
-              <div class="space-y-8 mt-8">
-                <!-- Passo 1 -->
-                <div class="bg-alt border border-[#E7E5E0] p-6 rounded-xl">
-                  <h3 class="text-xl text-brand mt-0 mb-4 flex items-center gap-2">
-                    <span class="bg-white border border-[#E7E5E0] text-brand w-8 h-8 rounded-full flex items-center justify-center text-sm font-ui">1</span>
-                    Hábitos e ambiente
-                  </h3>
-                  <p class="mb-0 text-sm">
-                    Pequenas mudanças geram grandes impactos. Recomendamos realizar pausas visuais regulares (Regra 20-20-20), exercícios de piscar consciente, proteção contra ar direto, hidratação adequada, dieta rica em Ômega-3 e higiene rigorosa das pálpebras.
-                  </p>
-                </div>
-
-                <!-- Passo 2 -->
-                <div class="bg-alt border border-[#E7E5E0] p-6 rounded-xl">
-                  <h3 class="text-xl text-brand mt-0 mb-4 flex items-center gap-2">
-                    <span class="bg-white border border-[#E7E5E0] text-brand w-8 h-8 rounded-full flex items-center justify-center text-sm font-ui">2</span>
-                    Lágrimas artificiais e estabilização
-                  </h3>
-                  <p class="mb-0 text-sm">
-                    O colírio lubrificante deve ser escolhido de acordo com o tipo de olho seco. Para casos evaporativos, preferimos colírios que repõem a camada lipídica. Para uso frequente, indicamos sempre <strong>colírios sem conservantes</strong>.
-                  </p>
-                </div>
-
-                <!-- Passo 3 -->
-                <div class="bg-alt border border-[#E7E5E0] p-6 rounded-xl">
-                  <h3 class="text-xl text-brand mt-0 mb-4 flex items-center gap-2">
-                    <span class="bg-white border border-[#E7E5E0] text-brand w-8 h-8 rounded-full flex items-center justify-center text-sm font-ui">3</span>
-                    Tratando pálpebras e glândulas
-                  </h3>
-                  <p class="mb-0 text-sm">
-                    Como a maioria dos casos envolve evaporação excessiva, tratar as pálpebras é essencial. Inclui compressas mornas orientadas, higiene palpebral para controle de demodex/bactérias, e procedimentos em consultório para expressão mecânica das glândulas.
-                  </p>
-                </div>
-
-                <!-- Passo 4 (Highlight) -->
-                <div class="bg-white border border-[#D6D3CC] border-l-4 border-l-brand-light p-6 rounded-xl shadow-sm">
-                  <h3 class="text-xl text-brand mt-0 mb-4 flex items-center gap-2">
-                    <span class="bg-brand text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">★</span>
-                    IRPL E-Eye: tecnologia disponível no centro
-                  </h3>
-                  <p class="text-sm">
-                    Para pacientes com Disfunção de Glândulas de Meibômio (DGM) e Olho Seco Evaporativo, oferecemos o tratamento com <strong>Luz Pulsada Regulada de Alta Intensidade (IRPL)</strong> através da tecnologia <strong>E-Eye</strong>.
-                  </p>
-                  <ul class="text-sm mt-4 bg-alt p-4 rounded-lg">
-                    <li><strong>Como funciona:</strong> Emite pulsos de luz fria estimulando os nervos das glândulas de Meibômio, retomando a produção de óleo e reduzindo inflamação.</li>
-                    <li><strong>Diferenciais:</strong> Tecnologia específica para oftalmologia, indolor, não invasiva e com protocolo de sessões rápidas.</li>
-                    <li><strong>Disponibilidade:</strong> Disponível como ferramenta moderna para alívio duradouro.</li>
-                  </ul>
-                </div>
-
-                <!-- Passo 5 -->
-                <div class="bg-alt border border-[#E7E5E0] p-6 rounded-xl">
-                  <h3 class="text-xl text-brand mt-0 mb-4 flex items-center gap-2">
-                    <span class="bg-white border border-[#E7E5E0] text-brand w-8 h-8 rounded-full flex items-center justify-center text-sm font-ui">5</span>
-                    Anti-inflamatórios e casos graves
-                  </h3>
-                  <p class="mb-0 text-sm">
-                    Para inflamação dominante, prescrevemos ciclos curtos de corticoides ou imunomoduladores (ciclosporina/tacrolimo). Casos severos podem contar com plugs de ponto lacrimal e colírios biológicos (soro autólogo).
-                  </p>
-                </div>
-              </div>
-
-              <h2 class="text-3xl text-brand mt-12 mb-6">Por que tratar o Olho Seco de forma estruturada</h2>
-              <p>
-                O olho seco não tratado impacta profundamente a qualidade de vida. Tratar de forma estruturada significa fugir da automedicação e seguir um plano baseado em evidências, que ataca a causa (etiologia). O uso criterioso de tecnologias como o E-Eye, integrado a um protocolo completo, oferece a melhor chance de restaurar o conforto e a saúde ocular.
-              </p>
-
-              <hr class="border-[#E7E5E0] my-12" />
-
-              <h2 class="text-3xl text-brand mb-6">Como funciona o nosso fluxo de cuidado</h2>
-              <ol class="space-y-4">
-                <li><strong>Avaliação Inicial:</strong> Consulta completa com anamnese focada nos seus hábitos e sintomas.</li>
-                <li><strong>Exames Específicos:</strong> Realização de meibografia, testes de estabilidade lacrimal (NIBUT) e avaliação da superfície.</li>
-                <li><strong>Diagnóstico Personalizado:</strong> Enquadramos seu caso no subtipo correto (Evaporativo, Aquoso-Deficiente ou Misto).</li>
-                <li><strong>Plano de Tratamento:</strong> Início com higiene, ajustes ambientais e lubrificantes. Anti-inflamatórios se indicado.</li>
-                <li><strong>Tecnologia Avançada:</strong> Para casos de DGM/Evaporativos, programação de sessões de IRPL E-Eye.</li>
-                <li><strong>Reavaliação Contínua:</strong> Monitoramento clínico e ajuste de conduta.</li>
-              </ol>
-
-              <!-- Nova Seção de Teste Interativo -->
-              <div class="my-12 card-premium p-8 flex flex-col md:flex-row items-center gap-8 not-prose">
-                  <div class="flex-shrink-0 bg-[#EEF2F1] border border-[#E7E5E0] p-4 rounded-full">
-                      <svg class="w-10 h-10 text-brand-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  </div>
-                  <div>
-                      <h3 class="text-2xl text-brand mb-2">Você pisca o suficiente?</h3>
-                      <p class="text-slate-600 mb-4">
-                          Faça nosso teste interativo de 10 segundos e descubra se o seu filme lacrimal está estável. É rápido, fácil e online.
-                      </p>
-                      <a href="/testerapido" class="btn-premium btn-premium-primary">
-                          Fazer o Teste Agora
-                          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                      </a>
-                  </div>
-              </div>
-
-              <div class="mt-12 bg-brand text-white p-10 rounded-xl text-center not-prose">
-                <h3 class="text-2xl text-white mb-4">Sente desconforto, areia nos olhos ou visão flutuante?</h3>
-                <p class="mb-8 text-slate-300">Agende uma avaliação especializada no nosso centro e descubra como um diagnóstico preciso pode contribuir para a sua qualidade de vida.</p>
-                <a href="/contato" class="btn-premium bg-white text-brand border border-white hover:bg-slate-100">
-                  Agendar Avaliação
-                </a>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-    </div>
-  </section>
-</Layout>
+  <h2 id="proximos-passos">Por onde continuar</h2>
+  <p>
+    Se você está começando, explore os <a href="/sintomas">sintomas mais comuns</a>,
+    entenda <a href="/diagnostico">como a condição é investigada</a> e veja práticas
+    de <a href="/autocuidado">autocuidado de baixo risco</a>. Se houver dor intensa,
+    trauma ou mudança súbita da visão, leia os <a href="/sinais-de-alerta"
+      >sinais que pedem ajuda rápida</a
+    >.
+  </p>
+</ContentPage>

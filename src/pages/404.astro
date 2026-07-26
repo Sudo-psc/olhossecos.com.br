@@ -1,16 +1,63 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "@/layouts/Layout.astro";
 ---
 
-<Layout title="Página Não Encontrada | Olhos Secos" description="A página que você procurou não foi encontrada." noindex={true}>
-  <div class="min-h-[70vh] flex flex-col items-center justify-center text-center px-4 bg-[#F7F6F3]">
-    <div class="font-heading text-brand text-9xl mb-4 opacity-10 select-none">404</div>
-    <h1 class="text-4xl text-brand mb-6 relative -mt-16">Página Não Encontrada</h1>
-    <p class="text-xl text-slate-600 mb-8 max-w-lg">
-      Desculpe, a página que você está procurando não existe ou foi movida.
-    </p>
-    <a href="/" class="btn-premium btn-premium-primary text-lg">
-      Voltar para o Início
-    </a>
-  </div>
+<Layout title="Página não encontrada" noindex>
+  <section class="not-found">
+    <div class="page-shell">
+      <p>404</p>
+      <h1 class="page-title">Esta página não foi encontrada.</h1>
+      <span>
+        O conteúdo pode ter mudado de endereço. Use os caminhos abaixo para
+        continuar.
+      </span>
+      <div>
+        <a class="button-primary" href="/">Voltar ao início</a>
+        <a class="text-link" href="/guias">
+          Explorar os guias
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 12h16m-5-5 5 5-5 5"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
 </Layout>
+
+<style>
+  .not-found {
+    min-height: 70vh;
+    display: grid;
+    place-items: center;
+    padding-block: 6rem;
+  }
+
+  .not-found .page-shell > p {
+    margin: 0 0 1rem;
+    color: var(--teal-dark);
+    font-family: var(--serif);
+    font-size: 4rem;
+  }
+
+  .not-found .page-shell > span {
+    display: block;
+    max-width: 620px;
+    margin-top: 2rem;
+    color: var(--ink-soft);
+  }
+
+  .not-found .page-shell > div {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    margin-top: 2.5rem;
+  }
+
+  @media (max-width: 620px) {
+    .not-found .page-shell > div {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+  }
+</style>

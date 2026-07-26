@@ -35,12 +35,25 @@
 - Copy `.env.example` to `.env` and set `PUBLIC_SANITY_PROJECT_ID` and `PUBLIC_SANITY_DATASET`.
 - Never commit secrets; keep credentials out of `public/` and client-side code.
 
-## Knowledge Protocol (ByteRover)
-This agent uses ByteRover (`brv`) as its long-term structured memory.
-You MUST use this for gathering contexts before any work. This is a Knowledge management for AI agents. Use `brv` to store and retrieve project patterns, decisions, and architectural rules in .brv/context-tree.
-1.  **Start:** Before answering questions, run `brv query "<topic>"` to load existing patterns.
-2.  **Finish:** After completing a task, run `brv curate "<summary>"` to save knowledge.
-3.  **Don't Guess:** If you don't know anything, query it first.
-4.  **Response Format:** When using knowledge, optionally cite it or mention storage:
-    - "Based on brv contexts at `.brv/context-trees/...` and my research..."
-    - "I also stored successfully knowledge to brv context-tree."
+## Knowledge Protocol (Notion Plugin)
+This project uses the installed Notion plugin as its long-term structured memory.
+Do not use ByteRover or run `brv` commands for this project.
+
+1. **Start:** Before answering questions or changing code, use the Notion plugin
+   search tool to find existing pages about the project and the current topic.
+2. **Read:** Fetch the most relevant Notion pages before making decisions. Prefer
+   project-specific documentation, decision logs, architecture notes, and known
+   implementation patterns.
+3. **Don't Guess:** If the required context is not in the repository, search
+   Notion before making assumptions.
+4. **Finish:** After completing material work, search for the existing project
+   knowledge page and update it with durable decisions, patterns, architecture
+   changes, operational notes, and important caveats. Create a new page only
+   when no appropriate page exists.
+5. **Avoid Duplicates:** Always search before creating a page. Update or link to
+   existing knowledge whenever possible.
+6. **Unavailable Plugin:** If the Notion plugin is unavailable or disconnected,
+   report that limitation clearly. Do not silently fall back to ByteRover.
+7. **Response Format:** When Notion knowledge materially informs the work,
+   optionally cite or link the relevant Notion page. When durable knowledge is
+   stored, mention the page that was created or updated.

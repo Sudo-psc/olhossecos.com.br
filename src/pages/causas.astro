@@ -1,0 +1,79 @@
+---
+import ContentPage from "@/components/ContentPage.astro";
+import { sourceLink, sources } from "@/lib/sources";
+---
+
+<ContentPage
+  title="Causas e fatores associados"
+  description="Entenda por que o olho seco costuma ter mais de uma causa e quais fatores ambientais, oculares e sistêmicos podem participar."
+  intro="Olho seco raramente depende de um único fator. Ambiente, hábitos, pálpebras, produção de lágrimas, medicamentos e condições do organismo podem se somar."
+  links={[
+    { label: "Evaporação", href: "#evaporacao" },
+    { label: "Baixa produção", href: "#producao" },
+    { label: "Ambiente e hábitos", href: "#ambiente" },
+    { label: "Medicamentos e saúde", href: "#saude" },
+    { label: "O que não fazer", href: "#nao-fazer" },
+  ]}
+  sources={[
+    sourceLink(sources.dews3Digest),
+    sourceLink(sources.nei),
+    sourceLink(sources.sjogrens),
+  ]}
+>
+  <p>
+    Identificar fatores associados ajuda a montar um plano coerente. Isso não
+    significa procurar um único “culpado”: várias peças podem interagir, e o peso
+    de cada uma muda ao longo do tempo.
+  </p>
+
+  <h2 id="evaporacao">Quando as lágrimas evaporam rápido</h2>
+  <p>
+    As glândulas de Meibomius, localizadas nas pálpebras, liberam lipídios que
+    ajudam a frear a evaporação. Quando essas glândulas não funcionam bem, o filme
+    lacrimal pode perder estabilidade. Inflamação das bordas palpebrais, rosácea e
+    piscar incompleto podem participar desse processo.
+  </p>
+
+  <h2 id="producao">Quando há baixa produção aquosa</h2>
+  <p>
+    A produção da porção aquosa pode diminuir com a idade, após algumas
+    intervenções oculares ou em determinadas condições sistêmicas. A doença de
+    Sjögren é uma associação importante, especialmente quando secura ocular vem
+    acompanhada de boca seca persistente e outros sintomas.
+  </p>
+
+  <h2 id="ambiente">Ambiente, telas e hábitos</h2>
+  <ul>
+    <li>vento, fumaça, baixa umidade, aquecimento ou ar-condicionado;</li>
+    <li>tarefas prolongadas em que a frequência de piscar diminui;</li>
+    <li>uso de lentes de contato;</li>
+    <li>sono insuficiente ou rotina irregular;</li>
+    <li>cosméticos aplicados muito próximos da margem das pálpebras;</li>
+    <li>exposição ocupacional a poeira, partículas ou correntes de ar.</li>
+  </ul>
+  <p>
+    Esses fatores não afetam todos da mesma forma. O padrão individual importa
+    mais do que uma regra universal.
+  </p>
+
+  <h2 id="saude">Medicamentos e condições de saúde</h2>
+  <p>
+    Alguns medicamentos sistêmicos podem contribuir para secura. Entre os grupos
+    frequentemente citados estão certos antialérgicos, antidepressivos,
+    descongestionantes, diuréticos e medicamentos com efeito anticolinérgico.
+    Alterações da tireoide, doenças autoimunes, rosácea e diabetes também podem
+    fazer parte do contexto.
+  </p>
+  <div class="alert-note">
+    Não interrompa nem reduza medicamentos por conta própria. Se você percebeu uma
+    relação temporal, registre-a e converse com quem acompanha sua saúde.
+  </div>
+
+  <h2 id="nao-fazer">Evite conclusões rápidas</h2>
+  <p>
+    Exames isolados, fotografias das glândulas ou listas de risco não explicam
+    tudo. A investigação combina sintomas, histórico, uso de medicamentos,
+    avaliação das pálpebras, qualidade das lágrimas e condição da superfície
+    ocular.
+  </p>
+</ContentPage>

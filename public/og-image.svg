@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#fff"/>
+  <path d="M0 560c210 45 330-70 520-25s315 80 680-35" fill="none" stroke="#31b2c8" stroke-width="4"/>
+  <g transform="translate(80 76)">
+    <path d="M0 70C28 24 68 0 118 0s92 24 122 70c-30 46-72 70-122 70S28 116 0 70Z" fill="none" stroke="#071d45" stroke-width="8"/>
+    <circle cx="118" cy="70" r="38" fill="#31b2c8"/>
+    <circle cx="118" cy="70" r="17" fill="#071d45"/>
+    <path d="M210 130c0 18-14 34-31 34s-31-16-31-34c0-15 20-38 31-50 11 12 31 35 31 50Z" fill="#fff" stroke="#087f95" stroke-width="7"/>
+  </g>
+  <text x="80" y="340" fill="#071d45" font-family="Georgia, serif" font-size="100" font-weight="600">Olho Seco</text>
+  <text x="84" y="405" fill="#087f95" font-family="Arial, sans-serif" font-size="35">Portal do paciente</text>
+  <text x="84" y="480" fill="#263d61" font-family="Arial, sans-serif" font-size="29">Informação clara, independente e baseada em evidências.</text>
+  <g fill="#087f95" opacity=".45">
+    <circle cx="1020" cy="120" r="4"/><circle cx="1050" cy="120" r="4"/><circle cx="1080" cy="120" r="4"/>
+    <circle cx="1020" cy="150" r="4"/><circle cx="1050" cy="150" r="4"/><circle cx="1080" cy="150" r="4"/>
+    <circle cx="1020" cy="180" r="4"/><circle cx="1050" cy="180" r="4"/><circle cx="1080" cy="180" r="4"/>
+  </g>
+</svg>

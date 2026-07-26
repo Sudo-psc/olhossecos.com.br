@@ -1,113 +1,58 @@
 ---
-import { SITE_CONFIG } from '../lib/config';
+import EyeMark from "./EyeMark.astro";
 
-const currentYear = new Date().getFullYear();
-
-const siteLinks = [
-    { name: "Olho Seco", href: "/olho-seco" },
-    { name: "Exames", href: "/exames" },
-    { name: "Tratamentos", href: "/tratamentos" },
-    { name: "Vídeos Educativos", href: "/videos" },
-    { name: "Blog", href: "/blog" },
-    { name: "Contato", href: "/contato" },
-];
-
-const toolLinks = [
-    { name: "Teste Rápido (10s)", href: "/testerapido" },
-    { name: "Quiz do Olho Seco", href: "/quiz" },
-    { name: "Calculadora de Olho Seco", href: "/calculadora-olho-seco" },
-    { name: "Dry Eye Widget (App 20-20-20)", href: "/widget" },
-];
+const year = new Date().getFullYear();
 ---
 
-<footer class="bg-[#0B2239] text-slate-300">
-    <!-- Main Footer -->
-    <div class="container py-16 md:py-20">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
-            <!-- Brand & Mission -->
-            <div class="lg:col-span-2 lg:pr-10">
-                <a href="/" class="inline-block" aria-label="Olhos Secos — Página inicial">
-                    <span class="block text-2xl leading-none text-white tracking-tight" style="font-family: 'Fraunces', Georgia, serif; font-weight: 600;">
-                        Olhos Secos
-                    </span>
-                    <span class="block mt-1.5 text-[0.65rem] font-medium uppercase tracking-[0.16em] text-slate-400">
-                        Centro Especializado em Olho Seco
-                    </span>
-                </a>
-                <p class="mt-6 text-slate-400 leading-relaxed text-sm max-w-md">
-                    Conteúdo educativo sobre a Síndrome do Olho Seco e a saúde da superfície ocular:
-                    causas, sintomas, exames e tratamentos disponíveis, com responsabilidade médica.
-                </p>
-
-                <!-- Crédito médico (CFM) -->
-                <div class="mt-8 pt-6 border-t border-white/10 max-w-md">
-                    <p class="text-sm text-slate-300">
-                        Responsável técnico: {SITE_CONFIG.doctor.name} — {SITE_CONFIG.doctor.crm}
-                    </p>
-                    <p class="mt-2 text-xs text-slate-500">
-                        Conteúdo informativo; não substitui consulta médica.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Navegação -->
-            <div>
-                <h3 class="text-white font-semibold text-sm uppercase tracking-[0.14em] mb-6">Navegação</h3>
-                <ul class="space-y-3">
-                    {siteLinks.map(link => (
-                        <li>
-                            <a href={link.href} class="text-sm text-slate-400 hover:text-white transition-colors">
-                                {link.name}
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-
-            <!-- Ferramentas + Contato -->
-            <div>
-                <h3 class="text-white font-semibold text-sm uppercase tracking-[0.14em] mb-6">Ferramentas</h3>
-                <ul class="space-y-3">
-                    {toolLinks.map(link => (
-                        <li>
-                            <a href={link.href} class="text-sm text-slate-400 hover:text-white transition-colors">
-                                {link.name}
-                            </a>
-                        </li>
-                    ))}
-                    <li>
-                        <a href={SITE_CONFIG.widget.github} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2Z" clip-rule="evenodd"/></svg>
-                            Código no GitHub
-                        </a>
-                    </li>
-                </ul>
-
-                <h3 class="text-white font-semibold text-sm uppercase tracking-[0.14em] mt-10 mb-4">Agendamento</h3>
-                <a href="tel:+5533998601427" class="block text-white font-semibold hover:text-slate-300 transition-colors">
-                    {SITE_CONFIG.business.phone}
-                </a>
-                <p class="mt-2 text-xs text-slate-500 leading-relaxed">
-                    Seg–Sex {SITE_CONFIG.business.hours.weekdays}<br />
-                    Sáb {SITE_CONFIG.business.hours.saturday}
-                </p>
-            </div>
-        </div>
+<footer class="site-footer">
+  <div class="page-shell footer-main">
+    <div class="footer-brand">
+      <a href="/" class="brand brand-inverse" aria-label="Página inicial">
+        <EyeMark class="brand-mark" />
+        <span>
+          <strong>Olho Seco</strong>
+          <small>Portal do paciente</small>
+        </span>
+      </a>
+      <p>
+        Conteúdo educativo. Não substitui diagnóstico, avaliação ou orientação
+        profissional individualizada.
+      </p>
     </div>
 
-    <!-- Bottom Bar -->
-    <div class="border-t border-white/10">
-        <div class="container py-6">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-slate-500 text-sm text-center md:text-left">
-                    © {currentYear} Olhos Secos — Conteúdo educativo sobre saúde ocular.
-                </p>
-                <div class="flex gap-6 text-sm">
-                    <a href="/privacidade" class="text-slate-500 hover:text-white transition-colors">
-                        Privacidade
-                    </a>
-                </div>
-            </div>
-        </div>
+    <div class="footer-links">
+      <div>
+        <h2>Entenda</h2>
+        <a href="/olho-seco">O que é olho seco</a>
+        <a href="/sintomas">Sintomas</a>
+        <a href="/causas">Causas</a>
+        <a href="/diagnostico">Como é investigado</a>
+      </div>
+      <div>
+        <h2>Cuide-se</h2>
+        <a href="/autocuidado">Autocuidado</a>
+        <a href="/tratamentos">Tratamentos</a>
+        <a href="/sinais-de-alerta">Sinais de alerta</a>
+        <a href="/guias">Guias</a>
+      </div>
+      <div>
+        <h2>Sobre o portal</h2>
+        <a href="/fontes">Fontes</a>
+        <a href="/politica-editorial">Política editorial</a>
+        <a href="/glossario">Glossário</a>
+        <a href="/privacidade">Privacidade</a>
+      </div>
     </div>
+
+    <div class="footer-art" aria-hidden="true">
+      <span class="footer-orbit"></span>
+      <span class="footer-wave"></span>
+      <span class="footer-dots"></span>
+    </div>
+  </div>
+
+  <div class="page-shell footer-bottom">
+    <p>Informação independente, sem publicidade de produtos ou serviços.</p>
+    <p>© {year} Olho Seco — Portal do paciente</p>
+  </div>
 </footer>

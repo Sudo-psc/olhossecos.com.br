@@ -1,111 +1,87 @@
 ---
-// Navegação de hub — organizada pela jornada do paciente
-const links = [
-  { name: "Entenda", href: "/olho-seco" },
-  { name: "Autoavaliação", href: "/quiz" },
-  { name: "Exames", href: "/exames" },
-  { name: "Tratamentos", href: "/tratamentos" },
-  { name: "Blog", href: "/blog" },
-  { name: "Vídeos", href: "/videos" },
+import EyeMark from "./EyeMark.astro";
+
+const pathname = Astro.url.pathname;
+const nav = [
+  { label: "Entenda", href: "/olho-seco" },
+  { label: "Sintomas", href: "/sintomas" },
+  { label: "Autocuidado", href: "/autocuidado" },
+  { label: "Tratamentos", href: "/tratamentos" },
+  { label: "Guias", href: "/guias" },
+  { label: "Glossário", href: "/glossario" },
 ];
 
-const currentPath = Astro.url.pathname;
-const isWidgetPage = currentPath === '/widget' || currentPath.startsWith('/widget/');
+const isActive = (href: string) => pathname.startsWith(href);
 ---
 
-<header class="fixed w-full z-50 glass border-b border-[var(--border)]">
-  <div class="container py-3 flex justify-between items-center">
-    <!-- Wordmark tipográfico -->
-    <a href="/" class="block group" aria-label="Olhos Secos — Centro Especializado em Olho Seco — Página inicial">
-      <span class="block font-serif text-xl md:text-2xl leading-none text-[var(--primary)] tracking-tight" style="font-family: 'Fraunces', Georgia, serif; font-weight: 600;">
-        Olhos Secos
-      </span>
-      <span class="block mt-1 text-[0.6rem] md:text-[0.65rem] font-medium uppercase tracking-[0.16em] text-[var(--secondary)]">
-        Centro Especializado em Olho Seco
+<header class="site-header">
+  <div class="page-shell header-inner">
+    <a href="/" class="brand" aria-label="Olho Seco — Portal do paciente">
+      <EyeMark class="brand-mark" />
+      <span>
+        <strong>Olho Seco</strong>
+        <small>Portal do paciente</small>
       </span>
     </a>
 
-    <nav class="hidden md:flex items-center gap-0.5 lg:gap-1">
-      {links.map((link) => (
-        <a
-          href={link.href}
-          class={`px-3 py-2 rounded-lg font-medium text-sm transition-colors ${currentPath === link.href ? 'text-[var(--primary)] bg-[var(--accent)]' : 'text-[var(--secondary)] hover:text-[var(--primary)] hover:bg-[var(--accent)]'}`}
-        >
-          {link.name}
-        </a>
-      ))}
-      <a
-        href="/widget"
-        class={`px-3 py-2 rounded-lg font-medium text-sm transition-colors flex items-center gap-1.5 ${isWidgetPage ? 'text-[var(--primary)] bg-[var(--accent)]' : 'text-[var(--secondary)] hover:text-[var(--primary)] hover:bg-[var(--accent)]'}`}
-      >
-        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-        App 20-20-20
-      </a>
-      <a href="/contato" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-colors text-[var(--primary)] border border-[var(--border-strong)] hover:border-[var(--primary)] hover:bg-[var(--accent)] whitespace-nowrap ml-1">
-        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-        <span>Agendar</span>
-      </a>
+    <nav class="desktop-nav" aria-label="Navegação principal">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? "page" : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
     </nav>
 
-    <!-- Mobile Menu Button (Hamburger) -->
-    <button id="mobile-menu-btn" class="md:hidden text-[var(--text-main)] focus:outline-none" aria-controls="mobile-menu" aria-expanded="false" aria-label="Abrir menu">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+    <a class="sources-link" href="/fontes">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6 3.5h9l3 3V20.5H6z" />
+        <path d="M15 3.5v3h3M9 11h6M9 15h6" />
       </svg>
+      Fontes e revisão
+    </a>
+
+    <button
+      class="menu-button"
+      type="button"
+      aria-label="Abrir menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span></span><span></span><span></span>
     </button>
   </div>
 
-  <!-- Mobile Menu -->
-  <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white border-b border-[var(--border)] shadow-md overflow-hidden" role="dialog" aria-modal="true">
-    <div class="flex flex-col p-6 space-y-1">
-      {links.map((link) => (
-        <a
-          href={link.href}
-          data-mobile-link
-          class="text-[var(--text-main)] font-semibold p-4 block rounded-lg hover:bg-[var(--accent)] transition-colors"
-        >
-          {link.name}
-        </a>
-      ))}
-      <a href="/widget" data-mobile-link class="flex items-center gap-3 p-4 rounded-lg border border-[var(--border)] transition-colors hover:bg-[var(--accent)]">
-        <svg class="w-5 h-5 text-[var(--primary)] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-        <span class="font-semibold text-[var(--primary)]">App 20-20-20 <span class="text-[10px] font-semibold uppercase tracking-wider text-[var(--accent-ink)] ml-1">Gratuito</span></span>
-      </a>
-      <a href="/contato" data-mobile-link class="rounded-lg border border-[var(--border-strong)] p-4 !mt-4 text-center font-semibold text-[var(--primary)] transition-colors hover:bg-[var(--accent)] flex items-center justify-center gap-2">
-        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-        Agendar consulta
-      </a>
+  <nav id="mobile-menu" class="mobile-nav" aria-label="Navegação móvel" hidden>
+    <div class="page-shell">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? "page" : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a href="/fontes">Fontes e revisão</a>
     </div>
-  </div>
+  </nav>
 </header>
 
 <script>
-  const btn = document.getElementById('mobile-menu-btn');
-  const menu = document.getElementById('mobile-menu');
-  const mobileLinks = document.querySelectorAll('[data-mobile-link]');
+  const button = document.querySelector<HTMLButtonElement>(".menu-button");
+  const menu = document.querySelector<HTMLElement>("#mobile-menu");
 
-  const closeMenu = () => {
-    if (!menu?.classList.contains('hidden')) {
-      menu?.classList.add('hidden');
-      btn?.setAttribute('aria-expanded', 'false');
-      btn?.setAttribute('aria-label', 'Abrir menu');
-    }
-  };
-
-  btn?.addEventListener('click', () => {
-    menu?.classList.toggle('hidden');
-    const isExpanded = btn?.getAttribute('aria-expanded') === 'true';
-    btn?.setAttribute('aria-expanded', String(!isExpanded));
-    btn?.setAttribute('aria-label', isExpanded ? 'Abrir menu' : 'Fechar menu');
-  });
-
-  mobileLinks.forEach((link) => {
-    link.addEventListener('click', closeMenu);
-  });
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-      closeMenu();
-    }
+  button?.addEventListener("click", () => {
+    if (!menu) return;
+    const willOpen = menu.hidden;
+    menu.hidden = !willOpen;
+    button.setAttribute("aria-expanded", String(willOpen));
+    button.setAttribute("aria-label", willOpen ? "Fechar menu" : "Abrir menu");
   });
 </script>

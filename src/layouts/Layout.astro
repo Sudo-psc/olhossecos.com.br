@@ -1,527 +1,651 @@
 ---
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import WhatsAppFloat from '../components/WhatsAppFloat.astro';
-export interface Props {
-    title: string;
-    /** Botão flutuante de WhatsApp — apenas em páginas de contato/tratamentos */
-    whatsappFloat?: boolean;
-    description?: string;
-    image?: string;
-    imageAlt?: string;
-    imageWidth?: number;
-    imageHeight?: number;
-    type?: string;
-    canonical?: string;
-    noindex?: boolean;
-    schema?: object;
-    preloadImage?: {
-        src: string;
-        srcset?: string;
-        sizes?: string;
-        type?: string;
-    };
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
 }
 
-const { title, description, image, imageAlt, imageWidth, imageHeight, type = "website", canonical, noindex, schema, preloadImage, whatsappFloat = false } = Astro.props;
+const {
+  title = "Olho Seco — Portal do paciente",
+  description = "Informação clara, independente e baseada em evidências sobre sintomas, causas, autocuidado e tratamentos do olho seco.",
+  image = "/og-image.svg",
+  noindex = false,
+} = Astro.props;
 
-const canonicalUrl = canonical || new URL(Astro.url.pathname, Astro.site).href;
-const defaultImage = {
-    src: "/og-image.jpg",
-    width: 1200,
-    height: 630,
-    alt: "Olhos Secos — Centro Especializado em Olho Seco"
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const fullTitle = title.includes("Olho Seco") ? title : `${title} | Olho Seco`;
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Olho Seco — Portal do paciente",
+  url: Astro.site?.toString(),
+  description,
+  inLanguage: "pt-BR",
+  publisher: {
+    "@type": "Organization",
+    name: "Olho Seco — Portal do paciente",
+    url: Astro.site?.toString(),
+  },
 };
-const resolvedImage = image
-    ? (image.startsWith("http") ? image : new URL(image, Astro.site).href)
-    : new URL(defaultImage.src, Astro.site).href;
-const resolvedImageAlt = imageAlt || defaultImage.alt;
-const resolvedImageWidth = imageWidth || (image ? undefined : defaultImage.width);
-const resolvedImageHeight = imageHeight || (image ? undefined : defaultImage.height);
-
-// Meta tags básicas
-const meta = {
-    title,
-    description: description || "Olhos Secos — Centro Especializado em Olho Seco em Caratinga, MG. Tratamento com Luz Pulsada (IRPL), Lentes Esclerais e higiene palpebral.",
-    image: resolvedImage,
-    url: canonicalUrl,
-    type,
-    siteName: "Olhos Secos — Centro Especializado em Olho Seco",
-    locale: "pt_BR",
-    keywords: "olho seco, oftalmologista, luz pulsada, irpl, e-eye, lentes esclerais, tratamento olho seco, caratinga"
-};
-
-// Structured Data para a clínica
-const baseStructuredData = {
-    "@context": "https://schema.org",
-    "@graph": [
-        {
-            "@type": ["LocalBusiness", "MedicalBusiness"],
-            "@id": "https://olhossecos.com.br/#clinic",
-            name: "Olhos Secos",
-            alternateName: "Olhos Secos — Centro Especializado em Olho Seco",
-            description: "Centro especializado em tratamento de olho seco e doenças da superfície ocular",
-            url: "https://olhossecos.com.br",
-            telephone: "(33) 99860-1427",
-            openingHours: [
-                "Mo-Fr 08:00-18:00",
-                "Sa 08:00-12:00"
-            ],
-            priceRange: "$$",
-            paymentAccepted: ["Cash", "Credit Card", "Debit Card"],
-            currenciesAccepted: "BRL",
-            image: meta.image,
-            geo: {
-                "@type": "GeoCoordinates",
-                latitude: "-19.7925",
-                longitude: "-42.1447"
-            }
-        },
-        {
-            "@type": "Physician",
-            "@id": "https://olhossecos.com.br/#doctor",
-            name: "Dr. Philipe Saraiva Cruz",
-            // Título formal completo para conformidade CFM em structured data
-            jobTitle: "Médico pós-graduado em oftalmologia área de atuação oftalmologia clínica, procedimentos cirúrgicos minimamente invasivos e olho seco",
-            specializesIn: "Olho Seco e Superfície Ocular",
-            description: "Médico pós-graduado em oftalmologia com área de atuação em oftalmologia clínica geral, procedimentos minimamente invasivos e olho seco",
-            worksFor: {
-                "@type": "Organization",
-                name: "Olhos Secos"
-            },
-            medicalSpecialty: "Oftalmologia",
-            knowsAbout: ["Olho Seco", "Superfície Ocular", "Cirurgia Ocular Minimamente Invasiva"],
-            url: "https://olhossecos.com.br"
-        },
-        {
-            "@type": "WebPage",
-            "@id": canonicalUrl,
-            url: canonicalUrl,
-            name: title,
-            description: meta.description,
-            isPartOf: {
-                "@type": "WebSite",
-                "@id": "https://olhossecos.com.br/#website"
-            },
-            about: {
-                "@type": "Thing",
-                name: "Olho Seco"
-            },
-            mainEntity: {
-                "@type": "MedicalCondition",
-                name: "Olho Seco",
-                alternateName: "Síndrome do Olho Seco",
-                description: "Condição ocular caracterizada por falta de lubrificação adequada na superfície do olho"
-            }
-        },
-        {
-            "@type": "WebSite",
-            "@id": "https://olhossecos.com.br/#website",
-            url: "https://olhossecos.com.br",
-            name: "Olhos Secos",
-            description: "Centro especializado em tratamento de olho seco",
-            publisher: {
-                "@type": "Organization",
-                name: "Olhos Secos"
-            },
-            inLanguage: "pt-BR"
-        },
-        {
-            "@type": "BreadcrumbList",
-            "@id": canonicalUrl + "#breadcrumb",
-            itemListElement: [
-                {
-                    "@type": "ListItem",
-                    position: 1,
-                    name: "Início",
-                    item: "https://olhossecos.com.br"
-                },
-                {
-                    "@type": "ListItem",
-                    position: 2,
-                    name: title,
-                    item: canonicalUrl
-                }
-            ]
-        }
-    ]
-};
-
-// Merge custom schema if provided
-const structuredData = schema ? { 
-    ...baseStructuredData, 
-    "@graph": [...baseStructuredData["@graph"], ...(Array.isArray(schema) ? schema : [schema])] 
-} : baseStructuredData;
-
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
+  <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={meta.description} />
-    <meta name="keywords" content={meta.keywords} />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#071D45" />
+    <meta name="description" content={description} />
     <meta name="robots" content={noindex ? "noindex,nofollow" : "index,follow"} />
-    <meta name="theme-color" content="#10314F" />
-
-    <!-- Favicons - Optimized for Google Search -->
+    <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
-
-    <meta name="generator" content={Astro.generator} />
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content={meta.type} />
-    <meta property="og:url" content={meta.url} />
-    <meta property="og:title" content={meta.title} />
-    <meta property="og:description" content={meta.description} />
-    <meta property="og:image" content={meta.image} />
-    <meta property="og:image:alt" content={resolvedImageAlt} />
-    {resolvedImageWidth && <meta property="og:image:width" content={String(resolvedImageWidth)} />}
-    {resolvedImageHeight && <meta property="og:image:height" content={String(resolvedImageHeight)} />}
-    <meta property="og:site_name" content={meta.siteName} />
-    <meta property="og:locale" content={meta.locale} />
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={meta.url} />
-    <meta property="twitter:title" content={meta.title} />
-    <meta property="twitter:description" content={meta.description} />
-    <meta property="twitter:image" content={meta.image} />
-    <meta property="twitter:image:alt" content={resolvedImageAlt} />
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href={canonicalUrl} />
-    <link rel="alternate" hreflang="pt-BR" href={canonicalUrl} />
-    
-    <!-- DNS Prefetch & Preconnect -->
-    <link rel="dns-prefetch" href="//www.googletagmanager.com" />
-    <link rel="dns-prefetch" href="//www.google-analytics.com" />
-    <link rel="dns-prefetch" href="//cdn.sanity.io" />
-    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
-    <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.sanity.io" crossorigin>
-
-    <!-- Fonts (Local) -->
-    <link rel="preload" href="/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/fonts/fraunces-600-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/fonts/fonts.css" />
-
-    <!-- LCP Image Preload -->
-    {preloadImage && (
-      <link
-        rel="preload"
-        as="image"
-        type={preloadImage.type || "image/avif"}
-        href={preloadImage.src}
-        imagesrcset={preloadImage.srcset}
-        imagesizes={preloadImage.sizes}
-        fetchpriority="high"
-      />
-    )}
-
-    <!-- Google Tag Manager -->
-    <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-P4NG7B7K');</script>
-    <!-- End Google Tag Manager -->
-    
-    <!-- Google tag (gtag.js) -->
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=AW-11120453144"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'AW-11120453144');
-    </script>
-
-    <script is:inline>
-      function gtag_report_conversion(url) {
-        var callback = function () {
-          if (typeof url === 'string') {
-            window.location = url;
-          }
-        };
-        gtag('event', 'conversion', {
-          'send_to': 'AW-11120453144/7gsNCMI2_4AbEJjMOrYp',
-          'event_callback': callback
-        });
-        return false;
-      }
-    </script>
-    
-    <!-- Structured Data -->
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-    
-    <!-- Title -->
-    <title>{meta.title}</title>
-    
-    <!-- Styles -->
-    <style is:global>
-        :root {
-            /* "Premium Editorial Clínico" — paleta sóbria */
-            --primary: #10314F; /* Tinta navy/azul-petróleo profundo — headings e botões */
-            --primary-dark: #0B2239; /* Navy quase-tinta para hover/fundos escuros */
-            --primary-light: #0F766E; /* Acento único: teal profundo (links, detalhes) */
-            --accent-ink: #0F766E; /* Alias semântico do acento teal */
-            --accent-ink-dark: #115E59; /* Teal escuro para hover de links */
-            --sky: #10314F; /* Compat: tom de foco agora em navy */
-            --secondary: #57616C; /* Cinza-ardósia médio para texto secundário */
-            --accent: #EEF2F1; /* Fundo suave neutro com leve tom teal */
-            --text-main: #2B3440; /* Cinza-ardósia escuro para texto corrido */
-            --text-muted: #4B5563; /* Cinza médio-escuro */
-            --bg-body: #F7F6F3; /* Off-white quente tipo papel */
-            --bg-alt: #ffffff; /* Branco para cards */
-            --border: #E7E5E0; /* Hairline stone */
-            --border-strong: #D6D3CC; /* Hairline mais presente (hover) */
-            --radius-sm: 0.5rem;
-            --radius-md: 0.625rem;
-            --radius-lg: 0.75rem;
-            --radius-xl: 1rem;
-            --shadow-sm: 0 1px 2px 0 rgb(16 49 79 / 0.04);
-            --shadow-md: 0 2px 8px -2px rgb(16 49 79 / 0.07), 0 1px 3px -1px rgb(16 49 79 / 0.05);
-            --shadow-lg: 0 8px 24px -8px rgb(16 49 79 / 0.10), 0 2px 6px -2px rgb(16 49 79 / 0.06);
-            /* Duotone muito discreto navy → petróleo (sem cores neon) */
-            --gradient-brand: linear-gradient(135deg, #10314F 0%, #14425F 100%);
-            --gradient-navy: linear-gradient(135deg, #10314F 0%, #0B2239 100%);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            font-size: 17px;
-            line-height: 1.7;
-            color: var(--text-main);
-            background-color: var(--bg-body);
-            -webkit-font-smoothing: antialiased;
-        }
-
-        ::selection {
-            background: rgba(15, 118, 110, 0.18);
-            color: var(--primary-dark);
-        }
-
-        :focus-visible {
-            outline: 2px solid var(--accent-ink);
-            outline-offset: 2px;
-        }
-
-        .skip-link {
-            position: absolute;
-            left: 1rem;
-            top: -40px;
-            background: #0f172a;
-            color: #fff;
-            padding: 0.5rem 0.75rem;
-            border-radius: 0.5rem;
-            font-size: 0.875rem;
-            z-index: 1000;
-            transition: top 0.2s ease;
-        }
-
-        .skip-link:focus {
-            top: 1rem;
-        }
-
-        h1, h2, h3, h4, .font-heading {
-            font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
-            font-weight: 600;
-            line-height: 1.18;
-            letter-spacing: -0.015em;
-            color: var(--primary);
-        }
-
-        /* Outfit fica disponível apenas para UI/labels via .font-ui */
-        .font-ui {
-            font-family: 'Outfit', 'Inter', system-ui, sans-serif;
-        }
-
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding-left: clamp(1rem, 3vw, 1.5rem);
-            padding-right: clamp(1rem, 3vw, 1.5rem);
-        }
-
-        /* Responsive spacing utilities */
-        .section-padding {
-            padding-top: 5.5rem;
-            padding-bottom: 5.5rem;
-            content-visibility: auto;
-            contain-intrinsic-size: 1px 900px;
-        }
-        @media (max-width: 768px) {
-            .section-padding {
-                padding-top: 3.5rem;
-                padding-bottom: 3.5rem;
-            }
-        }
-
-        /* Eyebrow label above section titles */
-        .eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            color: var(--accent-ink);
-        }
-
-        /* Alternate section background (pairs with bg-white sections) */
-        .bg-alt {
-            background-color: #F1EFEA;
-        }
-
-        /* Highlight utility (nome mantido por compat; agora cor sólida sóbria) */
-        .text-gradient {
-            background: none;
-            -webkit-background-clip: initial;
-            background-clip: initial;
-            color: var(--accent-ink);
-        }
-
-        .btn-premium {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.75rem 1.5rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-            border-radius: 0.625rem;
-            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-            cursor: pointer;
-            gap: 0.5rem;
-        }
-
-        @media (min-width: 640px) {
-            .btn-premium {
-                padding: 0.875rem 1.875rem;
-                font-size: 0.9375rem;
-            }
-        }
-
-        .btn-premium-primary {
-            background: var(--primary);
-            color: white;
-            border: 1px solid var(--primary);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .btn-premium-primary:hover {
-            background: var(--primary-dark);
-            border-color: var(--primary-dark);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-premium-secondary {
-            background-color: white;
-            color: var(--primary);
-            border: 1px solid var(--border-strong);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .btn-premium-secondary:hover {
-            border-color: var(--primary);
-            background-color: #FBFAF8;
-            box-shadow: var(--shadow-md);
-        }
-
-        /* Dark button (navy-tinta) */
-        .btn-premium-dark {
-            background: var(--primary-dark);
-            color: white;
-            border: 1px solid var(--primary-dark);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .btn-premium-dark:hover {
-            background: #142F47;
-            border-color: #142F47;
-            box-shadow: var(--shadow-md);
-        }
-
-        /* Premium card surface */
-        .card-premium {
-            background: var(--bg-alt);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-sm);
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .card-premium:hover {
-            border-color: var(--border-strong);
-            box-shadow: var(--shadow-md);
-        }
-
-        /* Soft badge/chip */
-        .badge-soft {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.375rem 0.875rem;
-            border-radius: 9999px;
-            font-size: 0.8125rem;
-            font-weight: 600;
-            background: var(--accent);
-            color: var(--accent-ink-dark);
-            border: 1px solid var(--border);
-        }
-
-        /* Respect user preference for reduced motion */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-            html {
-                scroll-behavior: auto;
-            }
-        }
-
-        /* Superfície translúcida sóbria (nome mantido por compat; sem glassmorphism) */
-        .glass {
-            background: rgba(251, 250, 248, 0.92);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid var(--border);
-        }
-    </style>
-</head>
-<body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P4NG7B7K"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    <a href="#main-content" class="skip-link">Pular para o conteúdo</a>
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="Olho Seco — Portal do paciente" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <title>{fullTitle}</title>
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData)}
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
     <Header />
-    <main id="main-content" class="pt-16 md:pt-20"> <!-- Added padding-top to account for fixed header -->
-        <slot />
+    <main id="conteudo">
+      <slot />
     </main>
-    {whatsappFloat && <WhatsAppFloat />}
     <Footer />
-</body>
+  </body>
 </html>
+
+<style is:global>
+  :root {
+    --ink: #071d45;
+    --ink-soft: #263d61;
+    --teal: #087f95;
+    --teal-dark: #00657a;
+    --aqua: #dff3f7;
+    --mist: #eff8fb;
+    --line: #c8d7e2;
+    --paper: #ffffff;
+    --coral: #e95f4f;
+    --coral-text: #a93c32;
+    --coral-soft: #fff6f3;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", sans-serif;
+    --shadow: 0 24px 60px rgb(7 29 69 / 10%);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: light;
+  }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.65;
+    text-rendering: optimizeLegibility;
+  }
+
+  img,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button,
+  input {
+    font: inherit;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--teal);
+    outline-offset: 4px;
+    border-radius: 3px;
+  }
+
+  ::selection {
+    background: #cceef4;
+    color: var(--ink);
+  }
+
+  .skip-link {
+    position: fixed;
+    z-index: 100;
+    left: 1rem;
+    top: 1rem;
+    transform: translateY(-160%);
+    background: var(--ink);
+    color: white;
+    padding: 0.7rem 1rem;
+  }
+
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+
+  .page-shell {
+    width: min(100% - 6rem, 1440px);
+    margin-inline: auto;
+  }
+
+  .site-header {
+    position: sticky;
+    z-index: 50;
+    top: 0;
+    background: rgb(255 255 255 / 96%);
+    backdrop-filter: blur(14px);
+  }
+
+  .header-inner {
+    min-height: 92px;
+    display: grid;
+    grid-template-columns: 260px 1fr auto;
+    align-items: center;
+    gap: 2rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    width: max-content;
+  }
+
+  .brand-mark {
+    width: 52px;
+    color: var(--ink);
+  }
+
+  .brand span {
+    display: grid;
+    line-height: 1.05;
+  }
+
+  .brand strong {
+    font-family: var(--serif);
+    font-size: 1.7rem;
+    letter-spacing: -0.03em;
+  }
+
+  .brand small {
+    margin-top: 0.35rem;
+    color: var(--teal-dark);
+    font-size: 0.86rem;
+    letter-spacing: 0.01em;
+  }
+
+  .desktop-nav {
+    display: flex;
+    justify-content: center;
+    gap: clamp(0.4rem, 1.7vw, 1.7rem);
+  }
+
+  .desktop-nav a,
+  .sources-link {
+    position: relative;
+    font-size: 0.91rem;
+    font-weight: 650;
+    white-space: nowrap;
+  }
+
+  .desktop-nav a::after {
+    position: absolute;
+    right: 0;
+    bottom: -0.65rem;
+    left: 0;
+    height: 2px;
+    background: var(--teal);
+    content: "";
+    transform: scaleX(0);
+    transition: transform 180ms ease;
+  }
+
+  .desktop-nav a:hover::after,
+  .desktop-nav a[aria-current="page"]::after {
+    transform: scaleX(1);
+  }
+
+  .sources-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding-left: 1.5rem;
+    border-left: 1px solid var(--line);
+    color: var(--teal-dark);
+  }
+
+  .sources-link svg {
+    width: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.6;
+  }
+
+  .menu-button,
+  .mobile-nav {
+    display: none;
+  }
+
+  .section-heading,
+  .page-title,
+  .article-title {
+    margin: 0;
+    font-family: var(--serif);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 0.98;
+  }
+
+  .section-heading {
+    font-size: clamp(2.65rem, 5vw, 5.2rem);
+  }
+
+  .page-title {
+    max-width: 980px;
+    font-size: clamp(3.1rem, 6vw, 5.8rem);
+  }
+
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    width: fit-content;
+    max-width: 100%;
+    padding-bottom: 0.18rem;
+    border-bottom: 1px solid currentColor;
+    color: var(--teal-dark);
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .text-link svg {
+    width: 21px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    transition: transform 180ms ease;
+  }
+
+  .text-link:hover svg {
+    transform: translateX(4px);
+  }
+
+  .button-primary {
+    display: inline-flex;
+    min-height: 58px;
+    align-items: center;
+    justify-content: center;
+    padding: 0.9rem 1.5rem;
+    border: 1px solid var(--teal-dark);
+    border-radius: 8px;
+    background: var(--teal-dark);
+    color: white;
+    font-size: 0.98rem;
+    font-weight: 750;
+    transition:
+      background 180ms ease,
+      transform 180ms ease;
+  }
+
+  .button-primary:hover {
+    background: var(--ink);
+    transform: translateY(-2px);
+  }
+
+  .eyebrow {
+    margin: 0 0 1.1rem;
+    color: var(--teal-dark);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .page-intro {
+    padding-block: clamp(3.5rem, 6vw, 6rem);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .page-intro p {
+    max-width: 760px;
+    margin: 2rem 0 0;
+    color: var(--ink-soft);
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+  }
+
+  .content-section {
+    padding-block: clamp(4.5rem, 9vw, 8.5rem);
+  }
+
+  .prose {
+    max-width: 780px;
+    color: var(--ink-soft);
+  }
+
+  .prose h2 {
+    margin: 3.5rem 0 1.15rem;
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+  }
+
+  .prose h3 {
+    margin: 2.4rem 0 0.7rem;
+    color: var(--ink);
+    font-size: 1.1rem;
+  }
+
+  .prose p,
+  .prose ul {
+    margin: 0 0 1.3rem;
+  }
+
+  .prose li + li {
+    margin-top: 0.55rem;
+  }
+
+  .prose a {
+    color: var(--teal-dark);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  .info-note {
+    margin-block: 2.5rem;
+    padding: 1.4rem 1.6rem;
+    border-left: 3px solid var(--teal);
+    background: var(--mist);
+    color: var(--ink);
+  }
+
+  .alert-note {
+    margin-block: 2.5rem;
+    padding: 1.4rem 1.6rem;
+    border-left: 3px solid var(--coral);
+    background: var(--coral-soft);
+    color: var(--ink);
+  }
+
+  .site-footer {
+    overflow: hidden;
+    background: var(--ink);
+    color: white;
+  }
+
+  .footer-main {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.15fr 2fr 0.8fr;
+    gap: clamp(2.5rem, 6vw, 6rem);
+    padding-block: 4.5rem 3.2rem;
+  }
+
+  .brand-inverse .brand-mark {
+    color: white;
+  }
+
+  .brand-inverse small {
+    color: #78d7e5;
+  }
+
+  .footer-brand > p {
+    max-width: 380px;
+    margin: 1.6rem 0 0;
+    color: rgb(255 255 255 / 72%);
+    font-size: 0.91rem;
+  }
+
+  .footer-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.8rem;
+  }
+
+  .footer-links > div {
+    display: grid;
+    align-content: start;
+    gap: 0.62rem;
+  }
+
+  .footer-links h2 {
+    margin: 0 0 0.5rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid rgb(255 255 255 / 22%);
+    font-family: var(--serif);
+    font-size: 1.25rem;
+  }
+
+  .footer-links a {
+    color: rgb(255 255 255 / 72%);
+    font-size: 0.86rem;
+  }
+
+  .footer-links a:hover {
+    color: white;
+  }
+
+  .footer-art {
+    position: relative;
+    min-height: 180px;
+  }
+
+  .footer-orbit {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border: 1px solid rgb(255 255 255 / 30%);
+    border-radius: 50%;
+  }
+
+  .footer-wave {
+    position: absolute;
+    right: -90px;
+    bottom: 30px;
+    width: 360px;
+    height: 95px;
+    border-top: 3px solid #22b8cf;
+    border-radius: 50%;
+    transform: rotate(6deg);
+  }
+
+  .footer-dots {
+    position: absolute;
+    right: -10px;
+    bottom: 0;
+    width: 130px;
+    height: 100px;
+    background-image: radial-gradient(#22b8cf 1.5px, transparent 1.5px);
+    background-size: 14px 14px;
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-block: 1.25rem 2rem;
+    border-top: 1px solid rgb(255 255 255 / 25%);
+    color: rgb(255 255 255 / 60%);
+    font-size: 0.76rem;
+  }
+
+  .footer-bottom p {
+    margin: 0;
+  }
+
+  @media (max-width: 1080px) {
+    .header-inner {
+      grid-template-columns: 1fr auto;
+      min-height: 78px;
+    }
+
+    .desktop-nav,
+    .sources-link {
+      display: none;
+    }
+
+    .menu-button {
+      position: relative;
+      display: block;
+      width: 44px;
+      height: 44px;
+      border: 0;
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .menu-button span {
+      position: absolute;
+      left: 10px;
+      width: 24px;
+      height: 2px;
+      background: currentColor;
+      transition:
+        top 180ms ease,
+        opacity 180ms ease,
+        transform 180ms ease;
+    }
+
+    .menu-button span:nth-child(1) {
+      top: 14px;
+    }
+
+    .menu-button span:nth-child(2) {
+      top: 21px;
+    }
+
+    .menu-button span:nth-child(3) {
+      top: 28px;
+    }
+
+    .menu-button[aria-expanded="true"] span:nth-child(1) {
+      top: 21px;
+      transform: rotate(45deg);
+    }
+
+    .menu-button[aria-expanded="true"] span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-button[aria-expanded="true"] span:nth-child(3) {
+      top: 21px;
+      transform: rotate(-45deg);
+    }
+
+    .mobile-nav {
+      display: block;
+      border-bottom: 1px solid var(--line);
+      background: white;
+    }
+
+    .mobile-nav[hidden] {
+      display: none;
+    }
+
+    .mobile-nav .page-shell {
+      display: grid;
+      padding-block: 1rem 1.5rem;
+    }
+
+    .mobile-nav a {
+      padding-block: 0.7rem;
+      border-bottom: 1px solid #e8eef2;
+      font-weight: 650;
+    }
+
+    .mobile-nav a[aria-current="page"] {
+      color: var(--teal-dark);
+    }
+
+    .footer-main {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-art {
+      display: none;
+    }
+  }
+
+  @media (max-width: 720px) {
+    body {
+      font-size: 16px;
+    }
+
+    .page-shell {
+      width: min(100% - 2rem, 1320px);
+    }
+
+    .brand-mark {
+      width: 44px;
+    }
+
+    .brand strong {
+      font-size: 1.4rem;
+    }
+
+    .brand small {
+      font-size: 0.75rem;
+    }
+
+    .footer-links {
+      grid-template-columns: 1fr 1fr;
+      row-gap: 2.5rem;
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+</style>

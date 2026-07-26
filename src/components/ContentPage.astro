@@ -1,0 +1,210 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+interface PageLink {
+  label: string;
+  href: string;
+}
+
+interface SourceLink {
+  label: string;
+  url: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  intro: string;
+  links: PageLink[];
+  sources?: SourceLink[];
+  sourcesVerified?: string;
+  updated?: string;
+}
+
+const {
+  title,
+  description,
+  intro,
+  links,
+  sources = [],
+  sourcesVerified = "25 de julho de 2026",
+  updated = "25 de julho de 2026",
+} = Astro.props;
+---
+
+<Layout title={title} description={description}>
+  <header class="page-intro">
+    <div class="page-shell">
+      <h1 class="page-title">{title}</h1>
+      <p>{intro}</p>
+    </div>
+  </header>
+
+  <div class="page-shell content-layout">
+    <aside class="on-this-page">
+      <p>Nesta página</p>
+      <nav aria-label="Nesta página">
+        {links.map((link) => <a href={link.href}>{link.label}</a>)}
+      </nav>
+      <a class="safety-shortcut" href="/sinais-de-alerta">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3 2.8 20h18.4L12 3Z"></path>
+          <path d="M12 9v5M12 17.5v.2"></path>
+        </svg>
+        Sinais de alerta
+      </a>
+    </aside>
+
+    <article class="prose">
+      <slot />
+      {
+        sources.length > 0 && (
+          <section class="page-sources" aria-labelledby="page-sources-title">
+            <h2 id="page-sources-title">Fontes desta página</h2>
+            <p>
+              Referências principais usadas para revisar e contextualizar este
+              conteúdo.
+            </p>
+            <ul>
+              {sources.map((source) => (
+                <li>
+                  <a
+                    href={source.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {source.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <small>Links verificados em {sourcesVerified}.</small>
+          </section>
+        )
+      }
+      <footer class="content-meta">
+        <p>Última revisão editorial: {updated}</p>
+        <a href="/fontes">Como usamos e apresentamos as fontes</a>
+      </footer>
+    </article>
+  </div>
+</Layout>
+
+<style>
+  .content-layout {
+    display: grid;
+    grid-template-columns: 250px minmax(0, 780px);
+    justify-content: center;
+    gap: clamp(3rem, 8vw, 8rem);
+    padding-block: clamp(3rem, 6vw, 6rem);
+  }
+
+  .on-this-page {
+    position: sticky;
+    top: 130px;
+    align-self: start;
+  }
+
+  .on-this-page > p {
+    margin: 0 0 1rem;
+    color: var(--teal-dark);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .on-this-page nav {
+    display: grid;
+    border-top: 1px solid var(--line);
+  }
+
+  .on-this-page nav a {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+    line-height: 1.35;
+  }
+
+  .on-this-page nav a:hover {
+    color: var(--teal-dark);
+  }
+
+  .safety-shortcut {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+    color: var(--coral-text);
+    font-size: 0.84rem;
+    font-weight: 750;
+  }
+
+  .safety-shortcut svg {
+    width: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.6;
+  }
+
+  .content-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-top: 5rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--line);
+    color: #64748a;
+    font-size: 0.74rem;
+  }
+
+  .content-meta p {
+    margin: 0;
+  }
+
+  .page-sources {
+    margin-top: 5rem;
+    padding: 2rem;
+    background: var(--mist);
+  }
+
+  .page-sources h2 {
+    margin-top: 0;
+  }
+
+  .page-sources ul {
+    padding-left: 1.2rem;
+  }
+
+  .page-sources li {
+    font-size: 0.88rem;
+  }
+
+  .page-sources small {
+    display: block;
+    margin-top: 1.4rem;
+    color: #64748a;
+    font-size: 0.74rem;
+  }
+
+  @media (max-width: 850px) {
+    .content-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .on-this-page {
+      position: static;
+      padding: 1.2rem;
+      background: var(--mist);
+    }
+
+    .content-meta {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+</style>

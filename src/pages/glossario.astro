@@ -1,0 +1,235 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+const terms = [
+  {
+    term: "Aquodeficiente",
+    definition:
+      "Forma de olho seco em que a produção da porção aquosa das lágrimas é insuficiente.",
+  },
+  {
+    term: "Blefarite",
+    definition:
+      "Inflamação das bordas das pálpebras, que pode envolver cílios, pele e glândulas.",
+  },
+  {
+    term: "Córnea",
+    definition:
+      "Camada transparente na parte da frente do olho. Participa da focalização da luz e precisa de uma superfície lacrimal regular.",
+  },
+  {
+    term: "Disfunção das glândulas de Meibomius",
+    definition:
+      "Alteração na produção ou liberação dos lipídios das glândulas das pálpebras, frequentemente associada ao olho seco evaporativo.",
+  },
+  {
+    term: "Evaporativo",
+    definition:
+      "Forma de olho seco em que as lágrimas evaporam rápido demais, muitas vezes por instabilidade da camada lipídica.",
+  },
+  {
+    term: "Filme lacrimal",
+    definition:
+      "Película dinâmica de lágrimas que lubrifica, nutre, protege e ajuda a manter a visão nítida.",
+  },
+  {
+    term: "Fluoresceína",
+    definition:
+      "Corante usado em avaliações da superfície ocular e da estabilidade do filme lacrimal.",
+  },
+  {
+    term: "Glândulas de Meibomius",
+    definition:
+      "Glândulas localizadas nas pálpebras que produzem lipídios importantes para reduzir a evaporação das lágrimas.",
+  },
+  {
+    term: "Hiperosmolaridade",
+    definition:
+      "Aumento da concentração de partículas nas lágrimas, associado à perda de equilíbrio da superfície ocular.",
+  },
+  {
+    term: "Lágrimas artificiais",
+    definition:
+      "Formulações lubrificantes usadas para aumentar umidade e conforto. Variam em composição, viscosidade e conservação.",
+  },
+  {
+    term: "Meibografia",
+    definition:
+      "Imagem das glândulas de Meibomius que ajuda a observar sua estrutura. Deve ser interpretada junto com sintomas e outros achados.",
+  },
+  {
+    term: "Mucinas",
+    definition:
+      "Moléculas que contribuem para a distribuição e aderência do filme lacrimal à superfície do olho.",
+  },
+  {
+    term: "Osmolaridade lacrimal",
+    definition:
+      "Medida da concentração de partículas nas lágrimas. É uma peça da investigação, não um diagnóstico isolado.",
+  },
+  {
+    term: "Piscar incompleto",
+    definition:
+      "Piscada em que as pálpebras não se encontram totalmente, reduzindo a redistribuição das lágrimas.",
+  },
+  {
+    term: "Ponto lacrimal",
+    definition:
+      "Pequena abertura próxima ao canto interno das pálpebras por onde as lágrimas começam a drenar.",
+  },
+  {
+    term: "Superfície ocular",
+    definition:
+      "Conjunto que inclui córnea, conjuntiva, filme lacrimal e estruturas relacionadas das pálpebras.",
+  },
+  {
+    term: "Tempo de ruptura do filme lacrimal",
+    definition:
+      "Tempo até surgirem falhas na película de lágrimas após uma piscada; ajuda a avaliar estabilidade.",
+  },
+];
+---
+
+<Layout
+  title="Glossário do olho seco"
+  description="Tradução em linguagem simples dos termos mais usados em conteúdos e avaliações sobre olho seco."
+>
+  <header class="page-intro">
+    <div class="page-shell">
+      <h1 class="page-title">Glossário do olho seco</h1>
+      <p>
+        Termos técnicos traduzidos para linguagem simples. Use a busca para
+        encontrar uma palavra que apareceu em um laudo, artigo ou conversa.
+      </p>
+      <div class="term-search">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="10.8" cy="10.8" r="6.7"></circle>
+          <path d="m16 16 4.5 4.5"></path>
+        </svg>
+        <label class="sr-only" for="term-search">Buscar termo</label>
+        <input id="term-search" type="search" placeholder="Buscar um termo" />
+      </div>
+    </div>
+  </header>
+
+  <section class="glossary-section">
+    <div class="page-shell glossary-list">
+      {
+        terms.map((item) => (
+          <article data-term={`${item.term} ${item.definition}`.toLowerCase()}>
+            <h2>{item.term}</h2>
+            <p>{item.definition}</p>
+          </article>
+        ))
+      }
+      <p id="no-terms" hidden>Nenhum termo encontrado.</p>
+    </div>
+  </section>
+
+  <script>
+    const input = document.querySelector<HTMLInputElement>("#term-search");
+    const items = [
+      ...document.querySelectorAll<HTMLElement>("[data-term]"),
+    ];
+    const empty = document.querySelector<HTMLElement>("#no-terms");
+    const normalize = (value: string) =>
+      value
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
+
+    input?.addEventListener("input", () => {
+      const query = normalize(input.value);
+      let visible = 0;
+      items.forEach((item) => {
+        item.hidden = !normalize(item.dataset.term ?? "").includes(query);
+        if (!item.hidden) visible += 1;
+      });
+      if (empty) empty.hidden = visible !== 0;
+    });
+  </script>
+</Layout>
+
+<style>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .term-search {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 0.8rem;
+    max-width: 620px;
+    min-height: 60px;
+    margin-top: 2.5rem;
+    padding-inline: 1rem;
+    border: 1.5px solid var(--ink);
+    border-radius: 8px;
+  }
+
+  .term-search svg {
+    width: 26px;
+    fill: none;
+    stroke: var(--ink);
+    stroke-linecap: round;
+    stroke-width: 1.8;
+  }
+
+  .term-search input {
+    border: 0;
+    outline: 0;
+    color: var(--ink);
+  }
+
+  .glossary-section {
+    padding-block: clamp(4rem, 9vw, 8rem);
+  }
+
+  .glossary-list {
+    columns: 2;
+    column-gap: clamp(3rem, 8vw, 8rem);
+  }
+
+  .glossary-list article {
+    break-inside: avoid;
+    padding: 1.8rem 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .glossary-list article[hidden] {
+    display: none;
+  }
+
+  .glossary-list h2 {
+    margin: 0;
+    color: var(--teal-dark);
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    line-height: 1.1;
+  }
+
+  .glossary-list p {
+    margin: 0.7rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+
+  #no-terms {
+    column-span: all;
+    padding: 2rem;
+    background: var(--mist);
+    text-align: center;
+  }
+
+  @media (max-width: 720px) {
+    .glossary-list {
+      columns: 1;
+    }
+  }
+</style>

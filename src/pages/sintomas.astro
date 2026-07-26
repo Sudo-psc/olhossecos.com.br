@@ -1,0 +1,85 @@
+---
+import ContentPage from "@/components/ContentPage.astro";
+import { sourceLink, sources } from "@/lib/sources";
+---
+
+<ContentPage
+  title="Sintomas de olho seco"
+  description="Conheça os sintomas mais comuns do olho seco, por que eles variam e como observar padrões sem tentar fazer autodiagnóstico."
+  intro="Olho seco pode aparecer como ardor, areia nos olhos, visão oscilante ou até lacrimejamento. Os sintomas variam ao longo do dia e podem piorar em ambientes ou atividades específicas."
+  links={[
+    { label: "Sintomas comuns", href: "#comuns" },
+    { label: "Por que o olho lacrimeja", href: "#lacrimejamento" },
+    { label: "Padrões que ajudam", href: "#padroes" },
+    { label: "O que registrar", href: "#registrar" },
+    { label: "Quando não esperar", href: "#alerta" },
+  ]}
+  sources={[
+    sourceLink(sources.dews3Diagnostic),
+    sourceLink(sources.nei),
+    sourceLink(sources.nhs),
+  ]}
+>
+  <h2 id="comuns">O que as pessoas costumam sentir</h2>
+  <ul>
+    <li>ardor, queimação ou pinicação;</li>
+    <li>sensação de areia, cisco ou corpo estranho;</li>
+    <li>olhos cansados, pesados ou difíceis de manter abertos;</li>
+    <li>vermelhidão;</li>
+    <li>sensibilidade à luz;</li>
+    <li>visão embaçada ou que melhora temporariamente ao piscar;</li>
+    <li>desconforto com lentes de contato;</li>
+    <li>secreção em fios ou sensação pegajosa;</li>
+    <li>lacrimejamento.</li>
+  </ul>
+  <p>
+    Esses sintomas também podem ocorrer em alergias, inflamações das pálpebras,
+    infecções e outras condições. Uma lista de sintomas ajuda a organizar o relato,
+    mas não confirma sozinha a causa.
+  </p>
+
+  <h2 id="lacrimejamento">Se é seco, por que pode lacrimejar?</h2>
+  <p>
+    Irritação da superfície ocular pode provocar uma resposta reflexa com lágrimas
+    abundantes. Essas lágrimas podem escorrer, mas não necessariamente formam uma
+    película estável e duradoura. Por isso, lacrimejamento e sensação de secura
+    podem coexistir.
+  </p>
+
+  <h2 id="padroes">Padrões que ajudam a contar a história</h2>
+  <p>
+    Observe quando o desconforto começa, quanto dura e o que acontece ao redor.
+    Alguns padrões úteis incluem:
+  </p>
+  <ul>
+    <li>piora ao longo do dia ou logo ao acordar;</li>
+    <li>relação com telas, leitura, direção ou concentração prolongada;</li>
+    <li>exposição a ar-condicionado, ventilador, fumaça, poeira ou vento;</li>
+    <li>mudança após iniciar um medicamento;</li>
+    <li>uso de lentes de contato ou cosméticos na região dos olhos;</li>
+    <li>sintomas de boca seca, dor articular, alterações de pele ou fadiga.</li>
+  </ul>
+
+  <h2 id="registrar">Um registro simples é suficiente</h2>
+  <p>
+    Por alguns dias, anote horário, intensidade de 0 a 10, atividade, ambiente e
+    o que trouxe alívio. Registre também se a visão oscilou, se um olho foi mais
+    afetado e quais produtos foram usados. O objetivo é encontrar padrões, não
+    produzir uma pontuação diagnóstica.
+  </p>
+  <div class="info-note">
+    Um registro curto e consistente costuma ser mais útil do que tentar lembrar de
+    todos os detalhes depois. Leve também uma lista atualizada de medicamentos e
+    suplementos.
+  </div>
+
+  <h2 id="alerta">Quando não esperar</h2>
+  <p>
+    Dor intensa, perda ou mudança súbita da visão, trauma, contato com produto
+    químico, olho muito vermelho com sensibilidade à luz ou sintomas importantes
+    em quem usa lentes de contato pedem orientação rápida.
+  </p>
+  <p>
+    Veja a página completa de <a href="/sinais-de-alerta">sinais de alerta</a>.
+  </p>
+</ContentPage>

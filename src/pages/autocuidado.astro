@@ -1,0 +1,77 @@
+---
+import ContentPage from "@/components/ContentPage.astro";
+import { sourceLink, sources } from "@/lib/sources";
+---
+
+<ContentPage
+  title="Autocuidado no dia a dia"
+  description="Práticas de baixo risco para reduzir gatilhos de olho seco e observar sua rotina com segurança, sem promessas ou receitas universais."
+  intro="Autocuidado não substitui a investigação da causa, mas pode reduzir gatilhos e tornar o dia mais confortável. Comece com mudanças simples, uma por vez."
+  links={[
+    { label: "Ambiente", href: "#ambiente" },
+    { label: "Telas e piscadas", href: "#telas" },
+    { label: "Pálpebras", href: "#palpebras" },
+    { label: "Produtos oculares", href: "#produtos" },
+    { label: "Acompanhe padrões", href: "#acompanhe" },
+  ]}
+  sources={[
+    sourceLink(sources.dews3Management),
+    sourceLink(sources.nhs),
+    sourceLink(sources.dryEyeAssociation),
+  ]}
+>
+  <h2 id="ambiente">Proteja-se do fluxo de ar</h2>
+  <p>
+    Evite ventilador, aquecedor ou ar-condicionado diretamente no rosto. Em
+    ambientes secos, umidificação moderada pode ajudar. Óculos com maior cobertura
+    lateral podem reduzir a exposição ao vento em algumas atividades.
+  </p>
+  <p>
+    Fumaça e partículas irritantes podem piorar sintomas; reduzir a exposição é
+    mais útil do que tentar “compensar” apenas com produtos.
+  </p>
+
+  <h2 id="telas">Telas, atenção e piscadas</h2>
+  <p>
+    Durante tarefas de alta concentração, muitas pessoas piscam menos ou não
+    completam a piscada. Faça pausas regulares, olhe para longe por alguns
+    instantes e pisque de forma suave, sem apertar os olhos.
+  </p>
+  <ul>
+    <li>posicione a tela um pouco abaixo da linha dos olhos;</li>
+    <li>aumente o tamanho do texto para evitar esforço desnecessário;</li>
+    <li>lembretes simples podem ajudar a criar o hábito de pausar;</li>
+    <li>varie tarefas longas sempre que possível.</li>
+  </ul>
+
+  <h2 id="palpebras">Cuidados com as pálpebras</h2>
+  <p>
+    Higiene palpebral pode ser útil em alguns quadros, mas técnica e frequência
+    devem respeitar a sensibilidade da pele e o mecanismo predominante. Evite
+    esfregar os olhos, usar água muito quente ou aplicar substâncias caseiras.
+  </p>
+  <p>
+    Se calor local fizer parte da orientação recebida, a temperatura deve ser
+    confortável e nunca causar dor ou vermelhidão persistente.
+  </p>
+
+  <h2 id="produtos">Produtos oculares merecem atenção</h2>
+  <p>
+    Lubrificantes variam em composição, viscosidade e presença de conservantes.
+    “Natural” ou “refrescante” não significa automaticamente adequado. Evite
+    compartilhar frascos, tocar a ponta no olho e usar produtos vencidos.
+  </p>
+  <div class="alert-note">
+    Gotas destinadas apenas a “tirar o vermelho” podem mascarar sinais ou causar
+    efeito rebote quando usadas repetidamente. Procure orientação antes de adotar
+    uso contínuo de qualquer produto.
+  </div>
+
+  <h2 id="acompanhe">Mude uma coisa por vez</h2>
+  <p>
+    Se você altera vários hábitos e produtos ao mesmo tempo, fica difícil saber o
+    que ajudou ou piorou. Escolha uma mudança de baixo risco, observe por alguns
+    dias e registre o resultado. Sintomas persistentes, progressivos ou que
+    interferem muito na rotina merecem avaliação individualizada.
+  </p>
+</ContentPage>

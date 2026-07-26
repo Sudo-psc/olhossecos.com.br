@@ -1,0 +1,242 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { guides, type Guide } from "@/lib/guides";
+
+export function getStaticPaths() {
+  return guides.map((guide) => ({
+    params: { slug: guide.slug },
+    props: { guide },
+  }));
+}
+
+interface Props {
+  guide: Guide;
+}
+
+const { guide } = Astro.props;
+---
+
+<Layout title={guide.title} description={guide.description}>
+  <article>
+    <header class="article-header">
+      <div class="page-shell article-header-grid">
+        <div>
+          <a class="back-link" href="/guias">← Todos os guias</a>
+          <p>{guide.category}</p>
+          <h1 class="article-title">{guide.title}</h1>
+          <div class="article-meta">
+            <span>{guide.readingTime} de leitura</span>
+            <span>Revisado em {guide.updated}</span>
+          </div>
+        </div>
+        <aside>
+          <p>{guide.description}</p>
+        </aside>
+      </div>
+    </header>
+
+    <div class="page-shell article-layout">
+      <nav aria-label="Conteúdo do guia">
+        <p>Neste guia</p>
+        {
+          guide.sections.map((section, index) => (
+            <a href={`#secao-${index + 1}`}>
+              {String(index + 1).padStart(2, "0")} {section.heading}
+            </a>
+          ))
+        }
+      </nav>
+
+      <div class="prose article-prose">
+        {
+          guide.sections.map((section, index) => (
+            <section id={`secao-${index + 1}`}>
+              <h2>{section.heading}</h2>
+              {section.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+              {section.bullets && (
+                <ul>
+                  {section.bullets.map((bullet) => <li>{bullet}</li>)}
+                </ul>
+              )}
+              {section.note && <div class="info-note">{section.note}</div>}
+              {section.alert && <div class="alert-note">{section.alert}</div>}
+            </section>
+          ))
+        }
+
+        <section class="guide-sources">
+          <h2>Fontes deste guia</h2>
+          <p>
+            As fontes abaixo ajudam a sustentar e contextualizar o conteúdo. Os
+            links abrem os materiais originais.
+          </p>
+          <ul>
+            {
+              guide.sources.map((source) => (
+                <li>
+                  <a href={source.url} target="_blank" rel="noopener noreferrer">
+                    {source.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+          <small>Links verificados em 25 de julho de 2026.</small>
+        </section>
+
+        <footer class="guide-footer">
+          <p>
+            Conteúdo educativo e geral. Não substitui diagnóstico, avaliação ou
+            orientação profissional individualizada.
+          </p>
+          <a class="text-link" href="/guias">
+            Continuar explorando
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 12h16m-5-5 5 5-5 5"></path>
+            </svg>
+          </a>
+        </footer>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .article-header {
+    padding-block: clamp(3.5rem, 6vw, 6rem);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .article-header-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 0.5fr;
+    align-items: end;
+    gap: clamp(3rem, 8vw, 8rem);
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: 2.2rem;
+    color: var(--teal-dark);
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .article-header-grid > div > p {
+    margin: 0 0 1.2rem;
+    color: var(--teal-dark);
+    font-size: 0.77rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .article-title {
+    max-width: 1000px;
+    font-size: clamp(3.1rem, 5.8vw, 5.8rem);
+  }
+
+  .article-meta {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2.2rem;
+    color: #64748a;
+    font-size: 0.74rem;
+  }
+
+  .article-header aside {
+    padding: 1.5rem 0 0 1.5rem;
+    border-top: 3px solid var(--teal);
+    color: var(--ink-soft);
+    font-size: 0.98rem;
+  }
+
+  .article-header aside p {
+    margin: 0;
+  }
+
+  .article-layout {
+    display: grid;
+    grid-template-columns: 250px minmax(0, 780px);
+    justify-content: center;
+    gap: clamp(3rem, 8vw, 8rem);
+    padding-block: clamp(3rem, 6vw, 6rem);
+  }
+
+  .article-layout > nav {
+    position: sticky;
+    top: 130px;
+    display: grid;
+    align-self: start;
+    border-top: 1px solid var(--line);
+  }
+
+  .article-layout > nav p {
+    margin: 0;
+    padding: 0.8rem 0;
+    color: var(--teal-dark);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .article-layout > nav a {
+    padding: 0.7rem 0;
+    border-top: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 0.78rem;
+    line-height: 1.35;
+  }
+
+  .article-prose > section:first-child h2 {
+    margin-top: 0;
+  }
+
+  .guide-sources {
+    margin-top: 5rem;
+    padding: 2rem;
+    background: var(--mist);
+  }
+
+  .guide-sources h2 {
+    margin-top: 0;
+  }
+
+  .guide-sources li {
+    font-size: 0.85rem;
+  }
+
+  .guide-sources small {
+    color: #64748a;
+    font-size: 0.72rem;
+  }
+
+  .guide-footer {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .guide-footer p {
+    color: #64748a;
+    font-size: 0.78rem;
+  }
+
+  @media (max-width: 850px) {
+    .article-header-grid,
+    .article-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .article-header aside {
+      max-width: 620px;
+    }
+
+    .article-layout > nav {
+      position: static;
+      padding: 1.2rem;
+      background: var(--mist);
+    }
+  }
+</style>

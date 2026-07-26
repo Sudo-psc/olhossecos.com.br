@@ -1,0 +1,68 @@
+---
+import ContentPage from "@/components/ContentPage.astro";
+import { sourceLink, sources } from "@/lib/sources";
+---
+
+<ContentPage
+  title="Como o olho seco é investigado"
+  description="Veja o que costuma fazer parte da investigação do olho seco: história dos sintomas, exame da superfície ocular, lágrimas e pálpebras."
+  intro="Não existe um único teste capaz de explicar todos os casos. A investigação costuma combinar o que você sente, o contexto em que os sintomas aparecem e diferentes observações da superfície ocular."
+  links={[
+    { label: "A conversa inicial", href: "#historia" },
+    { label: "O que pode ser observado", href: "#observado" },
+    { label: "Testes possíveis", href: "#testes" },
+    { label: "Por que os resultados variam", href: "#variacao" },
+    { label: "Como se preparar", href: "#preparar" },
+  ]}
+  sources={[
+    sourceLink(sources.dews3Diagnostic),
+    sourceLink(sources.nei),
+  ]}
+>
+  <h2 id="historia">A história dos sintomas é parte do exame</h2>
+  <p>
+    Quando começaram? Um olho incomoda mais? Há relação com telas, ambiente,
+    lentes de contato ou horário do dia? Quais produtos já foram tentados? Há boca
+    seca, rosácea, alergia ou doença autoimune? Essas respostas orientam quais
+    hipóteses merecem atenção.
+  </p>
+
+  <h2 id="observado">O que pode ser observado</h2>
+  <ul>
+    <li>frequência e completude das piscadas;</li>
+    <li>posição das pálpebras e aparência de suas bordas;</li>
+    <li>aberturas e secreção das glândulas de Meibomius;</li>
+    <li>quantidade e estabilidade das lágrimas;</li>
+    <li>vermelhidão e sinais de alteração da córnea ou conjuntiva;</li>
+    <li>distribuição das lágrimas sobre a superfície.</li>
+  </ul>
+
+  <h2 id="testes">Testes que podem fazer parte da investigação</h2>
+  <p>
+    Dependendo do contexto, podem ser usados corantes para observar a superfície,
+    medição do tempo de ruptura do filme lacrimal, estimativas do volume de
+    lágrimas, avaliação de produção aquosa, imagens das glândulas palpebrais,
+    osmolaridade e marcadores inflamatórios.
+  </p>
+  <p>
+    Nem todo mundo precisa de todos os testes. O valor de cada medida depende da
+    pergunta clínica, da técnica e da interpretação junto com os demais achados.
+  </p>
+
+  <h2 id="variacao">Por que um resultado pode mudar</h2>
+  <p>
+    Umidade, horário, uso recente de gotas, tempo de tela e até a sequência dos
+    testes podem influenciar algumas medidas. Além disso, sintomas e sinais podem
+    variar naturalmente. Por isso, números isolados não devem ser tratados como
+    um retrato completo.
+  </p>
+
+  <h2 id="preparar">Como se preparar para uma boa conversa</h2>
+  <ul>
+    <li>leve a lista de medicamentos, suplementos e produtos oculares;</li>
+    <li>anote quando os sintomas pioram e o que alivia;</li>
+    <li>informe o uso de lentes de contato e cirurgias oculares anteriores;</li>
+    <li>mencione sintomas em outras partes do corpo;</li>
+    <li>pergunte qual mecanismo parece predominar e como a resposta será acompanhada.</li>
+  </ul>
+</ContentPage>
