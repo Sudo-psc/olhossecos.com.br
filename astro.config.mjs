@@ -11,6 +11,8 @@ const revisedOnJuly26 = new Set([
   "/fontes",
   "/glossario",
   "/guias",
+  "/guias/epifora-olho-seco-vias-lacrimais",
+  "/guias/olho-seco-lentes-de-contato",
   "/olho-seco",
   "/sinais-de-alerta",
   "/sintomas",

@@ -74,6 +74,38 @@ export const sources = {
       "Orientações em linguagem simples sobre sintomas, autocuidado e sinais que pedem ajuda rápida.",
     verified,
   },
+  nhsWateringEyes: {
+    name: "NHS — Watering eyes",
+    type: "Serviço público de saúde",
+    url: "https://www.nhs.uk/symptoms/watering-eyes/",
+    description:
+      "Informações para pacientes sobre lacrimejamento, causas possíveis, sinais de alerta e situações em que pode ser necessária investigação.",
+    verified: verifiedToday,
+  },
+  wateryEyeAssessment: {
+    name: "Lopez Montes et al. — avaliação do olho lacrimejante",
+    type: "Revisão clínica",
+    url: "https://pubmed.ncbi.nlm.nih.gov/36508543/",
+    description:
+      "Revisão da anatomia, das causas e da avaliação clínica do lacrimejamento, incluindo superfície ocular, pálpebras e sistema de drenagem.",
+    verified: verifiedToday,
+  },
+  epiphoraEtiology: {
+    name: "Lee e Baek — causas de épifora",
+    type: "Estudo clínico retrospectivo",
+    url: "https://pubmed.ncbi.nlm.nih.gov/34237206/",
+    description:
+      "Estudo que ilustra a natureza multifatorial da épifora, incluindo lacrimejamento reflexo associado ao olho seco e alterações das vias lacrimais.",
+    verified: verifiedToday,
+  },
+  functionalEpiphora: {
+    name: "Usmani et al. — épifora funcional",
+    type: "Estudo clínico retrospectivo",
+    url: "https://pubmed.ncbi.nlm.nih.gov/36952153/",
+    description:
+      "Avaliação de casos em que a irrigação era pérvia, mas exames de imagem demonstraram atraso funcional da drenagem lacrimal.",
+    verified: verifiedToday,
+  },
   nhsEyeInjuries: {
     name: "NHS — Eye injuries",
     type: "Serviço público de saúde",
@@ -141,6 +173,10 @@ export const primarySources: EditorialSource[] = [
   sources.dews3Digest,
   sources.nei,
   sources.nhs,
+  sources.nhsWateringEyes,
+  sources.wateryEyeAssessment,
+  sources.epiphoraEtiology,
+  sources.functionalEpiphora,
   sources.nhsEyeInjuries,
   sources.dryEyeAssociation,
   sources.conjunctivochalasisReview,

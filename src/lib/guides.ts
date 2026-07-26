@@ -554,6 +554,137 @@ export const guides: Guide[] = [
       },
     ],
   },
+  {
+    slug: "epifora-olho-seco-vias-lacrimais",
+    category: "Sintomas e investigação",
+    title: "Épifora, olho seco e avaliação das vias lacrimais",
+    description:
+      "Entenda por que um olho pode lacrimejar, como as lágrimas chegam ao nariz e o que cada etapa da avaliação procura responder.",
+    readingTime: "9 min",
+    updated: "26 de julho de 2026",
+    datePublished: "2026-07-26",
+    dateModified: "2026-07-26",
+    sourcesVerified: "26 de julho de 2026",
+    tags: [
+      "épifora",
+      "lacrimejamento",
+      "olhos aguados",
+      "olho seco",
+      "vias lacrimais",
+      "ponto lacrimal",
+      "canalículos",
+      "saco lacrimal",
+      "ducto nasolacrimal",
+      "irrigação lacrimal",
+      "sondagem",
+      "fluoresceína",
+      "dacriocistografia",
+      "dacriocintilografia",
+    ],
+    sections: [
+      {
+        heading: "Épifora descreve o sintoma, não a causa",
+        paragraphs: [
+          "Épifora é o nome usado para lacrimejamento anormal, sobretudo quando as lágrimas se acumulam ou transbordam para as pálpebras e o rosto. A palavra não significa automaticamente que exista um canal obstruído.",
+          "O volume de lágrimas percebido resulta do equilíbrio entre produção, distribuição pelas piscadas, evaporação e drenagem. Uma alteração em qualquer uma dessas etapas pode deixar o olho aguado, e mais de um mecanismo pode coexistir.",
+        ],
+        note: "“Olho aguado” e “olho seco” não são opostos perfeitos. Uma pessoa pode produzir lágrimas reflexas em excesso e ainda ter um filme lacrimal instável.",
+      },
+      {
+        heading: "Como o olho seco pode provocar lacrimejamento",
+        paragraphs: [
+          "Quando a superfície ocular fica ressecada ou irritada, os nervos podem estimular uma resposta reflexa da glândula lacrimal. Vento, frio, fumaça, telas, alteração das pálpebras, cílios e inflamação também podem ativar essa resposta.",
+          "Essas lágrimas adicionais podem escorrer sem formar uma película estável entre as piscadas. Por isso, ardor, sensação de areia, visão que oscila e lacrimejamento podem aparecer juntos.",
+          "Alergia, infecção, lesão da córnea, conjuntivocálase e outros problemas da superfície também causam lacrimejamento. A presença de lágrimas abundantes não confirma nem exclui olho seco.",
+        ],
+      },
+      {
+        heading: "O caminho normal das lágrimas",
+        paragraphs: [
+          "Depois de espalhadas pelas piscadas, as lágrimas formam um pequeno reservatório junto à pálpebra inferior, chamado menisco lacrimal. Elas entram pelos pontos lacrimais, pequenas aberturas no canto interno das pálpebras superior e inferior.",
+          "Dos pontos, seguem pelos canalículos até o saco lacrimal e depois pelo ducto nasolacrimal, que termina dentro do nariz. O movimento das pálpebras e do músculo ao redor dos olhos ajuda a funcionar como uma bomba.",
+          "Pontos fora de posição, pálpebras frouxas ou viradas, piscadas ineficientes, estreitamentos e obstruções em diferentes trechos podem reduzir o escoamento mesmo quando a produção de lágrimas é normal.",
+        ],
+      },
+      {
+        heading: "Padrões úteis para relatar",
+        bullets: [
+          "se começou de repente ou aos poucos e se ocorre em um ou nos dois olhos;",
+          "se acontece somente no vento, frio, fumaça, telas ou também dentro de casa;",
+          "se as lágrimas ficam acumuladas ou chegam a escorrer pelo rosto;",
+          "se há ardor, coceira, sensação de areia, visão oscilante ou sensibilidade à luz;",
+          "se existe secreção, crostas ou inchaço doloroso perto do canto interno;",
+          "se houve trauma, cirurgia, radioterapia, uso de colírios ou alteração facial;",
+          "se varia com a posição das pálpebras ou com algum movimento facial.",
+        ],
+        paragraphs: [
+          "Lacrimejamento reflexo costuma acompanhar irritação e gatilhos ambientais, enquanto transbordamento persistente de um lado pode aumentar a suspeita de drenagem reduzida. Esses padrões se sobrepõem e não substituem o exame.",
+        ],
+      },
+      {
+        heading: "O que é observado antes dos testes",
+        paragraphs: [
+          "A avaliação começa pela superfície ocular, pelos cílios e pela córnea. Também observa posição e firmeza das pálpebras, fechamento, piscadas, pontos lacrimais, altura do menisco e eventual refluxo ou secreção.",
+          "Esse passo é importante porque uma via aberta não resolve lacrimejamento causado por irritação, e tratar apenas a superfície pode não resolver um estreitamento ou falha da bomba lacrimal.",
+        ],
+        bullets: [
+          "superfície e estabilidade do filme lacrimal;",
+          "pálpebras, cílios, piscadas e posição dos pontos lacrimais;",
+          "acúmulo de lágrimas e comparação entre os olhos;",
+          "região do saco lacrimal e interior do nariz quando indicado.",
+        ],
+      },
+      {
+        heading: "O que os testes de drenagem podem mostrar",
+        paragraphs: [
+          "No teste de desaparecimento da fluoresceína, uma pequena quantidade de corante é colocada nas lágrimas e se observa quanto permanece após um intervalo. Retenção pode sugerir escoamento mais lento, mas o teste não localiza sozinho o ponto do problema.",
+          "Na sondagem e irrigação, uma equipe habilitada avalia resistência, refluxo e passagem de líquido ao longo da via. O teste pode ajudar a localizar bloqueios, mas a passagem de líquido não garante que o sistema drene normalmente durante a rotina.",
+          "Quando história, exame e irrigação não explicam o sintoma, exames selecionados podem mapear a anatomia ou o trânsito. A dacriocistografia usa contraste para mostrar o trajeto; a dacriocintilografia acompanha o deslocamento de uma pequena quantidade de marcador radioativo. Endoscopia nasal ou outras imagens são reservadas a perguntas específicas.",
+          "AS-OCT pode medir altura, área ou volume do menisco lacrimal, porém não percorre sozinho toda a via de drenagem até o nariz.",
+        ],
+        note: "Nem toda pessoa com épifora precisa de sondagem, irrigação, imagem ou endoscopia. A sequência depende da história e do que já foi encontrado no exame.",
+      },
+      {
+        heading: "O cuidado depende do mecanismo",
+        paragraphs: [
+          "Quando predomina lacrimejamento reflexo, o objetivo é identificar e reduzir a irritação da superfície. Alterações das pálpebras e da bomba lacrimal precisam de uma estratégia própria. Se há estreitamento ou obstrução, a localização e a repercussão orientam quais opções podem ser discutidas.",
+          "Plugue lacrimal e cauterização reduzem intencionalmente a drenagem para conservar lágrimas em alguns contextos de olho seco. Eles não devem ser tratados como solução automática quando já existe épifora ou quando a causa do lacrimejamento ainda não foi esclarecida.",
+          "Não tente sondar, irrigar ou pressionar repetidamente a região em casa. O portal não recomenda antibiótico, colírio ou procedimento com base apenas no sintoma.",
+        ],
+      },
+      {
+        heading: "Quando o lacrimejamento pede avaliação rápida",
+        paragraphs: [
+          "Dor forte, mudança visual, sensibilidade importante à luz, trauma, produto químico, objeto preso ou olho muito vermelho precisam de avaliação rápida, mesmo que o lacrimejamento seja o sintoma mais evidente.",
+          "Inchaço doloroso junto ao canto interno do olho, especialmente com secreção ou febre, pode indicar inflamação ou infecção do saco lacrimal e também não deve esperar.",
+        ],
+        alert:
+          "Épifora persistente merece investigação; épifora acompanhada de dor intensa, piora visual, trauma ou inchaço doloroso com febre exige prioridade.",
+      },
+    ],
+    sources: [
+      {
+        label: "TFOS DEWS III — metodologia diagnóstica",
+        url: "https://pubmed.ncbi.nlm.nih.gov/40451408/",
+      },
+      {
+        label: "NHS — Watering eyes",
+        url: "https://www.nhs.uk/symptoms/watering-eyes/",
+      },
+      {
+        label: "Lopez Montes et al. — Assessment of the Watery Eye",
+        url: "https://pubmed.ncbi.nlm.nih.gov/36508543/",
+      },
+      {
+        label: "Lee e Baek — Etiology of Epiphora",
+        url: "https://pubmed.ncbi.nlm.nih.gov/34237206/",
+      },
+      {
+        label: "Usmani et al. — Functional epiphora",
+        url: "https://pubmed.ncbi.nlm.nih.gov/36952153/",
+      },
+    ],
+  },
 ];
 
 export const getGuide = (slug: string) =>
