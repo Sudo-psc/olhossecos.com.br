@@ -143,6 +143,8 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
     const status = document.querySelector<HTMLElement>("#search-status");
     const portalResults =
       document.querySelector<HTMLElement>("#portal-results");
+    const library = document.querySelector<HTMLElement>(".guide-library");
+    const intro = document.querySelector<HTMLElement>(".library-intro");
     const pages = [
       ...document.querySelectorAll<HTMLElement>("[data-page-result]"),
     ];
@@ -183,6 +185,8 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
       const total = visibleGuides + visiblePages;
       const filtered = term.length > 0 || activeCategory !== "Todos";
 
+      library?.classList.toggle("has-active-search", term.length > 0);
+      intro?.classList.toggle("has-active-search", term.length > 0);
       if (portalResults) portalResults.hidden = visiblePages === 0;
       if (clear) clear.hidden = term.length === 0;
       if (empty) empty.hidden = total !== 0;
@@ -260,6 +264,10 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
     outline: 0;
     color: var(--ink);
     font-size: 1rem;
+  }
+
+  .guide-search input::-webkit-search-cancel-button {
+    appearance: none;
   }
 
   .guide-search button {
@@ -475,6 +483,33 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
   }
 
   @media (max-width: 760px) {
+    .library-intro.has-active-search {
+      padding-block: 1.5rem 1rem;
+    }
+
+    .library-intro.has-active-search .breadcrumbs,
+    .library-intro.has-active-search .page-shell > p {
+      display: none;
+    }
+
+    .library-intro.has-active-search .page-title {
+      font-size: 2.35rem;
+      line-height: 1;
+    }
+
+    .library-intro.has-active-search .guide-search {
+      min-height: 56px;
+      margin-top: 1rem;
+    }
+
+    .guide-library.has-active-search {
+      padding-top: 1rem;
+    }
+
+    .guide-library.has-active-search .category-filters {
+      display: none;
+    }
+
     .library-toolbar {
       display: block;
     }

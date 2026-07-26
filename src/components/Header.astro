@@ -39,8 +39,8 @@ const isActive = (href: string) => pathname.startsWith(href);
 
     <a class="sources-link" href="/fontes">
       <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M6 3.5h9l3 3V20.5H6z" />
-        <path d="M15 3.5v3h3M9 11h6M9 15h6" />
+        <path d="M6 3.5h9l3 3V20.5H6z"></path>
+        <path d="M15 3.5v3h3M9 11h6M9 15h6"></path>
       </svg>
       Fontes e revisão
     </a>
@@ -77,11 +77,21 @@ const isActive = (href: string) => pathname.startsWith(href);
   const button = document.querySelector<HTMLButtonElement>(".menu-button");
   const menu = document.querySelector<HTMLElement>("#mobile-menu");
 
+  const setMenuOpen = (open: boolean) => {
+    if (!button || !menu) return;
+    menu.hidden = !open;
+    button.setAttribute("aria-expanded", String(open));
+    button.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+  };
+
   button?.addEventListener("click", () => {
     if (!menu) return;
-    const willOpen = menu.hidden;
-    menu.hidden = !willOpen;
-    button.setAttribute("aria-expanded", String(willOpen));
-    button.setAttribute("aria-label", willOpen ? "Fechar menu" : "Abrir menu");
+    setMenuOpen(menu.hidden);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape" || !menu || menu.hidden) return;
+    setMenuOpen(false);
+    button?.focus();
   });
 </script>
