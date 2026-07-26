@@ -11,7 +11,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
   title="Guias para entender e viver com olho seco"
   description="Biblioteca independente de guias sobre sintomas, rotina, tratamentos e decisões de cuidado no olho seco."
   schemaType="CollectionPage"
-  dateModified="2026-07-25"
+  dateModified="2026-07-26"
   breadcrumbs={[
     { name: "Início", url: "/" },
     { name: "Guias", url: "/guias" },
@@ -42,7 +42,12 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
           placeholder="Buscar em todo o portal"
           autocomplete="off"
         />
-        <button id="clear-search" type="button" aria-label="Limpar busca" hidden>
+        <button
+          id="clear-search"
+          type="button"
+          aria-label="Limpar busca"
+          hidden
+        >
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="m7 7 10 10M17 7 7 17"></path>
           </svg>
@@ -87,7 +92,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
                 <strong>{page.title}</strong>
                 <small>{page.description}</small>
                 <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M4 12h16m-5-5 5 5-5 5"></path>
+                  <path d="M4 12h16m-5-5 5 5-5 5" />
                 </svg>
               </a>
             ))
@@ -104,7 +109,9 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
               data-search={`${guide.title} ${guide.description} ${guide.tags.join(" ")}`.toLowerCase()}
             >
               <a href={`/guias/${guide.slug}`}>
-                <span class="guide-number">{String(index + 1).padStart(2, "0")}</span>
+                <span class="guide-number">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
                 <div>
                   <p>{guide.category}</p>
                   <h2>{guide.title}</h2>
@@ -112,7 +119,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
                 </div>
                 <small>{guide.readingTime} de leitura</small>
                 <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M4 12h16m-5-5 5 5-5 5"></path>
+                  <path d="M4 12h16m-5-5 5 5-5 5" />
                 </svg>
               </a>
             </article>
@@ -127,9 +134,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
 
   <script>
     const search = document.querySelector<HTMLInputElement>("#guide-search");
-    const guides = [
-      ...document.querySelectorAll<HTMLElement>("[data-guide]"),
-    ];
+    const guides = [...document.querySelectorAll<HTMLElement>("[data-guide]")];
     const buttons = [
       ...document.querySelectorAll<HTMLButtonElement>("[data-category]"),
     ];
@@ -160,7 +165,9 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
         const categoryMatch =
           activeCategory === "Todos" ||
           guide.dataset.category === activeCategory;
-        const searchMatch = normalize(guide.dataset.search ?? "").includes(term);
+        const searchMatch = normalize(guide.dataset.search ?? "").includes(
+          term,
+        );
         guide.hidden = !(categoryMatch && searchMatch);
         if (!guide.hidden) visibleGuides += 1;
       });

@@ -7,6 +7,7 @@ export interface EditorialSource {
 }
 
 const verified = "25 de julho de 2026";
+const verifiedToday = "26 de julho de 2026";
 
 export const sources = {
   dews3Executive: {
@@ -57,6 +58,14 @@ export const sources = {
       "Orientações em linguagem simples sobre sintomas, autocuidado e sinais que pedem ajuda rápida.",
     verified,
   },
+  nhsEyeInjuries: {
+    name: "NHS — Eye injuries",
+    type: "Serviço público de saúde",
+    url: "https://www.nhs.uk/conditions/eye-injuries/",
+    description:
+      "Primeiros cuidados e sinais de urgência em trauma, perfuração ou exposição química dos olhos.",
+    verified: verifiedToday,
+  },
   dryEyeAssociation: {
     name: "Dry Eye Association",
     type: "Associação de pacientes",
@@ -90,6 +99,7 @@ export const primarySources: EditorialSource[] = [
   sources.dews3Digest,
   sources.nei,
   sources.nhs,
+  sources.nhsEyeInjuries,
   sources.dryEyeAssociation,
   sources.sjogrens,
   sources.preventBlindness,

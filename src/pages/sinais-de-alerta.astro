@@ -7,13 +7,24 @@ import { sourceLink, sources } from "@/lib/sources";
   title="Sinais de alerta"
   description="Saiba quais sintomas oculares pedem orientação rápida e o que fazer em casos de trauma ou contato químico."
   intro="Nem todo desconforto ocular é olho seco. Alguns sinais pedem orientação rápida para proteger a visão e tratar causas que não devem esperar."
+  summary={[
+    "Mudança súbita da visão, dor intensa, trauma, perfuração ou produto químico são situações urgentes.",
+    "Após contato químico, comece a lavar imediatamente e mantenha a irrigação por pelo menos 20 minutos.",
+    "Dor, vermelhidão ou sensibilidade à luz em quem usa lentes de contato precisam de avaliação rápida.",
+  ]}
   links={[
     { label: "Procure ajuda rapidamente", href: "#rapidamente" },
     { label: "Produto químico", href: "#quimico" },
     { label: "Lentes de contato", href: "#lentes" },
     { label: "O que evitar", href: "#evitar" },
   ]}
-  sources={[sourceLink(sources.nhs), sourceLink(sources.nei)]}
+  sources={[
+    sourceLink(sources.nhsEyeInjuries),
+    sourceLink(sources.nei),
+  ]}
+  sourcesVerified="26 de julho de 2026"
+  updated="26 de julho de 2026"
+  dateModified="2026-07-26"
 >
   <h2 id="rapidamente">Procure ajuda rapidamente se houver</h2>
   <ul>
@@ -22,7 +33,9 @@ import { sourceLink, sources } from "@/lib/sources";
     <li>olho muito vermelho com forte sensibilidade à luz;</li>
     <li>trauma, corte, perfuração ou objeto preso no olho;</li>
     <li>contato com produto químico;</li>
-    <li>flashes, muitas moscas volantes novas ou uma sombra no campo visual;</li>
+    <li>
+      flashes, muitas moscas volantes novas ou uma sombra no campo visual;
+    </li>
     <li>náusea ou dor de cabeça intensa junto com olho vermelho e doloroso;</li>
     <li>secreção abundante, inchaço importante ou febre;</li>
     <li>dor e vermelhidão relevantes em quem usa lentes de contato.</li>
@@ -36,24 +49,30 @@ import { sourceLink, sources } from "@/lib/sources";
 
   <h2 id="quimico">Se um produto químico entrar no olho</h2>
   <p>
-    Comece a lavar imediatamente com água limpa corrente ou solução apropriada,
-    mantendo as pálpebras abertas. Retire lentes de contato se isso for fácil, mas
-    não atrase a lavagem para tentar removê-las. Continue irrigando e procure ajuda
-    urgente. Se possível, leve a embalagem ou o nome do produto.
+    Comece a lavar imediatamente com bastante água limpa corrente, em
+    temperatura confortável e sem jato forte, mantendo as pálpebras abertas.
+    Irrigue por pelo menos 20 minutos. Retire lentes de contato se isso for
+    fácil, mas não atrase a lavagem para tentar removê-las. Continue irrigando
+    enquanto busca ajuda urgente e, se possível, leve a embalagem ou o nome do
+    produto.
   </p>
 
   <h2 id="lentes">Atenção especial com lentes de contato</h2>
   <p>
-    Dor, vermelhidão, sensibilidade à luz, secreção ou piora visual durante o uso
-    de lentes podem indicar infecção ou lesão da córnea. Remova as lentes, não as
-    recoloque e procure orientação rapidamente.
+    Dor, vermelhidão, sensibilidade à luz, secreção ou piora visual durante o
+    uso de lentes podem indicar infecção ou lesão da córnea. Remova as lentes,
+    não as recoloque e procure orientação rapidamente.
   </p>
 
   <h2 id="evitar">O que evitar</h2>
   <ul>
     <li>não esfregue nem pressione um olho lesionado;</li>
     <li>não tente remover um objeto preso ou penetrante;</li>
-    <li>não aplique receitas caseiras, colírios de outra pessoa ou gotas antigas;</li>
-    <li>não espere “passar sozinho” quando há dor forte ou alteração visual.</li>
+    <li>
+      não aplique receitas caseiras, colírios de outra pessoa ou gotas antigas;
+    </li>
+    <li>
+      não espere “passar sozinho” quando há dor forte ou alteração visual.
+    </li>
   </ul>
 </ContentPage>

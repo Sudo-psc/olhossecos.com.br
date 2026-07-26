@@ -13,6 +13,16 @@ const terms = [
       "Inflamação das bordas das pálpebras, que pode envolver cílios, pele e glândulas.",
   },
   {
+    term: "Conjuntiva",
+    definition:
+      "Membrana transparente que recobre a parte branca do olho e a face interna das pálpebras.",
+  },
+  {
+    term: "Conservante",
+    definition:
+      "Substância que reduz a contaminação de frascos multidose. Alguns tipos podem irritar uma superfície ocular sensível, especialmente com uso frequente.",
+  },
+  {
     term: "Córnea",
     definition:
       "Camada transparente na parte da frente do olho. Participa da focalização da luz e precisa de uma superfície lacrimal regular.",
@@ -48,6 +58,11 @@ const terms = [
       "Aumento da concentração de partículas nas lágrimas, associado à perda de equilíbrio da superfície ocular.",
   },
   {
+    term: "Inflamação da superfície ocular",
+    definition:
+      "Resposta biológica que pode contribuir para irritação, instabilidade das lágrimas e alterações da córnea ou conjuntiva.",
+  },
+  {
     term: "Lágrimas artificiais",
     definition:
       "Formulações lubrificantes usadas para aumentar umidade e conforto. Variam em composição, viscosidade e conservação.",
@@ -63,6 +78,11 @@ const terms = [
       "Moléculas que contribuem para a distribuição e aderência do filme lacrimal à superfície do olho.",
   },
   {
+    term: "Neurossensorial",
+    definition:
+      "Relativo aos nervos e ao processamento das sensações. Alterações neurossensoriais podem influenciar dor, desconforto e resposta às lágrimas.",
+  },
+  {
     term: "Osmolaridade lacrimal",
     definition:
       "Medida da concentração de partículas nas lágrimas. É uma peça da investigação, não um diagnóstico isolado.",
@@ -71,6 +91,11 @@ const terms = [
     term: "Piscar incompleto",
     definition:
       "Piscada em que as pálpebras não se encontram totalmente, reduzindo a redistribuição das lágrimas.",
+  },
+  {
+    term: "Plugue lacrimal",
+    definition:
+      "Pequeno dispositivo colocado no ponto lacrimal para reduzir a drenagem e manter as lágrimas por mais tempo. Não é adequado para todos os mecanismos.",
   },
   {
     term: "Ponto lacrimal",
@@ -83,6 +108,11 @@ const terms = [
       "Conjunto que inclui córnea, conjuntiva, filme lacrimal e estruturas relacionadas das pálpebras.",
   },
   {
+    term: "Teste de Schirmer",
+    definition:
+      "Teste com uma pequena tira de papel usado para estimar a produção aquosa de lágrimas. O resultado precisa ser interpretado com o restante da avaliação.",
+  },
+  {
     term: "Tempo de ruptura do filme lacrimal",
     definition:
       "Tempo até surgirem falhas na película de lágrimas após uma piscada; ajuda a avaliar estabilidade.",
@@ -93,6 +123,7 @@ const terms = [
 <Layout
   title="Glossário do olho seco"
   description="Tradução em linguagem simples dos termos mais usados em conteúdos e avaliações sobre olho seco."
+  dateModified="2026-07-26"
 >
   <header class="page-intro">
     <div class="page-shell">
@@ -128,9 +159,7 @@ const terms = [
 
   <script>
     const input = document.querySelector<HTMLInputElement>("#term-search");
-    const items = [
-      ...document.querySelectorAll<HTMLElement>("[data-term]"),
-    ];
+    const items = [...document.querySelectorAll<HTMLElement>("[data-term]")];
     const empty = document.querySelector<HTMLElement>("#no-terms");
     const normalize = (value: string) =>
       value

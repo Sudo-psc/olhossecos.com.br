@@ -17,9 +17,11 @@ interface Props {
   description: string;
   intro: string;
   links: PageLink[];
+  summary?: string[];
   sources?: SourceLink[];
   sourcesVerified?: string;
   updated?: string;
+  dateModified?: string;
 }
 
 const {
@@ -27,9 +29,11 @@ const {
   description,
   intro,
   links,
+  summary = [],
   sources = [],
   sourcesVerified = "25 de julho de 2026",
   updated = "25 de julho de 2026",
+  dateModified = "2026-07-25",
 } = Astro.props;
 ---
 
@@ -37,7 +41,7 @@ const {
   title={title}
   description={description}
   schemaType="MedicalWebPage"
-  dateModified="2026-07-25"
+  dateModified={dateModified}
   breadcrumbs={[
     { name: "Início", url: "/" },
     { name: title, url: Astro.url.pathname },
@@ -72,6 +76,18 @@ const {
     </aside>
 
     <article class="prose">
+      {
+        summary.length > 0 && (
+          <section class="content-summary" aria-labelledby="summary-title">
+            <h2 id="summary-title">Em poucas palavras</h2>
+            <ul>
+              {summary.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
       <slot />
       {
         sources.length > 0 && (
@@ -204,6 +220,26 @@ const {
     margin-top: 1.4rem;
     color: #64748a;
     font-size: 0.74rem;
+  }
+
+  .content-summary {
+    margin: 0 0 3.5rem;
+    padding: clamp(1.4rem, 3vw, 2rem);
+    border-left: 4px solid var(--teal);
+    background: var(--mist);
+  }
+
+  .content-summary h2 {
+    margin: 0 0 1rem;
+    font-size: clamp(1.55rem, 3vw, 2rem);
+  }
+
+  .content-summary ul {
+    margin: 0;
+  }
+
+  .content-summary li + li {
+    margin-top: 0.55rem;
   }
 
   @media (max-width: 850px) {

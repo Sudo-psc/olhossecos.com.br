@@ -97,4 +97,12 @@ export const portalPages: PortalSearchEntry[] = [
       "Consensos, instituições públicas e associações de pacientes usados pelo portal.",
     tags: ["referências", "evidências", "TFOS", "DEWS III", "revisão"],
   },
+  {
+    href: "/app",
+    category: "Ferramenta",
+    title: "Dry Eye Widget",
+    description:
+      "Lembretes ajustáveis para pausas, olhar para longe e perceber as piscadas durante o uso de telas.",
+    tags: ["aplicativo", "widget", "telas", "pausas", "piscadas", "20-20-20"],
+  },
 ];
