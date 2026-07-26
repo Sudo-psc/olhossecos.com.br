@@ -1,0 +1,227 @@
+---
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import Layout from "@/layouts/Layout.astro";
+
+const breadcrumbs = [
+  { name: "Início", url: "/" },
+  { name: "Dry Eye Widget", url: "/app" },
+];
+---
+
+<Layout
+  title="Dry Eye Widget: lembretes para pausas e piscadas"
+  description="Conheça o Dry Eye Widget, uma ferramenta de apoio para organizar pausas durante o uso prolongado de telas."
+  dateModified="2026-07-26"
+  breadcrumbs={breadcrumbs}
+>
+  <section class="tool-page page-shell">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <div class="tool-hero">
+      <div>
+        <p class="eyebrow">Ferramenta educativa</p>
+        <h1>Dry Eye Widget</h1>
+        <p class="lead">
+          Um lembrete para fazer pequenas pausas, olhar para longe e perceber a
+          frequência das piscadas durante períodos prolongados diante de telas.
+        </p>
+      </div>
+
+      <aside aria-label="Limites da ferramenta">
+        <strong>Um apoio à rotina, não um tratamento</strong>
+        <p>
+          O aplicativo não diagnostica olho seco, não mede a superfície ocular e
+          não substitui avaliação profissional quando há sintomas persistentes
+          ou sinais de alerta.
+        </p>
+      </aside>
+    </div>
+
+    <div class="tool-grid">
+      <article>
+        <span>01</span>
+        <h2>Lembretes discretos</h2>
+        <p>
+          Ajuda a interromper períodos longos de concentração contínua sem
+          bloquear o trabalho.
+        </p>
+      </article>
+      <article>
+        <span>02</span>
+        <h2>Pausas adaptáveis</h2>
+        <p>
+          Os intervalos podem ser ajustados à rotina. A regra 20-20-20 é uma
+          referência prática, não uma dose médica rígida.
+        </p>
+      </article>
+      <article>
+        <span>03</span>
+        <h2>Consciência das piscadas</h2>
+        <p>
+          O lembrete convida a relaxar o foco e piscar naturalmente, hábitos que
+          podem diminuir durante tarefas visuais intensas.
+        </p>
+      </article>
+    </div>
+
+    <div class="tool-actions">
+      <a
+        class="primary-action"
+        href="https://github.com/Sudo-psc/dry-eye-widget"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Ver projeto e versões no GitHub
+        <span aria-hidden="true">↗</span>
+      </a>
+      <a href="/guias/telas-piscadas-desconforto">
+        Entender telas, piscadas e desconforto
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .tool-page {
+    padding-block: 2rem 6rem;
+  }
+
+  .tool-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(18rem, 0.6fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: end;
+    padding-block: clamp(3rem, 8vw, 7rem);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    margin: 0 0 1rem;
+    color: var(--teal-dark);
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    max-width: 12ch;
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(3rem, 7vw, 6.6rem);
+    line-height: 0.92;
+    letter-spacing: -0.055em;
+  }
+
+  .lead {
+    max-width: 42rem;
+    margin: 2rem 0 0;
+    color: var(--ink-soft);
+    font-size: clamp(1.15rem, 2vw, 1.4rem);
+    line-height: 1.55;
+  }
+
+  aside {
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--teal);
+    background: var(--mist);
+  }
+
+  aside strong {
+    display: block;
+    font-family: var(--serif);
+    font-size: 1.25rem;
+  }
+
+  aside p {
+    margin: 0.6rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+
+  .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid var(--line);
+  }
+
+  article {
+    padding: clamp(2rem, 4vw, 3.5rem);
+    border-right: 1px solid var(--line);
+  }
+
+  article:last-child {
+    border-right: 0;
+  }
+
+  article span {
+    color: var(--teal-dark);
+    font-size: 0.8rem;
+    font-weight: 800;
+  }
+
+  article h2 {
+    margin: 1.5rem 0 0.75rem;
+    font-family: var(--serif);
+    font-size: clamp(1.45rem, 2.5vw, 2rem);
+    line-height: 1.1;
+  }
+
+  article p {
+    margin: 0;
+    color: var(--ink-soft);
+  }
+
+  .tool-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    align-items: center;
+    padding-top: 2.5rem;
+  }
+
+  .tool-actions a {
+    display: inline-flex;
+    gap: 0.75rem;
+    align-items: center;
+    color: var(--teal-dark);
+    font-weight: 800;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.35rem;
+  }
+
+  .tool-actions .primary-action {
+    padding: 0.85rem 1.15rem;
+    background: var(--teal-dark);
+    color: white;
+    text-decoration: none;
+  }
+
+  @media (max-width: 760px) {
+    .tool-page {
+      padding-block: 1.25rem 4rem;
+    }
+
+    .tool-hero {
+      grid-template-columns: 1fr;
+      padding-block: 2.5rem 3rem;
+    }
+
+    .tool-grid {
+      grid-template-columns: 1fr;
+    }
+
+    article {
+      padding-inline: 0;
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    article:last-child {
+      border-bottom: 0;
+    }
+  }
+</style>

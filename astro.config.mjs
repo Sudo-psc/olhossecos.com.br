@@ -19,7 +19,7 @@ export default defineConfig({
         return !new Set(["/blog", "/videos", "/exames"]).has(path);
       },
       serialize(item) {
-        item.lastmod = "2026-07-25";
+        item.lastmod = item.url.endsWith("/app") ? "2026-07-26" : "2026-07-25";
         return item;
       },
     }),
