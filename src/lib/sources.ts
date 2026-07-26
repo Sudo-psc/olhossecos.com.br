@@ -34,6 +34,22 @@ export const sources = {
       "Revisão baseada em evidências das estratégias de manejo, autocuidado e tratamento do olho seco.",
     verified,
   },
+  iplSystematicReview: {
+    name: "Peira et al. — luz pulsada para olho seco associado à disfunção meibomiana",
+    type: "Revisão sistemática e metanálise",
+    url: "https://pubmed.ncbi.nlm.nih.gov/39611367/",
+    description:
+      "Síntese de 13 estudos randomizados sobre benefícios, incertezas e segurança da luz intensa pulsada em pessoas com disfunção das glândulas de Meibomius.",
+    verified: verifiedToday,
+  },
+  iplRandomizedTrial: {
+    name: "Toyos et al. — luz pulsada e expressão das glândulas de Meibomius",
+    type: "Ensaio clínico randomizado",
+    url: "https://pubmed.ncbi.nlm.nih.gov/35737696/",
+    description:
+      "Comparação entre luz intensa pulsada associada à expressão glandular e procedimento simulado associado à expressão glandular.",
+    verified: verifiedToday,
+  },
   dews3Digest: {
     name: "TFOS DEWS III — atualização interdisciplinar",
     type: "Consenso científico internacional",
@@ -120,6 +136,8 @@ export const primarySources: EditorialSource[] = [
   sources.dews3Executive,
   sources.dews3Diagnostic,
   sources.dews3Management,
+  sources.iplSystematicReview,
+  sources.iplRandomizedTrial,
   sources.dews3Digest,
   sources.nei,
   sources.nhs,
