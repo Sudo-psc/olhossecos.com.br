@@ -6,78 +6,259 @@ const breadcrumbs = [
   { name: "Início", url: "/" },
   { name: "Dry Eye Widget", url: "/app" },
 ];
+
+const downloadLinks = {
+  store: "https://apps.microsoft.com/detail/9nnk9spjz3qv",
+  mac: "https://github.com/Sudo-psc/dry-eye-widget/releases/latest/download/DryEyeWidget.dmg",
+  windowsExe:
+    "https://github.com/Sudo-psc/dry-eye-widget/releases/latest/download/DryEyeWidget-Setup-x64.exe",
+  windowsZip:
+    "https://github.com/Sudo-psc/dry-eye-widget/releases/latest/download/DryEyeWidget-windows-x64.zip",
+  releases: "https://github.com/Sudo-psc/dry-eye-widget/releases/latest",
+  repository: "https://github.com/Sudo-psc/dry-eye-widget",
+};
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Dry Eye Widget",
+  applicationCategory: "HealthApplication",
+  operatingSystem: "Windows, macOS",
+  description:
+    "Aplicativo educativo com lembretes de pausas, piscadas e regra 20-20-20 para períodos prolongados diante de telas.",
+  downloadUrl: downloadLinks.store,
+  isAccessibleForFree: true,
+  license: "https://opensource.org/license/mit",
+  author: {
+    "@type": "Person",
+    name: "Dr. Philipe Saraiva Cruz",
+  },
+};
 ---
 
 <Layout
-  title="Dry Eye Widget: lembretes para pausas e piscadas"
-  description="Conheça o Dry Eye Widget, uma ferramenta de apoio para organizar pausas durante o uso prolongado de telas."
-  dateModified="2026-07-26"
+  title="Dry Eye Widget: download para Windows e macOS"
+  description="Baixe o Dry Eye Widget para Windows ou macOS e organize lembretes de pausas, piscadas e regra 20-20-20 durante o uso de telas."
+  dateModified="2026-08-05"
   breadcrumbs={breadcrumbs}
 >
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={JSON.stringify(softwareSchema)}
+  />
+
   <section class="tool-page page-shell">
     <Breadcrumbs items={breadcrumbs} />
 
     <div class="tool-hero">
-      <div>
-        <p class="eyebrow">Ferramenta educativa</p>
-        <h1>Dry Eye Widget</h1>
+      <div class="hero-copy">
+        <div class="app-identity">
+          <img
+            src="/images/dry-eye-widget-icon.png"
+            width="96"
+            height="96"
+            alt="Ícone do Dry Eye Widget"
+          />
+          <div>
+            <p class="eyebrow">Aplicativo gratuito e open source</p>
+            <p class="platforms">Windows · macOS · funciona offline</p>
+          </div>
+        </div>
+
+        <h1>Pausas visuais que cabem na sua rotina.</h1>
         <p class="lead">
-          Um lembrete para fazer pequenas pausas, olhar para longe e perceber a
-          frequência das piscadas durante períodos prolongados diante de telas.
+          O Dry Eye Widget é um lembrete discreto para aplicar a regra 20-20-20,
+          olhar para longe e perceber as piscadas durante períodos prolongados
+          diante de telas.
         </p>
+
+        <ul class="trust-list" aria-label="Diferenciais do aplicativo">
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m5 12 4 4L19 6"></path>
+            </svg>
+            Sem conta
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m5 12 4 4L19 6"></path>
+            </svg>
+            Dados locais
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m5 12 4 4L19 6"></path>
+            </svg>
+            Licença MIT
+          </li>
+        </ul>
       </div>
 
-      <aside aria-label="Limites da ferramenta">
-        <strong>Um apoio à rotina, não um tratamento</strong>
-        <p>
-          O aplicativo não diagnostica olho seco, não mede a superfície ocular e
-          não substitui avaliação profissional quando há sintomas persistentes
-          ou sinais de alerta.
+      <aside class="download-panel" aria-labelledby="download-title">
+        <div class="panel-heading">
+          <div>
+            <p class="panel-kicker">Download oficial</p>
+            <h2 id="download-title">Escolha sua plataforma</h2>
+          </div>
+          <span class="free-badge">Grátis</span>
+        </div>
+
+        <a
+          class="store-button"
+          href={downloadLinks.store}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Baixar Dry Eye Widget para Windows na Microsoft Store"
+        >
+          <svg class="microsoft-mark" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M2 2h9.5v9.5H2z"></path>
+            <path d="M12.5 2H22v9.5h-9.5z"></path>
+            <path d="M2 12.5h9.5V22H2z"></path>
+            <path d="M12.5 12.5H22V22h-9.5z"></path>
+          </svg>
+          <span>
+            <small>Baixe para Windows</small>
+            <strong>Microsoft Store</strong>
+          </span>
+          <span class="recommended">Recomendado</span>
+        </a>
+
+        <a
+          class="mac-button"
+          href={downloadLinks.mac}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Baixar a versão mais recente do Dry Eye Widget para macOS"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M16.9 12.7c0-2.8 2.3-4.2 2.4-4.3a5.2 5.2 0 0 0-4.1-2.2c-1.7-.2-3.4 1-4.3 1s-2.2-1-3.7-1C5.3 6.2 3.5 7.3 2.5 9c-2.1 3.6-.5 9 1.5 11.9 1 1.4 2.1 3 3.7 2.9 1.5-.1 2-1 3.8-1s2.3 1 3.8 1c1.6 0 2.6-1.4 3.6-2.9 1.1-1.6 1.6-3.2 1.6-3.3-.1 0-3.6-1.4-3.6-4.9ZM14.1 4.4A5.1 5.1 0 0 0 15.3.8a5.2 5.2 0 0 0-3.4 1.7 4.8 4.8 0 0 0-1.2 3.4 4.3 4.3 0 0 0 3.4-1.5Z"></path>
+          </svg>
+          <span>
+            <small>Última versão para macOS</small>
+            <strong>Baixar arquivo .dmg</strong>
+          </span>
+          <svg class="download-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3v12m0 0 5-5m-5 5-5-5M5 21h14"></path>
+          </svg>
+        </a>
+
+        <div class="alternate-downloads">
+          <span>Outras opções para Windows</span>
+          <div>
+            <a
+              href={downloadLinks.windowsExe}
+              target="_blank"
+              rel="noopener noreferrer"
+            >Instalador x64 (.exe)</a>
+            <a
+              href={downloadLinks.windowsZip}
+              target="_blank"
+              rel="noopener noreferrer"
+            >Versão portátil (.zip)</a>
+          </div>
+        </div>
+
+        <p class="latest-note">
+          Os links para macOS e instaladores alternativos sempre apontam para o
+          release mais recente publicado no GitHub.
         </p>
       </aside>
+    </div>
+
+    <div class="feature-intro">
+      <p class="eyebrow">Feito para acompanhar, não interromper</p>
+      <h2>Um pequeno widget com uma rotina completa de cuidado visual.</h2>
+      <p>
+        Criado por um médico oftalmologista, o aplicativo combina lembretes
+        configuráveis, acompanhamento local e uma interface discreta no desktop.
+      </p>
     </div>
 
     <div class="tool-grid">
       <article>
         <span>01</span>
-        <h2>Lembretes discretos</h2>
+        <h3>Widget sempre visível</h3>
         <p>
-          Ajuda a interromper períodos longos de concentração contínua sem
-          bloquear o trabalho.
+          Uma bolinha flutuante com anel de progresso, encaixe lateral e acesso
+          rápido pela bandeja do sistema.
         </p>
       </article>
       <article>
         <span>02</span>
-        <h2>Pausas adaptáveis</h2>
+        <h3>Pausas guiadas</h3>
         <p>
-          Os intervalos podem ser ajustados à rotina. A regra 20-20-20 é uma
-          referência prática, não uma dose médica rígida.
+          Ciclos adaptáveis, overlay opcional e modo suave para lembrar de olhar
+          a cerca de seis metros por 20 segundos.
         </p>
       </article>
       <article>
         <span>03</span>
-        <h2>Consciência das piscadas</h2>
+        <h3>Lembretes de piscada</h3>
         <p>
-          O lembrete convida a relaxar o foco e piscar naturalmente, hábitos que
-          podem diminuir durante tarefas visuais intensas.
+          Alertas visuais ou sonoros com frequência ajustável para apoiar a
+          percepção das piscadas durante tarefas intensas.
+        </p>
+      </article>
+      <article>
+        <span>04</span>
+        <h3>Resumo e progresso</h3>
+        <p>
+          Visualize pausas, sequência, tempo de tela opcional e tendências da sua
+          rotina sem enviar os dados para servidores.
+        </p>
+      </article>
+      <article>
+        <span>05</span>
+        <h3>DVRS educativo</h3>
+        <p>
+          Um autorregistro de risco visual digital com 16 perguntas, acompanhado
+          de contexto claro: não é diagnóstico clínico.
+        </p>
+      </article>
+      <article>
+        <span>06</span>
+        <h3>Seus dados, no seu computador</h3>
+        <p>
+          Funciona offline, sem telemetria por padrão, com opções para exportar
+          ou apagar os dados armazenados localmente.
         </p>
       </article>
     </div>
 
-    <div class="tool-actions">
-      <a
-        class="primary-action"
-        href="https://github.com/Sudo-psc/dry-eye-widget"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Ver projeto e versões no GitHub
-        <span aria-hidden="true">↗</span>
-      </a>
-      <a href="/guias/telas-piscadas-desconforto">
-        Entender telas, piscadas e desconforto
-        <span aria-hidden="true">→</span>
-      </a>
+    <section class="guidance" aria-labelledby="guidance-title">
+      <div>
+        <p class="eyebrow">Uso responsável</p>
+        <h2 id="guidance-title">Um apoio à rotina, não um tratamento.</h2>
+      </div>
+      <div>
+        <p>
+          O Dry Eye Widget não diagnostica olho seco, não mede a superfície
+          ocular e não substitui avaliação profissional. Procure um
+          oftalmologista em caso de desconforto persistente, dor, vermelhidão
+          importante ou alteração visual.
+        </p>
+        <a href="/guias/telas-piscadas-desconforto">
+          Entender telas, piscadas e desconforto
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+
+    <div class="project-links">
+      <p>Transparente por princípio: código aberto e histórico público.</p>
+      <div>
+        <a
+          href={downloadLinks.repository}
+          target="_blank"
+          rel="noopener noreferrer"
+        >Ver código no GitHub <span aria-hidden="true">↗</span></a>
+        <a
+          href={downloadLinks.releases}
+          target="_blank"
+          rel="noopener noreferrer"
+        >Notas da última versão <span aria-hidden="true">↗</span></a>
+      </div>
     </div>
   </section>
 </Layout>
@@ -89,139 +270,456 @@ const breadcrumbs = [
 
   .tool-hero {
     display: grid;
-    grid-template-columns: minmax(0, 1.4fr) minmax(18rem, 0.6fr);
-    gap: clamp(2rem, 6vw, 6rem);
-    align-items: end;
-    padding-block: clamp(3rem, 8vw, 7rem);
+    grid-template-columns: minmax(0, 1.08fr) minmax(23rem, 0.72fr);
+    gap: clamp(3rem, 7vw, 7rem);
+    align-items: center;
+    padding-block: clamp(3rem, 7vw, 6.5rem);
     border-bottom: 1px solid var(--line);
   }
 
-  .eyebrow {
-    margin: 0 0 1rem;
-    color: var(--teal-dark);
-    font-size: 0.82rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+  .hero-copy {
+    min-width: 0;
+  }
+
+  .app-identity {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+    margin-bottom: 2.4rem;
+  }
+
+  .app-identity img {
+    width: 82px;
+    height: 82px;
+    border-radius: 19px;
+    box-shadow: 0 16px 40px rgb(7 29 69 / 18%);
+  }
+
+  .app-identity .eyebrow {
+    margin-bottom: 0.25rem;
+  }
+
+  .platforms {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.92rem;
   }
 
   h1 {
-    max-width: 12ch;
+    max-width: 11ch;
     margin: 0;
     font-family: var(--serif);
-    font-size: clamp(3rem, 7vw, 6.6rem);
+    font-size: clamp(3.2rem, 6.8vw, 6.7rem);
+    font-weight: 600;
     line-height: 0.92;
-    letter-spacing: -0.055em;
+    letter-spacing: -0.058em;
   }
 
   .lead {
-    max-width: 42rem;
+    max-width: 45rem;
     margin: 2rem 0 0;
     color: var(--ink-soft);
-    font-size: clamp(1.15rem, 2vw, 1.4rem);
+    font-size: clamp(1.12rem, 1.8vw, 1.35rem);
     line-height: 1.55;
   }
 
-  aside {
-    padding: 1.5rem;
-    border: 1px solid var(--line);
-    border-top: 4px solid var(--teal);
-    background: var(--mist);
+  .trust-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem 1.35rem;
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
   }
 
-  aside strong {
-    display: block;
-    font-family: var(--serif);
-    font-size: 1.25rem;
-  }
-
-  aside p {
-    margin: 0.6rem 0 0;
+  .trust-list li {
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
     color: var(--ink-soft);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .trust-list svg {
+    width: 18px;
+    fill: none;
+    stroke: var(--teal);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2.2;
+  }
+
+  .download-panel {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(1.4rem, 3vw, 2rem);
+    border: 1px solid #b9cbd8;
+    border-radius: 18px;
+    background:
+      radial-gradient(circle at 100% 0, rgb(8 127 149 / 12%), transparent 42%),
+      #f8fbfc;
+    box-shadow: var(--shadow);
+  }
+
+  .panel-heading {
+    display: flex;
+    gap: 1rem;
+    align-items: start;
+    justify-content: space-between;
+    margin-bottom: 1.4rem;
+  }
+
+  .panel-kicker {
+    margin: 0 0 0.2rem;
+    color: var(--teal-dark);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .panel-heading h2 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(1.55rem, 2.5vw, 2rem);
+    line-height: 1.1;
+  }
+
+  .free-badge {
+    flex: 0 0 auto;
+    padding: 0.32rem 0.62rem;
+    border: 1px solid rgb(8 127 149 / 25%);
+    border-radius: 999px;
+    background: var(--aqua);
+    color: var(--teal-dark);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .store-button,
+  .mac-button {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.9rem;
+    align-items: center;
+    min-height: 76px;
+    padding: 0.9rem 1rem;
+    border-radius: 10px;
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease,
+      border-color 180ms ease;
+  }
+
+  .store-button:hover,
+  .mac-button:hover {
+    transform: translateY(-2px);
+  }
+
+  .store-button {
+    background: #0067b8;
+    color: white;
+    box-shadow: 0 12px 28px rgb(0 103 184 / 22%);
+  }
+
+  .store-button:hover {
+    background: #005da6;
+    box-shadow: 0 16px 34px rgb(0 103 184 / 28%);
+  }
+
+  .microsoft-mark,
+  .mac-button > svg:first-child {
+    width: 30px;
+    fill: currentColor;
+  }
+
+  .store-button small,
+  .mac-button small {
+    display: block;
+    opacity: 0.82;
+    font-size: 0.72rem;
+    line-height: 1.2;
+  }
+
+  .store-button strong,
+  .mac-button strong {
+    display: block;
+    margin-top: 0.12rem;
+    font-size: 1.05rem;
+    line-height: 1.25;
+  }
+
+  .recommended {
+    padding: 0.28rem 0.48rem;
+    border: 1px solid rgb(255 255 255 / 42%);
+    border-radius: 4px;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .mac-button {
+    margin-top: 0.75rem;
+    border: 1px solid #b7c8d6;
+    background: white;
+    color: var(--ink);
+  }
+
+  .mac-button:hover {
+    border-color: var(--teal);
+    box-shadow: 0 12px 28px rgb(7 29 69 / 9%);
+  }
+
+  .download-icon {
+    width: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.7;
+  }
+
+  .alternate-downloads {
+    margin-top: 1.35rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .alternate-downloads > span {
+    color: var(--ink-soft);
+    font-size: 0.76rem;
+    font-weight: 750;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .alternate-downloads > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    margin-top: 0.55rem;
+  }
+
+  .alternate-downloads a {
+    color: var(--teal-dark);
+    font-size: 0.85rem;
+    font-weight: 750;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  .latest-note {
+    margin: 1rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.76rem;
+    line-height: 1.45;
+  }
+
+  .feature-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 0.5fr) minmax(0, 1fr) minmax(16rem, 0.55fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: start;
+    padding-block: clamp(4.5rem, 8vw, 8rem) clamp(3rem, 6vw, 5rem);
+  }
+
+  .feature-intro h2 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(2.3rem, 4.6vw, 4.5rem);
+    font-weight: 600;
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+  }
+
+  .feature-intro > p:last-child {
+    margin: 0;
+    color: var(--ink-soft);
   }
 
   .tool-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    border-bottom: 1px solid var(--line);
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
   }
 
   article {
-    padding: clamp(2rem, 4vw, 3.5rem);
+    min-height: 270px;
+    padding: clamp(1.7rem, 3.2vw, 3rem);
     border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
   }
 
-  article:last-child {
-    border-right: 0;
-  }
-
-  article span {
+  article > span {
     color: var(--teal-dark);
-    font-size: 0.8rem;
-    font-weight: 800;
+    font-size: 0.76rem;
+    font-weight: 850;
   }
 
-  article h2 {
-    margin: 1.5rem 0 0.75rem;
+  article h3 {
+    margin: 1.4rem 0 0.75rem;
     font-family: var(--serif);
-    font-size: clamp(1.45rem, 2.5vw, 2rem);
-    line-height: 1.1;
+    font-size: clamp(1.45rem, 2.2vw, 2rem);
+    line-height: 1.08;
   }
 
   article p {
     margin: 0;
     color: var(--ink-soft);
+    font-size: 0.96rem;
   }
 
-  .tool-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem 2rem;
-    align-items: center;
-    padding-top: 2.5rem;
+  .guidance {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+    gap: clamp(2.5rem, 8vw, 8rem);
+    margin-top: clamp(4rem, 8vw, 8rem);
+    padding: clamp(2rem, 5vw, 4.5rem);
+    border-top: 4px solid var(--teal);
+    background: var(--mist);
   }
 
-  .tool-actions a {
+  .guidance h2 {
+    max-width: 12ch;
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3.8rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .guidance > div:last-child > p {
+    margin: 0;
+    color: var(--ink-soft);
+  }
+
+  .guidance a {
     display: inline-flex;
-    gap: 0.75rem;
+    gap: 0.65rem;
     align-items: center;
+    margin-top: 1.5rem;
     color: var(--teal-dark);
     font-weight: 800;
     text-decoration: underline;
     text-decoration-thickness: 1px;
-    text-underline-offset: 0.35rem;
+    text-underline-offset: 4px;
   }
 
-  .tool-actions .primary-action {
-    padding: 0.85rem 1.15rem;
-    background: var(--teal-dark);
-    color: white;
-    text-decoration: none;
+  .project-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 2.5rem;
   }
 
-  @media (max-width: 760px) {
+  .project-links p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+  }
+
+  .project-links > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+  }
+
+  .project-links a {
+    color: var(--teal-dark);
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+  }
+
+  @media (max-width: 980px) {
+    .tool-hero {
+      grid-template-columns: 1fr;
+    }
+
+    .download-panel {
+      width: min(100%, 39rem);
+    }
+
+    .feature-intro {
+      grid-template-columns: 1fr 1.6fr;
+    }
+
+    .feature-intro > p:last-child {
+      grid-column: 2;
+    }
+
+    .tool-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 680px) {
     .tool-page {
       padding-block: 1.25rem 4rem;
     }
 
     .tool-hero {
-      grid-template-columns: 1fr;
-      padding-block: 2.5rem 3rem;
+      gap: 2.8rem;
+      padding-block: 2.5rem 3.5rem;
     }
 
-    .tool-grid {
+    .app-identity {
+      align-items: flex-start;
+      margin-bottom: 1.8rem;
+    }
+
+    .app-identity img {
+      width: 64px;
+      height: 64px;
+      border-radius: 15px;
+    }
+
+    h1 {
+      font-size: clamp(3rem, 15vw, 4.4rem);
+    }
+
+    .download-panel {
+      padding: 1.15rem;
+      border-radius: 14px;
+    }
+
+    .recommended {
+      display: none;
+    }
+
+    .feature-intro {
+      grid-template-columns: 1fr;
+      padding-block: 4.5rem 3rem;
+    }
+
+    .feature-intro > p:last-child {
+      grid-column: auto;
+    }
+
+    .tool-grid,
+    .guidance {
       grid-template-columns: 1fr;
     }
 
     article {
-      padding-inline: 0;
-      border-right: 0;
-      border-bottom: 1px solid var(--line);
+      min-height: auto;
     }
 
-    article:last-child {
-      border-bottom: 0;
+    .guidance {
+      padding: 1.6rem;
+    }
+
+    .project-links {
+      display: grid;
     }
   }
 </style>
