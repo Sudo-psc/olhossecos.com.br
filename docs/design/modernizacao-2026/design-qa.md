@@ -44,6 +44,10 @@ As versões desktop finais estão em
    e arte de marca foram preservados; nenhuma imagem de preenchimento foi
    introduzida.
 
+O candidato de release foi revalidado a partir de um worktree limpo. O
+placeholder da busca usa `#66778e` sobre branco, com contraste calculado de
+**4,57:1**.
+
 ## Desvios intencionais
 
 - O protótipo de guia mostrava o sumário aberto para demonstrar suas seções. Na

@@ -54,9 +54,9 @@ regressões neste candidato, mas não substituem Core Web Vitals de campo.
 
 | Estado                  |      LCP antes |  LCP depois | CLS depois |
 | ----------------------- | -------------: | ----------: | ---------: |
-| Início desktop / mobile |    220 / 68 ms | 284 / 52 ms |      0 / 0 |
-| Guia desktop / mobile   |    88 / 508 ms |  68 / 44 ms |      0 / 0 |
-| Busca desktop / mobile  | 376 / 1.380 ms |  68 / 56 ms |      0 / 0 |
+| Início desktop / mobile |    220 / 68 ms | 248 / 72 ms |      0 / 0 |
+| Guia desktop / mobile   |    88 / 508 ms |  96 / 88 ms |      0 / 0 |
+| Busca desktop / mobile  | 376 / 1.380 ms | 124 / 84 ms |      0 / 0 |
 
 Todos os seis cenários ficaram sem overflow horizontal, com um único H1, sem
 erros de console e com LCP local abaixo de 2,5 s.
@@ -70,6 +70,8 @@ erros de console e com LCP local abaixo de 2,5 s.
 - Menu: abre por teclado, fecha com `Escape` e devolve foco ao botão.
 - Foco: contorno teal visível nos controles; busca também sinaliza foco via
   `:focus-within`.
+- Contraste: placeholder da busca em `#66778e` sobre branco, relação calculada
+  de 4,57:1.
 - Movimento: transições são removidas quando `prefers-reduced-motion` está ativo.
 
 ## Integridade técnica
