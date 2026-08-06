@@ -1,7 +1,7 @@
 # Conceitos visuais — modernização 2026
 
 Data: 6 de agosto de 2026  
-Status: **aguardando aprovação visual; nenhuma alteração de interface foi implementada**
+Status: **direção A + progresso de B aprovada e implementada localmente; sem deploy**
 
 ## Como revisar
 
@@ -113,8 +113,11 @@ adotar uma grade generalizada de cards.
 
 ## Limites desta etapa
 
-As telas são protótipos visuais estáticos. Elas não alteram rotas, JSON-LD,
-canonical, sitemap, IndexNow, CSP, Nginx ou o build de produção. Interações,
-contraste, semântica final, foco, leitura por teclado, performance e regressão de
-SEO serão validados somente depois da aprovação de uma direção e durante a
-implementação incremental.
+Os conceitos continuam sendo a referência visual. A implementação aprovada está
+documentada no [relatório de implementação](implementation-report.md), e a
+comparação normalizada entre referência e resultado está no
+[Design QA](design-qa.md).
+
+O modo escuro permanece somente como protótipo. Nenhuma alteração foi feita em
+Nginx, CSP, IndexNow ou no diretório `dist` de produção; também não houve push ou
+deploy.
