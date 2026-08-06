@@ -21,46 +21,46 @@ de 2026.
 - Alterações: conversão para AVIF, WebP e PNG, aplicação de fundo branco e
   redimensionamento. A versão adaptada continua sob CC BY-SA 3.0.
 
-### Esquema das camadas do filme lacrimal
-
-- Arquivo de origem: `Tear_film.svg`
-- Autor: Vinne2
-- Página do arquivo:
-  https://commons.wikimedia.org/wiki/File:Tear_film.svg
-- Arquivo original:
-  https://upload.wikimedia.org/wikipedia/commons/d/d6/Tear_film.svg
-- Licença escolhida entre as oferecidas pelo autor: Creative Commons
-  Attribution-ShareAlike 4.0 International
-- Licença: https://creativecommons.org/licenses/by-sa/4.0/
-- SHA-256 do SVG baixado:
-  `da7aa198a4ff21d4fc7473d8357f94cbb955f667c56c3192571abb17f3449cce`
-- Alterações: conversão para AVIF, WebP e PNG, aplicação de fundo branco e
-  redimensionamento. A versão adaptada continua sob CC BY-SA 4.0.
-
 ## Ilustrações originais geradas com IA
 
-Modo de geração: ferramenta `imagegen` integrada ao ambiente Codex. As três
-imagens são identificadas como esquemáticas nas legendas e não representam
-exames, protocolos ou resultados clínicos reais.
+Modo de geração: ferramenta `imagegen` integrada ao ambiente Codex. As quatro
+imagens são identificadas como ilustrações geradas com IA nas legendas. Duas
+adotam estilo visual realista e duas são esquemáticas; nenhuma representa
+fotografia clínica, exame, protocolo ou resultado clínico real.
 
-### Filme lacrimal
+### Filme lacrimal — visualização realista
 
 Prompt final:
 
-> Create an original, calm, scientifically grounded patient-education
-> illustration for a Brazilian dry-eye information portal. Subject: how a
-> healthy tear film protects the ocular surface. Show a clean side/three-quarter
-> macro view of a human eye surface and cornea, with three subtle translucent
-> fluid layers flowing smoothly over the cornea during a blink; suggest the
-> outer lipid layer, middle aqueous layer, and inner mucin interface through
-> distinct but harmonious textures and thicknesses, without labels, arrows,
-> letters, numbers, logos, watermarks, or UI. Medical-editorial vector/3D hybrid
-> style, sophisticated but friendly, anatomically plausible,
-> non-photorealistic, no instruments, no pain or redness. Palette: deep navy,
-> teal, pale aqua, white; only a tiny warm coral accent if needed. Generous
-> negative space, balanced horizontal composition, soft diffuse light, crisp
-> edges, accessible contrast. Intended placement inside a white editorial
-> article card. Aspect ratio 3:2, high resolution.
+> Edit the supplied eye image for a Brazilian patient-education page about dry
+> eye. Replace the detached translucent ribbons with a realistic, extremely thin
+> tear film that remains fully adherent to and follows the curvature of the
+> corneal surface. The film should read only as a subtle continuous moist optical
+> sheen and delicate lipid interference highlights hugging the cornea after a
+> blink; no layer may project into the air or extend away from the eye. Preserve
+> the natural eye, eyelids, eyelashes, iris, three-quarter macro framing,
+> white-to-pale-blue clinical background, soft studio lighting and horizontal
+> 3:2 composition. No detached sheets, ribbons, streams, waves, droplets, labels,
+> text, arrows, logo, watermark, UI, instruments, blood, redness, fantasy fluid,
+> neon glow or uncanny anatomy.
+
+### Componentes do filme lacrimal — corte microscópico realista
+
+Prompt final:
+
+> Create a realistic, professional medical visualization of the tear-film
+> components replacing a simple numbered diagram. Show a highly magnified
+> oblique cross-sectional view of the living corneal surface, with anatomically
+> believable translucent corneal epithelial cells at the bottom; above them a
+> continuous hydrated mucoaqueous tear phase with a subtle concentration
+> gradient toward the epithelial glycocalyx; at the very top an extremely thin
+> lipid film with delicate warm interference highlights. The interfaces must
+> look integrated and dynamic, not like rigid slabs. Premium photorealistic
+> medical CGI, horizontal 3:2 composition, white-to-pale-blue clinical
+> background, optically clear aqua and pale teal fluids, natural translucent
+> tissue and restrained pale gold on the lipid surface. No labels, numbers,
+> arrows, brackets, text, logo, watermark, UI, large bubbles, fantasy liquid,
+> neon glow, gore or instruments.
 
 ### Meibografia e AS-OCT
 

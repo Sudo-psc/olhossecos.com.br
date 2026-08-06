@@ -25,44 +25,38 @@ export interface FigureAsset {
 
 export const figures = {
   tearFilmEducation: {
-    src: "/images/educacao/filme-lacrimal-educacao.jpg",
+    src: "/images/educacao/filme-lacrimal-realista.jpg",
     avifSrcSet:
-      "/images/educacao/filme-lacrimal-educacao-760.avif 760w, /images/educacao/filme-lacrimal-educacao-1200.avif 1200w",
+      "/images/educacao/filme-lacrimal-realista-760.avif 760w, /images/educacao/filme-lacrimal-realista-1200.avif 1200w",
     webpSrcSet:
-      "/images/educacao/filme-lacrimal-educacao-760.webp 760w, /images/educacao/filme-lacrimal-educacao-1200.webp 1200w",
+      "/images/educacao/filme-lacrimal-realista-760.webp 760w, /images/educacao/filme-lacrimal-realista-1200.webp 1200w",
     width: 1200,
     height: 800,
-    alt: "Ilustração de camadas fluidas transparentes se distribuindo sobre a superfície de um olho.",
+    alt: "Visualização realista de uma película lacrimal fina se distribuindo sobre a córnea de um olho.",
     caption:
       "A cada piscada, o filme lacrimal se redistribui sobre a superfície ocular. Seus componentes funcionam de forma integrada e dinâmica.",
     credit: {
       label: "Ilustração original do portal",
     },
     disclosure:
-      "Imagem gerada com IA para fins educativos; representação esquemática, sem escala anatômica.",
+      "Imagem gerada com IA para fins educativos; representação em estilo realista, sem escala anatômica e não é uma fotografia clínica.",
   },
-  tearFilmLayersOpen: {
-    src: "/images/educacao/camadas-filme-lacrimal-cc-by-sa.png",
+  tearFilmLayersEducation: {
+    src: "/images/educacao/camadas-filme-lacrimal-realista.jpg",
     avifSrcSet:
-      "/images/educacao/camadas-filme-lacrimal-cc-by-sa-760.avif 760w, /images/educacao/camadas-filme-lacrimal-cc-by-sa-1200.avif 1200w",
+      "/images/educacao/camadas-filme-lacrimal-realista-760.avif 760w, /images/educacao/camadas-filme-lacrimal-realista-1200.avif 1200w",
     webpSrcSet:
-      "/images/educacao/camadas-filme-lacrimal-cc-by-sa-760.webp 760w, /images/educacao/camadas-filme-lacrimal-cc-by-sa-1200.webp 1200w",
+      "/images/educacao/camadas-filme-lacrimal-realista-760.webp 760w, /images/educacao/camadas-filme-lacrimal-realista-1200.webp 1200w",
     width: 1200,
-    height: 1200,
-    alt: "Esquema numerado das camadas do filme lacrimal e do epitélio da córnea.",
+    height: 800,
+    alt: "Visualização microscópica ampliada do epitélio da córnea, da fase mucoaquosa e da película lipídica superficial.",
     caption:
-      "Esquema didático: 1, camada lipídica; 2, componente aquoso; 3, interface rica em mucinas; 4, epitélio da córnea. Na realidade, essas interfaces não são blocos rígidos.",
+      "Visualização ampliada: uma película lipídica muito fina recobre a fase mucoaquosa; junto ao epitélio, as mucinas formam uma interface gradual. No olho real, esses componentes são integrados e dinâmicos.",
     credit: {
-      label: "Vinne2 — Wikimedia Commons",
-      url: "https://commons.wikimedia.org/wiki/File:Tear_film.svg",
+      label: "Ilustração original do portal",
     },
-    license: {
-      label: "CC BY-SA 4.0",
-      url: "https://creativecommons.org/licenses/by-sa/4.0/",
-    },
-    modification:
-      "Conversão do SVG para formatos raster, fundo branco e redimensionamento.",
-    presentation: "compact",
+    disclosure:
+      "Imagem gerada com IA para fins educativos; espessuras e estruturas foram ampliadas e não estão em escala anatômica.",
   },
   diagnosticImagingEducation: {
     src: "/images/educacao/meibografia-as-oct-educacao.jpg",
@@ -127,19 +121,9 @@ export const openImageCredits = [
   {
     title: "Sistema lacrimal",
     author: "Jmarchn",
-    sourceUrl:
-      "https://commons.wikimedia.org/wiki/File:Tear_system-pt.svg",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Tear_system-pt.svg",
     licenseLabel: "CC BY-SA 3.0",
     licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
-    modification:
-      "Conversão do SVG para formatos raster, fundo branco e redimensionamento.",
-  },
-  {
-    title: "Esquema do filme lacrimal",
-    author: "Vinne2",
-    sourceUrl: "https://commons.wikimedia.org/wiki/File:Tear_film.svg",
-    licenseLabel: "CC BY-SA 4.0",
-    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
     modification:
       "Conversão do SVG para formatos raster, fundo branco e redimensionamento.",
   },
