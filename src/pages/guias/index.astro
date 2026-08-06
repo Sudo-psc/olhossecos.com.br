@@ -48,6 +48,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
           aria-label="Limpar busca"
           hidden
         >
+          <span>Limpar</span>
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="m7 7 10 10M17 7 7 17"></path>
           </svg>
@@ -59,19 +60,31 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
   <section class="guide-library">
     <div class="page-shell">
       <div class="library-toolbar">
-        <div class="category-filters" aria-label="Filtrar guias por categoria">
-          {
-            categories.map((category, index) => (
-              <button
-                type="button"
-                data-category={category}
-                aria-pressed={index === 0 ? "true" : "false"}
-              >
-                {category}
-              </button>
-            ))
-          }
-        </div>
+        <details class="filter-disclosure" open>
+          <summary>
+            <span>Filtros</span>
+            <span id="active-filter-label">Todos</span>
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="m5 8 5 5 5-5"></path>
+            </svg>
+          </summary>
+          <div
+            class="category-filters"
+            aria-label="Filtrar guias por categoria"
+          >
+            {
+              categories.map((category, index) => (
+                <button
+                  type="button"
+                  data-category={category}
+                  aria-pressed={index === 0 ? "true" : "false"}
+                >
+                  {category}
+                </button>
+              ))
+            }
+          </div>
+        </details>
         <p id="search-status" role="status" aria-live="polite">
           {guides.length} guias disponíveis.
         </p>
@@ -145,11 +158,17 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
       document.querySelector<HTMLElement>("#portal-results");
     const library = document.querySelector<HTMLElement>(".guide-library");
     const intro = document.querySelector<HTMLElement>(".library-intro");
+    const filterDisclosure =
+      document.querySelector<HTMLDetailsElement>(".filter-disclosure");
+    const activeFilterLabel = document.querySelector<HTMLElement>(
+      "#active-filter-label",
+    );
     const pages = [
       ...document.querySelectorAll<HTMLElement>("[data-page-result]"),
     ];
     const params = new URLSearchParams(window.location.search);
     let activeCategory = "Todos";
+    let hadSearchTerm = false;
 
     const normalize = (value: string) =>
       value
@@ -184,9 +203,15 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
 
       const total = visibleGuides + visiblePages;
       const filtered = term.length > 0 || activeCategory !== "Todos";
+      const hasSearchTerm = term.length > 0;
 
-      library?.classList.toggle("has-active-search", term.length > 0);
-      intro?.classList.toggle("has-active-search", term.length > 0);
+      library?.classList.toggle("has-active-search", hasSearchTerm);
+      intro?.classList.toggle("has-active-search", hasSearchTerm);
+      if (filterDisclosure) {
+        if (hasSearchTerm && !hadSearchTerm) filterDisclosure.open = false;
+        if (!hasSearchTerm) filterDisclosure.open = true;
+      }
+      hadSearchTerm = hasSearchTerm;
       if (portalResults) portalResults.hidden = visiblePages === 0;
       if (clear) clear.hidden = term.length === 0;
       if (empty) empty.hidden = total !== 0;
@@ -200,10 +225,17 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
     buttons.forEach((button) => {
       button.addEventListener("click", () => {
         activeCategory = button.dataset.category ?? "Todos";
+        if (activeFilterLabel) activeFilterLabel.textContent = activeCategory;
         buttons.forEach((item) =>
           item.setAttribute("aria-pressed", String(item === button)),
         );
         filter();
+        if (
+          filterDisclosure &&
+          window.matchMedia("(max-width: 760px)").matches
+        ) {
+          filterDisclosure.open = false;
+        }
       });
     });
 
@@ -212,6 +244,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
       if (!search) return;
       search.value = "";
       activeCategory = "Todos";
+      if (activeFilterLabel) activeFilterLabel.textContent = activeCategory;
       buttons.forEach((item, index) =>
         item.setAttribute("aria-pressed", String(index === 0)),
       );
@@ -250,6 +283,11 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
     border-radius: 8px;
   }
 
+  .guide-search:focus-within {
+    outline: 3px solid var(--teal);
+    outline-offset: 3px;
+  }
+
   .guide-search svg {
     width: 27px;
     fill: none;
@@ -271,10 +309,13 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
   }
 
   .guide-search button {
-    width: 44px;
+    min-width: 44px;
     height: 44px;
-    display: grid;
-    place-items: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding-inline: 0.7rem;
     border: 0;
     border-radius: 50%;
     background: transparent;
@@ -287,7 +328,12 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
   }
 
   .guide-search button svg {
-    width: 22px;
+    width: 18px;
+  }
+
+  .guide-search button span {
+    font-size: 0.74rem;
+    font-weight: 800;
   }
 
   .guide-search button[hidden] {
@@ -298,11 +344,105 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
     padding-block: clamp(2rem, 5vw, 4.5rem) clamp(4rem, 9vw, 8rem);
   }
 
+  .library-intro.has-active-search {
+    padding-block: 1.5rem 1rem;
+  }
+
+  .library-intro.has-active-search .page-shell > p {
+    display: none;
+  }
+
+  .library-intro.has-active-search .page-title {
+    font-size: clamp(2.5rem, 4.2vw, 4rem);
+    line-height: 1;
+  }
+
+  .library-intro.has-active-search .guide-search {
+    min-height: 56px;
+    margin-top: 1rem;
+  }
+
+  .guide-library.has-active-search {
+    padding-top: 1rem;
+  }
+
   .library-toolbar {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 2rem;
+  }
+
+  .filter-disclosure {
+    min-width: 0;
+  }
+
+  .filter-disclosure summary {
+    display: none;
+    min-height: 44px;
+    grid-template-columns: auto minmax(0, 1fr) 20px;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: var(--control-radius);
+    color: var(--teal-dark);
+    font-size: 0.74rem;
+    font-weight: 800;
+    list-style: none;
+  }
+
+  .filter-disclosure summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .filter-disclosure summary span:nth-child(2) {
+    overflow: hidden;
+    color: var(--ink-soft);
+    font-weight: 650;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .filter-disclosure summary svg {
+    width: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+    transition: transform 180ms ease;
+  }
+
+  .filter-disclosure[open] summary svg {
+    transform: rotate(180deg);
+  }
+
+  .filter-disclosure:not([open]) > .category-filters {
+    display: none;
+  }
+
+  .guide-library.has-active-search .filter-disclosure summary {
+    display: grid;
+  }
+
+  .guide-library.has-active-search .filter-disclosure[open] {
+    width: min(100%, 760px);
+  }
+
+  .guide-library.has-active-search .filter-disclosure[open] summary {
+    margin-bottom: 0.75rem;
+  }
+
+  .guide-library.has-active-search #search-status {
+    order: -1;
+    margin-block: 0.65rem;
+    font-weight: 750;
+  }
+
+  .guide-library.has-active-search .portal-results {
+    margin-bottom: 1.5rem;
   }
 
   .category-filters {
@@ -423,6 +563,11 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
     color: var(--teal-dark);
   }
 
+  .guide-library.has-active-search .guide-list a {
+    min-height: 128px;
+    padding-block: 1.2rem;
+  }
+
   .guide-number {
     color: var(--teal-dark);
     font-family: var(--serif);
@@ -484,16 +629,11 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
 
   @media (max-width: 760px) {
     .library-intro.has-active-search {
-      padding-block: 1.5rem 1rem;
-    }
-
-    .library-intro.has-active-search .breadcrumbs,
-    .library-intro.has-active-search .page-shell > p {
-      display: none;
+      padding-block: 1rem 0.85rem;
     }
 
     .library-intro.has-active-search .page-title {
-      font-size: 2.35rem;
+      font-size: 2.3rem;
       line-height: 1;
     }
 
@@ -506,25 +646,54 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
       padding-top: 1rem;
     }
 
-    .guide-library.has-active-search .category-filters {
-      display: none;
-    }
-
     .library-toolbar {
-      display: block;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
     }
 
     #search-status {
-      margin: 0 0 1.4rem;
+      min-width: 0;
+      margin: 0;
+    }
+
+    .filter-disclosure {
+      margin-left: auto;
+    }
+
+    .filter-disclosure summary {
+      display: grid;
+      min-width: 116px;
+    }
+
+    .filter-disclosure[open] {
+      width: 100%;
+    }
+
+    .filter-disclosure[open] .category-filters {
+      margin-bottom: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--line);
     }
 
     .portal-results a {
       grid-template-columns: 1fr 24px;
+      padding-block: 0.8rem;
     }
 
     .portal-results a > span,
     .portal-results a > small {
       grid-column: 1;
+    }
+
+    .guide-library.has-active-search .portal-results {
+      margin-bottom: 1rem;
+      padding: 1rem;
+    }
+
+    .guide-library.has-active-search .portal-results a > small {
+      display: none;
     }
 
     .portal-results a > svg {
@@ -536,6 +705,11 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
       grid-template-columns: 58px 1fr 24px;
       gap: 1rem;
       min-height: 180px;
+    }
+
+    .guide-library.has-active-search .guide-list a {
+      min-height: 96px;
+      padding-block: 0.85rem;
     }
 
     .guide-number {
