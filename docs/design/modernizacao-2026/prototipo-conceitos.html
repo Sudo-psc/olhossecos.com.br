@@ -1,0 +1,1594 @@
+<!doctype html>
+<html lang="pt-BR" data-concept="a" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Conceitos 2026 — Olho Seco</title>
+    <style>
+      :root {
+        --ink: #071d45;
+        --ink-soft: #334969;
+        --teal: #087f95;
+        --teal-dark: #00657a;
+        --aqua: #dff3f7;
+        --mist: #eff8fb;
+        --line: #c8d7e2;
+        --paper: #fff;
+        --coral: #e95f4f;
+        --coral-text: #a93c32;
+        --coral-soft: #fff6f3;
+        --serif:
+          "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+        --sans:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        --radius: 6px;
+        --shadow: 0 18px 50px rgb(7 29 69 / 8%);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        background: var(--paper);
+        color: var(--ink);
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--paper);
+        font-family: var(--sans);
+        font-size: 16px;
+        line-height: 1.55;
+      }
+
+      button,
+      input,
+      summary {
+        font: inherit;
+      }
+
+      button,
+      summary {
+        cursor: pointer;
+      }
+
+      button:focus-visible,
+      a:focus-visible,
+      input:focus-visible,
+      summary:focus-visible {
+        outline: 3px solid var(--teal);
+        outline-offset: 3px;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .prototype-toolbar {
+        position: sticky;
+        z-index: 100;
+        top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        min-height: 48px;
+        padding: 0.45rem max(1rem, calc((100vw - 1380px) / 2));
+        border-bottom: 1px solid #cbd5e1;
+        background: #f8fafc;
+        color: #0f172a;
+        font-size: 0.76rem;
+      }
+
+      .prototype-toolbar strong {
+        white-space: nowrap;
+      }
+
+      .prototype-toolbar > div {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.35rem;
+      }
+
+      .prototype-toolbar button {
+        min-height: 34px;
+        padding: 0.35rem 0.65rem;
+        border: 1px solid #cbd5e1;
+        border-radius: 999px;
+        background: white;
+        color: #334155;
+        font-weight: 700;
+      }
+
+      .prototype-toolbar button[aria-pressed="true"] {
+        border-color: var(--ink);
+        background: var(--ink);
+        color: white;
+      }
+
+      .site-header {
+        background: rgb(255 255 255 / 97%);
+      }
+
+      .shell {
+        width: min(100% - 4rem, 1340px);
+        margin-inline: auto;
+      }
+
+      .header-inner {
+        min-height: 76px;
+        display: grid;
+        grid-template-columns: 240px 1fr auto;
+        align-items: center;
+        gap: 2rem;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.7rem;
+        width: max-content;
+      }
+
+      .brand svg {
+        width: 48px;
+        fill: none;
+        stroke: var(--ink);
+        stroke-width: 2;
+      }
+
+      .brand > span {
+        display: grid;
+        line-height: 1;
+      }
+
+      .brand strong {
+        font-family: var(--serif);
+        font-size: 1.55rem;
+      }
+
+      .brand small {
+        margin-top: 0.35rem;
+        color: var(--teal-dark);
+        font-size: 0.75rem;
+      }
+
+      .desktop-nav {
+        display: flex;
+        justify-content: center;
+        gap: clamp(0.9rem, 2vw, 2rem);
+        font-size: 0.84rem;
+        font-weight: 700;
+      }
+
+      .source-link {
+        padding-left: 1.2rem;
+        border-left: 1px solid var(--line);
+        color: var(--teal-dark);
+        font-size: 0.82rem;
+        font-weight: 750;
+      }
+
+      .menu-icon {
+        display: none;
+        width: 44px;
+        height: 44px;
+        border: 0;
+        background: transparent;
+        color: var(--ink);
+        font-size: 1.35rem;
+      }
+
+      .screen {
+        display: none;
+      }
+
+      .screen.is-active {
+        display: block;
+      }
+
+      .eyebrow {
+        margin: 0 0 0.65rem;
+        color: var(--teal-dark);
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: var(--serif);
+        font-weight: 600;
+        letter-spacing: -0.04em;
+      }
+
+      h1 {
+        margin-bottom: 1.15rem;
+        font-size: clamp(3.2rem, 5.6vw, 5.7rem);
+        line-height: 0.96;
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .hero-grid {
+        min-height: 600px;
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(420px, 0.95fr);
+        align-items: center;
+        gap: clamp(2rem, 6vw, 6rem);
+        padding-block: clamp(3rem, 5vw, 5rem);
+      }
+
+      .hero-copy {
+        position: relative;
+        z-index: 2;
+      }
+
+      .lead {
+        max-width: 670px;
+        margin-bottom: 1.4rem;
+        color: var(--ink-soft);
+        font-size: clamp(1.05rem, 1.7vw, 1.25rem);
+      }
+
+      .search {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 0.7rem;
+        max-width: 680px;
+        min-height: 58px;
+        margin-top: 1.65rem;
+        padding: 0.4rem 0.45rem 0.4rem 1rem;
+        border: 1.5px solid var(--ink);
+        border-radius: var(--radius);
+        background: var(--paper);
+      }
+
+      .search svg {
+        width: 22px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.8;
+      }
+
+      .search input {
+        min-width: 0;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: var(--ink);
+      }
+
+      .search button {
+        min-height: 44px;
+        padding: 0.55rem 1rem;
+        border: 0;
+        border-radius: calc(var(--radius) - 1px);
+        background: var(--teal-dark);
+        color: white;
+        font-size: 0.82rem;
+        font-weight: 800;
+      }
+
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+      }
+
+      .chips span {
+        padding: 0.38rem 0.7rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: var(--teal-dark);
+        font-size: 0.72rem;
+        font-weight: 700;
+      }
+
+      .hero-art {
+        position: relative;
+        min-height: 440px;
+      }
+
+      .hero-art img {
+        width: 100%;
+        height: 440px;
+        object-fit: cover;
+        object-position: 47% center;
+      }
+
+      .tear-curve {
+        position: absolute;
+        right: -8vw;
+        bottom: -55px;
+        left: 34vw;
+        height: 130px;
+        border-top: 2px solid #29a7c1;
+        border-radius: 50%;
+        transform: rotate(-3deg);
+      }
+
+      .safety {
+        border-bottom: 1px solid #f1afa8;
+        background: var(--coral-soft);
+      }
+
+      .safety-inner {
+        min-height: 94px;
+        display: grid;
+        grid-template-columns: auto 1.25fr 2fr auto;
+        align-items: center;
+        gap: 1.5rem;
+        color: var(--coral-text);
+      }
+
+      .safety-icon {
+        width: 38px;
+        height: 38px;
+        display: grid;
+        place-items: center;
+        border: 1px solid var(--coral);
+        border-radius: 50%;
+        color: var(--coral-text);
+        font-weight: 900;
+      }
+
+      .safety h2 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 1.65rem;
+        line-height: 1.05;
+      }
+
+      .safety ul {
+        display: flex;
+        gap: 1.5rem;
+        margin: 0;
+        padding: 0;
+        color: var(--ink);
+        font-size: 0.78rem;
+        font-weight: 700;
+        list-style: none;
+      }
+
+      .safety a {
+        border-bottom: 1px solid currentColor;
+        font-size: 0.8rem;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .paths {
+        padding-block: 3.5rem;
+      }
+
+      .paths-grid {
+        display: grid;
+        grid-template-columns: 0.55fr 1fr;
+        gap: 5rem;
+      }
+
+      .paths h2 {
+        max-width: 430px;
+        margin-bottom: 0.9rem;
+        font-size: clamp(2.6rem, 4vw, 4.3rem);
+        line-height: 0.98;
+      }
+
+      .paths-intro p {
+        max-width: 390px;
+        color: var(--ink-soft);
+      }
+
+      .path-list {
+        margin: 0;
+        padding: 0;
+        border-top: 1px solid var(--line);
+        list-style: none;
+      }
+
+      .path-list li {
+        display: grid;
+        grid-template-columns: 3.7rem 1fr auto;
+        align-items: center;
+        gap: 1rem;
+        min-height: 92px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .path-list .num {
+        color: var(--teal);
+        font-family: var(--serif);
+        font-size: 2rem;
+      }
+
+      .path-list strong {
+        font-family: var(--serif);
+        font-size: 1.25rem;
+      }
+
+      .path-list a {
+        color: var(--teal-dark);
+        font-size: 0.78rem;
+        font-weight: 800;
+      }
+
+      .page-head {
+        border-bottom: 1px solid var(--line);
+      }
+
+      .compact-head {
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.65fr);
+        align-items: end;
+        gap: clamp(2rem, 6vw, 6rem);
+        padding-block: 2.4rem;
+      }
+
+      .crumbs {
+        margin-bottom: 0.7rem;
+        color: #5d718c;
+        font-size: 0.72rem;
+      }
+
+      .compact-head h1 {
+        max-width: 900px;
+        margin-bottom: 0.85rem;
+        font-size: clamp(2.7rem, 4.8vw, 4.8rem);
+      }
+
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem 1rem;
+        color: #5d718c;
+        font-size: 0.72rem;
+      }
+
+      .summary {
+        margin: 0;
+        padding: 1rem 0 1rem 1.2rem;
+        border-left: 2px solid var(--teal);
+        color: var(--ink-soft);
+        font-size: 0.9rem;
+      }
+
+      .progress-track {
+        height: 4px;
+        background: #e8f0f4;
+      }
+
+      .progress-track span {
+        display: block;
+        width: 34%;
+        height: 100%;
+        background: var(--teal);
+      }
+
+      .reading-layout {
+        display: grid;
+        grid-template-columns: 250px minmax(0, 740px);
+        justify-content: center;
+        gap: clamp(3rem, 8vw, 7rem);
+        padding-block: 2.6rem 6rem;
+      }
+
+      .toc {
+        align-self: start;
+        border-top: 1px solid var(--line);
+      }
+
+      .toc summary {
+        padding: 0.8rem 0;
+        color: var(--teal-dark);
+        font-size: 0.72rem;
+        font-weight: 850;
+        letter-spacing: 0.1em;
+        list-style: none;
+        text-transform: uppercase;
+      }
+
+      .toc summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .toc a {
+        display: block;
+        padding: 0.65rem 0;
+        border-top: 1px solid var(--line);
+        color: var(--ink-soft);
+        font-size: 0.74rem;
+        line-height: 1.35;
+      }
+
+      .toc a:first-of-type {
+        color: var(--teal-dark);
+        font-weight: 800;
+      }
+
+      .prose {
+        color: var(--ink-soft);
+        font-size: 1.05rem;
+        line-height: 1.78;
+      }
+
+      .prose h2 {
+        margin: 0 0 1rem;
+        color: var(--ink);
+        font-size: clamp(2rem, 3.3vw, 3rem);
+        line-height: 1.04;
+      }
+
+      .key-points {
+        margin: 1.6rem 0 2rem;
+        padding: 1.2rem 1.4rem;
+        border-left: 3px solid var(--teal);
+        background: var(--mist);
+      }
+
+      .key-points strong {
+        color: var(--ink);
+      }
+
+      .key-points ul {
+        margin-bottom: 0;
+        padding-left: 1.2rem;
+      }
+
+      .library-head {
+        padding-block: 2.2rem 1.6rem;
+      }
+
+      .library-head h1 {
+        max-width: 950px;
+        margin-bottom: 0.8rem;
+        font-size: clamp(2.8rem, 4.8vw, 4.8rem);
+      }
+
+      .library-head .search {
+        max-width: 760px;
+        margin-top: 1.1rem;
+      }
+
+      .search-layout {
+        padding-block: 1.5rem 5rem;
+      }
+
+      .result-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .result-bar p {
+        margin: 0;
+        color: var(--ink-soft);
+        font-size: 0.82rem;
+      }
+
+      .filters {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+      }
+
+      .filters summary {
+        min-height: 44px;
+        padding: 0.65rem 0.9rem;
+        color: var(--teal-dark);
+        font-size: 0.78rem;
+        font-weight: 800;
+        list-style: none;
+      }
+
+      .results {
+        border-top: 1px solid var(--line);
+      }
+
+      .result {
+        display: grid;
+        grid-template-columns: 70px 1fr auto;
+        align-items: center;
+        gap: 1.4rem;
+        padding: 1.2rem 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .result .num {
+        color: var(--teal);
+        font-family: var(--serif);
+        font-size: 2.1rem;
+      }
+
+      .result p {
+        margin: 0 0 0.15rem;
+        color: var(--teal-dark);
+        font-size: 0.68rem;
+        font-weight: 850;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .result h2 {
+        margin: 0;
+        font-size: 1.42rem;
+        line-height: 1.15;
+      }
+
+      .result small {
+        color: #5d718c;
+        font-size: 0.72rem;
+      }
+
+      .concept-caption {
+        position: fixed;
+        z-index: 90;
+        right: 1rem;
+        bottom: 1rem;
+        max-width: 270px;
+        padding: 0.7rem 0.9rem;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: rgb(255 255 255 / 94%);
+        box-shadow: var(--shadow);
+        color: var(--ink-soft);
+        font-size: 0.7rem;
+      }
+
+      .concept-caption strong {
+        display: block;
+        margin-bottom: 0.1rem;
+        color: var(--ink);
+        font-size: 0.76rem;
+      }
+
+      body.capture .prototype-toolbar,
+      body.capture .concept-caption {
+        display: none;
+      }
+
+      /* Conceito B: trilha de navegação e leitura mais explícita. */
+      html[data-concept="b"] {
+        --radius: 2px;
+      }
+
+      html[data-concept="b"] .header-inner {
+        border-bottom-color: var(--ink);
+      }
+
+      html[data-concept="b"] .hero-grid {
+        grid-template-columns: minmax(0, 0.9fr) minmax(480px, 1.1fr);
+      }
+
+      html[data-concept="b"] .hero-copy {
+        padding-left: 3.5rem;
+        border-left: 1px solid var(--teal);
+      }
+
+      html[data-concept="b"] .hero-copy::before {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: -5px;
+        width: 9px;
+        background-image: radial-gradient(var(--teal) 2px, transparent 2px);
+        background-size: 9px 28px;
+        content: "";
+      }
+
+      html[data-concept="b"] .hero-art img {
+        clip-path: ellipse(55% 45% at 52% 50%);
+      }
+
+      html[data-concept="b"] .paths-grid {
+        grid-template-columns: 0.45fr 1.1fr;
+      }
+
+      html[data-concept="b"] .path-list li {
+        grid-template-columns: 5.5rem 1fr auto;
+      }
+
+      html[data-concept="b"] .path-list .num {
+        font-size: 3rem;
+      }
+
+      html[data-concept="b"] .compact-head,
+      html[data-concept="b"] .library-head {
+        border-left: 1px solid var(--teal);
+        padding-left: 3.5rem;
+      }
+
+      html[data-concept="b"] .reading-layout {
+        grid-template-columns: 290px minmax(0, 720px);
+      }
+
+      html[data-concept="b"] .toc a {
+        padding-left: 0.8rem;
+        border-left: 3px solid transparent;
+      }
+
+      html[data-concept="b"] .toc a:first-of-type {
+        border-left-color: var(--teal);
+        background: linear-gradient(90deg, var(--mist), transparent);
+      }
+
+      /* Conceito C: superfícies calmas e módulos de decisão. */
+      html[data-concept="c"] {
+        --radius: 16px;
+        --shadow: 0 20px 55px rgb(7 29 69 / 12%);
+      }
+
+      html[data-concept="c"] .site-header {
+        box-shadow: 0 1px 0 var(--line);
+      }
+
+      html[data-concept="c"] .header-inner {
+        border: 0;
+      }
+
+      html[data-concept="c"] .hero {
+        background:
+          radial-gradient(circle at 80% 25%, #dff3f7 0, transparent 34%),
+          var(--paper);
+      }
+
+      html[data-concept="c"] .hero-grid {
+        min-height: 620px;
+      }
+
+      html[data-concept="c"] .hero-art img {
+        border-radius: 44% 56% 52% 48% / 48% 42% 58% 52%;
+        box-shadow: var(--shadow);
+      }
+
+      html[data-concept="c"] .search {
+        border-color: transparent;
+        box-shadow: var(--shadow);
+      }
+
+      html[data-concept="c"] .paths {
+        background: linear-gradient(180deg, white, var(--mist));
+      }
+
+      html[data-concept="c"] .path-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8rem;
+        border: 0;
+      }
+
+      html[data-concept="c"] .path-list li {
+        grid-template-columns: 2.8rem 1fr;
+        align-content: center;
+        padding: 1rem;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: white;
+        box-shadow: 0 8px 28px rgb(7 29 69 / 5%);
+      }
+
+      html[data-concept="c"] .path-list a {
+        grid-column: 2;
+      }
+
+      html[data-concept="c"] .compact-head {
+        margin-block: 1.5rem;
+        padding: 2rem;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: linear-gradient(135deg, white, var(--mist));
+      }
+
+      html[data-concept="c"] .reading-layout {
+        align-items: start;
+      }
+
+      html[data-concept="c"] .toc,
+      html[data-concept="c"] .key-points,
+      html[data-concept="c"] .filters {
+        padding-inline: 1rem;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--paper);
+        box-shadow: 0 8px 28px rgb(7 29 69 / 5%);
+      }
+
+      html[data-concept="c"] .library-head {
+        margin-block: 1.5rem 0;
+        padding-inline: 2rem;
+        border-radius: var(--radius);
+        background: var(--mist);
+      }
+
+      html[data-concept="c"] .results {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+        border: 0;
+      }
+
+      html[data-concept="c"] .result {
+        grid-template-columns: 48px 1fr;
+        align-items: start;
+        min-height: 150px;
+        padding: 1rem;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+      }
+
+      html[data-concept="c"] .result small {
+        grid-column: 2;
+      }
+
+      html[data-theme="dark"] {
+        --ink: #e8f3f7;
+        --ink-soft: #c5d7df;
+        --teal: #4ec1d3;
+        --teal-dark: #78d7e5;
+        --aqua: #123b49;
+        --mist: #102b38;
+        --line: #365260;
+        --paper: #071923;
+        --coral-text: #ff9f94;
+        --coral-soft: #2c1b1c;
+      }
+
+      html[data-theme="dark"] .site-header,
+      html[data-theme="dark"] .prototype-toolbar,
+      html[data-theme="dark"] .concept-caption {
+        background: #071923;
+        color: var(--ink);
+      }
+
+      html[data-theme="dark"] .prototype-toolbar button,
+      html[data-theme="dark"] .path-list li {
+        background: #0d2733;
+        color: var(--ink);
+      }
+
+      html[data-theme="dark"] .hero-art img {
+        opacity: 0.88;
+      }
+
+      @media (max-width: 760px) {
+        .prototype-toolbar {
+          position: static;
+          display: grid;
+          gap: 0.35rem;
+          padding: 0.45rem 0.75rem;
+        }
+
+        .prototype-toolbar strong {
+          display: none;
+        }
+
+        .prototype-toolbar > div {
+          justify-content: space-between;
+        }
+
+        .prototype-toolbar button {
+          min-height: 32px;
+          padding-inline: 0.55rem;
+          font-size: 0.68rem;
+        }
+
+        .shell {
+          width: min(100% - 2rem, 1340px);
+        }
+
+        .header-inner {
+          min-height: 62px;
+          grid-template-columns: 1fr auto;
+        }
+
+        .brand svg {
+          width: 39px;
+        }
+
+        .brand strong {
+          font-size: 1.2rem;
+        }
+
+        .brand small {
+          margin-top: 0.25rem;
+          font-size: 0.66rem;
+        }
+
+        .desktop-nav,
+        .source-link {
+          display: none;
+        }
+
+        .menu-icon {
+          display: block;
+        }
+
+        h1 {
+          font-size: clamp(2.55rem, 11vw, 3.25rem);
+          line-height: 0.96;
+        }
+
+        .hero-grid {
+          min-height: 0;
+          display: block;
+          padding-block: 1.3rem 1.1rem;
+        }
+
+        .eyebrow {
+          margin-bottom: 0.4rem;
+          font-size: 0.63rem;
+        }
+
+        .hero h1 {
+          max-width: 350px;
+          margin-bottom: 0.65rem;
+        }
+
+        .lead {
+          display: -webkit-box;
+          margin-bottom: 0;
+          overflow: hidden;
+          color: var(--ink-soft);
+          font-size: 0.9rem;
+          line-height: 1.45;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+        }
+
+        .search {
+          min-height: 52px;
+          margin-top: 0.95rem;
+          padding-left: 0.75rem;
+        }
+
+        .search button {
+          padding-inline: 0.85rem;
+        }
+
+        .chips {
+          flex-wrap: nowrap;
+          margin-top: 0.55rem;
+          overflow: hidden;
+        }
+
+        .chips span {
+          min-width: max-content;
+        }
+
+        .hero-art {
+          display: none;
+        }
+
+        .tear-curve {
+          right: -15vw;
+          bottom: -74px;
+          left: 45vw;
+        }
+
+        .safety-inner {
+          min-height: 78px;
+          grid-template-columns: auto 1fr auto;
+          gap: 0.65rem;
+        }
+
+        .safety-icon {
+          width: 32px;
+          height: 32px;
+        }
+
+        .safety h2 {
+          font-family: var(--sans);
+          font-size: 0.82rem;
+          font-weight: 800;
+          letter-spacing: 0;
+        }
+
+        .safety ul {
+          display: none;
+        }
+
+        .safety a {
+          font-size: 0.7rem;
+        }
+
+        .paths {
+          padding-block: 1.5rem;
+        }
+
+        .paths-grid {
+          display: block;
+        }
+
+        .paths h2 {
+          margin-bottom: 0.35rem;
+          font-size: 2rem;
+        }
+
+        .paths-intro p {
+          margin-bottom: 0.8rem;
+          font-size: 0.8rem;
+        }
+
+        .path-list li {
+          grid-template-columns: 2.6rem 1fr auto;
+          min-height: 66px;
+        }
+
+        .path-list .num {
+          font-size: 1.5rem;
+        }
+
+        .path-list strong {
+          font-size: 1rem;
+        }
+
+        .path-list a {
+          font-size: 0;
+        }
+
+        .path-list a::after {
+          font-size: 1rem;
+          content: "→";
+        }
+
+        .progress-track {
+          position: sticky;
+          z-index: 20;
+          top: 0;
+        }
+
+        .compact-head {
+          display: block;
+          padding-block: 1.15rem 1rem;
+        }
+
+        .compact-head h1 {
+          margin-bottom: 0.55rem;
+          font-size: clamp(2.35rem, 10.8vw, 3rem);
+        }
+
+        .crumbs {
+          margin-bottom: 0.35rem;
+          overflow: hidden;
+          font-size: 0.66rem;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .meta {
+          font-size: 0.65rem;
+        }
+
+        .summary {
+          margin-top: 0.75rem;
+          padding-block: 0.55rem;
+          font-size: 0.78rem;
+          line-height: 1.45;
+        }
+
+        .reading-layout {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          padding-block: 0.8rem 4rem;
+        }
+
+        .toc {
+          position: sticky;
+          z-index: 10;
+          top: 0;
+          order: 0;
+          width: 100%;
+          border: 1px solid var(--line);
+          border-radius: var(--radius);
+          background: var(--paper);
+        }
+
+        .toc summary {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0.75rem;
+        }
+
+        .toc summary::after {
+          font-size: 1rem;
+          content: "+";
+        }
+
+        .toc[open] summary::after {
+          content: "−";
+        }
+
+        .toc a {
+          margin-inline: 0.75rem;
+          padding: 0.55rem 0;
+        }
+
+        .prose {
+          order: 1;
+          font-size: 0.97rem;
+          line-height: 1.68;
+        }
+
+        .prose h2 {
+          margin-bottom: 0.7rem;
+          font-size: 2rem;
+        }
+
+        .key-points {
+          margin-block: 1.1rem;
+          padding: 0.85rem 1rem;
+          font-size: 0.82rem;
+        }
+
+        .library-head {
+          padding-block: 1.1rem 0.9rem;
+        }
+
+        .library-head h1 {
+          margin-bottom: 0.55rem;
+          font-size: 2.45rem;
+        }
+
+        .library-head > p {
+          display: none;
+        }
+
+        .library-head .search {
+          margin-top: 0;
+        }
+
+        .search-layout {
+          padding-block: 0.85rem 4rem;
+        }
+
+        .result-bar {
+          align-items: stretch;
+          margin-bottom: 0.65rem;
+        }
+
+        .result-bar p {
+          align-self: center;
+          font-weight: 750;
+        }
+
+        .filters summary {
+          min-width: 105px;
+        }
+
+        .result {
+          grid-template-columns: 42px 1fr;
+          gap: 0.75rem;
+          padding: 0.85rem 0;
+        }
+
+        .result .num {
+          font-size: 1.55rem;
+        }
+
+        .result h2 {
+          font-size: 1.08rem;
+        }
+
+        .result small {
+          display: none;
+        }
+
+        .concept-caption {
+          position: static;
+          max-width: none;
+          margin: 1rem;
+          box-shadow: none;
+        }
+
+        html[data-concept="b"] .hero-copy {
+          padding-left: 1rem;
+        }
+
+        html[data-concept="b"] .compact-head,
+        html[data-concept="b"] .library-head {
+          border-left: 0;
+          padding-left: 0;
+        }
+
+        html[data-concept="b"] .reading-layout {
+          display: flex;
+        }
+
+        html[data-concept="c"] .hero-grid {
+          min-height: 0;
+        }
+
+        html[data-concept="c"] .path-list,
+        html[data-concept="c"] .results {
+          display: grid;
+          grid-template-columns: 1fr;
+        }
+
+        html[data-concept="c"] .path-list li {
+          grid-template-columns: 2.5rem 1fr auto;
+          min-height: 62px;
+          padding: 0.7rem;
+        }
+
+        html[data-concept="c"] .path-list a {
+          grid-column: auto;
+        }
+
+        html[data-concept="c"] .compact-head,
+        html[data-concept="c"] .library-head {
+          width: auto;
+          margin: 0.8rem 1rem 0;
+          padding: 1rem;
+        }
+
+        html[data-concept="c"] .toc,
+        html[data-concept="c"] .key-points {
+          padding-inline: 0.75rem;
+        }
+
+        html[data-concept="c"] .result {
+          min-height: 0;
+          grid-template-columns: 42px 1fr;
+          padding: 0.85rem;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <aside class="prototype-toolbar" aria-label="Controles do protótipo">
+      <strong>Protótipo visual 2026 — não é o site</strong>
+      <div>
+        <button data-concept="a" aria-pressed="true">
+          A · Fluxo editorial
+        </button>
+        <button data-concept="b" aria-pressed="false">B · Trilha guiada</button>
+        <button data-concept="c" aria-pressed="false">
+          C · Camadas calmas
+        </button>
+      </div>
+      <div>
+        <button data-screen="home" aria-pressed="true">Início</button>
+        <button data-screen="guide" aria-pressed="false">Guia</button>
+        <button data-screen="search" aria-pressed="false">Busca</button>
+        <button id="theme-toggle" aria-pressed="false">Modo escuro</button>
+      </div>
+    </aside>
+
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="#" aria-label="Olho Seco — Portal do paciente">
+          <svg viewBox="0 0 54 40" aria-hidden="true">
+            <path d="M2 20S10 7 25 7s23 13 23 13-8 13-23 13S2 20 2 20Z" />
+            <circle cx="25" cy="20" r="7" />
+            <path d="M44 31c0 4-3 7-6 7s-6-3-6-7c0-3 6-10 6-10s6 7 6 10Z" />
+          </svg>
+          <span
+            ><strong>Olho Seco</strong><small>Portal do paciente</small></span
+          >
+        </a>
+        <nav class="desktop-nav" aria-label="Navegação principal">
+          <a href="#">Entenda</a><a href="#">Sintomas</a
+          ><a href="#">Autocuidado</a><a href="#">Tratamentos</a
+          ><a href="#">Guias</a><a href="#">Glossário</a>
+        </nav>
+        <a class="source-link" href="#">Fontes e revisão</a>
+        <button class="menu-icon" type="button" aria-label="Abrir menu">
+          ☰
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="screen is-active" data-screen-panel="home">
+        <section class="hero">
+          <div class="shell hero-grid">
+            <div class="hero-copy">
+              <p class="eyebrow">Informação independente e baseada em fontes</p>
+              <h1>Entenda seus sintomas com clareza.</h1>
+              <p class="lead">
+                Organize o que você sente, compreenda os mecanismos e chegue às
+                decisões de cuidado com perguntas melhores.
+              </p>
+              <div class="search">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="10.5" cy="10.5" r="6.4" />
+                  <path d="m15.5 15.5 5 5" />
+                </svg>
+                <input value="" placeholder="Busque um sintoma ou dúvida" />
+                <button type="button">Buscar</button>
+              </div>
+              <div class="chips" aria-label="Sugestões">
+                <span>Ardor</span><span>Visão embaçada</span
+                ><span>Lentes de contato</span>
+              </div>
+            </div>
+            <figure class="hero-art" aria-label="Ilustração do filme lacrimal">
+              <img
+                src="../../../public/images/hero-tear-film-720.webp"
+                width="720"
+                height="540"
+                alt="Ilustração editorial de um olho e das camadas do filme lacrimal"
+              />
+            </figure>
+          </div>
+          <div class="tear-curve" aria-hidden="true"></div>
+        </section>
+        <aside class="safety">
+          <div class="shell safety-inner">
+            <span class="safety-icon" aria-hidden="true">!</span>
+            <h2>Dor intensa ou mudança súbita da visão?</h2>
+            <ul>
+              <li>Dor intensa</li>
+              <li>Trauma ou produto químico</li>
+              <li>Perda súbita da visão</li>
+            </ul>
+            <a href="#">Ver sinais de alerta →</a>
+          </div>
+        </aside>
+        <section class="paths">
+          <div class="shell paths-grid">
+            <div class="paths-intro">
+              <p class="eyebrow">Próximo passo</p>
+              <h2>Comece por onde você está</h2>
+              <p>
+                Escolha a pergunta que se aproxima do que você precisa hoje.
+              </p>
+            </div>
+            <ol class="path-list">
+              <li>
+                <span class="num">01</span
+                ><strong>Estou sentindo desconforto</strong
+                ><a href="#">Explorar sintomas →</a>
+              </li>
+              <li>
+                <span class="num">02</span><strong>Recebi um diagnóstico</strong
+                ><a href="#">Entender os tipos →</a>
+              </li>
+              <li>
+                <span class="num">03</span
+                ><strong>Quero cuidar melhor no dia a dia</strong
+                ><a href="#">Ver autocuidado →</a>
+              </li>
+            </ol>
+          </div>
+        </section>
+      </section>
+
+      <section class="screen" data-screen-panel="guide">
+        <div class="progress-track" aria-label="34% do guia lido">
+          <span></span>
+        </div>
+        <header class="page-head">
+          <div class="shell compact-head">
+            <div>
+              <div class="crumbs">Início / Guias / Telas e desconforto</div>
+              <p class="eyebrow">Rotina e ambiente</p>
+              <h1>Telas, piscadas e desconforto</h1>
+              <div class="meta">
+                <span>6 min de leitura</span
+                ><span>Revisado em 26 jul 2026</span>
+              </div>
+            </div>
+            <p class="summary">
+              Entenda por que a atenção sustentada muda o padrão de piscadas e
+              como organizar pausas sem transformar autocuidado em receita
+              universal.
+            </p>
+          </div>
+        </header>
+        <div class="shell reading-layout">
+          <details class="toc" open>
+            <summary>Neste guia · seção 1 de 4</summary>
+            <a href="#">01 O que muda diante da tela</a>
+            <a href="#">02 O papel das piscadas</a>
+            <a href="#">03 Ajustes de ambiente</a>
+            <a href="#">04 Quando conversar sobre isso</a>
+          </details>
+          <article class="prose">
+            <h2>O que muda diante da tela</h2>
+            <p>
+              Durante tarefas que exigem atenção visual, é comum piscar menos ou
+              completar menos piscadas. Isso pode deixar a superfície ocular
+              exposta por mais tempo entre uma piscada e outra.
+            </p>
+            <div class="key-points">
+              <strong>Em poucas palavras</strong>
+              <ul>
+                <li>O contexto importa tanto quanto o tempo total de tela.</li>
+                <li>Pausas e piscadas são pistas para observar seu padrão.</li>
+              </ul>
+            </div>
+            <p>
+              O desconforto não tem uma única explicação. Ambiente seco, posição
+              da tela, lentes de contato e outros mecanismos podem coexistir.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="screen" data-screen-panel="search">
+        <header class="page-head">
+          <div class="shell library-head">
+            <div class="crumbs">Início / Guias</div>
+            <h1>Guias para entender e viver com olho seco</h1>
+            <p class="lead">
+              Conteúdo organizado por perguntas reais e ligado às fontes usadas.
+            </p>
+            <div class="search">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="10.5" cy="10.5" r="6.4" />
+                <path d="m15.5 15.5 5 5" />
+              </svg>
+              <input value="lentes de contato" aria-label="Buscar guias" />
+              <button type="button" aria-label="Limpar busca">Limpar</button>
+            </div>
+          </div>
+        </header>
+        <section class="shell search-layout">
+          <div class="result-bar">
+            <p role="status" aria-live="polite">3 resultados encontrados.</p>
+            <details class="filters">
+              <summary>Filtros (recolhidos)</summary>
+            </details>
+          </div>
+          <div class="results">
+            <a class="result" href="#">
+              <span class="num">01</span>
+              <div>
+                <p>Guia · decisões de cuidado</p>
+                <h2>Olho seco e lentes de contato</h2>
+              </div>
+              <small>8 min de leitura</small>
+            </a>
+            <a class="result" href="#">
+              <span class="num">02</span>
+              <div>
+                <p>Página do portal</p>
+                <h2>Autocuidado com segurança</h2>
+              </div>
+              <small>Visão geral</small>
+            </a>
+            <a class="result" href="#">
+              <span class="num">03</span>
+              <div>
+                <p>Guia · rotina</p>
+                <h2>Telas, piscadas e desconforto</h2>
+              </div>
+              <small>6 min de leitura</small>
+            </a>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <aside class="concept-caption" aria-live="polite">
+      <strong id="caption-title">A · Fluxo editorial compacto</strong>
+      <span id="caption-copy"
+        >Mais próximo da identidade atual: hierarquia tipográfica, linhas finas
+        e conteúdo principal antecipado.</span
+      >
+    </aside>
+
+    <script>
+      const root = document.documentElement;
+      const concepts = {
+        a: [
+          "A · Fluxo editorial compacto",
+          "Mais próximo da identidade atual: hierarquia tipográfica, linhas finas e conteúdo principal antecipado.",
+        ],
+        b: [
+          "B · Trilha guiada",
+          "Navegação e progresso ganham presença por meio de linha contínua, numeração e seção atual mais explícita.",
+        ],
+        c: [
+          "C · Camadas calmas",
+          "Superfícies em mist e módulos suaves aumentam a separação entre decisões, mantendo o coral só para segurança.",
+        ],
+      };
+
+      const params = new URLSearchParams(location.search);
+      const initialConcept = params.get("concept") ?? "a";
+      const initialScreen = params.get("screen") ?? "home";
+
+      if (params.get("capture") === "1") {
+        document.body.classList.add("capture");
+      }
+
+      if (params.get("theme") === "dark") {
+        root.dataset.theme = "dark";
+        document
+          .querySelector("#theme-toggle")
+          .setAttribute("aria-pressed", "true");
+      }
+
+      function setConcept(value) {
+        root.dataset.concept = value;
+        document.querySelectorAll("[data-concept]").forEach((button) => {
+          button.setAttribute(
+            "aria-pressed",
+            String(button.dataset.concept === value),
+          );
+        });
+        document.querySelector("#caption-title").textContent =
+          concepts[value][0];
+        document.querySelector("#caption-copy").textContent =
+          concepts[value][1];
+      }
+
+      function setScreen(value) {
+        document.querySelectorAll("[data-screen-panel]").forEach((panel) => {
+          panel.classList.toggle(
+            "is-active",
+            panel.dataset.screenPanel === value,
+          );
+        });
+        document.querySelectorAll("[data-screen]").forEach((button) => {
+          button.setAttribute(
+            "aria-pressed",
+            String(button.dataset.screen === value),
+          );
+        });
+      }
+
+      document.querySelectorAll("button[data-concept]").forEach((button) => {
+        button.addEventListener("click", () =>
+          setConcept(button.dataset.concept),
+        );
+      });
+      document.querySelectorAll("button[data-screen]").forEach((button) => {
+        button.addEventListener("click", () =>
+          setScreen(button.dataset.screen),
+        );
+      });
+      document
+        .querySelector("#theme-toggle")
+        .addEventListener("click", (event) => {
+          const button = event.currentTarget;
+          const dark = root.dataset.theme !== "dark";
+          root.dataset.theme = dark ? "dark" : "light";
+          button.setAttribute("aria-pressed", String(dark));
+        });
+
+      setConcept(
+        ["a", "b", "c"].includes(initialConcept) ? initialConcept : "a",
+      );
+      setScreen(
+        ["home", "guide", "search"].includes(initialScreen)
+          ? initialScreen
+          : "home",
+      );
+      history.scrollRestoration = "manual";
+      requestAnimationFrame(() => window.scrollTo(0, 0));
+    </script>
+  </body>
+</html>
