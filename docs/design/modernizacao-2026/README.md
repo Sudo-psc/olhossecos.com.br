@@ -1,6 +1,7 @@
 # Conceitos visuais — modernização 2026
 
-Data: 6 de agosto de 2026  
+Data: 6 de agosto de 2026
+
 Status: **direção A + progresso de B aprovada e implementada localmente; sem deploy**
 
 ## Como revisar

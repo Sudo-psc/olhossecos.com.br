@@ -1,7 +1,9 @@
 # Relatório de implementação — modernização 2026
 
-Data: 6 de agosto de 2026  
-Direção: **A · Fluxo editorial compacto + progresso/seção ativa de B**  
+Data: 6 de agosto de 2026
+
+Direção: **A · Fluxo editorial compacto + progresso/seção ativa de B**
+
 Estado: **candidato local validado; sem push e sem deploy**
 
 ## O que mudou
@@ -76,8 +78,9 @@ erros de console e com LCP local abaixo de 2,5 s.
 - ESLint: 0 erros e 0 avisos.
 - Astro Check: 32 arquivos, 0 erros, 0 avisos e 0 hints.
 - Build candidato isolado:
-  `build/final-modernization-20260806T1622Z`, concluído sem usar `dist`; o
-  timestamp de `dist` permaneceu inalterado.
+  `build/deploy-candidate-modernizacao-20260806`, gerado em worktree destacado e
+  limpo do commit de release, sem usar `dist`; o timestamp de `dist` permaneceu
+  inalterado durante a validação.
 - Assets de CSS e JavaScript saíram com hash de conteúdo no diretório `_astro`,
   preservando a estratégia de cache imutável do Nginx.
 - `git diff --check`: aprovado.

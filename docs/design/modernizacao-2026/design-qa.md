@@ -1,6 +1,7 @@
 # Design QA — direção A + progresso de B
 
-Data: 6 de agosto de 2026  
+Data: 6 de agosto de 2026
+
 Status: **aprovado no QA local**
 
 ## Método
