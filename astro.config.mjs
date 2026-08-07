@@ -21,6 +21,19 @@ const revisedOnJuly26 = new Set([
 
 const revisedOnAugust5 = new Set(["/fontes", "/olho-seco"]);
 
+const revisedOnAugust7 = new Set([
+  "/",
+  "/livros",
+  "/livros/conjuntivocalase-diagnostico-fisiopatologia-abordagem-clinica",
+  "/livros/o-custo-invisivel-do-olho-seco",
+  "/superficie",
+  "/superficie/edicao-00",
+  "/autor/philipe-saraiva-cruz",
+  "/politica-editorial",
+  "/privacidade",
+  "/profissionais",
+]);
+
 export default defineConfig({
   site: "https://olhossecos.com.br",
   output: "static",
@@ -39,11 +52,13 @@ export default defineConfig({
       },
       serialize(item) {
         const path = new URL(item.url).pathname.replace(/\/$/, "") || "/";
-        item.lastmod = revisedOnAugust5.has(path)
-          ? "2026-08-05"
-          : revisedOnJuly26.has(path)
-            ? "2026-07-26"
-            : "2026-07-25";
+        item.lastmod = revisedOnAugust7.has(path)
+          ? "2026-08-07"
+          : revisedOnAugust5.has(path)
+            ? "2026-08-05"
+            : revisedOnJuly26.has(path)
+              ? "2026-07-26"
+              : "2026-07-25";
         return item;
       },
     }),

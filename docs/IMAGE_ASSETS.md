@@ -101,3 +101,40 @@ Prompt final:
 > warm amber light pulse. Clean horizontal composition, soft diffuse lighting,
 > generous negative space, suitable for a white editorial article card. Aspect
 > ratio 3:2, high resolution.
+
+## SUPERFÍCIE — Gate 3
+
+Ativos editoriais criados em 7 de agosto de 2026 para a landing da revista e a
+página da Edição Fundadora. As imagens foram geradas com a ferramenta
+`imagegen` integrada ao ambiente Codex e não representam exame, paciente ou
+resultado clínico real.
+
+### Hero de interferometria
+
+- Arquivo-fonte: `public/images/superficie/hero-interferometria.png`
+- Derivados responsivos: AVIF e WebP em 768 e 1536 px.
+- Uso: hero de `/superficie`.
+- Direção de arte: macro biomédica abstrata da superfície corneana e do filme
+  lacrimal, com interferência óptica em azul, teal e dourado; sem texto, marca,
+  instrumento ou anatomia desagradável.
+- Observação editorial: ilustração conceitual, não imagem diagnóstica.
+
+### Capa da Edição Fundadora nº 0
+
+- Arquivo-fonte: `public/images/superficie/capa-edicao-00.png`
+- Derivados responsivos: AVIF e WebP em 600 e 1054 px.
+- Uso: `/superficie` e `/superficie/edicao-00`.
+- Origem criativa: reconstrução frontal, com auxílio de IA, baseada na capa de
+  referência fornecida pelo responsável editorial em arquivo privado.
+- Direção de arte: capa off-white, marca SUPERFÍCIE, diagrama ocular abstrato,
+  título da Edição Fundadora e sistema tipográfico navy, teal e dourado.
+- Estado: peça de pré-lançamento; a edição permanece identificada como “em
+  produção”.
+
+### Open Graph da SUPERFÍCIE
+
+- Arquivo-fonte: `public/images/superficie/og-superficie-source.png`
+- Arquivo publicado: `public/images/superficie/og-superficie.png` (1200 × 630).
+- Uso: Open Graph e Twitter Card das páginas da SUPERFÍCIE no Gate 3.
+- Direção de arte: fundo navy, wordmark SUPERFÍCIE, assinatura editorial e
+  detalhe científico discreto. Não é screenshot da homepage.

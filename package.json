@@ -10,6 +10,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "lint": "eslint \"src/**/*.{astro,js,ts}\"",
+    "test:newsletter": "node --test src/lib/newsletter.test.ts",
+    "test:superficie": "node --test src/lib/superficie.test.ts",
     "format": "prettier --write .",
     "seo:indexnow": "node scripts/submit-indexnow.mjs"
   },

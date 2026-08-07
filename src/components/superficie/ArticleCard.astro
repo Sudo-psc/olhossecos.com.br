@@ -1,0 +1,141 @@
+---
+import {
+  calculateArticleReadingTime,
+  getMagazineArticlePath,
+  type MagazineArticle,
+} from "@/lib/superficie";
+
+interface Props {
+  article: MagazineArticle;
+  compact?: boolean;
+}
+
+const { article, compact = false } = Astro.props;
+const path = getMagazineArticlePath(article);
+const readingTime = calculateArticleReadingTime(article);
+---
+
+<article class:list={["article-card", { compact }]}>
+  {
+    article.featuredImage && !compact && (
+      <a
+        class="article-image"
+        href={path}
+        tabindex="-1"
+        aria-hidden="true"
+        data-analytics-event="article_click"
+        data-analytics-label={article.slug}
+      >
+        <img
+          src={article.featuredImage.src}
+          alt=""
+          width={article.featuredImage.width}
+          height={article.featuredImage.height}
+          loading="lazy"
+          decoding="async"
+        />
+      </a>
+    )
+  }
+  <div class="article-card-body">
+    <div class="article-meta">
+      <span>{article.category}</span>
+      <span>{readingTime} min de leitura</span>
+    </div>
+    <h3><a href={path}>{article.title}</a></h3>
+    {!compact && <p>{article.excerpt}</p>}
+    <div class="article-byline">
+      <span>Por {article.author.name}</span>
+      <a
+        href={path}
+        data-analytics-event="article_click"
+        data-analytics-label={article.slug}>Ler artigo</a
+      >
+    </div>
+  </div>
+</article>
+
+<style>
+  .article-card {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    background: var(--surface-white);
+    border-top: 4px solid var(--surface-teal);
+  }
+
+  .article-card.compact {
+    border-top-width: 2px;
+    background: transparent;
+  }
+
+  .article-image {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+
+  .article-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .article-card-body {
+    display: flex;
+    flex-direction: column;
+    padding: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  .compact .article-card-body {
+    padding-inline: 0;
+  }
+
+  .article-meta,
+  .article-byline {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--surface-muted);
+    font-size: 0.67rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .article-meta span:first-child {
+    color: var(--surface-teal-dark);
+  }
+
+  h3 {
+    margin: 1rem 0 0.8rem;
+    font-family: var(--surface-serif);
+    font-size: clamp(1.65rem, 3vw, 2.4rem);
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    line-height: 1.08;
+  }
+
+  .compact h3 {
+    font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+  }
+
+  h3 a:hover,
+  h3 a:focus-visible {
+    color: var(--surface-teal-dark);
+  }
+
+  .article-card-body > p {
+    color: var(--surface-copy);
+  }
+
+  .article-byline {
+    align-items: end;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid var(--surface-line);
+  }
+
+  .article-byline a {
+    color: var(--surface-teal-dark);
+    border-bottom: 1px solid currentColor;
+  }
+</style>

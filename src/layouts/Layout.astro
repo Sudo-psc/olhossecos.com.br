@@ -7,6 +7,9 @@ interface Props {
   description?: string;
   image?: string;
   imageAlt?: string;
+  imageType?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   noindex?: boolean;
   schemaType?: "WebPage" | "MedicalWebPage" | "CollectionPage" | "Article";
   datePublished?: string;
@@ -19,6 +22,9 @@ const {
   description = "Informação clara, independente e baseada em evidências sobre sintomas, causas, autocuidado e tratamentos do olho seco.",
   image = "/og-image.png",
   imageAlt = "Olho Seco — Portal do paciente",
+  imageType = "image/png",
+  imageWidth = 1200,
+  imageHeight = 630,
   noindex = false,
   schemaType = "WebPage",
   datePublished,
@@ -32,7 +38,7 @@ const imageUrl = new URL(image, siteUrl);
 const isHome = canonical.pathname === "/";
 const shouldNoindex = noindex;
 const fullTitle = isHome
-  ? `${title} | Portal do paciente`
+  ? title
   : title.toLocaleLowerCase("pt-BR").includes("olho seco")
     ? title
     : `${title} | Olho Seco`;
@@ -48,7 +54,7 @@ const breadcrumbItems =
 const organization = {
   "@type": "Organization",
   "@id": `${siteUrl.href}#organization`,
-  name: "Olho Seco — Portal do paciente",
+  name: "Olhos Secos",
   url: siteUrl.href,
   logo: {
     "@type": "ImageObject",
@@ -60,8 +66,8 @@ const website = {
   "@type": "WebSite",
   "@id": `${siteUrl.href}#website`,
   url: siteUrl.href,
-  name: "Olho Seco — Portal do paciente",
-  alternateName: "Portal Olho Seco",
+  name: "Olhos Secos",
+  alternateName: "olhossecos.com.br",
   description,
   inLanguage: "pt-BR",
   publisher: { "@id": organization["@id"] },
@@ -101,8 +107,8 @@ const imageObject = {
   "@id": `${imageUrl.href}#primaryimage`,
   url: imageUrl.href,
   contentUrl: imageUrl.href,
-  width: 1200,
-  height: 630,
+  width: imageWidth,
+  height: imageHeight,
   caption: imageAlt,
 };
 
@@ -150,15 +156,15 @@ const structuredData = {
     <link rel="manifest" href="/manifest.json" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pt_BR" />
-    <meta property="og:site_name" content="Olho Seco — Portal do paciente" />
+    <meta property="og:site_name" content="Olhos Secos" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={imageUrl} />
     <meta property="og:image:secure_url" content={imageUrl} />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content={imageType} />
+    <meta property="og:image:width" content={String(imageWidth)} />
+    <meta property="og:image:height" content={String(imageHeight)} />
     <meta property="og:image:alt" content={imageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
@@ -295,7 +301,7 @@ const structuredData = {
   .header-inner {
     min-height: var(--header-height);
     display: grid;
-    grid-template-columns: 240px 1fr auto;
+    grid-template-columns: 220px 1fr auto;
     align-items: center;
     gap: 2rem;
     border-bottom: 1px solid var(--line);
@@ -320,15 +326,17 @@ const structuredData = {
 
   .brand strong {
     font-family: var(--serif);
-    font-size: 1.55rem;
+    font-size: 1.45rem;
     letter-spacing: -0.03em;
   }
 
   .brand small {
     margin-top: 0.35rem;
-    color: var(--teal-dark);
-    font-size: 0.75rem;
-    letter-spacing: 0.01em;
+    color: var(--ink-soft);
+    font-size: 0.66rem;
+    font-weight: 750;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
   }
 
   .desktop-nav {
@@ -338,7 +346,7 @@ const structuredData = {
   }
 
   .desktop-nav a,
-  .sources-link {
+  .header-cta {
     position: relative;
     font-size: 0.91rem;
     font-weight: 650;
@@ -362,22 +370,23 @@ const structuredData = {
     transform: scaleX(1);
   }
 
-  .sources-link {
+  .header-cta {
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
-    padding-left: 1.5rem;
-    border-left: 1px solid var(--line);
-    color: var(--teal-dark);
+    min-height: 42px;
+    justify-content: center;
+    padding: 0.55rem 1rem;
+    border: 1px solid var(--ink);
+    border-radius: var(--control-radius);
+    color: var(--ink);
+    transition:
+      background 180ms ease,
+      color 180ms ease;
   }
 
-  .sources-link svg {
-    width: 22px;
-    fill: none;
-    stroke: currentColor;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 1.6;
+  .header-cta:hover {
+    background: var(--ink);
+    color: white;
   }
 
   .menu-button,
@@ -645,7 +654,7 @@ const structuredData = {
     }
 
     .desktop-nav,
-    .sources-link {
+    .header-cta {
       display: none;
     }
 
@@ -721,6 +730,14 @@ const structuredData = {
 
     .mobile-nav a[aria-current="page"] {
       color: var(--teal-dark);
+    }
+
+    .mobile-nav .mobile-newsletter {
+      margin-top: 0.6rem;
+      padding-inline: 0.9rem;
+      border: 1px solid var(--ink);
+      border-radius: var(--control-radius);
+      text-align: center;
     }
 
     .footer-main {

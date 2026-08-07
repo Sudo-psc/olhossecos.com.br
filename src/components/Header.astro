@@ -3,12 +3,12 @@ import EyeMark from "./EyeMark.astro";
 
 const pathname = Astro.url.pathname;
 const nav = [
-  { label: "Entenda", href: "/olho-seco" },
-  { label: "Sintomas", href: "/sintomas" },
-  { label: "Autocuidado", href: "/autocuidado" },
-  { label: "Tratamentos", href: "/tratamentos" },
-  { label: "Guias", href: "/guias" },
-  { label: "Glossário", href: "/glossario" },
+  { label: "Olho Seco", href: "/olho-seco" },
+  { label: "Profissionais", href: "/profissionais" },
+  { label: "SUPERFÍCIE", href: "/superficie" },
+  { label: "Livros", href: "/livros" },
+  { label: "App", href: "/app" },
+  { label: "Sobre", href: "/politica-editorial" },
 ];
 
 const isActive = (href: string) => pathname.startsWith(href);
@@ -16,11 +16,11 @@ const isActive = (href: string) => pathname.startsWith(href);
 
 <header class="site-header">
   <div class="page-shell header-inner">
-    <a href="/" class="brand" aria-label="Olho Seco — Portal do paciente">
+    <a href="/" class="brand" aria-label="Olhos Secos — página inicial">
       <EyeMark class="brand-mark" />
       <span>
-        <strong>Olho Seco</strong>
-        <small>Portal do paciente</small>
+        <strong>Olhos Secos</strong>
+        <small>Ciência e informação</small>
       </span>
     </a>
 
@@ -37,13 +37,7 @@ const isActive = (href: string) => pathname.startsWith(href);
       }
     </nav>
 
-    <a class="sources-link" href="/fontes">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M6 3.5h9l3 3V20.5H6z"></path>
-        <path d="M15 3.5v3h3M9 11h6M9 15h6"></path>
-      </svg>
-      Fontes e revisão
-    </a>
+    <a class="header-cta" href="/livros#newsletter"> Newsletter </a>
 
     <button
       class="menu-button"
@@ -68,7 +62,7 @@ const isActive = (href: string) => pathname.startsWith(href);
           </a>
         ))
       }
-      <a href="/fontes">Fontes e revisão</a>
+      <a class="mobile-newsletter" href="/livros#newsletter">Newsletter</a>
     </div>
   </nav>
 </header>

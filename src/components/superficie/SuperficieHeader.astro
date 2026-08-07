@@ -1,0 +1,340 @@
+---
+import EyeMark from "@/components/EyeMark.astro";
+
+interface Props {
+  home?: boolean;
+}
+
+const { home = false } = Astro.props;
+
+const nav = [
+  { label: "Edições", href: "/superficie#edicoes" },
+  { label: "Artigos", href: "/superficie#destaque" },
+  { label: "Entrevistas", href: "/superficie#entrevistas" },
+  { label: "Evidências", href: "/superficie#evidencias" },
+  { label: "Tecnologia", href: "/superficie#tecnologia" },
+  { label: "Parceiros", href: "/superficie#parceiros" },
+  { label: "Newsletter", href: "/superficie#newsletter" },
+];
+---
+
+<header class="surface-header">
+  <div class="surface-utility surface-shell">
+    <a
+      class="portal-brand"
+      href="/"
+      aria-label="Olho Seco — Portal do paciente"
+    >
+      <EyeMark class="portal-mark" />
+      <span><strong>Olho Seco</strong> — Portal do paciente</span>
+    </a>
+    <a class="portal-return" href="/"> Voltar ao portal Olhos Secos </a>
+    <button
+      class="surface-menu-button"
+      type="button"
+      aria-expanded="false"
+      aria-controls="surface-mobile-nav"
+    >
+      Menu
+    </button>
+  </div>
+
+  <div class="surface-masthead">
+    <div class="surface-shell masthead-inner">
+      <p class="surface-descriptor">Revista de Olho Seco e Superfície Ocular</p>
+      {
+        home ? (
+          <h1 class="surface-wordmark">SUPERFÍCIE</h1>
+        ) : (
+          <a class="surface-wordmark" href="/superficie">
+            SUPERFÍCIE
+          </a>
+        )
+      }
+      <span class="surface-rule" aria-hidden="true"><i></i></span>
+      <p class="surface-tagline">Evidência que chega à prática.</p>
+      <nav class="surface-nav" aria-label="Navegação da SUPERFÍCIE">
+        {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      </nav>
+    </div>
+  </div>
+
+  <nav
+    id="surface-mobile-nav"
+    class="surface-mobile-nav"
+    aria-label="Navegação móvel da SUPERFÍCIE"
+    hidden
+  >
+    <div class="surface-shell">
+      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+    </div>
+  </nav>
+</header>
+
+<script>
+  const menuButton = document.querySelector<HTMLButtonElement>(
+    ".surface-menu-button",
+  );
+  const mobileNav = document.querySelector<HTMLElement>("#surface-mobile-nav");
+
+  const setSurfaceMenu = (open: boolean) => {
+    if (!menuButton || !mobileNav) return;
+    mobileNav.hidden = !open;
+    menuButton.setAttribute("aria-expanded", String(open));
+    menuButton.textContent = open ? "Fechar" : "Menu";
+  };
+
+  menuButton?.addEventListener("click", () => {
+    if (!mobileNav) return;
+    setSurfaceMenu(mobileNav.hidden);
+  });
+
+  mobileNav?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => setSurfaceMenu(false));
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape" || !mobileNav || mobileNav.hidden) return;
+    setSurfaceMenu(false);
+    menuButton?.focus();
+  });
+</script>
+
+<style>
+  .surface-header {
+    background: var(--surface-paper);
+  }
+
+  .surface-utility {
+    min-height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    border-bottom: 1px solid var(--surface-line);
+    color: var(--surface-navy);
+    font-size: 0.86rem;
+  }
+
+  .portal-brand,
+  .portal-return {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .portal-brand strong {
+    font-family: var(--surface-serif);
+    font-size: 1.05rem;
+  }
+
+  :global(.portal-mark) {
+    width: 34px;
+    height: auto;
+    flex: 0 0 34px;
+    color: var(--surface-navy);
+  }
+
+  .surface-menu-button {
+    display: none;
+    min-height: 44px;
+    padding: 0.55rem 1rem;
+    border: 1px solid var(--surface-gold);
+    background: transparent;
+    color: var(--surface-paper);
+    font-size: 0.78rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .surface-masthead {
+    background: var(--surface-navy);
+    color: var(--surface-paper);
+  }
+
+  .masthead-inner {
+    padding-block: clamp(2rem, 4.8vw, 4.5rem) 1.55rem;
+    text-align: center;
+  }
+
+  .surface-descriptor {
+    margin: 0 0 0.75rem;
+    color: var(--surface-gold-light);
+    font-size: clamp(0.68rem, 1vw, 0.8rem);
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+
+  .surface-wordmark {
+    display: block;
+    margin: 0;
+    color: var(--surface-paper);
+    font-family: var(--surface-serif);
+    font-size: clamp(3.5rem, 9.4vw, 8.8rem);
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    line-height: 0.92;
+    text-indent: 0.18em;
+  }
+
+  .surface-rule {
+    width: min(100%, 1120px);
+    height: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1.8rem auto 1rem;
+    background: var(--surface-gold);
+  }
+
+  .surface-rule i {
+    width: 8px;
+    height: 8px;
+    border: 3px solid var(--surface-navy);
+    border-radius: 50%;
+    background: var(--surface-gold);
+  }
+
+  .surface-tagline {
+    margin: 0;
+    font-family: var(--surface-serif);
+    font-size: clamp(1.35rem, 2.6vw, 2.15rem);
+    font-style: italic;
+    line-height: 1.2;
+  }
+
+  .surface-nav {
+    display: flex;
+    justify-content: center;
+    gap: clamp(1rem, 2.8vw, 2.75rem);
+    margin-top: 2.15rem;
+  }
+
+  .surface-nav a {
+    color: var(--surface-paper);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .surface-nav a:hover,
+  .surface-nav a:focus-visible {
+    color: var(--surface-gold-light);
+  }
+
+  .surface-mobile-nav {
+    position: absolute;
+    z-index: 30;
+    right: 0;
+    left: 0;
+    background: var(--surface-navy);
+    color: var(--surface-paper);
+    border-top: 1px solid rgb(255 255 255 / 15%);
+    box-shadow: 0 24px 40px rgb(0 10 24 / 30%);
+  }
+
+  .surface-mobile-nav .surface-shell {
+    display: grid;
+    padding-block: 0.75rem 1.25rem;
+  }
+
+  .surface-mobile-nav a {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgb(255 255 255 / 13%);
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 900px) {
+    .surface-utility {
+      min-height: 62px;
+      background: var(--surface-navy);
+      color: var(--surface-paper);
+      border-color: rgb(255 255 255 / 13%);
+    }
+
+    :global(.portal-mark) {
+      width: 28px;
+      flex-basis: 28px;
+      color: var(--surface-paper);
+    }
+
+    .portal-brand span {
+      font-size: 0;
+    }
+
+    .portal-brand span strong {
+      font-family: var(--surface-sans);
+      font-size: 0.82rem;
+    }
+
+    .portal-brand span strong::after {
+      content: " Portal";
+      font-weight: 500;
+    }
+
+    .portal-return {
+      margin-left: auto;
+      color: var(--surface-paper);
+      font-size: 0.78rem;
+    }
+
+    .surface-menu-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .masthead-inner {
+      padding-top: 1rem;
+    }
+
+    .surface-descriptor {
+      letter-spacing: 0.18em;
+      line-height: 1.5;
+    }
+
+    .surface-wordmark {
+      font-size: clamp(2.9rem, 14.5vw, 5.4rem);
+      letter-spacing: 0.1em;
+      text-indent: 0.1em;
+    }
+
+    .surface-rule {
+      margin-block: 1.1rem 0.8rem;
+    }
+
+    .surface-tagline {
+      font-size: clamp(1.2rem, 6vw, 1.65rem);
+    }
+
+    .surface-nav {
+      display: none;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .portal-return {
+      max-width: 112px;
+      line-height: 1.15;
+      text-align: right;
+    }
+
+    .surface-menu-button {
+      padding-inline: 0.75rem;
+    }
+
+    .surface-wordmark {
+      font-size: 2.45rem;
+      letter-spacing: 0.055em;
+      text-indent: 0.055em;
+    }
+  }
+</style>

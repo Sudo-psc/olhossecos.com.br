@@ -1,0 +1,46 @@
+---
+import type { MagazineIssue } from "@/lib/superficie";
+
+interface Props {
+  issue: MagazineIssue;
+  eager?: boolean;
+  class?: string;
+}
+
+const { issue, eager = false, class: className } = Astro.props;
+---
+
+<picture class:list={["issue-cover", className]}>
+  <source
+    type="image/avif"
+    srcset={`${issue.cover.avif600} 600w, ${issue.cover.avif1054} 1054w`}
+    sizes="(max-width: 720px) 78vw, 440px"
+  />
+  <source
+    type="image/webp"
+    srcset={`${issue.cover.webp600} 600w, ${issue.cover.webp1054} 1054w`}
+    sizes="(max-width: 720px) 78vw, 440px"
+  />
+  <img
+    src={issue.cover.fallback}
+    alt={issue.cover.alt}
+    width={issue.cover.width}
+    height={issue.cover.height}
+    loading={eager ? "eager" : "lazy"}
+    fetchpriority={eager ? "high" : "auto"}
+    decoding="async"
+  />
+</picture>
+
+<style>
+  .issue-cover,
+  .issue-cover img {
+    display: block;
+    width: 100%;
+  }
+
+  .issue-cover img {
+    height: auto;
+    box-shadow: 0 26px 70px rgb(0 10 24 / 34%);
+  }
+</style>

@@ -1,0 +1,392 @@
+---
+import BookCover from "@/components/BookCover.astro";
+import type { Book } from "@/lib/books";
+
+interface Props {
+  book: Book;
+  index: number;
+}
+
+const { book, index } = Astro.props;
+const detailUrl = `/livros/${book.slug}`;
+---
+
+<article
+  class:list={["book-feature", { "book-feature--reverse": index % 2 === 1 }]}
+  data-book-slug={book.slug}
+>
+  <div class="book-visual">
+    <span class="book-index" aria-hidden="true">
+      {String(index + 1).padStart(2, "0")}
+    </span>
+    <a
+      href={detailUrl}
+      aria-label={`Conhecer a obra ${book.title}`}
+      data-event="click_book"
+      data-book={book.slug}
+    >
+      <BookCover book={book} />
+    </a>
+  </div>
+
+  <div class="book-copy">
+    <p class="book-badge">{book.badge}</p>
+    <h2>{book.title}</h2>
+    <p class="book-subtitle">{book.subtitle}</p>
+    <p class="book-description">{book.description}</p>
+
+    <div class="book-details">
+      <section aria-labelledby={`topics-${index}`}>
+        <h3 id={`topics-${index}`}>Temas principais</h3>
+        <ul>
+          {book.topics.map((topic) => <li>{topic}</li>)}
+        </ul>
+      </section>
+
+      <aside aria-labelledby={`reader-${index}`}>
+        <h3 id={`reader-${index}`}>Para quem é esta obra</h3>
+        <p>{book.audience}</p>
+        <dl>
+          <div>
+            <dt>Idioma</dt>
+            <dd>{book.language}</dd>
+          </div>
+          <div>
+            <dt>Status</dt>
+            <dd>{book.status}</dd>
+          </div>
+        </dl>
+      </aside>
+    </div>
+
+    <div class="book-actions">
+      <a
+        class="book-cta"
+        href={detailUrl}
+        data-event="click_book"
+        data-book={book.slug}
+      >
+        Conhecer a obra
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 12h16m-5-5 5 5-5 5"></path>
+        </svg>
+      </a>
+      {
+        book.purchaseLinks.map((purchase) => (
+          <a
+            class="purchase-cta"
+            href={purchase.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-event="click_purchase"
+            data-book={book.slug}
+            data-store={purchase.store}
+          >
+            {purchase.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</article>
+
+<style>
+  .book-feature {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.45fr);
+    gap: clamp(3.5rem, 8vw, 8.5rem);
+    align-items: center;
+    padding-block: clamp(5rem, 10vw, 9rem);
+    border-top: 1px solid var(--line);
+  }
+
+  .book-feature--reverse {
+    grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.78fr);
+  }
+
+  .book-feature--reverse .book-visual {
+    grid-column: 2;
+  }
+
+  .book-feature--reverse .book-copy {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .book-visual {
+    position: relative;
+    width: min(100%, 420px);
+    margin-inline: auto;
+  }
+
+  .book-visual > a {
+    display: block;
+    transition: transform 220ms ease;
+  }
+
+  .book-visual > a:hover {
+    transform: translateY(-5px);
+  }
+
+  .book-index {
+    position: absolute;
+    z-index: 1;
+    top: -2.3rem;
+    left: -2.2rem;
+    color: #a67c2f;
+    font-family: var(--serif);
+    font-size: clamp(3.5rem, 7vw, 7.2rem);
+    line-height: 1;
+    opacity: 0.28;
+  }
+
+  .book-badge {
+    display: inline-block;
+    margin: 0 0 1.4rem;
+    padding: 0.38rem 0.65rem 0.32rem;
+    border: 1px solid #b28a42;
+    color: #7b5a1f;
+    font-size: 0.69rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    max-width: 840px;
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(2.35rem, 4vw, 4.35rem);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 1.01;
+  }
+
+  .book-subtitle {
+    max-width: 780px;
+    margin: 1.45rem 0 0;
+    color: var(--teal-dark);
+    font-family: var(--serif);
+    font-size: clamp(1.2rem, 1.8vw, 1.55rem);
+    line-height: 1.35;
+  }
+
+  .book-description {
+    max-width: 780px;
+    margin: 1.25rem 0 0;
+    color: var(--ink-soft);
+  }
+
+  .book-details {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(230px, 0.65fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    margin-top: 2.8rem;
+  }
+
+  .book-details aside {
+    padding-left: 2rem;
+    border-left: 1px solid #d5c298;
+  }
+
+  h3 {
+    margin: 0 0 1rem;
+    color: var(--ink);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  ul {
+    columns: 2;
+    column-gap: 2rem;
+    margin: 0;
+    padding: 0;
+    color: var(--ink-soft);
+    list-style: none;
+  }
+
+  li {
+    position: relative;
+    break-inside: avoid;
+    margin: 0 0 0.65rem;
+    padding-left: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
+  li::before {
+    position: absolute;
+    top: 0.66em;
+    left: 0;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--teal-dark);
+    content: "";
+  }
+
+  aside p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+  }
+
+  dl {
+    display: grid;
+    gap: 0.75rem;
+    margin: 1.4rem 0 0;
+  }
+
+  dl div {
+    display: grid;
+    grid-template-columns: 68px 1fr;
+    gap: 0.7rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--line);
+  }
+
+  dt {
+    color: var(--ink-soft);
+    font-size: 0.73rem;
+    font-weight: 750;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0;
+    font-size: 0.84rem;
+    font-weight: 700;
+  }
+
+  .book-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+
+  .book-cta,
+  .purchase-cta {
+    display: inline-flex;
+    min-height: 52px;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    padding: 0.85rem 1.3rem;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition:
+      background 180ms ease,
+      color 180ms ease;
+  }
+
+  .book-cta:hover,
+  .purchase-cta:hover {
+    background: var(--ink);
+    color: white;
+  }
+
+  .book-cta svg {
+    width: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.6;
+  }
+
+  .purchase-cta {
+    border-color: #91a4b0;
+    background: white;
+    color: var(--ink);
+  }
+
+  @media (max-width: 1000px) {
+    .book-feature,
+    .book-feature--reverse {
+      grid-template-columns: minmax(220px, 0.65fr) minmax(0, 1.35fr);
+      gap: 3rem;
+    }
+
+    .book-feature--reverse .book-visual {
+      grid-column: 1;
+    }
+
+    .book-feature--reverse .book-copy {
+      grid-column: 2;
+    }
+
+    .book-details {
+      grid-template-columns: 1fr;
+    }
+
+    .book-details aside {
+      padding: 1.5rem 0 0;
+      border-top: 1px solid #d5c298;
+      border-left: 0;
+    }
+
+    ul {
+      columns: 1;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .book-feature,
+    .book-feature--reverse {
+      grid-template-columns: 1fr;
+      gap: 3.5rem;
+      padding-block: 5rem;
+    }
+
+    .book-feature--reverse .book-visual,
+    .book-feature--reverse .book-copy {
+      grid-column: 1;
+    }
+
+    .book-feature--reverse .book-visual {
+      grid-row: 1;
+    }
+
+    .book-feature--reverse .book-copy {
+      grid-row: 2;
+    }
+
+    .book-visual {
+      width: min(78vw, 340px);
+    }
+
+    .book-index {
+      top: -1.7rem;
+      left: -0.7rem;
+    }
+
+    .book-subtitle {
+      margin-top: 1.1rem;
+    }
+
+    .book-details {
+      margin-top: 2.2rem;
+    }
+
+    .book-cta,
+    .purchase-cta {
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .book-visual > a,
+    .book-cta,
+    .purchase-cta {
+      transition: none;
+    }
+  }
+</style>

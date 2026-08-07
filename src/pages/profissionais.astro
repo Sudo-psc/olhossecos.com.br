@@ -1,0 +1,140 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+const topics = [
+  {
+    id: "diagnostico",
+    title: "Diagnóstico multimodal",
+    text: "Integração entre história clínica, sinais da superfície ocular, estabilidade lacrimal, colorações, imagem e contexto do paciente.",
+  },
+  {
+    id: "fenotipagem",
+    title: "Fenotipagem",
+    text: "Organização dos mecanismos predominantes para apoiar raciocínio clínico, comunicação e acompanhamento.",
+  },
+  {
+    id: "nibut",
+    title: "NIBUT",
+    text: "Tempo não invasivo de ruptura do filme lacrimal interpretado junto a sintomas, ambiente e outros achados.",
+  },
+  {
+    id: "interferometria",
+    title: "Interferometria",
+    text: "Avaliação da camada lipídica como parte de uma leitura multimodal da superfície ocular.",
+  },
+  {
+    id: "osmolaridade",
+    title: "Osmolaridade",
+    text: "Biomarcador que precisa ser contextualizado e não deve ser tratado como diagnóstico isolado.",
+  },
+  {
+    id: "evidencias",
+    title: "Evidências",
+    text: "Análises e atualizações serão publicadas com autoria, data, fontes verificáveis e revisão editorial.",
+  },
+];
+---
+
+<Layout
+  title="Profissionais | Superfície ocular em profundidade"
+  description="Conteúdo técnico para profissionais sobre diagnóstico multimodal, imagem, fenotipagem, tecnologias, terapias e evidências em superfície ocular."
+  schemaType="CollectionPage"
+  dateModified="2026-08-07"
+>
+  <header class="professional-hero">
+    <div class="page-shell">
+      <p class="eyebrow">Para profissionais de saúde</p>
+      <h1 class="page-title">Superfície ocular em profundidade</h1>
+      <p>
+        Um espaço técnico em desenvolvimento para reunir diagnóstico, imagem,
+        fenotipagem, terapias e evidências contemporâneas, com separação clara
+        do conteúdo destinado a pacientes.
+      </p>
+      <a class="button-primary" href="/superficie">Conheça a SUPERFÍCIE</a>
+    </div>
+  </header>
+
+  <section
+    class="page-shell professional-topics"
+    aria-labelledby="topics-title"
+  >
+    <h2 id="topics-title">Eixos editoriais</h2>
+    <div class="topic-list">
+      {
+        topics.map((topic, index) => (
+          <article id={topic.id}>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <div>
+              <h3>{topic.title}</h3>
+              <p>{topic.text}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .professional-hero {
+    padding-block: clamp(4rem, 8vw, 7rem);
+    border-bottom: 1px solid var(--line);
+    background: #f7f6f1;
+  }
+
+  .professional-hero p:not(.eyebrow) {
+    max-width: 760px;
+    margin: 1.8rem 0 2rem;
+    color: var(--ink-soft);
+    font-size: 1.15rem;
+  }
+
+  .professional-topics {
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+
+  .professional-topics > h2 {
+    margin: 0 0 2.5rem;
+    font-family: var(--serif);
+    font-size: clamp(2.3rem, 4vw, 4rem);
+    line-height: 1;
+  }
+
+  .topic-list {
+    border-top: 1px solid var(--line);
+  }
+
+  .topic-list article {
+    display: grid;
+    grid-template-columns: 4rem minmax(0, 1fr);
+    gap: 1.5rem;
+    padding-block: 2rem;
+    border-bottom: 1px solid var(--line);
+    scroll-margin-top: 7rem;
+  }
+
+  .topic-list article > span {
+    color: var(--teal-dark);
+    font-family: var(--serif);
+    font-size: 1.8rem;
+  }
+
+  .topic-list h3 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: 1.65rem;
+  }
+
+  .topic-list p {
+    max-width: 760px;
+    margin: 0.65rem 0 0;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 720px) {
+    .topic-list article {
+      grid-template-columns: 2.5rem minmax(0, 1fr);
+      gap: 0.75rem;
+    }
+  }
+</style>

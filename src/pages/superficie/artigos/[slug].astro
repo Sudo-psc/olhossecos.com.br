@@ -1,0 +1,110 @@
+---
+import MagazineArticlePage from "@/components/superficie/MagazineArticlePage.astro";
+import SuperficieLayout from "@/layouts/SuperficieLayout.astro";
+import {
+  getMagazineArticlePath,
+  publishedArticles,
+  selectRelatedArticles,
+  validateMagazineArticle,
+  type MagazineArticle,
+} from "@/lib/superficie";
+import { articleTemplatePreview } from "@/lib/superficie-preview";
+
+export function getStaticPaths() {
+  const invalid = publishedArticles.flatMap((article) =>
+    validateMagazineArticle(article).map(
+      (message) => `${article.slug}: ${message}`,
+    ),
+  );
+
+  if (invalid.length > 0) {
+    throw new Error(`Artigos inválidos:\n${invalid.join("\n")}`);
+  }
+
+  const routableArticles = import.meta.env.PROD
+    ? publishedArticles
+    : [...publishedArticles, articleTemplatePreview];
+
+  return routableArticles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+
+interface Props {
+  article: MagazineArticle;
+}
+
+const { article } = Astro.props;
+const isPublished = article.status === "published";
+const related = selectRelatedArticles(article, publishedArticles);
+const canonicalPath = getMagazineArticlePath(article);
+const articleUrl = new URL(canonicalPath, Astro.site).href;
+const authorUrl = article.author.slug
+  ? new URL(`/autor/${article.author.slug}`, Astro.site).href
+  : undefined;
+
+const articleSchema = isPublished
+  ? {
+      "@type": "Article",
+      "@id": `${articleUrl}#article`,
+      headline: article.title,
+      description: article.excerpt,
+      datePublished: article.publishedAt,
+      dateModified: article.modifiedAt ?? article.publishedAt,
+      inLanguage: "pt-BR",
+      isAccessibleForFree: true,
+      articleSection: article.category,
+      keywords: article.tags.join(", "),
+      author: {
+        "@type": "Person",
+        name: article.author.name,
+        ...(authorUrl ? { url: authorUrl } : {}),
+      },
+      publisher: { "@id": new URL("/#organization", Astro.site).href },
+      isPartOf: { "@id": new URL("/superficie#periodical", Astro.site).href },
+      mainEntityOfPage: { "@id": `${articleUrl}#webpage` },
+      citation: article.references.map((reference) => reference.url),
+      ...(article.featuredImage
+        ? { image: new URL(article.featuredImage.src, Astro.site).href }
+        : {}),
+      ...(article.sponsored && article.sponsor
+        ? {
+            sponsor: {
+              "@type": "Organization",
+              name: article.sponsor.name,
+            },
+          }
+        : {}),
+    }
+  : undefined;
+---
+
+<SuperficieLayout
+  title={article.seo.title}
+  description={article.seo.description}
+  image={article.featuredImage?.src}
+  imageAlt={article.featuredImage?.alt}
+  datePublished={article.publishedAt}
+  dateModified={article.modifiedAt ?? article.publishedAt}
+  robots={isPublished ? undefined : "noindex,nofollow,noarchive"}
+  ogType={isPublished ? "article" : "website"}
+  authorName={article.author.name}
+  breadcrumbs={[
+    { name: "SUPERFÍCIE", url: "/superficie" },
+    { name: "Artigos", url: "/superficie#destaque" },
+    { name: article.title, url: canonicalPath },
+  ]}
+  extraSchema={articleSchema}
+>
+  <MagazineArticlePage {article} {related} />
+
+  {
+    article.sponsored && (
+      <script
+        is:inline
+        set:html={`window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:"sponsored_content_view",article_slug:${JSON.stringify(article.slug)}});`}
+      />
+    )
+  }
+</SuperficieLayout>

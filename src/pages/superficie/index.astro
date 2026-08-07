@@ -1,0 +1,1332 @@
+---
+import ArticleCard from "@/components/superficie/ArticleCard.astro";
+import IssueCover from "@/components/superficie/IssueCover.astro";
+import SuperficieLayout from "@/layouts/SuperficieLayout.astro";
+import {
+  evidenceFields,
+  founderIssue,
+  publishedArticles,
+  technologyTopics,
+} from "@/lib/superficie";
+
+const title = "SUPERFÍCIE | Revista de Olho Seco e Superfície Ocular";
+const description =
+  "SUPERFÍCIE é uma revista dedicada a olho seco, córnea, diagnóstico, tecnologia, terapias e inovação em superfície ocular.";
+
+const therapyTopics = [
+  "Terapias farmacológicas",
+  "Lubrificantes e anti-inflamatórios",
+  "Imunomodulação",
+  "Terapias regenerativas e pipeline",
+];
+
+const perioperativeTopics = [
+  "Catarata e cirurgia refrativa",
+  "Biometria e qualidade de medidas",
+  "Otimização pré-operatória",
+  "Superfície ocular no pós-operatório",
+];
+
+const featuredArticles = publishedArticles.slice(0, 6);
+---
+
+<SuperficieLayout
+  {title}
+  {description}
+  home
+  schemaType="CollectionPage"
+  breadcrumbs={[{ name: "SUPERFÍCIE", url: "/superficie" }]}
+>
+  <section class="hero" aria-labelledby="hero-title">
+    <picture class="hero-image" aria-hidden="true">
+      <source
+        type="image/avif"
+        srcset="/images/superficie/hero-interferometria-768.avif 768w, /images/superficie/hero-interferometria-1536.avif 1536w"
+        sizes="100vw"
+      />
+      <source
+        type="image/webp"
+        srcset="/images/superficie/hero-interferometria-768.webp 768w, /images/superficie/hero-interferometria-1536.webp 1536w"
+        sizes="100vw"
+      />
+      <img
+        src="/images/superficie/hero-interferometria.png"
+        alt=""
+        width="1536"
+        height="1024"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </picture>
+    <div class="hero-wash" aria-hidden="true"></div>
+    <div class="surface-shell hero-grid">
+      <div class="hero-index" aria-label="Edição em produção">
+        <span>Edição</span>
+        <strong>00</strong>
+        <small>Em produção</small>
+      </div>
+
+      <div class="hero-copy">
+        <p class="eyebrow">Olho Seco • Córnea • Tecnologia</p>
+        <h2 id="hero-title">
+          Ciência para compreender a superfície ocular contemporânea.
+        </h2>
+        <p>
+          Clínica, diagnóstico e tecnologia em uma publicação editorial
+          independente, visual e rigorosa.
+        </p>
+        <div class="hero-actions">
+          <a
+            class="button button-primary"
+            href="/superficie/edicao-00"
+            data-analytics-event="issue_click"
+            data-analytics-label="hero_edicao_00">Acompanhar o lançamento</a
+          >
+          <a class="button button-quiet" href="#newsletter"
+            >Receber próximas edições</a
+          >
+        </div>
+      </div>
+
+      <div class="hero-cover">
+        <IssueCover issue={founderIssue} eager />
+        <p>Edição Fundadora • Nº 0</p>
+      </div>
+    </div>
+  </section>
+
+  <section
+    id="edicoes"
+    class="section issue-section"
+    aria-labelledby="issue-title"
+  >
+    <div class="surface-shell issue-grid">
+      <div class="section-number" aria-hidden="true">01</div>
+      <div class="issue-intro">
+        <p class="eyebrow ink">Edição Fundadora • Nº 0</p>
+        <h2 id="issue-title">{founderIssue.title}</h2>
+        <p class="issue-subtitle">{founderIssue.subtitle}</p>
+        <p>
+          Uma edição dedicada às transformações que estão redefinindo o
+          entendimento da doença do olho seco, da fenotipagem clínica ao
+          diagnóstico multimodal, novas tecnologias e estratégias terapêuticas
+          personalizadas.
+        </p>
+        <div class="status-line">
+          <span class="status-dot" aria-hidden="true"></span>
+          <strong>Em produção</strong>
+          <span>Previsão editorial: {founderIssue.plannedPublication}</span>
+        </div>
+        <a
+          class="text-link"
+          href="/superficie/edicao-00"
+          data-analytics-event="issue_click"
+          data-analytics-label="section_edicao_00"
+          >Conhecer a Edição Fundadora</a
+        >
+      </div>
+
+      <div class="topics-panel">
+        <p class="topics-label">Temas em desenvolvimento editorial</p>
+        <ol class="topics-list">
+          {
+            founderIssue.topics.map((topic, index) => (
+              <li>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <p>{topic}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+
+      <details class="topics-mobile">
+        <summary>Ver temas em desenvolvimento editorial</summary>
+        <ol>
+          {founderIssue.topics.map((topic) => <li>{topic}</li>)}
+        </ol>
+      </details>
+    </div>
+  </section>
+
+  <section
+    id="destaque"
+    class="section highlight-section"
+    aria-labelledby="highlight-title"
+  >
+    <div class="surface-shell">
+      <header class="section-heading">
+        <div>
+          <p class="eyebrow ink">Curadoria editorial</p>
+          <h2 id="highlight-title">Em destaque</h2>
+        </div>
+        <p>
+          Reportagens, análises e perspectivas serão publicadas aqui em páginas
+          HTML próprias, com referências e disclosures.
+        </p>
+      </header>
+
+      {
+        featuredArticles.length > 0 ? (
+          <div class="featured-grid">
+            {featuredArticles.map((article) => (
+              <ArticleCard {article} />
+            ))}
+          </div>
+        ) : (
+          <div class="editorial-empty">
+            <div class="empty-index" aria-hidden="true">
+              00
+            </div>
+            <div>
+              <p class="eyebrow ink">Primeiras matérias em preparação</p>
+              <h3>A pauta está sendo desenvolvida com rigor editorial.</h3>
+              <p>
+                Esta área receberá de três a seis conteúdos selecionados assim
+                que autoria, revisão e publicação forem confirmadas. Não
+                antecipamos títulos ou autores antes dessa validação.
+              </p>
+            </div>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <section
+    id="evidencias"
+    class="section evidence-section"
+    aria-labelledby="evidence-title"
+  >
+    <div class="surface-shell evidence-grid">
+      <div class="section-number light" aria-hidden="true">02</div>
+      <div class="evidence-copy">
+        <p class="eyebrow gold">Evidência em foco</p>
+        <h2 id="evidence-title">Da referência à decisão clínica.</h2>
+        <p>
+          Uma leitura estruturada de estudos relevantes, distinguindo com
+          clareza resultados, limitações e interpretação editorial.
+        </p>
+        <p class="evidence-note">
+          A seção será inaugurada após seleção e revisão das primeiras
+          referências.
+        </p>
+      </div>
+      <ol class="evidence-steps">
+        {
+          evidenceFields.map((field, index) => (
+            <li>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <strong>{field}</strong>
+              <small>Em breve</small>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section
+    id="entrevistas"
+    class="section conversations-section"
+    aria-labelledby="conversation-title"
+  >
+    <div class="surface-shell conversations-grid">
+      <div>
+        <p class="eyebrow ink">Entrevistas</p>
+        <h2 id="conversation-title">Conversas que movem a superfície ocular</h2>
+      </div>
+      <div class="conversation-placeholder">
+        <p class="eyebrow ink">Em breve</p>
+        <p>
+          Pesquisadores, especialistas, inovadores e desenvolvedores de
+          tecnologia terão espaço para conversas aprofundadas. Os convidados
+          serão apresentados somente após confirmação formal.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section
+    id="tecnologia"
+    class="section technology-section"
+    aria-labelledby="technology-title"
+  >
+    <div class="surface-shell technology-grid">
+      <div class="technology-copy">
+        <p class="eyebrow gold">Tecnologia em foco</p>
+        <h2 id="technology-title">Ferramentas sob perspectiva clínica.</h2>
+        <p>
+          Imagem, biomarcadores, dispositivos e inteligência artificial
+          discutidos pelo que acrescentam à prática — nunca como catálogo de
+          fabricantes.
+        </p>
+      </div>
+      <ol class="technology-list">
+        {
+          technologyTopics.map((topic, index) => (
+            <li>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <strong>{topic}</strong>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section practice-section" aria-labelledby="practice-title">
+    <div class="surface-shell">
+      <header class="section-heading compact">
+        <div>
+          <p class="eyebrow ink">Da evidência à prática</p>
+          <h2 id="practice-title">Duas frentes editoriais essenciais</h2>
+        </div>
+      </header>
+      <div class="practice-grid">
+        <article>
+          <p class="eyebrow ink">Farmacologia e terapias</p>
+          <h3>Tratamentos avaliados com contexto e fonte adequada.</h3>
+          <ul>
+            {therapyTopics.map((topic) => <li>{topic}</li>)}
+          </ul>
+          <p class="practice-note">Conteúdos em desenvolvimento editorial.</p>
+        </article>
+        <article>
+          <p class="eyebrow ink">Superfície ocular perioperatória</p>
+          <h3>Qualidade da superfície também é qualidade de medida.</h3>
+          <ul>
+            {perioperativeTopics.map((topic) => <li>{topic}</li>)}
+          </ul>
+          <p class="practice-note">Conteúdos em desenvolvimento editorial.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section
+    id="newsletter"
+    class="section newsletter-section"
+    aria-labelledby="newsletter-title"
+  >
+    <div class="surface-shell newsletter-grid">
+      <div>
+        <p class="eyebrow gold">Newsletter</p>
+        <h2 id="newsletter-title">Receba a SUPERFÍCIE</h2>
+        <p>
+          Novas edições, artigos, entrevistas, evidências e atualizações em
+          superfície ocular diretamente no seu e-mail.
+        </p>
+      </div>
+      <div class="newsletter-form" aria-describedby="newsletter-status">
+        <label for="superficie-email">E-mail</label>
+        <div class="input-row">
+          <input
+            id="superficie-email"
+            type="email"
+            name="email"
+            autocomplete="email"
+            placeholder="seu@email.com"
+            disabled
+          />
+          <button type="button" disabled>Quero receber</button>
+        </div>
+        <p id="newsletter-status" class="launch-note">
+          Inscrições serão abertas em breve. Nenhum dado é coletado neste
+          momento.
+        </p>
+        <p class="benefit-note">
+          Para profissionais: receba gratuitamente novas edições e conteúdos
+          selecionados sobre diagnóstico, evidências, terapias e tecnologia.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section
+    id="independencia"
+    class="section principles-section"
+    aria-labelledby="principles-title"
+  >
+    <div class="surface-shell principles-grid">
+      <div>
+        <p class="eyebrow ink">Princípios editoriais</p>
+        <h2 id="principles-title">Independência editorial</h2>
+        <p>
+          A SUPERFÍCIE mantém separação clara entre conteúdo editorial,
+          publicidade e conteúdo patrocinado. Parcerias comerciais podem apoiar
+          a publicação, mas não determinam conclusões clínicas ou científicas.
+        </p>
+        <p class="policy-state">
+          A política editorial completa será publicada antes da primeira edição.
+        </p>
+      </div>
+      <div
+        class="labels-card"
+        aria-label="Rótulos de transparência que serão utilizados"
+      >
+        <p>Rótulos de transparência</p>
+        <span>Publicidade</span>
+        <span>Conteúdo patrocinado</span>
+        <span>Parceria educacional</span>
+        <small>Disclosures disponíveis em todo conteúdo profissional.</small>
+      </div>
+    </div>
+  </section>
+
+  <section
+    id="parceiros"
+    class="section partners-section"
+    aria-labelledby="partners-title"
+  >
+    <div class="surface-shell partners-grid">
+      <div>
+        <p class="eyebrow gold">Parcerias editoriais e educacionais</p>
+        <h2 id="partners-title">Projetos alinhados à educação médica.</h2>
+      </div>
+      <div>
+        <p>
+          A SUPERFÍCIE desenvolve projetos com organizações interessadas em
+          educação médica, tecnologia, inovação e superfície ocular, sempre
+          preservando sua independência editorial.
+        </p>
+        <p class="partners-state">
+          A área de parceiros e o mídia kit serão disponibilizados em uma etapa
+          própria.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section about-section" aria-labelledby="about-title">
+    <div class="surface-shell about-grid">
+      <div class="about-copy">
+        <p class="eyebrow ink">A publicação</p>
+        <h2 id="about-title">Sobre a SUPERFÍCIE</h2>
+        <p class="about-lead">
+          SUPERFÍCIE é uma publicação dedicada à doença do olho seco e à
+          superfície ocular contemporânea.
+        </p>
+        <p>
+          Sua proposta é aproximar ciência, diagnóstico, tecnologia e prática
+          clínica por meio de uma experiência editorial rigorosa, visual e
+          acessível. A revista integra o ecossistema olhossecos.com.br e foi
+          concebida como plataforma de atualização, curadoria de evidências e
+          diálogo entre profissionais.
+        </p>
+      </div>
+      <aside class="editor-card">
+        <p class="eyebrow ink">Fundador e editor responsável</p>
+        <h3>Philipe Saraiva Cruz</h3>
+        <p>Médico Oftalmologista</p>
+        <a
+          class="text-link"
+          href="/autor/philipe-saraiva-cruz"
+          data-analytics-event="author_click"
+          data-analytics-label="responsabilidade_editorial">Conheça o autor</a
+        >
+      </aside>
+    </div>
+
+    <div class="surface-shell future-grid">
+      <div>
+        <p class="eyebrow ink">Autores e colaboradores</p>
+        <p>
+          Perfis serão publicados conforme as primeiras colaborações forem
+          confirmadas.
+        </p>
+      </div>
+      <div>
+        <p class="eyebrow ink">Conselho Editorial</p>
+        <p>Componente reservado para participantes formalmente confirmados.</p>
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="ecosystem-strip"
+    aria-label="Outras iniciativas do ecossistema Olhos Secos"
+  >
+    <div class="surface-shell ecosystem-grid">
+      <div>
+        <p class="eyebrow ink">Para aprofundar</p>
+        <h2>Conheça nossos livros</h2>
+        <a class="text-link" href="/livros">Explorar a biblioteca</a>
+      </div>
+      <div>
+        <p class="eyebrow ink">Ferramenta clínica</p>
+        <h2>Dry Eye Widget</h2>
+        <a class="text-link" href="/app">Conhecer o aplicativo</a>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    (() => {
+      window.dataLayer = window.dataLayer || [];
+
+      const utmKeys = [
+        "utm_source",
+        "utm_medium",
+        "utm_campaign",
+        "utm_content",
+        "utm_term",
+      ];
+      const params = new URLSearchParams(window.location.search);
+      const campaign = Object.fromEntries(
+        utmKeys
+          .map((key) => [key, params.get(key)])
+          .filter(([, value]) => Boolean(value)),
+      );
+
+      window.dataLayer.push({
+        event: "superficie_home_view",
+        page_path: window.location.pathname,
+        ...campaign,
+      });
+
+      document.querySelectorAll("[data-analytics-event]").forEach((element) => {
+        element.addEventListener("click", () => {
+          const detail = {
+            event: element.dataset.analyticsEvent,
+            label: element.dataset.analyticsLabel || "",
+            page_path: window.location.pathname,
+          };
+          window.dataLayer.push(detail);
+          window.dispatchEvent(
+            new CustomEvent("olhossecos:analytics", { detail }),
+          );
+        });
+      });
+    })();
+  </script>
+</SuperficieLayout>
+
+<style>
+  .section {
+    padding-block: clamp(4.75rem, 9vw, 8.5rem);
+  }
+
+  .eyebrow {
+    margin: 0 0 0.9rem;
+    color: var(--surface-paper);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    line-height: 1.35;
+    text-transform: uppercase;
+  }
+
+  .eyebrow.ink {
+    color: var(--surface-teal-dark);
+  }
+
+  .eyebrow.gold {
+    color: var(--surface-gold-light);
+  }
+
+  h2,
+  h3,
+  p {
+    margin-top: 0;
+  }
+
+  h2,
+  h3 {
+    font-family: var(--surface-serif);
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    line-height: 1.06;
+  }
+
+  h2 {
+    margin-bottom: 1.35rem;
+    font-size: clamp(2.5rem, 5.8vw, 5.6rem);
+  }
+
+  h3 {
+    margin-bottom: 1rem;
+    font-size: clamp(1.75rem, 3vw, 2.8rem);
+  }
+
+  .hero {
+    position: relative;
+    min-height: min(860px, calc(100vh - 220px));
+    display: grid;
+    overflow: hidden;
+    background: var(--surface-navy-deep);
+    color: var(--surface-paper);
+  }
+
+  .hero-image,
+  .hero-image img,
+  .hero-wash {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-image img {
+    object-fit: cover;
+    object-position: center 52%;
+  }
+
+  .hero-wash {
+    background:
+      linear-gradient(
+        90deg,
+        rgb(0 14 29 / 95%) 0%,
+        rgb(0 20 39 / 79%) 44%,
+        rgb(0 19 38 / 22%) 72%,
+        rgb(0 15 31 / 52%) 100%
+      ),
+      linear-gradient(0deg, rgb(0 13 27 / 86%) 0%, transparent 45%);
+  }
+
+  .hero-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 90px minmax(0, 1fr) minmax(240px, 390px);
+    align-items: center;
+    gap: clamp(2rem, 5vw, 6rem);
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+
+  .hero-index {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-right: 1rem;
+    border-right: 1px solid rgb(217 182 101 / 60%);
+    text-transform: uppercase;
+  }
+
+  .hero-index span,
+  .hero-index small {
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    writing-mode: vertical-rl;
+  }
+
+  .hero-index strong {
+    margin-block: 1.1rem;
+    color: var(--surface-gold-light);
+    font-family: var(--surface-serif);
+    font-size: 3.5rem;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .hero-copy {
+    max-width: 740px;
+  }
+
+  .hero-copy h2 {
+    max-width: 720px;
+    font-size: clamp(3rem, 6.2vw, 6.8rem);
+  }
+
+  .hero-copy > p:not(.eyebrow) {
+    max-width: 590px;
+    color: #d5dfe5;
+    font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 2.2rem;
+  }
+
+  .button {
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.78rem 1.2rem;
+    border: 1px solid var(--surface-gold-light);
+    font-size: 0.77rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .button-primary {
+    background: var(--surface-gold-light);
+    color: var(--surface-navy);
+  }
+
+  .button-quiet {
+    color: var(--surface-paper);
+  }
+
+  .hero-cover {
+    align-self: end;
+  }
+
+  .hero-cover :global(.issue-cover) {
+    transform: rotate(1.4deg);
+  }
+
+  .hero-cover p {
+    margin: 1.15rem 0 0;
+    color: var(--surface-gold-light);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .section-number {
+    color: var(--surface-line);
+    font-family: var(--surface-serif);
+    font-size: clamp(4rem, 8vw, 7rem);
+    line-height: 0.8;
+  }
+
+  .issue-grid {
+    display: grid;
+    grid-template-columns: 90px minmax(0, 1.05fr) minmax(360px, 0.95fr);
+    gap: clamp(2rem, 5vw, 6rem);
+  }
+
+  .issue-intro > p:not(.eyebrow, .issue-subtitle) {
+    max-width: 700px;
+    color: var(--surface-copy);
+  }
+
+  .issue-subtitle {
+    max-width: 760px;
+    color: var(--surface-teal-dark);
+    font-family: var(--surface-serif);
+    font-size: clamp(1.35rem, 2.3vw, 2.1rem);
+    line-height: 1.28;
+  }
+
+  .status-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 0.8rem;
+    margin: 1.7rem 0;
+    font-size: 0.82rem;
+  }
+
+  .status-line span:last-child {
+    color: var(--surface-muted);
+  }
+
+  .status-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--surface-teal);
+  }
+
+  .text-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    border-bottom: 1px solid currentColor;
+    color: var(--surface-teal-dark);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .topics-panel {
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border-top: 4px solid var(--surface-teal);
+    background: var(--surface-white);
+  }
+
+  .topics-label {
+    margin-bottom: 1.3rem;
+    color: var(--surface-muted);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .topics-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .topics-list li {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: 0.75rem;
+    padding-block: 0.65rem;
+    border-top: 1px solid var(--surface-line);
+  }
+
+  .topics-list span {
+    color: var(--surface-gold);
+    font-family: var(--surface-serif);
+  }
+
+  .topics-list p {
+    margin: 0;
+    font-size: 0.92rem;
+  }
+
+  .topics-mobile {
+    display: none;
+  }
+
+  .highlight-section,
+  .practice-section,
+  .principles-section,
+  .about-section {
+    background: var(--surface-white);
+  }
+
+  .section-heading {
+    display: grid;
+    grid-template-columns: 1fr minmax(280px, 480px);
+    gap: 3rem;
+    align-items: end;
+    margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--surface-line);
+  }
+
+  .section-heading h2 {
+    margin-bottom: 0;
+  }
+
+  .section-heading > p {
+    margin-bottom: 0;
+    color: var(--surface-muted);
+  }
+
+  .section-heading.compact {
+    grid-template-columns: 1fr;
+  }
+
+  .editorial-empty {
+    display: grid;
+    grid-template-columns: minmax(150px, 0.4fr) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+    min-height: 320px;
+    padding: clamp(2rem, 5vw, 5rem);
+    background: #edf0ed;
+    border-left: 6px solid var(--surface-teal);
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--surface-line);
+    border: 1px solid var(--surface-line);
+  }
+
+  .empty-index {
+    color: var(--surface-gold);
+    font-family: var(--surface-serif);
+    font-size: clamp(5rem, 12vw, 10rem);
+    line-height: 1;
+  }
+
+  .editorial-empty p:last-child {
+    max-width: 720px;
+    margin-bottom: 0;
+    color: var(--surface-copy);
+  }
+
+  .evidence-section,
+  .technology-section,
+  .newsletter-section,
+  .partners-section {
+    background: var(--surface-navy);
+    color: var(--surface-paper);
+  }
+
+  .evidence-grid {
+    display: grid;
+    grid-template-columns: 90px minmax(0, 0.8fr) minmax(360px, 1fr);
+    gap: clamp(2rem, 5vw, 6rem);
+  }
+
+  .section-number.light {
+    color: rgb(255 255 255 / 18%);
+  }
+
+  .evidence-copy p:not(.eyebrow, .evidence-note),
+  .technology-copy p:not(.eyebrow),
+  .newsletter-grid > div:first-child > p:not(.eyebrow),
+  .partners-grid p:not(.eyebrow, .partners-state) {
+    color: var(--surface-muted-on-dark);
+  }
+
+  .evidence-note,
+  .partners-state {
+    margin-top: 2rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--surface-gold-light);
+    color: var(--surface-gold-light);
+    font-size: 0.85rem;
+  }
+
+  .evidence-steps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .evidence-steps li {
+    min-height: 65px;
+    display: grid;
+    grid-template-columns: 2.3rem 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    border-top: 1px solid rgb(255 255 255 / 18%);
+  }
+
+  .evidence-steps span {
+    color: var(--surface-gold-light);
+    font-family: var(--surface-serif);
+  }
+
+  .evidence-steps small {
+    color: var(--surface-muted-on-dark);
+    font-size: 0.63rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .conversations-grid,
+  .technology-grid,
+  .newsletter-grid,
+  .principles-grid,
+  .partners-grid,
+  .about-grid,
+  .ecosystem-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.85fr);
+    gap: clamp(3rem, 8vw, 9rem);
+  }
+
+  .conversation-placeholder {
+    align-self: end;
+    padding: 2rem;
+    border-top: 4px solid var(--surface-teal);
+    background: var(--surface-white);
+    box-shadow: 0 18px 45px rgb(0 19 38 / 8%);
+  }
+
+  .conversation-placeholder p:last-child {
+    margin-bottom: 0;
+    color: var(--surface-copy);
+  }
+
+  .technology-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    columns: 2;
+    column-gap: 3rem;
+  }
+
+  .technology-list li {
+    break-inside: avoid;
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: 0.75rem;
+    padding-block: 1rem;
+    border-top: 1px solid rgb(255 255 255 / 18%);
+  }
+
+  .technology-list span {
+    color: var(--surface-gold-light);
+    font-family: var(--surface-serif);
+  }
+
+  .practice-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--surface-line);
+    border: 1px solid var(--surface-line);
+  }
+
+  .practice-grid article {
+    padding: clamp(2rem, 5vw, 4.5rem);
+    background: var(--surface-paper);
+  }
+
+  .practice-grid ul {
+    padding-left: 1.2rem;
+    color: var(--surface-copy);
+  }
+
+  .practice-grid li {
+    margin-block: 0.45rem;
+  }
+
+  .practice-note,
+  .policy-state {
+    margin: 1.5rem 0 0;
+    color: var(--surface-muted);
+    font-size: 0.82rem;
+  }
+
+  .newsletter-grid {
+    align-items: center;
+  }
+
+  .newsletter-form {
+    padding: clamp(1.5rem, 4vw, 3rem);
+    background: var(--surface-paper);
+    color: var(--surface-navy);
+  }
+
+  .newsletter-form label {
+    display: block;
+    margin-bottom: 0.55rem;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .input-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+  }
+
+  .input-row input,
+  .input-row button {
+    min-height: 52px;
+    border: 1px solid var(--surface-line);
+  }
+
+  .input-row input {
+    min-width: 0;
+    padding: 0.75rem 1rem;
+    background: var(--surface-white);
+  }
+
+  .input-row button {
+    padding-inline: 1.25rem;
+    border-color: #788491;
+    background: #788491;
+    color: white;
+    font-size: 0.76rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .input-row input:disabled,
+  .input-row button:disabled {
+    cursor: not-allowed;
+    opacity: 0.72;
+  }
+
+  .launch-note {
+    margin: 0.8rem 0 0;
+    color: var(--surface-teal-dark);
+    font-size: 0.83rem;
+    font-weight: 700;
+  }
+
+  .benefit-note {
+    margin: 1rem 0 0;
+    color: var(--surface-muted);
+    font-size: 0.78rem;
+  }
+
+  .principles-grid,
+  .about-grid {
+    align-items: start;
+  }
+
+  .principles-grid > div:first-child > p:not(.eyebrow),
+  .about-copy > p:not(.eyebrow, .about-lead) {
+    max-width: 780px;
+    color: var(--surface-copy);
+  }
+
+  .labels-card,
+  .editor-card {
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border-top: 4px solid var(--surface-gold);
+    background: var(--surface-paper);
+  }
+
+  .labels-card > p {
+    color: var(--surface-muted);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .labels-card span {
+    display: block;
+    margin-top: 0.7rem;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid var(--surface-line);
+    color: var(--surface-navy);
+    font-size: 0.65rem;
+    font-weight: 850;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .labels-card small {
+    display: block;
+    margin-top: 1rem;
+    color: var(--surface-muted);
+  }
+
+  .partners-section {
+    border-top: 1px solid rgb(255 255 255 / 16%);
+  }
+
+  .partners-grid h2 {
+    font-size: clamp(2.4rem, 4.8vw, 4.6rem);
+  }
+
+  .about-lead {
+    max-width: 760px;
+    color: var(--surface-teal-dark);
+    font-family: var(--surface-serif);
+    font-size: clamp(1.35rem, 2.5vw, 2.2rem);
+    line-height: 1.25;
+  }
+
+  .editor-card h3 {
+    margin-bottom: 0.4rem;
+  }
+
+  .editor-card > p:not(.eyebrow) {
+    color: var(--surface-muted);
+  }
+
+  .future-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 5vw, 5rem);
+    margin-top: clamp(4rem, 7vw, 7rem);
+    padding-top: 2rem;
+    border-top: 1px solid var(--surface-line);
+  }
+
+  .future-grid p:last-child {
+    max-width: 560px;
+    margin-bottom: 0;
+    color: var(--surface-muted);
+  }
+
+  .ecosystem-strip {
+    padding-block: clamp(3rem, 6vw, 5rem);
+    border-top: 1px solid var(--surface-line);
+    background: #e9e6de;
+  }
+
+  .ecosystem-grid > div + div {
+    padding-left: clamp(2rem, 6vw, 6rem);
+    border-left: 1px solid var(--surface-line);
+  }
+
+  .ecosystem-grid h2 {
+    margin-bottom: 1rem;
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+  }
+
+  @media (max-width: 1050px) {
+    .hero-grid {
+      grid-template-columns: 65px minmax(0, 1fr) minmax(210px, 300px);
+      gap: 2.25rem;
+    }
+
+    .issue-grid,
+    .evidence-grid {
+      grid-template-columns: 65px 1fr;
+    }
+
+    .topics-panel,
+    .evidence-steps {
+      grid-column: 2;
+    }
+  }
+
+  @media (max-width: 800px) {
+    .section {
+      padding-block: 4.5rem;
+    }
+
+    .hero {
+      min-height: auto;
+    }
+
+    .hero-wash {
+      background:
+        linear-gradient(
+          0deg,
+          rgb(0 16 32 / 96%) 0%,
+          rgb(0 20 39 / 72%) 62%,
+          rgb(0 15 31 / 45%) 100%
+        ),
+        linear-gradient(90deg, rgb(0 17 34 / 68%), transparent);
+    }
+
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding-block: 3.5rem 4.5rem;
+    }
+
+    .hero-index {
+      align-self: auto;
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: 0.75rem;
+      padding: 0 0 0.85rem;
+      border-right: 0;
+      border-bottom: 1px solid rgb(217 182 101 / 60%);
+    }
+
+    .hero-index span,
+    .hero-index small {
+      writing-mode: horizontal-tb;
+    }
+
+    .hero-index strong {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    .hero-copy h2 {
+      font-size: clamp(2.8rem, 12vw, 5.4rem);
+    }
+
+    .hero-cover {
+      width: min(72vw, 300px);
+      justify-self: center;
+      margin-top: 1rem;
+    }
+
+    .issue-grid,
+    .evidence-grid,
+    .conversations-grid,
+    .technology-grid,
+    .newsletter-grid,
+    .principles-grid,
+    .partners-grid,
+    .about-grid,
+    .ecosystem-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .section-number {
+      display: none;
+    }
+
+    .topics-panel {
+      display: none;
+    }
+
+    .topics-mobile {
+      display: block;
+      padding-block: 1rem;
+      border-block: 1px solid var(--surface-line);
+    }
+
+    .topics-mobile summary {
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      color: var(--surface-teal-dark);
+      cursor: pointer;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .topics-mobile ol {
+      margin: 1rem 0 0;
+      padding-left: 1.4rem;
+    }
+
+    .topics-mobile li {
+      padding-block: 0.35rem;
+    }
+
+    .section-heading {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .editorial-empty {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .empty-index {
+      font-size: 5rem;
+    }
+
+    .evidence-steps {
+      grid-column: auto;
+    }
+
+    .technology-list {
+      columns: 1;
+    }
+
+    .practice-grid,
+    .future-grid,
+    .featured-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .ecosystem-grid > div + div {
+      padding: 2rem 0 0;
+      border-top: 1px solid var(--surface-line);
+      border-left: 0;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .hero-actions {
+      display: grid;
+    }
+
+    .button {
+      width: 100%;
+    }
+
+    .input-row {
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+    }
+
+    .evidence-steps li {
+      grid-template-columns: 2rem 1fr;
+      padding-block: 0.85rem;
+    }
+
+    .evidence-steps small {
+      grid-column: 2;
+    }
+  }
+</style>

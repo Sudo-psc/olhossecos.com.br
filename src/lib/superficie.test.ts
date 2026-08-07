@@ -1,0 +1,135 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+
+import * as superficie from "./superficie.ts";
+import type { MagazineArticle } from "./superficie.ts";
+
+const article = (overrides: Partial<MagazineArticle> = {}): MagazineArticle =>
+  ({
+    slug: "artigo-base",
+    title: "Artigo base",
+    excerpt: "Resumo editorial.",
+    content: [
+      {
+        id: "contexto",
+        title: "Contexto",
+        kind: "body",
+        paragraphs: ["texto ".repeat(260)],
+      },
+    ],
+    category: "Clínica",
+    author: { name: "Autoria confirmada" },
+    status: "published",
+    publishedAt: "2026-08-07",
+    references: [{ label: "Referência primária", url: "https://example.org" }],
+    disclosure: "Nenhum conflito declarado.",
+    sponsored: false,
+    tags: ["DGM", "meibografia"],
+    seo: {
+      title: "Artigo base | SUPERFÍCIE",
+      description: "Descrição do artigo base.",
+      canonical: "/superficie/artigos/artigo-base",
+    },
+    ...overrides,
+  }) as MagazineArticle;
+
+const api = superficie as unknown as Record<string, unknown>;
+
+test("calcula tempo de leitura a partir do conteúdo estruturado", () => {
+  const calculateArticleReadingTime =
+    typeof api.calculateArticleReadingTime === "function"
+      ? (api.calculateArticleReadingTime as (value: MagazineArticle) => number)
+      : () => 0;
+
+  assert.equal(calculateArticleReadingTime(article()), 2);
+});
+
+test("seleciona relacionados por tags e categoria, nunca aleatoriamente", () => {
+  const selectRelatedArticles =
+    typeof api.selectRelatedArticles === "function"
+      ? (api.selectRelatedArticles as (
+          current: MagazineArticle,
+          candidates: MagazineArticle[],
+          limit?: number,
+        ) => MagazineArticle[])
+      : () => [];
+
+  const current = article();
+  const candidates = [
+    article({
+      slug: "mesma-categoria",
+      title: "Mesma categoria",
+      tags: ["NIBUT"],
+      seo: {
+        title: "Mesma categoria | SUPERFÍCIE",
+        description: "Descrição.",
+        canonical: "/superficie/artigos/mesma-categoria",
+      },
+    }),
+    article({
+      slug: "duas-tags",
+      title: "Duas tags em comum",
+      category: "Tecnologia",
+      tags: ["DGM", "meibografia"],
+      seo: {
+        title: "Duas tags | SUPERFÍCIE",
+        description: "Descrição.",
+        canonical: "/superficie/artigos/duas-tags",
+      },
+    }),
+    article({
+      slug: "uma-tag",
+      title: "Uma tag em comum",
+      category: "Diagnóstico",
+      tags: ["DGM"],
+      seo: {
+        title: "Uma tag | SUPERFÍCIE",
+        description: "Descrição.",
+        canonical: "/superficie/artigos/uma-tag",
+      },
+    }),
+    article({
+      slug: "rascunho",
+      status: "draft",
+      tags: ["DGM", "meibografia"],
+      seo: {
+        title: "Rascunho | SUPERFÍCIE",
+        description: "Descrição.",
+        canonical: "/superficie/artigos/rascunho",
+      },
+    }),
+  ];
+
+  assert.deepEqual(
+    selectRelatedArticles(current, candidates, 3).map(({ slug }) => slug),
+    ["duas-tags", "uma-tag", "mesma-categoria"],
+  );
+});
+
+test("validação impede publicar artigo sem disclosure, data ou referência", () => {
+  const validateMagazineArticle =
+    typeof api.validateMagazineArticle === "function"
+      ? (api.validateMagazineArticle as (value: MagazineArticle) => string[])
+      : () => [];
+
+  const errors = validateMagazineArticle(
+    article({ disclosure: "", publishedAt: undefined, references: [] }),
+  );
+
+  assert.deepEqual(errors, [
+    "Artigos publicados exigem data de publicação.",
+    "Artigos publicados exigem ao menos uma referência.",
+    "O campo de conflitos de interesse / disclosures é obrigatório.",
+  ]);
+});
+
+test("validação exige identificação explícita do patrocinador", () => {
+  const validateMagazineArticle =
+    typeof api.validateMagazineArticle === "function"
+      ? (api.validateMagazineArticle as (value: MagazineArticle) => string[])
+      : () => [];
+
+  assert.deepEqual(validateMagazineArticle(article({ sponsored: true })), [
+    "Conteúdo patrocinado exige patrocinador e rótulo explícito.",
+  ]);
+});

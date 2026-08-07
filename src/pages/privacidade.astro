@@ -4,26 +4,35 @@ import ContentPage from "@/components/ContentPage.astro";
 
 <ContentPage
   title="Privacidade"
-  description="Informações sobre dados, busca local, registros técnicos e links externos no Olho Seco — Portal do paciente."
-  intro="O portal foi desenhado para oferecer educação sem exigir cadastro, formulário de contato ou envio de informações de saúde."
+  description="Informações sobre newsletter, busca local, registros técnicos e links externos no Olho Seco — Portal do paciente."
+  intro="O conteúdo do portal pode ser acessado sem cadastro. O fornecimento de dados ocorre somente se você optar por assinar as comunicações editoriais."
   links={[
-    { label: "Dados fornecidos", href: "#fornecidos" },
+    { label: "Newsletter", href: "#newsletter" },
     { label: "Busca e filtros", href: "#busca" },
     { label: "Registros técnicos", href: "#registros" },
     { label: "Links externos", href: "#externos" },
   ]}
 >
-  <h2 id="fornecidos">Dados fornecidos por você</h2>
+  <h2 id="newsletter">Newsletter editorial</h2>
   <p>
-    O portal não solicita nome, telefone, e-mail, histórico de saúde ou criação de
-    conta. Evite inserir informações pessoais ou sensíveis em campos de busca.
+    Ao assinar as comunicações editoriais, você fornece nome, e-mail e, se
+    desejar, profissão. Esses dados são usados somente para enviar atualizações
+    sobre livros, edições da SUPERFÍCIE e conteúdos selecionados do portal, com
+    base no consentimento manifestado no formulário.
+  </p>
+  <p>
+    Os cadastros são mantidos em armazenamento privado no servidor enquanto a
+    assinatura estiver ativa. Não informe dados de saúde no formulário. Você
+    poderá retirar o consentimento pelo mecanismo de descadastro incluído nas
+    comunicações editoriais; após o pedido, o endereço deixa de receber envios.
   </p>
 
   <h2 id="busca">Busca e filtros</h2>
   <p>
     A busca da biblioteca e o filtro do glossário funcionam no próprio navegador
     para localizar conteúdo já carregado. Esses recursos não enviam o texto
-    digitado a um serviço de atendimento.
+    digitado a um serviço de atendimento. Evite inserir informações pessoais ou
+    sensíveis nesses campos.
   </p>
 
   <h2 id="registros">Registros técnicos</h2>
@@ -35,8 +44,8 @@ import ContentPage from "@/components/ContentPage.astro";
 
   <h2 id="externos">Links externos</h2>
   <p>
-    Links para fontes abrem sites de outras organizações. Cada destino possui suas
-    próprias práticas de privacidade e segurança. Verifique a política do serviço
-    externo antes de fornecer dados.
+    Links para fontes abrem sites de outras organizações. Cada destino possui
+    suas próprias práticas de privacidade e segurança. Verifique a política do
+    serviço externo antes de fornecer dados.
   </p>
 </ContentPage>

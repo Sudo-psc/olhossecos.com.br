@@ -1,0 +1,610 @@
+---
+import ArticleCard from "@/components/superficie/ArticleCard.astro";
+import {
+  calculateArticleReadingTime,
+  type MagazineArticle,
+} from "@/lib/superficie";
+
+interface Props {
+  article: MagazineArticle;
+  related: MagazineArticle[];
+}
+
+const { article, related } = Astro.props;
+const readingTime = calculateArticleReadingTime(article);
+const isPreview = article.status !== "published";
+const dateFormatter = new Intl.DateTimeFormat("pt-BR", {
+  day: "2-digit",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
+const formatDate = (date?: string) =>
+  date ? dateFormatter.format(new Date(`${date}T00:00:00Z`)) : undefined;
+---
+
+<article class="magazine-article">
+  <div class="reading-progress" aria-hidden="true"><span></span></div>
+
+  <header class="article-hero">
+    <div
+      class="surface-shell article-breadcrumb"
+      aria-label="Navegação estrutural"
+    >
+      <a href="/superficie">SUPERFÍCIE</a>
+      <span aria-hidden="true">/</span>
+      <a href="/superficie#destaque">Artigos</a>
+      <span aria-hidden="true">/</span>
+      <span>{article.category}</span>
+    </div>
+
+    <div class="surface-shell article-hero-grid">
+      <div class="article-heading">
+        {
+          isPreview && (
+            <p class="preview-label">Prévia editorial • não publicada</p>
+          )
+        }
+        {
+          article.sponsored && article.sponsor && (
+            <p class="sponsor-label">{article.sponsor.label}</p>
+          )
+        }
+        <p class="category">{article.category}</p>
+        <h1>{article.title}</h1>
+        {article.subtitle && <p class="subtitle">{article.subtitle}</p>}
+        <p class="excerpt">{article.excerpt}</p>
+      </div>
+
+      <dl class="article-facts">
+        <div>
+          <dt>Autoria</dt>
+          <dd>
+            {
+              article.author.slug ? (
+                <a href={`/autor/${article.author.slug}`}>
+                  {article.author.name}
+                </a>
+              ) : (
+                article.author.name
+              )
+            }
+          </dd>
+          {article.author.specialty && <dd>{article.author.specialty}</dd>}
+          {article.author.affiliation && <dd>{article.author.affiliation}</dd>}
+        </div>
+        {
+          article.reviewer && (
+            <div>
+              <dt>Revisão</dt>
+              <dd>{article.reviewer.name}</dd>
+            </div>
+          )
+        }
+        <div>
+          <dt>Leitura</dt>
+          <dd>{readingTime} min</dd>
+        </div>
+        {
+          article.publishedAt && (
+            <div>
+              <dt>Publicado em</dt>
+              <dd>{formatDate(article.publishedAt)}</dd>
+            </div>
+          )
+        }
+        {
+          article.modifiedAt && (
+            <div>
+              <dt>Atualizado em</dt>
+              <dd>{formatDate(article.modifiedAt)}</dd>
+            </div>
+          )
+        }
+      </dl>
+    </div>
+  </header>
+
+  {
+    article.featuredImage && (
+      <figure class="surface-shell featured-image">
+        <img
+          src={article.featuredImage.src}
+          alt={article.featuredImage.alt}
+          width={article.featuredImage.width}
+          height={article.featuredImage.height}
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </figure>
+    )
+  }
+
+  <div class="surface-shell article-grid">
+    <aside class="article-toc" aria-label="Nesta matéria">
+      <p>Nesta matéria</p>
+      <nav>
+        {
+          article.content.map((section) => (
+            <a href={`#${section.id}`}>{section.title}</a>
+          ))
+        }
+        {
+          article.references.length > 0 && (
+            <a href="#referencias">Referências</a>
+          )
+        }
+        <a href="#disclosures">Disclosures</a>
+      </nav>
+    </aside>
+
+    <div class="article-body">
+      {
+        article.content.map((section) => (
+          <section
+            id={section.id}
+            class:list={["article-section", section.kind]}
+          >
+            <p class="section-kicker">
+              {section.kind === "evidence"
+                ? "Evidência"
+                : section.kind === "limitations"
+                  ? "Limitações"
+                  : section.kind === "practice"
+                    ? "Aplicação"
+                    : "Análise editorial"}
+            </p>
+            <h2>{section.title}</h2>
+            {section.paragraphs.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+            {section.bullets && (
+              <ul>
+                {section.bullets.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            )}
+          </section>
+        ))
+      }
+
+      {
+        article.references.length > 0 && (
+          <section id="referencias" class="references-section">
+            <p class="section-kicker">Fontes</p>
+            <h2>Referências</h2>
+            <ol>
+              {article.references.map((reference) => (
+                <li>
+                  <a href={reference.url} rel="noreferrer">
+                    {reference.label}
+                  </a>
+                  {reference.doi && <span>DOI: {reference.doi}</span>}
+                </li>
+              ))}
+            </ol>
+          </section>
+        )
+      }
+
+      <section id="disclosures" class="disclosure-section">
+        <p class="section-kicker">Transparência</p>
+        <h2>Conflitos de interesse / disclosures</h2>
+        <p>{article.disclosure}</p>
+        {
+          article.sponsored && article.sponsor && (
+            <p>
+              <strong>{article.sponsor.label}:</strong> {article.sponsor.name}.
+            </p>
+          )
+        }
+      </section>
+    </div>
+  </div>
+
+  {
+    related.length > 0 && (
+      <section class="related-section" aria-labelledby="related-title">
+        <div class="surface-shell">
+          <header>
+            <p>Curadoria semântica</p>
+            <h2 id="related-title">Leia também</h2>
+          </header>
+          <div class="related-grid">
+            {related.map((item) => (
+              <ArticleCard article={item} compact />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section
+    class="article-newsletter"
+    aria-labelledby="article-newsletter-title"
+  >
+    <div class="surface-shell">
+      <div>
+        <p>Próximas leituras</p>
+        <h2 id="article-newsletter-title">Receba a SUPERFÍCIE</h2>
+      </div>
+      <div>
+        <p>
+          Novas edições, artigos, entrevistas e evidências diretamente no seu
+          e-mail.
+        </p>
+        <a href="/superficie#newsletter">Acompanhar o lançamento</a>
+      </div>
+    </div>
+  </section>
+</article>
+
+<script>
+  const progressBar = document.querySelector<HTMLElement>(
+    ".reading-progress span",
+  );
+
+  const updateReadingProgress = () => {
+    if (!progressBar) return;
+    const article = document.querySelector<HTMLElement>(".magazine-article");
+    if (!article) return;
+    const start = article.offsetTop;
+    const distance = Math.max(1, article.offsetHeight - window.innerHeight);
+    const progress = Math.min(
+      1,
+      Math.max(0, (window.scrollY - start) / distance),
+    );
+    progressBar.style.transform = `scaleX(${progress})`;
+  };
+
+  updateReadingProgress();
+  window.addEventListener("scroll", updateReadingProgress, { passive: true });
+</script>
+
+<style>
+  .magazine-article {
+    background: var(--surface-paper);
+  }
+
+  .reading-progress {
+    position: fixed;
+    z-index: 50;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 3px;
+    pointer-events: none;
+  }
+
+  .reading-progress span {
+    width: 100%;
+    height: 100%;
+    display: block;
+    transform: scaleX(0);
+    transform-origin: left;
+    background: var(--surface-gold-light);
+  }
+
+  .article-hero {
+    padding-block: 1rem clamp(4rem, 8vw, 7rem);
+    background: var(--surface-navy);
+    color: var(--surface-paper);
+  }
+
+  .article-breadcrumb {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--surface-muted-on-dark);
+    font-size: 0.68rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .article-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 320px);
+    align-items: end;
+    gap: clamp(3rem, 8vw, 9rem);
+    padding-top: clamp(2rem, 5vw, 4.5rem);
+  }
+
+  .preview-label,
+  .sponsor-label,
+  .category,
+  .section-kicker,
+  .article-toc > p,
+  .related-section header > p,
+  .article-newsletter > div > div:first-child > p {
+    margin: 0 0 0.9rem;
+    color: var(--surface-gold-light);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .preview-label,
+  .sponsor-label {
+    display: inline-block;
+    padding: 0.45rem 0.65rem;
+    border: 1px solid currentColor;
+  }
+
+  .article-heading h1 {
+    max-width: 980px;
+    margin: 0 0 1.4rem;
+    font-family: var(--surface-serif);
+    font-size: clamp(3.2rem, 7.2vw, 7.2rem);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    line-height: 0.98;
+  }
+
+  .subtitle {
+    max-width: 860px;
+    color: var(--surface-gold-light);
+    font-family: var(--surface-serif);
+    font-size: clamp(1.45rem, 2.8vw, 2.4rem);
+    line-height: 1.25;
+  }
+
+  .excerpt {
+    max-width: 760px;
+    margin-bottom: 0;
+    color: var(--surface-muted-on-dark);
+    font-size: clamp(1.05rem, 1.7vw, 1.25rem);
+  }
+
+  .article-facts {
+    margin: 0;
+    padding-left: 1.5rem;
+    border-left: 1px solid rgb(255 255 255 / 20%);
+  }
+
+  .article-facts div {
+    padding-block: 0.8rem;
+    border-top: 1px solid rgb(255 255 255 / 18%);
+  }
+
+  .article-facts dt {
+    color: var(--surface-gold-light);
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .article-facts dd {
+    margin: 0.2rem 0 0;
+    color: var(--surface-muted-on-dark);
+    font-size: 0.86rem;
+  }
+
+  .featured-image {
+    margin-top: clamp(-3rem, -5vw, -5rem);
+  }
+
+  .featured-image img {
+    width: 100%;
+    max-height: 680px;
+    object-fit: cover;
+  }
+
+  .article-grid {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 760px);
+    justify-content: center;
+    gap: clamp(3rem, 8vw, 8rem);
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+  }
+
+  .article-toc {
+    position: sticky;
+    top: 5rem;
+    align-self: start;
+    padding-top: 1rem;
+    border-top: 3px solid var(--surface-teal);
+  }
+
+  .article-toc > p,
+  .section-kicker,
+  .related-section header > p {
+    color: var(--surface-teal-dark);
+  }
+
+  .article-toc nav {
+    display: grid;
+  }
+
+  .article-toc a {
+    padding-block: 0.65rem;
+    border-top: 1px solid var(--surface-line);
+    color: var(--surface-muted);
+    font-size: 0.76rem;
+    line-height: 1.35;
+  }
+
+  .article-toc a:hover,
+  .article-toc a:focus-visible {
+    color: var(--surface-teal-dark);
+  }
+
+  .article-section,
+  .references-section,
+  .disclosure-section {
+    scroll-margin-top: 5rem;
+    margin-bottom: clamp(3.5rem, 7vw, 6rem);
+  }
+
+  .article-section h2,
+  .references-section h2,
+  .disclosure-section h2,
+  .related-section h2,
+  .article-newsletter h2 {
+    margin: 0 0 1.4rem;
+    font-family: var(--surface-serif);
+    font-size: clamp(2.2rem, 4.6vw, 4rem);
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    line-height: 1.08;
+  }
+
+  .article-section > p:not(.section-kicker),
+  .article-section li,
+  .disclosure-section > p:not(.section-kicker) {
+    color: var(--surface-copy);
+    font-family: var(--surface-serif);
+    font-size: clamp(1.12rem, 1.6vw, 1.28rem);
+    line-height: 1.75;
+  }
+
+  .article-section ul {
+    margin-block: 1.5rem;
+    padding-left: 1.4rem;
+  }
+
+  .article-section.evidence,
+  .article-section.limitations,
+  .disclosure-section {
+    padding: clamp(1.5rem, 4vw, 3rem);
+    background: var(--surface-white);
+    border-left: 4px solid var(--surface-teal);
+  }
+
+  .article-section.limitations {
+    border-left-color: var(--surface-gold);
+  }
+
+  .references-section {
+    padding-top: 2rem;
+    border-top: 1px solid var(--surface-line);
+  }
+
+  .references-section ol {
+    padding-left: 1.5rem;
+  }
+
+  .references-section li {
+    padding-block: 0.8rem;
+    color: var(--surface-copy);
+  }
+
+  .references-section a {
+    color: var(--surface-teal-dark);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .references-section span {
+    display: block;
+    color: var(--surface-muted);
+    font-size: 0.76rem;
+  }
+
+  .related-section {
+    padding-block: clamp(4.5rem, 8vw, 7rem);
+    background: var(--surface-white);
+  }
+
+  .related-section header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--surface-line);
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+  }
+
+  .article-newsletter {
+    padding-block: clamp(4rem, 8vw, 7rem);
+    background: var(--surface-navy);
+    color: var(--surface-paper);
+  }
+
+  .article-newsletter > div {
+    display: grid;
+    grid-template-columns: 1fr minmax(320px, 0.75fr);
+    align-items: end;
+    gap: clamp(3rem, 8vw, 9rem);
+  }
+
+  .article-newsletter h2 {
+    margin-bottom: 0;
+  }
+
+  .article-newsletter > div > div:last-child p {
+    color: var(--surface-muted-on-dark);
+  }
+
+  .article-newsletter a {
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    border-bottom: 1px solid var(--surface-gold-light);
+    color: var(--surface-gold-light);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 900px) {
+    .article-hero-grid,
+    .article-newsletter > div {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .article-facts {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0 1.5rem;
+      padding-left: 0;
+      border-left: 0;
+    }
+
+    .article-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .article-toc {
+      position: static;
+    }
+
+    .article-toc nav {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0 1rem;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .article-heading h1 {
+      font-size: clamp(3rem, 14vw, 5rem);
+    }
+
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .article-breadcrumb span:last-child {
+      display: none;
+    }
+
+    .article-facts,
+    .article-toc nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

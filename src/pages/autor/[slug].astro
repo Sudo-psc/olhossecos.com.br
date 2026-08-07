@@ -1,0 +1,240 @@
+---
+import BookCover from "@/components/BookCover.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import Layout from "@/layouts/Layout.astro";
+import { author, books } from "@/lib/books";
+
+export function getStaticPaths() {
+  return [{ params: { slug: author.slug } }];
+}
+
+const breadcrumbs = [
+  { name: "Início", url: "/" },
+  { name: "Livros", url: "/livros" },
+  { name: author.name, url: `/autor/${author.slug}` },
+];
+const authorSeoDescription =
+  "Conheça Philipe Saraiva Cruz, médico oftalmologista e autor de obras sobre olho seco, superfície ocular e conjuntivocálase.";
+const siteUrl = new URL("/", Astro.site);
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": new URL(`/autor/${author.slug}#person`, siteUrl).href,
+  name: author.name,
+  jobTitle: author.role,
+  description: author.description,
+  url: new URL(`/autor/${author.slug}`, siteUrl).href,
+  sameAs: ["https://www.amazon.com/author/drphilipesaraiva"],
+};
+---
+
+<Layout
+  title={`${author.name} — autor e médico oftalmologista`}
+  description={authorSeoDescription}
+  datePublished="2026-08-07"
+  dateModified="2026-08-07"
+  breadcrumbs={breadcrumbs}
+>
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={JSON.stringify(personSchema)}
+  />
+
+  <header class="author-hero page-shell">
+    <Breadcrumbs items={breadcrumbs} />
+    <div class="author-heading">
+      <p class="initials" aria-hidden="true">PSC</p>
+      <div>
+        <p class="label">Autor</p>
+        <h1>{author.name}</h1>
+        <p class="role">{author.role}</p>
+        <p class="bio">{author.description}</p>
+        <a
+          class="author-link"
+          href="https://www.amazon.com/author/drphilipesaraiva"
+          target="_blank"
+          rel="noopener noreferrer author"
+        >
+          Página do autor na Amazon
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 17 17 7M8 7h9v9"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section class="author-books" aria-labelledby="author-books-title">
+    <div class="page-shell">
+      <h2 id="author-books-title">Obras nesta biblioteca</h2>
+      <div class="author-book-list">
+        {
+          books.map((book) => (
+            <article>
+              <a href={`/livros/${book.slug}`}>
+                <BookCover book={book} />
+              </a>
+              <div>
+                <p>{book.badge}</p>
+                <h3>{book.title}</h3>
+                <span>{book.subtitle}</span>
+                <a class="book-link" href={`/livros/${book.slug}`}>
+                  Conhecer a obra
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .author-hero {
+    padding-bottom: clamp(5rem, 10vw, 9rem);
+  }
+
+  .author-heading {
+    display: grid;
+    grid-template-columns: minmax(260px, 0.7fr) minmax(0, 1.3fr);
+    gap: clamp(3rem, 9vw, 10rem);
+    align-items: center;
+    min-height: 600px;
+  }
+
+  .initials {
+    margin: 0;
+    color: transparent;
+    font-family: var(--serif);
+    font-size: clamp(7rem, 17vw, 15rem);
+    letter-spacing: -0.1em;
+    line-height: 0.8;
+    -webkit-text-stroke: 1px #91a7b5;
+  }
+
+  .label,
+  .author-book-list article > div > p {
+    margin: 0;
+    color: #7b5a1f;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin: 0.9rem 0 0;
+    font-family: var(--serif);
+    font-size: clamp(3.2rem, 6vw, 6.3rem);
+    font-weight: 500;
+    letter-spacing: -0.055em;
+    line-height: 0.92;
+  }
+
+  .role {
+    margin: 1.2rem 0 0;
+    color: var(--teal-dark);
+    font-family: var(--serif);
+    font-size: 1.4rem;
+  }
+
+  .bio {
+    max-width: 760px;
+    margin: 1.4rem 0 0;
+    color: var(--ink-soft);
+    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+  }
+
+  .author-link,
+  .book-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 1.8rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid currentColor;
+    color: var(--teal-dark);
+    font-weight: 750;
+  }
+
+  .author-link svg {
+    width: 19px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.7;
+  }
+
+  .author-books {
+    padding-block: clamp(5rem, 9vw, 8rem);
+    border-top: 1px solid var(--line);
+    background: #f4f7f7;
+  }
+
+  .author-books h2 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(2.5rem, 4vw, 4.4rem);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+  }
+
+  .author-book-list {
+    margin-top: 3.5rem;
+  }
+
+  .author-book-list article {
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+    padding-block: 2.4rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .author-book-list article > a {
+    width: 160px;
+  }
+
+  .author-book-list h3 {
+    max-width: 760px;
+    margin: 0.7rem 0 0;
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 3vw, 3rem);
+    font-weight: 500;
+    line-height: 1.05;
+  }
+
+  .author-book-list span {
+    display: block;
+    max-width: 760px;
+    margin-top: 0.8rem;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 720px) {
+    .author-heading {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      min-height: auto;
+      padding-top: 4rem;
+    }
+
+    .initials {
+      font-size: 7rem;
+    }
+
+    .author-book-list article {
+      grid-template-columns: 105px 1fr;
+      gap: 1.3rem;
+      align-items: start;
+    }
+
+    .author-book-list article > a {
+      width: 100px;
+    }
+  }
+</style>

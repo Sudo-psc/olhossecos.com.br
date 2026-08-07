@@ -1,0 +1,161 @@
+---
+const year = new Date().getFullYear();
+
+const groups = [
+  {
+    title: "Conteúdo",
+    links: [
+      ["Edições", "/superficie#edicoes"],
+      ["Artigos", "/superficie#destaque"],
+      ["Entrevistas", "/superficie#entrevistas"],
+      ["Evidências", "/superficie#evidencias"],
+    ],
+  },
+  {
+    title: "Revista",
+    links: [
+      ["Tecnologia", "/superficie#tecnologia"],
+      ["Parceiros", "/superficie#parceiros"],
+      ["Newsletter", "/superficie#newsletter"],
+      ["Política editorial", "/superficie#independencia"],
+    ],
+  },
+  {
+    title: "Ecossistema",
+    links: [
+      ["Portal Olho Seco", "/"],
+      ["Livros", "/livros"],
+      ["Dry Eye Widget", "/app"],
+      ["Privacidade", "/privacidade"],
+    ],
+  },
+];
+---
+
+<footer class="surface-footer">
+  <div class="surface-shell footer-grid">
+    <div class="footer-brand">
+      <a href="/superficie">SUPERFÍCIE</a>
+      <p>Revista de Olho Seco e Superfície Ocular.</p>
+      <em>Evidência que chega à prática.</em>
+    </div>
+    {
+      groups.map((group) => (
+        <nav aria-label={group.title}>
+          <h2>{group.title}</h2>
+          {group.links.map(([label, href]) => (
+            <a href={href}>{label}</a>
+          ))}
+        </nav>
+      ))
+    }
+  </div>
+  <div class="surface-shell footer-bottom">
+    <p>© {year} SUPERFÍCIE Media.</p>
+    <p>Conteúdo editorial independente. Sem fins promocionais.</p>
+  </div>
+</footer>
+
+<style>
+  .surface-footer {
+    background: var(--surface-navy);
+    color: var(--surface-paper);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.45fr repeat(3, 1fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    padding-block: clamp(3rem, 7vw, 5.5rem);
+  }
+
+  .footer-brand a {
+    display: block;
+    font-family: var(--surface-serif);
+    font-size: clamp(2rem, 4vw, 3.3rem);
+    letter-spacing: 0.16em;
+  }
+
+  .footer-brand p {
+    max-width: 28rem;
+    margin: 1rem 0 0.35rem;
+    color: var(--surface-muted-on-dark);
+  }
+
+  .footer-brand em {
+    color: var(--surface-gold-light);
+    font-family: var(--surface-serif);
+  }
+
+  .surface-footer nav {
+    display: grid;
+    align-content: start;
+    gap: 0.55rem;
+  }
+
+  .surface-footer h2 {
+    margin: 0 0 0.6rem;
+    color: var(--surface-gold-light);
+    font-family: var(--surface-sans);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .surface-footer nav a {
+    color: var(--surface-muted-on-dark);
+    font-size: 0.88rem;
+  }
+
+  .surface-footer nav a:hover,
+  .surface-footer nav a:focus-visible {
+    color: var(--surface-paper);
+  }
+
+  .footer-bottom {
+    min-height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-top: 1px solid rgb(255 255 255 / 14%);
+    color: var(--surface-muted-on-dark);
+    font-size: 0.76rem;
+  }
+
+  @media (max-width: 820px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .footer-brand {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-brand {
+      grid-column: auto;
+    }
+
+    .surface-footer nav {
+      padding-top: 1rem;
+      border-top: 1px solid rgb(255 255 255 / 14%);
+    }
+
+    .footer-bottom {
+      min-height: 96px;
+      align-items: flex-start;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .footer-bottom p {
+      margin: 0;
+    }
+  }
+</style>

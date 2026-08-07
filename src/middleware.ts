@@ -1,8 +1,6 @@
 import { defineMiddleware } from "astro:middleware";
 
-export const onRequest = defineMiddleware(async (_context, next) => {
-  const response = await next();
-
+const applySecurityHeaders = (response: Response) => {
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
@@ -37,4 +35,8 @@ export const onRequest = defineMiddleware(async (_context, next) => {
 
   response.headers.delete("X-Powered-By");
   return response;
+};
+
+export const onRequest = defineMiddleware(async (_context, next) => {
+  return applySecurityHeaders(await next());
 });

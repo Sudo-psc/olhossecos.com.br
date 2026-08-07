@@ -1,0 +1,946 @@
+---
+import BookCover from "@/components/BookCover.astro";
+import BookFeature from "@/components/BookFeature.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import Layout from "@/layouts/Layout.astro";
+import { author, books } from "@/lib/books";
+
+const title = "Livros sobre Olho Seco e Superfície Ocular";
+const description =
+  "Conheça livros de Philipe Saraiva Cruz sobre olho seco, conjuntivocálase, superfície ocular, diagnóstico, tratamento e saúde visual.";
+const breadcrumbs = [
+  { name: "Início", url: "/" },
+  { name: "Livros", url: "/livros" },
+];
+const newsletterEndpoint =
+  import.meta.env.PUBLIC_NEWSLETTER_ENDPOINT || "/api/newsletter";
+const siteUrl = new URL("/", Astro.site);
+const personId = new URL("/autor/philipe-saraiva-cruz#person", siteUrl).href;
+const editorialSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": personId,
+      name: author.name,
+      jobTitle: author.role,
+      description: author.description,
+      url: new URL(`/autor/${author.slug}`, siteUrl).href,
+    },
+    ...books.map((book) => ({
+      "@type": "Book",
+      "@id": new URL(`/livros/${book.slug}#book`, siteUrl).href,
+      name: book.title,
+      alternateName: book.subtitle,
+      description: book.description,
+      url: new URL(`/livros/${book.slug}`, siteUrl).href,
+      image: new URL(book.cover.webp800, siteUrl).href,
+      inLanguage: "pt-BR",
+      author: { "@id": personId },
+      keywords: book.topics.join(", "),
+      isbn: book.isbn,
+      numberOfPages: book.numberOfPages,
+      bookEdition: book.edition,
+      datePublished: book.year?.toString(),
+      offers: book.purchaseLinks.map((purchase) => ({
+        "@type": "Offer",
+        url: purchase.url,
+        availability: "https://schema.org/InStock",
+        seller: { "@type": "Organization", name: purchase.store },
+      })),
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  image="/images/livros/og-livros.png"
+  imageAlt="Biblioteca editorial de Philipe Saraiva Cruz sobre olho seco e superfície ocular"
+  schemaType="CollectionPage"
+  datePublished="2026-08-07"
+  dateModified="2026-08-07"
+  breadcrumbs={breadcrumbs}
+>
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={JSON.stringify(editorialSchema)}
+  />
+
+  <header class="books-hero">
+    <div class="page-shell">
+      <Breadcrumbs items={breadcrumbs} />
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <h1>Livros sobre Olho Seco e Superfície Ocular</h1>
+          <p class="hero-subtitle">
+            Ciência, clínica e inovação em olho seco e superfície ocular.
+          </p>
+          <p class="hero-intro">
+            Uma biblioteca dedicada à compreensão aprofundada da superfície
+            ocular, reunindo obras clínicas, científicas e estratégicas
+            desenvolvidas para médicos, pesquisadores, gestores e profissionais
+            interessados na evolução do cuidado ocular.
+          </p>
+          <div class="hero-signature">
+            <span>{author.name}</span>
+            <small>{author.role}</small>
+          </div>
+        </div>
+
+        <div
+          class="hero-library"
+          aria-label="Obras apresentadas nesta biblioteca"
+        >
+          <BookCover book={books[0]} eager decorative class="hero-cover-one" />
+          <BookCover book={books[1]} eager decorative class="hero-cover-two" />
+          <span class="hero-rule" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="featured-books" aria-labelledby="featured-title">
+    <div class="page-shell">
+      <div class="section-intro">
+        <p>Biblioteca editorial</p>
+        <h2 id="featured-title">Obras em destaque</h2>
+        <span
+          >Publicações para leitura aprofundada, referência clínica e reflexão.</span
+        >
+      </div>
+      {books.map((book, index) => <BookFeature book={book} index={index} />)}
+    </div>
+  </section>
+
+  <section class="expansion" aria-labelledby="expansion-title">
+    <div class="page-shell expansion-grid">
+      <span class="expansion-mark" aria-hidden="true">∞</span>
+      <div>
+        <h2 id="expansion-title">Uma biblioteca em expansão</h2>
+        <p>
+          O projeto editorial do olhossecos.com.br reúne publicações dedicadas à
+          prática clínica, ciência, tecnologia e às transformações
+          contemporâneas da saúde ocular. Novas obras e edições serão
+          progressivamente incorporadas a esta biblioteca.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="ecosystem page-shell" aria-labelledby="superficie-title">
+    <div class="superficie-monogram" aria-hidden="true">
+      <span>S</span>
+      <i></i>
+    </div>
+    <div class="ecosystem-copy">
+      <p class="superficie-name">SUPERFÍCIE</p>
+      <h2 id="superficie-title">Revista de Olho Seco e Superfície Ocular</h2>
+      <p class="superficie-tagline">Evidência que chega à prática.</p>
+      <p>
+        Além dos livros de aprofundamento, o ecossistema olhossecos.com.br
+        prepara uma publicação periódica dedicada à atualização clínica,
+        científica e tecnológica da superfície ocular.
+      </p>
+      <span class="coming-soon" aria-label="SUPERFÍCIE: publicação em breve">
+        Em breve
+      </span>
+    </div>
+  </section>
+
+  <section id="sobre-o-autor" class="author-section">
+    <div class="page-shell author-grid">
+      <p class="author-initials" aria-hidden="true">PSC</p>
+      <div>
+        <p class="section-label">Autoria e curadoria</p>
+        <h2>Sobre o autor</h2>
+        <p>{author.description}</p>
+        <a class="editorial-link" href={`/autor/${author.slug}`}>
+          Conheça o autor
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 12h16m-5-5 5 5-5 5"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section
+    id="newsletter"
+    class="newsletter-section"
+    aria-labelledby="newsletter-title"
+  >
+    <div class="page-shell newsletter-grid">
+      <div>
+        <p class="section-label">Correspondência editorial</p>
+        <h2 id="newsletter-title">Acompanhe novas publicações</h2>
+        <p>
+          Receba atualizações sobre novos livros, edições da SUPERFÍCIE e
+          conteúdos selecionados sobre olho seco e superfície ocular.
+        </p>
+      </div>
+
+      <form
+        id="newsletter-form"
+        method="post"
+        action={newsletterEndpoint}
+        data-endpoint={newsletterEndpoint}
+        novalidate
+      >
+        <div class="field-grid">
+          <div class="field">
+            <label for="newsletter-name">Nome</label>
+            <input
+              id="newsletter-name"
+              name="name"
+              type="text"
+              autocomplete="name"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="newsletter-email">E-mail</label>
+            <input
+              id="newsletter-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              inputmode="email"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="newsletter-profession">
+              Profissão <span>(opcional)</span>
+            </label>
+            <input
+              id="newsletter-profession"
+              name="profession"
+              type="text"
+              autocomplete="organization-title"
+            />
+          </div>
+        </div>
+
+        <div class="honeypot" aria-hidden="true">
+          <label for="newsletter-company">Empresa</label>
+          <input
+            id="newsletter-company"
+            name="company"
+            type="text"
+            tabindex="-1"
+            autocomplete="off"
+          />
+        </div>
+
+        <label class="consent" for="newsletter-consent">
+          <input
+            id="newsletter-consent"
+            name="consent"
+            type="checkbox"
+            value="accepted"
+            required
+          />
+          <span>
+            Concordo com o tratamento dos meus dados para receber comunicações
+            editoriais, conforme a <a href="/privacidade"
+              >Política de Privacidade</a
+            >.
+          </span>
+        </label>
+
+        <div class="form-footer">
+          <button type="submit">Quero receber as atualizações</button>
+          <p id="newsletter-status" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    type EventName =
+      | "view_book"
+      | "click_book"
+      | "click_purchase"
+      | "newsletter_signup"
+      | "click_superficie";
+
+    const analyticsWindow = window as Window & {
+      dataLayer?: Array<Record<string, unknown>>;
+    };
+
+    const track = (
+      event: EventName,
+      properties: Record<string, string> = {},
+    ) => {
+      analyticsWindow.dataLayer = analyticsWindow.dataLayer ?? [];
+      analyticsWindow.dataLayer.push({ event, ...properties });
+      window.dispatchEvent(
+        new CustomEvent("olhossecos:analytics", {
+          detail: { event, ...properties },
+        }),
+      );
+    };
+
+    document
+      .querySelectorAll<HTMLElement>("[data-event]")
+      .forEach((element) => {
+        element.addEventListener("click", () => {
+          const event = element.dataset.event as EventName;
+          if (!event) return;
+          track(event, {
+            ...(element.dataset.book ? { book: element.dataset.book } : {}),
+            ...(element.dataset.store ? { store: element.dataset.store } : {}),
+          });
+        });
+      });
+
+    const observedBooks =
+      document.querySelectorAll<HTMLElement>("[data-book-slug]");
+    const viewed = new Set<string>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const slug = (entry.target as HTMLElement).dataset.bookSlug;
+          if (!slug || viewed.has(slug)) return;
+          viewed.add(slug);
+          track("view_book", { book: slug });
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.35 },
+    );
+    observedBooks.forEach((book) => observer.observe(book));
+
+    const form = document.querySelector<HTMLFormElement>("#newsletter-form");
+    const status = document.querySelector<HTMLElement>("#newsletter-status");
+
+    form?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+
+      const endpoint = form.dataset.endpoint;
+      if (!endpoint) return;
+
+      const submit = form.querySelector<HTMLButtonElement>(
+        "button[type='submit']",
+      );
+      form.setAttribute("aria-busy", "true");
+      if (submit) submit.disabled = true;
+      if (status) status.textContent = "Enviando…";
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        });
+        const result = (await response.json().catch(() => null)) as {
+          message?: string;
+        } | null;
+        if (!response.ok) {
+          throw new Error(result?.message ?? "newsletter_request_failed");
+        }
+        form.reset();
+        if (status) {
+          status.textContent =
+            result?.message ?? "Cadastro realizado. Obrigado.";
+        }
+        track("newsletter_signup");
+      } catch (error) {
+        if (status) {
+          status.textContent =
+            error instanceof Error &&
+            error.message !== "newsletter_request_failed"
+              ? error.message
+              : "Não foi possível concluir agora. Tente novamente mais tarde.";
+        }
+      } finally {
+        form.removeAttribute("aria-busy");
+        if (submit) submit.disabled = false;
+      }
+    });
+  </script>
+</Layout>
+
+<style>
+  .books-hero {
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(
+      90deg,
+      #ffffff 0%,
+      #ffffff 57%,
+      #f5f7f7 57%,
+      #f5f7f7 100%
+    );
+  }
+
+  .books-hero :global(.breadcrumbs) {
+    padding-top: 1.2rem;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.03fr) minmax(430px, 0.97fr);
+    min-height: 650px;
+    align-items: center;
+    gap: clamp(3rem, 7vw, 8rem);
+    padding-block: 2.5rem 4.5rem;
+  }
+
+  .hero-copy h1 {
+    max-width: 760px;
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(3.4rem, 5.5vw, 6.1rem);
+    font-weight: 500;
+    letter-spacing: -0.055em;
+    line-height: 0.94;
+  }
+
+  .hero-subtitle {
+    max-width: 620px;
+    margin: 1.7rem 0 0;
+    color: var(--teal-dark);
+    font-family: var(--serif);
+    font-size: clamp(1.35rem, 2vw, 1.75rem);
+    line-height: 1.32;
+  }
+
+  .hero-intro {
+    max-width: 690px;
+    margin: 1.4rem 0 0;
+    color: var(--ink-soft);
+    font-size: clamp(1rem, 1.2vw, 1.1rem);
+  }
+
+  .hero-signature {
+    display: grid;
+    width: fit-content;
+    margin-top: 2.2rem;
+    padding-top: 1rem;
+    border-top: 2px solid #b28a42;
+  }
+
+  .hero-signature span {
+    font-family: var(--serif);
+    font-size: 1.12rem;
+    font-weight: 700;
+  }
+
+  .hero-signature small {
+    color: var(--ink-soft);
+    font-size: 0.8rem;
+  }
+
+  .hero-library {
+    position: relative;
+    display: flex;
+    min-height: 500px;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 1.7rem;
+    padding: 2rem 0 0;
+    isolation: isolate;
+  }
+
+  .hero-library::after {
+    position: absolute;
+    z-index: -1;
+    right: -30vw;
+    bottom: -4.5rem;
+    left: -5rem;
+    height: 170px;
+    border-top: 1px solid #dce1e3;
+    background: #f0f3f3;
+    content: "";
+    transform: skewY(-2deg);
+  }
+
+  .hero-library :global(.book-cover) {
+    width: min(42%, 252px);
+    box-shadow:
+      0 30px 48px rgb(7 29 69 / 18%),
+      7px 7px 0 #dfe4e4;
+  }
+
+  .hero-library :global(.hero-cover-one) {
+    transform: translateY(-1.4rem) rotate(-1.5deg);
+  }
+
+  .hero-library :global(.hero-cover-two) {
+    transform: rotate(1.2deg);
+  }
+
+  .hero-rule {
+    position: absolute;
+    top: 2.4rem;
+    right: 1rem;
+    width: 100px;
+    height: 1px;
+    background: #b28a42;
+  }
+
+  .featured-books {
+    background: white;
+  }
+
+  .section-intro {
+    display: grid;
+    grid-template-columns: 0.7fr 1.25fr 1fr;
+    gap: 2rem;
+    align-items: end;
+    padding-block: clamp(4rem, 7vw, 6.5rem) 2.4rem;
+  }
+
+  .section-intro p,
+  .section-label {
+    margin: 0;
+    color: #7b5a1f;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .section-intro h2,
+  .expansion h2,
+  .author-section h2,
+  .newsletter-section h2 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(2.4rem, 4vw, 4.5rem);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+
+  .section-intro > span {
+    max-width: 380px;
+    color: var(--ink-soft);
+    font-size: 0.93rem;
+  }
+
+  .expansion {
+    overflow: hidden;
+    border-block: 1px solid var(--line);
+    background: #f4f7f7;
+  }
+
+  .expansion-grid {
+    display: grid;
+    grid-template-columns: 0.72fr 1.28fr;
+    gap: clamp(2rem, 8vw, 9rem);
+    align-items: center;
+    min-height: 350px;
+    padding-block: 4rem;
+  }
+
+  .expansion-mark {
+    color: #0a6b7c;
+    font-family: var(--serif);
+    font-size: clamp(9rem, 22vw, 20rem);
+    font-weight: 400;
+    line-height: 0.5;
+    opacity: 0.1;
+  }
+
+  .expansion p {
+    max-width: 760px;
+    margin: 1.5rem 0 0;
+    color: var(--ink-soft);
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+  }
+
+  .ecosystem {
+    display: grid;
+    grid-template-columns: minmax(180px, 0.55fr) minmax(0, 1.45fr);
+    gap: clamp(3rem, 9vw, 10rem);
+    align-items: center;
+    padding-block: clamp(5rem, 9vw, 8.5rem);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .superficie-monogram {
+    position: relative;
+    display: grid;
+    width: min(100%, 260px);
+    aspect-ratio: 3 / 4;
+    place-items: center;
+    border: 1px solid #aabac4;
+    background: var(--ink);
+    color: white;
+  }
+
+  .superficie-monogram span {
+    font-family: var(--serif);
+    font-size: clamp(6rem, 12vw, 11rem);
+    line-height: 1;
+  }
+
+  .superficie-monogram i {
+    position: absolute;
+    right: 16%;
+    bottom: 15%;
+    left: 16%;
+    height: 1px;
+    background: #c69a4a;
+  }
+
+  .superficie-name {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(2.3rem, 4vw, 4rem);
+    letter-spacing: 0.03em;
+    line-height: 1;
+  }
+
+  .ecosystem h2 {
+    max-width: 720px;
+    margin: 0.7rem 0 0;
+    font-family: var(--serif);
+    font-size: clamp(1.5rem, 2.4vw, 2.3rem);
+    font-weight: 500;
+    line-height: 1.15;
+  }
+
+  .superficie-tagline {
+    margin: 1rem 0 0;
+    color: var(--teal-dark);
+    font-size: 1.05rem;
+    font-weight: 750;
+  }
+
+  .ecosystem-copy > p:not(.superficie-name, .superficie-tagline) {
+    max-width: 760px;
+    margin: 1.2rem 0 0;
+    color: var(--ink-soft);
+  }
+
+  .coming-soon {
+    display: inline-block;
+    margin-top: 1.7rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid #b28a42;
+    color: #7b5a1f;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .author-section {
+    padding-block: clamp(5rem, 9vw, 8.5rem);
+  }
+
+  .author-grid {
+    display: grid;
+    grid-template-columns: minmax(200px, 0.65fr) minmax(0, 1.35fr);
+    gap: clamp(3rem, 9vw, 10rem);
+    align-items: center;
+  }
+
+  .author-initials {
+    margin: 0;
+    color: transparent;
+    font-family: var(--serif);
+    font-size: clamp(5rem, 12vw, 10rem);
+    font-weight: 500;
+    letter-spacing: -0.08em;
+    line-height: 0.8;
+    -webkit-text-stroke: 1px #91a7b5;
+  }
+
+  .author-section h2 {
+    margin-top: 0.8rem;
+  }
+
+  .author-section div > p:not(.section-label, .author-initials) {
+    max-width: 790px;
+    margin: 1.5rem 0 0;
+    color: var(--ink-soft);
+    font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+  }
+
+  .editorial-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.8rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid currentColor;
+    color: var(--teal-dark);
+    font-weight: 750;
+  }
+
+  .editorial-link svg {
+    width: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.7;
+  }
+
+  .newsletter-section {
+    border-top: 1px solid var(--line);
+    background: #f4f7f7;
+  }
+
+  .newsletter-grid {
+    display: grid;
+    grid-template-columns: minmax(260px, 0.75fr) minmax(0, 1.25fr);
+    gap: clamp(3rem, 8vw, 8rem);
+    padding-block: clamp(4.5rem, 8vw, 7rem);
+  }
+
+  .newsletter-section h2 {
+    margin-top: 0.8rem;
+  }
+
+  .newsletter-grid > div > p:last-child {
+    max-width: 520px;
+    margin: 1.4rem 0 0;
+    color: var(--ink-soft);
+  }
+
+  form {
+    align-self: center;
+  }
+
+  .field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem 1.2rem;
+  }
+
+  .field:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .field {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .field label {
+    color: var(--ink);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .field label span {
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+
+  .field input {
+    width: 100%;
+    min-height: 52px;
+    padding: 0.7rem 0.8rem;
+    border: 0;
+    border-bottom: 1px solid #7e939f;
+    border-radius: 0;
+    background: transparent;
+    color: var(--ink);
+  }
+
+  .field input:focus-visible {
+    border-bottom-color: var(--teal-dark);
+  }
+
+  .honeypot {
+    position: absolute;
+    left: -10000px;
+  }
+
+  .consent {
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    gap: 0.8rem;
+    align-items: start;
+    margin-top: 1.6rem;
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  .consent input {
+    width: 18px;
+    height: 18px;
+    margin: 0.15rem 0 0;
+    accent-color: var(--teal-dark);
+  }
+
+  .consent a {
+    color: var(--teal-dark);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .form-footer {
+    display: flex;
+    align-items: center;
+    gap: 1.3rem;
+    margin-top: 1.5rem;
+  }
+
+  .form-footer button {
+    min-height: 52px;
+    padding: 0.85rem 1.35rem;
+    border: 1px solid var(--ink);
+    border-radius: 0;
+    background: var(--ink);
+    color: white;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .form-footer button:hover {
+    background: var(--teal-dark);
+  }
+
+  .form-footer button:disabled {
+    cursor: wait;
+    opacity: 0.65;
+  }
+
+  #newsletter-status {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+  }
+
+  @media (max-width: 1000px) {
+    .books-hero {
+      background: white;
+    }
+
+    .hero-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.72fr);
+      min-height: 580px;
+      gap: 2.5rem;
+    }
+
+    .hero-library {
+      min-height: 430px;
+      margin-right: -2rem;
+      padding-right: 2rem;
+      background: #f5f7f7;
+    }
+
+    .section-intro {
+      grid-template-columns: 0.6fr 1.4fr;
+    }
+
+    .section-intro > span {
+      display: none;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .books-hero :global(.breadcrumbs) {
+      padding-top: 0.8rem;
+    }
+
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 2.8rem;
+      padding-block: 1.4rem 0;
+    }
+
+    .hero-copy h1 {
+      font-size: clamp(2.85rem, 14vw, 4.3rem);
+    }
+
+    .hero-library {
+      min-height: 350px;
+      align-items: flex-start;
+      margin-inline: -1rem;
+      padding: 1.6rem 1.3rem 0;
+    }
+
+    .hero-library :global(.book-cover) {
+      width: min(43%, 195px);
+    }
+
+    .hero-library::after {
+      right: -1rem;
+      left: -1rem;
+    }
+
+    .section-intro {
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
+      padding-bottom: 1.8rem;
+    }
+
+    .expansion-grid,
+    .ecosystem,
+    .author-grid,
+    .newsletter-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .expansion-grid {
+      gap: 0;
+      min-height: auto;
+    }
+
+    .expansion-mark {
+      height: 82px;
+      font-size: 9rem;
+    }
+
+    .ecosystem,
+    .author-grid,
+    .newsletter-grid {
+      gap: 2.5rem;
+    }
+
+    .superficie-monogram {
+      width: min(52vw, 210px);
+    }
+
+    .author-initials {
+      font-size: 6.5rem;
+    }
+
+    .field-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .field:last-child {
+      grid-column: auto;
+    }
+
+    .form-footer {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .form-footer button {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .hero-library {
+      min-height: 330px;
+      gap: 0.8rem;
+    }
+
+    .hero-library :global(.book-cover) {
+      width: min(45%, 155px);
+    }
+  }
+</style>

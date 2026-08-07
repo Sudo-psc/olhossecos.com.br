@@ -1,0 +1,439 @@
+---
+import BookCover from "@/components/BookCover.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import Layout from "@/layouts/Layout.astro";
+import { author, books, type Book } from "@/lib/books";
+
+export function getStaticPaths() {
+  return books.map((book) => ({
+    params: { slug: book.slug },
+    props: { book },
+  }));
+}
+
+interface Props {
+  book: Book;
+}
+
+const { book } = Astro.props;
+const canonicalPath = `/livros/${book.slug}`;
+const breadcrumbs = [
+  { name: "Início", url: "/" },
+  { name: "Livros", url: "/livros" },
+  { name: book.title, url: canonicalPath },
+];
+const siteUrl = new URL("/", Astro.site);
+const personId = new URL("/autor/philipe-saraiva-cruz#person", siteUrl).href;
+const bookSchema = {
+  "@context": "https://schema.org",
+  "@type": "Book",
+  "@id": new URL(`${canonicalPath}#book`, siteUrl).href,
+  name: book.title,
+  alternateName: book.subtitle,
+  description: book.description,
+  url: new URL(canonicalPath, siteUrl).href,
+  image: new URL(book.cover.webp800, siteUrl).href,
+  inLanguage: "pt-BR",
+  author: {
+    "@type": "Person",
+    "@id": personId,
+    name: author.name,
+    jobTitle: author.role,
+  },
+  isbn: book.isbn,
+  numberOfPages: book.numberOfPages,
+  bookEdition: book.edition,
+  datePublished: book.year?.toString(),
+  keywords: book.topics.join(", "),
+  offers: book.purchaseLinks.map((purchase) => ({
+    "@type": "Offer",
+    url: purchase.url,
+    availability: "https://schema.org/InStock",
+    seller: { "@type": "Organization", name: purchase.store },
+  })),
+};
+---
+
+<Layout
+  title={book.seo.title}
+  description={book.seo.description}
+  image={book.cover.webp800}
+  imageAlt={book.cover.alt}
+  imageType="image/webp"
+  imageWidth={book.cover.width}
+  imageHeight={book.cover.height}
+  datePublished="2026-08-07"
+  dateModified="2026-08-07"
+  breadcrumbs={breadcrumbs}
+>
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={JSON.stringify(bookSchema)}
+  />
+
+  <header class="book-page-hero">
+    <div class="page-shell">
+      <Breadcrumbs items={breadcrumbs} />
+      <div class="book-hero-grid">
+        <div class="book-art">
+          <BookCover book={book} eager />
+        </div>
+        <div class="book-heading">
+          <p class="book-badge">{book.badge}</p>
+          <h1>{book.title}</h1>
+          <p class="book-subtitle">{book.subtitle}</p>
+          <p class="book-description">{book.description}</p>
+          <dl>
+            <div>
+              <dt>Autor</dt>
+              <dd>{book.author}</dd>
+            </div>
+            <div>
+              <dt>Idioma</dt>
+              <dd>{book.language}</dd>
+            </div>
+            <div>
+              <dt>Status</dt>
+              <dd>{book.status}</dd>
+            </div>
+            {
+              book.edition && (
+                <div>
+                  <dt>Edição</dt>
+                  <dd>
+                    {book.edition} · {book.year}
+                  </dd>
+                </div>
+              )
+            }
+            {
+              book.numberOfPages && (
+                <div>
+                  <dt>Extensão</dt>
+                  <dd>{book.numberOfPages} páginas</dd>
+                </div>
+              )
+            }
+            {
+              book.isbn && (
+                <div>
+                  <dt>ISBN</dt>
+                  <dd>{book.isbn}</dd>
+                </div>
+              )
+            }
+          </dl>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="book-page-content page-shell" data-book-slug={book.slug}>
+    <section aria-labelledby="topics-title">
+      <p class="section-label">Conteúdo da obra</p>
+      <h2 id="topics-title">Temas principais</h2>
+      <ol>
+        {
+          book.topics.map((topic, index) => (
+            <li>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              {topic}
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <aside aria-labelledby="reader-title">
+      <p class="section-label">Perfil de leitura</p>
+      <h2 id="reader-title">Para quem é esta obra</h2>
+      <p>{book.audience}</p>
+      <div class="purchase-block">
+        <h3>Onde encontrar</h3>
+        {
+          book.purchaseLinks.map((purchase) => (
+            <a
+              href={purchase.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-event="click_purchase"
+              data-book={book.slug}
+              data-store={purchase.store}
+            >
+              <span>
+                <small>{purchase.format}</small>
+                {purchase.store}
+              </span>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M7 17 17 7M8 7h9v9" />
+              </svg>
+            </a>
+          ))
+        }
+      </div>
+    </aside>
+  </main>
+
+  <nav class="back-to-library page-shell" aria-label="Voltar à biblioteca">
+    <a href="/livros">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20 12H4m5-5-5 5 5 5"></path>
+      </svg>
+      Ver todos os livros
+    </a>
+  </nav>
+
+  <script>
+    const analyticsWindow = window as Window & {
+      dataLayer?: Array<Record<string, unknown>>;
+    };
+    const slug =
+      document.querySelector<HTMLElement>("[data-book-slug]")?.dataset.bookSlug;
+    if (slug) {
+      analyticsWindow.dataLayer = analyticsWindow.dataLayer ?? [];
+      analyticsWindow.dataLayer.push({ event: "view_book", book: slug });
+    }
+    document
+      .querySelectorAll<HTMLElement>("[data-event]")
+      .forEach((element) => {
+        element.addEventListener("click", () => {
+          analyticsWindow.dataLayer = analyticsWindow.dataLayer ?? [];
+          analyticsWindow.dataLayer.push({
+            event: element.dataset.event,
+            book: element.dataset.book,
+            store: element.dataset.store,
+          });
+        });
+      });
+  </script>
+</Layout>
+
+<style>
+  .book-page-hero {
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(90deg, #f4f7f7 0 34%, white 34%);
+  }
+
+  .book-page-hero :global(.breadcrumbs) {
+    padding-top: 1.2rem;
+  }
+
+  .book-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.28fr);
+    gap: clamp(4rem, 9vw, 10rem);
+    align-items: center;
+    min-height: 720px;
+    padding-block: 2.5rem 5rem;
+  }
+
+  .book-art {
+    width: min(100%, 430px);
+    margin-inline: auto;
+  }
+
+  .book-badge,
+  .section-label {
+    display: inline-block;
+    margin: 0 0 1.3rem;
+    color: #7b5a1f;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .book-badge {
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid #b28a42;
+  }
+
+  h1 {
+    max-width: 890px;
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(2.8rem, 5vw, 5.5rem);
+    font-weight: 500;
+    letter-spacing: -0.055em;
+    line-height: 0.96;
+  }
+
+  .book-subtitle {
+    max-width: 760px;
+    margin: 1.6rem 0 0;
+    color: var(--teal-dark);
+    font-family: var(--serif);
+    font-size: clamp(1.25rem, 2vw, 1.7rem);
+    line-height: 1.35;
+  }
+
+  .book-description {
+    max-width: 760px;
+    margin: 1.3rem 0 0;
+    color: var(--ink-soft);
+  }
+
+  dl {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem 1.5rem;
+    margin: 2.5rem 0 0;
+  }
+
+  dl div {
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--line);
+  }
+
+  dt {
+    color: var(--ink-soft);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0.25rem 0 0;
+    font-size: 0.88rem;
+    font-weight: 700;
+  }
+
+  .book-page-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+    gap: clamp(4rem, 10vw, 11rem);
+    padding-block: clamp(5rem, 10vw, 9rem);
+  }
+
+  .book-page-content h2 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(2.4rem, 4vw, 4.2rem);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+
+  ol {
+    margin: 2.4rem 0 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+    list-style: none;
+  }
+
+  ol li {
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    gap: 1rem;
+    padding-block: 0.9rem;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-soft);
+  }
+
+  ol li span {
+    color: #8a6a2e;
+    font-family: var(--serif);
+  }
+
+  .book-page-content aside > p:not(.section-label) {
+    margin: 1.5rem 0 0;
+    color: var(--ink-soft);
+  }
+
+  .purchase-block {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #d5c298;
+  }
+
+  .purchase-block h3 {
+    margin: 0 0 0.7rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .purchase-block a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 1rem;
+    border-bottom: 1px solid var(--line);
+    font-weight: 700;
+  }
+
+  .purchase-block a:hover {
+    color: var(--teal-dark);
+  }
+
+  .purchase-block a span {
+    display: grid;
+  }
+
+  .purchase-block a small {
+    color: var(--ink-soft);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .purchase-block svg,
+  .back-to-library svg {
+    width: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.7;
+  }
+
+  .back-to-library {
+    padding-block: 0 5rem;
+  }
+
+  .back-to-library a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid currentColor;
+    color: var(--teal-dark);
+    font-weight: 750;
+  }
+
+  @media (max-width: 860px) {
+    .book-page-hero {
+      background: white;
+    }
+
+    .book-hero-grid,
+    .book-page-content {
+      grid-template-columns: 1fr;
+    }
+
+    .book-hero-grid {
+      gap: 3.5rem;
+      min-height: auto;
+    }
+
+    .book-art {
+      width: min(76vw, 400px);
+      padding: 2rem;
+      background: #f4f7f7;
+    }
+
+    dl {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 480px) {
+    dl {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

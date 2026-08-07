@@ -1,0 +1,56 @@
+---
+import type { Book } from "@/lib/books";
+
+interface Props {
+  book: Book;
+  eager?: boolean;
+  decorative?: boolean;
+  class?: string;
+}
+
+const {
+  book,
+  eager = false,
+  decorative = false,
+  class: className,
+} = Astro.props;
+---
+
+<picture class:list={["book-cover", className]}>
+  <source
+    type="image/avif"
+    srcset={`${book.cover.avif480} 480w, ${book.cover.avif800} 800w`}
+    sizes="(max-width: 720px) 72vw, 420px"
+  />
+  <source
+    type="image/webp"
+    srcset={`${book.cover.webp480} 480w, ${book.cover.webp800} 800w`}
+    sizes="(max-width: 720px) 72vw, 420px"
+  />
+  <img
+    src={book.cover.webp800}
+    width={book.cover.width}
+    height={book.cover.height}
+    alt={decorative ? "" : book.cover.alt}
+    aria-hidden={decorative ? "true" : undefined}
+    loading={eager ? "eager" : "lazy"}
+    fetchpriority={eager ? "high" : "auto"}
+    decoding="async"
+  />
+</picture>
+
+<style>
+  .book-cover {
+    display: block;
+    overflow: hidden;
+    background: #081923;
+    box-shadow:
+      0 26px 52px rgb(7 29 69 / 15%),
+      8px 8px 0 #edf1f2;
+  }
+
+  .book-cover img {
+    width: 100%;
+    height: auto;
+  }
+</style>
