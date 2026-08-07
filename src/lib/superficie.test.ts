@@ -11,10 +11,28 @@ const article = (overrides: Partial<MagazineArticle> = {}): MagazineArticle =>
     excerpt: "Resumo editorial.",
     content: [
       {
-        id: "contexto",
-        title: "Contexto",
-        kind: "body",
+        id: "por-que-importa",
+        title: "Por que isso importa?",
+        kind: "why-it-matters",
         paragraphs: ["texto ".repeat(260)],
+      },
+      {
+        id: "evidencia",
+        title: "Qual é a evidência?",
+        kind: "evidence",
+        paragraphs: ["Evidência contextualizada."],
+      },
+      {
+        id: "aplicacao",
+        title: "Como muda a prática?",
+        kind: "practice",
+        paragraphs: ["Aplicação contextualizada."],
+      },
+      {
+        id: "limitacoes",
+        title: "Quais são as limitações?",
+        kind: "limitations",
+        paragraphs: ["Limitações declaradas."],
       },
     ],
     category: "Clínica",
@@ -132,4 +150,38 @@ test("validação exige identificação explícita do patrocinador", () => {
   assert.deepEqual(validateMagazineArticle(article({ sponsored: true })), [
     "Conteúdo patrocinado exige patrocinador e rótulo explícito.",
   ]);
+});
+
+test("validação exige as quatro perguntas editoriais em artigos publicados", () => {
+  const validateMagazineArticle =
+    typeof api.validateMagazineArticle === "function"
+      ? (api.validateMagazineArticle as (value: MagazineArticle) => string[])
+      : () => [];
+  const withoutLimitations = article({
+    content: article().content.filter(({ kind }) => kind !== "limitations"),
+  });
+
+  assert.deepEqual(validateMagazineArticle(withoutLimitations), [
+    "Artigos publicados exigem as seções: por que importa, evidência, aplicação prática e limitações.",
+  ]);
+});
+
+test("validação exige canonical consistente com o slug", () => {
+  const validateMagazineArticle =
+    typeof api.validateMagazineArticle === "function"
+      ? (api.validateMagazineArticle as (value: MagazineArticle) => string[])
+      : () => [];
+
+  assert.deepEqual(
+    validateMagazineArticle(
+      article({
+        seo: {
+          title: "Artigo base | SUPERFÍCIE",
+          description: "Descrição.",
+          canonical: "/superficie/artigos/outro-slug",
+        },
+      }),
+    ),
+    ["O canonical do artigo deve corresponder ao slug editorial."],
+  );
 });

@@ -564,9 +564,11 @@ Cobertura atual:
 - seleção determinística de “Leia também” por tags e categoria;
 - exclusão de rascunhos da recomendação;
 - validação de data, referências e disclosures antes da publicação;
+- presença obrigatória das quatro perguntas editoriais em artigos publicados;
+- canonical consistente com o slug do artigo;
 - identificação obrigatória de patrocinador e rótulo em conteúdo patrocinado.
 
-O teste foi desenvolvido em ciclo red-green: os quatro casos falharam antes da
+O teste foi desenvolvido em ciclo red-green: os seis casos falharam antes da
 implementação das funções e passaram após a implementação mínima.
 
 **Atualização desta seção**: 07/08/2026

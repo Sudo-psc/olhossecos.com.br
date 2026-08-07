@@ -105,6 +105,27 @@ export const validateMagazineArticle = (article: MagazineArticle) => {
     errors.push("Artigos publicados exigem ao menos uma referência.");
   }
 
+  const requiredSectionKinds: MagazineArticleSectionKind[] = [
+    "why-it-matters",
+    "evidence",
+    "practice",
+    "limitations",
+  ];
+  const sectionKinds = new Set(article.content.map(({ kind }) => kind));
+
+  if (
+    article.status === "published" &&
+    requiredSectionKinds.some((kind) => !sectionKinds.has(kind))
+  ) {
+    errors.push(
+      "Artigos publicados exigem as seções: por que importa, evidência, aplicação prática e limitações.",
+    );
+  }
+
+  if (article.seo.canonical !== getMagazineArticlePath(article)) {
+    errors.push("O canonical do artigo deve corresponder ao slug editorial.");
+  }
+
   if (!article.disclosure.trim()) {
     errors.push(
       "O campo de conflitos de interesse / disclosures é obrigatório.",
