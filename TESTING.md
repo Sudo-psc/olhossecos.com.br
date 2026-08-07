@@ -42,6 +42,7 @@ pnpm install
 ```
 
 Isso instalará todas as dependências de teste automaticamente:
+
 - `@testing-library/react` - Testes de componentes React
 - `@testing-library/jest-dom` - Matchers customizados para DOM
 - `@testing-library/user-event` - Simulação de interações de usuário
@@ -69,6 +70,7 @@ Isso instalará os navegadores necessários (Chromium, Firefox, WebKit).
 **Localização**: `src/components/__tests__/`
 
 **Exemplo**:
+
 ```typescript
 // src/components/__tests__/post-card.test.tsx
 import { render, screen } from '@testing-library/react'
@@ -81,6 +83,7 @@ test('renders post title', () => {
 ```
 
 **O que testar**:
+
 - ✅ Renderização de componentes
 - ✅ Props e estados
 - ✅ Interações básicas
@@ -88,6 +91,7 @@ test('renders post title', () => {
 - ✅ Tratamento de dados ausentes
 
 **O que NÃO testar**:
+
 - ❌ Detalhes de implementação
 - ❌ Estilos CSS (use visual regression separadamente)
 - ❌ Lógica de terceiros (Next.js, Sanity)
@@ -103,16 +107,18 @@ test('renders post title', () => {
 **Nota**: Testar API routes do Next.js 15 com App Router requer configuração adicional para mockar `Request`/`Response` do Web Standards e `NextRequest`/`NextResponse`. Considere usar testes E2E com Playwright para validar endpoints de API em ambiente real.
 
 **Exemplo (estrutura futura)**:
+
 ```typescript
 // src/app/api/revalidate/__tests__/route.test.ts
-test('revalidates posts tags when post is updated', async () => {
-  const response = await POST(request)
-  expect(response.status).toBe(200)
-  expect(revalidateTag).toHaveBeenCalledWith('posts')
-})
+test("revalidates posts tags when post is updated", async () => {
+  const response = await POST(request);
+  expect(response.status).toBe(200);
+  expect(revalidateTag).toHaveBeenCalledWith("posts");
+});
 ```
 
 **O que testar**:
+
 - ✅ Status HTTP corretos
 - ✅ Validação de entrada
 - ✅ Tratamento de erros
@@ -126,16 +132,18 @@ test('revalidates posts tags when post is updated', async () => {
 **Localização**: `e2e/`
 
 **Exemplo**:
+
 ```typescript
 // e2e/homepage.spec.ts
-test('navigates to blog page', async ({ page }) => {
-  await page.goto('/')
-  await page.getByRole('link', { name: 'Blog' }).click()
-  await expect(page).toHaveURL('/blog')
-})
+test("navigates to blog page", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("link", { name: "Blog" }).click();
+  await expect(page).toHaveURL("/blog");
+});
 ```
 
 **O que testar**:
+
 - ✅ Navegação entre páginas
 - ✅ Formulários e CTAs
 - ✅ SEO (meta tags, structured data)
@@ -256,10 +264,10 @@ Relatório gerado em: `coverage/lcov-report/index.html`
 
 ```typescript
 // ✅ BOM - Descritivo e específico
-test('displays error message when email is invalid', () => {})
+test("displays error message when email is invalid", () => {});
 
 // ❌ RUIM - Vago e genérico
-test('validates email', () => {})
+test("validates email", () => {});
 ```
 
 ### 2. Arrange-Act-Assert (AAA)
@@ -281,28 +289,28 @@ test('formats duration correctly', () => {
 
 ```typescript
 // ✅ MELHOR - Use roles semânticos
-screen.getByRole('button', { name: 'Agendar Consulta' })
+screen.getByRole("button", { name: "Agendar Consulta" });
 
 // 🟡 OK - Quando role não é suficiente
-screen.getByTestId('cta-whatsapp')
+screen.getByTestId("cta-whatsapp");
 
 // ❌ EVITE - Testa implementação, não comportamento
-screen.getByClassName('btn-primary')
+screen.getByClassName("btn-primary");
 ```
 
 ### 4. Mock Apenas o Necessário
 
 ```typescript
 // ✅ BOM - Mock específico
-jest.mock('@/sanity/client', () => ({
-  urlFor: jest.fn(() => ({ url: jest.fn() }))
-}))
+jest.mock("@/sanity/client", () => ({
+  urlFor: jest.fn(() => ({ url: jest.fn() })),
+}));
 
 // ❌ RUIM - Mock excessivo
-jest.mock('next/image')
-jest.mock('next/link')
-jest.mock('@/sanity/client')
-jest.mock('@/sanity/queries')
+jest.mock("next/image");
+jest.mock("next/link");
+jest.mock("@/sanity/client");
+jest.mock("@/sanity/queries");
 ```
 
 ### 5. Testes Assíncronos
@@ -361,6 +369,7 @@ test('renders title', () => {
 **Prioridade**: Alta
 
 **O que testar**:
+
 - Renderização com diferentes props
 - Estados visuais (loading, error, empty)
 - Interações do usuário
@@ -373,6 +382,7 @@ test('renders title', () => {
 **Prioridade**: Alta
 
 **O que testar**:
+
 - Autenticação/autorização
 - Validação de entrada
 - Status codes
@@ -386,6 +396,7 @@ test('renders title', () => {
 **Prioridade**: Média-Alta
 
 **O que testar**:
+
 - Navegação
 - SEO (meta tags)
 - Carregamento de conteúdo
@@ -399,6 +410,7 @@ test('renders title', () => {
 **Prioridade**: Média
 
 **O que testar**:
+
 - Funções puras
 - Formatadores (data, duração)
 - Validadores
@@ -426,8 +438,8 @@ jobs:
       - uses: pnpm/action-setup@v2
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm'
+          node-version: "20"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install
@@ -477,14 +489,15 @@ testEnvironment: 'jsdom',
 **Solução**: Adicionar `waitForLoadState` ou aumentar timeout
 
 ```typescript
-await page.waitForLoadState('networkidle')
+await page.waitForLoadState("networkidle");
 // ou
-await page.getByRole('button').click({ timeout: 10000 })
+await page.getByRole("button").click({ timeout: 10000 });
 ```
 
 ### Testes lentos
 
 **Soluções**:
+
 1. Usar `test.concurrent` para paralelizar
 2. Mockar chamadas de rede
 3. Reduzir escopo de testes E2E
@@ -533,3 +546,27 @@ Para questões sobre testes:
 4. Pesquisar na documentação oficial das ferramentas
 
 **Última atualização**: 21/12/2024
+
+## Testes editoriais da SUPERFÍCIE
+
+O Gate 4 adiciona testes unitários com o test runner nativo do Node para os
+contratos editoriais que não dependem do Astro ou do navegador.
+
+```bash
+npm run test:superficie
+```
+
+Arquivo: `src/lib/superficie.test.ts`.
+
+Cobertura atual:
+
+- cálculo do tempo estimado de leitura a partir do conteúdo estruturado;
+- seleção determinística de “Leia também” por tags e categoria;
+- exclusão de rascunhos da recomendação;
+- validação de data, referências e disclosures antes da publicação;
+- identificação obrigatória de patrocinador e rótulo em conteúdo patrocinado.
+
+O teste foi desenvolvido em ciclo red-green: os quatro casos falharam antes da
+implementação das funções e passaram após a implementação mínima.
+
+**Atualização desta seção**: 07/08/2026

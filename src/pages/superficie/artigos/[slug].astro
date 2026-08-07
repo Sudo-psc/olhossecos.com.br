@@ -90,6 +90,7 @@ const articleSchema = isPublished
   robots={isPublished ? undefined : "noindex,nofollow,noarchive"}
   ogType={isPublished ? "article" : "website"}
   authorName={article.author.name}
+  compactHeader
   breadcrumbs={[
     { name: "SUPERFÍCIE", url: "/superficie" },
     { name: "Artigos", url: "/superficie#destaque" },

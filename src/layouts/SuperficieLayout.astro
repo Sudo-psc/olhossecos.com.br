@@ -14,6 +14,7 @@ interface Props {
   robots?: string;
   ogType?: "website" | "article";
   authorName?: string;
+  compactHeader?: boolean;
   breadcrumbs?: { name: string; url: string }[];
   extraSchema?: Record<string, unknown> | Record<string, unknown>[];
 }
@@ -30,6 +31,7 @@ const {
   robots = "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
   ogType = "website",
   authorName,
+  compactHeader = false,
   breadcrumbs = [],
   extraSchema,
 } = Astro.props;
@@ -162,7 +164,7 @@ const structuredData = {
     <a class="surface-skip-link" href="#conteudo-superficie">
       Pular para o conteúdo
     </a>
-    <SuperficieHeader {home} />
+    <SuperficieHeader {home} compact={compactHeader} />
     <main id="conteudo-superficie">
       <slot />
     </main>

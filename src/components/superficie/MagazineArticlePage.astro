@@ -63,7 +63,11 @@ const formatDate = (date?: string) =>
           <dd>
             {
               article.author.slug ? (
-                <a href={`/autor/${article.author.slug}`}>
+                <a
+                  href={`/autor/${article.author.slug}`}
+                  data-analytics-event="author_click"
+                  data-analytics-label={article.author.slug}
+                >
                   {article.author.name}
                 </a>
               ) : (
@@ -142,7 +146,7 @@ const formatDate = (date?: string) =>
 
     <div class="article-body">
       {
-        article.content.map((section) => (
+        article.content.map((section, index) => (
           <section
             id={section.id}
             class:list={["article-section", section.kind]}
@@ -156,7 +160,10 @@ const formatDate = (date?: string) =>
                     ? "Aplicação"
                     : "Análise editorial"}
             </p>
-            <h2>{section.title}</h2>
+            <div class="section-title">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <h2>{section.title}</h2>
+            </div>
             {section.paragraphs.map((paragraph) => (
               <p>{paragraph}</p>
             ))}
@@ -244,9 +251,15 @@ const formatDate = (date?: string) =>
 </article>
 
 <script>
+  const analyticsWindow = window as typeof window & {
+    dataLayer?: Array<Record<string, unknown>>;
+  };
+  analyticsWindow.dataLayer = analyticsWindow.dataLayer ?? [];
+
   const progressBar = document.querySelector<HTMLElement>(
     ".reading-progress span",
   );
+  const reportedDepths = new Set<number>();
 
   const updateReadingProgress = () => {
     if (!progressBar) return;
@@ -259,7 +272,34 @@ const formatDate = (date?: string) =>
       Math.max(0, (window.scrollY - start) / distance),
     );
     progressBar.style.transform = `scaleX(${progress})`;
+
+    const percentage = Math.round(progress * 100);
+    [25, 50, 75, 100].forEach((depth) => {
+      if (percentage < depth || reportedDepths.has(depth)) return;
+      reportedDepths.add(depth);
+      analyticsWindow.dataLayer?.push({
+        event: "article_read_depth",
+        depth,
+        article_path: window.location.pathname,
+      });
+    });
   };
+
+  document
+    .querySelectorAll<HTMLElement>("[data-analytics-event]")
+    .forEach((element) => {
+      element.addEventListener("click", () => {
+        const detail = {
+          event: element.dataset.analyticsEvent,
+          label: element.dataset.analyticsLabel ?? "",
+          page_path: window.location.pathname,
+        };
+        analyticsWindow.dataLayer?.push(detail);
+        window.dispatchEvent(
+          new CustomEvent("olhossecos:analytics", { detail }),
+        );
+      });
+    });
 
   updateReadingProgress();
   window.addEventListener("scroll", updateReadingProgress, { passive: true });
@@ -341,7 +381,7 @@ const formatDate = (date?: string) =>
     max-width: 980px;
     margin: 0 0 1.4rem;
     font-family: var(--surface-serif);
-    font-size: clamp(3.2rem, 7.2vw, 7.2rem);
+    font-size: clamp(3rem, 5.2vw, 5.6rem);
     font-weight: 400;
     letter-spacing: -0.035em;
     line-height: 0.98;
@@ -456,6 +496,26 @@ const formatDate = (date?: string) =>
     line-height: 1.08;
   }
 
+  .section-title {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    align-items: start;
+    gap: 0.9rem;
+  }
+
+  .section-title > span {
+    padding-top: 0.35rem;
+    color: var(--surface-gold);
+    font-family: var(--surface-serif);
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  .section-title h2 {
+    padding-left: 1rem;
+    border-left: 1px solid var(--surface-gold);
+  }
+
   .article-section > p:not(.section-kicker),
   .article-section li,
   .disclosure-section > p:not(.section-kicker) {
@@ -558,7 +618,7 @@ const formatDate = (date?: string) =>
     text-transform: uppercase;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 760px) {
     .article-hero-grid,
     .article-newsletter > div {
       grid-template-columns: 1fr;
