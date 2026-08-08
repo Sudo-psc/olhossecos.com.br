@@ -23,7 +23,7 @@ npm run check
 Os testes usam o runner nativo de Node e ficam em `src/lib/*.test.ts`.
 
 - `newsletter.test.ts`: cadastro, deduplicação, consentimento, honeypot e origem;
-- `partner-inquiries.test.ts`: solicitações de parceria, consentimento, honeypot e origem;
+- `partner-inquiries.test.ts`: solicitações de parceria, consentimento, honeypot, origem e proteção contra abuso;
 - `superficie.test.ts`: tempo de leitura, relacionados, publicação, patrocínio e canonical;
 - `repository-config.test.ts`: CI, ambiente e documentação operacional.
 
@@ -32,6 +32,7 @@ Também podem ser executados separadamente:
 ```bash
 npm run test:newsletter
 npm run test:partners
+npm run test:gate5
 npm run test:superficie
 ```
 
