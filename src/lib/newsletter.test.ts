@@ -111,6 +111,36 @@ test("aceita cadastro inicial da SUPERFÍCIE somente com e-mail e preserva a ori
   assert.equal(row.utm_campaign, "lancamento");
 });
 
+test("aceita a origem geral da newsletter com cadastro mínimo", async () => {
+  const response = await handleNewsletterRequest(
+    request({
+      email: "portal@example.com",
+      source: "newsletter",
+      consent: "accepted",
+      utmSource: "header",
+    }),
+    { allowedOrigin, databasePath, rateLimit: false },
+  );
+
+  assert.equal(response.status, 201);
+  const result = (await response.json()) as { profileToken?: string };
+  assert.equal(typeof result.profileToken, "string");
+
+  closeNewsletterDatabases();
+  const database = new DatabaseSync(databasePath, { readOnly: true });
+  const row = database
+    .prepare(
+      `SELECT email, name, source, utm_source
+       FROM newsletter_subscribers WHERE email = ?`,
+    )
+    .get("portal@example.com") as Record<string, string>;
+  database.close();
+
+  assert.equal(row.name, "");
+  assert.equal(row.source, "newsletter");
+  assert.equal(row.utm_source, "header");
+});
+
 test("completa o perfil opcional somente com o token emitido no cadastro", async () => {
   const subscription = await handleNewsletterRequest(
     request({

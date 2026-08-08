@@ -32,6 +32,8 @@ type NewsletterPayload = {
   utmTerm?: unknown;
 };
 
+type NewsletterSource = "livros" | "superficie" | "newsletter";
+
 export type NewsletterHandlerOptions = {
   allowedOrigin?: string;
   clientKey?: string;
@@ -50,6 +52,11 @@ const audienceRoles = new Set([
   "industria-parceiro",
   "paciente",
   "outro",
+]);
+const newsletterSources = new Set<NewsletterSource>([
+  "livros",
+  "superficie",
+  "newsletter",
 ]);
 
 const jsonResponse = (
@@ -161,7 +168,7 @@ const saveSubscriber = (
     name: string;
     email: string;
     profession: string;
-    source: "livros" | "superficie";
+    source: NewsletterSource;
     profileTokenHash: string | null;
     profileTokenExpiresAt: string | null;
     utmSource: string;
@@ -410,8 +417,11 @@ export const handleNewsletterRequest = async (
   const name = normalizeText(payload.name);
   const email = normalizeText(payload.email).toLowerCase();
   const profession = normalizeText(payload.profession);
-  const source =
-    normalizeText(payload.source) === "superficie" ? "superficie" : "livros";
+  const requestedSource = normalizeText(payload.source) as NewsletterSource;
+  const source: NewsletterSource = newsletterSources.has(requestedSource)
+    ? requestedSource
+    : "livros";
+  const usesProgressiveProfile = source !== "livros";
   const utmSource = normalizeText(payload.utmSource);
   const utmMedium = normalizeText(payload.utmMedium);
   const utmCampaign = normalizeText(payload.utmCampaign);
@@ -420,7 +430,7 @@ export const handleNewsletterRequest = async (
   const consent = payload.consent === "accepted" || payload.consent === true;
 
   if (
-    (source === "livros" && name.length < 2) ||
+    (!usesProgressiveProfile && name.length < 2) ||
     name.length > 120 ||
     !isValidEmail(email) ||
     profession.length > 120 ||
@@ -435,7 +445,7 @@ export const handleNewsletterRequest = async (
     );
   }
 
-  const profileToken = source === "superficie" ? createProfileToken() : null;
+  const profileToken = usesProgressiveProfile ? createProfileToken() : null;
   const profileTokenExpiresAt = profileToken
     ? new Date(now.getTime() + 24 * 60 * 60 * 1_000).toISOString()
     : null;
