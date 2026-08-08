@@ -132,7 +132,9 @@ const softwareSchema = {
           aria-label="Baixar a versão mais recente do Dry Eye Widget para macOS"
         >
           <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M16.9 12.7c0-2.8 2.3-4.2 2.4-4.3a5.2 5.2 0 0 0-4.1-2.2c-1.7-.2-3.4 1-4.3 1s-2.2-1-3.7-1C5.3 6.2 3.5 7.3 2.5 9c-2.1 3.6-.5 9 1.5 11.9 1 1.4 2.1 3 3.7 2.9 1.5-.1 2-1 3.8-1s2.3 1 3.8 1c1.6 0 2.6-1.4 3.6-2.9 1.1-1.6 1.6-3.2 1.6-3.3-.1 0-3.6-1.4-3.6-4.9ZM14.1 4.4A5.1 5.1 0 0 0 15.3.8a5.2 5.2 0 0 0-3.4 1.7 4.8 4.8 0 0 0-1.2 3.4 4.3 4.3 0 0 0 3.4-1.5Z"></path>
+            <path
+              d="M16.9 12.7c0-2.8 2.3-4.2 2.4-4.3a5.2 5.2 0 0 0-4.1-2.2c-1.7-.2-3.4 1-4.3 1s-2.2-1-3.7-1C5.3 6.2 3.5 7.3 2.5 9c-2.1 3.6-.5 9 1.5 11.9 1 1.4 2.1 3 3.7 2.9 1.5-.1 2-1 3.8-1s2.3 1 3.8 1c1.6 0 2.6-1.4 3.6-2.9 1.1-1.6 1.6-3.2 1.6-3.3-.1 0-3.6-1.4-3.6-4.9ZM14.1 4.4A5.1 5.1 0 0 0 15.3.8a5.2 5.2 0 0 0-3.4 1.7 4.8 4.8 0 0 0-1.2 3.4 4.3 4.3 0 0 0 3.4-1.5Z"
+            ></path>
           </svg>
           <span>
             <small>Última versão para macOS</small>
@@ -149,13 +151,13 @@ const softwareSchema = {
             <a
               href={downloadLinks.windowsExe}
               target="_blank"
-              rel="noopener noreferrer"
-            >Instalador x64 (.exe)</a>
+              rel="noopener noreferrer">Instalador x64 (.exe)</a
+            >
             <a
               href={downloadLinks.windowsZip}
               target="_blank"
-              rel="noopener noreferrer"
-            >Versão portátil (.zip)</a>
+              rel="noopener noreferrer">Versão portátil (.zip)</a
+            >
           </div>
         </div>
 
@@ -204,8 +206,8 @@ const softwareSchema = {
         <span>04</span>
         <h3>Resumo e progresso</h3>
         <p>
-          Visualize pausas, sequência, tempo de tela opcional e tendências da sua
-          rotina sem enviar os dados para servidores.
+          Visualize pausas, sequência, tempo de tela opcional e tendências da
+          sua rotina sem enviar os dados para servidores.
         </p>
       </article>
       <article>
@@ -252,12 +254,14 @@ const softwareSchema = {
           href={downloadLinks.repository}
           target="_blank"
           rel="noopener noreferrer"
-        >Ver código no GitHub <span aria-hidden="true">↗</span></a>
+          >Ver código no GitHub <span aria-hidden="true">↗</span></a
+        >
         <a
           href={downloadLinks.releases}
           target="_blank"
           rel="noopener noreferrer"
-        >Notas da última versão <span aria-hidden="true">↗</span></a>
+          >Notas da última versão <span aria-hidden="true">↗</span></a
+        >
       </div>
     </div>
   </section>
@@ -522,7 +526,10 @@ const softwareSchema = {
 
   .feature-intro {
     display: grid;
-    grid-template-columns: minmax(0, 0.5fr) minmax(0, 1fr) minmax(16rem, 0.55fr);
+    grid-template-columns: minmax(0, 0.5fr) minmax(0, 1fr) minmax(
+        16rem,
+        0.55fr
+      );
     gap: clamp(2rem, 5vw, 5rem);
     align-items: start;
     padding-block: clamp(4.5rem, 8vw, 8rem) clamp(3rem, 6vw, 5rem);

@@ -1,359 +1,88 @@
-# 🚀 Deploy em VPS - olhossecos.com.br
+# Operação e deploy do olhossecos.com.br
 
-Guia completo para deploy do site em um VPS (Virtual Private Server).
+## Arquitetura publicada
 
-## 📋 Requisitos do Servidor
+- repositório: `/root/olhossecos.com.br-site`;
+- build: `/root/olhossecos.com.br-site/dist`;
+- serviço: `olhossecos-astro.service`;
+- usuário do processo: `www-data`;
+- aplicação: `127.0.0.1:4321`;
+- proxy público: Nginx;
+- ambiente: `/root/olhossecos.com.br-site/.env`;
+- newsletter: `/var/lib/olhossecos/newsletter.sqlite`.
 
-- **OS**: Ubuntu 22.04 LTS (recomendado)
-- **RAM**: Mínimo 2GB (recomendado 4GB)
-- **CPU**: Mínimo 1 vCPU (recomendado 2 vCPUs)
-- **Disco**: Mínimo 20GB SSD
-- **Domínio**: DNS apontando para o IP do servidor
+O serviço executa `dist/server/entry.mjs`. A pasta da newsletter e o banco não fazem parte do artefato nem do repositório.
 
-### Provedores Recomendados
-- DigitalOcean
-- Vultr
-- Linode
-- Hostinger VPS
-- Locaweb VPS
+## Política de release
 
----
+O GitHub Actions valida o código, mas não faz deploy. Uma publicação exige:
 
-## 🔧 Configuração Inicial do VPS
+1. Gate de conteúdo/design aprovado;
+2. commit ou tag exatos;
+3. checkout isolado e limpo desse commit;
+4. `npm ci` e `npm run check` aprovados;
+5. auditoria de dependências;
+6. build candidato separado do `dist` ativo;
+7. backup recuperável do build anterior;
+8. autorização explícita para o Gate F;
+9. troca controlada, verificação e plano de rollback.
 
-### 1. Acesse o servidor via SSH
+Nunca use `git reset --hard` no checkout de produção. Não construa um candidato a partir de uma árvore suja.
 
-```bash
-ssh root@SEU_IP_DO_SERVIDOR
-```
+## Variáveis de produção
 
-### 2. Copie os arquivos do projeto
+O `.env` operacional deve permanecer fora do Git e legível apenas por `root:www-data`. Variáveis atuais:
 
-```bash
-# Clonar repositório (se usando Git)
-cd /opt
-git clone https://github.com/seu-usuario/olhossecos.com.br-site.git
-
-# OU copiar via SCP do seu computador
-scp -r /caminho/local/olhossecos root@SEU_IP:/opt/
-```
-
-### 3. Execute o script de setup
-
-```bash
-cd /opt/olhossecos
-chmod +x scripts/setup-vps.sh
-sudo ./scripts/setup-vps.sh
-```
-
-Este script irá:
-- ✅ Atualizar o sistema
-- ✅ Instalar Docker e Docker Compose
-- ✅ Configurar Firewall (UFW)
-- ✅ Instalar e configurar Fail2Ban
-- ✅ Criar estrutura de diretórios
-- ✅ Criar usuário `deploy`
-- ✅ Configurar swap
-
----
-
-## 🔑 Configuração do DNS
-
-No painel do seu provedor de domínio, configure:
-
-| Tipo | Nome | Valor | TTL |
-|------|------|-------|-----|
-| A | @ | SEU_IP_VPS | 3600 |
-| A | www | SEU_IP_VPS | 3600 |
-| CNAME | www | olhossecos.com.br | 3600 |
-
-**Aguarde a propagação do DNS (pode levar até 24h)**
-
-Para verificar:
-```bash
-dig olhossecos.com.br +short
-dig www.olhossecos.com.br +short
-```
-
----
-
-## ⚙️ Configuração de Variáveis de Ambiente
-
-### 1. Copie o arquivo de exemplo
-
-```bash
-cp .env.production.example .env
-```
-
-### 2. Edite as variáveis
-
-```bash
-nano .env
-```
-
-Configure:
 ```env
-NEXT_PUBLIC_SANITY_PROJECT_ID=seu_project_id
-NEXT_PUBLIC_SANITY_DATASET=production
-NEXT_PUBLIC_SANITY_API_VERSION=2024-01-01
-SANITY_API_READ_TOKEN=seu_token_de_leitura
-SANITY_REVALIDATE_SECRET=gere_um_secret_aleatorio
-NEXT_PUBLIC_SITE_URL=https://olhossecos.com.br
-NODE_ENV=production
+PUBLIC_NEWSLETTER_ENDPOINT=/api/newsletter
+NEWSLETTER_DATABASE_PATH=/var/lib/olhossecos/newsletter.sqlite
+NEWSLETTER_ALLOWED_ORIGIN=https://olhossecos.com.br
 ```
 
-### Gerar secrets aleatórios:
-```bash
-openssl rand -base64 32
-```
+Não armazene tokens, usuários da newsletter ou credenciais no repositório ou em logs de CI.
 
----
+## Preparação do candidato
 
-## 🚀 Deploy
-
-### 1. Dar permissão aos scripts
+Em um worktree limpo apontando para o commit aprovado:
 
 ```bash
-chmod +x scripts/deploy.sh
-chmod +x scripts/quick-deploy.sh
+npm ci
+npm run check
+npm audit --omit=dev --audit-level=high
 ```
 
-### 2. Executar deploy
+O diretório `dist/` produzido é o candidato. Registre o SHA e compare-o com o commit aprovado antes da troca.
 
-```bash
-./scripts/deploy.sh
-```
+## Gate F
 
-### Opções do menu de deploy:
+A troca do artefato deve ocorrer somente após autorização explícita. O procedimento operacional deve:
 
-1. **Deploy completo** - Primeira instalação
-2. **Atualizar aplicação** - Updates subsequentes
-3. **Obter certificado SSL** - Configurar HTTPS
-4. **Renovar certificado SSL** - Renovar Let's Encrypt
-5. **Ver logs** - Visualizar logs dos containers
-6. **Reiniciar serviços** - Restart dos containers
-7. **Parar serviços** - Parar tudo
-8. **Status dos containers** - Ver status e uso de recursos
-9. **Backup** - Criar backup
+- criar um diretório datado em `/var/backups/olhossecos/`;
+- preservar o `dist` ativo nesse diretório;
+- ativar o candidato no mesmo sistema de arquivos;
+- reiniciar `olhossecos-astro.service`;
+- executar `nginx -t` antes de qualquer reload do Nginx;
+- confirmar o serviço ativo e ausência de erros novos no journal.
 
----
+Os comandos exatos e o timestamp do backup devem ser apresentados para revisão no Gate F. Este documento não autoriza a execução automática.
 
-## 🔐 Configuração SSL (HTTPS)
+## Verificação pós-deploy
 
-### Passo a passo:
+Verificar pelo menos:
 
-1. **Execute o deploy inicial** (opção 1)
-2. **Aguarde o DNS propagar**
-3. **Execute obter certificado SSL** (opção 3)
+- homepage, `/olho-seco`, `/profissionais`, `/superficie`, `/superficie/edicao-00`, `/livros`, `/app` e `/newsletter`;
+- endpoint da newsletter: GET 405, origem cruzada 403 e cadastro sintético autorizado;
+- sitemap e robots;
+- canonicalização de HTTP, `www` e trailing slash;
+- H1, title, description, JSON-LD e Open Graph;
+- CSP, HSTS, `DENY`, `nosniff` e política de permissões;
+- desktop e mobile, navegação por teclado, formulário e console;
+- ausência de 404 internas e overflow horizontal.
 
-O script automaticamente:
-- Obtém certificado Let's Encrypt
-- Configura redirect HTTP → HTTPS
-- Configura renovação automática
+A assinatura sintética usada no teste deve ser removida do banco após a validação.
 
-### Renovação automática
+## Rollback
 
-O Certbot é executado em um container que verifica e renova certificados automaticamente a cada 12 horas.
+Rollback significa restaurar o `dist` preservado no backup do release, reiniciar o serviço e repetir as verificações essenciais. Nunca apague o build com falha antes de preservar uma cópia para diagnóstico.
 
----
-
-## 📊 Monitoramento
-
-### Ver logs em tempo real:
-
-```bash
-# Todos os logs
-docker compose -f docker-compose.prod.yml logs -f
-
-# Apenas aplicação
-docker compose -f docker-compose.prod.yml logs -f app
-
-# Apenas Nginx
-docker compose -f docker-compose.prod.yml logs -f nginx
-```
-
-### Status dos containers:
-
-```bash
-docker compose -f docker-compose.prod.yml ps
-```
-
-### Uso de recursos:
-
-```bash
-docker stats
-```
-
-### Health check:
-
-```bash
-curl https://olhossecos.com.br/api/health
-```
-
----
-
-## 🔄 Atualizações
-
-### Deploy rápido (CI/CD)
-
-```bash
-./scripts/quick-deploy.sh
-```
-
-### Deploy manual
-
-```bash
-./scripts/deploy.sh
-# Escolha opção 2 - Atualizar aplicação
-```
-
----
-
-## 🔧 Comandos Úteis
-
-```bash
-# Entrar no container da aplicação
-docker compose -f docker-compose.prod.yml exec app sh
-
-# Ver últimos logs
-docker compose -f docker-compose.prod.yml logs --tail=100
-
-# Rebuild forçado
-docker compose -f docker-compose.prod.yml build --no-cache
-
-# Limpar recursos não utilizados
-docker system prune -a
-
-# Ver uso de disco do Docker
-docker system df
-```
-
----
-
-## 🆘 Troubleshooting
-
-### Erro: "Address already in use"
-
-```bash
-# Ver processos usando a porta
-sudo lsof -i :80
-sudo lsof -i :443
-
-# Parar processo
-sudo kill -9 PID
-```
-
-### Erro: Certificado SSL
-
-```bash
-# Verificar logs do certbot
-docker compose -f docker-compose.prod.yml logs certbot
-
-# Forçar renovação
-docker compose -f docker-compose.prod.yml run --rm certbot renew --force-renewal
-```
-
-### Erro: Certificado de Staging (Inválido)
-
-Se o navegador mostrar erro de certificado "Let's Encrypt Staging", execute:
-
-```bash
-# Forçar renovação com servidor de produção
-certbot --nginx \
-  -d olhossecos.com.br \
-  -d www.olhossecos.com.br \
-  --force-renewal \
-  --server https://acme-v02.api.letsencrypt.org/directory \
-  --agree-tos \
-  --register-unsafely-without-email \
-  --non-interactive
-```
-
-### Container não inicia
-
-```bash
-# Ver logs detalhados
-docker compose -f docker-compose.prod.yml logs app
-
-# Verificar saúde
-docker inspect olhossecos-app | grep -A 20 "Health"
-```
-
-### Aplicação lenta
-
-```bash
-# Verificar recursos
-htop
-docker stats
-
-# Verificar logs de erro do Nginx
-docker compose -f docker-compose.prod.yml exec nginx cat /var/log/nginx/error.log
-```
-
----
-
-## 📁 Estrutura de Arquivos no VPS
-
-```
-/opt/olhossecos/
-├── .env                    # Variáveis de ambiente
-├── docker-compose.prod.yml # Configuração Docker
-├── Dockerfile             
-├── nginx/
-│   ├── nginx.conf          # Configuração principal
-│   └── conf.d/
-│       ├── default.conf    # Server block
-│       └── ssl-params.conf # Parâmetros SSL
-├── certbot/
-│   ├── www/                # Challenge ACME
-│   └── conf/               # Certificados SSL
-├── scripts/
-│   ├── setup-vps.sh        # Setup inicial
-│   ├── deploy.sh           # Menu de deploy
-│   └── quick-deploy.sh     # Deploy rápido
-├── backups/                # Backups
-└── logs/                   # Logs da aplicação
-```
-
----
-
-## 🔒 Segurança
-
-### Firewall ativo (UFW)
-- Porta 22 (SSH)
-- Porta 80 (HTTP)
-- Porta 443 (HTTPS)
-
-### Fail2Ban configurado
-- Proteção contra brute-force SSH
-- Proteção contra ataques ao Nginx
-
-### Headers de segurança
-- X-Frame-Options
-- X-Content-Type-Options
-- X-XSS-Protection
-- Strict-Transport-Security (HSTS)
-- Content-Security-Policy
-
----
-
-## 📞 Suporte
-
-Em caso de problemas:
-1. Verifique os logs
-2. Verifique o status dos containers
-3. Verifique a conectividade de rede
-4. Entre em contato com o suporte técnico
-
----
-
-## Checklist Pós-Deploy
-
-- [ ] Site acessível via HTTPS
-- [ ] Redirect HTTP → HTTPS funcionando
-- [ ] Redirect www → non-www funcionando
-- [ ] Health check respondendo
-- [ ] Sanity Studio acessível em /studio
-- [ ] Certificado SSL válido
-- [ ] Logs sendo gerados corretamente
-- [ ] Backups configurados
+Configurações de Nginx e systemd ficam fora do repositório; qualquer alteração nelas exige backup próprio e validação independente.

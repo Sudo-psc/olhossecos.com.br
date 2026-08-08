@@ -1,0 +1,55 @@
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import test from "node:test";
+
+const read = (path: string) => readFileSync(path, "utf8");
+
+test("CI valida o portal com Node 24 sem executar deploy destrutivo", () => {
+  const workflow = read(".github/workflows/deploy.yml");
+
+  assert.match(workflow, /node-version:\s*["']24["']/);
+  assert.match(workflow, /run:\s*npm test/);
+  assert.match(workflow, /run:\s*npm run lint/);
+  assert.match(workflow, /run:\s*npm run format:check/);
+  assert.match(workflow, /run:\s*npm run build/);
+  assert.match(workflow, /run:\s*npm audit --audit-level=high/);
+  assert.doesNotMatch(workflow, /git reset --hard/);
+  assert.doesNotMatch(workflow, /appleboy\/ssh-action/);
+  assert.doesNotMatch(workflow, /quick-deploy\.sh/);
+});
+
+test("exemplo de ambiente representa o portal e preserva a newsletter", () => {
+  const environment = read(".env.example");
+
+  assert.match(environment, /^PUBLIC_NEWSLETTER_ENDPOINT=\/api\/newsletter$/m);
+  assert.match(
+    environment,
+    /^NEWSLETTER_DATABASE_PATH=\.\/var\/newsletter\.sqlite$/m,
+  );
+  assert.match(
+    environment,
+    /^NEWSLETTER_ALLOWED_ORIGIN=http:\/\/localhost:4321$/m,
+  );
+  assert.doesNotMatch(
+    environment,
+    /SITE_URL|SITE_NAME|SITE_DESCRIPTION|Caratinga|PUBLIC_SANITY|GOOGLE_ANALYTICS_ID/,
+  );
+});
+
+test("documentacao principal descreve a stack operacional atual", () => {
+  const readme = read("README.md");
+
+  assert.match(readme, /Astro 7/);
+  assert.match(readme, /Nginx/);
+  assert.match(readme, /systemd/);
+  assert.doesNotMatch(
+    readme,
+    /Astro\*\* como framework.*v4|Tailwind CSS|Sanity\.io/,
+  );
+});
+
+test("gitignore não contém marcadores residuais de edição", () => {
+  const gitignore = read(".gitignore");
+
+  assert.doesNotMatch(gitignore, /^\s*\+{7}\s+REPLACE$/m);
+});
