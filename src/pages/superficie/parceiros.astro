@@ -1,0 +1,482 @@
+---
+import PartnerInquiryForm from "@/components/superficie/PartnerInquiryForm.astro";
+import SuperficieLayout from "@/layouts/SuperficieLayout.astro";
+
+const title = "Parceiros | SUPERFÍCIE";
+const description =
+  "Parcerias editoriais e educacionais da SUPERFÍCIE para organizações ligadas à educação médica, tecnologia e inovação em superfície ocular.";
+const partnerEndpoint =
+  import.meta.env.PUBLIC_PARTNER_INQUIRY_ENDPOINT ||
+  "/api/superficie-parceiros";
+
+const opportunities = [
+  {
+    number: "01",
+    title: "Publicidade identificada",
+    text: "Presença comercial visualmente separada do conteúdo editorial e sempre rotulada como PUBLICIDADE.",
+  },
+  {
+    number: "02",
+    title: "Parcerias educacionais",
+    text: "Projetos com escopo, responsabilidades e identificação explícitos, sem interferência nas conclusões clínicas.",
+  },
+  {
+    number: "03",
+    title: "Projetos especiais",
+    text: "Iniciativas digitais, impressas ou educacionais avaliadas individualmente quanto ao mérito e ao alinhamento editorial.",
+  },
+  {
+    number: "04",
+    title: "Distribuição profissional",
+    text: "Ativações voltadas a uma audiência especializada, com mensuração agregada e respeito à privacidade dos leitores.",
+  },
+];
+
+const processSteps = [
+  ["01", "Contexto", "Entendemos objetivo, público e restrições regulatórias."],
+  [
+    "02",
+    "Aderência",
+    "Avaliamos o alinhamento com a SUPERFÍCIE e sua política editorial.",
+  ],
+  [
+    "03",
+    "Proposta",
+    "Definimos formato, escopo, entregas e métricas adequadas.",
+  ],
+  [
+    "04",
+    "Execução",
+    "Rotulamos a parceria e preservamos o firewall editorial.",
+  ],
+] as const;
+---
+
+<SuperficieLayout
+  {title}
+  {description}
+  breadcrumbs={[
+    { name: "SUPERFÍCIE", url: "/superficie" },
+    { name: "Parceiros", url: "/superficie/parceiros" },
+  ]}
+>
+  <section class="partners-hero" aria-labelledby="partners-hero-title">
+    <div class="surface-shell hero-grid">
+      <div>
+        <p class="eyebrow gold">Parcerias editoriais e educacionais</p>
+        <h1 id="partners-hero-title">
+          Projetos que apoiam educação médica sem comprar conclusões.
+        </h1>
+      </div>
+      <div class="hero-aside">
+        <p>
+          A SUPERFÍCIE trabalha com organizações interessadas em superfície
+          ocular, tecnologia e inovação, preservando a independência editorial
+          em todas as etapas.
+        </p>
+        <div class="hero-actions">
+          <a
+            class="button primary"
+            href="#oportunidades"
+            data-analytics-event="partner_click"
+            data-analytics-label="partners_hero_oportunidades"
+            >Conhecer oportunidades</a
+          >
+          <a
+            class="button quiet"
+            href="#solicitar-media-kit"
+            data-analytics-event="media_kit_click"
+            data-analytics-label="partners_hero_media_kit"
+            >Solicitar mídia kit</a
+          >
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section
+    id="oportunidades"
+    class="section opportunities-section"
+    aria-labelledby="opportunities-title"
+  >
+    <div class="surface-shell">
+      <header class="section-heading">
+        <div>
+          <p class="eyebrow ink">Formatos e proposta de valor</p>
+          <h2 id="opportunities-title">
+            Presença contextual, com transparência.
+          </h2>
+        </div>
+        <p>
+          Não publicamos tabelas de preços nesta página. Cada projeto é
+          dimensionado conforme objetivo, formato, audiência e exigências
+          regulatórias.
+        </p>
+      </header>
+
+      <ol class="opportunity-list">
+        {
+          opportunities.map((opportunity) => (
+            <li>
+              <span>{opportunity.number}</span>
+              <h3>{opportunity.title}</h3>
+              <p>{opportunity.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section value-section" aria-labelledby="value-title">
+    <div class="surface-shell value-grid">
+      <div>
+        <p class="eyebrow gold">O que orienta uma parceria</p>
+        <h2 id="value-title">Relevância para o leitor vem primeiro.</h2>
+      </div>
+      <div class="value-copy">
+        <p>
+          A proposta comercial não determina pauta, recomendação clínica,
+          seleção de referências ou conclusão científica. Publicidade e conteúdo
+          patrocinado recebem identificação inequívoca.
+        </p>
+        <ul>
+          <li>Audiência profissional especializada e contextual.</li>
+          <li>Métricas agregadas de alcance, leitura e interação.</li>
+          <li>Separação entre decisão editorial e contratação comercial.</li>
+          <li>Nenhuma entrega nominal da base de leitores a parceiros.</li>
+        </ul>
+        <a href="/politica-editorial">Conheça nossa política editorial</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section process-section" aria-labelledby="process-title">
+    <div class="surface-shell">
+      <header class="section-heading compact">
+        <div>
+          <p class="eyebrow ink">Da conversa à execução</p>
+          <h2 id="process-title">Como avaliamos oportunidades</h2>
+        </div>
+      </header>
+      <ol class="process-grid">
+        {
+          processSteps.map(([number, heading, text]) => (
+            <li>
+              <span>{number}</span>
+              <h3>{heading}</h3>
+              <p>{text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section
+    id="solicitar-media-kit"
+    class="section request-section"
+    aria-labelledby="request-title"
+  >
+    <div class="surface-shell request-grid">
+      <div>
+        <p class="eyebrow gold">Mídia kit e projetos</p>
+        <h2 id="request-title">Conte-nos o que sua organização procura.</h2>
+        <p>
+          Envie o contexto inicial. A solicitação será avaliada antes do
+          compartilhamento do mídia kit ou de uma proposta. Nenhuma matéria,
+          conclusão científica ou exclusividade editorial é oferecida como
+          contrapartida.
+        </p>
+      </div>
+      <PartnerInquiryForm endpoint={partnerEndpoint} />
+    </div>
+  </section>
+
+  <script is:inline>
+    (() => {
+      window.dataLayer = window.dataLayer || [];
+      const campaign = Object.fromEntries(
+        ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"]
+          .map((key) => [key, new URLSearchParams(location.search).get(key)])
+          .filter(([, value]) => Boolean(value)),
+      );
+
+      window.dataLayer.push({
+        event: "partner_page_view",
+        page_path: window.location.pathname,
+        ...campaign,
+      });
+
+      document.querySelectorAll("[data-analytics-event]").forEach((element) => {
+        element.addEventListener("click", () => {
+          const detail = {
+            event: element.dataset.analyticsEvent,
+            label: element.dataset.analyticsLabel || "",
+            page_path: window.location.pathname,
+          };
+          window.dataLayer.push(detail);
+          window.dispatchEvent(
+            new CustomEvent("olhossecos:analytics", { detail }),
+          );
+        });
+      });
+    })();
+  </script>
+</SuperficieLayout>
+
+<style>
+  .section {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+  }
+
+  .eyebrow {
+    margin: 0 0 0.9rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+  }
+
+  .eyebrow.gold {
+    color: var(--surface-gold-light);
+  }
+
+  .eyebrow.ink {
+    color: var(--surface-teal-dark);
+  }
+
+  h1,
+  h2,
+  h3,
+  p {
+    margin-top: 0;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--surface-serif);
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    line-height: 1.04;
+  }
+
+  h1 {
+    margin-bottom: 0;
+    font-size: clamp(3.2rem, 7.5vw, 7.5rem);
+  }
+
+  h2 {
+    margin-bottom: 1.3rem;
+    font-size: clamp(2.4rem, 5.5vw, 5.2rem);
+  }
+
+  h3 {
+    margin-bottom: 0.65rem;
+    font-size: clamp(1.4rem, 2.2vw, 2rem);
+  }
+
+  .partners-hero {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background:
+      radial-gradient(
+        circle at 82% 18%,
+        rgb(11 130 127 / 24%),
+        transparent 32%
+      ),
+      var(--surface-navy-deep);
+    color: var(--surface-paper);
+  }
+
+  .hero-grid,
+  .value-grid,
+  .request-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.85fr);
+    gap: clamp(3rem, 8vw, 8rem);
+    align-items: end;
+  }
+
+  .hero-aside > p,
+  .request-grid > div > p {
+    color: var(--surface-muted-on-dark);
+    font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.7rem;
+  }
+
+  .button {
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.1rem;
+    border: 1px solid transparent;
+    color: var(--surface-paper);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .button.primary {
+    border-color: var(--surface-teal);
+    background: var(--surface-teal);
+  }
+
+  .button.quiet {
+    border-color: rgb(255 255 255 / 40%);
+  }
+
+  .section-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.65fr);
+    gap: clamp(2rem, 7vw, 7rem);
+    align-items: end;
+    margin-bottom: clamp(2.5rem, 6vw, 5rem);
+  }
+
+  .section-heading > p {
+    color: var(--surface-copy);
+  }
+
+  .section-heading.compact {
+    grid-template-columns: 1fr;
+  }
+
+  .opportunity-list,
+  .process-grid {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .opportunity-list li {
+    display: grid;
+    grid-template-columns: 70px minmax(220px, 0.7fr) minmax(0, 1fr);
+    gap: clamp(1rem, 4vw, 4rem);
+    align-items: baseline;
+    padding-block: 1.65rem;
+    border-top: 1px solid var(--surface-line);
+  }
+
+  .opportunity-list li:last-child {
+    border-bottom: 1px solid var(--surface-line);
+  }
+
+  .opportunity-list span,
+  .process-grid span {
+    color: var(--surface-gold);
+    font-family: var(--surface-serif);
+    font-size: 1.35rem;
+  }
+
+  .opportunity-list p,
+  .process-grid p {
+    margin-bottom: 0;
+    color: var(--surface-copy);
+  }
+
+  .value-section,
+  .request-section {
+    background: var(--surface-navy);
+    color: var(--surface-paper);
+  }
+
+  .value-grid {
+    align-items: start;
+  }
+
+  .value-copy > p,
+  .value-copy li {
+    color: var(--surface-muted-on-dark);
+  }
+
+  .value-copy ul {
+    margin: 1.5rem 0;
+    padding-left: 1.2rem;
+  }
+
+  .value-copy li {
+    margin-block: 0.55rem;
+  }
+
+  .value-copy a {
+    color: var(--surface-gold-light);
+    font-weight: 800;
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--surface-line);
+    border: 1px solid var(--surface-line);
+  }
+
+  .process-grid li {
+    min-height: 250px;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    background: var(--surface-paper);
+  }
+
+  .process-grid h3 {
+    margin-top: 2rem;
+  }
+
+  .request-grid {
+    align-items: start;
+  }
+
+  @media (max-width: 860px) {
+    .hero-grid,
+    .value-grid,
+    .request-grid,
+    .section-heading {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .opportunity-list li {
+      grid-template-columns: 52px 1fr;
+    }
+
+    .opportunity-list p {
+      grid-column: 2;
+    }
+
+    .process-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .partners-hero {
+      padding-block: 4rem 5rem;
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 13vw, 4.4rem);
+    }
+
+    .hero-actions,
+    .hero-actions .button {
+      width: 100%;
+    }
+
+    .process-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .process-grid li {
+      min-height: auto;
+    }
+  }
+</style>

@@ -1,0 +1,540 @@
+---
+interface Props {
+  endpoint?: string;
+}
+
+const { endpoint = "/api/newsletter" } = Astro.props;
+
+const audienceRoles = [
+  ["medico", "Médico"],
+  ["residente-fellow", "Residente / fellow"],
+  ["pesquisador", "Pesquisador"],
+  ["outro-profissional", "Outro profissional"],
+  ["industria-parceiro", "Indústria / parceiro"],
+  ["paciente", "Paciente"],
+  ["outro", "Outro"],
+] as const;
+---
+
+<div class="newsletter-card">
+  <form
+    id="superficie-newsletter-form"
+    method="post"
+    action={endpoint}
+    data-endpoint={endpoint}
+    novalidate
+  >
+    <label for="superficie-email">E-mail</label>
+    <div class="input-row">
+      <input
+        id="superficie-email"
+        type="email"
+        name="email"
+        autocomplete="email"
+        inputmode="email"
+        placeholder="seu@email.com"
+        required
+      />
+      <button type="submit">Quero receber</button>
+    </div>
+
+    <div class="honeypot" aria-hidden="true">
+      <label for="superficie-company">Empresa</label>
+      <input
+        id="superficie-company"
+        type="text"
+        name="company"
+        tabindex="-1"
+        autocomplete="off"
+      />
+    </div>
+
+    <label class="consent" for="superficie-consent">
+      <input
+        id="superficie-consent"
+        type="checkbox"
+        name="consent"
+        value="accepted"
+        required
+      />
+      <span>
+        Concordo em receber comunicações editoriais da SUPERFÍCIE, conforme a <a
+          href="/privacidade">Política de Privacidade</a
+        >.
+      </span>
+    </label>
+
+    <p
+      id="superficie-newsletter-status"
+      class="form-status"
+      role="status"
+      aria-live="polite"
+    >
+    </p>
+  </form>
+
+  <section
+    id="superficie-profile-panel"
+    class="profile-panel"
+    aria-labelledby="superficie-profile-title"
+    hidden
+  >
+    <div>
+      <p class="profile-step">Cadastro concluído</p>
+      <h3 id="superficie-profile-title" tabindex="-1">
+        Quer personalizar o que vai receber?
+      </h3>
+      <p>
+        Esta identificação é opcional e ajuda a selecionar conteúdos mais
+        relevantes para você.
+      </p>
+    </div>
+
+    <form
+      id="superficie-profile-form"
+      method="post"
+      action={endpoint}
+      data-endpoint={endpoint}
+      novalidate
+    >
+      <input type="hidden" name="stage" value="profile" />
+      <input type="hidden" name="email" />
+      <input type="hidden" name="profileToken" />
+      <fieldset>
+        <legend>Como você se identifica?</legend>
+        <div class="role-grid">
+          {
+            audienceRoles.map(([value, label]) => (
+              <label>
+                <input
+                  type="radio"
+                  name="audienceRole"
+                  value={value}
+                  required
+                />
+                <span>{label}</span>
+              </label>
+            ))
+          }
+        </div>
+      </fieldset>
+      <div class="profile-actions">
+        <button type="submit">Salvar identificação</button>
+        <button id="superficie-profile-skip" type="button">Agora não</button>
+      </div>
+      <p
+        id="superficie-profile-status"
+        class="form-status"
+        role="status"
+        aria-live="polite"
+      >
+      </p>
+    </form>
+  </section>
+</div>
+
+<script>
+  const newsletterForm = document.querySelector<HTMLFormElement>(
+    "#superficie-newsletter-form",
+  );
+  const newsletterStatus = document.querySelector<HTMLElement>(
+    "#superficie-newsletter-status",
+  );
+  const profilePanel = document.querySelector<HTMLElement>(
+    "#superficie-profile-panel",
+  );
+  const profileForm = document.querySelector<HTMLFormElement>(
+    "#superficie-profile-form",
+  );
+  const profileStatus = document.querySelector<HTMLElement>(
+    "#superficie-profile-status",
+  );
+  const profileSkip = document.querySelector<HTMLButtonElement>(
+    "#superficie-profile-skip",
+  );
+
+  const campaignKeys = [
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_content",
+    "utm_term",
+  ] as const;
+  const campaignPayloadKeys = {
+    utm_source: "utmSource",
+    utm_medium: "utmMedium",
+    utm_campaign: "utmCampaign",
+    utm_content: "utmContent",
+    utm_term: "utmTerm",
+  } as const;
+
+  const track = (event: string, properties: Record<string, string> = {}) => {
+    const analyticsWindow = window as Window & {
+      dataLayer?: Array<Record<string, unknown>>;
+    };
+    const detail = {
+      event,
+      page_path: window.location.pathname,
+      ...properties,
+    };
+    analyticsWindow.dataLayer = analyticsWindow.dataLayer ?? [];
+    analyticsWindow.dataLayer.push(detail);
+    window.dispatchEvent(new CustomEvent("olhossecos:analytics", { detail }));
+  };
+
+  newsletterForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!newsletterForm.reportValidity()) return;
+
+    const endpoint = newsletterForm.dataset.endpoint;
+    if (!endpoint) return;
+
+    const submit = newsletterForm.querySelector<HTMLButtonElement>(
+      "button[type='submit']",
+    );
+    const formData = new FormData(newsletterForm);
+    const email = String(formData.get("email") ?? "");
+    const payload: Record<string, string> = {
+      ...(Object.fromEntries(formData) as Record<string, string>),
+      source: "superficie",
+    };
+    const params = new URLSearchParams(window.location.search);
+    campaignKeys.forEach((key) => {
+      const value = params.get(key);
+      if (value) payload[campaignPayloadKeys[key]] = value;
+    });
+
+    newsletterForm.setAttribute("aria-busy", "true");
+    if (submit) submit.disabled = true;
+    if (newsletterStatus) newsletterStatus.textContent = "Enviando…";
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const result = (await response.json().catch(() => null)) as {
+        message?: string;
+        profileToken?: string;
+      } | null;
+      if (!response.ok) {
+        throw new Error(result?.message ?? "newsletter_request_failed");
+      }
+
+      newsletterForm.reset();
+      if (newsletterStatus) {
+        newsletterStatus.textContent =
+          result?.message ?? "Cadastro realizado. Obrigado.";
+      }
+      track("newsletter_signup", { source: "superficie" });
+
+      if (result?.profileToken && profileForm && profilePanel) {
+        const profileEmail = profileForm.elements.namedItem(
+          "email",
+        ) as HTMLInputElement | null;
+        const profileToken = profileForm.elements.namedItem(
+          "profileToken",
+        ) as HTMLInputElement | null;
+        if (profileEmail) profileEmail.value = email;
+        if (profileToken) profileToken.value = result.profileToken;
+        profilePanel.hidden = false;
+        document
+          .querySelector<HTMLElement>("#superficie-profile-title")
+          ?.focus();
+      }
+    } catch (error) {
+      if (newsletterStatus) {
+        newsletterStatus.textContent =
+          error instanceof Error &&
+          error.message !== "newsletter_request_failed"
+            ? error.message
+            : "Não foi possível concluir agora. Tente novamente mais tarde.";
+      }
+    } finally {
+      newsletterForm.removeAttribute("aria-busy");
+      if (submit) submit.disabled = false;
+    }
+  });
+
+  profileForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!profileForm.reportValidity()) return;
+
+    const endpoint = profileForm.dataset.endpoint;
+    if (!endpoint) return;
+    const submit = profileForm.querySelector<HTMLButtonElement>(
+      "button[type='submit']",
+    );
+    profileForm.setAttribute("aria-busy", "true");
+    if (submit) submit.disabled = true;
+    if (profileStatus) profileStatus.textContent = "Salvando…";
+    let profileSaved = false;
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(Object.fromEntries(new FormData(profileForm))),
+      });
+      const result = (await response.json().catch(() => null)) as {
+        message?: string;
+      } | null;
+      if (!response.ok) {
+        throw new Error(result?.message ?? "profile_request_failed");
+      }
+      if (profileStatus) {
+        profileStatus.textContent =
+          result?.message ?? "Preferência registrada.";
+      }
+      profileSaved = true;
+      const audienceRole = String(
+        new FormData(profileForm).get("audienceRole") ?? "",
+      );
+      track("newsletter_profile_complete", { audience_role: audienceRole });
+      profileForm
+        .querySelectorAll<HTMLInputElement>("input, button")
+        .forEach((control) => {
+          control.disabled = true;
+        });
+    } catch (error) {
+      if (profileStatus) {
+        profileStatus.textContent =
+          error instanceof Error && error.message !== "profile_request_failed"
+            ? error.message
+            : "Não foi possível salvar agora.";
+      }
+    } finally {
+      profileForm.removeAttribute("aria-busy");
+      if (submit && !profileSaved) submit.disabled = false;
+    }
+  });
+
+  profileSkip?.addEventListener("click", () => {
+    if (!profilePanel || !profileForm) return;
+    const token = profileForm.elements.namedItem(
+      "profileToken",
+    ) as HTMLInputElement | null;
+    if (token) token.value = "";
+    profilePanel.hidden = true;
+  });
+</script>
+
+<style>
+  .newsletter-card {
+    padding: clamp(1.5rem, 4vw, 3rem);
+    background: var(--surface-paper);
+    color: var(--surface-navy);
+  }
+
+  label,
+  legend {
+    display: block;
+    margin-bottom: 0.55rem;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .input-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+  }
+
+  input[type="email"],
+  .input-row button {
+    min-height: 52px;
+    border: 1px solid var(--surface-line);
+    border-radius: 0;
+    font: inherit;
+  }
+
+  input[type="email"] {
+    min-width: 0;
+    padding: 0.75rem 1rem;
+    background: var(--surface-white);
+    color: var(--surface-ink);
+  }
+
+  button {
+    border: 1px solid var(--surface-teal);
+    background: var(--surface-teal);
+    color: white;
+    cursor: pointer;
+    font-family: var(--surface-sans);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  button:hover {
+    background: var(--surface-teal-dark);
+  }
+
+  button:disabled {
+    cursor: wait;
+    opacity: 0.65;
+  }
+
+  .input-row button {
+    padding-inline: 1.25rem;
+  }
+
+  .consent {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    color: var(--surface-copy);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.5;
+    text-transform: none;
+  }
+
+  .consent input {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-top: 0.15rem;
+    accent-color: var(--surface-teal-dark);
+  }
+
+  a {
+    color: var(--surface-teal-dark);
+  }
+
+  .form-status {
+    min-height: 1.5rem;
+    margin: 0.8rem 0 0;
+    color: var(--surface-teal-dark);
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .honeypot {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .profile-panel {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--surface-line);
+  }
+
+  .profile-panel[hidden] {
+    display: none;
+  }
+
+  .profile-step {
+    margin: 0 0 0.35rem;
+    color: var(--surface-teal-dark);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .profile-panel h3 {
+    margin: 0 0 0.65rem;
+    font-family: var(--surface-serif);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 400;
+    line-height: 1.1;
+  }
+
+  .profile-panel > div > p:last-child {
+    margin-bottom: 1.25rem;
+    color: var(--surface-copy);
+    font-size: 0.88rem;
+  }
+
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .role-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .role-grid label {
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .role-grid input {
+    position: absolute;
+    opacity: 0;
+  }
+
+  .role-grid span {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid var(--surface-line);
+    background: var(--surface-white);
+    color: var(--surface-copy);
+    font-size: 0.74rem;
+    letter-spacing: 0;
+    line-height: 1.25;
+    text-transform: none;
+  }
+
+  .role-grid input:checked + span {
+    border-color: var(--surface-teal-dark);
+    background: rgb(11 130 127 / 10%);
+    color: var(--surface-teal-dark);
+    box-shadow: inset 3px 0 var(--surface-teal-dark);
+  }
+
+  .role-grid input:focus-visible + span {
+    outline: 3px solid var(--surface-gold-light);
+    outline-offset: 2px;
+  }
+
+  .profile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .profile-actions button {
+    min-height: 44px;
+    padding-inline: 1rem;
+  }
+
+  #superficie-profile-skip {
+    border-color: var(--surface-line);
+    background: transparent;
+    color: var(--surface-copy);
+  }
+
+  #superficie-profile-skip:hover {
+    border-color: var(--surface-teal-dark);
+    color: var(--surface-teal-dark);
+  }
+
+  @media (max-width: 560px) {
+    .input-row {
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+    }
+
+    .role-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

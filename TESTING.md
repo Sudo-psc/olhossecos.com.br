@@ -572,3 +572,35 @@ O teste foi desenvolvido em ciclo red-green: os seis casos falharam antes da
 implementação das funções e passaram após a implementação mínima.
 
 **Atualização desta seção**: 07/08/2026
+
+## Gate 5 — newsletter e parceiros da SUPERFÍCIE
+
+Os fluxos de aquisição do Gate 5 usam o test runner nativo do Node e bancos
+SQLite temporários, sem escrever na base operacional.
+
+```bash
+npm run test:gate5
+```
+
+Arquivos:
+
+- `src/lib/newsletter.test.ts`;
+- `src/lib/partner-inquiries.test.ts`.
+
+Cobertura atual:
+
+- cadastro inicial da SUPERFÍCIE somente com e-mail e consentimento;
+- preservação de origem e UTMs;
+- token temporário e de uso único para o perfil opcional;
+- migração automática da tabela de assinantes já existente;
+- compatibilidade com o formulário anterior da área de livros;
+- validação, honeypot e proteção contra origem cruzada;
+- registro de solicitações de mídia kit e parceria em base separada;
+- consentimento versionado para newsletter e contatos comerciais.
+
+Os novos comportamentos foram desenvolvidos em ciclos red-green. Antes da
+implementação, os testes falharam respectivamente com `422` no cadastro sem
+nome, `422` no perfil progressivo, `503` na base legada e ausência do módulo de
+parcerias. Após a implementação mínima, os 11 casos passaram.
+
+**Atualização desta seção**: 08/08/2026
