@@ -1,0 +1,610 @@
+---
+interface Props {
+  endpoint?: string;
+  source: "superficie" | "newsletter";
+  variant: "superficie" | "portal";
+}
+
+const { endpoint = "/api/newsletter", source, variant } = Astro.props;
+
+const formId = `${source}-newsletter-form`;
+const emailId = `${source}-newsletter-email`;
+const companyId = `${source}-newsletter-company`;
+const consentId = `${source}-newsletter-consent`;
+const statusId = `${source}-newsletter-status`;
+const profilePanelId = `${source}-profile-panel`;
+const profileTitleId = `${source}-profile-title`;
+const profileFormId = `${source}-profile-form`;
+const profileSkipId = `${source}-profile-skip`;
+const profileStatusId = `${source}-profile-status`;
+
+const audienceRoles = [
+  ["medico", "Médico"],
+  ["residente-fellow", "Residente / fellow"],
+  ["pesquisador", "Pesquisador"],
+  ["outro-profissional", "Outro profissional"],
+  ["industria-parceiro", "Indústria / parceiro"],
+  ["paciente", "Paciente"],
+  ["outro", "Outro"],
+] as const;
+---
+
+<div class="newsletter-card" data-newsletter-root data-variant={variant}>
+  <form
+    id={formId}
+    method="post"
+    action={endpoint}
+    data-newsletter-form
+    data-endpoint={endpoint}
+    data-source={source}
+    novalidate
+  >
+    <label for={emailId}>E-mail</label>
+    <div class="input-row">
+      <input
+        id={emailId}
+        type="email"
+        name="email"
+        autocomplete="email"
+        inputmode="email"
+        placeholder="seu@email.com"
+        required
+      />
+      <button type="submit">Quero receber</button>
+    </div>
+
+    <div class="honeypot" aria-hidden="true">
+      <label for={companyId}>Empresa</label>
+      <input
+        id={companyId}
+        type="text"
+        name="company"
+        tabindex="-1"
+        autocomplete="off"
+      />
+    </div>
+
+    <label class="consent" for={consentId}>
+      <input
+        id={consentId}
+        type="checkbox"
+        name="consent"
+        value="accepted"
+        required
+      />
+      <span>
+        {
+          source === "newsletter"
+            ? "Concordo em receber comunicações editoriais do olhossecos.com.br, conforme a "
+            : "Concordo em receber comunicações editoriais da SUPERFÍCIE, conforme a "
+        }
+        <a href="/privacidade">Política de Privacidade</a>.
+      </span>
+    </label>
+
+    <p
+      id={statusId}
+      class="form-status"
+      data-newsletter-status
+      role="status"
+      aria-live="polite"
+    >
+    </p>
+  </form>
+
+  <section
+    id={profilePanelId}
+    class="profile-panel"
+    data-profile-panel
+    aria-labelledby={profileTitleId}
+    hidden
+  >
+    <div>
+      <p class="profile-step">Cadastro concluído</p>
+      <h3 id={profileTitleId} data-profile-title tabindex="-1">
+        Quer personalizar o que vai receber?
+      </h3>
+      <p>
+        Esta identificação é opcional e ajuda a selecionar conteúdos mais
+        relevantes para você.
+      </p>
+    </div>
+
+    <form
+      id={profileFormId}
+      method="post"
+      action={endpoint}
+      data-profile-form
+      data-endpoint={endpoint}
+      novalidate
+    >
+      <input type="hidden" name="stage" value="profile" />
+      <input type="hidden" name="email" />
+      <input type="hidden" name="profileToken" />
+      <fieldset>
+        <legend>Como você se identifica?</legend>
+        <div class="role-grid">
+          {
+            audienceRoles.map(([value, label]) => (
+              <label>
+                <input
+                  type="radio"
+                  name="audienceRole"
+                  value={value}
+                  required
+                />
+                <span>{label}</span>
+              </label>
+            ))
+          }
+        </div>
+      </fieldset>
+      <div class="profile-actions">
+        <button type="submit">Salvar identificação</button>
+        <button id={profileSkipId} data-profile-skip type="button"
+          >Agora não</button
+        >
+      </div>
+      <p
+        id={profileStatusId}
+        class="form-status"
+        data-profile-status
+        role="status"
+        aria-live="polite"
+      >
+      </p>
+    </form>
+  </section>
+</div>
+
+<script>
+  const campaignKeys = [
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_content",
+    "utm_term",
+  ] as const;
+  const campaignPayloadKeys = {
+    utm_source: "utmSource",
+    utm_medium: "utmMedium",
+    utm_campaign: "utmCampaign",
+    utm_content: "utmContent",
+    utm_term: "utmTerm",
+  } as const;
+
+  const track = (event: string, properties: Record<string, string> = {}) => {
+    const analyticsWindow = window as Window & {
+      dataLayer?: Array<Record<string, unknown>>;
+    };
+    const detail = {
+      event,
+      page_path: window.location.pathname,
+      ...properties,
+    };
+    analyticsWindow.dataLayer = analyticsWindow.dataLayer ?? [];
+    analyticsWindow.dataLayer.push(detail);
+    window.dispatchEvent(new CustomEvent("olhossecos:analytics", { detail }));
+  };
+
+  document
+    .querySelectorAll<HTMLElement>("[data-newsletter-root]")
+    .forEach((root) => {
+      const newsletterForm = root.querySelector<HTMLFormElement>(
+        "[data-newsletter-form]",
+      );
+      const newsletterStatus = root.querySelector<HTMLElement>(
+        "[data-newsletter-status]",
+      );
+      const profilePanel = root.querySelector<HTMLElement>(
+        "[data-profile-panel]",
+      );
+      const profileTitle = root.querySelector<HTMLElement>(
+        "[data-profile-title]",
+      );
+      const profileForm = root.querySelector<HTMLFormElement>(
+        "[data-profile-form]",
+      );
+      const profileStatus = root.querySelector<HTMLElement>(
+        "[data-profile-status]",
+      );
+      const profileSkip = root.querySelector<HTMLButtonElement>(
+        "[data-profile-skip]",
+      );
+      const source = newsletterForm?.dataset.source;
+
+      if (!newsletterForm || !source) return;
+
+      newsletterForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (!newsletterForm.reportValidity()) return;
+
+        const endpoint = newsletterForm.dataset.endpoint;
+        if (!endpoint) return;
+
+        const submit = newsletterForm.querySelector<HTMLButtonElement>(
+          "button[type='submit']",
+        );
+        const formData = new FormData(newsletterForm);
+        const email = String(formData.get("email") ?? "");
+        const payload: Record<string, string> = {
+          ...(Object.fromEntries(formData) as Record<string, string>),
+          source,
+        };
+        const params = new URLSearchParams(window.location.search);
+        campaignKeys.forEach((key) => {
+          const value = params.get(key);
+          if (value) payload[campaignPayloadKeys[key]] = value;
+        });
+
+        newsletterForm.setAttribute("aria-busy", "true");
+        if (submit) submit.disabled = true;
+        if (newsletterStatus) newsletterStatus.textContent = "Enviando…";
+
+        try {
+          const response = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          const result = (await response.json().catch(() => null)) as {
+            message?: string;
+            profileToken?: string;
+          } | null;
+          if (!response.ok) {
+            throw new Error(result?.message ?? "newsletter_request_failed");
+          }
+
+          newsletterForm.reset();
+          if (newsletterStatus) {
+            newsletterStatus.textContent =
+              result?.message ?? "Cadastro realizado. Obrigado.";
+          }
+          track("newsletter_signup", { source });
+
+          if (result?.profileToken && profileForm && profilePanel) {
+            const profileEmail = profileForm.elements.namedItem(
+              "email",
+            ) as HTMLInputElement | null;
+            const profileToken = profileForm.elements.namedItem(
+              "profileToken",
+            ) as HTMLInputElement | null;
+            if (profileEmail) profileEmail.value = email;
+            if (profileToken) profileToken.value = result.profileToken;
+            profilePanel.hidden = false;
+            profileTitle?.focus();
+          }
+        } catch (error) {
+          if (newsletterStatus) {
+            newsletterStatus.textContent =
+              error instanceof Error &&
+              error.message !== "newsletter_request_failed"
+                ? error.message
+                : "Não foi possível concluir agora. Tente novamente mais tarde.";
+          }
+        } finally {
+          newsletterForm.removeAttribute("aria-busy");
+          if (submit) submit.disabled = false;
+        }
+      });
+
+      profileForm?.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (!profileForm.reportValidity()) return;
+
+        const endpoint = profileForm.dataset.endpoint;
+        if (!endpoint) return;
+        const submit = profileForm.querySelector<HTMLButtonElement>(
+          "button[type='submit']",
+        );
+        profileForm.setAttribute("aria-busy", "true");
+        if (submit) submit.disabled = true;
+        if (profileStatus) profileStatus.textContent = "Salvando…";
+        let profileSaved = false;
+
+        try {
+          const response = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(Object.fromEntries(new FormData(profileForm))),
+          });
+          const result = (await response.json().catch(() => null)) as {
+            message?: string;
+          } | null;
+          if (!response.ok) {
+            throw new Error(result?.message ?? "profile_request_failed");
+          }
+          if (profileStatus) {
+            profileStatus.textContent =
+              result?.message ?? "Preferência registrada.";
+          }
+          profileSaved = true;
+          const profileData = new FormData(profileForm);
+          const audienceRole = String(profileData.get("audienceRole") ?? "");
+          track("newsletter_profile_complete", {
+            audience_role: audienceRole,
+            source,
+          });
+          const token = profileForm.elements.namedItem(
+            "profileToken",
+          ) as HTMLInputElement | null;
+          if (token) token.value = "";
+          profileForm
+            .querySelectorAll<HTMLInputElement | HTMLButtonElement>(
+              "input, button",
+            )
+            .forEach((control) => {
+              control.disabled = true;
+            });
+        } catch (error) {
+          if (profileStatus) {
+            profileStatus.textContent =
+              error instanceof Error &&
+              error.message !== "profile_request_failed"
+                ? error.message
+                : "Não foi possível salvar agora.";
+          }
+        } finally {
+          profileForm.removeAttribute("aria-busy");
+          if (submit && !profileSaved) submit.disabled = false;
+        }
+      });
+
+      profileSkip?.addEventListener("click", () => {
+        if (!profilePanel || !profileForm) return;
+        const token = profileForm.elements.namedItem(
+          "profileToken",
+        ) as HTMLInputElement | null;
+        const email = profileForm.elements.namedItem(
+          "email",
+        ) as HTMLInputElement | null;
+        if (token) token.value = "";
+        if (email) email.value = "";
+        profilePanel.hidden = true;
+      });
+    });
+</script>
+
+<style>
+  .newsletter-card {
+    --newsletter-paper: var(--surface-paper);
+    --newsletter-white: var(--surface-white);
+    --newsletter-ink: var(--surface-ink);
+    --newsletter-navy: var(--surface-navy);
+    --newsletter-copy: var(--surface-copy);
+    --newsletter-line: var(--surface-line);
+    --newsletter-teal: var(--surface-teal);
+    --newsletter-teal-dark: var(--surface-teal-dark);
+    --newsletter-focus: var(--surface-gold-light);
+    --newsletter-serif: var(--surface-serif);
+    --newsletter-sans: var(--surface-sans);
+    padding: clamp(1.5rem, 4vw, 3rem);
+    background: var(--newsletter-paper);
+    color: var(--newsletter-navy);
+  }
+
+  .newsletter-card[data-variant="portal"] {
+    --newsletter-paper: var(--paper);
+    --newsletter-white: var(--paper);
+    --newsletter-ink: var(--ink);
+    --newsletter-navy: var(--ink);
+    --newsletter-copy: var(--ink-soft);
+    --newsletter-line: var(--line);
+    --newsletter-teal: var(--teal);
+    --newsletter-teal-dark: var(--teal-dark);
+    --newsletter-focus: var(--teal);
+    --newsletter-serif: var(--serif);
+    --newsletter-sans: var(--sans);
+  }
+
+  label,
+  legend {
+    display: block;
+    margin-bottom: 0.55rem;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .input-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+  }
+
+  input[type="email"],
+  .input-row button {
+    min-height: 52px;
+    border: 1px solid var(--newsletter-line);
+    border-radius: 0;
+    font: inherit;
+  }
+
+  input[type="email"] {
+    min-width: 0;
+    padding: 0.75rem 1rem;
+    background: var(--newsletter-white);
+    color: var(--newsletter-ink);
+  }
+
+  button {
+    border: 1px solid var(--newsletter-teal);
+    background: var(--newsletter-teal);
+    color: white;
+    cursor: pointer;
+    font-family: var(--newsletter-sans);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  button:hover {
+    background: var(--newsletter-teal-dark);
+  }
+
+  button:disabled {
+    cursor: wait;
+    opacity: 0.65;
+  }
+
+  .input-row button {
+    padding-inline: 1.25rem;
+  }
+
+  .consent {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    color: var(--newsletter-copy);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.5;
+    text-transform: none;
+  }
+
+  .consent input {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-top: 0.15rem;
+    accent-color: var(--newsletter-teal-dark);
+  }
+
+  a {
+    color: var(--newsletter-teal-dark);
+  }
+
+  .form-status {
+    min-height: 1.5rem;
+    margin: 0.8rem 0 0;
+    color: var(--newsletter-teal-dark);
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .honeypot {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .profile-panel {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--newsletter-line);
+  }
+
+  .profile-panel[hidden] {
+    display: none;
+  }
+
+  .profile-step {
+    margin: 0 0 0.35rem;
+    color: var(--newsletter-teal-dark);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .profile-panel h3 {
+    margin: 0 0 0.65rem;
+    font-family: var(--newsletter-serif);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 400;
+    line-height: 1.1;
+  }
+
+  .profile-panel > div > p:last-child {
+    margin-bottom: 1.25rem;
+    color: var(--newsletter-copy);
+    font-size: 0.88rem;
+  }
+
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .role-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .role-grid label {
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .role-grid input {
+    position: absolute;
+    opacity: 0;
+  }
+
+  .role-grid span {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid var(--newsletter-line);
+    background: var(--newsletter-white);
+    color: var(--newsletter-copy);
+    font-size: 0.74rem;
+    letter-spacing: 0;
+    line-height: 1.25;
+    text-transform: none;
+  }
+
+  .role-grid input:checked + span {
+    border-color: var(--newsletter-teal-dark);
+    background: rgb(11 130 127 / 10%);
+    color: var(--newsletter-teal-dark);
+    box-shadow: inset 3px 0 var(--newsletter-teal-dark);
+  }
+
+  .role-grid input:focus-visible + span {
+    outline: 3px solid var(--newsletter-focus);
+    outline-offset: 2px;
+  }
+
+  .profile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .profile-actions button {
+    min-height: 44px;
+    padding-inline: 1rem;
+  }
+
+  [data-profile-skip] {
+    border-color: var(--newsletter-line);
+    background: transparent;
+    color: var(--newsletter-copy);
+  }
+
+  [data-profile-skip]:hover {
+    border-color: var(--newsletter-teal-dark);
+    color: var(--newsletter-teal-dark);
+  }
+
+  @media (max-width: 560px) {
+    .input-row {
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+    }
+
+    .role-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

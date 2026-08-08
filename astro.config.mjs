@@ -35,6 +35,7 @@ const revisedOnAugust7 = new Set([
 ]);
 
 const revisedOnAugust8 = new Set([
+  "/newsletter",
   "/superficie",
   "/superficie/parceiros",
   "/privacidade",

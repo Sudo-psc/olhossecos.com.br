@@ -53,33 +53,36 @@ const assertStatus = async (path, expectedStatus = 200) => {
   return response;
 };
 
+const assertPage = async (path, canonicalPath) => {
+  const response = await assertStatus(path);
+  const html = await response.text();
+  const h1Count = html.match(/<h1(?:\s|>)/gu)?.length ?? 0;
+  if (h1Count !== 1) {
+    throw new Error(`${path}: esperado um H1, encontrados ${h1Count}`);
+  }
+  const canonical = `<link rel="canonical" href="${productionOrigin}${canonicalPath}">`;
+  if (!html.includes(canonical)) {
+    throw new Error(`${path}: canonical ausente ou incorreto`);
+  }
+  return html;
+};
+
 try {
   await waitForServer();
-  await assertStatus("/");
+  const homeHtml = await (await assertStatus("/")).text();
+  if (!/href="\/newsletter"/u.test(homeHtml)) {
+    throw new Error("homepage: link global para /newsletter ausente");
+  }
   await assertStatus("/superficie");
-
-  const partnersResponse = await assertStatus("/superficie/parceiros");
-  const partnersHtml = await partnersResponse.text();
-  const h1Count = partnersHtml.match(/<h1(?:\s|>)/gu)?.length ?? 0;
-  if (h1Count !== 1) {
-    throw new Error(
-      `/superficie/parceiros: esperado um H1, encontrados ${h1Count}`,
-    );
-  }
-  if (
-    !partnersHtml.includes(
-      '<link rel="canonical" href="https://olhossecos.com.br/superficie/parceiros">',
-    )
-  ) {
-    throw new Error("/superficie/parceiros: canonical ausente ou incorreto");
-  }
+  await assertPage("/superficie/parceiros", "/superficie/parceiros");
+  await assertPage("/newsletter", "/newsletter");
 
   const sitemapResponse = await assertStatus("/sitemap-0.xml");
   const sitemap = await sitemapResponse.text();
-  if (
-    !sitemap.includes(`<loc>${productionOrigin}/superficie/parceiros</loc>`)
-  ) {
-    throw new Error("sitemap: /superficie/parceiros ausente");
+  for (const path of ["/superficie/parceiros", "/newsletter"]) {
+    if (!sitemap.includes(`<loc>${productionOrigin}${path}</loc>`)) {
+      throw new Error(`sitemap: ${path} ausente`);
+    }
   }
 
   console.log("release routes: pass");
