@@ -184,3 +184,29 @@ Resultado: **aprovado no QA interno para revisão do Gate 5**.
 Não restam divergências materiais corrigíveis no escopo aprovado. A home foi
 verificada fielmente contra os wireframes; a página de parceiros foi verificada
 como extensão coerente e funcional do mesmo sistema editorial.
+
+## Gate 6 — QA final consolidado
+
+Resultado: **QA funcional e visual aprovado, sem deploy**.
+
+- Build isolado: `build/superficie-gate6-20260808`.
+- Evidências visuais finais: `docs/design/superficie/qa/gate6/`.
+- Relatório obrigatório do handoff: `design-qa.md` na raiz do projeto, com
+  `final result: passed`.
+- Lighthouse final nas três rotas, em mobile e desktop: acessibilidade, boas
+  práticas e SEO em 100; performance entre 99 e 100.
+- Foram corrigidos contrastes abaixo de AA em textos auxiliares, numerações e
+  CTA da página de parceiros. A auditoria final de contraste passou em todas as
+  rotas.
+- A data estruturada da página de parceiros foi corrigida para 08/08/2026.
+- A navegação foi exercitada em 320, 375, 390, 768, 1024 e 1440 px, sem overflow
+  horizontal, imagens quebradas ou controles sem rótulo.
+- Menu mobile, newsletter em duas etapas e solicitação comercial foram
+  executados em navegador, com eventos de analytics e console limpo.
+- O artigo-modelo permaneceu ausente do build público e do sitemap.
+- Na preparação do release, o lockfile estabilizado passou a resolver
+  `nanoid 3.3.18`; as auditorias completa e de produção retornaram zero
+  vulnerabilidades em 08/08/2026.
+
+Não houve deploy, publicação editorial, compartilhamento do mídia kit ou
+contato externo.

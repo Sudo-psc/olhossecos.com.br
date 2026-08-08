@@ -96,3 +96,40 @@ parcerias. A rota geral também falhou com `422` antes de sua origem ser aceita.
 Após a implementação mínima, os 12 casos passaram.
 
 **Atualização desta seção**: 08/08/2026
+
+## Gate 6 — QA final da SUPERFÍCIE
+
+O Gate 6 valida o build de produção em ambiente isolado, sempre com bancos
+SQLite temporários.
+
+Cobertura executada:
+
+- `npm run test:gate5` e `npm run test:superficie`;
+- `astro check`, ESLint, Prettier e `git diff --check`;
+- canonical, metadados, Open Graph, JSON-LD, breadcrumbs e sitemap;
+- exclusão do artigo-modelo do build público;
+- crawl dos links internos das três rotas;
+- newsletter, perfil progressivo e parceria via APIs e navegador;
+- rejeição de método e origem inválidos;
+- menu mobile, console, imagens, labels e overflow em seis larguras;
+- Lighthouse mobile e desktop para home, Edição 00 e Parceiros.
+
+Resultado final do Lighthouse:
+
+| Rota                    | Perfil  | Performance | Acessibilidade | Boas práticas | SEO |
+| ----------------------- | ------- | ----------: | -------------: | ------------: | --: |
+| `/superficie`           | desktop |         100 |            100 |           100 | 100 |
+| `/superficie`           | mobile  |          99 |            100 |           100 | 100 |
+| `/superficie/edicao-00` | desktop |         100 |            100 |           100 | 100 |
+| `/superficie/edicao-00` | mobile  |         100 |            100 |           100 | 100 |
+| `/superficie/parceiros` | desktop |         100 |            100 |           100 | 100 |
+| `/superficie/parceiros` | mobile  |         100 |            100 |           100 | 100 |
+
+Os testes de formulário nunca devem apontar para a base operacional. O relatório
+visual e de interação está em `design-qa.md`.
+
+Na preparação do release, o lockfile estabilizado passou a resolver
+`nanoid 3.3.18`. As auditorias completa e de produção retornaram zero
+vulnerabilidades em 08/08/2026.
+
+**Atualização desta seção**: 08/08/2026

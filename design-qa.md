@@ -1,125 +1,58 @@
-# Design QA — hero mobile da página inicial
+# Design QA — SUPERFÍCIE — Gate 6
 
-## Evidências
+## Artefatos comparados
 
-- Fonte visual: `docs/audit-2026-07-26-ux/12-concept-combined-search-editorial.png`
-- Fonte normalizada: `docs/audit-2026-07-26-ux/12-concept-combined-normalized.png`
-- Implementação final:
-  `docs/audit-2026-07-26-ux/18-implementation-mobile-final.png`
-- Comparação final:
-  `docs/audit-2026-07-26-ux/19-comparison-mobile-final.png`
-- Rota: `/`
-- Estado: tema claro, viewport inicial, menu fechado e busca vazia
-- Viewport CSS: 390 × 844
-- `deviceScaleFactor`: 1
-- Fonte original: 853 × 1844
-- Fonte normalizada: 390 × 844
-- Implementação: 390 × 844
+- Verdade visual desktop: `/root/.codex/generated_images/019fdcba-a518-7861-9292-baa3142f7cbc/exec-bc481338-44d3-46ec-9ede-327b4b8cd91c.png` (725 × 2167 px).
+- Verdade visual mobile: `/root/.codex/generated_images/019fdcba-a518-7861-9292-baa3142f7cbc/exec-f44d29cf-94e2-4c5a-b67c-47795ff54688.png` (720 × 2183 px).
+- Render desktop da home: `docs/design/superficie/qa/gate6/home-1440.png` (1440 × 8981 px).
+- Render mobile da home: `docs/design/superficie/qa/gate6/home-390.png` (390 × 11198 px).
+- Renders adicionais: `docs/design/superficie/qa/gate6/edicao-1440.png`, `edicao-390.png`, `parceiros-1440.png` e `parceiros-390.png`.
+- Build verificado: `build/superficie-gate6-20260808`.
 
-A fonte foi reduzida e recortada centralmente para o mesmo tamanho da captura
-do navegador. A comparação usa duas imagens 390 × 844 colocadas lado a lado,
-sem browser chrome.
+## Normalização e estado
 
-## Findings
+- Estado: pré-lançamento real, com a Edição Fundadora marcada como “Em produção”, artigos e convidados sem dados inventados, PDF indisponível e mídia kit condicionado à avaliação.
+- CSS viewport: 1440 px e 390 px, `deviceScaleFactor: 1`; validação estrutural adicional em 320, 375, 768 e 1024 px.
+- As pranchas aprovadas são composições verticais comprimidas, não capturas de um viewport real. A comparação foi normalizada por regiões, hierarquia e ordem editorial, sem alegar equivalência pixel a pixel.
+- O Browser/IAB não estava disponível. A implementação foi renderizada em Chromium headless já instalado; Playwright não foi usado.
 
-Não restam diferenças P0, P1 ou P2 acionáveis.
+## Evidência de comparação
 
-### Fontes e tipografia
+- A referência desktop e o render desktop, assim como a referência mobile e o render mobile, foram abertos no mesmo input de comparação em resolução original.
+- A composição preserva masthead navy, wordmark dominante, hero científico, edição fundadora, curadoria, evidência, entrevistas, tecnologia, newsletter, independência, parceiros, sobre e ecossistema.
+- Tipografia: serif editorial em títulos, sans em interface e metadados, hierarquia e quebras consistentes com a direção aprovada.
+- Ritmo e layout: alternância entre papel e navy, grids amplos no desktop e coluna única sem compressão no mobile.
+- Cores e tokens: navy, off-white, teal e dourado preservados; tons de texto e numeração foram escurecidos somente para contraste AA.
+- Imagens: macro ocular e capa final permanecem nítidas, responsivas e sem falhas de carregamento; não foram adicionados logos ou ativos simulados.
+- Copy: linguagem de pré-lançamento, estados vazios e separação editorial/comercial permanecem honestos.
+- Não foi necessário recorte focal adicional: os arquivos foram abertos em resolução original e os elementos críticos — masthead, hero, formulários, numerações, CTAs e rodapé — ficaram legíveis nessa comparação. Os formulários também foram inspecionados em capturas dedicadas das páginas completas.
 
-- O H1 mantém a família serifada editorial, peso, hierarquia, três linhas e
-  proporção visual da referência.
-- Corpo, rótulos, busca, chips e segurança usam a família sans-serif e os pesos
-  já adotados pelo portal.
-- O placeholder aparece integralmente no viewport de 390 px.
-- Diferença aceita: a referência gerada usa aproximações rasterizadas das
-  fontes; a implementação usa os tokens reais do projeto.
+## Histórico de iterações P0–P2
 
-### Espaçamento e ritmo
+1. P1 — contraste abaixo de WCAG 2.2 AA em textos auxiliares e números decorativos nas três rotas.
+   - Evidência inicial: Lighthouse marcou `color-contrast` como falha; acessibilidade ficou entre 93 e 96.
+   - Correção: `--surface-muted` foi escurecido em superfícies claras; textos sobre navy usam `--surface-muted-on-dark`; dourados pequenos receberam variante mais escura; números decorativos ganharam contraste mínimo; o CTA primário de parceiros passou a teal escuro; o link de privacidade do formulário recebeu sublinhado.
+   - Evidência pós-fix: Lighthouse final em mobile e desktop marcou 100 em acessibilidade, boas práticas e SEO nas três rotas.
+2. P2 — data de publicação da página de parceiros herdava o valor da home.
+   - Evidência inicial: o teste do build esperava `2026-08-08` e recebeu `2026-08-07` no JSON-LD.
+   - Correção: a rota define explicitamente `datePublished="2026-08-08"`.
+   - Evidência pós-fix: auditoria do build passou com canonical, schema e datas corretas.
 
-- Ordem, alinhamento e agrupamento correspondem à referência: cabeçalho, H1,
-  resumo, busca, sugestões, alerta e link secundário.
-- Margens laterais seguem o `page-shell` existente e os alvos interativos
-  mantêm no mínimo 44 px.
-- O conteúdo seguinte começa discretamente no fim da captura; isso preserva a
-  continuidade da página real e é classificado como diferença P3 aceitável.
+## Interações e integridade
 
-### Cores e tokens
+- Menu mobile: abre por clique, fecha por `Escape`, atualiza `aria-expanded` e devolve foco ao botão.
+- Newsletter: cadastro inicial, revelação do perfil opcional e conclusão do perfil foram executados; eventos `newsletter_signup` e `newsletter_profile_complete` foram observados.
+- Parceiros: solicitação completa foi executada; `partner_lead_submit` foi observado.
+- Console: sem exceções, erros ou warnings da página nas rotas e larguras auditadas.
+- Layout: nenhum overflow horizontal em 320, 375, 390, 768, 1024 e 1440 px; controles rotulados e imagens carregadas.
+- Lighthouse final: home 99–100 em performance e 100 nas demais categorias; Edição 00 e Parceiros, 100/100/100/100 em mobile e desktop.
 
-- Azul profundo, teal, branco, linhas e coral de segurança usam os tokens
-  existentes.
-- A implementação preserva superfícies planas, sem introduzir gradientes ou
-  sombras não usados pelo produto.
-- Contraste e separação semântica do alerta permanecem consistentes.
+## Achados remanescentes
 
-### Imagem e assets
+Não restam achados P0, P1 ou P2. A diferença de densidade entre o wireframe comprimido e o produto longo é intencional: a implementação privilegia leitura, estados editoriais verdadeiros e formulários funcionais.
 
-- O resumo reutiliza a ilustração editorial real do filme lacrimal, servida em
-  AVIF/WebP com fallback PNG.
-- O recorte, assunto, nitidez e tratamento de fundo correspondem à direção
-  visual; não há placeholders ou arte recriada em CSS.
-- Logo, busca, menu, seta e sino reutilizam os assets e ícones existentes.
-- Diferença P3 aceita: ícones meramente decorativos dos chips e das duas frases
-  do mock não foram adicionados para evitar uma nova dependência de ícones.
-
-### Copy e conteúdo
-
-- Textos principais correspondem à direção aprovada:
-  “Entenda seus sintomas com clareza”, as duas frases educativas, placeholder,
-  sugestões, faixa de segurança e link secundário.
-- A busca continua sem coleta de dados e encaminha para a biblioteca local.
-
-### Interação, responsividade e acessibilidade
-
-- Busca, botão, três sugestões e links são controles funcionais.
-- O link “Lentes de contato” foi testado até o estado filtrado da biblioteca,
-  incluindo atualização do status acessível.
-- Não houve erro de console ou `pageerror`.
-- Não houve overflow horizontal em 320, 375, 390, 430, 720 ou 1024 px.
-- Campo com rótulo acessível, imagem decorativa com `alt=""`, foco global
-  visível e alvos de toque preservados.
-- A composição desktop de 1440 × 1000 permaneceu visualmente intacta.
-
-## Histórico de comparação
-
-### Rodada 1
-
-- Evidência: `docs/audit-2026-07-26-ux/15-comparison-mobile-v1.png`
-- [P1] O placeholder terminava cortado.
-- [P2] H1 menor que a referência.
-- [P2] O link secundário ficou incorporado à superfície coral.
-- Correções: redistribuição do campo e botão, aumento do H1 e separação do link
-  em superfície branca.
-
-### Rodada 2
-
-- Evidência: `docs/audit-2026-07-26-ux/17-comparison-mobile-v2.png`
-- [P2] O recorte da ilustração ocupava largura excessiva.
-- [P2] As frases educativas tinham peso maior que o necessário.
-- [P3] Linha coral permanecia abaixo do link secundário.
-- Correções: coluna visual reduzida para 126 px, peso tipográfico suavizado e
-  borda inferior removida no mobile.
-
-### Rodada final
-
-- Evidência: `docs/audit-2026-07-26-ux/19-comparison-mobile-final.png`
-- Nenhuma diferença P0, P1 ou P2 permanece.
-
-## Open Questions
-
-Nenhuma.
-
-## Implementation Checklist
-
-- [x] Hero mobile fiel à direção selecionada.
-- [x] Busca e sugestões funcionais.
-- [x] Segurança visível antes da rolagem.
-- [x] Desktop preservado.
-- [x] Lint e build aprovados.
-- [x] Interações, console e overflow verificados em Chromium.
-
-## Follow-up Polish
-
-- P3: avaliar uma biblioteca de ícones já compatível com Astro antes de
-  acrescentar ícones decorativos aos chips.
+Na preparação do release, o lockfile estabilizado passou a resolver
+`nanoid 3.3.18`. As auditorias completa e de produção retornaram zero
+vulnerabilidades em 08/08/2026.
 
 final result: passed
