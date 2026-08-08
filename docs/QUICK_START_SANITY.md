@@ -1,4 +1,6 @@
-# Guia Rápido - Sanity CMS
+# Documento legado — Guia Rápido do Sanity CMS
+
+> **Não executar neste repositório.** Este documento descreve uma implementação antiga em Next.js/Sanity que não está presente no portal Astro atual. Ele foi mantido apenas como histórico. Consulte o `README.md` para a arquitetura vigente e aguarde uma decisão formal de CMS antes de reutilizar qualquer instrução abaixo.
 
 Guia prático para importar conteúdo inicial sobre olho seco no Sanity CMS.
 
