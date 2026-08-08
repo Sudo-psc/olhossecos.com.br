@@ -13,6 +13,8 @@
     "test": "node --test src/lib/*.test.ts",
     "test:routes": "node scripts/verify-release-routes.mjs",
     "test:newsletter": "node --test src/lib/newsletter.test.ts",
+    "test:partners": "node --test src/lib/partner-inquiries.test.ts",
+    "test:gate5": "node --test src/lib/newsletter.test.ts src/lib/partner-inquiries.test.ts",
     "test:superficie": "node --test src/lib/superficie.test.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check \"src/**/*.{astro,js,ts}\" \".github/workflows/*.yml\" \"astro.config.mjs\" \"eslint.config.js\" \"prettier.config.mjs\" \"package*.json\" \"README.md\" \"TESTING.md\" \"docs/VPS-DEPLOY.md\"",

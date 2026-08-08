@@ -119,3 +119,68 @@ patrocinador.
 Não restam divergências materiais corrigíveis entre o sistema aprovado e o
 template implementado. A implementação foi verificada fielmente contra a
 direção aceita, com as exceções editoriais acima deliberadamente preservadas.
+
+## Gate 5 — newsletter e parceiros
+
+Resultado: **aprovado no QA interno para revisão do Gate 5**.
+
+### Referências e método
+
+- Direção aceita: “Observatório de Evidência”.
+- Wireframe desktop aprovado: 725 × 2167 px em
+  `/root/.codex/generated_images/019fdcba-a518-7861-9292-baa3142f7cbc/exec-bc481338-44d3-46ec-9ede-327b4b8cd91c.png`.
+- Wireframe mobile aprovado: 720 × 2183 px em
+  `/root/.codex/generated_images/019fdcba-a518-7861-9292-baa3142f7cbc/exec-f44d29cf-94e2-4c5a-b67c-47795ff54688.png`.
+- Renderização atual em desktop real de 1280 px e mobile real de 390 px:
+  `docs/design/superficie/qa/gate5/`.
+- O Browser/IAB não estava exposto. Foi usado Chromium headless, já disponível
+  no ambiente, sem Playwright, com inspeção posterior das referências e dos
+  renders no `view_image`.
+- As pranchas aprovadas são composições verticais, não viewports reais. Por
+  isso, seus tamanhos nativos foram inspecionados, mas a responsividade foi
+  validada nos viewports reais de 1280 e 390 px.
+
+### Fidelity ledger
+
+| Ponto                 | Evidência aprovada                                    | Evidência do render                                              | Resultado |
+| --------------------- | ----------------------------------------------------- | ---------------------------------------------------------------- | --------- |
+| Banda da newsletter   | Fundo navy, título serifado e formulário claro        | Mesma divisão em duas colunas e mesmo contraste                  | Fiel      |
+| Conversão principal   | E-mail como primeiro campo e CTA teal                 | Cadastro inicial exige somente e-mail e consentimento            | Fiel      |
+| Progressive profiling | Perfil profissional somente depois do cadastro        | Painel opcional é revelado após sucesso e aceita sete perfis     | Fiel      |
+| Hierarquia comercial  | Parcerias abaixo da independência e com dois CTAs     | “Conheça as oportunidades” e “Solicitar mídia kit” preservados   | Fiel      |
+| Tipografia e paleta   | Serif editorial, sans de interface, navy/teal/dourado | Tokens e famílias da SUPERFÍCIE reutilizados sem novo tema       | Fiel      |
+| Mobile                | Formulários em coluna única e CTAs largos             | 390 px sem overflow; alvos e controles com 44 px ou mais         | Fiel      |
+| Transparência         | Publicidade e parceria separadas do editorial         | Página pública não exibe logos, preços nem promessa de conclusão | Fiel      |
+
+### Copy diff e desvios intencionais
+
+- O título “Receba a SUPERFÍCIE”, o texto de benefício, “Quero receber”,
+  “Conheça as oportunidades de parceria” e “Solicitar mídia kit” coincidem com
+  a arquitetura aprovada.
+- O formulário acrescenta somente o texto de consentimento necessário e a
+  etapa opcional de identificação prevista no briefing.
+- O ícone decorativo de envelope do wireframe não foi reproduzido; o Gate 3 já
+  havia aprovado a banda sem esse ativo, e não foi criado desenho aproximado em
+  CSS ou SVG.
+- A rota `/superficie/parceiros` é uma extensão funcional solicitada no
+  briefing. Como o wireframe mostrava apenas seu ponto de entrada, a página
+  reutiliza estritamente os tokens, tipografia, bandas e componentes já
+  aprovados.
+- O mídia kit privado não é exposto diretamente. A página registra uma
+  solicitação para avaliação, conforme o gate comercial vigente.
+
+### Interações e validação
+
+- Cadastro inicial, atualização do perfil opcional e solicitação de mídia kit
+  foram executados contra o build de produção com bancos temporários: respostas
+  HTTP 201, 200 e 201.
+- Eventos preparados: `newsletter_signup`, `newsletter_profile_complete`,
+  `partner_click`, `media_kit_click`, `partner_page_view` e
+  `partner_lead_submit`.
+- UTMs são preservadas no evento de visualização e nas bases de aquisição.
+- Formulários têm labels, estados de envio, `aria-live`, foco visível,
+  honeypots, consentimento e mensagens de erro sem exposição de dados.
+
+Não restam divergências materiais corrigíveis no escopo aprovado. A home foi
+verificada fielmente contra os wireframes; a página de parceiros foi verificada
+como extensão coerente e funcional do mesmo sistema editorial.

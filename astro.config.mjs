@@ -34,6 +34,12 @@ const revisedOnAugust7 = new Set([
   "/profissionais",
 ]);
 
+const revisedOnAugust8 = new Set([
+  "/superficie",
+  "/superficie/parceiros",
+  "/privacidade",
+]);
+
 export default defineConfig({
   site: "https://olhossecos.com.br",
   output: "static",
@@ -52,13 +58,15 @@ export default defineConfig({
       },
       serialize(item) {
         const path = new URL(item.url).pathname.replace(/\/$/, "") || "/";
-        item.lastmod = revisedOnAugust7.has(path)
-          ? "2026-08-07"
-          : revisedOnAugust5.has(path)
-            ? "2026-08-05"
-            : revisedOnJuly26.has(path)
-              ? "2026-07-26"
-              : "2026-07-25";
+        item.lastmod = revisedOnAugust8.has(path)
+          ? "2026-08-08"
+          : revisedOnAugust7.has(path)
+            ? "2026-08-07"
+            : revisedOnAugust5.has(path)
+              ? "2026-08-05"
+              : revisedOnJuly26.has(path)
+                ? "2026-07-26"
+                : "2026-07-25";
         return item;
       },
     }),

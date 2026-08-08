@@ -1,6 +1,7 @@
 ---
 import ArticleCard from "@/components/superficie/ArticleCard.astro";
 import IssueCover from "@/components/superficie/IssueCover.astro";
+import SuperficieNewsletterForm from "@/components/superficie/SuperficieNewsletterForm.astro";
 import SuperficieLayout from "@/layouts/SuperficieLayout.astro";
 import {
   evidenceFields,
@@ -28,6 +29,8 @@ const perioperativeTopics = [
 ];
 
 const featuredArticles = publishedArticles.slice(0, 6);
+const newsletterEndpoint =
+  import.meta.env.PUBLIC_NEWSLETTER_ENDPOINT || "/api/newsletter";
 ---
 
 <SuperficieLayout
@@ -319,23 +322,8 @@ const featuredArticles = publishedArticles.slice(0, 6);
           superfície ocular diretamente no seu e-mail.
         </p>
       </div>
-      <div class="newsletter-form" aria-describedby="newsletter-status">
-        <label for="superficie-email">E-mail</label>
-        <div class="input-row">
-          <input
-            id="superficie-email"
-            type="email"
-            name="email"
-            autocomplete="email"
-            placeholder="seu@email.com"
-            disabled
-          />
-          <button type="button" disabled>Quero receber</button>
-        </div>
-        <p id="newsletter-status" class="launch-note">
-          Inscrições serão abertas em breve. Nenhum dado é coletado neste
-          momento.
-        </p>
+      <div>
+        <SuperficieNewsletterForm endpoint={newsletterEndpoint} />
         <p class="benefit-note">
           Para profissionais: receba gratuitamente novas edições e conteúdos
           selecionados sobre diagnóstico, evidências, terapias e tecnologia.
@@ -391,10 +379,22 @@ const featuredArticles = publishedArticles.slice(0, 6);
           educação médica, tecnologia, inovação e superfície ocular, sempre
           preservando sua independência editorial.
         </p>
-        <p class="partners-state">
-          A área de parceiros e o mídia kit serão disponibilizados em uma etapa
-          própria.
-        </p>
+        <div class="partner-actions">
+          <a
+            class="button button-primary"
+            href="/superficie/parceiros"
+            data-analytics-event="partner_click"
+            data-analytics-label="home_oportunidades_parceria"
+            >Conheça as oportunidades de parceria</a
+          >
+          <a
+            class="button button-outline-light"
+            href="/superficie/parceiros#solicitar-media-kit"
+            data-analytics-event="media_kit_click"
+            data-analytics-label="home_solicitar_media_kit"
+            >Solicitar mídia kit</a
+          >
+        </div>
       </div>
     </div>
   </section>
@@ -990,52 +990,22 @@ const featuredArticles = publishedArticles.slice(0, 6);
     align-items: center;
   }
 
-  .newsletter-form {
-    padding: clamp(1.5rem, 4vw, 3rem);
-    background: var(--surface-paper);
-    color: var(--surface-navy);
+  .partner-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
   }
 
-  .newsletter-form label {
-    display: block;
-    margin-bottom: 0.55rem;
-    font-size: 0.76rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .input-row {
-    display: grid;
-    grid-template-columns: 1fr auto;
-  }
-
-  .input-row input,
-  .input-row button {
-    min-height: 52px;
-    border: 1px solid var(--surface-line);
-  }
-
-  .input-row input {
-    min-width: 0;
-    padding: 0.75rem 1rem;
-    background: var(--surface-white);
-  }
-
-  .input-row button {
-    padding-inline: 1.25rem;
-    border-color: #788491;
-    background: #788491;
+  .partner-actions .button-primary {
+    border-color: var(--surface-teal);
+    background: var(--surface-teal);
     color: white;
-    font-size: 0.76rem;
-    font-weight: 800;
-    text-transform: uppercase;
   }
 
-  .input-row input:disabled,
-  .input-row button:disabled {
-    cursor: not-allowed;
-    opacity: 0.72;
+  .button-outline-light {
+    border-color: rgb(255 255 255 / 45%);
+    color: var(--surface-paper);
   }
 
   .launch-note {
