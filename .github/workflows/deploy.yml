@@ -45,5 +45,8 @@ jobs:
       - name: Type-check and build
         run: npm run build
 
+      - name: Verify release routes
+        run: npm run test:routes
+
       - name: Audit dependencies
         run: npm audit --audit-level=high

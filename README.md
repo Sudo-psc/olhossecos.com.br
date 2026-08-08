@@ -7,7 +7,7 @@ Portal brasileiro especializado em doença do olho seco e superfície ocular. O 
 - Astro 7 e TypeScript;
 - CSS nativo e componentes Astro;
 - geração estática com endpoint server-side em Node;
-- SQLite privado para consentimentos da newsletter;
+- SQLite privado para consentimentos da newsletter e contatos de parceiros;
 - Nginx como proxy HTTPS e systemd para o processo Node em produção;
 - conteúdo editorial estruturado localmente, sem CMS remoto ativo.
 
@@ -70,13 +70,14 @@ A produção atual usa:
 - serviço `olhossecos-astro.service`;
 - processo Node em `127.0.0.1:4321`;
 - Nginx para HTTPS, canonicalização, cache e headers de segurança;
-- banco da newsletter em `/var/lib/olhossecos/newsletter.sqlite`.
+- banco da newsletter em `/var/lib/olhossecos/newsletter.sqlite`;
+- contatos de parceiros em `/var/lib/olhossecos/superficie-partner-inquiries.sqlite`.
 
 O GitHub Actions executa somente CI. Deploy automático permanece desativado até o Gate F; publicação exige candidato identificado por commit, backup, QA e autorização explícita. Consulte `docs/VPS-DEPLOY.md`.
 
 ## Segurança
 
-- Nunca versione `.env`, tokens, credenciais, bancos ou listas da newsletter.
+- Nunca versione `.env`, tokens, credenciais, bancos, listas da newsletter ou contatos de parceiros.
 - Não execute `git reset --hard` no checkout de produção.
 - Não compartilhe dados nominais de assinantes com parceiros.
 - Mudanças de URLs públicas exigem mapa de redirects e validação prévia.

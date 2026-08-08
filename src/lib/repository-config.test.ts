@@ -18,7 +18,7 @@ test("CI valida o portal com Node 24 sem executar deploy destrutivo", () => {
   assert.doesNotMatch(workflow, /quick-deploy\.sh/);
 });
 
-test("exemplo de ambiente representa o portal e preserva a newsletter", () => {
+test("exemplo de ambiente representa os formulários persistidos do portal", () => {
   const environment = read(".env.example");
 
   assert.match(environment, /^PUBLIC_NEWSLETTER_ENDPOINT=\/api\/newsletter$/m);
@@ -30,6 +30,18 @@ test("exemplo de ambiente representa o portal e preserva a newsletter", () => {
     environment,
     /^NEWSLETTER_ALLOWED_ORIGIN=http:\/\/localhost:4321$/m,
   );
+  assert.match(
+    environment,
+    /^PUBLIC_PARTNER_INQUIRY_ENDPOINT=\/api\/superficie-parceiros$/m,
+  );
+  assert.match(
+    environment,
+    /^PARTNER_INQUIRY_DATABASE_PATH=\.\/var\/superficie-partner-inquiries\.sqlite$/m,
+  );
+  assert.match(
+    environment,
+    /^PARTNER_INQUIRY_ALLOWED_ORIGIN=http:\/\/localhost:4321$/m,
+  );
   assert.doesNotMatch(
     environment,
     /SITE_URL|SITE_NAME|SITE_DESCRIPTION|Caratinga|PUBLIC_SANITY|GOOGLE_ANALYTICS_ID/,
@@ -38,10 +50,14 @@ test("exemplo de ambiente representa o portal e preserva a newsletter", () => {
 
 test("documentacao principal descreve a stack operacional atual", () => {
   const readme = read("README.md");
+  const deploy = read("docs/VPS-DEPLOY.md");
 
   assert.match(readme, /Astro 7/);
   assert.match(readme, /Nginx/);
   assert.match(readme, /systemd/);
+  assert.match(readme, /superficie-partner-inquiries\.sqlite/);
+  assert.match(deploy, /PARTNER_INQUIRY_DATABASE_PATH/);
+  assert.match(deploy, /\/api\/superficie-parceiros/);
   assert.doesNotMatch(
     readme,
     /Astro\*\* como framework.*v4|Tailwind CSS|Sanity\.io/,

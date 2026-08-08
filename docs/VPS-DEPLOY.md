@@ -9,9 +9,10 @@
 - aplicação: `127.0.0.1:4321`;
 - proxy público: Nginx;
 - ambiente: `/root/olhossecos.com.br-site/.env`;
-- newsletter: `/var/lib/olhossecos/newsletter.sqlite`.
+- newsletter: `/var/lib/olhossecos/newsletter.sqlite`;
+- contatos de parceiros: `/var/lib/olhossecos/superficie-partner-inquiries.sqlite`.
 
-O serviço executa `dist/server/entry.mjs`. A pasta da newsletter e o banco não fazem parte do artefato nem do repositório.
+O serviço executa `dist/server/entry.mjs`. Os bancos privados não fazem parte do artefato nem do repositório e devem integrar a política de backup do servidor.
 
 ## Política de release
 
@@ -37,9 +38,12 @@ O `.env` operacional deve permanecer fora do Git e legível apenas por `root:www
 PUBLIC_NEWSLETTER_ENDPOINT=/api/newsletter
 NEWSLETTER_DATABASE_PATH=/var/lib/olhossecos/newsletter.sqlite
 NEWSLETTER_ALLOWED_ORIGIN=https://olhossecos.com.br
+PUBLIC_PARTNER_INQUIRY_ENDPOINT=/api/superficie-parceiros
+PARTNER_INQUIRY_DATABASE_PATH=/var/lib/olhossecos/superficie-partner-inquiries.sqlite
+PARTNER_INQUIRY_ALLOWED_ORIGIN=https://olhossecos.com.br
 ```
 
-Não armazene tokens, usuários da newsletter ou credenciais no repositório ou em logs de CI.
+Não armazene tokens, usuários da newsletter, contatos de parceiros ou credenciais no repositório ou em logs de CI.
 
 ## Preparação do candidato
 
@@ -72,6 +76,7 @@ Verificar pelo menos:
 
 - homepage, `/olho-seco`, `/profissionais`, `/superficie`, `/superficie/edicao-00`, `/livros`, `/app` e `/newsletter`;
 - endpoint da newsletter: GET 405, origem cruzada 403 e cadastro sintético autorizado;
+- `/superficie/parceiros` e seu endpoint: GET 405, origem cruzada 403 e contato sintético autorizado;
 - sitemap e robots;
 - canonicalização de HTTP, `www` e trailing slash;
 - H1, title, description, JSON-LD e Open Graph;
@@ -79,7 +84,7 @@ Verificar pelo menos:
 - desktop e mobile, navegação por teclado, formulário e console;
 - ausência de 404 internas e overflow horizontal.
 
-A assinatura sintética usada no teste deve ser removida do banco após a validação.
+Os registros sintéticos usados nos testes devem ser removidos dos respectivos bancos após a validação.
 
 ## Rollback
 
