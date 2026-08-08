@@ -6,10 +6,8 @@ interface Props {
   sizes?: string;
 }
 
-const {
-  figure,
-  sizes = "(max-width: 850px) calc(100vw - 2.5rem), 780px",
-} = Astro.props;
+const { figure, sizes = "(max-width: 850px) calc(100vw - 2.5rem), 780px" } =
+  Astro.props;
 ---
 
 <figure
@@ -19,16 +17,8 @@ const {
   ]}
 >
   <picture>
-    <source
-      type="image/avif"
-      srcset={figure.avifSrcSet}
-      sizes={sizes}
-    />
-    <source
-      type="image/webp"
-      srcset={figure.webpSrcSet}
-      sizes={sizes}
-    />
+    <source type="image/avif" srcset={figure.avifSrcSet} sizes={sizes} />
+    <source type="image/webp" srcset={figure.webpSrcSet} sizes={sizes} />
     <img
       src={figure.src}
       width={figure.width}
@@ -43,11 +33,7 @@ const {
     <small>
       {
         figure.credit.url ? (
-          <a
-            href={figure.credit.url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href={figure.credit.url} target="_blank" rel="noopener noreferrer">
             {figure.credit.label}
           </a>
         ) : (

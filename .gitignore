@@ -115,7 +115,6 @@ tokens.json
 
 # Misc
 *.log
-  +++++++ REPLACE
 
 .kluster
 .astro/

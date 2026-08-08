@@ -1,4 +1,6 @@
-# Integração Sanity CMS - Olhos Secos Caratinga
+# Documento legado — Integração Sanity CMS
+
+> **Não executar neste repositório.** O texto abaixo documenta uma implementação antiga em Next.js/Sanity. O portal atual usa Astro 7 e não possui cliente, Studio, schemas ou webhooks do Sanity ativos. Consulte o `README.md` e trate este arquivo somente como referência histórica.
 
 Documentação completa da integração do Sanity CMS com Next.js 15 e processo de importação de conteúdo.
 
