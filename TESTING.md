@@ -9,6 +9,7 @@ npm test
 npm run lint
 npm run format:check
 npm run build
+npm run test:routes
 ```
 
 O atalho abaixo executa a mesma sequência:
@@ -22,6 +23,7 @@ npm run check
 Os testes usam o runner nativo de Node e ficam em `src/lib/*.test.ts`.
 
 - `newsletter.test.ts`: cadastro, deduplicação, consentimento, honeypot e origem;
+- `partner-inquiries.test.ts`: solicitações de parceria, consentimento, honeypot e origem;
 - `superficie.test.ts`: tempo de leitura, relacionados, publicação, patrocínio e canonical;
 - `repository-config.test.ts`: CI, ambiente e documentação operacional.
 
@@ -29,12 +31,15 @@ Também podem ser executados separadamente:
 
 ```bash
 npm run test:newsletter
+npm run test:partners
 npm run test:superficie
 ```
 
 ## Build
 
 `npm run build` executa `astro check` e depois gera o artefato em `dist/`. Qualquer erro, aviso ou hint do Astro deve ser revisado antes de um release.
+
+`npm run test:routes` inicia esse artefato localmente e confirma que `/superficie/parceiros` responde 200, possui H1 e canonical próprios e continua presente no sitemap. `npm run check` executa esse teste depois do build.
 
 ## QA visual e funcional
 

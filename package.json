@@ -18,7 +18,7 @@
     "test:superficie": "node --test src/lib/superficie.test.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check \"src/**/*.{astro,js,ts}\" \".github/workflows/*.yml\" \"astro.config.mjs\" \"eslint.config.js\" \"prettier.config.mjs\" \"package*.json\" \"README.md\" \"TESTING.md\" \"docs/VPS-DEPLOY.md\"",
-    "check": "npm test && npm run lint && npm run format:check && npm run build",
+    "check": "npm test && npm run lint && npm run format:check && npm run build && npm run test:routes",
     "seo:indexnow": "node scripts/submit-indexnow.mjs"
   },
   "dependencies": {
