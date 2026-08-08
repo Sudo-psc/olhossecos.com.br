@@ -158,13 +158,8 @@ const audienceRoles = [
 </div>
 
 <script>
-  const campaignKeys = [
-    "utm_source",
-    "utm_medium",
-    "utm_campaign",
-    "utm_content",
-    "utm_term",
-  ] as const;
+  import { getNewsletterCampaignContext } from "../lib/newsletter-analytics";
+
   const campaignPayloadKeys = {
     utm_source: "utmSource",
     utm_medium: "utmMedium",
@@ -214,6 +209,9 @@ const audienceRoles = [
       const source = newsletterForm?.dataset.source;
 
       if (!newsletterForm || !source) return;
+      const campaignContext = getNewsletterCampaignContext(
+        window.location.search,
+      );
 
       newsletterForm.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -231,10 +229,9 @@ const audienceRoles = [
           ...(Object.fromEntries(formData) as Record<string, string>),
           source,
         };
-        const params = new URLSearchParams(window.location.search);
-        campaignKeys.forEach((key) => {
-          const value = params.get(key);
-          if (value) payload[campaignPayloadKeys[key]] = value;
+        Object.entries(campaignPayloadKeys).forEach(([key, payloadKey]) => {
+          const value = campaignContext[key];
+          if (value) payload[payloadKey] = value;
         });
 
         newsletterForm.setAttribute("aria-busy", "true");
@@ -260,7 +257,7 @@ const audienceRoles = [
             newsletterStatus.textContent =
               result?.message ?? "Cadastro realizado. Obrigado.";
           }
-          track("newsletter_signup", { source });
+          track("newsletter_signup", { source, ...campaignContext });
 
           if (result?.profileToken && profileForm && profilePanel) {
             const profileEmail = profileForm.elements.namedItem(
@@ -324,6 +321,7 @@ const audienceRoles = [
           track("newsletter_profile_complete", {
             audience_role: audienceRole,
             source,
+            ...campaignContext,
           });
           const token = profileForm.elements.namedItem(
             "profileToken",

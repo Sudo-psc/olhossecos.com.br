@@ -64,6 +64,8 @@ texto promocional adicional foi introduzido.
 - cadastro mínimo retorna 201 e move o foco para o título do perfil opcional;
 - “Agora não” fecha o painel e limpa e-mail/token temporários;
 - perfil `paciente` retorna 200 e exibe `Preferência registrada.`;
+- eventos de cadastro e perfil preservam `source`, `audience_role` e UTMs,
+  sem expor o e-mail no `dataLayer`;
 - `/`, `/privacidade`, `/superficie` e `/livros` foram reabertos em 390 e 1440
   px sem overflow ou erros; a SUPERFÍCIE continuou renderizando a variante
   compartilhada com origem `superficie`.
