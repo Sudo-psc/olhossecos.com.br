@@ -44,7 +44,11 @@ Para executar toda a validação local na mesma ordem da integração contínua:
 npm run check
 ```
 
-Os testes atuais cobrem o endpoint da newsletter, as regras editoriais da SUPERFÍCIE e a configuração operacional do repositório. O build executa `astro check` antes de gerar o artefato.
+Os testes atuais cobrem o endpoint da newsletter, analytics first-party, as
+regras editoriais da SUPERFÍCIE e a configuração operacional do repositório. O
+build executa `astro check`, gera o artefato e grava em `dist/` um manifesto
+`BUILD_METADATA.json` com o SHA do commit e a indicação de árvore limpa. O
+deploy recusa `dist/` sem esse vínculo.
 
 ## Estrutura
 
@@ -71,9 +75,18 @@ A produção atual usa:
 - processo Node em `127.0.0.1:4321`;
 - Nginx para HTTPS, canonicalização, cache e headers de segurança;
 - banco da newsletter em `/var/lib/olhossecos/newsletter.sqlite`;
-- contatos de parceiros em `/var/lib/olhossecos/superficie-partner-inquiries.sqlite`.
+- contatos de parceiros em `/var/lib/olhossecos/superficie-partner-inquiries.sqlite`;
+- migração preparada para releases imutáveis em
+  `/var/www/olhossecos/releases/<sha>` e symlink `current`.
+- releases `root:root`, somente leitura para `www-data`, com smoke do candidato
+  executado como usuário não privilegiado;
+- backup privado executado por helper root-owned instalado em
+  `/usr/local/libexec/olhossecos/`, fora do symlink `current`.
 
-O GitHub Actions executa somente CI. Deploy automático permanece desativado até o Gate F; publicação exige candidato identificado por commit, backup, QA e autorização explícita. Consulte `docs/VPS-DEPLOY.md`.
+O GitHub Actions executa somente CI. Deploy automático permanece desativado até
+o Gate F; publicação exige candidato identificado por commit, backup, QA,
+release anterior para rollback e autorização explícita. Consulte
+`docs/VPS-DEPLOY.md`.
 
 ## Segurança
 

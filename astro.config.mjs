@@ -55,7 +55,12 @@ export default defineConfig({
     sitemap({
       filter: (page) => {
         const path = new URL(page).pathname.replace(/\/$/, "") || "/";
-        return !new Set(["/blog", "/videos", "/exames"]).has(path);
+        return !new Set([
+          "/blog",
+          "/videos",
+          "/exames",
+          "/newsletter/descadastrar",
+        ]).has(path);
       },
       serialize(item) {
         const path = new URL(item.url).pathname.replace(/\/$/, "") || "/";

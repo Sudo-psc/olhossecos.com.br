@@ -20,10 +20,14 @@ npm run check
 
 ### Testes Node
 
-Os testes usam o runner nativo de Node e ficam em `src/lib/*.test.ts`.
+Os testes usam o runner nativo de Node e ficam em `src/lib/*.test.ts`, além do
+smoke de deploy em `scripts/*.test.mjs`.
 
+- `analytics*.test.ts`: taxonomia, agregação, deduplicação e redação semântica de PII no cliente e no servidor;
 - `newsletter.test.ts`: cadastro, deduplicação, consentimento, honeypot e origem;
+- `newsletter-operations.test.ts`: exportação exclusiva sem symlink e snapshots SQLite;
 - `partner-inquiries.test.ts`: solicitações de parceria, consentimento, honeypot, origem e proteção contra abuso;
+- `release.test.ts` e `deploy-atomic-release.test.mjs`: manifesto do build, smoke não privilegiado e permissões do release;
 - `superficie.test.ts`: tempo de leitura, relacionados, publicação, patrocínio e canonical;
 - `repository-config.test.ts`: CI, ambiente e documentação operacional.
 
@@ -38,9 +42,16 @@ npm run test:superficie
 
 ## Build
 
-`npm run build` executa `astro check` e depois gera o artefato em `dist/`. Qualquer erro, aviso ou hint do Astro deve ser revisado antes de um release.
+`npm run build` executa `astro check`, gera o artefato em `dist/` e grava
+`dist/BUILD_METADATA.json`. O manifesto contém o SHA de `HEAD` e só pode marcar
+`sourceClean: true` quando a árvore do checkout está limpa. O deploy verifica
+ambos antes de aceitar um candidato; o `dist/` ignorado pelo Git não basta.
 
-`npm run test:routes` inicia esse artefato localmente e confirma que `/superficie/parceiros` e `/newsletter` respondem 200, possuem H1 e canonical próprios e continuam presentes no sitemap. O smoke test também exige um link global para `/newsletter`. `npm run check` executa esse teste depois do build.
+`npm run test:routes` inicia esse artefato localmente e confirma que
+`/superficie/parceiros`, `/newsletter`, `/newsletter/descadastrar` e
+`/newsletter/confirmar` respondem 200 e possuem H1/canonical próprios; também
+confirma `/newsletter` no sitemap e o link global para ela. `npm run check`
+executa esse teste depois do build.
 
 ## QA visual e funcional
 
@@ -88,14 +99,35 @@ Cobertura atual:
 - validação, honeypot e proteção contra origem cruzada;
 - registro de solicitações de mídia kit e parceria em base separada;
 - consentimento versionado para newsletter e contatos comerciais.
+- endereço suprimido nunca é reativado por cadastro anônimo; o retorno exige
+  token de confirmação enviado ao e-mail;
+- descadastro com limite incremental do corpo e rate limit independente;
+- UTMs e demais propriedades passam por validação semântica de PII no cliente e
+  no servidor.
 
 Os novos comportamentos foram desenvolvidos em ciclos red-green. Antes da
 implementação, os testes falharam respectivamente com `422` no cadastro sem
 nome, `422` no perfil progressivo, `503` na base legada e ausência do módulo de
 parcerias. A rota geral também falhou com `422` antes de sua origem ser aceita.
-Após a implementação mínima, os 12 casos passaram.
+Após a implementação mínima, os 14 casos da newsletter e os 50 testes da
+suíte completa passaram.
 
 **Atualização desta seção**: 08/08/2026
+
+## Correções operacionais — 08/08/2026
+
+- o candidato de deploy é aceito somente quando `BUILD_METADATA.json` vincula o
+  build ao SHA aprovado e a árvore está limpa;
+- `npm ci` e o smoke do candidato executam como `www-data` (ou o usuário
+  não-root do ambiente de teste), e o release final é normalizado para
+  `root:root` sem escrita para o runtime;
+- o backup systemd usa `/usr/local/libexec/olhossecos/backup-private-data.mjs`,
+  instalado por `ops/install-private-data-backup.sh`, nunca pelo symlink do
+  release;
+- exportações privadas usam criação exclusiva com `O_EXCL`/`O_NOFOLLOW`.
+
+As validações desta etapa continuam locais no worktree isolado. Produção não foi
+alterada, e nenhuma operação de merge, push ou deploy foi executada.
 
 ## Gate 6 — QA final da SUPERFÍCIE
 

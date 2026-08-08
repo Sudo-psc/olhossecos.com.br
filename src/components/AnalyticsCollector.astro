@@ -1,0 +1,115 @@
+---
+const endpoint = import.meta.env.PUBLIC_ANALYTICS_ENDPOINT || "/api/analytics";
+---
+
+<span data-analytics-collector data-endpoint={endpoint} hidden></span>
+
+<script>
+  import {
+    getAnalyticsFingerprint,
+    getInitialAnalyticsEvent,
+    getSafeAnalyticsDetail,
+  } from "../lib/analytics-client";
+
+  interface AnalyticsWindow extends Window {
+    dataLayer?: Array<Record<string, unknown>>;
+    olhosSecosAnalyticsReady?: boolean;
+  }
+
+  const analyticsWindow = window as AnalyticsWindow;
+  const marker = document.querySelector<HTMLElement>(
+    "[data-analytics-collector]",
+  );
+  const endpoint = marker?.dataset.endpoint;
+
+  if (endpoint && !analyticsWindow.olhosSecosAnalyticsReady) {
+    analyticsWindow.olhosSecosAnalyticsReady = true;
+    const recentEvents = new Map<string, number>();
+
+    const send = (detail: Record<string, unknown>) => {
+      const payload = getSafeAnalyticsDetail(detail, window.location.pathname);
+      if (!payload) return;
+
+      const now = Date.now();
+      const fingerprint = getAnalyticsFingerprint(payload);
+      const lastSentAt = recentEvents.get(fingerprint) ?? 0;
+      if (now - lastSentAt < 1_500) return;
+      recentEvents.set(fingerprint, now);
+      for (const [key, sentAt] of recentEvents) {
+        if (now - sentAt > 5_000) recentEvents.delete(key);
+      }
+
+      const body = JSON.stringify(payload);
+      if (
+        typeof navigator.sendBeacon === "function" &&
+        navigator.sendBeacon(
+          endpoint,
+          new Blob([body], { type: "application/json" }),
+        )
+      ) {
+        return;
+      }
+
+      void fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body,
+        credentials: "same-origin",
+        keepalive: true,
+      }).catch(() => undefined);
+    };
+
+    const dataLayer = analyticsWindow.dataLayer ?? [];
+    const queuedEvents = [...dataLayer];
+    const nativePush = dataLayer.push.bind(dataLayer);
+    dataLayer.push = (...items: Array<Record<string, unknown>>) => {
+      items.forEach(send);
+      return nativePush(...items);
+    };
+    analyticsWindow.dataLayer = dataLayer;
+    queuedEvents.forEach(send);
+
+    window.addEventListener("olhossecos:analytics", (event) => {
+      const detail = (event as CustomEvent<Record<string, unknown>>).detail;
+      if (detail) send(detail);
+    });
+
+    send({ event: getInitialAnalyticsEvent(window.location.pathname) });
+
+    document.addEventListener(
+      "click",
+      (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+        const link = target.closest<HTMLAnchorElement>("a[href]");
+        if (!link) return;
+
+        const destination = new URL(link.href, window.location.href);
+        if (destination.origin !== window.location.origin) {
+          send({
+            event: "outbound_click",
+            destination_host: destination.hostname,
+            link_text: link.textContent?.trim() ?? "",
+          });
+          return;
+        }
+
+        if (
+          destination.pathname === "/app" &&
+          window.location.pathname !== "/app"
+        ) {
+          send({
+            event: "app_click",
+            link_text: link.textContent?.trim() ?? "",
+            placement: link.closest("header")
+              ? "header"
+              : link.closest("footer")
+                ? "footer"
+                : "content",
+          });
+        }
+      },
+      { capture: true },
+    );
+  }
+</script>

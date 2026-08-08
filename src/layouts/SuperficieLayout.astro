@@ -1,6 +1,7 @@
 ---
 import SuperficieFooter from "@/components/superficie/SuperficieFooter.astro";
 import SuperficieHeader from "@/components/superficie/SuperficieHeader.astro";
+import AnalyticsCollector from "@/components/AnalyticsCollector.astro";
 
 interface Props {
   title: string;
@@ -161,6 +162,7 @@ const structuredData = {
     />
   </head>
   <body class="superficie-document">
+    <AnalyticsCollector />
     <a class="surface-skip-link" href="#conteudo-superficie">
       Pular para o conteúdo
     </a>

@@ -1,9 +1,14 @@
 import { spawn } from "node:child_process";
+import { mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 
 const host = "127.0.0.1";
 const port = process.env.ROUTE_TEST_PORT ?? "44321";
 const localOrigin = `http://${host}:${port}`;
 const productionOrigin = "https://olhossecos.com.br";
+const testDirectory = mkdtempSync(join(tmpdir(), "olhossecos-routes-"));
+const analyticsDatabasePath = join(testDirectory, "analytics.sqlite");
 
 const server = spawn(process.execPath, ["dist/server/entry.mjs"], {
   env: {
@@ -12,6 +17,10 @@ const server = spawn(process.execPath, ["dist/server/entry.mjs"], {
     PORT: port,
     NODE_ENV: "production",
     NEWSLETTER_ALLOWED_ORIGIN: productionOrigin,
+    NEWSLETTER_TOKEN_SECRET:
+      "segredo-de-teste-de-rotas-com-pelo-menos-32-caracteres",
+    ANALYTICS_ALLOWED_ORIGIN: productionOrigin,
+    ANALYTICS_DATABASE_PATH: analyticsDatabasePath,
   },
   stdio: ["ignore", "pipe", "pipe"],
 });
@@ -76,9 +85,51 @@ try {
   await assertStatus("/superficie");
   await assertPage("/superficie/parceiros", "/superficie/parceiros");
   await assertPage("/newsletter", "/newsletter");
+  await assertPage("/newsletter/descadastrar", "/newsletter/descadastrar");
+  await assertPage("/newsletter/confirmar", "/newsletter/confirmar");
+
+  const unsubscribeResponse = await fetch(
+    `${localOrigin}/api/newsletter-unsubscribe`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Origin: productionOrigin,
+      },
+      body: JSON.stringify({ token: "invalido" }),
+    },
+  );
+  if (unsubscribeResponse.status !== 403) {
+    throw new Error(
+      `/api/newsletter-unsubscribe: esperado HTTP 403, recebido ${unsubscribeResponse.status}`,
+    );
+  }
+
+  const analyticsResponse = await fetch(`${localOrigin}/api/analytics`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Origin: productionOrigin,
+    },
+    body: JSON.stringify({ event: "page_view", page_path: "/newsletter" }),
+  });
+  if (analyticsResponse.status !== 202) {
+    throw new Error(
+      `/api/analytics: esperado HTTP 202, recebido ${analyticsResponse.status}`,
+    );
+  }
 
   const sitemapResponse = await assertStatus("/sitemap-0.xml");
   const sitemap = await sitemapResponse.text();
+  const homeCanonical = homeHtml.match(
+    /<link rel="canonical" href="([^"]+)">/u,
+  )?.[1];
+  const sitemapRoot = sitemap.match(/<url><loc>([^<]+)<\/loc>/u)?.[1];
+  if (!homeCanonical || homeCanonical !== sitemapRoot) {
+    throw new Error(
+      `raiz canônica inconsistente: HTML=${homeCanonical} sitemap=${sitemapRoot}`,
+    );
+  }
   for (const path of ["/superficie/parceiros", "/newsletter"]) {
     if (!sitemap.includes(`<loc>${productionOrigin}${path}</loc>`)) {
       throw new Error(`sitemap: ${path} ausente`);
@@ -88,4 +139,5 @@ try {
   console.log("release routes: pass");
 } finally {
   if (server.exitCode === null) server.kill("SIGTERM");
+  rmSync(testDirectory, { recursive: true, force: true });
 }

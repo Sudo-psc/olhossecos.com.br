@@ -10,6 +10,7 @@ import ContentPage from "@/components/ContentPage.astro";
     { label: "Newsletter", href: "#newsletter" },
     { label: "Parcerias", href: "#parcerias" },
     { label: "Busca e filtros", href: "#busca" },
+    { label: "Métricas editoriais", href: "#metricas" },
     { label: "Registros técnicos", href: "#registros" },
     { label: "Links externos", href: "#externos" },
   ]}
@@ -42,7 +43,13 @@ import ContentPage from "@/components/ContentPage.astro";
     Os cadastros são mantidos em armazenamento privado no servidor enquanto a
     assinatura estiver ativa. Não informe dados de saúde no formulário. Você
     poderá retirar o consentimento pelo mecanismo de descadastro incluído nas
-    comunicações editoriais; após o pedido, o endereço deixa de receber envios.
+    comunicações editoriais. O link abre uma página de confirmação e o pedido
+    somente é efetivado após a ação do titular, evitando descadastros causados
+    por robôs que verificam links. Após o pedido, o endereço deixa de receber
+    envios e permanece apenas na lista de supressão enquanto necessário para
+    impedir uma inclusão acidental em novas campanhas. Um novo pedido para
+    voltar a receber envios não reativa o endereço automaticamente: ele exige um
+    token de confirmação enviado ao próprio e-mail.
   </p>
 
   <h2 id="busca">Busca e filtros</h2>
@@ -58,6 +65,21 @@ import ContentPage from "@/components/ContentPage.astro";
     Como em qualquer site, o provedor de hospedagem pode registrar informações
     técnicas essenciais, como endereço IP, horário, rota acessada e agente do
     navegador, para segurança, diagnóstico de falhas e entrega do conteúdo.
+  </p>
+
+  <h2 id="metricas">Métricas editoriais</h2>
+  <p>
+    O portal registra métricas próprias e agregáveis para compreender páginas
+    acessadas e interações editoriais, como abertura de livros, cliques de saída
+    e conclusão do cadastro na newsletter. Esse recurso não utiliza cookies, não
+    cria identificador persistente e não armazena endereço IP, agente do
+    navegador, e-mail ou texto digitado nos formulários. Somente o nome do
+    evento, o caminho da página e propriedades editoriais previamente
+    autorizadas são persistidos; valores que se parecem semanticamente com
+    e-mail, telefone, documentos ou parâmetros pessoais são descartados também
+    quando chegam em propriedades de campanha. Os eventos individuais são
+    mantidos por até 180 dias e os relatórios operacionais usam contagens
+    agregadas.
   </p>
 
   <h2 id="externos">Links externos</h2>

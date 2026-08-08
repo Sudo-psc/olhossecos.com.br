@@ -1,4 +1,11 @@
-import { createHash, randomBytes, randomUUID } from "node:crypto";
+import {
+  createHash,
+  createHmac,
+  randomBytes,
+  randomUUID,
+  timingSafeEqual,
+} from "node:crypto";
+import { spawn } from "node:child_process";
 import { chmodSync, mkdirSync } from "node:fs";
 import { dirname } from "node:path";
 import { DatabaseSync } from "node:sqlite";
@@ -6,6 +13,7 @@ import { DatabaseSync } from "node:sqlite";
 const MAX_BODY_BYTES = 8_192;
 const RATE_LIMIT_MAX_REQUESTS = 5;
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1_000;
+const CONFIRMATION_TOKEN_TTL_MS = 24 * 60 * 60 * 1_000;
 const CONSENT_VERSION = "privacy-2026-08-08";
 const DEFAULT_DATABASE_PATH = "/var/lib/olhossecos/newsletter.sqlite";
 const DEFAULT_PRODUCTION_ORIGIN = "https://olhossecos.com.br";
@@ -30,9 +38,16 @@ type NewsletterPayload = {
   utmCampaign?: unknown;
   utmContent?: unknown;
   utmTerm?: unknown;
+  confirmationToken?: unknown;
 };
 
 type NewsletterSource = "livros" | "superficie" | "newsletter";
+
+export type NewsletterConfirmationEmail = {
+  email: string;
+  token: string;
+  confirmationUrl: string;
+};
 
 export type NewsletterHandlerOptions = {
   allowedOrigin?: string;
@@ -40,6 +55,18 @@ export type NewsletterHandlerOptions = {
   databasePath?: string;
   now?: () => Date;
   rateLimit?: boolean;
+  sendConfirmationEmail?: (
+    message: NewsletterConfirmationEmail,
+  ) => Promise<void>;
+};
+
+export type NewsletterUnsubscribeHandlerOptions = {
+  allowedOrigin?: string;
+  clientKey?: string;
+  databasePath?: string;
+  now?: () => Date;
+  rateLimit?: boolean;
+  tokenSecret?: string;
 };
 
 const rateLimits = new Map<string, RateLimitEntry>();
@@ -109,6 +136,10 @@ const ensureNewsletterColumns = (database: DatabaseSync) => {
     ["utm_campaign", "TEXT"],
     ["utm_content", "TEXT"],
     ["utm_term", "TEXT"],
+    ["unsubscribe_key", "TEXT"],
+    ["unsubscribed_at", "TEXT"],
+    ["confirmation_token_hash", "TEXT"],
+    ["confirmation_token_expires_at", "TEXT"],
   ] as const;
 
   for (const [name, definition] of additions) {
@@ -118,6 +149,21 @@ const ensureNewsletterColumns = (database: DatabaseSync) => {
       );
     }
   }
+
+  const missingKeys = database
+    .prepare(
+      `SELECT id FROM newsletter_subscribers
+       WHERE unsubscribe_key IS NULL OR unsubscribe_key = ''`,
+    )
+    .all() as Array<{ id: string }>;
+  const assignKey = database.prepare(
+    "UPDATE newsletter_subscribers SET unsubscribe_key = ? WHERE id = ?",
+  );
+  for (const row of missingKeys) assignKey.run(randomUUID(), row.id);
+  database.exec(`
+    CREATE UNIQUE INDEX IF NOT EXISTS newsletter_subscribers_unsubscribe_key_idx
+      ON newsletter_subscribers (unsubscribe_key);
+  `);
 };
 
 const getDatabase = (databasePath: string) => {
@@ -150,6 +196,10 @@ const getDatabase = (databasePath: string) => {
       utm_campaign TEXT,
       utm_content TEXT,
       utm_term TEXT,
+      unsubscribe_key TEXT UNIQUE,
+      unsubscribed_at TEXT,
+      confirmation_token_hash TEXT,
+      confirmation_token_expires_at TEXT,
       created_at TEXT NOT NULL,
       updated_at TEXT NOT NULL
     );
@@ -162,6 +212,9 @@ const getDatabase = (databasePath: string) => {
   databases.set(databasePath, database);
   return database;
 };
+
+type SubscriberSaveResult =
+  { status: "active" } | { status: "confirmation_required"; token: string };
 
 const saveSubscriber = (
   payload: {
@@ -179,12 +232,39 @@ const saveSubscriber = (
   },
   databasePath: string,
   now: Date,
-) => {
+): SubscriberSaveResult => {
   const database = getDatabase(databasePath);
   const timestamp = now.toISOString();
 
   database.exec("BEGIN IMMEDIATE");
   try {
+    const existing = database
+      .prepare(
+        "SELECT status FROM newsletter_subscribers WHERE email = ? COLLATE NOCASE",
+      )
+      .get(payload.email) as { status: string } | undefined;
+
+    if (existing?.status === "unsubscribed") {
+      const token = randomBytes(32).toString("base64url");
+      database
+        .prepare(
+          `UPDATE newsletter_subscribers
+           SET confirmation_token_hash = ?,
+               confirmation_token_expires_at = ?,
+               updated_at = ?
+           WHERE email = ? COLLATE NOCASE
+             AND status = 'unsubscribed'`,
+        )
+        .run(
+          createHash("sha256").update(token).digest("hex"),
+          new Date(now.getTime() + CONFIRMATION_TOKEN_TTL_MS).toISOString(),
+          timestamp,
+          payload.email,
+        );
+      database.exec("COMMIT");
+      return { status: "confirmation_required", token };
+    }
+
     database
       .prepare(
         `INSERT INTO newsletter_subscribers (
@@ -204,9 +284,13 @@ const saveSubscriber = (
           utm_campaign,
           utm_content,
           utm_term,
+          unsubscribe_key,
+          unsubscribed_at,
+          confirmation_token_hash,
+          confirmation_token_expires_at,
           created_at,
           updated_at
-        ) VALUES (?, ?, ?, ?, NULL, 'active', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, NULL, 'active', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL, ?, ?)
         ON CONFLICT(email) DO UPDATE SET
           name = CASE
             WHEN excluded.name <> '' THEN excluded.name
@@ -214,6 +298,7 @@ const saveSubscriber = (
           END,
           profession = excluded.profession,
           status = 'active',
+          unsubscribed_at = NULL,
           source = excluded.source,
           consent_version = excluded.consent_version,
           consented_at = excluded.consented_at,
@@ -224,6 +309,8 @@ const saveSubscriber = (
           utm_campaign = COALESCE(excluded.utm_campaign, newsletter_subscribers.utm_campaign),
           utm_content = COALESCE(excluded.utm_content, newsletter_subscribers.utm_content),
           utm_term = COALESCE(excluded.utm_term, newsletter_subscribers.utm_term),
+          confirmation_token_hash = NULL,
+          confirmation_token_expires_at = NULL,
           updated_at = excluded.updated_at`,
       )
       .run(
@@ -241,14 +328,235 @@ const saveSubscriber = (
         payload.utmCampaign || null,
         payload.utmContent || null,
         payload.utmTerm || null,
+        randomUUID(),
         timestamp,
         timestamp,
       );
     database.exec("COMMIT");
+    return { status: "active" };
   } catch (error) {
     database.exec("ROLLBACK");
     throw error;
   }
+};
+
+export const createNewsletterUnsubscribeToken = (
+  unsubscribeKey: string,
+  secret: string,
+) => {
+  const signature = createHmac("sha256", secret)
+    .update(unsubscribeKey)
+    .digest("base64url");
+  return `${unsubscribeKey}.${signature}`;
+};
+
+const sendNewsletterConfirmationEmail = async ({
+  email,
+  confirmationUrl,
+}: NewsletterConfirmationEmail) => {
+  const sendmailPath = process.env.NEWSLETTER_CONFIRMATION_SENDMAIL;
+  if (!sendmailPath) {
+    throw new Error("NEWSLETTER_CONFIRMATION_SENDMAIL não configurado.");
+  }
+
+  const child = spawn(sendmailPath, ["-t", "-oi"], {
+    stdio: ["pipe", "ignore", "pipe"],
+  });
+  const message = [
+    `To: ${email}`,
+    "Subject: Confirme seu retorno à newsletter do olhossecos.com.br",
+    "Content-Type: text/plain; charset=UTF-8",
+    "",
+    "Recebemos um pedido para voltar a receber os envios editoriais do olhossecos.com.br.",
+    "",
+    `Confirme pelo link: ${confirmationUrl}`,
+    "",
+    "Se você não fez este pedido, ignore esta mensagem.",
+    "",
+  ].join("\r\n");
+  child.stdin?.end(message);
+
+  await new Promise<void>((resolve, reject) => {
+    const timeout = setTimeout(() => {
+      child.kill("SIGTERM");
+      reject(new Error("O envio do e-mail de confirmação expirou."));
+    }, 10_000);
+    child.once("error", (error) => {
+      clearTimeout(timeout);
+      reject(error);
+    });
+    child.once("close", (code) => {
+      clearTimeout(timeout);
+      if (code === 0) resolve();
+      else reject(new Error(`sendmail encerrou com código ${code ?? "nulo"}.`));
+    });
+  });
+};
+
+const confirmNewsletterSubscription = (
+  token: string,
+  databasePath: string,
+  now: Date,
+) => {
+  const database = getDatabase(databasePath);
+  const tokenHash = createHash("sha256").update(token).digest("hex");
+  const timestamp = now.toISOString();
+  const result = database
+    .prepare(
+      `UPDATE newsletter_subscribers
+       SET status = 'active',
+           consent_version = ?,
+           consented_at = ?,
+           unsubscribed_at = NULL,
+           confirmation_token_hash = NULL,
+           confirmation_token_expires_at = NULL,
+           updated_at = ?
+       WHERE status = 'unsubscribed'
+         AND confirmation_token_hash = ?
+         AND confirmation_token_expires_at > ?`,
+    )
+    .run(CONSENT_VERSION, timestamp, timestamp, tokenHash, timestamp);
+  return result.changes === 1;
+};
+
+const clearNewsletterConfirmation = (
+  email: string,
+  token: string,
+  databasePath: string,
+  now: Date,
+) => {
+  const database = getDatabase(databasePath);
+  database
+    .prepare(
+      `UPDATE newsletter_subscribers
+       SET confirmation_token_hash = NULL,
+           confirmation_token_expires_at = NULL,
+           updated_at = ?
+       WHERE email = ? COLLATE NOCASE
+         AND confirmation_token_hash = ?`,
+    )
+    .run(
+      now.toISOString(),
+      email,
+      createHash("sha256").update(token).digest("hex"),
+    );
+};
+
+const verifyNewsletterUnsubscribeToken = (token: string, secret: string) => {
+  const separator = token.lastIndexOf(".");
+  if (separator <= 0) return null;
+  const unsubscribeKey = token.slice(0, separator);
+  const providedSignature = token.slice(separator + 1);
+  if (!/^[0-9a-f-]{36}$/iu.test(unsubscribeKey)) return null;
+
+  const expectedSignature = createHmac("sha256", secret)
+    .update(unsubscribeKey)
+    .digest("base64url");
+  const provided = Buffer.from(providedSignature);
+  const expected = Buffer.from(expectedSignature);
+  if (provided.length !== expected.length) return null;
+  return timingSafeEqual(provided, expected) ? unsubscribeKey : null;
+};
+
+export const handleNewsletterUnsubscribeRequest = async (
+  request: Request,
+  options: NewsletterUnsubscribeHandlerOptions = {},
+) => {
+  if (request.method !== "POST") {
+    return jsonResponse({ message: "Método não permitido." }, 405, {
+      Allow: "POST",
+    });
+  }
+
+  if (
+    !(request.headers.get("content-type") ?? "")
+      .toLowerCase()
+      .startsWith("application/json")
+  ) {
+    return jsonResponse({ message: "Formato de envio inválido." }, 415);
+  }
+
+  const allowedOrigin =
+    options.allowedOrigin ??
+    process.env.NEWSLETTER_ALLOWED_ORIGIN ??
+    (process.env.NODE_ENV === "production"
+      ? DEFAULT_PRODUCTION_ORIGIN
+      : new URL(request.url).origin);
+  const requestOrigin = request.headers.get("origin");
+  const fetchSite = request.headers.get("sec-fetch-site");
+  if (
+    (requestOrigin && requestOrigin !== allowedOrigin) ||
+    (fetchSite && !["same-origin", "none"].includes(fetchSite))
+  ) {
+    return jsonResponse({ message: "Origem não permitida." }, 403);
+  }
+
+  const now = options.now?.() ?? new Date();
+  if (options.rateLimit !== false && options.clientKey) {
+    const limit = consumeRateLimit(options.clientKey, now.getTime());
+    if (!limit.allowed) {
+      return jsonResponse(
+        { message: "Muitas tentativas. Aguarde alguns minutos." },
+        429,
+        { "Retry-After": String(limit.retryAfter) },
+      );
+    }
+  }
+
+  const tokenSecret =
+    options.tokenSecret ?? process.env.NEWSLETTER_TOKEN_SECRET ?? "";
+  if (tokenSecret.length < 32) {
+    return jsonResponse({ message: "Descadastro indisponível." }, 503);
+  }
+
+  let token = "";
+  try {
+    const body = (await readJsonBody(request)) as NewsletterPayload & {
+      token?: unknown;
+    };
+    token = normalizeText(body.token);
+  } catch (error) {
+    if (error instanceof RangeError) {
+      return jsonResponse({ message: "Envio muito grande." }, 413);
+    }
+    return jsonResponse({ message: "Dados inválidos." }, 400);
+  }
+
+  const unsubscribeKey = verifyNewsletterUnsubscribeToken(token, tokenSecret);
+  if (!unsubscribeKey) {
+    return jsonResponse({ message: "Link inválido ou expirado." }, 403);
+  }
+
+  const databasePath =
+    options.databasePath ??
+    process.env.NEWSLETTER_DATABASE_PATH ??
+    DEFAULT_DATABASE_PATH;
+  try {
+    const database = getDatabase(databasePath);
+    const result = database
+      .prepare(
+        `UPDATE newsletter_subscribers
+         SET status = 'unsubscribed',
+             unsubscribed_at = COALESCE(unsubscribed_at, ?),
+             profile_token_hash = NULL,
+             profile_token_expires_at = NULL,
+             confirmation_token_hash = NULL,
+             confirmation_token_expires_at = NULL,
+             updated_at = ?
+         WHERE unsubscribe_key = ?`,
+      )
+      .run(now.toISOString(), now.toISOString(), unsubscribeKey);
+    if (result.changes !== 1) {
+      return jsonResponse({ message: "Link inválido ou expirado." }, 403);
+    }
+  } catch {
+    return jsonResponse({ message: "Não foi possível concluir agora." }, 503);
+  }
+
+  return jsonResponse(
+    { message: "Descadastro concluído. Você não receberá novos envios." },
+    200,
+  );
 };
 
 const saveSubscriberProfile = (
@@ -309,12 +617,33 @@ const readJsonBody = async (request: Request) => {
     throw new RangeError("payload_too_large");
   }
 
-  const body = await request.text();
-  if (new TextEncoder().encode(body).byteLength > MAX_BODY_BYTES) {
-    throw new RangeError("payload_too_large");
+  const reader = request.body?.getReader();
+  if (!reader) return JSON.parse("") as NewsletterPayload;
+
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    totalBytes += value.byteLength;
+    if (totalBytes > MAX_BODY_BYTES) {
+      try {
+        await reader.cancel("payload_too_large");
+      } catch {
+        // O limite continua válido mesmo se o cliente fechar o stream antes.
+      }
+      throw new RangeError("payload_too_large");
+    }
+    chunks.push(value);
   }
 
-  return JSON.parse(body) as NewsletterPayload;
+  const bytes = new Uint8Array(totalBytes);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return JSON.parse(new TextDecoder().decode(bytes)) as NewsletterPayload;
 };
 
 export const handleNewsletterRequest = async (
@@ -379,6 +708,37 @@ export const handleNewsletterRequest = async (
     process.env.NEWSLETTER_DATABASE_PATH ??
     DEFAULT_DATABASE_PATH;
   const stage = normalizeText(payload.stage);
+
+  if (stage === "confirm") {
+    const confirmationToken = normalizeText(payload.confirmationToken);
+    if (confirmationToken.length < 32 || confirmationToken.length > 128) {
+      return jsonResponse({ message: "Token de confirmação inválido." }, 422);
+    }
+
+    try {
+      const confirmed = confirmNewsletterSubscription(
+        confirmationToken,
+        databasePath,
+        now,
+      );
+      return confirmed
+        ? jsonResponse(
+            {
+              message: "Cadastro confirmado. Você voltou a receber os envios.",
+            },
+            200,
+          )
+        : jsonResponse(
+            { message: "Token de confirmação inválido ou expirado." },
+            403,
+          );
+    } catch {
+      return jsonResponse(
+        { message: "Não foi possível concluir agora. Tente novamente." },
+        503,
+      );
+    }
+  }
 
   if (stage === "profile") {
     const email = normalizeText(payload.email).toLowerCase();
@@ -450,8 +810,9 @@ export const handleNewsletterRequest = async (
     ? new Date(now.getTime() + 24 * 60 * 60 * 1_000).toISOString()
     : null;
 
+  let saveResult: SubscriberSaveResult;
   try {
-    saveSubscriber(
+    saveResult = saveSubscriber(
       {
         name,
         email,
@@ -472,6 +833,32 @@ export const handleNewsletterRequest = async (
     return jsonResponse(
       { message: "Não foi possível concluir agora. Tente novamente." },
       503,
+    );
+  }
+
+  if (saveResult.status === "confirmation_required") {
+    const confirmationUrl = new URL("/newsletter/confirmar", allowedOrigin);
+    confirmationUrl.searchParams.set("token", saveResult.token);
+    const sendConfirmationEmail =
+      options.sendConfirmationEmail ?? sendNewsletterConfirmationEmail;
+    try {
+      await sendConfirmationEmail({
+        email,
+        token: saveResult.token,
+        confirmationUrl: confirmationUrl.href,
+      });
+    } catch {
+      clearNewsletterConfirmation(email, saveResult.token, databasePath, now);
+      return jsonResponse(
+        { message: "Não foi possível enviar a confirmação agora." },
+        503,
+      );
+    }
+    return jsonResponse(
+      {
+        message: "Enviamos um link de confirmação para o endereço informado.",
+      },
+      202,
     );
   }
 

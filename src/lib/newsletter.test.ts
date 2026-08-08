@@ -6,12 +6,15 @@ import { after, beforeEach, test } from "node:test";
 import { DatabaseSync } from "node:sqlite";
 import {
   closeNewsletterDatabases,
+  createNewsletterUnsubscribeToken,
   handleNewsletterRequest,
+  handleNewsletterUnsubscribeRequest,
 } from "./newsletter.ts";
 
 const testDirectory = mkdtempSync(join(tmpdir(), "olhossecos-newsletter-"));
 const databasePath = join(testDirectory, "newsletter.sqlite");
 const allowedOrigin = "https://olhossecos.com.br";
+const tokenSecret = "segredo-de-teste-com-pelo-menos-32-caracteres";
 
 const request = (body: Record<string, unknown>, origin = allowedOrigin) =>
   new Request(`${allowedOrigin}/api/newsletter`, {
@@ -214,11 +217,21 @@ test("migra a base existente antes de salvar os novos campos da SUPERFÍCIE", as
   const columns = migrated
     .prepare("PRAGMA table_info(newsletter_subscribers)")
     .all() as Array<{ name: string }>;
+  const indexes = migrated
+    .prepare("PRAGMA index_list(newsletter_subscribers)")
+    .all() as Array<{ name: string; unique: number }>;
   migrated.close();
 
   assert.ok(columns.some(({ name }) => name === "audience_role"));
   assert.ok(columns.some(({ name }) => name === "profile_token_hash"));
   assert.ok(columns.some(({ name }) => name === "utm_campaign"));
+  assert.ok(columns.some(({ name }) => name === "unsubscribe_key"));
+  assert.ok(
+    indexes.some(
+      ({ name, unique }) =>
+        name === "newsletter_subscribers_unsubscribe_key_idx" && unique === 1,
+    ),
+  );
 });
 
 test("exige consentimento explícito", async () => {
@@ -247,4 +260,239 @@ test("recusa origem cruzada", async () => {
   );
 
   assert.equal(response.status, 403);
+});
+
+test("descadastra por token opaco e mantém o endereço na supressão", async () => {
+  await handleNewsletterRequest(request(validPayload), {
+    allowedOrigin,
+    databasePath,
+    rateLimit: false,
+  });
+  closeNewsletterDatabases();
+  const reader = new DatabaseSync(databasePath, { readOnly: true });
+  const { unsubscribe_key: unsubscribeKey } = reader
+    .prepare(
+      "SELECT unsubscribe_key FROM newsletter_subscribers WHERE email = ?",
+    )
+    .get(validPayload.email) as { unsubscribe_key: string };
+  reader.close();
+  assert.doesNotMatch(unsubscribeKey, /@/u);
+
+  const token = createNewsletterUnsubscribeToken(unsubscribeKey, tokenSecret);
+  const unsubscribeRequest = () =>
+    new Request(`${allowedOrigin}/api/newsletter-unsubscribe`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Origin: allowedOrigin,
+      },
+      body: JSON.stringify({ token }),
+    });
+  const first = await handleNewsletterUnsubscribeRequest(unsubscribeRequest(), {
+    allowedOrigin,
+    databasePath,
+    tokenSecret,
+  });
+  const second = await handleNewsletterUnsubscribeRequest(
+    unsubscribeRequest(),
+    {
+      allowedOrigin,
+      databasePath,
+      tokenSecret,
+    },
+  );
+
+  assert.equal(first.status, 200);
+  assert.equal(second.status, 200);
+  closeNewsletterDatabases();
+  const database = new DatabaseSync(databasePath, { readOnly: true });
+  const row = database
+    .prepare(
+      `SELECT status, unsubscribed_at
+       FROM newsletter_subscribers WHERE email = ?`,
+    )
+    .get(validPayload.email) as Record<string, string>;
+  database.close();
+
+  assert.equal(row.status, "unsubscribed");
+  assert.equal(typeof row.unsubscribed_at, "string");
+});
+
+test("recusa token de descadastro adulterado", async () => {
+  const response = await handleNewsletterUnsubscribeRequest(
+    new Request(`${allowedOrigin}/api/newsletter-unsubscribe`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Origin: allowedOrigin,
+      },
+      body: JSON.stringify({ token: "chave.assinatura-invalida" }),
+    }),
+    { allowedOrigin, databasePath, tokenSecret },
+  );
+
+  assert.equal(response.status, 403);
+});
+
+test("novo cadastro anônimo não reativa um endereço anteriormente descadastrado", async () => {
+  await handleNewsletterRequest(request(validPayload), {
+    allowedOrigin,
+    databasePath,
+    rateLimit: false,
+  });
+  closeNewsletterDatabases();
+  const database = new DatabaseSync(databasePath);
+  database
+    .prepare(
+      `UPDATE newsletter_subscribers
+       SET status = 'unsubscribed', unsubscribed_at = ?
+       WHERE email = ?`,
+    )
+    .run("2026-08-08T12:00:00.000Z", validPayload.email);
+  database.close();
+
+  let deliveredToken = "";
+  const response = await handleNewsletterRequest(request(validPayload), {
+    allowedOrigin,
+    databasePath,
+    rateLimit: false,
+    sendConfirmationEmail: async ({ token }: { token: string }) => {
+      deliveredToken = token;
+    },
+  });
+  assert.equal(response.status, 202);
+  assert.ok(deliveredToken.length >= 32);
+
+  closeNewsletterDatabases();
+  const reader = new DatabaseSync(databasePath, { readOnly: true });
+  const row = reader
+    .prepare(
+      `SELECT status, unsubscribed_at, confirmation_token_hash
+       FROM newsletter_subscribers WHERE email = ?`,
+    )
+    .get(validPayload.email) as Record<string, string | null>;
+  reader.close();
+
+  assert.equal(row.status, "unsubscribed");
+  assert.equal(row.unsubscribed_at, "2026-08-08T12:00:00.000Z");
+  assert.equal(typeof row.confirmation_token_hash, "string");
+});
+
+test("reativa uma supressão somente com o token enviado ao e-mail", async () => {
+  await handleNewsletterRequest(request(validPayload), {
+    allowedOrigin,
+    databasePath,
+    rateLimit: false,
+  });
+  closeNewsletterDatabases();
+  const database = new DatabaseSync(databasePath);
+  database
+    .prepare(
+      `UPDATE newsletter_subscribers
+       SET status = 'unsubscribed', unsubscribed_at = ?
+       WHERE email = ?`,
+    )
+    .run("2026-08-08T12:00:00.000Z", validPayload.email);
+  database.close();
+
+  let deliveredToken = "";
+  const pending = await handleNewsletterRequest(request(validPayload), {
+    allowedOrigin,
+    databasePath,
+    rateLimit: false,
+    sendConfirmationEmail: async ({ token }: { token: string }) => {
+      deliveredToken = token;
+    },
+  });
+  assert.equal(pending.status, 202);
+
+  const confirmed = await handleNewsletterRequest(
+    request({ stage: "confirm", confirmationToken: deliveredToken }),
+    {
+      allowedOrigin,
+      databasePath,
+      rateLimit: false,
+      now: () => new Date("2026-08-08T13:00:00.000Z"),
+    },
+  );
+  assert.equal(confirmed.status, 200);
+
+  closeNewsletterDatabases();
+  const reader = new DatabaseSync(databasePath, { readOnly: true });
+  const row = reader
+    .prepare(
+      `SELECT status, unsubscribed_at, confirmation_token_hash
+       FROM newsletter_subscribers WHERE email = ?`,
+    )
+    .get(validPayload.email) as Record<string, string | null>;
+  reader.close();
+
+  assert.equal(row.status, "active");
+  assert.equal(row.unsubscribed_at, null);
+  assert.equal(row.confirmation_token_hash, null);
+});
+
+test("interrompe o consumo do corpo de descadastro assim que excede o limite", async () => {
+  let pulls = 0;
+  let cancelled = false;
+  const body = new ReadableStream<Uint8Array>({
+    pull(controller) {
+      pulls += 1;
+      if (pulls === 1) {
+        controller.enqueue(new Uint8Array(8_193));
+        return;
+      }
+      controller.error(new Error("corpo consumido depois do limite"));
+    },
+    cancel() {
+      cancelled = true;
+    },
+  });
+  const oversizedRequest = new Request(
+    `${allowedOrigin}/api/newsletter-unsubscribe`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Origin: allowedOrigin,
+      },
+      body,
+      duplex: "half",
+    } as RequestInit & { duplex: "half" },
+  );
+
+  const response = await handleNewsletterUnsubscribeRequest(oversizedRequest, {
+    allowedOrigin,
+    databasePath,
+    tokenSecret,
+  });
+
+  assert.equal(response.status, 413);
+  assert.equal(pulls, 1);
+  assert.equal(cancelled, true);
+});
+
+test("aplica rate limit independente no descadastro", async () => {
+  const statuses: number[] = [];
+  for (let index = 0; index < 6; index += 1) {
+    const response = await handleNewsletterUnsubscribeRequest(
+      new Request(`${allowedOrigin}/api/newsletter-unsubscribe`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Origin: allowedOrigin,
+        },
+        body: JSON.stringify({ token: "invalido" }),
+      }),
+      {
+        allowedOrigin,
+        databasePath,
+        tokenSecret,
+        clientKey: "unsubscribe-rate-limit-test",
+      },
+    );
+    statuses.push(response.status);
+  }
+
+  assert.deepEqual(statuses, [403, 403, 403, 403, 403, 429]);
 });

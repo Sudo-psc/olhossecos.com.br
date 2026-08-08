@@ -1,0 +1,46 @@
+[Unit]
+Description=Olhos Secos Astro Site (Production)
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/olhossecos/current
+Environment="HOST=127.0.0.1"
+Environment="PORT=4321"
+Environment="NODE_ENV=production"
+EnvironmentFile=-/etc/olhossecos/olhossecos.env
+ExecStart=/usr/bin/node /var/www/olhossecos/current/dist/server/entry.mjs
+Restart=always
+RestartSec=10
+UMask=0027
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=full
+ProtectHome=true
+ProtectClock=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+ProtectHostname=true
+RestrictSUIDSGID=true
+RestrictRealtime=true
+RestrictNamespaces=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+CapabilityBoundingSet=
+AmbientCapabilities=
+LockPersonality=true
+SystemCallArchitectures=native
+RemoveIPC=true
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=olhossecos-astro
+LimitNOFILE=65536
+MemoryHigh=512M
+MemoryMax=1G
+
+[Install]
+WantedBy=multi-user.target

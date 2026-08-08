@@ -30,6 +30,7 @@ test("exemplo de ambiente representa os formulários persistidos do portal", () 
     environment,
     /^NEWSLETTER_ALLOWED_ORIGIN=http:\/\/localhost:4321$/m,
   );
+  assert.match(environment, /NEWSLETTER_CONFIRMATION_SENDMAIL/);
   assert.match(
     environment,
     /^PUBLIC_PARTNER_INQUIRY_ENDPOINT=\/api\/superficie-parceiros$/m,
@@ -62,6 +63,18 @@ test("documentacao principal descreve a stack operacional atual", () => {
     readme,
     /Astro\*\* como framework.*v4|Tailwind CSS|Sanity\.io/,
   );
+});
+
+test("backup do systemd usa script instalado e não o symlink do release", () => {
+  const backupService = read(
+    "ops/systemd/olhossecos-private-data-backup.service",
+  );
+
+  assert.match(
+    backupService,
+    /ExecStart=.*\/usr\/local\/libexec\/olhossecos\/backup-private-data\.mjs/u,
+  );
+  assert.doesNotMatch(backupService, /current\/scripts\/backup-private-data/u);
 });
 
 test("gitignore não contém marcadores residuais de edição", () => {
