@@ -40,7 +40,7 @@ npm run test:superficie
 
 `npm run build` executa `astro check` e depois gera o artefato em `dist/`. Qualquer erro, aviso ou hint do Astro deve ser revisado antes de um release.
 
-`npm run test:routes` inicia esse artefato localmente e confirma que `/superficie/parceiros` responde 200, possui H1 e canonical próprios e continua presente no sitemap. `npm run check` executa esse teste depois do build.
+`npm run test:routes` inicia esse artefato localmente e confirma que `/superficie/parceiros` e `/newsletter` respondem 200, possuem H1 e canonical próprios e continuam presentes no sitemap. O smoke test também exige um link global para `/newsletter`. `npm run check` executa esse teste depois do build.
 
 ## QA visual e funcional
 
@@ -79,6 +79,8 @@ Arquivos:
 Cobertura atual:
 
 - cadastro inicial da SUPERFÍCIE somente com e-mail e consentimento;
+- cadastro inicial da newsletter geral somente com e-mail e consentimento;
+- origens persistidas `livros`, `superficie` e `newsletter`; as duas últimas usam perfil progressivo;
 - preservação de origem e UTMs;
 - token temporário e de uso único para o perfil opcional;
 - migração automática da tabela de assinantes já existente;
@@ -90,6 +92,7 @@ Cobertura atual:
 Os novos comportamentos foram desenvolvidos em ciclos red-green. Antes da
 implementação, os testes falharam respectivamente com `422` no cadastro sem
 nome, `422` no perfil progressivo, `503` na base legada e ausência do módulo de
-parcerias. Após a implementação mínima, os 11 casos passaram.
+parcerias. A rota geral também falhou com `422` antes de sua origem ser aceita.
+Após a implementação mínima, os 12 casos passaram.
 
 **Atualização desta seção**: 08/08/2026
