@@ -602,6 +602,10 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
     font-size: 0.9rem;
   }
 
+  .guide-list a > div {
+    min-width: 0;
+  }
+
   .guide-list small {
     color: #66778e;
     font-size: 0.75rem;
