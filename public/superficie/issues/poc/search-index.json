@@ -1,0 +1,34 @@
+[
+  {
+    "page": 1,
+    "text": "EDIÇÃO DE LABORATÓRIO · CONTEÚDO DE TESTE SUPERFÍCIE Um protótipo para experimentar leitura digital com calma, clareza e contexto. Esta capa pertence a uma edição fictícia criada apenas para validar o reader HTML5. 01"
+  },
+  {
+    "page": 2,
+    "text": "EDITORIAL · PÁGINA 2 Ler também é perceber o espaço Uma nota sobre o propósito deste ensaio editorial. Esta edição de demonstração testa uma experiência de leitura que combina composição visual, texto selecionável e navegação acessível. Todo o conteúdo é neutro e temporário. Não há orientação clínica, recomendação terapêutica ou afirmação médica nesta publicação de laboratório. A proposta é simples: permitir que cada página seja bonita como uma revista e útil como um documento digital bem estruturado. 02"
+  },
+  {
+    "page": 3,
+    "text": "SUMÁRIO · PÁGINA 3 Nesta edição de teste Quatro pontos de entrada para validar navegação direta. 02 — Editorial: a intenção do protótipo 03 — Sumário: caminhos da edição 04 — Artigo: duas camadas, uma leitura 07 — Encerramento: próximos passos 03"
+  },
+  {
+    "page": 4,
+    "text": "ARTIGO DE DEMONSTRAÇÃO · PÁGINA 4 Duas camadas, uma leitura A página visual e o texto HTML trabalham juntos sem disputar atenção. Uma revista digital pode preservar ritmo, hierarquia e identidade sem transformar cada página em uma imagem inacessível. Neste protótipo, a camada visual apresenta a composição editorial. Sobre ela, uma camada de texto real permite busca, seleção, destaque e tecnologias assistivas. A separação também prepara o conteúdo para outros contextos: modo texto, deep links e futuras integrações com um pipeline editorial. 04"
+  },
+  {
+    "page": 5,
+    "text": "ARTIGO DE DEMONSTRAÇÃO · PÁGINA 5 Continuidade sem dependência O engine recebe conteúdo; o conteúdo não conhece o engine. Cada edição é descrita por um manifest validado. Páginas, miniaturas, textos, índice de busca e artigos acessíveis permanecem independentes da interface. Por isso, substituir esta edição fictícia por outra deve exigir novos arquivos editoriais, não uma reescrita do reader. O resultado esperado é uma infraestrutura que evolui por camadas e pode adotar novos formatos sem quebrar a experiência existente. 05"
+  },
+  {
+    "page": 6,
+    "text": "MAPA DO ENGINE · PÁGINA 6 Conteúdo entra. Experiências saem. Um diagrama conceitual, sem dados clínicos. 01 · Manifest — descreve a edição 02 · Renders — preservam a composição 03 · Texto — habilita busca e acesso 04 · Storage — guarda preferências locais 05 · Reader — coordena a experiência 06"
+  },
+  {
+    "page": 7,
+    "text": "ENCERRAMENTO · PÁGINA 7 Este é apenas o primeiro caderno O POC existe para revelar decisões antes da edição real. Os próximos passos dependem de revisão humana: validar gestos, legibilidade, peso dos assets e comportamento em navegadores reais. Nenhum conteúdo da Edição Fundadora foi processado ou publicado nesta fase. Ao aprovar o protótipo, o mesmo contrato poderá orientar pipeline, artigos HTML e novas edições. 07"
+  },
+  {
+    "page": 8,
+    "text": "CONTRACAPA · PÁGINA 8 SUPERFÍCIE Protótipo funcional · uso interno · não indexar Fim da edição de laboratório. Use o sumário, a busca ou as miniaturas para continuar explorando o reader. 08"
+  }
+]

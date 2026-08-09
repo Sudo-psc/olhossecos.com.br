@@ -1,0 +1,142 @@
+{
+  "id": "superficie-poc",
+  "number": "POC",
+  "title": "SUPERFÍCIE Reader Prototype",
+  "pageCount": 8,
+  "pages": [
+    {
+      "number": 1,
+      "image": {
+        "small": "/superficie/issues/poc/pages/page-01-small.webp",
+        "medium": "/superficie/issues/poc/pages/page-01-medium.webp",
+        "large": "/superficie/issues/poc/pages/page-01-large.webp"
+      },
+      "thumbnail": "/superficie/issues/poc/pages/page-01-thumb.webp",
+      "textLayer": "/superficie/issues/poc/text/page-01.json",
+      "type": "cover",
+      "alt": "Página 1: SUPERFÍCIE. Conteúdo fictício de teste."
+    },
+    {
+      "number": 2,
+      "image": {
+        "small": "/superficie/issues/poc/pages/page-02-small.webp",
+        "medium": "/superficie/issues/poc/pages/page-02-medium.webp",
+        "large": "/superficie/issues/poc/pages/page-02-large.webp"
+      },
+      "thumbnail": "/superficie/issues/poc/pages/page-02-thumb.webp",
+      "textLayer": "/superficie/issues/poc/text/page-02.json",
+      "type": "editorial",
+      "alt": "Página 2: Ler também é perceber o espaço. Conteúdo fictício de teste."
+    },
+    {
+      "number": 3,
+      "image": {
+        "small": "/superficie/issues/poc/pages/page-03-small.webp",
+        "medium": "/superficie/issues/poc/pages/page-03-medium.webp",
+        "large": "/superficie/issues/poc/pages/page-03-large.webp"
+      },
+      "thumbnail": "/superficie/issues/poc/pages/page-03-thumb.webp",
+      "textLayer": "/superficie/issues/poc/text/page-03.json",
+      "type": "contents",
+      "alt": "Página 3: Nesta edição de teste. Conteúdo fictício de teste."
+    },
+    {
+      "number": 4,
+      "image": {
+        "small": "/superficie/issues/poc/pages/page-04-small.webp",
+        "medium": "/superficie/issues/poc/pages/page-04-medium.webp",
+        "large": "/superficie/issues/poc/pages/page-04-large.webp"
+      },
+      "thumbnail": "/superficie/issues/poc/pages/page-04-thumb.webp",
+      "textLayer": "/superficie/issues/poc/text/page-04.json",
+      "type": "article",
+      "articleId": "duas-camadas",
+      "alt": "Página 4: Duas camadas, uma leitura. Conteúdo fictício de teste."
+    },
+    {
+      "number": 5,
+      "image": {
+        "small": "/superficie/issues/poc/pages/page-05-small.webp",
+        "medium": "/superficie/issues/poc/pages/page-05-medium.webp",
+        "large": "/superficie/issues/poc/pages/page-05-large.webp"
+      },
+      "thumbnail": "/superficie/issues/poc/pages/page-05-thumb.webp",
+      "textLayer": "/superficie/issues/poc/text/page-05.json",
+      "type": "article",
+      "articleId": "duas-camadas",
+      "alt": "Página 5: Continuidade sem dependência. Conteúdo fictício de teste."
+    },
+    {
+      "number": 6,
+      "image": {
+        "small": "/superficie/issues/poc/pages/page-06-small.webp",
+        "medium": "/superficie/issues/poc/pages/page-06-medium.webp",
+        "large": "/superficie/issues/poc/pages/page-06-large.webp"
+      },
+      "thumbnail": "/superficie/issues/poc/pages/page-06-thumb.webp",
+      "textLayer": "/superficie/issues/poc/text/page-06.json",
+      "type": "infographic",
+      "alt": "Página 6: Conteúdo entra. Experiências saem.. Conteúdo fictício de teste."
+    },
+    {
+      "number": 7,
+      "image": {
+        "small": "/superficie/issues/poc/pages/page-07-small.webp",
+        "medium": "/superficie/issues/poc/pages/page-07-medium.webp",
+        "large": "/superficie/issues/poc/pages/page-07-large.webp"
+      },
+      "thumbnail": "/superficie/issues/poc/pages/page-07-thumb.webp",
+      "textLayer": "/superficie/issues/poc/text/page-07.json",
+      "type": "closing",
+      "alt": "Página 7: Este é apenas o primeiro caderno. Conteúdo fictício de teste."
+    },
+    {
+      "number": 8,
+      "image": {
+        "small": "/superficie/issues/poc/pages/page-08-small.webp",
+        "medium": "/superficie/issues/poc/pages/page-08-medium.webp",
+        "large": "/superficie/issues/poc/pages/page-08-large.webp"
+      },
+      "thumbnail": "/superficie/issues/poc/pages/page-08-thumb.webp",
+      "textLayer": "/superficie/issues/poc/text/page-08.json",
+      "type": "back-cover",
+      "alt": "Página 8: SUPERFÍCIE. Conteúdo fictício de teste."
+    }
+  ],
+  "toc": [
+    {
+      "title": "Editorial",
+      "page": 2
+    },
+    {
+      "title": "Sumário",
+      "page": 3
+    },
+    {
+      "title": "Duas camadas, uma leitura",
+      "page": 4
+    },
+    {
+      "title": "Encerramento",
+      "page": 7
+    }
+  ],
+  "articles": [
+    {
+      "id": "duas-camadas",
+      "title": "Duas camadas, uma leitura",
+      "pages": [
+        4,
+        5
+      ],
+      "htmlPath": "/superficie/issues/poc/articles/duas-camadas.html"
+    }
+  ],
+  "audioSources": [
+    "/superficie/issues/poc/audio/paper-soft-1.wav",
+    "/superficie/issues/poc/audio/paper-soft-2.wav",
+    "/superficie/issues/poc/audio/paper-soft-3.wav"
+  ],
+  "searchIndex": "/superficie/issues/poc/search-index.json",
+  "pdfFallback": "/superficie/issues/poc/superficie-poc.pdf"
+}

@@ -15,7 +15,10 @@ const getClientKey = (request: Request) => {
 };
 
 const respond: APIRoute = ({ request }) =>
-  handleAnalyticsRequest(request, { clientKey: getClientKey(request) });
+  handleAnalyticsRequest(request, {
+    clientKey: getClientKey(request),
+    rateLimit: import.meta.env.PROD,
+  });
 
 export const POST = respond;
 export const ALL = respond;

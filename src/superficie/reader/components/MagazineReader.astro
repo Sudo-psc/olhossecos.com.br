@@ -1,0 +1,84 @@
+---
+import "../reader.css";
+import PageViewport from "./PageViewport.astro";
+import ReaderPanels from "./ReaderPanels.astro";
+import ReaderToolbar from "./ReaderToolbar.astro";
+
+interface Props {
+  manifestUrl: string;
+}
+
+const { manifestUrl } = Astro.props;
+---
+
+<div
+  class="magazine-reader"
+  data-magazine-reader
+  data-manifest-url={manifestUrl}
+>
+  <header class="reader-header">
+    <a
+      href="/superficie"
+      class="reader-brand"
+      aria-label="Sair do laboratório e voltar para SUPERFÍCIE"
+    >
+      <span>SUPERFÍCIE</span>
+      <small>Reader Prototype · POC</small>
+    </a>
+    <div class="reader-page-nav" aria-label="Navegação de páginas">
+      <button type="button" data-action="previous" aria-label="Página anterior"
+        >←</button
+      >
+      <form data-page-form>
+        <label class="visually-hidden" for="reader-page-input"
+          >Ir para a página</label
+        >
+        <input
+          id="reader-page-input"
+          data-page-input
+          type="number"
+          min="1"
+          value="1"
+          inputmode="numeric"
+        />
+        <span aria-hidden="true">/</span>
+        <span data-page-count>8</span>
+      </form>
+      <button type="button" data-action="next" aria-label="Próxima página"
+        >→</button
+      >
+    </div>
+    <button
+      type="button"
+      class="reader-close"
+      data-action="close"
+      aria-label="Sair do leitor">×</button
+    >
+  </header>
+
+  <div
+    class="reader-progress"
+    data-progress
+    role="progressbar"
+    aria-label="Progresso de leitura"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    aria-valuenow="13"
+  >
+    <span data-progress-bar></span>
+  </div>
+
+  <PageViewport />
+  <ReaderPanels />
+  <ReaderToolbar />
+</div>
+
+<script>
+  import { initMagazineReader } from "../reader-app";
+
+  document
+    .querySelectorAll<HTMLElement>("[data-magazine-reader]")
+    .forEach((element) => {
+      void initMagazineReader(element);
+    });
+</script>

@@ -47,6 +47,14 @@ const canonicalEvents = new Set([
   "newsletter_signup",
   "outbound_click",
   "page_view",
+  "reader_open",
+  "page_turn",
+  "search",
+  "bookmark_add",
+  "highlight_create",
+  "note_create",
+  "fullscreen_enter",
+  "share",
   "partner_click",
   "partner_lead_submit",
   "partner_media_kit_click",
@@ -78,12 +86,17 @@ const allowedProperties = new Set([
   "audience_role",
   "book",
   "content_title",
+  "color",
   "depth",
   "destination_host",
   "label",
   "link_text",
   "link_url",
   "placement",
+  "issue_id",
+  "page_number",
+  "progress_percent",
+  "query_length",
   "source",
   "store",
   "utm_campaign",
@@ -186,6 +199,10 @@ const normalizeProperties = (payload: AnalyticsPayload) => {
     if (sanitized === null) continue;
     if (key === "depth" && typeof sanitized === "number") {
       properties[key] = Math.max(0, Math.min(100, Math.round(sanitized)));
+      continue;
+    }
+    if (typeof sanitized === "number") {
+      properties[key] = sanitized;
       continue;
     }
     if (typeof sanitized === "string") properties[key] = sanitized;
