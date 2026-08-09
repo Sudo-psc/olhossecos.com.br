@@ -127,6 +127,38 @@ test("normaliza eventos legados para a taxonomia canônica", async () => {
   assert.equal(row.event_name, "purchase_click");
 });
 
+test("persiste eventos seguros do reader sem texto selecionado ou notas", async () => {
+  const response = await handleAnalyticsRequest(
+    request({
+      event: "highlight_create",
+      page_path: "/superficie/lab/flipbook",
+      issue_id: "superficie-poc",
+      page_number: 4,
+      progress_percent: 50,
+      color: "yellow",
+      selected_text: "conteúdo privado",
+      note_text: "nota privada",
+    }),
+    { allowedOrigin, databasePath, rateLimit: false },
+  );
+
+  assert.equal(response.status, 202);
+  closeAnalyticsDatabases();
+  const database = new DatabaseSync(databasePath, { readOnly: true });
+  const row = database
+    .prepare("SELECT event_name, properties_json FROM analytics_events")
+    .get() as { event_name: string; properties_json: string };
+  database.close();
+  assert.equal(row.event_name, "highlight_create");
+  assert.deepEqual(JSON.parse(row.properties_json), {
+    color: "yellow",
+    issue_id: "superficie-poc",
+    page_number: 4,
+    progress_percent: 50,
+  });
+  assert.doesNotMatch(row.properties_json, /conteúdo privado|nota privada/u);
+});
+
 test("recusa eventos desconhecidos e origem cruzada", async () => {
   const unknownEvent = await handleAnalyticsRequest(
     request({ event: "email_capture", page_path: "/" }),

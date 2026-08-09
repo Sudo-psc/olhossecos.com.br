@@ -67,6 +67,33 @@ test("recusa detalhe sem nome de evento válido", () => {
   assert.equal(getSafeAnalyticsDetail({}, "/"), null);
 });
 
+test("aceita métricas seguras do reader e descarta conteúdo privado", () => {
+  assert.deepEqual(
+    getSafeAnalyticsDetail(
+      {
+        event: "highlight_create",
+        issue_id: "superficie-poc",
+        page_number: 4,
+        progress_percent: 50,
+        color: "yellow",
+        query_length: 9,
+        note_text: "não enviar",
+        selected_text: "não enviar",
+      },
+      "/superficie/lab/flipbook",
+    ),
+    {
+      event: "highlight_create",
+      page_path: "/superficie/lab/flipbook",
+      issue_id: "superficie-poc",
+      page_number: 4,
+      progress_percent: 50,
+      color: "yellow",
+      query_length: 9,
+    },
+  );
+});
+
 test("normaliza o evento antes da deduplicação no navegador", () => {
   assert.deepEqual(
     getSafeAnalyticsDetail(
@@ -108,6 +135,20 @@ test("deduplica visualizações equivalentes sem colapsar cliques distintos", ()
       event: "purchase_click",
       page_path: "/livros/livro",
       store: "apple-books",
+    }),
+  );
+  assert.notEqual(
+    getAnalyticsFingerprint({
+      event: "page_view",
+      page_path: "/superficie/lab/flipbook",
+      issue_id: "superficie-poc",
+      page_number: 4,
+    }),
+    getAnalyticsFingerprint({
+      event: "page_view",
+      page_path: "/superficie/lab/flipbook",
+      issue_id: "superficie-poc",
+      page_number: 5,
     }),
   );
 });

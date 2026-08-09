@@ -6,12 +6,17 @@ const safePropertyNames = new Set([
   "audience_role",
   "book",
   "content_title",
+  "color",
   "depth",
   "destination_host",
   "label",
   "link_text",
   "link_url",
   "placement",
+  "issue_id",
+  "page_number",
+  "progress_percent",
+  "query_length",
   "source",
   "store",
   "utm_campaign",
@@ -67,6 +72,9 @@ export const getAnalyticsFingerprint = (
 ) => {
   const event = String(detail.event ?? "");
   const pagePath = String(detail.page_path ?? "");
+  if (event === "page_view" && detail.issue_id && detail.page_number) {
+    return `${event}:${pagePath}:${String(detail.issue_id)}:${String(detail.page_number)}`;
+  }
   if (event === "page_view" || event.endsWith("_view")) {
     return `${event}:${pagePath}`;
   }

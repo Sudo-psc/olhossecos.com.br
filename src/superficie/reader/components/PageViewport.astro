@@ -1,0 +1,71 @@
+<main class="reader-stage" id="superficie-reader" tabindex="-1">
+  <div class="resume-banner" data-resume-banner hidden>
+    <span data-resume-copy></span>
+    <button type="button" data-action="resume">Continuar</button>
+    <button
+      type="button"
+      data-action="dismiss-resume"
+      aria-label="Fechar sugestão">×</button
+    >
+  </div>
+
+  <div class="reader-loading" data-reader-loading role="status">
+    <span class="loading-line" aria-hidden="true"></span>
+    <p>Preparando edição…</p>
+  </div>
+
+  <section
+    class="page-viewport"
+    data-reader-viewport
+    aria-label="Páginas da revista"
+    aria-busy="true"
+  >
+    <div class="reader-page-canvas" data-reader-canvas></div>
+  </section>
+
+  <div
+    class="selection-menu"
+    data-selection-menu
+    hidden
+    aria-label="Cor do marca-texto"
+  >
+    <span>Destacar</span>
+    <button
+      type="button"
+      data-highlight-color="yellow"
+      aria-label="Destaque amarelo"></button>
+    <button
+      type="button"
+      data-highlight-color="green"
+      aria-label="Destaque verde"></button>
+    <button type="button" data-highlight-color="blue" aria-label="Destaque azul"
+    ></button>
+    <button type="button" data-highlight-color="pink" aria-label="Destaque rosa"
+    ></button>
+  </div>
+
+  <section
+    class="reader-fallback"
+    data-reader-fallback
+    hidden
+    aria-labelledby="fallback-title"
+  >
+    <p>Leitor simplificado</p>
+    <h2 id="fallback-title">Não foi possível iniciar a animação de páginas.</h2>
+    <p data-fallback-detail>
+      Você ainda pode ler uma página por vez, abrir o artigo HTML ou acessar o
+      PDF de teste.
+    </p>
+    <div>
+      <button type="button" data-action="simple-reader"
+        >Usar página única</button
+      >
+      <button type="button" data-action="text-mode">Abrir modo texto</button>
+      <a data-pdf-fallback href="/superficie/issues/poc/superficie-poc.pdf"
+        >Abrir PDF</a
+      >
+    </div>
+  </section>
+
+  <p class="reader-live" data-reader-live aria-live="polite"></p>
+</main>
