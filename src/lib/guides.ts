@@ -539,6 +539,195 @@ export const guides: Guide[] = [
     ],
   },
   {
+    slug: "olho-seco-persistente-depressao-apneia",
+    category: "Sintomas e investigação",
+    title:
+      "Quando o colírio não basta: olho seco persistente, depressão e apneia do sono",
+    description:
+      "Como revisar causas, reconhecer associações com humor e sono e organizar os próximos passos sem parar tratamentos por conta própria.",
+    readingTime: "11 min",
+    updated: "10 de agosto de 2026",
+    datePublished: "2026-08-10",
+    dateModified: "2026-08-10",
+    sourcesVerified: "10 de agosto de 2026",
+    tags: [
+      "olho seco persistente",
+      "depressão",
+      "saúde mental",
+      "apneia do sono",
+      "CPAP",
+      "sono",
+      "colírios",
+      "investigação",
+    ],
+    sections: [
+      {
+        heading: "A ideia central: persistência pede revisão, não culpa",
+        paragraphs: [
+          "Quando um colírio alivia pouco ou por pouco tempo, isso não significa que você falhou nem que os sintomas são imaginários. O olho seco é uma doença multifatorial: evaporação, baixa produção de lágrimas, inflamação, pálpebras, ambiente, medicamentos e processamento nervoso podem participar ao mesmo tempo.",
+          "A próxima decisão nem sempre é procurar uma gota mais forte. Muitas vezes, é revisar se o mecanismo foi identificado, se o produto está sendo usado de modo adequado, se existe uma condição associada e se o desconforto está afetando sono, humor, trabalho ou relações.",
+        ],
+        note: "Sintomas oculares não diagnosticam depressão nem apneia do sono. Eles podem, porém, ser um motivo útil para conversar sobre essas possibilidades quando há sinais em outras áreas da vida.",
+      },
+      {
+        heading: "O que revisar antes de trocar de produto",
+        paragraphs: [
+          "Uma lágrima artificial pode umedecer a superfície sem tratar a causa predominante. Se a evaporação, a disfunção das glândulas de Meibomius, a inflamação, a blefarite, o fechamento incompleto das pálpebras ou uma doença sistêmica continuarem presentes, o alívio pode ser curto.",
+          "Também é importante separar ardor causado pelo próprio produto, irritação por conservantes, embaçamento temporário de uma formulação espessa e piora visual que exige outra investigação. Mais aplicações não compensam automaticamente um diagnóstico incompleto.",
+        ],
+        bullets: [
+          "qual é o objetivo de cada colírio e por quanto tempo a resposta deve ser avaliada;",
+          "quantas vezes você aplica, se a ponta encosta no olho e se o produto arde sempre ou apenas no início;",
+          "se os sintomas pioram ao acordar, à noite, diante de telas, vento ou ar-condicionado;",
+          "se há crostas, coceira, pálpebras inflamadas, piscadas incompletas ou dificuldade para fechar os olhos durante o sono;",
+          "quais medicamentos, suplementos, cosméticos e lentes de contato fazem parte da rotina;",
+          "se a intensidade do sintoma parece maior do que os sinais observados no exame.",
+        ],
+      },
+      {
+        heading: "O que os estudos mostram sobre olho seco e depressão",
+        paragraphs: [
+          "Uma revisão sistemática e metanálise de 32 estudos estimou prevalência de depressão de 40% entre pessoas com doença do olho seco, com intervalo de confiança de 29% a 52%, e encontrou 1,81 vez mais chance de depressão em comparação com controles. Os escores de sintomas de olho seco se associaram aos escores de depressão, mas os sinais clínicos objetivos não tiveram a mesma relação em todos os estudos (Basilious et al., 2022).",
+          "Uma revisão de revisões publicada em 2022 também concluiu que existe associação entre olho seco e depressão, mas destacou que ainda são necessários estudos melhores para esclarecer o mecanismo e a causalidade. Esses resultados não significam que o olho seco cause depressão, que a depressão cause olho seco ou que toda pessoa com sintomas oculares tenha um transtorno depressivo.",
+        ],
+        note: "A associação pode envolver dor persistente, piora da visão funcional, sono interrompido, limitações na rotina, inflamação, condições compartilhadas e a forma como os sintomas são percebidos e relatados.",
+      },
+      {
+        heading: "Depressão e antidepressivos podem mudar o plano",
+        paragraphs: [
+          "Humor deprimido, perda de interesse, culpa, desesperança, alteração do sono, mudança de apetite e dificuldade de concentração merecem ser avaliados por um profissional de saúde mental ou por um médico de referência. Fadiga e sono ruim também podem aparecer na apneia, em outras doenças e como efeito de medicamentos; não é seguro concluir a causa apenas pelo cansaço.",
+          "Uma revisão sistemática que tentou separar os efeitos encontrou estudos associando tanto a depressão quanto o uso de antidepressivos ao olho seco, de forma aparentemente independente. A qualidade e os métodos variaram. Por isso, informe quando o sintoma começou, quando a medicação foi iniciada ou aumentada e quais mudanças ocorreram, mas não interrompa nem reduza um antidepressivo por conta própria.",
+        ],
+        bullets: [
+          "O desconforto começou antes ou depois de uma mudança de medicamento?",
+          "O sono, o humor ou a vontade de fazer atividades mudaram por pelo menos duas semanas?",
+          "A dor ocular está reduzindo trabalho, leitura, deslocamentos, convívio ou autocuidado?",
+          "Há uma equipe que possa coordenar oftalmologia, saúde mental e outras condições clínicas?",
+        ],
+        alert:
+          "Pensamentos de morte ou de machucar a si mesmo exigem ajuda imediata por um serviço de emergência ou de crise da sua região. Não espere a próxima consulta oftalmológica.",
+      },
+      {
+        heading: "Onde entra a apneia obstrutiva do sono",
+        paragraphs: [
+          "A apneia obstrutiva do sono acontece quando a via aérea superior se fecha repetidamente durante o sono. Ronco alto, pausas respiratórias observadas, engasgos ou suspiros durante a noite, boca seca ao acordar e sonolência diurna são sinais que justificam uma conversa com um profissional; o diagnóstico costuma exigir avaliação do sono e não pode ser feito pelo olho seco.",
+          "A relação com a superfície ocular é plausível por mais de um caminho: sono fragmentado, inflamação e hipóxia intermitente podem coexistir com alterações das pálpebras, das glândulas de Meibomius e do filme lacrimal. Ainda assim, os estudos disponíveis são em grande parte observacionais e mostram associação, não uma prova de causa direta.",
+          "A relação entre apneia e depressão também não é linear. Uma revisão sistemática não encontrou associação convincente nos estudos transversais (odds ratio 1,12; intervalo de confiança de 0,78 a 1,47), mas cinco estudos longitudinais sugeriram maior risco de depressão durante o acompanhamento (risco relativo 2,18; intervalo de confiança de 1,47 a 2,88). A heterogeneidade foi alta, então sonolência, fadiga e humor deprimido precisam ser avaliados sem presumir uma única causa (Edwards et al., 2020).",
+        ],
+      },
+      {
+        heading: "O que a evidência encontrou na apneia",
+        paragraphs: [
+          "Uma revisão sistemática e metanálise de 2024 reuniu 11 estudos e 1.526 pessoas para comparar apneia obstrutiva do sono com ausência de apneia. Nos resultados agrupados, o tempo de ruptura do filme lacrimal foi cerca de 3 segundos menor, o teste de Schirmer foi 2,61 mm menor e o escore de sintomas OSDI foi 14,63 pontos maior no grupo com apneia. Os próprios autores classificaram a qualidade da evidência como limitada pelo desenho observacional.",
+          "Outra metanálise, com 15 estudos, estimou olho seco em 48% das pessoas com apneia e encontrou menor Schirmer e menor estabilidade lacrimal, além de mais sintomas, alterações de córnea e perda de glândulas de Meibomius, especialmente nos quadros mais graves (Sun et al., 2023). Uma associação com a gravidade não prova que tratar apenas a apneia resolverá o olho seco.",
+        ],
+        note: "Esses números descrevem grupos de pesquisa. Não servem para calcular a chance individual de alguém nem substituem exame ocular ou estudo do sono.",
+      },
+      {
+        heading: "Sono ruim pode reforçar o círculo de sintomas",
+        paragraphs: [
+          "Em um estudo caso-controle com 125 pessoas com apneia e 125 controles, olho seco foi identificado em 56,8% do grupo com apneia e em 42,4% dos controles. Entre as pessoas com apneia, a proporção foi 67,5% nas que tinham sono ruim e 37,8% nas que tinham sono melhor; o grupo com sono ruim também apresentou piores medidas de sintomas, estabilidade lacrimal e coloração da córnea (Pu et al., 2022).",
+          "É um estudo único, e seus resultados não estabelecem uma sequência causal. Na prática, porém, olho seco que acorda a pessoa, sono fragmentado, depressão e apneia podem se alimentar mutuamente. Perguntar sobre o horário dos sintomas — especialmente secura ao acordar — pode ajudar a escolher os próximos exames.",
+        ],
+        bullets: [
+          "ronco habitual ou pausas respiratórias relatadas por quem dorme perto de você;",
+          "acordar engasgando, com boca seca, dor de cabeça ou sensação de não ter descansado;",
+          "sonolência que atrapalha dirigir, trabalhar, estudar ou permanecer acordado;",
+          "olhos mais irritados ao acordar do que no restante do dia;",
+          "mudança simultânea no sono, no humor e no desconforto ocular.",
+        ],
+      },
+      {
+        heading: "Se você usa CPAP",
+        paragraphs: [
+          "O CPAP trata a apneia e não deve ser interrompido por conta própria. Ao mesmo tempo, vazamento de ar em direção aos olhos ou exposição noturna da superfície podem aumentar ardor e evaporação. Se o olho piorou depois de iniciar o aparelho ou de trocar a máscara, leve essa informação à equipe do sono e à oftalmologia.",
+          "Na revisão de 2024, apenas três estudos, com 180 pessoas, avaliaram especificamente CPAP e olho seco. O uso por menos de seis meses não mostrou evidência suficiente de melhora; resultados mais favoráveis apareceram em pessoas que usaram CPAP por pelo menos um ano, mas o número de estudos foi pequeno. Isso permite uma orientação prática, não uma promessa de melhora individual.",
+          "Em outra metanálise de ensaios clínicos, o CPAP também melhorou sintomas depressivos em comparação com controle, com efeito maior nos estudos que incluíam pessoas já deprimidas. O resultado apoia tratar a apneia quando ela existe, mas não transforma CPAP em tratamento único para depressão nem substitui acompanhamento de saúde mental (Povitz et al., 2014).",
+        ],
+        bullets: [
+          "peça para verificarem ajuste da máscara e vazamento próximo aos olhos;",
+          "anote se a piora coincide com maior pressão, troca de interface ou dormir em determinada posição;",
+          "não altere pressão, horários ou adesão do CPAP sem falar com a equipe que acompanha a apneia;",
+          "procure avaliação ocular se houver dor, vermelhidão persistente, lesão da córnea ou alteração visual;",
+          "mantenha o tratamento da apneia enquanto a causa da irritação ocular é investigada.",
+        ],
+        note: "CPAP e olho seco não são uma escolha de um contra o outro: o aparelho pode proteger a saúde ao tratar a apneia, enquanto um vazamento pode irritar os olhos. As duas questões precisam ser ajustadas juntas.",
+      },
+      {
+        heading: "Como organizar os próximos passos",
+        paragraphs: [
+          "Leve para a consulta uma linha do tempo, os nomes e horários dos colírios, medicamentos sistêmicos, resultado de exames, padrão do sono e impacto do desconforto na rotina. Um diário curto por uma ou duas semanas pode registrar horário, intensidade, atividade, horas de sono, uso de CPAP, humor e o que trouxe alívio.",
+        ],
+        bullets: [
+          "Qual mecanismo parece predominar: evaporação, pouca produção, inflamação, pálpebras, glândulas ou combinação?",
+          "Os sintomas e os sinais do exame contam a mesma história? Precisamos considerar dor com componente neurossensorial?",
+          "Algum medicamento ou doença associada merece revisão sem que eu suspenda nada sozinho?",
+          "O padrão ao acordar justifica investigar fechamento incompleto das pálpebras ou apneia do sono?",
+          "Como vamos medir resposta e quando revisar o plano se o colírio continuar insuficiente?",
+          "Quem deve coordenar o cuidado se houver sintomas de depressão, apneia e olho seco ao mesmo tempo?",
+        ],
+      },
+      {
+        heading: "Sinais de alerta",
+        bullets: [
+          "dor ocular forte, piora rápida da visão, sensibilidade intensa à luz, secreção espessa, trauma ou exposição química;",
+          "vermelhidão importante, especialmente em um olho, ou sintomas relevantes em quem usa lentes de contato;",
+          "sonolência a ponto de cochilar ao dirigir ou operar máquinas — interrompa a atividade e procure avaliação;",
+          "pensamentos de morte ou de machucar a si mesmo — procure ajuda de emergência imediatamente.",
+        ],
+        alert:
+          "Este guia não diagnostica depressão, apneia do sono ou uma causa específica de olho seco. Ele ajuda a conectar sintomas e preparar uma avaliação coordenada.",
+      },
+    ],
+    sources: [
+      {
+        label: "TFOS DEWS III — manejo e tratamento",
+        url: "https://pubmed.ncbi.nlm.nih.gov/40467022/",
+      },
+      {
+        label: "Basilious et al. — Dry eye disease and psychiatric disorders",
+        url: "https://pubmed.ncbi.nlm.nih.gov/34935549/",
+      },
+      {
+        label: "Dry eye disease and depression — umbrella review",
+        url: "https://pubmed.ncbi.nlm.nih.gov/36466469/",
+      },
+      {
+        label:
+          "Rakofsky et al. — Depression, antidepressants and dry eye disease",
+        url: "https://pubmed.ncbi.nlm.nih.gov/33779578/",
+      },
+      {
+        label: "Lin et al. — Obstructive sleep apnea, CPAP and dry eye disease",
+        url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC11629664/",
+      },
+      {
+        label:
+          "Sun et al. — Ocular surface outcomes in obstructive sleep apnea",
+        url: "https://pubmed.ncbi.nlm.nih.gov/37215172/",
+      },
+      {
+        label:
+          "Pu et al. — Sleep quality and dry eye in obstructive sleep apnea",
+        url: "https://pubmed.ncbi.nlm.nih.gov/36388897/",
+      },
+      {
+        label: "Edwards et al. — Obstructive sleep apnea and depression",
+        url: "https://pubmed.ncbi.nlm.nih.gov/33158487/",
+      },
+      {
+        label:
+          "Povitz et al. — Treatment of obstructive sleep apnea and depressive symptoms",
+        url: "https://pubmed.ncbi.nlm.nih.gov/25423175/",
+      },
+      {
+        label:
+          "National Heart, Lung, and Blood Institute — Sleep apnea symptoms",
+        url: "https://www.nhlbi.nih.gov/health/sleep-apnea/symptoms",
+      },
+    ],
+  },
+  {
     slug: "higiene-palpebral-com-seguranca",
     category: "Autocuidado",
     title: "Higiene palpebral com segurança",
