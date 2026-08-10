@@ -107,6 +107,38 @@ export const sources = {
       "Orientações gerais sobre sintomas oculares, uso de colírios lubrificantes e riscos da automedicação.",
     verified: verifiedCurrent,
   },
+  neiDryEyeCauses: {
+    name: "National Eye Institute — Causes of Dry Eye",
+    type: "Instituição pública de pesquisa e educação",
+    url: "https://www.nei.nih.gov/eye-health-information/eye-conditions-and-diseases/dry-eye/causes-dry-eye",
+    description:
+      "Informações para pacientes sobre cirurgia a laser, medicamentos, condições de saúde e outros fatores associados ao olho seco.",
+    verified: verifiedCurrent,
+  },
+  neiRefractiveSurgery: {
+    name: "National Eye Institute — Surgery for Refractive Errors",
+    type: "Instituição pública de pesquisa e educação",
+    url: "https://www.nei.nih.gov/eye-health-information/eye-conditions-and-diseases/refractive-errors/surgery-refractive-errors",
+    description:
+      "Material para pacientes sobre LASIK, efeitos adversos, recuperação, acompanhamento e outras cirurgias refrativas.",
+    verified: verifiedCurrent,
+  },
+  postCataractDryEyeMetaAnalysis: {
+    name: "Ta et al. — Dry eye post-cataract surgery",
+    type: "Revisão sistemática e metanálise",
+    url: "https://pubmed.ncbi.nlm.nih.gov/39806338/",
+    description:
+      "Síntese de estudos sobre alterações do olho seco após cirurgia de catarata e sua evolução no período pós-operatório.",
+    verified: verifiedCurrent,
+  },
+  cataractAftercare: {
+    name: "Guy’s and St Thomas’ NHS — After cataract surgery",
+    type: "Serviço público de saúde",
+    url: "https://www.guysandstthomas.nhs.uk/health-information/cataract-surgery/after-cataract-surgery",
+    description:
+      "Orientações para pacientes sobre sintomas esperados, colírios, cuidados e sinais de alerta após cirurgia de catarata.",
+    verified: verifiedCurrent,
+  },
   nhsWateringEyes: {
     name: "NHS — Watering eyes",
     type: "Serviço público de saúde",
@@ -210,6 +242,10 @@ export const primarySources: EditorialSource[] = [
   sources.aaoDryEye,
   sources.guysDryEyeTreatment,
   sources.ministryOcularDiseases,
+  sources.neiDryEyeCauses,
+  sources.neiRefractiveSurgery,
+  sources.postCataractDryEyeMetaAnalysis,
+  sources.cataractAftercare,
   sources.nhsWateringEyes,
   sources.wateryEyeAssessment,
   sources.epiphoraEtiology,

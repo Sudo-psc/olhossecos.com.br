@@ -400,6 +400,145 @@ export const guides: Guide[] = [
     ],
   },
   {
+    slug: "olho-seco-apos-cirurgia-ocular",
+    category: "Pós-operatório",
+    title:
+      "Olho seco após cirurgia ocular: o que é esperado, como cuidar e quando procurar ajuda",
+    description:
+      "Como entender desconforto, visão oscilante e uso de colírios depois de catarata ou cirurgia refrativa.",
+    readingTime: "9 min",
+    updated: "10 de agosto de 2026",
+    datePublished: "2026-08-10",
+    dateModified: "2026-08-10",
+    sourcesVerified: "10 de agosto de 2026",
+    tags: [
+      "cirurgia",
+      "pós-operatório",
+      "catarata",
+      "LASIK",
+      "PRK",
+      "recuperação",
+      "colírios",
+      "sinais de alerta",
+    ],
+    sections: [
+      {
+        heading: "A ideia central: recuperação e olho seco podem se misturar",
+        paragraphs: [
+          "Cirurgias de catarata e cirurgias refrativas, como LASIK e PRK, podem alterar temporariamente a superfície ocular, a sensibilidade da córnea e a estabilidade do filme lacrimal. Ardor, sensação de areia, lacrimejamento e visão que oscila podem aparecer durante a recuperação.",
+          "Olho seco é uma possibilidade, não um diagnóstico automático. Infecção, inflamação, alteração da córnea, mudança refrativa e outras condições também podem causar dor ou embaçamento. A técnica utilizada, o estado do olho antes da cirurgia e as instruções da equipe definem o que é esperado em cada caso.",
+        ],
+        note: "Este guia ajuda a organizar perguntas. As orientações escritas pela equipe que realizou o procedimento têm prioridade sobre qualquer regra geral encontrada na internet.",
+      },
+      {
+        heading: "Antes da cirurgia, o que vale contar",
+        paragraphs: [
+          "Informe se já tinha olho seco, ardor, visão oscilante, uso frequente de lágrimas artificiais, lentes de contato, blefarite, alergia, cirurgia ocular anterior, doença autoimune ou uso de medicamentos. Uma superfície ocular instável pode precisar de avaliação e cuidado antes de uma cirurgia eletiva.",
+          "No LASIK, olho seco está entre as condições que podem aumentar o risco de complicações. Isso não decide sozinho se alguém pode ou não operar, mas torna a conversa pré-operatória mais importante.",
+        ],
+        bullets: [
+          "Quais sintomas são esperados na minha cirurgia e por quanto tempo?",
+          "A superfície ocular precisa ser tratada ou acompanhada antes do procedimento?",
+          "Quais colírios serão usados, por quanto tempo e o que devo fazer se esquecer uma aplicação?",
+          "Quando posso retomar telas, exercício, direção e lentes de contato?",
+          "Qual é o contato para dúvidas ou piora depois da cirurgia?",
+        ],
+      },
+      {
+        heading: "O que pode acontecer no começo",
+        bullets: [
+          "sensação de areia, ardor leve ou irritação;",
+          "lacrimejamento e alguma vermelhidão;",
+          "visão borrada ou oscilante enquanto a superfície se estabiliza;",
+          "sensibilidade à luz ou desconforto com vento e ar seco;",
+          "necessidade temporária de usar colírios conforme o plano recebido.",
+        ],
+        paragraphs: [
+          "Após a cirurgia de catarata, materiais de orientação a pacientes descrevem vermelhidão leve, lacrimejamento, sensação de areia e visão borrada como sintomas que costumam melhorar progressivamente. Depois do LASIK, olho seco, halos, visão borrada e sensibilidade à luz são efeitos conhecidos e, em geral, melhoram ao longo dos meses. A trajetória da PRK e de outras técnicas pode ser diferente.",
+        ],
+        note: "A tendência importa: sintomas leves que melhoram gradualmente são diferentes de dor, vermelhidão ou perda visual que aumentam.",
+      },
+      {
+        heading: "Como proteger a recuperação",
+        bullets: [
+          "use os colírios prescritos exatamente como orientado; não prolongue, interrompa ou troque medicamentos de prescrição por conta própria;",
+          "lave e seque as mãos antes de tocar a região ou aplicar gotas;",
+          "não encoste a ponta do frasco no olho, nos cílios ou na pele;",
+          "não esfregue nem pressione o olho, mesmo quando houver coceira ou sensação de corpo estranho;",
+          "reduza vento, fumaça e fluxo direto de ar; óculos escuros podem tornar a luz mais confortável;",
+          "não volte a usar lentes de contato até receber liberação para o seu caso;",
+          "siga as restrições específicas sobre água, maquiagem, exercício, natação e proteção durante o sono;",
+          "compareça às revisões e conte se o desconforto estiver atrapalhando leitura, trabalho, direção ou sono.",
+        ],
+        note: "Se a equipe liberar uma lágrima artificial adicional, confirme qual apresentação é compatível com o pós-operatório e como separá-la dos demais colírios.",
+      },
+      {
+        heading: "Por que a visão pode oscilar",
+        paragraphs: [
+          "O filme lacrimal também funciona como uma superfície óptica. Quando ele se rompe ou se distribui de maneira irregular, a visão pode ficar nublada ou variar entre as piscadas. Isso pode acontecer junto com ardor e sensação de secura.",
+          "Uma revisão sistemática sobre cirurgia de catarata encontrou evidências de piora de alguns parâmetros do olho seco no período inicial e intermediário, com alterações que podem persistir até três meses. Esse dado descreve grupos de pacientes, não cria um prazo individual de recuperação.",
+          "Para o LASIK, o National Eye Institute informa que a cicatrização pode levar de dois a três meses e que efeitos como olho seco, halos, embaçamento e sensibilidade à luz costumam melhorar nesse período. Raramente, podem persistir. Se a visão piora rapidamente ou volta a piorar depois de ter melhorado, não espere o prazo terminar para pedir orientação.",
+        ],
+      },
+      {
+        heading: "Como a equipe verifica se é olho seco",
+        paragraphs: [
+          "A avaliação combina o tempo desde a cirurgia, o tipo de sintoma, a comparação entre os olhos e o exame da superfície ocular. A equipe pode observar a córnea, as pálpebras, as piscadas e a inflamação, além de medir a quantidade ou a estabilidade das lágrimas e usar corantes quando isso ajuda a responder à pergunta clínica.",
+          "Quando os sintomas continuam, a investigação pode precisar separar olho seco de problemas de cicatrização, infecção, alteração refrativa, inflamação ou dor com componente neurossensorial. Um único número ou uma única aplicação de colírio não explica todos os pós-operatórios.",
+        ],
+        note: "Leve os nomes dos colírios, a data da cirurgia, as instruções recebidas e uma descrição de quando a visão ou o desconforto pioram.",
+      },
+      {
+        heading: "Sinais de alerta: quando procurar ajuda rapidamente",
+        bullets: [
+          "dor forte ou dor que está aumentando, especialmente se não melhora com a orientação recebida;",
+          "visão que piora rapidamente ou que começa a piorar depois de uma melhora inicial;",
+          "vermelhidão, inchaço ou sensibilidade à luz que aumentam;",
+          "secreção espessa ou pegajosa;",
+          "flashes de luz, aumento súbito de pontos ou fios escuros, sombra ou cortina no campo visual;",
+          "trauma, perfuração ou contato com produto químico.",
+        ],
+        alert:
+          "Dor intensa ou piora rápida da visão depois de uma cirurgia ocular pode ser uma emergência. Contate imediatamente o serviço que realizou o procedimento ou procure atendimento oftalmológico de urgência, conforme a orientação local.",
+      },
+      {
+        heading: "Perguntas úteis na revisão",
+        bullets: [
+          "Minha evolução é compatível com a técnica e o tempo desde a cirurgia?",
+          "O olho seco explica todo o quadro ou precisamos excluir outra causa?",
+          "Quais colírios são indispensáveis, por quanto tempo e em que ordem devo usá-los?",
+          "Quando posso retomar telas, trabalho, exercício, direção e lentes de contato?",
+          "Qual sintoma deve me fazer ligar no mesmo dia?",
+          "Se continuar sintomático, quando devemos reavaliar a superfície ocular e o plano de cuidado?",
+        ],
+        note: "Recuperação não é uma competição para voltar à rotina mais cedo. O objetivo é cicatrizar com segurança e comunicar qualquer mudança relevante.",
+      },
+    ],
+    sources: [
+      {
+        label: "National Eye Institute — Causes of Dry Eye",
+        url: "https://www.nei.nih.gov/eye-health-information/eye-conditions-and-diseases/dry-eye/causes-dry-eye",
+      },
+      {
+        label: "National Eye Institute — Surgery for Refractive Errors",
+        url: "https://www.nei.nih.gov/eye-health-information/eye-conditions-and-diseases/refractive-errors/surgery-refractive-errors",
+      },
+      {
+        label:
+          "Ta et al. — Dry eye post-cataract surgery: a systematic review and meta-analysis",
+        url: "https://pubmed.ncbi.nlm.nih.gov/39806338/",
+      },
+      {
+        label: "Guy’s and St Thomas’ NHS — After cataract surgery",
+        url: "https://www.guysandstthomas.nhs.uk/health-information/cataract-surgery/after-cataract-surgery",
+      },
+      {
+        label: "TFOS DEWS III — manejo e tratamento",
+        url: "https://pubmed.ncbi.nlm.nih.gov/40467022/",
+      },
+    ],
+  },
+  {
     slug: "higiene-palpebral-com-seguranca",
     category: "Autocuidado",
     title: "Higiene palpebral com segurança",
