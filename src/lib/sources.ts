@@ -8,6 +8,7 @@ export interface EditorialSource {
 
 const verified = "25 de julho de 2026";
 const verifiedToday = "26 de julho de 2026";
+const verifiedCurrent = "10 de agosto de 2026";
 
 export const sources = {
   dews3Executive: {
@@ -73,6 +74,38 @@ export const sources = {
     description:
       "Orientações em linguagem simples sobre sintomas, autocuidado e sinais que pedem ajuda rápida.",
     verified,
+  },
+  aaoEyeDrops: {
+    name: "American Academy of Ophthalmology — Eye Drops",
+    type: "Material educativo para pacientes",
+    url: "https://store.aao.org/media/resources/051183/051183-Eye-Drops-rf1.pdf",
+    description:
+      "Explicação para pacientes sobre classes de colírios, efeitos adversos, técnica de aplicação e cuidados de segurança.",
+    verified: verifiedCurrent,
+  },
+  aaoDryEye: {
+    name: "American Academy of Ophthalmology — Dry Eye",
+    type: "Material educativo para pacientes",
+    url: "https://store.aao.org/media/resources/051180/051180-dry-eye-rf1.pdf",
+    description:
+      "Material para pacientes sobre camadas da lágrima, lágrimas artificiais, conservantes, pomadas e tratamento do olho seco.",
+    verified: verifiedCurrent,
+  },
+  guysDryEyeTreatment: {
+    name: "Guy’s and St Thomas’ NHS — Dry eye syndrome: treatment",
+    type: "Serviço público de saúde",
+    url: "https://www.guysandstthomas.nhs.uk/health-information/dry-eye-syndrome/treatment",
+    description:
+      "Orientações para pacientes sobre gotas, géis, pomadas, conservantes, armazenamento e efeitos indesejados.",
+    verified: verifiedCurrent,
+  },
+  ministryOcularDiseases: {
+    name: "Ministério da Saúde — Doenças oculares",
+    type: "Órgão público de saúde",
+    url: "https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/d/doencas-oculares/doencas-oculares/",
+    description:
+      "Orientações gerais sobre sintomas oculares, uso de colírios lubrificantes e riscos da automedicação.",
+    verified: verifiedCurrent,
   },
   nhsWateringEyes: {
     name: "NHS — Watering eyes",
@@ -173,6 +206,10 @@ export const primarySources: EditorialSource[] = [
   sources.dews3Digest,
   sources.nei,
   sources.nhs,
+  sources.aaoEyeDrops,
+  sources.aaoDryEye,
+  sources.guysDryEyeTreatment,
+  sources.ministryOcularDiseases,
   sources.nhsWateringEyes,
   sources.wateryEyeAssessment,
   sources.epiphoraEtiology,

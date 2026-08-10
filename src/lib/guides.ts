@@ -264,6 +264,142 @@ export const guides: Guide[] = [
     ],
   },
   {
+    slug: "tratamento-com-colirios-diferencas-e-tipos",
+    category: "Tratamentos",
+    title: "Tratamento com colírios: tipos, diferenças e uso seguro",
+    description:
+      "Um guia para entender o que muda entre lágrimas artificiais, géis, pomadas, conservantes e colírios de prescrição.",
+    readingTime: "9 min",
+    updated: "10 de agosto de 2026",
+    datePublished: "2026-08-10",
+    dateModified: "2026-08-10",
+    sourcesVerified: "10 de agosto de 2026",
+    tags: [
+      "colírios",
+      "tratamento",
+      "lágrimas artificiais",
+      "lubrificantes",
+      "conservantes",
+      "géis",
+      "pomadas",
+      "uso seguro",
+    ],
+    sections: [
+      {
+        heading: "Colírio é um formato, não um tratamento único",
+        paragraphs: [
+          "Colírio é uma forma de aplicar uma solução, emulsão, suspensão ou medicamento na superfície do olho. O mesmo formato pode servir para lubrificar, tratar alergia, controlar inflamação, combater uma infecção, reduzir a pressão ocular ou preparar um exame.",
+          "No olho seco, as lágrimas artificiais são usadas principalmente para aliviar sintomas e apoiar o filme lacrimal. Elas não corrigem sozinhas todas as causas possíveis, como alteração das pálpebras, disfunção das glândulas de Meibomius ou inflamação. Por isso, não existe um “colírio mais forte” que seja melhor para todo mundo.",
+        ],
+        note: "Alívio logo depois da aplicação mostra que a superfície foi umedecida; não confirma, sozinho, qual é a causa do desconforto.",
+      },
+      {
+        heading: "Lágrimas artificiais: o que muda na formulação",
+        paragraphs: [
+          "As lágrimas artificiais podem combinar água, sais, polímeros e outras substâncias que ajudam a espalhar ou manter o líquido na superfície. Entre os componentes encontrados em diferentes formulações estão carmelose, hipromelose, hialuronato, polietilenoglicol, glicerina, trealose e componentes lipídicos. O nome do componente não permite prever sozinho qual produto funcionará melhor.",
+          "Algumas formulações são mais fluidas e interferem menos na visão, mas podem exigir reaplicação mais frequente. Outras aumentam a permanência ou acrescentam uma fase lipídica, o que pode ser útil quando a evaporação participa do quadro, mas também pode deixar a visão embaçada por alguns minutos.",
+          "A escolha depende do mecanismo predominante, da frequência de uso, da rotina, da tolerância e da presença de lentes de contato. Uma formulação diferente pode fazer mais sentido quando a primeira arde, dura pouco ou deixa a visão turva demais.",
+        ],
+      },
+      {
+        heading: "Gotas líquidas, géis e pomadas",
+        bullets: [
+          "Gotas líquidas: costumam ser mais confortáveis durante o dia e causar menos embaçamento, mas podem permanecer menos tempo.",
+          "Géis: são mais viscosos, tendem a durar mais e podem ser úteis em determinados horários; a visão pode ficar turva temporariamente.",
+          "Pomadas: formam uma camada mais espessa e duradoura, geralmente reservada para a noite porque são oleosas e borram a visão. Não devem ser usadas com lentes de contato, a menos que isso tenha sido especificamente orientado.",
+        ],
+        paragraphs: [
+          "Mais viscoso não significa automaticamente melhor. A formulação precisa proteger a superfície sem atrapalhar a atividade que você precisa realizar. A bula e a orientação profissional devem prevalecer sobre uma regra geral.",
+        ],
+      },
+      {
+        heading: "Com conservante ou sem conservante",
+        paragraphs: [
+          "Conservantes ajudam a manter a segurança microbiológica de muitos frascos multidose. Em algumas pessoas, porém, o uso frequente ou prolongado de formulações conservadas pode irritar uma superfície ocular já sensível. As apresentações sem conservante podem vir em flaconetes de dose única ou em frascos multidose com sistemas próprios de proteção.",
+          "Como regra prática, quando a lágrima artificial é usada muitas vezes ao dia, quando existe sensibilidade a conservantes ou quando há lentes de contato, vale discutir uma opção sem conservante. Materiais para pacientes usam com frequência a faixa de quatro a seis aplicações diárias como sinal para essa conversa, não como uma prescrição rígida.",
+          "Sem conservante não significa que a gota será ideal para qualquer pessoa ou que nunca causará ardor: o princípio ativo, os demais componentes, o pH e a própria condição do olho também importam. Com lentes de contato, use apenas uma apresentação indicada como compatível e siga o intervalo de retirada e recolocação informado no rótulo ou pela equipe.",
+        ],
+      },
+      {
+        heading: "Colírios de prescrição não são “lágrimas mais fortes”",
+        paragraphs: [
+          "Alguns colírios tratam mecanismos específicos e não devem ser escolhidos apenas pela vermelhidão ou pelo ardor. Eles podem ser necessários quando há uma doença identificada, mas precisam de indicação, acompanhamento e, em alguns casos, receita.",
+        ],
+        bullets: [
+          "Anti-inflamatórios e imunomoduladores, como ciclosporina ou lifitegraste, podem fazer parte do cuidado do olho seco com componente inflamatório. A resposta costuma ser diferente do alívio imediato de uma lágrima artificial.",
+          "Corticoides reduzem inflamação e podem ter papel por tempo limitado, mas o uso inadequado pode aumentar a pressão ocular, favorecer catarata ou agravar infecções.",
+          "Antibióticos, antivirais e antifúngicos são direcionados a infecções específicas. Um olho vermelho ou ardendo não é, por si só, motivo para usar um antimicrobiano.",
+          "Colírios para alergia procuram controlar coceira e lacrimejamento alérgico; não substituem a investigação de outras causas de secura.",
+          "Colírios que apenas contraem vasos para deixar o olho mais branco não tratam a causa do olho seco. O uso diário pode fazer a vermelhidão voltar ou piorar quando o efeito passa.",
+        ],
+        alert:
+          "Não use sobras de antibiótico, corticoide, anestésico ou colírio de outra pessoa. Anestésicos oftálmicos são para procedimentos e não devem ser usados em casa.",
+      },
+      {
+        heading: "Como a escolha é feita",
+        paragraphs: [
+          "Uma escolha razoável começa pela pergunta: o que estamos tentando melhorar? Evaporação, baixa produção, inflamação, alergia, infecção, problema palpebral e uso de lentes pedem raciocínios diferentes. O exame e a história ajudam a separar esses caminhos.",
+        ],
+        bullets: [
+          "Qual mecanismo parece participar mais: evaporação, pouca produção, inflamação ou uma combinação?",
+          "A prioridade é aliviar, proteger a córnea, tratar uma causa ou mudar a evolução da doença?",
+          "A viscosidade e o possível embaçamento combinam com trabalho, direção, leitura e telas?",
+          "A frequência de uso e as lentes de contato tornam o conservante relevante?",
+          "Como combinar esta gota com as outras e em quanto tempo a resposta será revisada?",
+          "Quais efeitos são esperados e quais indicam que devo procurar orientação?",
+        ],
+      },
+      {
+        heading: "Uso seguro em casa",
+        bullets: [
+          "lave as mãos antes de abrir o frasco e não encoste a ponta no olho, nos cílios ou na pele;",
+          "confira o nome, a validade e o prazo de uso depois de aberto indicado na embalagem;",
+          "feche o frasco logo após aplicar e não compartilhe colírios;",
+          "se usar mais de um medicamento ocular, aguarde cerca de cinco minutos entre eles, salvo orientação diferente;",
+          "use a quantidade e a frequência da receita ou da bula, sem aumentar por conta própria;",
+          "retire as lentes de contato quando o produto não for compatível ou quando o rótulo e a equipe orientarem;",
+          "anote ardor, coceira, inchaço, vermelhidão, embaçamento e duração do alívio para conversar na revisão.",
+        ],
+        note: "Uma gota aplicada corretamente costuma ser mais útil do que várias gotas que escorrem para fora. Não tente compensar uma aplicação perdida dobrando a próxima dose sem orientação.",
+      },
+      {
+        heading: "Quando não é hora de testar outro colírio",
+        paragraphs: [
+          "Dor intensa, sensibilidade importante à luz, mudança súbita da visão, secreção espessa, trauma, exposição química ou vermelhidão marcada — especialmente em quem usa lentes de contato — pedem avaliação rápida. Esses sinais podem apontar para problemas que não devem ser mascarados por lubrificantes ou gotas para “tirar o vermelho”.",
+          "Se um colírio provocar inchaço, coceira intensa, falta de ar, piora persistente ou alteração visual, procure orientação imediatamente e leve o frasco ou uma foto do rótulo.",
+        ],
+        alert:
+          "Este guia é educativo. A indicação de um colírio, principalmente antibiótico, corticoide, antialérgico ou imunomodulador, depende da avaliação individual.",
+      },
+    ],
+    sources: [
+      {
+        label: "TFOS DEWS III — manejo e tratamento",
+        url: "https://pubmed.ncbi.nlm.nih.gov/40467022/",
+      },
+      {
+        label: "National Eye Institute — Dry Eye",
+        url: "https://www.nei.nih.gov/eye-health-information/eye-conditions-and-diseases/dry-eye",
+      },
+      {
+        label: "American Academy of Ophthalmology — Eye Drops",
+        url: "https://store.aao.org/media/resources/051183/051183-Eye-Drops-rf1.pdf",
+      },
+      {
+        label: "American Academy of Ophthalmology — Dry Eye",
+        url: "https://store.aao.org/media/resources/051180/051180-dry-eye-rf1.pdf",
+      },
+      {
+        label: "Guy’s and St Thomas’ NHS — Dry eye syndrome: treatment",
+        url: "https://www.guysandstthomas.nhs.uk/health-information/dry-eye-syndrome/treatment",
+      },
+      {
+        label: "Ministério da Saúde — Doenças oculares",
+        url: "https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/d/doencas-oculares/doencas-oculares/",
+      },
+    ],
+  },
+  {
     slug: "higiene-palpebral-com-seguranca",
     category: "Autocuidado",
     title: "Higiene palpebral com segurança",
