@@ -618,15 +618,28 @@ const newsletterEndpoint =
     padding-block: clamp(4rem, 8vw, 7rem);
   }
 
+  /* Chip de vidro sobre a foto do hero: uso natural de glassmorphism — há
+     imagem variada por trás para desfocar, ao contrário de um painel sobre
+     fundo liso. Fallback opaco (navy-deep) via @supports para navegadores
+     sem backdrop-filter. */
   .hero-index {
     align-self: stretch;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding-right: 1rem;
-    border-right: 1px solid rgb(217 182 101 / 60%);
+    padding: 1.1rem 0.65rem;
+    border: 1px solid rgb(217 182 101 / 45%);
+    background: rgb(0 19 38 / 46%);
+    box-shadow: var(--surface-shadow-lg);
     text-transform: uppercase;
+  }
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .hero-index {
+      -webkit-backdrop-filter: blur(14px) saturate(150%);
+      backdrop-filter: blur(14px) saturate(150%);
+    }
   }
 
   .hero-index span,
@@ -668,34 +681,15 @@ const newsletterEndpoint =
     margin-top: 2.2rem;
   }
 
-  .button {
-    min-height: 48px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.78rem 1.2rem;
-    border: 1px solid var(--surface-gold-light);
-    font-size: 0.77rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .button-primary {
-    background: var(--surface-gold-light);
-    color: var(--surface-navy);
-  }
-
-  .button-quiet {
-    color: var(--surface-paper);
-  }
-
   .hero-cover {
     align-self: end;
   }
 
+  /* --tilt-base preserva o leve giro editorial da capa (o sistema de
+     inclinação 3D global compõe rotateX/rotateY em cima dele — ver
+     [data-tilt] em SuperficieLayout.astro). */
   .hero-cover :global(.issue-cover) {
-    transform: rotate(1.4deg);
+    --tilt-base: rotate(1.4deg);
   }
 
   .hero-cover p {
@@ -1032,17 +1026,6 @@ const newsletterEndpoint =
     margin-top: 1.75rem;
   }
 
-  .partner-actions .button-primary {
-    border-color: var(--surface-teal);
-    background: var(--surface-teal);
-    color: white;
-  }
-
-  .button-outline-light {
-    border-color: rgb(255 255 255 / 45%);
-    color: var(--surface-paper);
-  }
-
   .launch-note {
     margin: 0.8rem 0 0;
     color: var(--surface-teal-dark);
@@ -1203,9 +1186,7 @@ const newsletterEndpoint =
       flex-direction: row;
       justify-content: flex-start;
       gap: 0.75rem;
-      padding: 0 0 0.85rem;
-      border-right: 0;
-      border-bottom: 1px solid rgb(217 182 101 / 60%);
+      padding: 0.75rem 1rem;
     }
 
     .hero-index span,
@@ -1313,10 +1294,6 @@ const newsletterEndpoint =
   @media (max-width: 520px) {
     .hero-actions {
       display: grid;
-    }
-
-    .button {
-      width: 100%;
     }
 
     .input-row {

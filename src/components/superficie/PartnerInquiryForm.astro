@@ -254,6 +254,11 @@ const { endpoint = "/api/superficie-parceiros" } = Astro.props;
     resize: vertical;
   }
 
+  /* Anel de dois tons, igual ao de SuperficieLayout.astro: este bloco
+     compila com um seletor com escopo (Astro), que tem especificidade maior
+     que a regra global e por isso a sobrescrevia — com um único tom de
+     ouro, 1.91:1 sobre o fundo branco do formulário, abaixo dos 3:1 do
+     WCAG 2.2 SC 1.4.11. */
   input:focus-visible,
   select:focus-visible,
   textarea:focus-visible,
@@ -261,6 +266,7 @@ const { endpoint = "/api/superficie-parceiros" } = Astro.props;
   a:focus-visible {
     outline: 3px solid var(--surface-gold-light);
     outline-offset: 3px;
+    box-shadow: 0 0 0 3px var(--surface-navy);
   }
 
   .consent {
@@ -311,10 +317,22 @@ const { endpoint = "/api/superficie-parceiros" } = Astro.props;
     font-weight: 800;
     letter-spacing: 0.04em;
     text-transform: uppercase;
+    transition:
+      background-color 220ms ease,
+      filter 380ms ease,
+      transform 380ms ease;
   }
 
-  .form-footer button:hover {
+  /* filter, não box-shadow — reserva do anel de foco de dois tons. */
+  .form-footer button:not(:disabled):hover {
     background: var(--surface-teal-dark);
+    filter: var(--surface-lift-sm);
+    transform: translateY(-2px);
+  }
+
+  .form-footer button:not(:disabled):active {
+    filter: none;
+    transform: translateY(0);
   }
 
   .form-footer button:disabled {

@@ -15,7 +15,10 @@ const path = getMagazineArticlePath(article);
 const readingTime = calculateArticleReadingTime(article);
 ---
 
-<article class:list={["article-card", { compact }]}>
+<article
+  class:list={["article-card", { compact, "tilt-glow": !compact }]}
+  data-tilt={compact ? undefined : true}
+>
   {
     article.featuredImage && !compact && (
       <a
@@ -61,11 +64,21 @@ const readingTime = calculateArticleReadingTime(article);
     grid-template-rows: auto 1fr;
     background: var(--surface-white);
     border-top: 4px solid var(--surface-teal);
+    box-shadow: 0 1px 2px rgb(4 12 22 / 8%);
+    transition:
+      box-shadow 420ms var(--surface-ease),
+      border-top-color 420ms ease;
+  }
+
+  .article-card:not(.compact):hover {
+    border-top-color: var(--surface-gold);
+    box-shadow: var(--surface-shadow-lg);
   }
 
   .article-card.compact {
     border-top-width: 2px;
     background: transparent;
+    box-shadow: none;
   }
 
   .article-image {
@@ -77,6 +90,11 @@ const readingTime = calculateArticleReadingTime(article);
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 600ms var(--surface-ease);
+  }
+
+  .article-card:hover .article-image img {
+    transform: scale(1.06);
   }
 
   .article-card-body {

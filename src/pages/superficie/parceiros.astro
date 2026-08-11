@@ -77,14 +77,14 @@ const processSteps = [
         </p>
         <div class="hero-actions">
           <a
-            class="button primary"
+            class="button button-primary"
             href="#oportunidades"
             data-analytics-event="partner_click"
             data-analytics-label="partners_hero_oportunidades"
             >Conhecer oportunidades</a
           >
           <a
-            class="button quiet"
+            class="button button-outline-light"
             href="#solicitar-media-kit"
             data-analytics-event="media_kit_click"
             data-analytics-label="partners_hero_media_kit"
@@ -312,30 +312,6 @@ const processSteps = [
     margin-top: 1.7rem;
   }
 
-  .button {
-    min-height: 48px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.75rem 1.1rem;
-    border: 1px solid transparent;
-    color: var(--surface-paper);
-    font-size: 0.74rem;
-    font-weight: 800;
-    letter-spacing: 0.04em;
-    text-decoration: none;
-    text-transform: uppercase;
-  }
-
-  .button.primary {
-    border-color: var(--surface-teal-dark);
-    background: var(--surface-teal-dark);
-  }
-
-  .button.quiet {
-    border-color: rgb(255 255 255 / 40%);
-  }
-
   .section-heading {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(300px, 0.65fr);
@@ -467,8 +443,7 @@ const processSteps = [
       font-size: clamp(2.8rem, 13vw, 4.4rem);
     }
 
-    .hero-actions,
-    .hero-actions .button {
+    .hero-actions {
       width: 100%;
     }
 

@@ -435,6 +435,10 @@ const audienceRoles = [
     font-weight: 800;
     letter-spacing: 0.04em;
     text-transform: uppercase;
+    transition:
+      background-color 220ms ease,
+      filter 380ms ease,
+      transform 380ms ease;
   }
 
   button:hover {
@@ -444,6 +448,20 @@ const audienceRoles = [
   button:disabled {
     cursor: wait;
     opacity: 0.65;
+  }
+
+  /* Elevação apenas na SUPERFÍCIE (contido, pedido do usuário só para a
+     revista) — filter, não box-shadow: o anel de foco de dois tons de
+     SuperficieLayout.astro já usa box-shadow, e as duas propriedades
+     disputariam visibilidade se coincidissem em hover+foco. */
+  .newsletter-card[data-variant="superficie"] button:not(:disabled):hover {
+    filter: var(--surface-lift-sm);
+    transform: translateY(-2px);
+  }
+
+  .newsletter-card[data-variant="superficie"] button:not(:disabled):active {
+    filter: none;
+    transform: translateY(0);
   }
 
   .input-row button {
@@ -576,6 +594,18 @@ const audienceRoles = [
   .role-grid input:focus-visible + span {
     outline: 3px solid var(--newsletter-focus);
     outline-offset: 2px;
+  }
+
+  /* Anel de dois tons só na SUPERFÍCIE: o ouro isolado passa perto de
+     1.8:1 sobre o fundo claro do pill, abaixo dos 3:1 do WCAG 2.2 SC
+     1.4.11. O portal usa --newsletter-focus: var(--teal), que já tem
+     contraste suficiente sozinho, então esta camada extra fica só onde
+     é necessária. */
+  .newsletter-card[data-variant="superficie"]
+    .role-grid
+    input:focus-visible
+    + span {
+    box-shadow: 0 0 0 3px var(--surface-navy);
   }
 
   .profile-actions {

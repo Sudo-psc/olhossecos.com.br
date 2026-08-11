@@ -10,7 +10,7 @@ interface Props {
 const { issue, eager = false, class: className } = Astro.props;
 ---
 
-<picture class:list={["issue-cover", className]}>
+<picture class:list={["issue-cover", className]} data-tilt="true">
   <source
     type="image/avif"
     srcset={`${issue.cover.avif600} 600w, ${issue.cover.avif1054} 1054w`}

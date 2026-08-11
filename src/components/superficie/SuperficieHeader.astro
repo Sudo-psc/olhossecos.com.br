@@ -152,6 +152,19 @@ const nav = [
     font-weight: 750;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    transition:
+      background-color 200ms ease,
+      border-color 200ms ease,
+      transform 200ms var(--surface-ease);
+  }
+
+  .surface-menu-button:hover {
+    border-color: var(--surface-gold-light);
+    background: rgb(217 182 101 / 12%);
+  }
+
+  .surface-menu-button:active {
+    transform: scale(0.97);
   }
 
   .surface-masthead {
@@ -239,6 +252,8 @@ const nav = [
   }
 
   .surface-nav a {
+    position: relative;
+    padding-bottom: 0.2rem;
     color: var(--surface-paper);
     font-size: 0.76rem;
     font-weight: 700;
@@ -246,11 +261,34 @@ const nav = [
     text-transform: uppercase;
   }
 
+  .surface-nav a::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background: var(--surface-gold-light);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 320ms var(--surface-ease);
+  }
+
   .surface-nav a:hover,
   .surface-nav a:focus-visible {
     color: var(--surface-gold-light);
   }
 
+  .surface-nav a:hover::after,
+  .surface-nav a:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* Vidro fosco: o menu flutua sobre o conteúdo da página que já rolou por
+     trás dele, então o desfoque tem o que desfocar — uso legítimo, ao
+     contrário de um painel sobre fundo liso. Fallback opaco via @supports
+     para navegadores sem backdrop-filter. */
   .surface-mobile-nav {
     position: absolute;
     z-index: 30;
@@ -258,8 +296,16 @@ const nav = [
     left: 0;
     background: var(--surface-navy);
     color: var(--surface-paper);
-    border-top: 1px solid rgb(255 255 255 / 15%);
-    box-shadow: 0 24px 40px rgb(0 10 24 / 30%);
+    border-top: 1px solid var(--surface-glass-border);
+    box-shadow: var(--surface-shadow-lg);
+  }
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .surface-mobile-nav {
+      background: var(--surface-glass-navy);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
+      backdrop-filter: blur(20px) saturate(160%);
+    }
   }
 
   .surface-mobile-nav .surface-shell {
@@ -271,11 +317,25 @@ const nav = [
     min-height: 48px;
     display: flex;
     align-items: center;
+    padding-inline: 0.6rem;
+    margin-inline: -0.6rem;
     border-bottom: 1px solid rgb(255 255 255 / 13%);
+    color: var(--surface-paper);
     font-size: 0.84rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    transition:
+      background-color 200ms ease,
+      color 200ms ease,
+      padding-left 200ms var(--surface-ease);
+  }
+
+  .surface-mobile-nav a:hover,
+  .surface-mobile-nav a:focus-visible {
+    padding-left: 1rem;
+    background: rgb(217 182 101 / 12%);
+    color: var(--surface-gold-light);
   }
 
   @media (max-width: 800px) {
