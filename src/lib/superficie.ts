@@ -226,14 +226,14 @@ export const founderIssue: MagazineIssue = {
   slug: "edicao-00",
   title: "A nova era da superfície ocular",
   subtitle:
-    "Do sintoma ao fenótipo: diagnóstico multimodal e tratamento personalizado.",
+    "Do sintoma ao fenótipo: diagnóstico multimodal e terapias dirigidas por mecanismo.",
   cover: {
     avif600: "/images/superficie/capa-edicao-00-600.avif",
     avifLarge: "/images/superficie/capa-edicao-00-1024.avif",
     webp600: "/images/superficie/capa-edicao-00-600.webp",
     webpLarge: "/images/superficie/capa-edicao-00-1024.webp",
     fallback: "/images/superficie/capa-edicao-00.png",
-    alt: "Capa da Edição Fundadora nº 0 da revista SUPERFÍCIE, intitulada A nova era da superfície ocular",
+    alt: "Capa da Edição Fundadora nº 0 da revista SUPERFÍCIE: A nova era da superfície ocular — do sintoma ao fenótipo, diagnóstico multimodal e terapias dirigidas por mecanismo",
     largeWidth: 1024,
     width: 1024,
     height: 1536,
@@ -259,7 +259,7 @@ export const founderIssue: MagazineIssue = {
   seo: {
     title: "Edição Fundadora nº 0 | SUPERFÍCIE",
     description:
-      "Conheça a Edição Fundadora da SUPERFÍCIE, dedicada ao diagnóstico multimodal e ao tratamento personalizado da superfície ocular.",
+      "Conheça a Edição Fundadora da SUPERFÍCIE, dedicada ao diagnóstico multimodal e às terapias dirigidas por mecanismo na superfície ocular.",
     canonical: "/superficie/edicao-00",
   },
 };

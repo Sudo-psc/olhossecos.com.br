@@ -598,19 +598,27 @@ const newsletterEndpoint =
     height: 100%;
   }
 
+  /* A foto de fundo e a arte da capa são ambas filme lacrimal iridescente.
+     Lado a lado competiam pela mesma leitura, então o fundo é dessaturado
+     para virar textura em navy e deixar a capa como único objeto colorido
+     do hero. A imagem original não é alterada — só o tratamento. */
   .hero-image img {
     object-fit: cover;
-    object-position: center 52%;
+    object-position: 38% 52%;
+    filter: saturate(0.3) brightness(0.74) contrast(1.05);
   }
 
+  /* A parada de 22% em 72% abria uma janela clara justamente atrás da capa.
+     A faixa direita passa a ser a mais fechada do gradiente, dando fundo
+     calmo para a capa se destacar. */
   .hero-wash {
     background:
       linear-gradient(
         90deg,
         rgb(0 14 29 / 95%) 0%,
-        rgb(0 20 39 / 79%) 44%,
-        rgb(0 19 38 / 22%) 72%,
-        rgb(0 15 31 / 52%) 100%
+        rgb(0 20 39 / 82%) 44%,
+        rgb(0 19 38 / 74%) 72%,
+        rgb(0 15 31 / 86%) 100%
       ),
       linear-gradient(0deg, rgb(0 13 27 / 86%) 0%, transparent 45%);
   }
