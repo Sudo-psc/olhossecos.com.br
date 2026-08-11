@@ -3,12 +3,15 @@ import ArticleCard from "@/components/superficie/ArticleCard.astro";
 import IssueCover from "@/components/superficie/IssueCover.astro";
 import SuperficieNewsletterForm from "@/components/superficie/SuperficieNewsletterForm.astro";
 import SuperficieLayout from "@/layouts/SuperficieLayout.astro";
+import { getRadarReportPath, latestRadarReport } from "@/lib/radar";
 import {
   evidenceFields,
   founderIssue,
   publishedArticles,
   technologyTopics,
 } from "@/lib/superficie";
+
+const latestRadar = latestRadarReport();
 
 const title = "SUPERFÍCIE | Revista de Olho Seco e Superfície Ocular";
 const description =
@@ -211,10 +214,31 @@ const newsletterEndpoint =
           Uma leitura estruturada de estudos relevantes, distinguindo com
           clareza resultados, limitações e interpretação editorial.
         </p>
-        <p class="evidence-note">
-          A seção será inaugurada após seleção e revisão das primeiras
-          referências.
+        <p>
+          A seção é publicada mensalmente como <strong>RADAR Científico</strong
+          >: literatura, sociedades, indústria e regulação filtradas por
+          relevância e nível de evidência, com fonte original em toda entrada.
         </p>
+        <div class="evidence-actions">
+          <a
+            class="button button-primary"
+            href="/superficie/radar"
+            data-analytics-event="radar_click"
+            data-analytics-label="home_evidencias">Ler o RADAR Científico</a
+          >
+          {
+            latestRadar && (
+              <a
+                class="button button-outline-light"
+                href={getRadarReportPath(latestRadar)}
+                data-analytics-event="radar_report_click"
+                data-analytics-label="home_ultimo_ciclo"
+              >
+                Último ciclo: {latestRadar.label}
+              </a>
+            )
+          }
+        </div>
       </div>
       <ol class="evidence-steps">
         {
@@ -222,7 +246,6 @@ const newsletterEndpoint =
             <li>
               <span>{String(index + 1).padStart(2, "0")}</span>
               <strong>{field}</strong>
-              <small>Em breve</small>
             </li>
           ))
         }
@@ -875,14 +898,25 @@ const newsletterEndpoint =
     color: rgb(255 255 255 / 35%);
   }
 
-  .evidence-copy p:not(.eyebrow, .evidence-note),
+  .evidence-copy p:not(.eyebrow),
   .technology-copy p:not(.eyebrow),
   .newsletter-grid > div:first-child > p:not(.eyebrow),
   .partners-grid p:not(.eyebrow, .partners-state) {
     color: var(--surface-muted-on-dark);
   }
 
-  .evidence-note,
+  .evidence-copy strong {
+    color: var(--surface-gold-light);
+    font-weight: 700;
+  }
+
+  .evidence-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
   .partners-state {
     margin-top: 2rem;
     padding-left: 1rem;
@@ -900,7 +934,7 @@ const newsletterEndpoint =
   .evidence-steps li {
     min-height: 65px;
     display: grid;
-    grid-template-columns: 2.3rem 1fr auto;
+    grid-template-columns: 2.3rem 1fr;
     align-items: center;
     gap: 1rem;
     border-top: 1px solid rgb(255 255 255 / 18%);
@@ -909,14 +943,6 @@ const newsletterEndpoint =
   .evidence-steps span {
     color: var(--surface-gold-light);
     font-family: var(--surface-serif);
-  }
-
-  .evidence-steps small {
-    color: var(--surface-muted-on-dark);
-    font-size: 0.63rem;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
   }
 
   .conversations-grid,
@@ -1301,10 +1327,6 @@ const newsletterEndpoint =
     .evidence-steps li {
       grid-template-columns: 2rem 1fr;
       padding-block: 0.85rem;
-    }
-
-    .evidence-steps small {
-      grid-column: 2;
     }
   }
 </style>

@@ -1,0 +1,479 @@
+---
+import SuperficieLayout from "@/layouts/SuperficieLayout.astro";
+import {
+  getRadarReportPath,
+  radarCriteria,
+  radarMonitoring,
+  radarReports,
+} from "@/lib/radar";
+
+const title = "RADAR Científico | SUPERFÍCIE";
+const description =
+  "Curadoria mensal de evidências em olho seco e superfície ocular: literatura, sociedades, indústria e regulação, com fonte verificável e leitura para a prática clínica.";
+
+const formatDate = (iso: string) =>
+  new Date(`${iso}T12:00:00Z`).toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+
+const collectionSchema = {
+  "@type": "ItemList",
+  "@id": new URL("/superficie/radar#reports", Astro.site).href,
+  name: "RADAR Científico — relatórios publicados",
+  itemListElement: radarReports.map((report, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: `RADAR Científico — ${report.label}`,
+    url: new URL(getRadarReportPath(report), Astro.site).href,
+  })),
+};
+---
+
+<SuperficieLayout
+  {title}
+  {description}
+  compactHeader
+  schemaType="CollectionPage"
+  breadcrumbs={[
+    { name: "SUPERFÍCIE", url: "/superficie" },
+    { name: "RADAR Científico", url: "/superficie/radar" },
+  ]}
+  extraSchema={collectionSchema}
+>
+  <section class="radar-hero" aria-labelledby="radar-title">
+    <div class="surface-shell hero-grid">
+      <div>
+        <p class="eyebrow gold">Seção recorrente</p>
+        <h1 id="radar-title">RADAR Científico</h1>
+        <p class="lead">
+          Uma vez por mês, a SUPERFÍCIE varre a literatura e as novidades do
+          setor em olho seco e superfície ocular e publica o que sobrevive à
+          curadoria: fonte original, nível de evidência e o que muda — ou não
+          muda — na prática.
+        </p>
+      </div>
+      <dl class="hero-meta">
+        <div>
+          <dt>Periodicidade</dt>
+          <dd>Mensal</dd>
+        </div>
+        <div>
+          <dt>Ciclos publicados</dt>
+          <dd>{radarReports.length}</dd>
+        </div>
+        <div>
+          <dt>Acesso</dt>
+          <dd>Livre, sem cadastro</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section reports-section" aria-labelledby="reports-title">
+    <div class="surface-shell">
+      <header class="section-heading">
+        <div>
+          <p class="eyebrow ink">Arquivo</p>
+          <h2 id="reports-title">Ciclos publicados</h2>
+        </div>
+      </header>
+
+      <ol class="report-list">
+        {
+          radarReports.map((report) => (
+            <li>
+              <a
+                href={getRadarReportPath(report)}
+                data-analytics-event="radar_report_click"
+                data-analytics-label={report.slug}
+              >
+                <p class="report-label">{report.label}</p>
+                <h3>{report.title}</h3>
+                <p class="report-summary">{report.executiveSummary}</p>
+                <p class="report-meta">
+                  <span>{report.findings.length} referências</span>
+                  <span>{report.highlights.length} destaques</span>
+                  <time datetime={report.publishedAt}>
+                    {formatDate(report.publishedAt)}
+                  </time>
+                </p>
+                <span class="report-cta">Ler o ciclo completo</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section scope-section" aria-labelledby="scope-title">
+    <div class="surface-shell scope-grid">
+      <div>
+        <p class="eyebrow gold">Cobertura</p>
+        <h2 id="scope-title">O que o radar monitora</h2>
+      </div>
+      <ol class="scope-list">
+        {
+          radarMonitoring.map((item, index) => (
+            <li>
+              <span aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <div>
+                <strong>{item.title}</strong>
+                <p>{item.detail}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section criteria-section" aria-labelledby="criteria-title">
+    <div class="surface-shell criteria-grid">
+      <div>
+        <p class="eyebrow ink">Governança</p>
+        <h2 id="criteria-title">Critérios editoriais</h2>
+        <p>
+          A curadoria é editorial e independente. Parcerias comerciais não
+          determinam o que entra no radar nem como uma evidência é interpretada.
+        </p>
+      </div>
+      <ul class="criteria-list">
+        {radarCriteria.map((criterion) => <li>{criterion}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section cta-section" aria-labelledby="cta-title">
+    <div class="surface-shell cta-grid">
+      <div>
+        <p class="eyebrow gold">Newsletter</p>
+        <h2 id="cta-title">Receba cada ciclo por e-mail</h2>
+        <p>
+          O RADAR chega junto com as novas edições, artigos e entrevistas da
+          SUPERFÍCIE.
+        </p>
+      </div>
+      <div class="cta-actions">
+        <a
+          class="button button-primary"
+          href="/superficie#newsletter"
+          data-analytics-event="newsletter_click"
+          data-analytics-label="radar_index">Assinar a newsletter</a
+        >
+        <a class="button button-outline-light" href="/superficie"
+          >Voltar à revista</a
+        >
+      </div>
+    </div>
+  </section>
+</SuperficieLayout>
+
+<style>
+  .eyebrow {
+    margin: 0 0 0.9rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    line-height: 1.35;
+    text-transform: uppercase;
+  }
+
+  .eyebrow.ink {
+    color: var(--surface-teal-dark);
+  }
+
+  .eyebrow.gold {
+    color: var(--surface-gold-light);
+  }
+
+  h1,
+  h2,
+  h3,
+  p {
+    margin-top: 0;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--surface-serif);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+  }
+
+  .section {
+    padding-block: clamp(3.5rem, 7vw, 6.5rem);
+  }
+
+  .radar-hero {
+    padding-block: clamp(3rem, 6vw, 5.5rem);
+    background: var(--surface-navy);
+    color: var(--surface-paper);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 0.5fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: end;
+  }
+
+  .hero-grid h1 {
+    margin-bottom: 1.4rem;
+    font-size: clamp(2.8rem, 6vw, 5.4rem);
+  }
+
+  .lead {
+    max-width: 60ch;
+    margin: 0;
+    color: #d5dfe5;
+    font-size: clamp(1.05rem, 1.7vw, 1.3rem);
+  }
+
+  .hero-meta {
+    display: grid;
+    gap: 1.1rem;
+    margin: 0;
+    padding-left: clamp(1.5rem, 3vw, 2.5rem);
+    border-left: 1px solid rgb(217 182 101 / 60%);
+  }
+
+  .hero-meta dt {
+    color: var(--surface-gold-light);
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .hero-meta dd {
+    margin: 0.3rem 0 0;
+    font-family: var(--surface-serif);
+    font-size: 1.35rem;
+  }
+
+  .section-heading {
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+    padding-bottom: 1.4rem;
+    border-bottom: 1px solid var(--surface-line);
+  }
+
+  .section-heading h2 {
+    margin-bottom: 0;
+    font-size: clamp(2rem, 4vw, 3.4rem);
+  }
+
+  .reports-section {
+    background: var(--surface-white);
+  }
+
+  .report-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .report-list li + li {
+    margin-top: 1rem;
+  }
+
+  .report-list a {
+    display: block;
+    padding: clamp(1.5rem, 3.5vw, 2.6rem);
+    border-top: 4px solid var(--surface-teal);
+    background: var(--surface-paper);
+    transition: background 0.2s ease;
+  }
+
+  .report-list a:hover,
+  .report-list a:focus-visible {
+    background: #eef2f1;
+  }
+
+  .report-label {
+    color: var(--surface-gold);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .report-list h3 {
+    max-width: 26ch;
+    margin-bottom: 0.9rem;
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+  }
+
+  .report-summary {
+    max-width: 76ch;
+    color: var(--surface-copy);
+  }
+
+  .report-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-bottom: 1.2rem;
+    color: var(--surface-muted);
+    font-size: 0.78rem;
+  }
+
+  .report-cta {
+    display: inline-flex;
+    align-items: center;
+    border-bottom: 1px solid currentColor;
+    color: var(--surface-teal-dark);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .scope-section {
+    background: var(--surface-navy);
+    color: var(--surface-paper);
+  }
+
+  .scope-grid,
+  .criteria-grid,
+  .cta-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 1fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: start;
+  }
+
+  .scope-grid h2,
+  .criteria-grid h2,
+  .cta-grid h2 {
+    font-size: clamp(1.9rem, 3.5vw, 3rem);
+  }
+
+  .scope-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .scope-list li {
+    display: grid;
+    grid-template-columns: 2.2rem minmax(0, 1fr);
+    gap: 0.9rem;
+    padding-block: 1.1rem;
+    border-top: 1px solid rgb(255 255 255 / 18%);
+  }
+
+  .scope-list span {
+    color: var(--surface-gold-light);
+    font-family: var(--surface-serif);
+  }
+
+  .scope-list strong {
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  .scope-list p {
+    margin: 0;
+    color: var(--surface-muted-on-dark);
+    font-size: 0.9rem;
+  }
+
+  .criteria-section {
+    background: var(--surface-white);
+  }
+
+  .criteria-grid > div p {
+    max-width: 60ch;
+    color: var(--surface-copy);
+  }
+
+  .criteria-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .criteria-list li {
+    padding-block: 0.95rem;
+    padding-left: 1.1rem;
+    border-top: 1px solid var(--surface-line);
+    border-left: 2px solid var(--surface-teal);
+    color: var(--surface-copy);
+  }
+
+  .cta-section {
+    background: var(--surface-navy);
+    color: var(--surface-paper);
+  }
+
+  .cta-grid {
+    align-items: center;
+  }
+
+  .cta-grid p:not(.eyebrow) {
+    max-width: 52ch;
+    color: var(--surface-muted-on-dark);
+  }
+
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .button {
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.78rem 1.2rem;
+    border: 1px solid var(--surface-gold-light);
+    font-size: 0.77rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .button-primary {
+    background: var(--surface-gold-light);
+    color: var(--surface-navy);
+  }
+
+  .button-outline-light {
+    border-color: rgb(255 255 255 / 45%);
+    color: var(--surface-paper);
+  }
+
+  @media (max-width: 800px) {
+    .hero-grid,
+    .scope-grid,
+    .criteria-grid,
+    .cta-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem 2.5rem;
+      padding: 1.25rem 0 0;
+      border-left: 0;
+      border-top: 1px solid rgb(217 182 101 / 60%);
+    }
+  }
+
+  @media (max-width: 520px) {
+    .button {
+      width: 100%;
+    }
+  }
+</style>
