@@ -40,7 +40,11 @@ const issueSchema = {
 
     <div class="surface-shell issue-hero-grid">
       <div class="issue-cover-wrap">
-        <IssueCover issue={founderIssue} eager />
+        <IssueCover
+          issue={founderIssue}
+          eager
+          sizes="(max-width: 820px) min(76vw, 330px), 460px"
+        />
       </div>
       <div class="issue-hero-copy">
         <p class="eyebrow gold">Edição Fundadora • Nº 0</p>

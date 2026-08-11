@@ -191,11 +191,18 @@ export interface MagazineIssue {
   subtitle: string;
   cover: {
     avif600: string;
-    avif1054: string;
+    avifLarge: string;
     webp600: string;
-    webp1054: string;
+    webpLarge: string;
     fallback: string;
     alt: string;
+    /**
+     * Largura real do arquivo grande. Alimenta o descritor do srcset, que
+     * antes era 1054w fixo no componente — a cada troca de capa a arte muda
+     * de tamanho, e um descritor mentiroso faz o navegador escolher errado.
+     */
+    largeWidth: number;
+    /** Dimensões intrínsecas, usadas para reservar espaço e evitar CLS. */
     width: number;
     height: number;
   };
@@ -222,13 +229,14 @@ export const founderIssue: MagazineIssue = {
     "Do sintoma ao fenótipo: diagnóstico multimodal e tratamento personalizado.",
   cover: {
     avif600: "/images/superficie/capa-edicao-00-600.avif",
-    avif1054: "/images/superficie/capa-edicao-00-1054.avif",
+    avifLarge: "/images/superficie/capa-edicao-00-1024.avif",
     webp600: "/images/superficie/capa-edicao-00-600.webp",
-    webp1054: "/images/superficie/capa-edicao-00-1054.webp",
+    webpLarge: "/images/superficie/capa-edicao-00-1024.webp",
     fallback: "/images/superficie/capa-edicao-00.png",
     alt: "Capa da Edição Fundadora nº 0 da revista SUPERFÍCIE, intitulada A nova era da superfície ocular",
-    width: 1054,
-    height: 1492,
+    largeWidth: 1024,
+    width: 1024,
+    height: 1536,
   },
   status: "in_production",
   plannedPublication: "novembro de 2026",

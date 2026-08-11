@@ -96,7 +96,11 @@ const newsletterEndpoint =
       </div>
 
       <div class="hero-cover">
-        <IssueCover issue={founderIssue} eager />
+        <IssueCover
+          issue={founderIssue}
+          eager
+          sizes="(max-width: 800px) 72vw, 320px"
+        />
         <p>Edição Fundadora • Nº 0</p>
       </div>
     </div>
@@ -616,9 +620,9 @@ const newsletterEndpoint =
     z-index: 1;
     display: grid;
     /* A capa é o item mais alto da linha (proporção 1054/1492), então é ela
-       que define a altura do hero. 390px de largura davam 552px de altura e
-       empurravam os CTAs para fora da dobra. */
-    grid-template-columns: 90px minmax(0, 1fr) minmax(220px, 320px);
+       que define a altura do hero. Com a capa 2:3 (1024x1536), cada pixel de
+       largura vira 1,5px de altura, então é aqui que se controla a dobra. */
+    grid-template-columns: 90px minmax(0, 1fr) minmax(200px, 296px);
     align-items: center;
     gap: clamp(2rem, 5vw, 6rem);
     padding-block: clamp(2rem, 3.4vw, 3.5rem);
