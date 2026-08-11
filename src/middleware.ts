@@ -21,8 +21,9 @@ const applySecurityHeaders = (response: Response) => {
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",
-    "upgrade-insecure-requests",
   ];
+
+  if (import.meta.env.PROD) cspDirectives.push("upgrade-insecure-requests");
 
   response.headers.set("Content-Security-Policy", cspDirectives.join("; "));
 
@@ -37,6 +38,13 @@ const applySecurityHeaders = (response: Response) => {
   return response;
 };
 
-export const onRequest = defineMiddleware(async (_context, next) => {
-  return applySecurityHeaders(await next());
+export const onRequest = defineMiddleware(async (context, next) => {
+  const response = applySecurityHeaders(await next());
+  if (
+    context.url.pathname.startsWith("/superficie/lab/") ||
+    context.url.pathname.startsWith("/superficie/issues/poc/")
+  ) {
+    response.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
+  }
+  return response;
 });

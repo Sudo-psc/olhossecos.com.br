@@ -41,6 +41,34 @@ const revisedOnAugust8 = new Set([
   "/privacidade",
 ]);
 
+const pocRobotsHeader = "noindex, nofollow, noarchive";
+
+const superficiePocHeaders = () => ({
+  name: "superficie-poc-headers",
+  configureServer(server) {
+    server.middlewares.use((request, response, next) => {
+      if (
+        request.url?.startsWith("/superficie/lab/") ||
+        request.url?.startsWith("/superficie/issues/poc/")
+      ) {
+        response.setHeader("X-Robots-Tag", pocRobotsHeader);
+      }
+      next();
+    });
+  },
+  configurePreviewServer(server) {
+    server.middlewares.use((request, response, next) => {
+      if (
+        request.url?.startsWith("/superficie/lab/") ||
+        request.url?.startsWith("/superficie/issues/poc/")
+      ) {
+        response.setHeader("X-Robots-Tag", pocRobotsHeader);
+      }
+      next();
+    });
+  },
+});
+
 export default defineConfig({
   site: "https://olhossecos.com.br",
   output: "static",
@@ -60,6 +88,7 @@ export default defineConfig({
           "/videos",
           "/exames",
           "/newsletter/descadastrar",
+          "/superficie/lab/flipbook",
         ]).has(path);
       },
       serialize(item) {
@@ -78,6 +107,7 @@ export default defineConfig({
     }),
   ],
   vite: {
+    plugins: [superficiePocHeaders()],
     define: {
       "process.env.NODE_ENV": JSON.stringify(
         process.env.NODE_ENV || "development",

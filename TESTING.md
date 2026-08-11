@@ -55,7 +55,32 @@ executa esse teste depois do build.
 
 ## QA visual e funcional
 
-O projeto ainda não possui Playwright ou regressão visual versionados. Antes de um release, a verificação manual ou automatizada controlada deve cobrir:
+O POC do SUPERFÍCIE Reader possui Playwright versionado. A suíte isolada usa
+IndexedDB por contexto, monitora erros de console/404 e pode ser executada com:
+
+```bash
+npm run test:reader
+npm run test:e2e:reader
+```
+
+`playwright.config.ts` cobre Chromium, Firefox, WebKit, iPhone 13 e Pixel 7.
+Chrome/Firefox/WebKit automatizados não substituem a homologação em Safari e
+Edge instalados em hardware real. Os screenshots versionados e relatórios
+Lighthouse do POC ficam em `docs/qa/superficie-poc/`.
+
+Na validação de 08/08/2026, a suíte do reader executou 115 casos: 107 passaram e
+8 repetições Chromium-específicas foram ignoradas nos demais perfis. Além do
+fluxo persistente de leitura, a cobertura inclui seleção real por arraste,
+page-turn por arraste, zoom, virtualização `currentPage ± 2`, sanitização do
+modo texto, degradação local de dados inválidos, analytics sem conteúdo privado,
+share sem parâmetros excedentes, foco dos painéis, headers anti-indexação e
+troca dinâmica de reduced-motion. Em Chromium, as larguras 320, 375, 390, 768,
+1024 e 1440 px são verificadas explicitamente. A suíte também cobre persistência
+do deep link sem virada, troca A→B e respostas fora de ordem no modo texto,
+resposta tardia de text layer sem repovoar DOM/cache, toolbar minimizada e
+fullscreen rejeitado.
+
+As demais rotas continuam exigindo verificação manual ou automatizada que cubra:
 
 - 320, 375, 390, 768, 1024, 1280 e 1440 px;
 - navegação por teclado e foco visível;
