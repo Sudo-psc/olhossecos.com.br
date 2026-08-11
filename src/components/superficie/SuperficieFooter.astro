@@ -50,6 +50,14 @@ const groups = [
       ))
     }
   </div>
+  <div class="surface-shell footer-imprint">
+    <p>
+      <span>Editor responsável</span>
+      <strong>Dr. Philipe Saraiva Cruz</strong>
+      <em>CRM-MG 69.870 · RQE 71.903</em>
+    </p>
+  </div>
+
   <div class="surface-shell footer-bottom">
     <p>© {year} SUPERFÍCIE Media.</p>
     <p>Feito com ❤️ pela equipe do Dr. Philipe Saraiva Cruz.</p>
@@ -111,6 +119,42 @@ const groups = [
   .surface-footer nav a:hover,
   .surface-footer nav a:focus-visible {
     color: var(--surface-paper);
+  }
+
+  /* Identificação do médico responsável (CFM): registro sempre visível. */
+  .footer-imprint {
+    padding-block: 1.15rem;
+    border-top: 1px solid rgb(255 255 255 / 14%);
+  }
+
+  .footer-imprint p {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.4rem 0.85rem;
+    margin: 0;
+  }
+
+  .footer-imprint span {
+    color: var(--surface-gold-light);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .footer-imprint strong {
+    font-family: var(--surface-serif);
+    font-size: 1.05rem;
+    font-weight: 400;
+  }
+
+  .footer-imprint em {
+    color: var(--surface-muted-on-dark);
+    font-size: 0.82rem;
+    font-style: normal;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
   }
 
   .footer-bottom {
