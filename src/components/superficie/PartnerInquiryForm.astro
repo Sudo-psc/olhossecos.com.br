@@ -202,6 +202,7 @@ const { endpoint = "/api/superficie-parceiros" } = Astro.props;
 <style>
   .partner-form {
     padding: clamp(1.5rem, 4vw, 3.5rem);
+    border-radius: var(--surface-radius-lg);
     background: var(--surface-white);
     color: var(--surface-ink);
     box-shadow: 0 24px 70px rgb(0 19 38 / 14%);
@@ -236,7 +237,7 @@ const { endpoint = "/api/superficie-parceiros" } = Astro.props;
   textarea {
     width: 100%;
     border: 1px solid var(--surface-line);
-    border-radius: 0;
+    border-radius: var(--surface-radius-sm);
     background: var(--surface-paper);
     color: var(--surface-ink);
     font: inherit;
@@ -309,6 +310,7 @@ const { endpoint = "/api/superficie-parceiros" } = Astro.props;
     min-height: 48px;
     padding-inline: 1.35rem;
     border: 1px solid var(--surface-teal);
+    border-radius: var(--surface-radius-sm);
     background: var(--surface-teal);
     color: white;
     cursor: pointer;

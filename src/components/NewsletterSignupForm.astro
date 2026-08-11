@@ -377,6 +377,7 @@ const audienceRoles = [
     --newsletter-serif: var(--surface-serif);
     --newsletter-sans: var(--surface-sans);
     padding: clamp(1.5rem, 4vw, 3rem);
+    border-radius: var(--surface-radius-lg, 16px);
     background: var(--newsletter-paper);
     color: var(--newsletter-navy);
   }
@@ -414,8 +415,26 @@ const audienceRoles = [
   .input-row button {
     min-height: 52px;
     border: 1px solid var(--newsletter-line);
-    border-radius: 0;
     font: inherit;
+  }
+
+  /* O campo e o botão formam um controle único: só as pontas externas
+     arredondam, para os dois continuarem lendo como uma peça só. */
+  input[type="email"] {
+    border-start-start-radius: var(--surface-radius-sm, 6px);
+    border-end-start-radius: var(--surface-radius-sm, 6px);
+  }
+
+  .input-row button {
+    border-start-end-radius: var(--surface-radius-sm, 6px);
+    border-end-end-radius: var(--surface-radius-sm, 6px);
+  }
+
+  @media (max-width: 560px) {
+    input[type="email"],
+    .input-row button {
+      border-radius: var(--surface-radius-sm, 6px);
+    }
   }
 
   input[type="email"] {
@@ -576,6 +595,7 @@ const audienceRoles = [
     align-items: center;
     padding: 0.65rem 0.8rem;
     border: 1px solid var(--newsletter-line);
+    border-radius: var(--surface-radius-sm, 6px);
     background: var(--newsletter-white);
     color: var(--newsletter-copy);
     font-size: 0.74rem;
@@ -618,6 +638,7 @@ const audienceRoles = [
   .profile-actions button {
     min-height: 44px;
     padding-inline: 1rem;
+    border-radius: var(--surface-radius-sm, 6px);
   }
 
   [data-profile-skip] {

@@ -264,6 +264,14 @@ const structuredData = {
        (fotos, seções sobrepostas). Sempre com fallback opaco via @supports. */
     --surface-glass-navy: rgb(0 22 43 / 78%);
     --surface-glass-border: rgb(255 255 255 / 16%);
+
+    /* Arredondamento suave. Escala contida: a identidade é de publicação
+       impressa, então o raio amacia a aresta sem virar linguagem de app.
+       sm = controles (botões, campos, selos), md = cards e painéis,
+       lg = superfícies grandes (formulários, grades de card). */
+    --surface-radius-sm: 6px;
+    --surface-radius-md: 10px;
+    --surface-radius-lg: 16px;
   }
 
   * {
@@ -306,11 +314,14 @@ const structuredData = {
      resolve os fundos claros (15.99:1 sobre o papel) e o externo dourado
      resolve os escuros (9.06:1 sobre o navy), então o indicador permanece
      visível em qualquer seção da revista. */
+  /* Sem border-radius aqui: outline e box-shadow já acompanham o raio
+     próprio do elemento focado. Fixar um valor nesta regra sobrescreveria
+     o raio real de botões e cards no exato momento do foco, fazendo o
+     canto "pular" ao navegar por teclado. */
   .superficie-document :focus-visible {
     outline: 3px solid var(--surface-gold-light);
     outline-offset: 3px;
     box-shadow: 0 0 0 3px var(--surface-navy);
-    border-radius: 2px;
   }
 
   .superficie-document ::selection {
@@ -374,6 +385,7 @@ const structuredData = {
     gap: 0.5rem;
     padding: 0.78rem 1.35rem;
     border: 1px solid var(--surface-gold-light);
+    border-radius: var(--surface-radius-sm);
     background: transparent;
     font-family: var(--surface-sans);
     font-size: 0.77rem;

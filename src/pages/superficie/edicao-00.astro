@@ -553,8 +553,10 @@ const issueSchema = {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1px;
-    background: var(--surface-line);
+    overflow: hidden;
     border: 1px solid var(--surface-line);
+    border-radius: var(--surface-radius-lg);
+    background: var(--surface-line);
   }
 
   .empty-number {
@@ -579,6 +581,7 @@ const issueSchema = {
   .quiet-card {
     padding: clamp(1.5rem, 4vw, 3.5rem);
     border-top: 4px solid var(--surface-teal);
+    border-radius: var(--surface-radius-md);
     background: var(--surface-paper);
   }
 
@@ -619,8 +622,9 @@ const issueSchema = {
     place-content: center;
     gap: 0.8rem;
     text-align: center;
-    background: var(--surface-paper);
     border: 1px solid var(--surface-line);
+    border-radius: var(--surface-radius-md);
+    background: var(--surface-paper);
   }
 
   .download-action button {

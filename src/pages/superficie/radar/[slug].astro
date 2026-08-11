@@ -19,7 +19,19 @@ interface Props {
 
 const { report } = Astro.props;
 const path = getRadarReportPath(report);
-const sections = groupFindingsBySection(report);
+
+const slugifySection = (value: string) =>
+  value
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/gu, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/gu, "-")
+    .replace(/(^-|-$)/gu, "");
+
+const sections = groupFindingsBySection(report).map((group) => ({
+  ...group,
+  id: `secao-${slugifySection(group.section)}`,
+}));
 
 const publishedLabel = new Date(
   `${report.publishedAt}T12:00:00Z`,
@@ -153,53 +165,78 @@ const reportSchema = {
           </p>
         </header>
 
-        {
-          sections.map(({ section, findings }) => (
-            <div class="finding-group">
-              <h3 class="group-title">{section}</h3>
-              {findings.map((finding) => (
-                <article class="finding">
-                  <p class="finding-level">{finding.evidenceLevel}</p>
-                  <h4>{finding.title}</h4>
-                  <p class="finding-source">
-                    {finding.source} · {finding.date}
-                  </p>
-                  <p>{finding.summary}</p>
-                  <p class="finding-why">
-                    <strong>Por que importa para a prática:</strong>{" "}
-                    {finding.whyItMatters}
-                  </p>
-                  <div class="finding-links">
-                    <a
-                      class="finding-link"
-                      href={finding.url}
-                      rel="noopener noreferrer nofollow"
-                      target="_blank"
-                      data-analytics-event="radar_source_click"
-                      data-analytics-label={finding.url}
-                    >
-                      Abrir a fonte original
-                      <span class="sr-only"> ({finding.title})</span>
-                    </a>
-                    {finding.doi && (
-                      <a
-                        class="finding-doi"
-                        href={`https://doi.org/${finding.doi}`}
-                        rel="noopener noreferrer nofollow"
-                        target="_blank"
-                        data-analytics-event="radar_doi_click"
-                        data-analytics-label={finding.doi}
-                      >
-                        DOI {finding.doi}
-                        <span class="sr-only"> ({finding.title})</span>
+        <div class="findings-layout">
+          <div class="findings-main">
+            {
+              sections.map(({ section, findings, id }) => (
+                <div class="finding-group" id={id}>
+                  <h3 class="group-title">{section}</h3>
+                  {findings.map((finding) => (
+                    <article class="finding">
+                      <p class="finding-level">{finding.evidenceLevel}</p>
+                      <h4>{finding.title}</h4>
+                      <p class="finding-source">
+                        {finding.source} · {finding.date}
+                      </p>
+                      <p>{finding.summary}</p>
+                      <p class="finding-why">
+                        <strong>Por que importa para a prática:</strong>{" "}
+                        {finding.whyItMatters}
+                      </p>
+                      <div class="finding-links">
+                        <a
+                          class="finding-link"
+                          href={finding.url}
+                          rel="noopener noreferrer nofollow"
+                          target="_blank"
+                          data-analytics-event="radar_source_click"
+                          data-analytics-label={finding.url}
+                        >
+                          Abrir a fonte original
+                          <span class="sr-only"> ({finding.title})</span>
+                        </a>
+                        {finding.doi && (
+                          <a
+                            class="finding-doi"
+                            href={`https://doi.org/${finding.doi}`}
+                            rel="noopener noreferrer nofollow"
+                            target="_blank"
+                            data-analytics-event="radar_doi_click"
+                            data-analytics-label={finding.doi}
+                          >
+                            DOI {finding.doi}
+                            <span class="sr-only"> ({finding.title})</span>
+                          </a>
+                        )}
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              ))
+            }
+          </div>
+
+          <aside class="findings-toc" aria-labelledby="toc-title">
+            <p class="toc-title" id="toc-title">Neste ciclo</p>
+            <nav aria-labelledby="toc-title">
+              <ol>
+                {
+                  sections.map(({ section, findings, id }) => (
+                    <li>
+                      <a href={`#${id}`} data-toc-link={id}>
+                        <span>{section}</span>
+                        <small>
+                          {findings.length}{" "}
+                          {findings.length === 1 ? "referência" : "referências"}
+                        </small>
                       </a>
-                    )}
-                  </div>
-                </article>
-              ))}
-            </div>
-          ))
-        }
+                    </li>
+                  ))
+                }
+              </ol>
+            </nav>
+          </aside>
+        </div>
       </div>
     </section>
 
@@ -261,6 +298,48 @@ const reportSchema = {
     </section>
   </article>
 </SuperficieLayout>
+
+<script>
+  // Marca no índice a seção em leitura. rootMargin recorta a viewport para
+  // uma faixa estreita perto do topo, então "atual" é a seção que o leitor
+  // está de fato encarando — e não qualquer uma que esteja visível.
+  const links = new Map<string, HTMLAnchorElement>();
+  for (const link of document.querySelectorAll<HTMLAnchorElement>(
+    "[data-toc-link]",
+  )) {
+    const id = link.dataset.tocLink;
+    if (id) links.set(id, link);
+  }
+
+  const groups = [...links.keys()]
+    .map((id) => document.getElementById(id))
+    .filter((node): node is HTMLElement => Boolean(node));
+
+  if (groups.length > 0) {
+    const visible = new Set<string>();
+
+    const paint = () => {
+      // Entre várias seções na faixa, vence a primeira na ordem do documento.
+      const current = groups.find((group) => visible.has(group.id))?.id;
+      for (const [id, link] of links) {
+        link.classList.toggle("is-current", id === current);
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) visible.add(entry.target.id);
+          else visible.delete(entry.target.id);
+        }
+        paint();
+      },
+      { rootMargin: "-20% 0px -70% 0px" },
+    );
+
+    for (const group of groups) observer.observe(group);
+  }
+</script>
 
 <style>
   .eyebrow {
@@ -461,6 +540,78 @@ const reportSchema = {
     color: var(--surface-copy);
   }
 
+  /* O relatório tem ~8 telas de altura e seis seções. Sem um índice, a única
+     forma de achar uma seção é rolar procurando. A coluna da direita já
+     estava vazia nesta faixa de largura. */
+  .findings-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(200px, 250px);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: start;
+  }
+
+  .findings-toc {
+    position: sticky;
+    top: 5.5rem;
+    padding: 1.4rem 1.5rem;
+    border: 1px solid var(--surface-line);
+    border-radius: var(--surface-radius-md);
+    background: var(--surface-white);
+  }
+
+  .toc-title {
+    margin-bottom: 1rem;
+    color: var(--surface-muted);
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .findings-toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .findings-toc a {
+    display: block;
+    padding: 0.6rem 0 0.6rem 0.85rem;
+    border-left: 2px solid var(--surface-line);
+    color: var(--surface-copy);
+    transition:
+      border-color 220ms ease,
+      color 220ms ease;
+  }
+
+  .findings-toc a:hover,
+  .findings-toc a:focus-visible {
+    border-left-color: var(--surface-teal);
+    color: var(--surface-teal-dark);
+  }
+
+  .findings-toc a.is-current {
+    border-left-color: var(--surface-gold);
+    color: var(--surface-navy);
+    font-weight: 700;
+  }
+
+  .findings-toc span {
+    display: block;
+    font-size: 0.82rem;
+    line-height: 1.3;
+  }
+
+  .findings-toc small {
+    color: var(--surface-muted);
+    font-size: 0.68rem;
+  }
+
+  /* Compensa a barra fixa de leitura ao pular por âncora. */
+  .finding-group {
+    scroll-margin-top: 5rem;
+  }
+
   .group-title {
     margin-bottom: 1.2rem;
     color: var(--surface-teal-dark);
@@ -478,6 +629,7 @@ const reportSchema = {
   .finding {
     padding: clamp(1.4rem, 3vw, 2.2rem);
     border-top: 4px solid var(--surface-teal);
+    border-radius: var(--surface-radius-md);
     background: var(--surface-white);
   }
 
@@ -490,6 +642,7 @@ const reportSchema = {
     margin-bottom: 0.9rem;
     padding: 0.35rem 0.6rem;
     border: 1px solid var(--surface-line);
+    border-radius: 999px;
     color: var(--surface-muted);
     font-size: 0.62rem;
     font-weight: 800;
@@ -517,6 +670,8 @@ const reportSchema = {
   .finding-why {
     padding-left: 1rem;
     border-left: 2px solid var(--surface-gold);
+    border-start-start-radius: var(--surface-radius-sm);
+    border-end-start-radius: var(--surface-radius-sm);
   }
 
   .finding-links {
@@ -635,6 +790,18 @@ const reportSchema = {
     font-weight: 800;
     letter-spacing: 0.07em;
     text-transform: uppercase;
+  }
+
+  @media (max-width: 1000px) {
+    /* Abaixo desta largura não sobra coluna para o índice sem espremer o
+       texto; o documento volta a ser uma coluna só. */
+    .findings-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .findings-toc {
+      display: none;
+    }
   }
 
   @media (max-width: 800px) {

@@ -62,8 +62,10 @@ const readingTime = calculateArticleReadingTime(article);
   .article-card {
     display: grid;
     grid-template-rows: auto 1fr;
-    background: var(--surface-white);
+    overflow: hidden;
     border-top: 4px solid var(--surface-teal);
+    border-radius: var(--surface-radius-md);
+    background: var(--surface-white);
     box-shadow: 0 1px 2px rgb(4 12 22 / 8%);
     transition:
       box-shadow 420ms var(--surface-ease),
