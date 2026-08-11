@@ -827,12 +827,21 @@ const newsletterEndpoint =
     border-left: 6px solid var(--surface-teal);
   }
 
+  /* publishedArticles cresce de um em um, então a grade precisa aguentar
+     qualquer quantidade. Duas mudanças: auto-fit no lugar de repeat(3, 1fr),
+     e os fios de 1px saem do fundo do container para as bordas dos cards —
+     antes, qualquer célula vazia da última fila virava um bloco de
+     --surface-line à vista. */
   .featured-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--surface-line);
+    grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+    background: var(--surface-white);
     border: 1px solid var(--surface-line);
+  }
+
+  .featured-grid :global(.article-card) {
+    border-right: 1px solid var(--surface-line);
+    border-bottom: 1px solid var(--surface-line);
   }
 
   .empty-index {
@@ -1264,8 +1273,7 @@ const newsletterEndpoint =
     }
 
     .practice-grid,
-    .future-grid,
-    .featured-grid {
+    .future-grid {
       grid-template-columns: 1fr;
     }
 

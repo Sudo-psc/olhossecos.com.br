@@ -231,9 +231,15 @@ const structuredData = {
     font: inherit;
   }
 
+  /* Anel de foco de dois tons. O ouro sozinho ficava em 1.77:1 sobre o papel,
+     abaixo dos 3:1 exigidos pela WCAG 2.2 SC 1.4.11. O anel interno navy
+     resolve os fundos claros (15.99:1 sobre o papel) e o externo dourado
+     resolve os escuros (9.06:1 sobre o navy), então o indicador permanece
+     visível em qualquer seção da revista. */
   .superficie-document :focus-visible {
     outline: 3px solid var(--surface-gold-light);
-    outline-offset: 4px;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 3px var(--surface-navy);
     border-radius: 2px;
   }
 
