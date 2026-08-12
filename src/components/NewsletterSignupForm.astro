@@ -503,6 +503,7 @@ const audienceRoles = [
   .consent input {
     width: 1.1rem;
     height: 1.1rem;
+    flex: none;
     margin-top: 0.15rem;
     accent-color: var(--newsletter-teal-dark);
   }
@@ -650,6 +651,15 @@ const audienceRoles = [
   [data-profile-skip]:hover {
     border-color: var(--newsletter-teal-dark);
     color: var(--newsletter-teal-dark);
+  }
+
+  /* WCAG 2.5.8 pede 24px de lado em alvo de toque; 1.1rem dá 17.6px.
+     Só amplia em ponteiro grosso — no desktop o controle continua discreto. */
+  @media (pointer: coarse) {
+    .consent input {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
   }
 
   @media (max-width: 560px) {

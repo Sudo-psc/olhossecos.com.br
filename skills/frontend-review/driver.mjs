@@ -254,9 +254,15 @@ const browser = await chromium.launch();
 const porRota = [];
 
 for (const viewport of VIEWPORTS) {
+  // Viewport estreito também emula toque: sem hasTouch o `pointer: coarse`
+  // não casa e regras feitas para celular — como ampliar alvo de toque —
+  // ficam inertes, produzindo achado que não existe no aparelho real.
+  const touch = viewport.width < 500;
   const ctx = await browser.newContext({
     viewport: { width: viewport.width, height: viewport.height },
-    deviceScaleFactor: viewport.width < 500 ? 3 : 2,
+    deviceScaleFactor: touch ? 3 : 2,
+    hasTouch: touch,
+    isMobile: touch,
   });
 
   for (const rota of ROUTES) {
@@ -330,12 +336,29 @@ for (const viewport of VIEWPORTS) {
       const info = await page.evaluate(() => {
         const el = document.activeElement;
         if (!el || el === document.body) return null;
-        const cs = getComputedStyle(el);
-        const largura = parseFloat(cs.outlineWidth) || 0;
-        const temOutline = largura > 0 && cs.outlineStyle !== "none";
-        const temSombra = cs.boxShadow && cs.boxShadow !== "none";
+        // O indicador pode estar num ancestral, via :focus-within — padrão
+        // comum em campo de busca com ícone, onde o input zera o próprio
+        // outline e quem desenha o anel é o contêiner. Olhar apenas o
+        // elemento focado gera falso positivo.
+        const indicador = (node) => {
+          const cs = getComputedStyle(node);
+          const largura = parseFloat(cs.outlineWidth) || 0;
+          return (
+            (largura > 0 && cs.outlineStyle !== "none") ||
+            (cs.boxShadow && cs.boxShadow !== "none")
+          );
+        };
+        let node = el;
+        let tem = false;
+        for (let salto = 0; node && salto < 4; salto += 1) {
+          if (indicador(node)) {
+            tem = true;
+            break;
+          }
+          node = node.parentElement;
+        }
         return {
-          tem: temOutline || temSombra,
+          tem,
           seletor:
             el.tagName.toLowerCase() +
             (el.className ? "." + String(el.className).split(" ")[0] : ""),

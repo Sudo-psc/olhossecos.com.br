@@ -49,20 +49,20 @@ node skills/frontend-review/driver.mjs \
 Saída real desta execução:
 
 ```
-    contraste         5  █████░░░░░
+    contraste        10  ██████████
     foco             10  ██████████
     layout           10  ██████████
     estabilidade     10  ██████████
     semantica        10  ██████████
-    imagens         9.7  ██████████
+    imagens         9.4  █████████░
     metadados        10  ██████████
 
-    GERAL           9.2  █████████░
-
-   1. [ALTA ] contraste — Contraste 4.42:1 abaixo do mínimo 4.5:1
-      /sintomas @ 1440x900
-      small — "Links verificados em 26 de julho de 2026."
+    GERAL           9.9  ██████████
 ```
+
+A primeira execução desta skill deu 8,5 e apontou dois achados ALTA reais: um
+texto a 4,42:1 contra os 4,5:1 exigidos e um checkbox de consentimento com
+17,6px de lado no celular. Ambos foram corrigidos — daí o 9,9.
 
 ### 3. Apresente as sugestões e espere aprovação
 
@@ -125,7 +125,9 @@ separa: altura abaixo de 20px vira achado de peso, entre 20 e 24px sai como
 informativo para julgamento humano.
 
 **O anel de foco é verificado por presença, não por contraste.** Ele confirma que
-existe `outline` ou `box-shadow`, não que o indicador tem 3:1 contra o fundo.
+existe `outline` ou `box-shadow` no elemento focado **ou em até quatro
+ancestrais** — o padrão `:focus-within`, comum em campo de busca com ícone —,
+não que o indicador tem 3:1 contra o fundo.
 
 **Doze elementos por rota no teste de foco.** Componentes fundo de página podem
 não ser alcançados.
@@ -144,6 +146,11 @@ pipeline e o CSS não está minificado — a auditoria mede outra coisa.
 **Links inline em texto corrido são ignorados no teste de toque.** Sem essa
 exceção, cada link dentro de parágrafo vira achado e o problema real afoga no
 ruído.
+
+**Viewport estreito emula toque.** Abaixo de 500px o contexto sobe com
+`hasTouch`, senão `@media (pointer: coarse)` não casa e toda regra feita para
+celular fica inerte — a auditoria acusava alvo de toque pequeno que no aparelho
+real já estava correto.
 
 **O servidor precisa estar de pé antes.** O driver não sobe nada; rota que não
 carrega vira achado ALTA de disponibilidade, o que mascara o resto.

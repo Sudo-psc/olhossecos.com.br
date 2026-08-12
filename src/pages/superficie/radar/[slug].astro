@@ -409,6 +409,16 @@ const reportSchema = {
     text-transform: uppercase;
   }
 
+  /* Sem padding próprio o link fica com 19px de altura, abaixo dos 24px que
+     a WCAG 2.5.8 pede para alvo de toque. O inline-flex mantém a linha do
+     breadcrumb intacta. */
+  .breadcrumb a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding-block: 0.15rem;
+  }
+
   .breadcrumb a:hover,
   .breadcrumb a:focus-visible {
     color: var(--surface-gold-light);
