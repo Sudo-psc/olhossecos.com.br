@@ -1,9 +1,12 @@
 ---
 import ContentPage from "@/components/ContentPage.astro";
 import { sourceLink, sources } from "@/lib/sources";
+import EducationalFigure from "@/components/EducationalFigure.astro";
+import { figures } from "@/lib/figures";
 ---
 
 <ContentPage
+  image="/images/og/og-causas.png"
   title="Causas e fatores associados"
   description="Entenda por que o olho seco costuma ter mais de uma causa e quais fatores ambientais, oculares e sistêmicos podem participar."
   intro="Olho seco raramente depende de um único fator. Ambiente, hábitos, pálpebras, produção de lágrimas, medicamentos e condições do organismo podem se somar."
@@ -36,6 +39,8 @@ import { sourceLink, sources } from "@/lib/sources";
     significa procurar um único “culpado”: várias peças podem interagir, e o
     peso de cada uma muda ao longo do tempo.
   </p>
+
+  <EducationalFigure figure={figures.dryEyeFactors} />
 
   <h2 id="evaporacao">Quando as lágrimas evaporam rápido</h2>
   <p>

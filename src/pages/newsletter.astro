@@ -2,6 +2,8 @@
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import NewsletterSignupForm from "@/components/NewsletterSignupForm.astro";
 import Layout from "@/layouts/Layout.astro";
+import EducationalFigure from "@/components/EducationalFigure.astro";
+import { figures } from "@/lib/figures";
 
 const breadcrumbs = [
   { name: "Início", url: "/" },
@@ -12,6 +14,7 @@ const endpoint =
 ---
 
 <Layout
+  image="/images/og/og-newsletter.png"
   title="Newsletter sobre Olho Seco e Superfície Ocular | Olhos Secos"
   description="Receba conteúdos selecionados sobre olho seco, saúde ocular, novas publicações, livros e atualizações da revista SUPERFÍCIE."
   schemaType="WebPage"
@@ -43,6 +46,8 @@ const endpoint =
   </header>
 
   <section class="audiences page-shell" aria-labelledby="audiences-title">
+    <EducationalFigure figure={figures.curatedReading} />
+
     <h2 id="audiences-title">Conteúdo para diferentes jornadas.</h2>
     <div class="audience-grid">
       <article>

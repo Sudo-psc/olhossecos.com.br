@@ -1,9 +1,12 @@
 ---
 import ContentPage from "@/components/ContentPage.astro";
 import { sourceLink, sources } from "@/lib/sources";
+import EducationalFigure from "@/components/EducationalFigure.astro";
+import { figures } from "@/lib/figures";
 ---
 
 <ContentPage
+  image="/images/og/og-sintomas.png"
   title="Sintomas de olho seco"
   description="Conheça os sintomas do olho seco e entenda quando lacrimejamento ou épifora podem estar ligados à superfície ocular ou às vias lacrimais."
   intro="Olho seco pode aparecer como ardor, areia nos olhos, visão oscilante ou até lacrimejamento. Os sintomas variam ao longo do dia e podem piorar em ambientes ou atividades específicas."
@@ -30,6 +33,8 @@ import { sourceLink, sources } from "@/lib/sources";
     sourceLink(sources.epiphoraEtiology),
   ]}
 >
+  <EducationalFigure figure={figures.symptomsDailyLife} />
+
   <h2 id="comuns">O que as pessoas costumam sentir</h2>
   <ul>
     <li>ardor, queimação ou pinicação;</li>

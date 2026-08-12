@@ -1,9 +1,12 @@
 ---
 import ContentPage from "@/components/ContentPage.astro";
 import { sourceLink, sources } from "@/lib/sources";
+import EducationalFigure from "@/components/EducationalFigure.astro";
+import { figures } from "@/lib/figures";
 ---
 
 <ContentPage
+  image="/images/og/og-autocuidado.png"
   title="Autocuidado no dia a dia"
   description="Práticas de baixo risco para reduzir gatilhos de olho seco e observar sua rotina com segurança, sem promessas ou receitas universais."
   intro="Autocuidado não substitui a investigação da causa, mas pode reduzir gatilhos e tornar o dia mais confortável. Comece com mudanças simples, uma por vez."
@@ -28,6 +31,8 @@ import { sourceLink, sources } from "@/lib/sources";
     sourceLink(sources.dryEyeAssociation),
   ]}
 >
+  <EducationalFigure figure={figures.selfCareEnvironment} />
+
   <h2 id="ambiente">Proteja-se do fluxo de ar</h2>
   <p>
     Evite ventilador, aquecedor ou ar-condicionado diretamente no rosto. Em

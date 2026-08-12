@@ -200,6 +200,108 @@ export const figures = {
     disclosure:
       "Imagem gerada com IA para fins educativos; representação esquemática, sem escala anatômica e não é uma fotografia clínica.",
   },
+  symptomsDailyLife: {
+    src: "/images/educacao/sintomas-dia-a-dia.jpg",
+    avifSrcSet:
+      "/images/educacao/sintomas-dia-a-dia-760.avif 760w, /images/educacao/sintomas-dia-a-dia-1200.avif 1200w",
+    webpSrcSet:
+      "/images/educacao/sintomas-dia-a-dia-760.webp 760w, /images/educacao/sintomas-dia-a-dia-1200.webp 1200w",
+    width: 1200,
+    height: 805,
+    alt: "Pessoa adulta sentada diante de um notebook em luz natural, com os olhos fechados e a mão apoiada junto a um deles, em expressão de cansaço.",
+    caption:
+      "Os sintomas costumam aparecer em tarefas de atenção prolongada e melhorar com pausas — um padrão que vale observar e relatar.",
+    credit: {
+      label: "Ilustração original do portal",
+    },
+    disclosure:
+      "Imagem gerada com IA para fins educativos; cena ilustrativa com pessoas fictícias, não é fotografia de paciente real nem registro clínico.",
+  },
+  dryEyeFactors: {
+    src: "/images/educacao/fatores-filme-lacrimal.jpg",
+    avifSrcSet:
+      "/images/educacao/fatores-filme-lacrimal-760.avif 760w, /images/educacao/fatores-filme-lacrimal-1200.avif 1200w",
+    webpSrcSet:
+      "/images/educacao/fatores-filme-lacrimal-760.webp 760w, /images/educacao/fatores-filme-lacrimal-1200.webp 1200w",
+    width: 1200,
+    height: 805,
+    alt: "Composição sobre superfície clara com um ventilador de mesa, óculos, um estojo de lentes de contato e um organizador de comprimidos.",
+    caption:
+      "Ambiente, medicamentos, lentes de contato e características individuais podem participar em proporções diferentes no mesmo quadro.",
+    credit: {
+      label: "Ilustração original do portal",
+    },
+    disclosure:
+      "Imagem gerada com IA para fins educativos; cena ilustrativa com pessoas fictícias, não é fotografia de paciente real nem registro clínico.",
+  },
+  selfCareEnvironment: {
+    src: "/images/educacao/autocuidado-ambiente.jpg",
+    avifSrcSet:
+      "/images/educacao/autocuidado-ambiente-760.avif 760w, /images/educacao/autocuidado-ambiente-1200.avif 1200w",
+    webpSrcSet:
+      "/images/educacao/autocuidado-ambiente-760.webp 760w, /images/educacao/autocuidado-ambiente-1200.webp 1200w",
+    width: 1200,
+    height: 805,
+    alt: "Canto de sala em luz natural, com umidificador liberando vapor suave, um copo de água, uma planta e uma poltrona afastada da saída de ar.",
+    caption:
+      "Ajustar umidade, evitar ar direto no rosto e fazer pausas são medidas de baixo risco que atuam sobre gatilhos, não sobre a causa.",
+    credit: {
+      label: "Ilustração original do portal",
+    },
+    disclosure:
+      "Imagem gerada com IA para fins educativos; cena ilustrativa com pessoas fictícias, não é fotografia de paciente real nem registro clínico.",
+  },
+  ocularWarningSign: {
+    src: "/images/educacao/sinais-de-alerta-ocular.jpg",
+    avifSrcSet:
+      "/images/educacao/sinais-de-alerta-ocular-760.avif 760w, /images/educacao/sinais-de-alerta-ocular-1200.avif 1200w",
+    webpSrcSet:
+      "/images/educacao/sinais-de-alerta-ocular-760.webp 760w, /images/educacao/sinais-de-alerta-ocular-1200.webp 1200w",
+    width: 1200,
+    height: 805,
+    alt: "Pessoa adulta em close, com um dos olhos visivelmente avermelhado e irritado, levando a mão até perto dele, com expressão preocupada.",
+    caption:
+      "Vermelhidão intensa acompanhada de dor, queda da visão ou sensibilidade importante à luz não deve ser tratada como simples olho seco.",
+    credit: {
+      label: "Ilustração original do portal",
+    },
+    disclosure:
+      "Imagem gerada com IA para fins educativos; cena ilustrativa com pessoas fictícias, não é fotografia de paciente real nem registro clínico.",
+  },
+  slitLampAssessment: {
+    src: "/images/educacao/avaliacao-lampada-de-fenda.jpg",
+    avifSrcSet:
+      "/images/educacao/avaliacao-lampada-de-fenda-760.avif 760w, /images/educacao/avaliacao-lampada-de-fenda-1200.avif 1200w",
+    webpSrcSet:
+      "/images/educacao/avaliacao-lampada-de-fenda-760.webp 760w, /images/educacao/avaliacao-lampada-de-fenda-1200.webp 1200w",
+    width: 1200,
+    height: 805,
+    alt: "Profissional de jaleco branco sentado a uma lâmpada de fenda em sala escurecida, ajustando o equipamento sob a luz azul-esverdeada do feixe.",
+    caption:
+      "A avaliação na lâmpada de fenda permite examinar pálpebras, filme lacrimal e superfície ocular com ampliação e iluminação controladas.",
+    credit: {
+      label: "Ilustração original do portal",
+    },
+    disclosure:
+      "Imagem gerada com IA para fins educativos; cena ilustrativa com pessoas fictícias, não é fotografia de paciente real nem registro clínico.",
+  },
+  curatedReading: {
+    src: "/images/educacao/leitura-conteudo-curado.jpg",
+    avifSrcSet:
+      "/images/educacao/leitura-conteudo-curado-760.avif 760w, /images/educacao/leitura-conteudo-curado-1200.avif 1200w",
+    webpSrcSet:
+      "/images/educacao/leitura-conteudo-curado-760.webp 760w, /images/educacao/leitura-conteudo-curado-1200.webp 1200w",
+    width: 1200,
+    height: 805,
+    alt: "Vista superior de um tablet apoiado em uma mesa clara ao lado de uma xícara de café, um par de óculos e uma pilha de papéis.",
+    caption:
+      "Conteúdo selecionado e enviado com regularidade ajuda a acompanhar o tema sem depender de busca avulsa na internet.",
+    credit: {
+      label: "Ilustração original do portal",
+    },
+    disclosure:
+      "Imagem gerada com IA para fins educativos; cena ilustrativa com pessoas fictícias, não é fotografia de paciente real nem registro clínico.",
+  },
 } satisfies Record<string, FigureAsset>;
 
 export const openImageCredits = [

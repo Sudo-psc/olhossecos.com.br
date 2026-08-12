@@ -1,5 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import EducationalFigure from "@/components/EducationalFigure.astro";
+import { figures } from "@/lib/figures";
 
 const topics = [
   {
@@ -36,6 +38,7 @@ const topics = [
 ---
 
 <Layout
+  image="/images/og/og-profissionais.png"
   title="Profissionais | Superfície ocular em profundidade"
   description="Conteúdo técnico para profissionais sobre diagnóstico multimodal, imagem, fenotipagem, tecnologias, terapias e evidências em superfície ocular."
   schemaType="CollectionPage"
@@ -58,6 +61,8 @@ const topics = [
     class="page-shell professional-topics"
     aria-labelledby="topics-title"
   >
+    <EducationalFigure figure={figures.slitLampAssessment} />
+
     <h2 id="topics-title">Eixos editoriais</h2>
     <div class="topic-list">
       {

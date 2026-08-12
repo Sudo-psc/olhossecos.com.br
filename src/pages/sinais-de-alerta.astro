@@ -1,9 +1,12 @@
 ---
 import ContentPage from "@/components/ContentPage.astro";
 import { sourceLink, sources } from "@/lib/sources";
+import EducationalFigure from "@/components/EducationalFigure.astro";
+import { figures } from "@/lib/figures";
 ---
 
 <ContentPage
+  image="/images/og/og-sinais-de-alerta.png"
   title="Sinais de alerta"
   description="Saiba quais sintomas oculares pedem orientação rápida e o que fazer em casos de trauma ou contato químico."
   intro="Nem todo desconforto ocular é olho seco. Alguns sinais pedem orientação rápida para proteger a visão e tratar causas que não devem esperar."
@@ -27,6 +30,8 @@ import { sourceLink, sources } from "@/lib/sources";
   updated="26 de julho de 2026"
   dateModified="2026-07-26"
 >
+  <EducationalFigure figure={figures.ocularWarningSign} />
+
   <h2 id="rapidamente">Procure ajuda rapidamente se houver</h2>
   <ul>
     <li>perda, redução ou mudança súbita da visão;</li>
