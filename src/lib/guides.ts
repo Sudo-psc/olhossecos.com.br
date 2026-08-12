@@ -37,6 +37,7 @@ export const guides: Guide[] = [
     sections: [
       {
         heading: "Comece pela ideia central",
+        figure: figures.tearFilmEducation,
         paragraphs: [
           "A superfície do olho depende de uma película de lágrimas estável. O TFOS DEWS III define olho seco como uma doença multifatorial e sintomática, marcada pela perda de equilíbrio do filme lacrimal e/ou da superfície ocular.",
           "A condição é multifatorial: evaporação, baixa produção de lágrimas, inflamação, pálpebras, ambiente e percepção nervosa podem participar em proporções diferentes.",
@@ -166,6 +167,7 @@ export const guides: Guide[] = [
       },
       {
         heading: "Exercícios de piscada: o que já foi testado",
+        figure: figures.blinkCompletenessEducation,
         paragraphs: [
           "Piscar de forma incompleta é comum diante de telas, e alguns estudos testaram exercícios simples para corrigir esse padrão. Um ensaio de 2025 comparou rotinas diferentes e encontrou como mais eficaz o ciclo fechar, apertar suavemente e abrir, repetido 15 vezes, três vezes ao dia.",
           "Em um estudo anterior, quatro semanas de exercícios reduziram a proporção de piscadas incompletas de 54% para 34%, com melhora nos questionários de sintomas.",
@@ -267,6 +269,7 @@ export const guides: Guide[] = [
       },
       {
         heading: "Leve números, não só adjetivos",
+        figure: figures.symptomDiaryEducation,
         paragraphs: [
           '"Melhorou um pouco" é difícil de interpretar meses depois. Um registro simples resolve boa parte disso e não exige aplicativo nenhum.',
         ],
@@ -318,6 +321,7 @@ export const guides: Guide[] = [
     sections: [
       {
         heading: "O que muda entre as formulações",
+        figure: figures.tearSubstituteViscosityEducation,
         paragraphs: [
           "Lubrificantes podem variar em viscosidade, tempo de permanência, componentes lipídicos, osmolaridade e sistema de conservação. Um produto mais espesso pode durar mais, mas também embaçar temporariamente a visão.",
           "Géis e pomadas costumam permanecer por mais tempo e, por isso, podem ser usados em contextos diferentes das gotas mais fluidas.",
@@ -901,6 +905,7 @@ export const guides: Guide[] = [
       },
       {
         heading: "O que a evidência mostra sobre compressa e limpeza",
+        figure: figures.lidHygieneEducation,
         paragraphs: [
           "A combinação de calor local e limpeza das bordas continua sendo a base do cuidado na disfunção das glândulas de Meibomius. Um ensaio comparou lenços palpebrais sem detergente com a rotina convencional de compressa morna e higiene: os dois grupos melhoraram em sintomas e sinais ao longo de 90 dias.",
           "Uma revisão Cochrane de 13 ensaios com 1.155 participantes avaliou um dispositivo de pulsação térmica usado em consultório e não encontrou vantagem consistente sobre a compressa morna feita em casa. A certeza da evidência foi classificada como baixa a muito baixa.",
@@ -1043,6 +1048,7 @@ export const guides: Guide[] = [
       },
       {
         heading: "Drenagem lenta explica a combinação estranha",
+        figure: figures.conjunctivochalasisEducation,
         paragraphs: [
           "Uma revisão sistemática sobre conjuntivocálase descreve dois efeitos que costumam andar juntos: instabilidade do filme lacrimal e atraso na eliminação das lágrimas. É essa segunda parte que torna possível arder e lacrimejar ao mesmo tempo, algo que muitos pacientes acham contraditório.",
           "Quando a lágrima demora mais para ser drenada, ela também permanece mais tempo em contato com a superfície, acumulando mediadores inflamatórios. O olho pode estar molhado e irritado simultaneamente.",

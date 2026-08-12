@@ -115,6 +115,91 @@ export const figures = {
       "Conversão do SVG para formatos raster, fundo branco e redimensionamento.",
     presentation: "compact",
   },
+  blinkCompletenessEducation: {
+    src: "/images/educacao/piscada-completa-incompleta.jpg",
+    avifSrcSet:
+      "/images/educacao/piscada-completa-incompleta-760.avif 760w, /images/educacao/piscada-completa-incompleta-1200.avif 1200w",
+    webpSrcSet:
+      "/images/educacao/piscada-completa-incompleta-760.webp 760w, /images/educacao/piscada-completa-incompleta-1200.webp 1200w",
+    width: 1200,
+    height: 800,
+    alt: "Comparação lado a lado de um olho humano: à esquerda a pálpebra superior encosta na inferior, fechando por completo; à direita resta uma faixa exposta da superfície ocular.",
+    caption:
+      "Na piscada completa a pálpebra superior alcança a inferior e o filme lacrimal é redistribuído por toda a superfície. Na incompleta, uma faixa inferior fica sem essa renovação.",
+    credit: {
+      label: "Ilustração original do portal",
+    },
+    disclosure:
+      "Imagem gerada com IA para fins educativos; representação esquemática, sem escala anatômica e não é uma fotografia clínica.",
+  },
+  symptomDiaryEducation: {
+    src: "/images/educacao/registro-de-sintomas.jpg",
+    avifSrcSet:
+      "/images/educacao/registro-de-sintomas-760.avif 760w, /images/educacao/registro-de-sintomas-1200.avif 1200w",
+    webpSrcSet:
+      "/images/educacao/registro-de-sintomas-760.webp 760w, /images/educacao/registro-de-sintomas-1200.webp 1200w",
+    width: 1200,
+    height: 800,
+    alt: "Caderno de papel aberto sobre uma mesa clara, com um gráfico de linha simples desenhado à mão acompanhando um valor ao longo de vários dias, e uma caneta ao lado.",
+    caption:
+      "Um registro simples e constante costuma dizer mais em consulta do que a tentativa de lembrar meses de sintomas de memória.",
+    credit: {
+      label: "Ilustração original do portal",
+    },
+    disclosure:
+      "Imagem gerada com IA para fins educativos; representação esquemática, sem escala anatômica e não é uma fotografia clínica.",
+  },
+  tearSubstituteViscosityEducation: {
+    src: "/images/educacao/viscosidade-lubrificantes.jpg",
+    avifSrcSet:
+      "/images/educacao/viscosidade-lubrificantes-760.avif 760w, /images/educacao/viscosidade-lubrificantes-1200.avif 1200w",
+    webpSrcSet:
+      "/images/educacao/viscosidade-lubrificantes-760.webp 760w, /images/educacao/viscosidade-lubrificantes-1200.webp 1200w",
+    width: 1200,
+    height: 800,
+    alt: "Três conta-gotas de vidro transparentes lado a lado liberando gotas de espessuras diferentes: uma fluida, uma intermediária e uma espessa que se alonga em um filete.",
+    caption:
+      "Lubrificantes variam em viscosidade. O mais espesso tende a permanecer mais tempo na superfície, mas também pode embaçar a visão temporariamente.",
+    credit: {
+      label: "Ilustração original do portal",
+    },
+    disclosure:
+      "Imagem gerada com IA para fins educativos; representação esquemática, sem escala anatômica e não é uma fotografia clínica.",
+  },
+  lidHygieneEducation: {
+    src: "/images/educacao/compressa-morna-higiene-palpebral.jpg",
+    avifSrcSet:
+      "/images/educacao/compressa-morna-higiene-palpebral-760.avif 760w, /images/educacao/compressa-morna-higiene-palpebral-1200.avif 1200w",
+    webpSrcSet:
+      "/images/educacao/compressa-morna-higiene-palpebral-760.webp 760w, /images/educacao/compressa-morna-higiene-palpebral-1200.webp 1200w",
+    width: 1200,
+    height: 800,
+    alt: "Pessoa adulta de olhos fechados com um pano limpo dobrado apoiado sobre as pálpebras, mãos segurando o pano com delicadeza, e um algodão limpo sobre a superfície ao lado.",
+    caption:
+      "Calor local confortável e limpeza suave das bordas palpebrais formam a base da rotina. Intensidade não é sinônimo de eficácia.",
+    credit: {
+      label: "Ilustração original do portal",
+    },
+    disclosure:
+      "Imagem gerada com IA para fins educativos; representação esquemática, sem escala anatômica e não é uma fotografia clínica.",
+  },
+  conjunctivochalasisEducation: {
+    src: "/images/educacao/pregas-conjuntivais.jpg",
+    avifSrcSet:
+      "/images/educacao/pregas-conjuntivais-760.avif 760w, /images/educacao/pregas-conjuntivais-1200.avif 1200w",
+    webpSrcSet:
+      "/images/educacao/pregas-conjuntivais-760.webp 760w, /images/educacao/pregas-conjuntivais-1200.webp 1200w",
+    width: 1200,
+    height: 800,
+    alt: "Aproximação da parte inferior de um olho humano mostrando dobras frouxas e translúcidas da conjuntiva reunidas no espaço entre o globo ocular e a margem da pálpebra inferior.",
+    caption:
+      "Pregas frouxas da conjuntiva podem ocupar o espaço por onde a lágrima é recolhida junto à pálpebra inferior, atrasando sua eliminação.",
+    credit: {
+      label: "Ilustração original do portal",
+    },
+    disclosure:
+      "Imagem gerada com IA para fins educativos; representação esquemática, sem escala anatômica e não é uma fotografia clínica.",
+  },
 } satisfies Record<string, FigureAsset>;
 
 export const openImageCredits = [
