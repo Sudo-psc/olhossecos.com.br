@@ -46,10 +46,18 @@ const marca = readFileSync("public/favicon.svg", "utf8")
 const cards = [
   ["home", "Olho Seco", "Portal do paciente"],
   ["sintomas", "Sintomas de olho seco", "O que você pode sentir e por quê"],
-  ["causas", "Causas e fatores associados", "Por que quase nunca há uma causa só"],
+  [
+    "causas",
+    "Causas e fatores associados",
+    "Por que quase nunca há uma causa só",
+  ],
   ["diagnostico", "Diagnóstico", "Como a avaliação é construída"],
   ["tratamentos", "Tratamentos", "O que existe e o que cada opção pretende"],
-  ["autocuidado", "Autocuidado no dia a dia", "Práticas de baixo risco, sem promessas"],
+  [
+    "autocuidado",
+    "Autocuidado no dia a dia",
+    "Práticas de baixo risco, sem promessas",
+  ],
   ["sinais-de-alerta", "Sinais de alerta", "Quando procurar avaliação rápida"],
   ["guias", "Guias", "Leituras curtas para decidir com mais clareza"],
   ["profissionais", "Para profissionais", "Superfície ocular em profundidade"],
