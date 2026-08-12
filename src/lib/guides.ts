@@ -76,6 +76,22 @@ export const guides: Guide[] = [
           "Dor intensa, trauma, produto químico ou mudança súbita da visão não devem ser tratados como simples olho seco.",
       },
       {
+        heading: "Quem tem mais chance de desenvolver",
+        paragraphs: [
+          "Uma metanálise que reuniu 48 estudos e cerca de 493 mil pessoas estimou o peso de vários fatores. Ter mais idade e ser mulher apareceram entre os mais consistentes. Também pesaram uso de telas, uso de lentes de contato, cirurgia de catarata e outras cirurgias oculares.",
+          "Entram na lista ainda condições que muita gente não associa aos olhos: rosácea, doenças da tireoide, depressão, apneia do sono, enxaqueca, artrite, alergia e asma.",
+        ],
+        note: "Fator de risco não é causa nem destino. Ter vários não significa que você terá a doença, e não ter nenhum não a descarta. Serve para orientar o que investigar.",
+      },
+      {
+        heading: "Como isso aparece no Brasil",
+        paragraphs: [
+          "Um estudo com 2.140 universitários brasileiros encontrou 34,4% com escore de sintomas acima do ponto de corte do OSDI. Entre os fatores associados estavam sexo feminino, lentes de contato, mais de 6 horas diárias de tela, dormir menos de 6 horas e alguns medicamentos.",
+          "Uma revisão sistemática de 16 estudos sul-americanos encontrou prevalência média de sintomas em torno de 39%, com variação grande entre populações e métodos.",
+        ],
+        note: "São estudos de sintomas relatados, não de diagnóstico confirmado em consulta — por isso os números costumam ser mais altos do que a prevalência clínica.",
+      },
+      {
         heading: "Como participar das decisões",
         paragraphs: [
           "Pergunte qual mecanismo parece predominar, o objetivo de cada opção, quanto tempo é necessário para avaliar resposta e quais sinais indicam ajuste.",
@@ -91,6 +107,21 @@ export const guides: Guide[] = [
       {
         label: "TFOS DEWS III — resumo executivo",
         url: "https://pubmed.ncbi.nlm.nih.gov/41005521/",
+      },
+      {
+        label:
+          "Qian et al. Identified risk factors for dry eye syndrome: a systematic review and meta-analysis. PLOS ONE, 2022.",
+        url: "https://doi.org/10.1371/journal.pone.0271267",
+      },
+      {
+        label:
+          "Yang et al. Prevalence and associated risk factors for dry eye disease among Brazilian undergraduate students. PLOS ONE, 2021.",
+        url: "https://doi.org/10.1371/journal.pone.0259399",
+      },
+      {
+        label:
+          "Loaiza-Guevara et al. Understanding the dry eye disease-related symptoms in South America: prevalence and associated factors. J Clin Med, 2024.",
+        url: "https://doi.org/10.3390/jcm13206060",
       },
       {
         label: "NHS — Dry eyes",
@@ -134,6 +165,29 @@ export const guides: Guide[] = [
         ],
       },
       {
+        heading: "Exercícios de piscada: o que já foi testado",
+        paragraphs: [
+          "Piscar de forma incompleta é comum diante de telas, e alguns estudos testaram exercícios simples para corrigir esse padrão. Um ensaio de 2025 comparou rotinas diferentes e encontrou como mais eficaz o ciclo fechar, apertar suavemente e abrir, repetido 15 vezes, três vezes ao dia.",
+          "Em um estudo anterior, quatro semanas de exercícios reduziram a proporção de piscadas incompletas de 54% para 34%, com melhora nos questionários de sintomas.",
+        ],
+        note: "Nos dois estudos, os ganhos tenderam a voltar ao ponto de partida algumas semanas depois que os exercícios foram interrompidos. É uma prática de manutenção, não algo que se faz uma vez e resolve.",
+      },
+      {
+        heading: "O que a regra 20-20-20 faz e o que ela não faz",
+        paragraphs: [
+          "Um estudo instalou lembretes automáticos da regra em computadores de pessoas com sintomas e acompanhou o efeito por duas semanas. Os sintomas de desconforto digital e de olho seco diminuíram, mas nenhuma medida objetiva do filme lacrimal ou da superfície ocular mudou de forma significativa.",
+          "Uma semana depois que os lembretes foram desligados, a melhora dos sintomas não se manteve.",
+        ],
+        note: "Isso não desqualifica a regra — alívio de sintoma tem valor próprio. Só ajuda a calibrar a expectativa: é um hábito de conforto, não uma correção da causa.",
+      },
+      {
+        heading: "Papel e tela não afetam a piscada do mesmo jeito",
+        paragraphs: [
+          "Ler reduz a frequência de piscadas em qualquer suporte, provavelmente pela demanda de atenção. Mas um estudo que comparou seis condições de leitura observou aumento das piscadas incompletas apenas nos formatos eletrônicos.",
+          "Entre as condições testadas, ampliar bastante o texto na tela foi a que menos reduziu a frequência de piscadas — o que conversa com a orientação prática de aumentar fonte e contraste.",
+        ],
+      },
+      {
         heading: "Quando investigar além da tela",
         paragraphs: [
           "Se os sintomas aparecem ao acordar, persistem longe de telas, afetam muito um olho ou vêm com dor, secreção ou sensibilidade à luz, a tela provavelmente não conta toda a história.",
@@ -148,6 +202,26 @@ export const guides: Guide[] = [
       {
         label: "NHS — Dry eyes",
         url: "https://www.nhs.uk/symptoms/dry-eyes/",
+      },
+      {
+        label:
+          "Wolffsohn et al. Optimisation of blinking exercises for dry eye disease. Contact Lens Anterior Eye, 2025.",
+        url: "https://doi.org/10.1016/j.clae.2025.102453",
+      },
+      {
+        label:
+          "Kim et al. Therapeutic benefits of blinking exercises in dry eye disease. Contact Lens Anterior Eye, 2021.",
+        url: "https://doi.org/10.1016/j.clae.2020.04.014",
+      },
+      {
+        label:
+          "Talens-Estarelles et al. The effects of breaks on digital eye strain, dry eye and binocular vision: testing the 20-20-20 rule. Contact Lens Anterior Eye, 2023.",
+        url: "https://doi.org/10.1016/j.clae.2022.101744",
+      },
+      {
+        label:
+          "Argilés et al. Blink rate and incomplete blinks in six different controlled hard-copy and electronic reading conditions. IOVS, 2015.",
+        url: "https://doi.org/10.1167/iovs.15-16967",
       },
     ],
   },
@@ -184,6 +258,27 @@ export const guides: Guide[] = [
         ],
       },
       {
+        heading: "Os questionários que a consulta costuma usar",
+        paragraphs: [
+          "Existem questionários padronizados de sintomas. Os mais citados são o OSDI, com 12 perguntas, e o DEQ-5, com 5. Eles transformam queixas em um número, o que permite comparar você com você mesmo ao longo do tempo.",
+          "São medidas de sintoma, não exames. Um escore alto não fecha diagnóstico e um escore baixo não descarta doença — inclusive porque sintoma e sinal frequentemente não andam juntos no olho seco.",
+        ],
+        note: "Vale saber que existe uma diferença mínima considerada clinicamente relevante para esses escores. Uma variação pequena entre duas consultas pode ser apenas variação natural, não piora ou melhora real.",
+      },
+      {
+        heading: "Leve números, não só adjetivos",
+        paragraphs: [
+          '"Melhorou um pouco" é difícil de interpretar meses depois. Um registro simples resolve boa parte disso e não exige aplicativo nenhum.',
+        ],
+        bullets: [
+          "dê uma nota de 0 a 10 ao desconforto, no mesmo horário, alguns dias por semana;",
+          "anote quantas vezes ao dia precisou pingar lubrificante;",
+          "marque os dias em que os sintomas atrapalharam algo concreto — dirigir à noite, ler, trabalhar;",
+          "registre a data em que começou cada tratamento novo.",
+        ],
+        note: "Um estudo comparou a versão em papel e a versão em aplicativo do OSDI e encontrou resultados equivalentes. O suporte importa menos do que a constância do registro.",
+      },
+      {
         heading: "Perguntas que esclarecem o plano",
         bullets: [
           "Qual mecanismo parece mais provável?",
@@ -203,6 +298,11 @@ export const guides: Guide[] = [
       {
         label: "Dry Eye Association — Patient resources",
         url: "https://dry-eye-association.com/",
+      },
+      {
+        label:
+          "Nagino et al. Smartphone app-based and paper-based patient-reported outcomes using a disease-specific questionnaire for dry eye disease: randomized crossover equivalence study. J Med Internet Res, 2023.",
+        url: "https://doi.org/10.2196/42638",
       },
     ],
   },
@@ -240,11 +340,36 @@ export const guides: Guide[] = [
         ],
       },
       {
+        heading: "O que cada tipo de ingrediente costuma fazer",
+        paragraphs: [
+          "Uma revisão sobre a composição dos lubrificantes descreve grupos de ingredientes com papéis distintos. Agentes de viscosidade aumentam o tempo de permanência na superfície. Componentes lipídicos atuam sobre a camada mais externa do filme e interessam mais quando o problema é evaporativo.",
+          "Eletrólitos e osmoprotetores buscam se aproximar da composição natural da lágrima e amortecer o efeito de uma lágrima concentrada demais. Já os surfactantes ajudam a espalhar a fórmula.",
+        ],
+        note: "Isso explica por que dois produtos igualmente boas podem render experiências diferentes: eles não foram desenhados para o mesmo problema.",
+      },
+      {
+        heading: "Conservantes e frequência de uso",
+        paragraphs: [
+          "O conservante mais estudado é o cloreto de benzalcônio (BAK). Estudos laboratoriais e de modelo animal mostram que ele desestabiliza o filme lacrimal e reduz as células caliciformes da conjuntiva, e há descrição de acúmulo nos tecidos com uso prolongado.",
+          "Por isso, consensos internacionais recomendam evitar lubrificantes com BAK em quem precisa pingar muitas vezes ao dia ou usa outros colírios de forma contínua, como no glaucoma. Para uso ocasional, a questão pesa menos.",
+        ],
+        alert:
+          "Isso não significa que todo colírio com conservante seja inadequado. Significa que frequência e tempo de uso mudam o cálculo — e são justamente o que você deve informar em consulta.",
+      },
+      {
+        heading: "Se você usa lentes de contato",
+        paragraphs: [
+          "Uma revisão sobre compatibilidade entre lubrificantes e lentes de contato conclui que gotas sem conservantes são a escolha preferencial para pingar com as lentes nos olhos. Quando houver conservante, formulações com BAK e timerosal são as que a revisão recomenda evitar.",
+          "Nem todo lubrificante é feito para ser usado com a lente colocada. A bula informa isso, e vale conferir antes.",
+        ],
+      },
+      {
         heading: "Perguntas para escolher com critério",
         bullets: [
           "Qual problema esta formulação pretende aliviar?",
           "A viscosidade combina com minhas atividades?",
           "Há conservante e isso importa para minha frequência de uso?",
+          "Posso pingar com a lente de contato nos olhos?",
           "Como combinar com outros produtos oculares?",
           "Que sinais indicam que devo trocar de estratégia?",
         ],
@@ -260,6 +385,21 @@ export const guides: Guide[] = [
       {
         label: "National Eye Institute — Dry Eye",
         url: "https://www.nei.nih.gov/eye-health-information/eye-conditions-and-diseases/dry-eye",
+      },
+      {
+        label:
+          "Labetoulle et al. Artificial tears: biological role of their ingredients in the management of dry eye disease. Int J Mol Sci, 2022.",
+        url: "https://doi.org/10.3390/ijms23052434",
+      },
+      {
+        label:
+          "D'Andrea et al. Is it time for a moratorium on the use of benzalkonium chloride in eyedrops? Br J Clin Pharmacol, 2022.",
+        url: "https://doi.org/10.1111/bcp.15359",
+      },
+      {
+        label:
+          "Pucker. A review of the compatibility of topical artificial tears and rewetting drops with contact lenses. Contact Lens Anterior Eye, 2020.",
+        url: "https://doi.org/10.1016/j.clae.2020.04.013",
       },
     ],
   },
@@ -760,6 +900,23 @@ export const guides: Guide[] = [
         ],
       },
       {
+        heading: "O que a evidência mostra sobre compressa e limpeza",
+        paragraphs: [
+          "A combinação de calor local e limpeza das bordas continua sendo a base do cuidado na disfunção das glândulas de Meibomius. Um ensaio comparou lenços palpebrais sem detergente com a rotina convencional de compressa morna e higiene: os dois grupos melhoraram em sintomas e sinais ao longo de 90 dias.",
+          "Uma revisão Cochrane de 13 ensaios com 1.155 participantes avaliou um dispositivo de pulsação térmica usado em consultório e não encontrou vantagem consistente sobre a compressa morna feita em casa. A certeza da evidência foi classificada como baixa a muito baixa.",
+        ],
+        note: "A leitura prática é encorajadora: a rotina simples e barata tem respaldo comparável ao de alternativas bem mais caras.",
+      },
+      {
+        heading: "Produtos de limpeza palpebral",
+        paragraphs: [
+          "Existem lenços e soluções específicos para a borda palpebral. Um ensaio com pacientes com blefarite testou ácido hipocloroso a 0,01% aplicado por nebulização e observou melhora de sintomas e de sinais da borda palpebral em duas semanas, sem eventos adversos relatados.",
+          "São estudos pequenos e de curta duração. Servem para mostrar que há opções toleráveis, não para eleger um produto como superior aos demais.",
+        ],
+        alert:
+          "Óleo de melaleuca (tea tree) e outros óleos essenciais aparecem em receitas caseiras para Demodex. Em concentração inadequada irritam a superfície ocular. Esse tipo de tratamento tem indicação específica e precisa de orientação profissional.",
+      },
+      {
         heading: "Quando a rotina precisa ser revista",
         paragraphs: [
           "Se a higiene irrita mais do que ajuda, se há lesões de pele, secreção ou sintomas predominantemente em um olho, a estratégia deve ser reavaliada. Mais frequência e mais força não significam melhor resultado.",
@@ -774,6 +931,21 @@ export const guides: Guide[] = [
       {
         label: "Dry Eye Association — Resources",
         url: "https://dry-eye-association.com/",
+      },
+      {
+        label:
+          "Pucker et al. LipiFlow for the treatment of dry eye disease. Cochrane Database of Systematic Reviews, 2024.",
+        url: "https://doi.org/10.1002/14651858.CD015448.pub2",
+      },
+      {
+        label:
+          "Runda et al. Ensaio randomizado comparando lenços palpebrais sem detergente com higiene convencional na DGM. Indian J Ophthalmol, 2022.",
+        url: "https://doi.org/10.4103/ijo.IJO_2885_21",
+      },
+      {
+        label:
+          "Zhang et al. Effect of hypochlorous acid on blepharitis through ultrasonic atomization: a randomized clinical trial. J Clin Med, 2023.",
+        url: "https://doi.org/10.3390/jcm12031164",
       },
     ],
   },
@@ -868,6 +1040,14 @@ export const guides: Guide[] = [
           "A cada piscada, as pálpebras espalham as lágrimas e ajudam a levá-las do reservatório da conjuntiva para o menisco lacrimal. Uma prega pode ocupar esse espaço, dificultar a reposição ou a eliminação das lágrimas e aumentar o contato entre pálpebra e superfície ocular.",
           "Neste guia, “olho seco mecânico” descreve esse componente de atrito e alteração do fluxo lacrimal; não é apresentado como uma categoria diagnóstica isolada. Conjuntivocálase pode coexistir com baixa produção aquosa, disfunção das glândulas de Meibomius, instabilidade das lágrimas e inflamação.",
         ],
+      },
+      {
+        heading: "Drenagem lenta explica a combinação estranha",
+        paragraphs: [
+          "Uma revisão sistemática sobre conjuntivocálase descreve dois efeitos que costumam andar juntos: instabilidade do filme lacrimal e atraso na eliminação das lágrimas. É essa segunda parte que torna possível arder e lacrimejar ao mesmo tempo, algo que muitos pacientes acham contraditório.",
+          "Quando a lágrima demora mais para ser drenada, ela também permanece mais tempo em contato com a superfície, acumulando mediadores inflamatórios. O olho pode estar molhado e irritado simultaneamente.",
+        ],
+        note: "A mesma revisão aponta o envelhecimento como o fator de risco mais importante — e lembra que a condição é frequentemente despercebida na prática clínica justamente por ser comum e nem sempre sintomática.",
       },
       {
         heading: "Padrões que merecem ser relatados",
@@ -1121,6 +1301,14 @@ export const guides: Guide[] = [
         ],
       },
       {
+        heading: "Uma causa comum que passa despercebida",
+        paragraphs: [
+          "Nem todo lacrimejamento vem de obstrução do canal ou de irritação da córnea. Pregas frouxas da conjuntiva, chamadas conjuntivocálase, podem ocupar o espaço por onde a lágrima é recolhida junto à pálpebra inferior e atrasar sua eliminação.",
+          "Uma revisão sistemática descreve essa condição como causa frequente de irritação ocular, sobretudo em pessoas mais velhas, e observa que ela costuma ser subvalorizada na avaliação de rotina.",
+        ],
+        note: "Vale citar isso na consulta se o lacrimejamento vier junto de ardor, piorar ao olhar para baixo ou ao ler, e não houver sinal de obstrução nos testes de drenagem.",
+      },
+      {
         heading: "Quando o lacrimejamento pede avaliação rápida",
         paragraphs: [
           "Dor forte, mudança visual, sensibilidade importante à luz, trauma, produto químico, objeto preso ou olho muito vermelho precisam de avaliação rápida, mesmo que o lacrimejamento seja o sintoma mais evidente.",
@@ -1146,6 +1334,11 @@ export const guides: Guide[] = [
       {
         label: "Lee e Baek — Etiology of Epiphora",
         url: "https://pubmed.ncbi.nlm.nih.gov/34237206/",
+      },
+      {
+        label:
+          "Marmalidou et al. Conjunctivochalasis: a systematic review. Surv Ophthalmol, 2017.",
+        url: "https://doi.org/10.1016/j.survophthal.2017.10.010",
       },
       {
         label: "Usmani et al. — Functional epiphora",
