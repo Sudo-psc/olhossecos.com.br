@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import IssueCover from "@/components/superficie/IssueCover.astro";
 import { essentialContents, homeJourneys, superficieTopics } from "@/lib/home";
+import { founderIssue } from "@/lib/superficie";
 
 const homeTitle = "Olho Seco e Superfície Ocular | Conteúdo, Livros e Ciência";
 const homeDescription =
@@ -225,25 +227,24 @@ const homeDescription =
 
       <article class="founding-issue">
         <p class="issue-status">Edição Fundadora • Em desenvolvimento</p>
-        <div class="issue-art" aria-hidden="true">
-          <span class="issue-orbit"></span>
-          <span class="issue-line"></span>
-          <span class="issue-dot issue-dot-one"></span>
-          <span class="issue-dot issue-dot-two"></span>
-        </div>
-        <div class="issue-content">
-          <p>Edição Fundadora</p>
-          <h3>A nova era da superfície ocular</h3>
-          <span>
-            Do sintoma ao fenótipo: diagnóstico multimodal e tratamento
-            personalizado.
-          </span>
-          <ul aria-label="Temas previstos">
-            {superficieTopics.slice(0, 4).map((topic) => <li>{topic}</li>)}
-          </ul>
-          <a href="/livros#newsletter" data-home-event="superficie_issue_click">
-            Acompanhar o lançamento →
-          </a>
+        <div class="issue-body">
+          <div class="issue-cover-thumb">
+            <IssueCover issue={founderIssue} sizes="180px" />
+          </div>
+          <div class="issue-content">
+            <p>Edição Fundadora</p>
+            <h3>{founderIssue.title}</h3>
+            <span>{founderIssue.subtitle}</span>
+            <ul aria-label="Temas previstos">
+              {superficieTopics.slice(0, 4).map((topic) => <li>{topic}</li>)}
+            </ul>
+            <a
+              href="/livros#newsletter"
+              data-home-event="superficie_issue_click"
+            >
+              Acompanhar o lançamento →
+            </a>
+          </div>
         </div>
       </article>
     </div>
@@ -851,50 +852,20 @@ const homeDescription =
     text-transform: uppercase;
   }
 
-  .issue-art span {
-    position: absolute;
-    display: block;
+  .issue-body {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
   }
 
-  .issue-orbit {
-    top: 8%;
-    right: -18%;
-    width: 70%;
-    aspect-ratio: 1;
-    border: 1px solid rgb(217 197 156 / 38%);
-    border-radius: 50%;
-  }
-
-  .issue-line {
-    top: 30%;
-    right: -20%;
-    width: 105%;
-    height: 35%;
-    border-top: 2px solid #1c91a7;
-    border-radius: 50%;
-    transform: rotate(-10deg);
-  }
-
-  .issue-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #d9c59c;
-  }
-
-  .issue-dot-one {
-    top: 25%;
-    left: 28%;
-  }
-
-  .issue-dot-two {
-    top: 39%;
-    right: 20%;
+  .issue-cover-thumb {
+    flex: none;
+    width: 180px;
   }
 
   .issue-content {
-    position: relative;
-    z-index: 2;
+    flex: 1;
+    min-width: 0;
     max-width: 560px;
   }
 
@@ -1136,6 +1107,16 @@ const homeDescription =
 
     .founding-issue {
       min-height: 540px;
+    }
+
+    .issue-body {
+      flex-direction: column;
+      align-items: center;
+      text-align: left;
+    }
+
+    .issue-cover-thumb {
+      width: 140px;
     }
   }
 
