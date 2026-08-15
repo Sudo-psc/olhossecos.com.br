@@ -86,7 +86,9 @@ try {
   await assertPage("/superficie/edicoes", "/superficie/edicoes");
   await assertPage("/superficie/artigos", "/superficie/artigos");
   await assertStatus("/superficie/lab/flipbook", 404);
+  await assertStatus("/superficie/lab/edicao-00", 404);
   await assertStatus("/superficie/issues/poc/manifest.json", 404);
+  await assertStatus("/superficie/issues/edicao-00/manifest.json", 404);
   await assertPage("/superficie/parceiros", "/superficie/parceiros");
   await assertPage("/newsletter", "/newsletter");
   await assertPage("/newsletter/descadastrar", "/newsletter/descadastrar");

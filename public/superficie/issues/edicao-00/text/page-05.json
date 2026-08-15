@@ -1,0 +1,77 @@
+{
+  "page": 5,
+  "blocks": [
+    {
+      "id": "page-5-eyebrow",
+      "text": "CLÍNICA · PÁGINA 05",
+      "x": 0.1,
+      "y": 0.065,
+      "width": 0.8,
+      "height": 0.035,
+      "role": "label"
+    },
+    {
+      "id": "page-5-title",
+      "text": "O que muda na prática — e o que ainda não sabemos",
+      "x": 0.1,
+      "y": 0.115,
+      "width": 0.8,
+      "height": 0.13,
+      "role": "heading"
+    },
+    {
+      "id": "page-5-subtitle",
+      "text": "A mudança imediata é de raciocínio, não de prescrição.",
+      "x": 0.1,
+      "y": 0.245,
+      "width": 0.8,
+      "height": 0.07,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-5-paragraph-1",
+      "text": "A meibografia mostra estrutura; a expressão glandular e o exame da margem palpebral mostram parte da função; sintomas e estabilidade lacrimal mostram repercussão. Nenhuma dessas medidas revela diretamente a atividade de PPARγ, receptor androgênico, Notch, Hedgehog ou ferroptose em um paciente.",
+      "x": 0.1,
+      "y": 0.34,
+      "width": 0.8,
+      "height": 0.075,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-5-paragraph-2",
+      "text": "Por isso, um fenótipo aparentemente obstrutivo não deve ser interpretado como mecanismo único. A avaliação pode integrar morfologia, qualidade e expressibilidade da secreção, sinais inflamatórios, estabilidade do filme, exposições e contexto hormonal.",
+      "x": 0.1,
+      "y": 0.42100000000000004,
+      "width": 0.8,
+      "height": 0.075,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-5-paragraph-3",
+      "text": "A maior parte da evidência que sustenta este modelo vem de culturas celulares, organoides, rastreamento de linhagem e animais. Não estabelece, sozinha, causalidade clínica nem eficácia terapêutica em pessoas com DGM.",
+      "x": 0.1,
+      "y": 0.502,
+      "width": 0.8,
+      "height": 0.075,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-5-paragraph-4",
+      "text": "Agonistas de PPARγ, moduladores de Hedgehog, terapias androgênicas e estratégias de rejuvenescimento do nicho progenitor são hipóteses translacionais. Neste estágio, não devem ser apresentados como tratamento estabelecido.",
+      "x": 0.1,
+      "y": 0.583,
+      "width": 0.8,
+      "height": 0.075,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-5-number",
+      "text": "05",
+      "x": 0.84,
+      "y": 0.93,
+      "width": 0.06,
+      "height": 0.025,
+      "role": "page-number"
+    }
+  ]
+}

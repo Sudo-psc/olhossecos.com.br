@@ -101,6 +101,26 @@ test("manifest validation rejects encoded traversal and cross-issue assets", () 
   assert.equal(validateIssueManifest(crossIssue).success, false);
 });
 
+test("generated edicao-00 manifest is a self-contained eight-page issue", async () => {
+  const rawManifest = JSON.parse(
+    await readFile("public/superficie/issues/edicao-00/manifest.json", "utf8"),
+  );
+  const result = validateIssueManifest(rawManifest);
+  assert.equal(result.success, true, result.errors.join("\n"));
+  assert.equal(result.data?.id, "edicao-00");
+  assert.equal(result.data?.pageCount, 8);
+  assert.equal(result.data?.toc.length, 3);
+  assert.equal(result.data?.articles.length, 2);
+  assert.equal(result.data?.articles[0]?.pages.join(","), "4,5");
+  assert.equal(result.data?.articles[1]?.pages.join(","), "6,7");
+  assert.equal(result.data?.audioSources.length, 3);
+  assert.ok(
+    result.data?.audioSources.every((source) =>
+      source.startsWith("/superficie/issues/edicao-00/"),
+    ),
+  );
+});
+
 test("generated POC manifest contains eight replaceable pages", async () => {
   const rawManifest = JSON.parse(
     await readFile("public/superficie/issues/poc/manifest.json", "utf8"),

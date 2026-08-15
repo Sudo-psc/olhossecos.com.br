@@ -1,0 +1,149 @@
+{
+  "id": "edicao-00",
+  "number": "00",
+  "title": "A nova era da superfície ocular",
+  "pageCount": 8,
+  "pages": [
+    {
+      "number": 1,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-01-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-01-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-01-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-01-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-01.json",
+      "type": "cover",
+      "alt": "Página 1: A nova era da superfície ocular."
+    },
+    {
+      "number": 2,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-02-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-02-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-02-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-02-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-02.json",
+      "type": "editorial",
+      "alt": "Página 2: Duas leituras, edição ainda em produção."
+    },
+    {
+      "number": 3,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-03-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-03-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-03-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-03-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-03.json",
+      "type": "contents",
+      "alt": "Página 3: Nesta edição."
+    },
+    {
+      "number": 4,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-04-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-04-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-04-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-04-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-04.json",
+      "type": "article",
+      "articleId": "biologia-molecular-da-dgm",
+      "alt": "Página 4: Além da obstrução: a biologia molecular da DGM."
+    },
+    {
+      "number": 5,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-05-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-05-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-05-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-05-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-05.json",
+      "type": "article",
+      "articleId": "biologia-molecular-da-dgm",
+      "alt": "Página 5: O que muda na prática — e o que ainda não sabemos."
+    },
+    {
+      "number": 6,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-06-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-06-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-06-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-06-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-06.json",
+      "type": "article",
+      "articleId": "tfos-dews-iii-na-pratica",
+      "alt": "Página 6: TFOS DEWS III na prática."
+    },
+    {
+      "number": 7,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-07-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-07-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-07-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-07-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-07.json",
+      "type": "article",
+      "articleId": "tfos-dews-iii-na-pratica",
+      "alt": "Página 7: Nove drivers e o mapa de seis minutos."
+    },
+    {
+      "number": 8,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-08-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-08-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-08-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-08-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-08.json",
+      "type": "back-cover",
+      "alt": "Página 8: SUPERFÍCIE."
+    }
+  ],
+  "toc": [
+    {
+      "title": "Editorial",
+      "page": 2
+    },
+    {
+      "title": "Além da obstrução: a biologia molecular da DGM",
+      "page": 4
+    },
+    {
+      "title": "TFOS DEWS III na prática",
+      "page": 6
+    }
+  ],
+  "articles": [
+    {
+      "id": "biologia-molecular-da-dgm",
+      "title": "Além da obstrução: a biologia molecular da DGM",
+      "pages": [
+        4,
+        5
+      ],
+      "htmlPath": "/superficie/issues/edicao-00/articles/biologia-molecular-da-dgm.html"
+    },
+    {
+      "id": "tfos-dews-iii-na-pratica",
+      "title": "TFOS DEWS III na prática",
+      "pages": [
+        6,
+        7
+      ],
+      "htmlPath": "/superficie/issues/edicao-00/articles/tfos-dews-iii-na-pratica.html"
+    }
+  ],
+  "audioSources": [
+    "/superficie/issues/edicao-00/audio/paper-soft-1.wav",
+    "/superficie/issues/edicao-00/audio/paper-soft-2.wav",
+    "/superficie/issues/edicao-00/audio/paper-soft-3.wav"
+  ],
+  "searchIndex": "/superficie/issues/edicao-00/search-index.json",
+  "pdfFallback": "/superficie/issues/edicao-00/superficie-edicao-00.pdf"
+}

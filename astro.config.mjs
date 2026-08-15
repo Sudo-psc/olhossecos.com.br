@@ -54,7 +54,8 @@ const superficiePocHeaders = () => ({
     server.middlewares.use((request, response, next) => {
       if (
         request.url?.startsWith("/superficie/lab/") ||
-        request.url?.startsWith("/superficie/issues/poc/")
+        request.url?.startsWith("/superficie/issues/poc/") ||
+        request.url?.startsWith("/superficie/issues/edicao-00/")
       ) {
         response.setHeader("X-Robots-Tag", pocRobotsHeader);
       }
@@ -65,7 +66,8 @@ const superficiePocHeaders = () => ({
     server.middlewares.use((request, response, next) => {
       if (
         request.url?.startsWith("/superficie/lab/") ||
-        request.url?.startsWith("/superficie/issues/poc/")
+        request.url?.startsWith("/superficie/issues/poc/") ||
+        request.url?.startsWith("/superficie/issues/edicao-00/")
       ) {
         response.setHeader("X-Robots-Tag", pocRobotsHeader);
       }
@@ -94,6 +96,7 @@ export default defineConfig({
           "/exames",
           "/newsletter/descadastrar",
           "/superficie/lab/flipbook",
+          "/superficie/lab/edicao-00",
         ]).has(path);
       },
       serialize(item) {
