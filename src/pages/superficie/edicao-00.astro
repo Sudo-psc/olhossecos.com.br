@@ -24,9 +24,15 @@ const issueSchema = {
 <SuperficieLayout
   {title}
   {description}
-  image="/images/superficie/og-superficie.png"
+  ogType="article"
+  image={founderIssue.cover.fallback}
+  imageAlt={founderIssue.cover.alt}
+  imageType="image/png"
+  imageWidth={founderIssue.cover.width}
+  imageHeight={founderIssue.cover.height}
   breadcrumbs={[
     { name: "SUPERFÍCIE", url: "/superficie" },
+    { name: "Edições", url: "/superficie/edicoes" },
     { name: "Edição 00", url: "/superficie/edicao-00" },
   ]}
   extraSchema={issueSchema}

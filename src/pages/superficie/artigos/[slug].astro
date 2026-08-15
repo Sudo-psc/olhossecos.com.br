@@ -43,6 +43,11 @@ const articleUrl = new URL(canonicalPath, Astro.site).href;
 const authorUrl = article.author.slug
   ? new URL(`/autor/${article.author.slug}`, Astro.site).href
   : undefined;
+const personId = article.author.slug
+  ? new URL(`/autor/${article.author.slug}#person`, Astro.site).href
+  : undefined;
+const articleImage =
+  article.featuredImage?.src ?? "/images/superficie/og-superficie.jpg";
 
 const articleSchema = isPublished
   ? {
@@ -56,18 +61,19 @@ const articleSchema = isPublished
       isAccessibleForFree: true,
       articleSection: article.category,
       keywords: article.tags.join(", "),
+      image: new URL(articleImage, Astro.site).href,
       author: {
         "@type": "Person",
         name: article.author.name,
+        ...(personId ? { "@id": personId } : {}),
         ...(authorUrl ? { url: authorUrl } : {}),
       },
-      publisher: { "@id": new URL("/#organization", Astro.site).href },
+      publisher: {
+        "@id": new URL("/superficie#organization", Astro.site).href,
+      },
       isPartOf: { "@id": new URL("/superficie#periodical", Astro.site).href },
       mainEntityOfPage: { "@id": `${articleUrl}#webpage` },
       citation: article.references.map((reference) => reference.url),
-      ...(article.featuredImage
-        ? { image: new URL(article.featuredImage.src, Astro.site).href }
-        : {}),
       ...(article.sponsored && article.sponsor
         ? {
             sponsor: {
@@ -83,7 +89,7 @@ const articleSchema = isPublished
 <SuperficieLayout
   title={article.seo.title}
   description={article.seo.description}
-  image={article.featuredImage?.src}
+  image={article.featuredImage?.src ?? "/images/superficie/og-superficie.jpg"}
   imageAlt={article.featuredImage?.alt}
   datePublished={article.publishedAt}
   dateModified={article.modifiedAt ?? article.publishedAt}
@@ -93,7 +99,7 @@ const articleSchema = isPublished
   compactHeader
   breadcrumbs={[
     { name: "SUPERFÍCIE", url: "/superficie" },
-    { name: "Artigos", url: "/superficie#destaque" },
+    { name: "Artigos", url: "/superficie/artigos" },
     { name: article.title, url: canonicalPath },
   ]}
   extraSchema={articleSchema}

@@ -242,6 +242,7 @@ const dgmBiologiaMolecular: MagazineArticle = {
   category: "Clínica",
   author: {
     name: "Dr. Philipe Saraiva Cruz",
+    slug: "philipe-saraiva-cruz",
     specialty: "Oftalmologia — CRM-MG 69.870 · RQE 71.903",
     affiliation: "Saraiva Vision, Caratinga/MG",
   },
@@ -576,6 +577,12 @@ export interface MagazineIssue {
   };
 }
 
+export const magazineDescription =
+  "SUPERFÍCIE é uma revista dedicada a olho seco, córnea, diagnóstico, tecnologia, terapias e inovação em superfície ocular.";
+
+export const getMagazineIssuePath = (issue: MagazineIssue) =>
+  `/superficie/${issue.slug}`;
+
 export const founderIssue: MagazineIssue = {
   number: "00",
   slug: "edicao-00",
@@ -618,6 +625,8 @@ export const founderIssue: MagazineIssue = {
     canonical: "/superficie/edicao-00",
   },
 };
+
+export const publishedIssues: MagazineIssue[] = [founderIssue];
 
 export const technologyTopics = [
   "Meibografia",

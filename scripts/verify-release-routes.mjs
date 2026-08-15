@@ -83,6 +83,10 @@ try {
     throw new Error("homepage: link global para /newsletter ausente");
   }
   await assertStatus("/superficie");
+  await assertPage("/superficie/edicoes", "/superficie/edicoes");
+  await assertPage("/superficie/artigos", "/superficie/artigos");
+  await assertStatus("/superficie/lab/flipbook", 404);
+  await assertStatus("/superficie/issues/poc/manifest.json", 404);
   await assertPage("/superficie/parceiros", "/superficie/parceiros");
   await assertPage("/newsletter", "/newsletter");
   await assertPage("/newsletter/descadastrar", "/newsletter/descadastrar");
@@ -130,7 +134,12 @@ try {
       `raiz canônica inconsistente: HTML=${homeCanonical} sitemap=${sitemapRoot}`,
     );
   }
-  for (const path of ["/superficie/parceiros", "/newsletter"]) {
+  for (const path of [
+    "/superficie/parceiros",
+    "/superficie/edicoes",
+    "/superficie/artigos",
+    "/newsletter",
+  ]) {
     if (!sitemap.includes(`<loc>${productionOrigin}${path}</loc>`)) {
       throw new Error(`sitemap: ${path} ausente`);
     }

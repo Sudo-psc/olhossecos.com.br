@@ -34,7 +34,7 @@ const formatDate = (date?: string) =>
     >
       <a href="/superficie">SUPERFÍCIE</a>
       <span aria-hidden="true">/</span>
-      <a href="/superficie#destaque">Artigos</a>
+      <a href="/superficie/artigos">Artigos</a>
       <span aria-hidden="true">/</span>
       <span>{article.category}</span>
     </div>
@@ -95,7 +95,11 @@ const formatDate = (date?: string) =>
           article.publishedAt && (
             <div>
               <dt>Publicado em</dt>
-              <dd>{formatDate(article.publishedAt)}</dd>
+              <dd>
+                <time datetime={article.publishedAt}>
+                  {formatDate(article.publishedAt)}
+                </time>
+              </dd>
             </div>
           )
         }
@@ -103,7 +107,11 @@ const formatDate = (date?: string) =>
           article.modifiedAt && (
             <div>
               <dt>Atualizado em</dt>
-              <dd>{formatDate(article.modifiedAt)}</dd>
+              <dd>
+                <time datetime={article.modifiedAt}>
+                  {formatDate(article.modifiedAt)}
+                </time>
+              </dd>
             </div>
           )
         }

@@ -197,6 +197,17 @@ test("validação exige as quatro perguntas editoriais em artigos publicados", (
   ]);
 });
 
+test("descrição estável da revista não muda por página", () => {
+  assert.equal(
+    superficie.magazineDescription,
+    "SUPERFÍCIE é uma revista dedicada a olho seco, córnea, diagnóstico, tecnologia, terapias e inovação em superfície ocular.",
+  );
+  assert.deepEqual(
+    superficie.publishedIssues.map(({ slug }) => slug),
+    ["edicao-00"],
+  );
+});
+
 test("validação exige canonical consistente com o slug", () => {
   const validateMagazineArticle =
     typeof api.validateMagazineArticle === "function"

@@ -2,6 +2,7 @@
 import SuperficieFooter from "@/components/superficie/SuperficieFooter.astro";
 import SuperficieHeader from "@/components/superficie/SuperficieHeader.astro";
 import AnalyticsCollector from "@/components/AnalyticsCollector.astro";
+import { magazineDescription } from "@/lib/superficie";
 
 interface Props {
   title: string;
@@ -9,6 +10,9 @@ interface Props {
   home?: boolean;
   image?: string;
   imageAlt?: string;
+  imageType?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   schemaType?: "WebPage" | "CollectionPage";
   datePublished?: string;
   dateModified?: string;
@@ -24,8 +28,11 @@ const {
   title,
   description,
   home = false,
-  image = "/images/superficie/og-superficie.png",
+  image = "/images/superficie/og-superficie.jpg",
   imageAlt = "SUPERFÍCIE — Revista de Olho Seco e Superfície Ocular",
+  imageType = "image/jpeg",
+  imageWidth = 1200,
+  imageHeight = 630,
   schemaType = "WebPage",
   datePublished = "2026-08-07",
   dateModified = "2026-08-08",
@@ -40,8 +47,10 @@ const {
 const siteUrl = new URL("/", Astro.site);
 const canonical = new URL(Astro.url.pathname, siteUrl);
 const imageUrl = new URL(image, siteUrl);
-const publisherId = new URL("/#organization", siteUrl).href;
+const portalOrganizationId = new URL("/#organization", siteUrl).href;
+const mediaOrganizationId = new URL("/superficie#organization", siteUrl).href;
 const periodicalId = new URL("/superficie#periodical", siteUrl).href;
+const websiteId = new URL("/superficie#website", siteUrl).href;
 
 const page = {
   "@type": schemaType,
@@ -53,8 +62,8 @@ const page = {
   inLanguage: "pt-BR",
   datePublished,
   dateModified,
-  isPartOf: { "@id": new URL("/#website", siteUrl).href },
-  publisher: { "@id": publisherId },
+  isPartOf: { "@id": periodicalId },
+  publisher: { "@id": mediaOrganizationId },
   primaryImageOfPage: { "@id": `${imageUrl.href}#primaryimage` },
   breadcrumb:
     breadcrumbs.length > 0
@@ -65,27 +74,43 @@ const page = {
 const baseGraph: Record<string, unknown>[] = [
   {
     "@type": "Organization",
-    "@id": publisherId,
+    "@id": portalOrganizationId,
     name: "Olho Seco — Portal do paciente",
     url: siteUrl.href,
+  },
+  {
+    "@type": "NewsMediaOrganization",
+    "@id": mediaOrganizationId,
+    name: "SUPERFÍCIE Media",
+    url: new URL("/superficie", siteUrl).href,
+    isPartOf: { "@id": portalOrganizationId },
   },
   {
     "@type": "Periodical",
     "@id": periodicalId,
     name: "SUPERFÍCIE",
     alternateName: "Revista de Olho Seco e Superfície Ocular",
-    description,
+    description: magazineDescription,
     inLanguage: "pt-BR",
-    publisher: { "@id": publisherId },
+    publisher: { "@id": mediaOrganizationId },
     url: new URL("/superficie", siteUrl).href,
+  },
+  {
+    "@type": "WebSite",
+    "@id": websiteId,
+    name: "SUPERFÍCIE",
+    url: new URL("/superficie", siteUrl).href,
+    inLanguage: "pt-BR",
+    publisher: { "@id": mediaOrganizationId },
+    isPartOf: { "@id": periodicalId },
   },
   {
     "@type": "ImageObject",
     "@id": `${imageUrl.href}#primaryimage`,
     url: imageUrl.href,
     contentUrl: imageUrl.href,
-    width: 1200,
-    height: 630,
+    width: imageWidth,
+    height: imageHeight,
     caption: imageAlt,
   },
   page,
@@ -119,7 +144,7 @@ const structuredData = {
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#001a33" />
     <meta name="description" content={description} />
     <meta name="robots" content={robots} />
@@ -136,9 +161,9 @@ const structuredData = {
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={imageUrl} />
     <meta property="og:image:secure_url" content={imageUrl} />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content={imageType} />
+    <meta property="og:image:width" content={String(imageWidth)} />
+    <meta property="og:image:height" content={String(imageHeight)} />
     <meta property="og:image:alt" content={imageAlt} />
     {
       ogType === "article" && (

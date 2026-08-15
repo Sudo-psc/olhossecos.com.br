@@ -38,12 +38,27 @@ const applySecurityHeaders = (response: Response) => {
   return response;
 };
 
+const isLabOrPoc = (pathname: string) =>
+  pathname === "/superficie/lab" ||
+  pathname.startsWith("/superficie/lab/") ||
+  pathname === "/superficie/issues/poc" ||
+  pathname.startsWith("/superficie/issues/poc/");
+
 export const onRequest = defineMiddleware(async (context, next) => {
+  if (import.meta.env.PROD && isLabOrPoc(context.url.pathname)) {
+    return applySecurityHeaders(
+      new Response("Not Found", {
+        status: 404,
+        headers: {
+          "Content-Type": "text/plain; charset=utf-8",
+          "X-Robots-Tag": "noindex, nofollow, noarchive",
+        },
+      }),
+    );
+  }
+
   const response = applySecurityHeaders(await next());
-  if (
-    context.url.pathname.startsWith("/superficie/lab/") ||
-    context.url.pathname.startsWith("/superficie/issues/poc/")
-  ) {
+  if (isLabOrPoc(context.url.pathname)) {
     response.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
   }
   return response;

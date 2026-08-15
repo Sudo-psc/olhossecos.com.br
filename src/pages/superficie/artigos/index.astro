@@ -1,0 +1,128 @@
+---
+import ArticleCard from "@/components/superficie/ArticleCard.astro";
+import SuperficieLayout from "@/layouts/SuperficieLayout.astro";
+import { getMagazineArticlePath, publishedArticles } from "@/lib/superficie";
+
+const title = "Artigos | SUPERFÍCIE";
+const description =
+  "Reportagens, análises e perspectivas serão publicadas aqui em páginas HTML próprias, com referências e disclosures.";
+
+const collectionSchema = {
+  "@type": "ItemList",
+  "@id": new URL("/superficie/artigos#articles", Astro.site).href,
+  name: "Em destaque",
+  itemListElement: publishedArticles.map((article, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: article.title,
+    url: new URL(getMagazineArticlePath(article), Astro.site).href,
+  })),
+};
+---
+
+<SuperficieLayout
+  {title}
+  {description}
+  compactHeader
+  schemaType="CollectionPage"
+  breadcrumbs={[
+    { name: "SUPERFÍCIE", url: "/superficie" },
+    { name: "Artigos", url: "/superficie/artigos" },
+  ]}
+  extraSchema={collectionSchema}
+>
+  <section class="archive-hero" aria-labelledby="highlight-title">
+    <div class="surface-shell">
+      <header class="section-heading">
+        <div>
+          <p class="eyebrow gold">Curadoria editorial</p>
+          <h1 id="highlight-title">Em destaque</h1>
+        </div>
+        <p>
+          Reportagens, análises e perspectivas serão publicadas aqui em páginas
+          HTML próprias, com referências e disclosures.
+        </p>
+      </header>
+    </div>
+  </section>
+
+  <section class="section highlight-section" aria-labelledby="artigos-lista">
+    <div class="surface-shell">
+      <h2 id="artigos-lista" class="visually-hidden">Artigos</h2>
+      <div class="featured-grid">
+        {publishedArticles.map((article) => <ArticleCard {article} />)}
+      </div>
+    </div>
+  </section>
+</SuperficieLayout>
+
+<style>
+  .archive-hero {
+    padding-block: clamp(2.5rem, 6vw, 4.5rem) 0;
+    background: var(--surface-navy);
+    color: var(--surface-paper);
+  }
+
+  .section-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: end;
+  }
+
+  .eyebrow {
+    margin: 0 0 0.7rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .eyebrow.gold {
+    color: var(--surface-gold-light);
+  }
+
+  .archive-hero h1 {
+    margin: 0;
+    font-family: var(--surface-serif);
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+  }
+
+  .section-heading p {
+    margin: 0;
+    color: var(--surface-muted-on-dark);
+    max-width: 34rem;
+  }
+
+  .section {
+    padding-block: clamp(3rem, 7vw, 5.5rem);
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+    overflow: hidden;
+    border: 1px solid var(--surface-line);
+    border-radius: var(--surface-radius-lg);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (max-width: 720px) {
+    .section-heading {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
