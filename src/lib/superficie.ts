@@ -26,12 +26,23 @@ export interface MagazineContributor {
   affiliation?: string;
 }
 
+export interface MagazineArticleFigure {
+  src: string;
+  alt: string;
+  caption: string;
+  width: number;
+  height: number;
+  avif?: string;
+  webp?: string;
+}
+
 export interface MagazineArticleSection {
   id: string;
   title: string;
   kind: MagazineArticleSectionKind;
   paragraphs: string[];
   bullets?: string[];
+  figure?: MagazineArticleFigure;
 }
 
 export interface MagazineReference {
@@ -669,6 +680,14 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
       id: "nove-drivers",
       title: "O mapa dos nove drivers",
       kind: "evidence",
+      figure: {
+        src: "/images/superficie/artigos/tfos-dews-iii-na-pratica/mapa-nove-drivers.png",
+        alt: "Mapa dos nove drivers da TFOS DEWS III: filme lacrimal (lipídico, aquoso, mucina/glicocálix), pálpebras (piscar e fechamento, margem palpebral) e superfície ocular (anatomia, disfunção neural, dano celular, inflamação).",
+        caption:
+          "O mapa dos nove drivers. Três territórios etiológicos — TFOS DEWS III.",
+        width: 1680,
+        height: 980,
+      },
       paragraphs: [
         "Os drivers não são mutuamente exclusivos. Em doença multifatorial, tratamento combinado pode ser a estratégia inicial mais coerente — desde que cada item tenha alvo, segurança e desfecho definidos.",
         "No filme lacrimal, a pergunta é se há DGM funcional que sustente instabilidade, produção aquosa insuficiente, perda ou retenção inadequada, ou superfície que perdeu a capacidade de manter o filme uniformemente distribuído. Procure meibo, expressibilidade, orifícios, padrão lipídico, menisco, Schirmer quando indicado, padrão de ruptura, coloração conjuntival e sinais de toxicidade.",
