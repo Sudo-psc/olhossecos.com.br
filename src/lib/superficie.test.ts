@@ -231,7 +231,10 @@ test("matéria TFOS DEWS III publica as quatro seções e o selo de checagem edi
     article,
     "slug tfos-dews-iii-na-pratica deve estar em publishedArticles",
   );
-  assert.equal(superficie.publishedArticles[0].slug, "biologia-molecular-da-dgm");
+  assert.equal(
+    superficie.publishedArticles[0].slug,
+    "biologia-molecular-da-dgm",
+  );
   assert.equal(article.status, "published");
   assert.equal(
     article.reviewSeal,
