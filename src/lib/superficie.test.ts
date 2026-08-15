@@ -256,6 +256,29 @@ test("matéria TFOS DEWS III publica as quatro seções e o selo de checagem edi
   assert.deepEqual(superficie.validateMagazineArticle(article), []);
 });
 
+test("matéria TFOS DEWS III cita os DOIs adicionais da prova resolvidos no Crossref", () => {
+  const article = superficie.publishedArticles.find(
+    ({ slug }) => slug === "tfos-dews-iii-na-pratica",
+  );
+  assert.ok(article);
+  const dois = new Set(
+    article.references.map(({ doi }) => doi).filter(Boolean),
+  );
+
+  for (const doi of [
+    "10.1016/j.jtos.2017.05.006",
+    "10.1097/opx.0000000000002184",
+    "10.1016/j.clinsp.2025.100578",
+    "10.1038/s41598-018-20273-9",
+    "10.5935/0004-2749.202200100",
+    "10.1016/j.jtos.2023.04.004",
+    "10.1016/j.jtos.2023.04.007",
+    "10.1016/j.jtos.2023.08.009",
+  ]) {
+    assert.ok(dois.has(doi), `falta o DOI ${doi}`);
+  }
+});
+
 test("validação exige canonical consistente com o slug", () => {
   const validateMagazineArticle =
     typeof api.validateMagazineArticle === "function"

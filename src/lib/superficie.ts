@@ -787,18 +787,18 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
     {
       label:
         "Facchin A, Boccardo L. Psychometric properties and diagnostic performance of three dry eye questionnaires in Italian: OSDI, OSDI-6, and SPEED. Optom Vis Sci. 2024;101(9):579-588.",
-      url: "https://doi.org/10.1097/OPX.0000000000002184",
-      doi: "10.1097/OPX.0000000000002184",
+      url: "https://doi.org/10.1097/opx.0000000000002184",
+      doi: "10.1097/opx.0000000000002184",
     },
     {
       label:
-        "Pereira LA, Arantes LB, Persona ELS, et al. Prevalence of dry eye in Brazil: Home survey reveals differences in urban and rural regions. Clinics (Sao Paulo). 2025;80:100578.",
+        "Pereira LA, Arantes LB, Persona ELS, et al. Prevalence of dry eye in Brazil: Home survey reveals differences in urban and rural regions. Clinics. 2025;80:100578.",
       url: "https://doi.org/10.1016/j.clinsp.2025.100578",
       doi: "10.1016/j.clinsp.2025.100578",
     },
     {
       label:
-        "Castro JS, Selegatto IB, Castro RS, et al. Prevalence and risk factors of self-reported dry eye in Brazil using a short symptom questionnaire. Sci Rep. 2018;8:2076.",
+        "Castro JS, Selegatto IB, Castro RS, et al. Prevalence and Risk Factors of self-reported dry eye in Brazil using a short symptom questionnaire. Sci Rep. 2018;8:2076.",
       url: "https://doi.org/10.1038/s41598-018-20273-9",
       doi: "10.1038/s41598-018-20273-9",
     },
@@ -822,7 +822,7 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
     },
     {
       label:
-        "Craig JP, Alves M, Wolffsohn JS, et al. TFOS Lifestyle Report Executive Summary: A Lifestyle Epidemic — Ocular Surface Disease. Ocul Surf. 2023;30:240-253.",
+        "Craig JP, Alves M, Wolffsohn JS, et al. TFOS Lifestyle Report Executive Summary: A Lifestyle Epidemic - Ocular Surface Disease. Ocul Surf. 2023;30:240-253.",
       url: "https://doi.org/10.1016/j.jtos.2023.08.009",
       doi: "10.1016/j.jtos.2023.08.009",
     },
