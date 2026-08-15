@@ -121,6 +121,29 @@ test("generated edicao-00 manifest is a self-contained eight-page issue", async 
   );
 });
 
+test("edicao-00 article text layers do not stack body paragraphs", async () => {
+  for (const page of [4, 5, 6, 7]) {
+    const layer = JSON.parse(
+      await readFile(
+        `public/superficie/issues/edicao-00/text/page-0${page}.json`,
+        "utf8",
+      ),
+    );
+    const paragraphs = layer.blocks.filter((block) =>
+      String(block.id).includes("-paragraph-"),
+    );
+    assert.ok(paragraphs.length >= 2, `página ${page} sem parágrafos`);
+    for (let index = 1; index < paragraphs.length; index += 1) {
+      const previous = paragraphs[index - 1];
+      const current = paragraphs[index];
+      assert.ok(
+        current.y >= previous.y + previous.height,
+        `página ${page}: ${current.id} colide com ${previous.id}`,
+      );
+    }
+  }
+});
+
 test("generated POC manifest contains eight replaceable pages", async () => {
   const rawManifest = JSON.parse(
     await readFile("public/superficie/issues/poc/manifest.json", "utf8"),

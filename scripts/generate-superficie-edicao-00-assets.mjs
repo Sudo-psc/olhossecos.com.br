@@ -7,6 +7,9 @@ import { publishedArticles } from "../src/lib/superficie.ts";
 
 const PAGE_WIDTH = 1400;
 const PAGE_HEIGHT = 1867;
+const FOOTER_Y = 1748;
+const TEXT_LEFT = 140;
+const TEXT_WIDTH = 0.8;
 const outputRoot = path.resolve("public/superficie/issues/edicao-00");
 const artRoot = path.join(outputRoot, "art");
 const pageRoot = path.join(outputRoot, "pages");
@@ -46,8 +49,10 @@ for (const [index, page] of issue.pages.entries()) {
   const pageNumber = index + 1;
   const basename = `page-${String(pageNumber).padStart(2, "0")}`;
   const platePath = plateFiles[page.plate];
+  const layout = layoutPage(page);
+  assertBodyDoesNotCollide(layout, pageNumber);
   const cropped = await centerCropToPage(platePath);
-  const overlay = pageSvg(page, pageNumber);
+  const overlay = pageSvg(page, pageNumber, layout);
   const composed = await sharp(cropped)
     .composite([{ input: overlay, blend: "over" }])
     .png()
@@ -60,7 +65,7 @@ for (const [index, page] of issue.pages.entries()) {
     renderWebp(composed, path.join(pageRoot, `${basename}-thumb.webp`), 180),
   ]);
 
-  const blocks = pageBlocks(page, pageNumber);
+  const blocks = pageBlocks(page, pageNumber, layout);
   await writeJson(path.join(textRoot, `${basename}.json`), {
     page: pageNumber,
     blocks,
@@ -129,7 +134,73 @@ await Promise.all([
   ),
 ]);
 
-function pageBlocks(page, pageNumber) {
+function layoutPage(page) {
+  const cover = page.type === "cover" || page.type === "back-cover";
+  const titleSize = cover ? 86 : 58;
+  const titleLineHeight = titleSize * 1.08;
+  const subtitleSize = 28;
+  const subtitleLineHeight = 36;
+  const bodySize = 28;
+  const bodyLineHeight = 36;
+  const paragraphGap = 26;
+  const bodyWrap = 52;
+
+  const title = {
+    text: page.title,
+    lines: wrapText(page.title, cover ? 18 : 26),
+    y: 252,
+    size: titleSize,
+    lineHeight: titleLineHeight,
+  };
+  const subtitle = {
+    text: page.subtitle,
+    lines: wrapText(page.subtitle, 50),
+    y: title.y + title.lines.length * titleLineHeight + 28,
+    size: subtitleSize,
+    lineHeight: subtitleLineHeight,
+  };
+
+  let cursor = subtitle.y + subtitle.lines.length * subtitleLineHeight + 40;
+  const body = page.body.map((text) => {
+    const block = {
+      text,
+      lines: wrapText(text, bodyWrap),
+      y: cursor,
+      size: bodySize,
+      lineHeight: bodyLineHeight,
+    };
+    cursor += block.lines.length * bodyLineHeight + paragraphGap;
+    return block;
+  });
+
+  return { title, subtitle, body, endY: cursor - paragraphGap };
+}
+
+function assertBodyDoesNotCollide(layout, pageNumber) {
+  let previousBottom = layout.subtitle.y +
+    layout.subtitle.lines.length * layout.subtitle.lineHeight;
+  for (const [index, block] of layout.body.entries()) {
+    if (block.y < previousBottom + 8) {
+      throw new Error(
+        `Página ${pageNumber}: o parágrafo ${index + 1} colide com o bloco anterior (y=${block.y}, fim anterior=${previousBottom}).`,
+      );
+    }
+    previousBottom = block.y + block.lines.length * block.lineHeight;
+  }
+  if (previousBottom > FOOTER_Y) {
+    throw new Error(
+      `Página ${pageNumber}: o corpo ultrapassa o rodapé (${previousBottom} > ${FOOTER_Y}). Encurte body[] ou aperte o entrelinhamento.`,
+    );
+  }
+}
+
+function pageBlocks(page, pageNumber, layout) {
+  const toBox = (block, extra = 0) => ({
+    x: TEXT_LEFT / PAGE_WIDTH,
+    y: (block.y - block.size) / PAGE_HEIGHT,
+    width: TEXT_WIDTH,
+    height: (block.lines.length * block.lineHeight + extra) / PAGE_HEIGHT,
+  });
   return [
     {
       id: `page-${pageNumber}-eyebrow`,
@@ -143,28 +214,19 @@ function pageBlocks(page, pageNumber) {
     {
       id: `page-${pageNumber}-title`,
       text: page.title,
-      x: 0.1,
-      y: 0.115,
-      width: 0.8,
-      height: 0.13,
+      ...toBox(layout.title, 8),
       role: "heading",
     },
     {
       id: `page-${pageNumber}-subtitle`,
       text: page.subtitle,
-      x: 0.1,
-      y: 0.245,
-      width: 0.8,
-      height: 0.07,
+      ...toBox(layout.subtitle, 6),
       role: "paragraph",
     },
-    ...page.body.map((text, index) => ({
+    ...layout.body.map((block, index) => ({
       id: `page-${pageNumber}-paragraph-${index + 1}`,
-      text,
-      x: 0.1,
-      y: 0.34 + index * (page.body.length > 4 ? 0.05 : 0.081),
-      width: 0.8,
-      height: page.body.length > 4 ? 0.045 : 0.075,
+      text: block.text,
+      ...toBox(block, 4),
       role: "paragraph",
     })),
     {
@@ -179,33 +241,30 @@ function pageBlocks(page, pageNumber) {
   ];
 }
 
-function pageSvg(page, pageNumber) {
+function pageSvg(page, pageNumber, layout) {
   const dark = page.theme === "dark";
   const foreground = dark ? "#F7F3EA" : "#0B1F33";
   const muted = dark ? "#d7cbb3" : "#3d4f5c";
   const accent = dark ? "#d9b665" : "#00646A";
-  const bodyY = 660;
-  const bodyGap = page.body.length > 4 ? 96 : 150;
-  const titleSize =
-    page.type === "cover" || page.type === "back-cover" ? 86 : 58;
-  const titleLines = wrapText(page.title, page.type === "cover" ? 18 : 26);
-  const subtitleLines = wrapText(page.subtitle, 52);
+  const scrimHeight = Math.min(
+    1680,
+    Math.max(980, Math.round(layout.endY - 40)),
+  );
   const scrim = dark
-    ? `<rect x="90" y="70" width="1220" height="${page.body.length > 3 ? 1680 : 1180}" rx="18" fill="#0B1F33" opacity=".42"/>`
-    : `<rect x="90" y="70" width="1220" height="${page.body.length > 3 ? 1680 : 1180}" rx="18" fill="#F7F3EA" opacity=".62"/>`;
-  const bodyMarkup = page.body
-    .map((paragraph, index) => {
-      const lines = wrapText(paragraph, page.body.length > 4 ? 46 : 58);
-      return svgLines(
-        lines,
-        140,
-        bodyY + index * bodyGap,
-        page.body.length > 4 ? 28 : 30,
-        40,
+    ? `<rect x="90" y="70" width="1220" height="${scrimHeight}" rx="18" fill="#0B1F33" opacity=".42"/>`
+    : `<rect x="90" y="70" width="1220" height="${scrimHeight}" rx="18" fill="#F7F3EA" opacity=".62"/>`;
+  const bodyMarkup = layout.body
+    .map((block) =>
+      svgLines(
+        block.lines,
+        TEXT_LEFT,
+        block.y,
+        block.size,
+        block.lineHeight,
         muted,
         500,
-      );
-    })
+      ),
+    )
     .join("");
 
   return Buffer.from(
@@ -214,8 +273,8 @@ function pageSvg(page, pageNumber) {
       ${scrim}
       <path d="M0 0H1400V18H0Z" fill="${accent}"/>
       <text x="140" y="150" font-family="Arial, sans-serif" font-size="22" letter-spacing="4" font-weight="700" fill="${accent}">${escapeXml(page.eyebrow)}</text>
-      ${svgLines(titleLines, 140, 250, titleSize, titleSize * 1.05, foreground, 700)}
-      ${svgLines(subtitleLines, 140, 500, 30, 40, muted, 500)}
+      ${svgLines(layout.title.lines, TEXT_LEFT, layout.title.y, layout.title.size, layout.title.lineHeight, foreground, 700)}
+      ${svgLines(layout.subtitle.lines, TEXT_LEFT, layout.subtitle.y, layout.subtitle.size, layout.subtitle.lineHeight, muted, 500)}
       ${bodyMarkup}
       <text x="140" y="1795" font-family="Arial, sans-serif" font-size="18" letter-spacing="3" fill="${muted}">SUPERFÍCIE · EDIÇÃO 00</text>
       <text x="1260" y="1795" text-anchor="end" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="${accent}">${String(pageNumber).padStart(2, "0")}</text>
