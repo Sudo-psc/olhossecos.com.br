@@ -14,54 +14,54 @@
       "id": "page-7-title",
       "text": "Nove drivers e o mapa de seis minutos",
       "x": 0.1,
-      "y": 0.115,
+      "y": 0.10391001606855918,
       "width": 0.8,
-      "height": 0.13,
+      "height": 0.07138725227637922,
       "role": "heading"
     },
     {
       "id": "page-7-subtitle",
       "text": "O algoritmo pode ser iniciado com recursos presentes em grande parte dos consultórios oftalmológicos brasileiros.",
       "x": 0.1,
-      "y": 0.245,
+      "y": 0.20207820032137117,
       "width": 0.8,
-      "height": 0.07,
+      "height": 0.06106052490626674,
       "role": "paragraph"
     },
     {
       "id": "page-7-paragraph-1",
       "text": "Filme lacrimal: lipídico, aquoso e mucina/glicocálix.",
       "x": 0.1,
-      "y": 0.34,
+      "y": 0.2813497589716122,
       "width": 0.8,
-      "height": 0.075,
+      "height": 0.040707016604177824,
       "role": "paragraph"
     },
     {
       "id": "page-7-paragraph-2",
       "text": "Pálpebras: piscar/fechamento e margem palpebral.",
       "x": 0.1,
-      "y": 0.42100000000000004,
+      "y": 0.33384038564542046,
       "width": 0.8,
-      "height": 0.075,
+      "height": 0.021424745581146223,
       "role": "paragraph"
     },
     {
       "id": "page-7-paragraph-3",
       "text": "Superfície ocular: desalinhamento anatômico, disfunção neural, dano/ruptura celular e inflamação primária/estresse oxidativo.",
       "x": 0.1,
-      "y": 0.502,
+      "y": 0.3670487412961971,
       "width": 0.8,
-      "height": 0.075,
+      "height": 0.059989287627209426,
       "role": "paragraph"
     },
     {
       "id": "page-7-paragraph-4",
       "text": "0–1 min — Sintomas e impacto. 1–2 min — Mascaradores. 2–3 min — Filme sem corante. 3–4 min — Pálpebras e meibo. 4–5 min — Superfície com corantes. 5–6 min — Plano testável: nomeie os drivers, pareie cada conduta a um alvo e defina o que deverá ter mudado no retorno.",
       "x": 0.1,
-      "y": 0.583,
+      "y": 0.43882163899303694,
       "width": 0.8,
-      "height": 0.075,
+      "height": 0.11783610069630424,
       "role": "paragraph"
     },
     {
