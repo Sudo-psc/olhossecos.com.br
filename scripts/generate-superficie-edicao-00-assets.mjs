@@ -177,7 +177,8 @@ function layoutPage(page) {
 }
 
 function assertBodyDoesNotCollide(layout, pageNumber) {
-  let previousBottom = layout.subtitle.y +
+  let previousBottom =
+    layout.subtitle.y +
     layout.subtitle.lines.length * layout.subtitle.lineHeight;
   for (const [index, block] of layout.body.entries()) {
     if (block.y < previousBottom + 8) {
