@@ -95,6 +95,22 @@ export interface MagazineArticle {
     alt: string;
     width: number;
     height: number;
+    avif?: string;
+    webp?: string;
+  };
+  heroBackground?: {
+    src: string;
+    avif?: string;
+    webp?: string;
+    width?: number;
+    height?: number;
+  };
+  ogImage?: {
+    src: string;
+    alt?: string;
+    width: number;
+    height: number;
+    type?: string;
   };
   tags: string[];
   seo: {
@@ -522,6 +538,28 @@ const dgmBiologiaMolecular: MagazineArticle = {
     },
   ],
   sponsored: false,
+  featuredImage: {
+    src: "/images/superficie/artigos/biologia-molecular-da-dgm/cover.jpg",
+    avif: "/images/superficie/artigos/biologia-molecular-da-dgm/cover.avif",
+    webp: "/images/superficie/artigos/biologia-molecular-da-dgm/cover.webp",
+    alt: "Filme lipídico iridescente e glândulas de Meibômio em escala molecular",
+    width: 900,
+    height: 1200,
+  },
+  heroBackground: {
+    src: "/images/superficie/artigos/biologia-molecular-da-dgm/bg.jpg",
+    avif: "/images/superficie/artigos/biologia-molecular-da-dgm/bg.avif",
+    webp: "/images/superficie/artigos/biologia-molecular-da-dgm/bg.webp",
+    width: 1920,
+    height: 1080,
+  },
+  ogImage: {
+    src: "/images/superficie/artigos/biologia-molecular-da-dgm/og.jpg",
+    alt: "Filme lipídico iridescente e glândulas de Meibômio em escala molecular",
+    width: 1200,
+    height: 630,
+    type: "image/jpeg",
+  },
   tags: [
     "DGM",
     "PPARγ",

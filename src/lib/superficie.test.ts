@@ -208,6 +208,20 @@ test("descrição estável da revista não muda por página", () => {
   );
 });
 
+test("matéria DGM publica capa, fundo e OG próprios", () => {
+  const [article] = superficie.publishedArticles;
+  assert.equal(article.slug, "biologia-molecular-da-dgm");
+  assert.ok(
+    article.featuredImage?.src.includes("biologia-molecular-da-dgm/cover.jpg"),
+  );
+  assert.ok(
+    article.heroBackground?.src.includes("biologia-molecular-da-dgm/bg.jpg"),
+  );
+  assert.ok(article.ogImage?.src.includes("biologia-molecular-da-dgm/og.jpg"));
+  assert.equal(article.ogImage?.width, 1200);
+  assert.equal(article.ogImage?.height, 630);
+});
+
 test("validação exige canonical consistente com o slug", () => {
   const validateMagazineArticle =
     typeof api.validateMagazineArticle === "function"
