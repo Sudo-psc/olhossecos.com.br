@@ -11,6 +11,7 @@ export const articleTemplatePreview: MagazineArticle = {
   author: {
     name: "Equipe editorial SUPERFÍCIE",
   },
+  reviewSeal: "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
   status: "draft",
   issue: "00",
   content: [

@@ -52,6 +52,7 @@ const formatDate = (date?: string) =>
           )
         }
         <p class="category">{article.category}</p>
+        <p class="review-seal">{article.reviewSeal}</p>
         <h1>{article.title}</h1>
         {article.subtitle && <p class="subtitle">{article.subtitle}</p>}
         <p class="excerpt">{article.excerpt}</p>
@@ -358,6 +359,7 @@ const formatDate = (date?: string) =>
   .preview-label,
   .sponsor-label,
   .category,
+  .review-seal,
   .section-kicker,
   .article-toc > p,
   .related-section header > p,
@@ -371,10 +373,18 @@ const formatDate = (date?: string) =>
   }
 
   .preview-label,
-  .sponsor-label {
+  .sponsor-label,
+  .review-seal {
     display: inline-block;
     padding: 0.45rem 0.65rem;
     border: 1px solid currentColor;
+  }
+
+  /* O selo informa o processo editorial executado, não é distintivo de
+     prestígio — daí o tom sóbrio, distinto do ouro da marca. */
+  .review-seal {
+    color: var(--surface-copy);
+    letter-spacing: 0.1em;
   }
 
   .article-heading h1 {
