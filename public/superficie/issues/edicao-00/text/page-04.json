@@ -1,0 +1,77 @@
+{
+  "page": 4,
+  "blocks": [
+    {
+      "id": "page-4-eyebrow",
+      "text": "CLÍNICA · PÁGINA 04",
+      "x": 0.1,
+      "y": 0.065,
+      "width": 0.8,
+      "height": 0.035,
+      "role": "label"
+    },
+    {
+      "id": "page-4-title",
+      "text": "Além da obstrução: a biologia molecular da DGM",
+      "x": 0.1,
+      "y": 0.10391001606855918,
+      "width": 0.8,
+      "height": 0.07138725227637922,
+      "role": "heading"
+    },
+    {
+      "id": "page-4-subtitle",
+      "text": "PPARγ, receptor androgênico e células progenitoras ajudam a explicar a perda funcional da glândula de Meibomius antes da atrofia.",
+      "x": 0.1,
+      "y": 0.20207820032137117,
+      "width": 0.8,
+      "height": 0.06106052490626674,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-4-paragraph-1",
+      "text": "A disfunção das glândulas de Meibomius não é apenas uma doença de glândulas obstruídas. Alterações na diferenciação dos meibócitos, na sinalização androgênica e na renovação do compartimento progenitor podem preceder a atrofia — mas a evidência permanece majoritariamente pré-clínica.",
+      "x": 0.1,
+      "y": 0.2813497589716122,
+      "width": 0.8,
+      "height": 0.11783610069630424,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-4-paragraph-2",
+      "text": "A obstrução é apenas parte da história: a DGM também pode envolver falha na produção e na renovação de meibócitos funcionais.",
+      "x": 0.1,
+      "y": 0.41096946973754683,
+      "width": 0.8,
+      "height": 0.059989287627209426,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-4-paragraph-3",
+      "text": "Três eixos convergem: redução de PPARγ, menor suporte androgênico e disfunção do nicho progenitor.",
+      "x": 0.1,
+      "y": 0.4827423674343867,
+      "width": 0.8,
+      "height": 0.040707016604177824,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-4-paragraph-4",
+      "text": "A implicação clínica atual é fenotipar melhor, não prescrever vias moleculares.",
+      "x": 0.1,
+      "y": 0.5352329941081949,
+      "width": 0.8,
+      "height": 0.040707016604177824,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-4-number",
+      "text": "04",
+      "x": 0.84,
+      "y": 0.93,
+      "width": 0.06,
+      "height": 0.025,
+      "role": "page-number"
+    }
+  ]
+}

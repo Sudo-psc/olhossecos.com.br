@@ -1,0 +1,68 @@
+{
+  "page": 3,
+  "blocks": [
+    {
+      "id": "page-3-eyebrow",
+      "text": "SUMÁRIO · PÁGINA 03",
+      "x": 0.1,
+      "y": 0.065,
+      "width": 0.8,
+      "height": 0.035,
+      "role": "label"
+    },
+    {
+      "id": "page-3-title",
+      "text": "Nesta edição",
+      "x": 0.1,
+      "y": 0.10391001606855918,
+      "width": 0.8,
+      "height": 0.037836100696304234,
+      "role": "heading"
+    },
+    {
+      "id": "page-3-subtitle",
+      "text": "Dois artigos já publicados; o restante da edição ainda está em produção.",
+      "x": 0.1,
+      "y": 0.16852704874129618,
+      "width": 0.8,
+      "height": 0.04177825388323514,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-3-paragraph-1",
+      "text": "02 — Editorial",
+      "x": 0.1,
+      "y": 0.22851633636850563,
+      "width": 0.8,
+      "height": 0.021424745581146223,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-3-paragraph-2",
+      "text": "04 — Além da obstrução: a biologia molecular da DGM",
+      "x": 0.1,
+      "y": 0.2617246920192823,
+      "width": 0.8,
+      "height": 0.021424745581146223,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-3-paragraph-3",
+      "text": "06 — TFOS DEWS III na prática",
+      "x": 0.1,
+      "y": 0.2949330476700589,
+      "width": 0.8,
+      "height": 0.021424745581146223,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-3-number",
+      "text": "03",
+      "x": 0.84,
+      "y": 0.93,
+      "width": 0.06,
+      "height": 0.025,
+      "role": "page-number"
+    }
+  ]
+}

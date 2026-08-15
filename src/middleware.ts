@@ -42,7 +42,9 @@ const isLabOrPoc = (pathname: string) =>
   pathname === "/superficie/lab" ||
   pathname.startsWith("/superficie/lab/") ||
   pathname === "/superficie/issues/poc" ||
-  pathname.startsWith("/superficie/issues/poc/");
+  pathname.startsWith("/superficie/issues/poc/") ||
+  pathname === "/superficie/issues/edicao-00" ||
+  pathname.startsWith("/superficie/issues/edicao-00/");
 
 export const onRequest = defineMiddleware(async (context, next) => {
   if (import.meta.env.PROD && isLabOrPoc(context.url.pathname)) {

@@ -26,7 +26,8 @@
     "ops:deploy": "node scripts/deploy-atomic-release.mjs",
     "ops:backup": "node scripts/backup-private-data.mjs",
     "seo:indexnow": "node scripts/submit-indexnow.mjs",
-    "generate:superficie-poc": "node scripts/generate-superficie-poc-assets.mjs"
+    "generate:superficie-poc": "node scripts/generate-superficie-poc-assets.mjs",
+    "generate:superficie-edicao-00": "node --experimental-strip-types scripts/generate-superficie-edicao-00-assets.mjs"
   },
   "dependencies": {
     "@astrojs/node": "^11.0.2",

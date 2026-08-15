@@ -1,0 +1,68 @@
+{
+  "page": 8,
+  "blocks": [
+    {
+      "id": "page-8-eyebrow",
+      "text": "CONTRACAPA · PÁGINA 08",
+      "x": 0.1,
+      "y": 0.065,
+      "width": 0.8,
+      "height": 0.035,
+      "role": "label"
+    },
+    {
+      "id": "page-8-title",
+      "text": "SUPERFÍCIE",
+      "x": 0.1,
+      "y": 0.08891269416175683,
+      "width": 0.8,
+      "height": 0.05403320835565078,
+      "role": "heading"
+    },
+    {
+      "id": "page-8-subtitle",
+      "text": "Ler o artigo completo — o HTML é o texto canônico.",
+      "x": 0.1,
+      "y": 0.18472415640064274,
+      "width": 0.8,
+      "height": 0.022495982860203535,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-8-paragraph-1",
+      "text": "Além da obstrução: a biologia molecular da DGM — /superficie/artigos/biologia-molecular-da-dgm",
+      "x": 0.1,
+      "y": 0.22543117300482057,
+      "width": 0.8,
+      "height": 0.040707016604177824,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-8-paragraph-2",
+      "text": "TFOS DEWS III na prática — /superficie/artigos/tfos-dews-iii-na-pratica",
+      "x": 0.1,
+      "y": 0.2779217996786288,
+      "width": 0.8,
+      "height": 0.040707016604177824,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-8-paragraph-3",
+      "text": "A edição continua em produção. Estas páginas não substituem o HTML publicado.",
+      "x": 0.1,
+      "y": 0.33041242635243706,
+      "width": 0.8,
+      "height": 0.040707016604177824,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-8-number",
+      "text": "08",
+      "x": 0.84,
+      "y": 0.93,
+      "width": 0.06,
+      "height": 0.025,
+      "role": "page-number"
+    }
+  ]
+}
