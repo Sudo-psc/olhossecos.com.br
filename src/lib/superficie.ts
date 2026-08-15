@@ -803,8 +803,9 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
       doi: "10.1038/s41598-018-20273-9",
     },
     {
+      // Crossref omite páginas; PubMed PMID 35417509 lista 549-557.
       label:
-        "Marculino LGC, Hazarbassanov RM, Hazarbassanov NGTQ, et al. Prevalence and risk factors for dry eye disease: the Sao Paulo dry eye study. Arq Bras Oftalmol. 2022;85(6).",
+        "Marculino LGC, Hazarbassanov RM, Hazarbassanov NGTQ, et al. Prevalence and risk factors for dry eye disease: the Sao Paulo dry eye study. Arq Bras Oftalmol. 2022;85(6):549-557.",
       url: "https://doi.org/10.5935/0004-2749.202200100",
       doi: "10.5935/0004-2749.202200100",
     },
@@ -822,7 +823,7 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
     },
     {
       label:
-        "Craig JP, Alves M, Wolffsohn JS, et al. TFOS Lifestyle Report Executive Summary: A Lifestyle Epidemic - Ocular Surface Disease. Ocul Surf. 2023;30:240-253.",
+        "Craig JP, Alves M, Wolffsohn JS, et al. TFOS Lifestyle Report Executive Summary: A Lifestyle Epidemic — Ocular Surface Disease. Ocul Surf. 2023;30:240-253.",
       url: "https://doi.org/10.1016/j.jtos.2023.08.009",
       doi: "10.1016/j.jtos.2023.08.009",
     },

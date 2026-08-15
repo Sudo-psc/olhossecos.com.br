@@ -277,6 +277,26 @@ test("matéria TFOS DEWS III cita os DOIs adicionais da prova resolvidos no Cros
   ]) {
     assert.ok(dois.has(doi), `falta o DOI ${doi}`);
   }
+
+  const prigol = article.references.find(
+    ({ doi }) => doi === "10.1590/s0004-27492012000100005",
+  );
+  assert.ok(prigol?.label.includes("língua portuguesa"));
+  assert.ok(!prigol?.label.includes("Translation and validation"));
+
+  const marculino = article.references.find(
+    ({ doi }) => doi === "10.5935/0004-2749.202200100",
+  );
+  assert.ok(marculino?.label.includes("2022;85(6):549-557"));
+
+  const craigLifestyle = article.references.find(
+    ({ doi }) => doi === "10.1016/j.jtos.2023.08.009",
+  );
+  assert.ok(
+    craigLifestyle?.label.includes(
+      "A Lifestyle Epidemic — Ocular Surface Disease",
+    ),
+  );
 });
 
 test("validação exige canonical consistente com o slug", () => {
