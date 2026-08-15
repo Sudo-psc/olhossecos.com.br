@@ -38,16 +38,31 @@ const applySecurityHeaders = (response: Response) => {
   return response;
 };
 
-const isLabOrPoc = (pathname: string) =>
-  pathname === "/superficie/lab" ||
-  pathname.startsWith("/superficie/lab/") ||
-  pathname === "/superficie/issues/poc" ||
-  pathname.startsWith("/superficie/issues/poc/") ||
+const isEdicao00Lab = (pathname: string) =>
+  pathname === "/superficie/lab/edicao-00" ||
+  pathname.startsWith("/superficie/lab/edicao-00/");
+
+const isEdicao00Assets = (pathname: string) =>
   pathname === "/superficie/issues/edicao-00" ||
   pathname.startsWith("/superficie/issues/edicao-00/");
 
+const isBlockedLabOrPoc = (pathname: string) => {
+  if (isEdicao00Lab(pathname) || isEdicao00Assets(pathname)) return false;
+  return (
+    pathname === "/superficie/lab" ||
+    pathname.startsWith("/superficie/lab/") ||
+    pathname === "/superficie/issues/poc" ||
+    pathname.startsWith("/superficie/issues/poc/")
+  );
+};
+
+const isLabOrPoc = (pathname: string) =>
+  isBlockedLabOrPoc(pathname) ||
+  isEdicao00Lab(pathname) ||
+  isEdicao00Assets(pathname);
+
 export const onRequest = defineMiddleware(async (context, next) => {
-  if (import.meta.env.PROD && isLabOrPoc(context.url.pathname)) {
+  if (import.meta.env.PROD && isBlockedLabOrPoc(context.url.pathname)) {
     return applySecurityHeaders(
       new Response("Not Found", {
         status: 404,

@@ -22,9 +22,8 @@ execFileSync("astro", ["build"], {
 });
 
 for (const leftover of [
-  "superficie/lab",
+  "superficie/lab/flipbook",
   "superficie/issues/poc",
-  "superficie/issues/edicao-00",
 ]) {
   rmSync(join(repositoryDirectory, "dist", "client", leftover), {
     recursive: true,
