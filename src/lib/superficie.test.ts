@@ -222,6 +222,37 @@ test("matéria DGM publica capa, fundo e OG próprios", () => {
   assert.equal(article.ogImage?.height, 630);
 });
 
+test("matéria TFOS DEWS III publica as quatro seções e o selo de checagem editorial", () => {
+  const article = superficie.publishedArticles.find(
+    ({ slug }) => slug === "tfos-dews-iii-na-pratica",
+  );
+
+  assert.ok(
+    article,
+    "slug tfos-dews-iii-na-pratica deve estar em publishedArticles",
+  );
+  assert.equal(superficie.publishedArticles[0].slug, "biologia-molecular-da-dgm");
+  assert.equal(article.status, "published");
+  assert.equal(
+    article.reviewSeal,
+    "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  );
+  assert.equal(article.reviewer, undefined);
+  assert.deepEqual(superficie.founderIssue.articles, []);
+
+  const kinds = new Set(article.content.map(({ kind }) => kind));
+  for (const kind of [
+    "why-it-matters",
+    "evidence",
+    "practice",
+    "limitations",
+  ] as const) {
+    assert.ok(kinds.has(kind), `falta a seção ${kind}`);
+  }
+
+  assert.deepEqual(superficie.validateMagazineArticle(article), []);
+});
+
 test("validação exige canonical consistente com o slug", () => {
   const validateMagazineArticle =
     typeof api.validateMagazineArticle === "function"
