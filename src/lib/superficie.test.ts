@@ -222,6 +222,83 @@ test("matéria DGM publica capa, fundo e OG próprios", () => {
   assert.equal(article.ogImage?.height, 630);
 });
 
+test("matéria TFOS DEWS III publica as quatro seções e o selo de checagem editorial", () => {
+  const article = superficie.publishedArticles.find(
+    ({ slug }) => slug === "tfos-dews-iii-na-pratica",
+  );
+
+  assert.ok(
+    article,
+    "slug tfos-dews-iii-na-pratica deve estar em publishedArticles",
+  );
+  assert.equal(
+    superficie.publishedArticles[0].slug,
+    "biologia-molecular-da-dgm",
+  );
+  assert.equal(article.status, "published");
+  assert.equal(
+    article.reviewSeal,
+    "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  );
+  assert.equal(article.reviewer, undefined);
+  assert.deepEqual(superficie.founderIssue.articles, []);
+
+  const kinds = new Set(article.content.map(({ kind }) => kind));
+  for (const kind of [
+    "why-it-matters",
+    "evidence",
+    "practice",
+    "limitations",
+  ] as const) {
+    assert.ok(kinds.has(kind), `falta a seção ${kind}`);
+  }
+
+  assert.deepEqual(superficie.validateMagazineArticle(article), []);
+});
+
+test("matéria TFOS DEWS III cita os DOIs adicionais da prova resolvidos no Crossref", () => {
+  const article = superficie.publishedArticles.find(
+    ({ slug }) => slug === "tfos-dews-iii-na-pratica",
+  );
+  assert.ok(article);
+  const dois = new Set(
+    article.references.map(({ doi }) => doi).filter(Boolean),
+  );
+
+  for (const doi of [
+    "10.1016/j.jtos.2017.05.006",
+    "10.1097/opx.0000000000002184",
+    "10.1016/j.clinsp.2025.100578",
+    "10.1038/s41598-018-20273-9",
+    "10.5935/0004-2749.202200100",
+    "10.1016/j.jtos.2023.04.004",
+    "10.1016/j.jtos.2023.04.007",
+    "10.1016/j.jtos.2023.08.009",
+  ]) {
+    assert.ok(dois.has(doi), `falta o DOI ${doi}`);
+  }
+
+  const prigol = article.references.find(
+    ({ doi }) => doi === "10.1590/s0004-27492012000100005",
+  );
+  assert.ok(prigol?.label.includes("língua portuguesa"));
+  assert.ok(!prigol?.label.includes("Translation and validation"));
+
+  const marculino = article.references.find(
+    ({ doi }) => doi === "10.5935/0004-2749.202200100",
+  );
+  assert.ok(marculino?.label.includes("2022;85(6):549-557"));
+
+  const craigLifestyle = article.references.find(
+    ({ doi }) => doi === "10.1016/j.jtos.2023.08.009",
+  );
+  assert.ok(
+    craigLifestyle?.label.includes(
+      "A Lifestyle Epidemic — Ocular Surface Disease",
+    ),
+  );
+});
+
 test("validação exige canonical consistente com o slug", () => {
   const validateMagazineArticle =
     typeof api.validateMagazineArticle === "function"
