@@ -1,4 +1,5 @@
-import { copyFile, mkdir, writeFile } from "node:fs/promises";
+import { access, copyFile, mkdir, writeFile } from "node:fs/promises";
+import { constants as fsConstants } from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
 import { issue } from "../src/superficie/issues/edicao-00/issue-source.mjs";
@@ -21,6 +22,13 @@ const plateFiles = {
   tfos: path.join(artRoot, "tfos.png"),
 };
 
+const expectedPlateSize = {
+  capa: { width: 1024, height: 1536 },
+  interior: { width: 1122, height: 1402 },
+  dgm: { width: 1122, height: 1402 },
+  tfos: { width: 1122, height: 1402 },
+};
+
 await Promise.all([
   mkdir(artRoot, { recursive: true }),
   mkdir(pageRoot, { recursive: true }),
@@ -29,7 +37,7 @@ await Promise.all([
   mkdir(articleRoot, { recursive: true }),
 ]);
 
-await writePlates();
+await requireExistingPlates();
 
 const manifestPages = [];
 const searchIndex = [];
@@ -390,128 +398,21 @@ function buildPlaceholderPdf() {
   return Buffer.from(pdf, "ascii");
 }
 
-async function writePlates() {
-  await sharp(capaSvg()).png().toFile(plateFiles.capa);
-  await sharp(interiorSvg()).png().toFile(plateFiles.interior);
-  await sharp(dgmSvg()).png().toFile(plateFiles.dgm);
-  await sharp(tfosSvg()).png().toFile(plateFiles.tfos);
-}
-
-function capaSvg() {
-  return Buffer.from(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1536" viewBox="0 0 1024 1536">
-      <defs>
-        <linearGradient id="navy" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#0B1F33"/>
-          <stop offset="1" stop-color="#061821"/>
-        </linearGradient>
-        <linearGradient id="film" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#7a1f6b"/>
-          <stop offset="0.28" stop-color="#c43b8a"/>
-          <stop offset="0.5" stop-color="#d9b665"/>
-          <stop offset="0.72" stop-color="#7fbf3a"/>
-          <stop offset="1" stop-color="#00646A"/>
-        </linearGradient>
-        <filter id="grain">
-          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="11"/>
-          <feColorMatrix values="0 0 0 0 0.85  0 0 0 0 0.7  0 0 0 0 0.35  0 0 0 0.18 0"/>
-        </filter>
-      </defs>
-      <rect width="1024" height="1536" fill="url(#navy)"/>
-      <path d="M420-40C720 80 980 220 1120 520c80 180 40 420-80 680-90 190-260 360-520 430" fill="none" stroke="url(#film)" stroke-width="220" opacity=".88"/>
-      <path d="M510 80C760 180 980 320 1080 560c70 170 20 390-90 620" fill="none" stroke="#F7F3EA" stroke-width="8" opacity=".18"/>
-      <circle cx="860" cy="180" r="160" fill="#F7F3EA" opacity=".22"/>
-      <rect width="1024" height="1536" filter="url(#grain)"/>
-    </svg>`,
-    "utf8",
-  );
-}
-
-function interiorSvg() {
-  return Buffer.from(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="1122" height="1402" viewBox="0 0 1122 1402">
-      <defs>
-        <radialGradient id="wash" cx="50%" cy="42%" r="68%">
-          <stop offset="0" stop-color="#F7F3EA"/>
-          <stop offset="1" stop-color="#e4ddd0"/>
-        </radialGradient>
-        <filter id="smoke">
-          <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="3" seed="4"/>
-          <feColorMatrix values="0 0 0 0 0.04  0 0 0 0 0.12  0 0 0 0 0.2  0 0 0 0.55 0"/>
-        </filter>
-        <filter id="paper">
-          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="2"/>
-          <feColorMatrix values="0 0 0 0 0.1  0 0 0 0 0.1  0 0 0 0 0.08  0 0 0 0.12 0"/>
-        </filter>
-      </defs>
-      <rect width="1122" height="1402" fill="url(#wash)"/>
-      <rect width="520" height="1402" filter="url(#smoke)" opacity=".85"/>
-      <rect y="980" width="1122" height="422" filter="url(#smoke)" opacity=".45"/>
-      <path d="M0 1128H1122" stroke="#00646A" stroke-width="4"/>
-      <rect width="1122" height="1402" filter="url(#paper)"/>
-    </svg>`,
-    "utf8",
-  );
-}
-
-function dgmSvg() {
-  return Buffer.from(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="1122" height="1402" viewBox="0 0 1122 1402">
-      <defs>
-        <linearGradient id="base" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#0B1F33"/>
-          <stop offset="1" stop-color="#0a3a38"/>
-        </linearGradient>
-        <linearGradient id="fire" x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0" stop-color="#8A6621"/>
-          <stop offset="0.5" stop-color="#d9782a"/>
-          <stop offset="1" stop-color="#f2c14e"/>
-        </linearGradient>
-        <filter id="mix">
-          <feTurbulence type="turbulence" baseFrequency="0.018" numOctaves="3" seed="9"/>
-          <feColorMatrix values="0 0 0 0 0.55  0 0 0 0 0.28  0 0 0 0 0.08  0 0 0 0.7 0"/>
-        </filter>
-      </defs>
-      <rect width="1122" height="1402" fill="url(#base)"/>
-      <rect x="360" width="762" height="1402" filter="url(#mix)"/>
-      <path d="M720 180c80 40 120 140 90 230-40 120 30 190 110 240 70 44 80 140 20 210-50 58-20 150 70 190" fill="none" stroke="url(#fire)" stroke-width="70" opacity=".8"/>
-      <g fill="none" stroke="#2ec4b6" stroke-width="10">
-        <ellipse cx="860" cy="420" rx="70" ry="160"/>
-        <ellipse cx="940" cy="620" rx="64" ry="150"/>
-        <ellipse cx="820" cy="820" rx="72" ry="170"/>
-        <ellipse cx="960" cy="1040" rx="60" ry="140"/>
-      </g>
-      <g fill="#d9b665" opacity=".35">
-        <circle cx="700" cy="300" r="3"/><circle cx="640" cy="520" r="2"/><circle cx="580" cy="760" r="3"/>
-        <circle cx="500" cy="980" r="2"/><circle cx="620" cy="1180" r="3"/>
-      </g>
-    </svg>`,
-    "utf8",
-  );
-}
-
-function tfosSvg() {
-  return Buffer.from(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="1122" height="1402" viewBox="0 0 1122 1402">
-      <defs>
-        <radialGradient id="void" cx="50%" cy="50%" r="70%">
-          <stop offset="0" stop-color="#16324a"/>
-          <stop offset="1" stop-color="#0B1F33"/>
-        </radialGradient>
-        <filter id="dust">
-          <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="15"/>
-          <feColorMatrix values="0 0 0 0 0.85  0 0 0 0 0.65  0 0 0 0 0.2  0 0 0 0.35 0"/>
-        </filter>
-      </defs>
-      <rect width="1122" height="1402" fill="url(#void)"/>
-      <ellipse cx="820" cy="260" rx="280" ry="180" fill="#F7F3EA" opacity=".16"/>
-      <ellipse cx="280" cy="1180" rx="300" ry="200" fill="#F7F3EA" opacity=".12"/>
-      <rect x="548" y="80" width="26" height="1240" fill="#8A6621" opacity=".85"/>
-      <rect x="548" y="80" width="26" height="1240" filter="url(#dust)"/>
-      <path d="M80 701H1042" stroke="#2ec4b6" stroke-width="6"/>
-      <path d="M120 701c80-40 160-40 240 0s160 40 240 0 160-40 240 0 160 40 240 0" fill="none" stroke="#7fd3cf" stroke-width="2" opacity=".55"/>
-      <path d="M120 740c80 30 160 30 240 0s160-30 240 0 160 30 240 0 160-30 240 0" fill="none" stroke="#7fd3cf" stroke-width="2" opacity=".35"/>
-    </svg>`,
-    "utf8",
-  );
+async function requireExistingPlates() {
+  for (const [name, file] of Object.entries(plateFiles)) {
+    try {
+      await access(file, fsConstants.R_OK);
+    } catch {
+      throw new Error(
+        `Missing Comfy original ${file}. Copy the attached PNG byte-for-byte before generating assets.`,
+      );
+    }
+    const { width, height } = await sharp(file).metadata();
+    const expected = expectedPlateSize[name];
+    if (width !== expected.width || height !== expected.height) {
+      throw new Error(
+        `Plate ${file} is ${width}×${height}, expected ${expected.width}×${expected.height}.`,
+      );
+    }
+  }
 }
