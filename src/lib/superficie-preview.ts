@@ -59,7 +59,13 @@ export const articleTemplatePreview: MagazineArticle = {
       url: "/politica-editorial",
     },
   ],
-  disclosure: "Prévia técnica sem autoria clínica ou patrocínio.",
+  disclosures: [
+    { label: "Financiamento", text: "Não se aplica — prévia técnica." },
+    {
+      label: "Conflitos de interesse",
+      text: "Prévia técnica sem autoria clínica ou patrocínio.",
+    },
+  ],
   sponsored: false,
   tags: ["evidência", "transparência", "política editorial"],
   seo: {

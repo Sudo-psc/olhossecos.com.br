@@ -289,7 +289,17 @@ const { endpoint = "/api/superficie-parceiros" } = Astro.props;
     min-height: auto;
     margin-top: 0.2rem;
     padding: 0;
+    flex: none;
     accent-color: var(--surface-teal-dark);
+  }
+
+  /* Só no toque: 1.1rem dá 17,6px, abaixo dos 24px da WCAG 2.5.8. No
+     desktop o controle segue discreto, com o ponteiro fino dando a precisão. */
+  @media (pointer: coarse) {
+    .consent input {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
   }
 
   .consent a {

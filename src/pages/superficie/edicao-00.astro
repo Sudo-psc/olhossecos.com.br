@@ -361,6 +361,12 @@ const issueSchema = {
     text-transform: uppercase;
   }
 
+  .breadcrumb a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+  }
+
   .breadcrumb a:hover,
   .breadcrumb a:focus-visible {
     color: var(--surface-paper);
@@ -428,7 +434,10 @@ const issueSchema = {
   }
 
   .issue-nav a {
+    display: inline-flex;
     flex: 0 0 auto;
+    align-items: center;
+    min-height: 24px;
     font-size: 0.72rem;
     font-weight: 800;
     letter-spacing: 0.1em;

@@ -184,13 +184,23 @@ const formatDate = (date?: string) =>
           <section id="referencias" class="references-section">
             <p class="section-kicker">Fontes</p>
             <h2>Referências</h2>
-            <ol>
+            {/* A citação fica em texto corrido e só o identificador é
+                acionável. Envolver a citação inteira num link produzia
+                blocos de três linhas sublinhadas — ruído visual em 25
+                entradas — e devolvia a referência completa como "texto do
+                link" na navegação por leitor de tela. */}
+            <ol class="reference-list">
               {article.references.map((reference) => (
                 <li>
-                  <a href={reference.url} rel="noreferrer">
-                    {reference.label}
+                  <cite>{reference.label}</cite>
+                  <a
+                    class="reference-link"
+                    href={reference.url}
+                    rel="noreferrer"
+                  >
+                    {reference.doi ? `DOI ${reference.doi}` : "Ver fonte"}
+                    <span class="sr-only"> — {reference.label}</span>
                   </a>
-                  {reference.doi && <span>DOI: {reference.doi}</span>}
                 </li>
               ))}
             </ol>
@@ -201,7 +211,16 @@ const formatDate = (date?: string) =>
       <section id="disclosures" class="disclosure-section">
         <p class="section-kicker">Transparência</p>
         <h2>Conflitos de interesse / disclosures</h2>
-        <p>{article.disclosure}</p>
+        <dl class="disclosure-list">
+          {
+            article.disclosures.map(({ label, text }) => (
+              <>
+                <dt>{label}</dt>
+                <dd>{text}</dd>
+              </>
+            ))
+          }
+        </dl>
         {
           article.sponsored && article.sponsor && (
             <p>
@@ -348,6 +367,14 @@ const formatDate = (date?: string) =>
     text-transform: uppercase;
   }
 
+  /* O texto em caixa alta a 0.68rem gera altura de ~18px. O alvo precisa dos
+     24px da WCAG 2.5.8 sem que a linha do breadcrumb engorde. */
+  .article-breadcrumb a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+  }
+
   .article-hero-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(240px, 320px);
@@ -381,9 +408,11 @@ const formatDate = (date?: string) =>
   }
 
   /* O selo informa o processo editorial executado, não é distintivo de
-     prestígio — daí o tom sóbrio, distinto do ouro da marca. */
+     prestígio — daí o tom neutro, distinto do ouro da marca. Precisa do
+     token para fundo escuro: --surface-copy é texto de papel claro e sobre
+     o navy do hero fica em 1,54:1, ou seja, ilegível. */
   .review-seal {
-    color: var(--surface-copy);
+    color: var(--surface-muted-on-dark);
     letter-spacing: 0.1em;
   }
 
@@ -528,6 +557,7 @@ const formatDate = (date?: string) =>
 
   .article-section > p:not(.section-kicker),
   .article-section li,
+  .disclosure-list dd,
   .disclosure-section > p:not(.section-kicker) {
     color: var(--surface-copy);
     font-family: var(--surface-serif);
@@ -535,9 +565,78 @@ const formatDate = (date?: string) =>
     line-height: 1.75;
   }
 
+  .disclosure-list {
+    margin: 0;
+  }
+
+  .disclosure-list dt {
+    margin-bottom: 0.3rem;
+    color: var(--surface-ink);
+    font-family: var(--surface-sans);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .disclosure-list dd {
+    margin: 0;
+    max-width: 68ch;
+  }
+
+  .disclosure-list dd + dt {
+    margin-top: 1.6rem;
+    padding-top: 1.6rem;
+    border-top: 1px solid var(--surface-line);
+  }
+
   .article-section ul {
     margin-block: 1.5rem;
     padding-left: 1.4rem;
+  }
+
+  /* A lista da seção prática é um roteiro de conduta, e a de limitações é um
+     inventário de lacunas. Com o mesmo marcador redondo as duas se lêem como
+     o mesmo tipo de conteúdo — o que, num texto que insiste na diferença
+     entre o que fazer e o que ainda não se sabe, apaga justamente a
+     distinção que o artigo defende. */
+  .article-section.practice ul {
+    margin-block: 1.8rem;
+    padding-left: 0;
+    list-style: none;
+    counter-reset: conduta;
+  }
+
+  .article-section.practice li {
+    position: relative;
+    counter-increment: conduta;
+    padding: 0.2rem 0 0.2rem 3rem;
+  }
+
+  .article-section.practice li + li {
+    margin-top: 1rem;
+  }
+
+  .article-section.practice li::before {
+    content: counter(conduta);
+    position: absolute;
+    top: 0.5rem;
+    left: 0;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--surface-teal);
+    border-radius: 50%;
+    color: var(--surface-teal-dark);
+    font-family: var(--surface-sans);
+    font-size: 0.82rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+  }
+
+  .article-section.limitations li::marker {
+    color: var(--surface-gold);
   }
 
   .article-section.evidence,
@@ -557,25 +656,74 @@ const formatDate = (date?: string) =>
     border-top: 1px solid var(--surface-line);
   }
 
-  .references-section ol {
-    padding-left: 1.5rem;
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
-  .references-section li {
-    padding-block: 0.8rem;
+  /* Numeração desenhada à mão: o marcador nativo do <ol> alinha à direita e
+     descola do texto quando a citação passa de uma linha. */
+  .reference-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: referencia;
+  }
+
+  .reference-list li {
+    position: relative;
+    counter-increment: referencia;
+    padding: 1.15rem 0 1.15rem 3rem;
     color: var(--surface-copy);
   }
 
-  .references-section a {
-    color: var(--surface-teal-dark);
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
+  .reference-list li + li {
+    border-top: 1px solid var(--surface-line);
   }
 
-  .references-section span {
+  .reference-list li::before {
+    content: counter(referencia);
+    position: absolute;
+    top: 1.15rem;
+    left: 0;
+    min-width: 2rem;
+    color: var(--surface-gold);
+    font-size: 0.82rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .reference-list cite {
     display: block;
-    color: var(--surface-muted);
+    max-width: 62ch;
+    font-size: 0.94rem;
+    font-style: normal;
+    line-height: 1.55;
+  }
+
+  .reference-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    margin-top: 0.45rem;
+    color: var(--surface-teal-dark);
+    font-family: var(--surface-sans);
     font-size: 0.76rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+    word-break: break-all;
+  }
+
+  .reference-link:hover {
+    color: var(--surface-teal);
   }
 
   .related-section {

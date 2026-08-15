@@ -62,6 +62,16 @@ export const magazineReviewSeals = [
 
 export type MagazineReviewSeal = (typeof magazineReviewSeals)[number];
 
+/**
+ * Declaração editorial nomeada. São categorias distintas exigidas pelo ICMJE
+ * — financiamento, conflito, uso de IA, revisão, ética. Num parágrafo único
+ * o leitor que procura uma delas precisa garimpar as outras quatro.
+ */
+export interface MagazineDisclosure {
+  label: string;
+  text: string;
+}
+
 export interface MagazineArticle {
   slug: string;
   title: string;
@@ -77,7 +87,7 @@ export interface MagazineArticle {
   publishedAt?: string;
   modifiedAt?: string;
   references: MagazineReference[];
-  disclosure: string;
+  disclosures: MagazineDisclosure[];
   sponsored: boolean;
   sponsor?: MagazineSponsor;
   featuredImage?: {
@@ -143,10 +153,16 @@ export const validateMagazineArticle = (article: MagazineArticle) => {
     errors.push("O canonical do artigo deve corresponder ao slug editorial.");
   }
 
-  if (!article.disclosure.trim()) {
-    errors.push(
-      "O campo de conflitos de interesse / disclosures é obrigatório.",
-    );
+  const exigidas = ["Financiamento", "Conflitos de interesse"];
+  const declaradas = new Set(article.disclosures.map(({ label }) => label));
+  const faltando = exigidas.filter((label) => !declaradas.has(label));
+
+  if (faltando.length > 0) {
+    errors.push(`Declarações obrigatórias ausentes: ${faltando.join(", ")}.`);
+  }
+
+  if (article.disclosures.some(({ text }) => !text.trim())) {
+    errors.push("Declaração editorial sem conteúdo.");
   }
 
   // Nenhum selo é automático. Um selo que afirma revisão exige revisor
@@ -485,8 +501,25 @@ const dgmBiologiaMolecular: MagazineArticle = {
       doi: "10.1167/iovs.67.1.9",
     },
   ],
-  disclosure:
-    "Financiamento: sem financiamento externo. Conflitos de interesse: o autor declara não possuir vínculo com fabricantes de dispositivos, fármacos ou tecnologias citados neste artigo. Uso de inteligência artificial: houve assistência de IA na reorganização editorial, na revisão linguística e na conferência bibliográfica das referências contra Crossref e PubMed; a IA não foi tratada como fonte, e as afirmações e referências foram verificadas pelo autor. Revisão: este artigo não passou por revisão independente por pares — ver o selo editorial. Aprovação ética: não se aplica a revisão narrativa sem dados individuais ou imagens identificáveis.",
+  disclosures: [
+    { label: "Financiamento", text: "Sem financiamento externo." },
+    {
+      label: "Conflitos de interesse",
+      text: "O autor declara não possuir vínculo com fabricantes de dispositivos, fármacos ou tecnologias citados neste artigo.",
+    },
+    {
+      label: "Uso de inteligência artificial",
+      text: "Houve assistência de IA na reorganização editorial, na revisão linguística e na conferência bibliográfica das referências contra Crossref e PubMed. A IA não foi tratada como fonte; as afirmações e referências foram verificadas pelo autor.",
+    },
+    {
+      label: "Revisão",
+      text: "Este artigo não passou por revisão independente por pares. Ver o selo editorial no topo da página.",
+    },
+    {
+      label: "Aprovação ética",
+      text: "Não se aplica: revisão narrativa sem dados individuais ou imagens identificáveis.",
+    },
+  ],
   sponsored: false,
   tags: [
     "DGM",

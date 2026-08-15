@@ -385,7 +385,12 @@ const processSteps = [
     margin-block: 0.55rem;
   }
 
+  /* Link isolado ao fim do bloco, não inline em texto corrido — precisa dos
+     24px de alvo da WCAG 2.5.8. */
   .value-copy a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
     color: var(--surface-gold-light);
     font-weight: 800;
   }

@@ -104,6 +104,11 @@ const AUDITORIA_NO_NAVEGADOR = () => {
   );
   for (const el of alvos) {
     if (!visivel(el)) continue;
+    // A WCAG 1.4.3 isenta componente de interface inativo. O cinza de um
+    // botão desabilitado É o sinal de que ele está desabilitado; "corrigir"
+    // o contraste apagaria a informação que o estado carrega.
+    if (el.closest(":disabled, [aria-disabled='true'], fieldset:disabled"))
+      continue;
     const texto = [...el.childNodes]
       .filter((n) => n.nodeType === 3)
       .map((n) => n.textContent.trim())
@@ -205,6 +210,21 @@ const AUDITORIA_NO_NAVEGADOR = () => {
       ) && getComputedStyle(el).display.startsWith("inline")
     );
   };
+  // O alvo de um controle rotulado é o rótulo inteiro: clicar no texto de um
+  // <label> aciona o input dentro dele. Medir só a caixa do input acusa um
+  // checkbox de 18px que na prática tem a área do rótulo.
+  const caixaEfetiva = (el) => {
+    const proprio = el.getBoundingClientRect();
+    if (!/^(INPUT|SELECT|TEXTAREA)$/.test(el.tagName)) return proprio;
+    const rotulo =
+      el.closest("label") ??
+      (el.id
+        ? document.querySelector(`label[for="${CSS.escape(el.id)}"]`)
+        : null);
+    if (!rotulo) return proprio;
+    const r = rotulo.getBoundingClientRect();
+    return r.width >= proprio.width && r.height >= proprio.height ? r : proprio;
+  };
   const interativos = [
     ...document.querySelectorAll(
       "a, button, input, select, textarea, [role=button]",
@@ -212,11 +232,11 @@ const AUDITORIA_NO_NAVEGADOR = () => {
   ].filter((el) => visivel(el) && !inlineEmTexto(el));
   const pequenos = interativos
     .filter((el) => {
-      const r = el.getBoundingClientRect();
+      const r = caixaEfetiva(el);
       return Math.min(r.width, r.height) < 24;
     })
     .map((el) => {
-      const r = el.getBoundingClientRect();
+      const r = caixaEfetiva(el);
       return {
         seletor:
           el.tagName.toLowerCase() +

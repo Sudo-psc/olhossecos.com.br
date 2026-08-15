@@ -37,10 +37,14 @@ const article = (overrides: Partial<MagazineArticle> = {}): MagazineArticle =>
     ],
     category: "Clínica",
     author: { name: "Autoria confirmada" },
+    reviewSeal: "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
     status: "published",
     publishedAt: "2026-08-07",
     references: [{ label: "Referência primária", url: "https://example.org" }],
-    disclosure: "Nenhum conflito declarado.",
+    disclosures: [
+      { label: "Financiamento", text: "Sem financiamento externo." },
+      { label: "Conflitos de interesse", text: "Nenhum conflito declarado." },
+    ],
     sponsored: false,
     tags: ["DGM", "meibografia"],
     seo: {
@@ -131,14 +135,41 @@ test("validação impede publicar artigo sem disclosure, data ou referência", (
       : () => [];
 
   const errors = validateMagazineArticle(
-    article({ disclosure: "", publishedAt: undefined, references: [] }),
+    article({ disclosures: [], publishedAt: undefined, references: [] }),
   );
 
   assert.deepEqual(errors, [
     "Artigos publicados exigem data de publicação.",
     "Artigos publicados exigem ao menos uma referência.",
-    "O campo de conflitos de interesse / disclosures é obrigatório.",
+    "Declarações obrigatórias ausentes: Financiamento, Conflitos de interesse.",
   ]);
+});
+
+test("selo que afirma revisão exige revisor nomeado", () => {
+  const validateMagazineArticle =
+    typeof api.validateMagazineArticle === "function"
+      ? (api.validateMagazineArticle as (value: MagazineArticle) => string[])
+      : () => [];
+
+  // Sem esta trava o rótulo declara ao leitor um processo que não ocorreu.
+  assert.deepEqual(
+    validateMagazineArticle(
+      article({ reviewSeal: "REVISÃO CIENTÍFICA EDITORIAL" }),
+    ),
+    [
+      'O selo "REVISÃO CIENTÍFICA EDITORIAL" exige revisor nomeado. Sem revisor, use "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES".',
+    ],
+  );
+
+  assert.deepEqual(
+    validateMagazineArticle(
+      article({
+        reviewSeal: "REVISÃO CIENTÍFICA EDITORIAL",
+        reviewer: { name: "Revisora nomeada" },
+      }),
+    ),
+    [],
+  );
 });
 
 test("validação exige identificação explícita do patrocinador", () => {
