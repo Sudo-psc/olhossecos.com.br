@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { writeFileSync } from "node:fs";
+import { rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -20,6 +20,13 @@ execFileSync("astro", ["build"], {
   cwd: repositoryDirectory,
   stdio: "inherit",
 });
+
+for (const leftover of ["superficie/lab", "superficie/issues/poc"]) {
+  rmSync(join(repositoryDirectory, "dist", "client", leftover), {
+    recursive: true,
+    force: true,
+  });
+}
 
 writeFileSync(
   join(repositoryDirectory, "dist", "BUILD_METADATA.json"),
