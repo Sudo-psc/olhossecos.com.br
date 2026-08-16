@@ -382,6 +382,9 @@ test("matéria de fenotipagem integrada publica as quatro seções sem capa nem 
       "tfos-dews-iii-na-pratica",
       "quando-sintomas-e-sinais-nao-batem",
       "tres-meses-nao-sao-doze",
+      "alem-do-meiboscore",
+      "cinco-testes-cinco-perguntas",
+      "a-prega-o-atrito-e-o-piscar",
     ],
   );
   assert.equal(article.status, "published");
@@ -455,6 +458,9 @@ test("matéria de tecnologias publica as quatro seções sem capa nem figura cl�
       "tfos-dews-iii-na-pratica",
       "quando-sintomas-e-sinais-nao-batem",
       "tres-meses-nao-sao-doze",
+      "alem-do-meiboscore",
+      "cinco-testes-cinco-perguntas",
+      "a-prega-o-atrito-e-o-piscar",
     ],
   );
   assert.equal(article.status, "published");
@@ -533,6 +539,134 @@ test("matéria de tecnologias publica as quatro seções sem capa nem figura cl�
   );
 });
 
+
+const assertSealedArticle = (
+  slug: string,
+  expected: {
+    category: string;
+    references: number;
+    practiceBullets: number;
+    locks: RegExp[];
+    forbiddenDois?: string[];
+    forbiddenLabels?: RegExp[];
+  },
+) => {
+  const article = superficie.publishedArticles.find(
+    ({ slug: value }) => value === slug,
+  );
+
+  assert.ok(article, `slug ${slug} deve estar em publishedArticles`);
+  assert.equal(
+    superficie.publishedArticles[0].slug,
+    "biologia-molecular-da-dgm",
+  );
+  assert.equal(article.status, "published");
+  assert.equal(article.category, expected.category);
+  assert.equal(
+    article.reviewSeal,
+    "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  );
+  assert.equal(article.reviewer, undefined);
+  assert.equal(article.featuredImage, undefined);
+  assert.equal(article.heroBackground, undefined);
+  assert.equal(article.ogImage, undefined);
+  assert.equal(article.sponsored, false);
+  assert.equal(article.issue, "edicao-00");
+  assert.equal(article.publishedAt, "2026-08-15");
+  assert.equal(article.modifiedAt, "2026-08-15");
+  assert.equal(article.seo.canonical, `/superficie/artigos/${slug}`);
+  assert.deepEqual(superficie.founderIssue.articles, []);
+
+  const byId = Object.fromEntries(
+    article.content.map((section) => [section.id, section]),
+  );
+  assert.equal(byId["por-que-importa"]?.kind, "why-it-matters");
+  assert.equal(byId.evidencia?.kind, "evidence");
+  assert.equal(byId.pratica?.kind, "practice");
+  assert.equal(byId.limitacoes?.kind, "limitations");
+  assert.equal(byId.pratica?.bullets?.length, expected.practiceBullets);
+  assert.deepEqual(superficie.validateMagazineArticle(article), []);
+
+  const text = [
+    ...article.content.flatMap((section) => [
+      ...section.paragraphs,
+      ...(section.bullets ?? []),
+    ]),
+  ].join(" ");
+  for (const lock of expected.locks) {
+    assert.match(text, lock);
+  }
+
+  assert.equal(article.references.length, expected.references);
+  for (const doi of expected.forbiddenDois ?? []) {
+    assert.equal(
+      article.references.some((reference) => reference.doi === doi),
+      false,
+    );
+  }
+  for (const label of expected.forbiddenLabels ?? []) {
+    assert.equal(
+      article.references.some((reference) => label.test(reference.label)),
+      false,
+    );
+  }
+};
+
+test("matéria Além do meiboscore publica as quatro seções e as travas do rascunho selado", () => {
+  assertSealedArticle("alem-do-meiboscore", {
+    category: "Diagnóstico",
+    references: 15,
+    practiceBullets: 6,
+    locks: [
+      /O meiboscore virou atalho de consultório/,
+      /soma bruta dos 6 itens, escala 0–24/,
+      /não o índice 0–100 do OSDI-12/,
+      /Arita 0–3 com Pult 0–4/,
+      /C-stat em torno de 0,63/,
+      /n = 15/,
+      /corpo do workshop não foi recuperado/,
+      /R = 0,428/,
+    ],
+  });
+});
+
+test("matéria Cinco testes, cinco perguntas publica as quatro seções e as travas do rascunho selado", () => {
+  assertSealedArticle("cinco-testes-cinco-perguntas", {
+    category: "Diagnóstico",
+    references: 14,
+    practiceBullets: 5,
+    locks: [
+      /O consultório ainda trata tempo de ruptura/,
+      /soma bruta dos 6 itens \(escala 0–24\)/,
+      /Interferometria e MMP-9 não entram no critério diagnóstico/,
+      /308 não é 316/,
+      /85% versus 86%/,
+      /≤ 8 s numa plataforma, ≤ 14 s na outra/,
+      /n = 33/,
+    ],
+    forbiddenLabels: [/NEI/],
+  });
+});
+
+test("matéria A prega, o atrito e o piscar publica as quatro seções e as travas do rascunho selado", () => {
+  assertSealedArticle("a-prega-o-atrito-e-o-piscar", {
+    category: "Clínica",
+    references: 14,
+    practiceBullets: 8,
+    locks: [
+      /O consultório ainda escala o paciente/,
+      /6,8% na primeira década para 90,2%/,
+      /76% dos sintomáticos/,
+      /versus 12% dos assintomáticos/,
+      /88,2% sem DED e 78,0% com DED/,
+      /n = 20/,
+      /indica CPAP como terapia de olho seco/,
+      /Snap-back é manobra/,
+    ],
+    forbiddenDois: ["10.1097/ICO.0b013e3181ba0cb2"],
+    forbiddenLabels: [/Höh/, /Hirotani/, /Korb DR, Herman JP, Blackie CA/],
+  });
+});
 
 test("validação exige canonical consistente com o slug", () => {
   const validateMagazineArticle =
