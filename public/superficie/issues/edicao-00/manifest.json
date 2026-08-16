@@ -2,7 +2,7 @@
   "id": "edicao-00",
   "number": "00",
   "title": "A nova era da superfície ocular",
-  "pageCount": 8,
+  "pageCount": 34,
   "pages": [
     {
       "number": 1,
@@ -14,7 +14,7 @@
       "thumbnail": "/superficie/issues/edicao-00/pages/page-01-thumb.webp",
       "textLayer": "/superficie/issues/edicao-00/text/page-01.json",
       "type": "cover",
-      "alt": "Página 1: A nova era da superfície ocular."
+      "alt": "Página 1: SUPERFÍCIE."
     },
     {
       "number": 2,
@@ -25,8 +25,8 @@
       },
       "thumbnail": "/superficie/issues/edicao-00/pages/page-02-thumb.webp",
       "textLayer": "/superficie/issues/edicao-00/text/page-02.json",
-      "type": "editorial",
-      "alt": "Página 2: Duas leituras, edição ainda em produção."
+      "type": "ad",
+      "alt": "Página 2: PUBLICIDADE."
     },
     {
       "number": 3,
@@ -37,8 +37,8 @@
       },
       "thumbnail": "/superficie/issues/edicao-00/pages/page-03-thumb.webp",
       "textLayer": "/superficie/issues/edicao-00/text/page-03.json",
-      "type": "contents",
-      "alt": "Página 3: Nesta edição."
+      "type": "editorial",
+      "alt": "Página 3: Duas leituras, edição ainda em produção."
     },
     {
       "number": 4,
@@ -49,9 +49,8 @@
       },
       "thumbnail": "/superficie/issues/edicao-00/pages/page-04-thumb.webp",
       "textLayer": "/superficie/issues/edicao-00/text/page-04.json",
-      "type": "article",
-      "articleId": "biologia-molecular-da-dgm",
-      "alt": "Página 4: Além da obstrução: a biologia molecular da DGM."
+      "type": "contents",
+      "alt": "Página 4: Nesta edição."
     },
     {
       "number": 5,
@@ -64,7 +63,7 @@
       "textLayer": "/superficie/issues/edicao-00/text/page-05.json",
       "type": "article",
       "articleId": "biologia-molecular-da-dgm",
-      "alt": "Página 5: O que muda na prática — e o que ainda não sabemos."
+      "alt": "Página 5: Além da obstrução: a biologia molecular da DGM."
     },
     {
       "number": 6,
@@ -76,8 +75,8 @@
       "thumbnail": "/superficie/issues/edicao-00/pages/page-06-thumb.webp",
       "textLayer": "/superficie/issues/edicao-00/text/page-06.json",
       "type": "article",
-      "articleId": "tfos-dews-iii-na-pratica",
-      "alt": "Página 6: TFOS DEWS III na prática."
+      "articleId": "biologia-molecular-da-dgm",
+      "alt": "Página 6: O que muda na prática — e o que ainda não sabemos."
     },
     {
       "number": 7,
@@ -90,7 +89,7 @@
       "textLayer": "/superficie/issues/edicao-00/text/page-07.json",
       "type": "article",
       "articleId": "tfos-dews-iii-na-pratica",
-      "alt": "Página 7: Nove drivers e o mapa de seis minutos."
+      "alt": "Página 7: TFOS DEWS III na prática."
     },
     {
       "number": 8,
@@ -101,22 +100,375 @@
       },
       "thumbnail": "/superficie/issues/edicao-00/pages/page-08-thumb.webp",
       "textLayer": "/superficie/issues/edicao-00/text/page-08.json",
-      "type": "back-cover",
-      "alt": "Página 8: SUPERFÍCIE."
+      "type": "article",
+      "articleId": "tfos-dews-iii-na-pratica",
+      "alt": "Página 8: Nove drivers e o mapa de seis minutos."
+    },
+    {
+      "number": 9,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-09-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-09-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-09-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-09-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-09.json",
+      "type": "ad",
+      "alt": "Página 9: PUBLICIDADE."
+    },
+    {
+      "number": 10,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-10-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-10-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-10-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-10-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-10.json",
+      "type": "article",
+      "alt": "Página 10: Quando sintomas e sinais não batem."
+    },
+    {
+      "number": 11,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-11-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-11-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-11-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-11-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-11.json",
+      "type": "article",
+      "alt": "Página 11: A discórdia é um achado, não um exame inconsistente."
+    },
+    {
+      "number": 12,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-12-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-12-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-12-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-12-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-12.json",
+      "type": "article",
+      "alt": "Página 12: Além do meiboscore."
+    },
+    {
+      "number": 13,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-13-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-13-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-13-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-13-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-13.json",
+      "type": "article",
+      "alt": "Página 13: A imagem não fecha o diagnóstico."
+    },
+    {
+      "number": 14,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-14-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-14-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-14-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-14-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-14.json",
+      "type": "ad",
+      "alt": "Página 14: PUBLICIDADE."
+    },
+    {
+      "number": 15,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-15-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-15-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-15-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-15-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-15.json",
+      "type": "article",
+      "alt": "Página 15: Cinco testes, cinco perguntas."
+    },
+    {
+      "number": 16,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-16-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-16-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-16-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-16-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-16.json",
+      "type": "article",
+      "alt": "Página 16: Cinco perguntas. Uma caixa de custo.."
+    },
+    {
+      "number": 17,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-17-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-17-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-17-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-17-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-17.json",
+      "type": "article",
+      "alt": "Página 17: A prega, o atrito e o piscar."
+    },
+    {
+      "number": 18,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-18-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-18-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-18-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-18-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-18.json",
+      "type": "article",
+      "alt": "Página 18: Três sinais que o consultório mistura."
+    },
+    {
+      "number": 19,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-19-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-19-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-19-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-19-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-19.json",
+      "type": "ad",
+      "alt": "Página 19: PUBLICIDADE."
+    },
+    {
+      "number": 20,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-20-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-20-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-20-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-20-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-20.json",
+      "type": "article",
+      "alt": "Página 20: Quando a higiene não basta."
+    },
+    {
+      "number": 21,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-21-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-21-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-21-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-21-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-21.json",
+      "type": "article",
+      "alt": "Página 21: O que reduz ácaro, e o que só reduz queixa."
+    },
+    {
+      "number": 22,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-22-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-22-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-22-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-22-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-22.json",
+      "type": "article",
+      "alt": "Página 22: O mecanismo da visita, não o degrau."
+    },
+    {
+      "number": 23,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-23-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-23-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-23-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-23-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-23.json",
+      "type": "article",
+      "alt": "Página 23: Escolher com o mapa na mão."
+    },
+    {
+      "number": 24,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-24-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-24-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-24-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-24-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-24.json",
+      "type": "ad",
+      "alt": "Página 24: PUBLICIDADE."
+    },
+    {
+      "number": 25,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-25-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-25-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-25-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-25-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-25.json",
+      "type": "article",
+      "alt": "Página 25: Três meses não são doze."
+    },
+    {
+      "number": 26,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-26-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-26-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-26-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-26-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-26.json",
+      "type": "article",
+      "alt": "Página 26: Como ler o ranking — e o que ele não é."
+    },
+    {
+      "number": 27,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-27-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-27-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-27-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-27-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-27.json",
+      "type": "article",
+      "alt": "Página 27: Tratar antes de medir."
+    },
+    {
+      "number": 28,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-28-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-28-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-28-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-28-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-28.json",
+      "type": "article",
+      "alt": "Página 28: Re-medir quando o K repetir."
+    },
+    {
+      "number": 29,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-29-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-29-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-29-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-29-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-29.json",
+      "type": "ad",
+      "alt": "Página 29: PUBLICIDADE."
+    },
+    {
+      "number": 30,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-30-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-30-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-30-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-30-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-30.json",
+      "type": "article",
+      "alt": "Página 30: O número automático não diagnostica."
+    },
+    {
+      "number": 31,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-31-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-31-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-31-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-31-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-31.json",
+      "type": "article",
+      "alt": "Página 31: Segmentação não é diagnóstico."
+    },
+    {
+      "number": 32,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-32-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-32-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-32-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-32-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-32.json",
+      "type": "article",
+      "alt": "Página 32: Quem entra, quem some."
+    },
+    {
+      "number": 33,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-33-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-33-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-33-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-33-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-33.json",
+      "type": "article",
+      "alt": "Página 33: O indicador que some do discurso."
+    },
+    {
+      "number": 34,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-34-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-34-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-34-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-34-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-34.json",
+      "type": "ad",
+      "alt": "Página 34: PUBLICIDADE."
     }
   ],
   "toc": [
     {
       "title": "Editorial",
-      "page": 2
+      "page": 3
     },
     {
       "title": "Além da obstrução: a biologia molecular da DGM",
-      "page": 4
+      "page": 5
     },
     {
       "title": "TFOS DEWS III na prática",
-      "page": 6
+      "page": 7
+    },
+    {
+      "title": "Quando sintomas e sinais não batem",
+      "page": 10
+    },
+    {
+      "title": "Além do meiboscore",
+      "page": 12
+    },
+    {
+      "title": "Cinco testes, cinco perguntas",
+      "page": 15
+    },
+    {
+      "title": "A prega, o atrito e o piscar",
+      "page": 17
+    },
+    {
+      "title": "Quando a higiene não basta",
+      "page": 20
+    },
+    {
+      "title": "O mecanismo da visita, não o degrau",
+      "page": 22
+    },
+    {
+      "title": "Três meses não são doze",
+      "page": 25
+    },
+    {
+      "title": "Tratar antes de medir",
+      "page": 27
+    },
+    {
+      "title": "O número automático não diagnostica",
+      "page": 30
+    },
+    {
+      "title": "Quem entra, quem some",
+      "page": 32
     }
   ],
   "articles": [
@@ -124,8 +476,8 @@
       "id": "biologia-molecular-da-dgm",
       "title": "Além da obstrução: a biologia molecular da DGM",
       "pages": [
-        4,
-        5
+        5,
+        6
       ],
       "htmlPath": "/superficie/issues/edicao-00/articles/biologia-molecular-da-dgm.html"
     },
@@ -133,8 +485,8 @@
       "id": "tfos-dews-iii-na-pratica",
       "title": "TFOS DEWS III na prática",
       "pages": [
-        6,
-        7
+        7,
+        8
       ],
       "htmlPath": "/superficie/issues/edicao-00/articles/tfos-dews-iii-na-pratica.html"
     }

@@ -101,18 +101,24 @@ test("manifest validation rejects encoded traversal and cross-issue assets", () 
   assert.equal(validateIssueManifest(crossIssue).success, false);
 });
 
-test("generated edicao-00 manifest is a self-contained eight-page issue", async () => {
+test("generated edicao-00 manifest is a self-contained 34-page issue", async () => {
   const rawManifest = JSON.parse(
     await readFile("public/superficie/issues/edicao-00/manifest.json", "utf8"),
   );
   const result = validateIssueManifest(rawManifest);
   assert.equal(result.success, true, result.errors.join("\n"));
   assert.equal(result.data?.id, "edicao-00");
-  assert.equal(result.data?.pageCount, 8);
-  assert.equal(result.data?.toc.length, 3);
+  assert.equal(result.data?.pageCount, 34);
+  assert.equal(result.data?.pages.length, 34);
+  assert.equal(result.data?.toc.length, 13);
   assert.equal(result.data?.articles.length, 2);
-  assert.equal(result.data?.articles[0]?.pages.join(","), "4,5");
-  assert.equal(result.data?.articles[1]?.pages.join(","), "6,7");
+  assert.equal(result.data?.articles[0]?.pages.join(","), "5,6");
+  assert.equal(result.data?.articles[1]?.pages.join(","), "7,8");
+  assert.equal(result.data?.pages[4]?.articleId, "biologia-molecular-da-dgm");
+  assert.equal(result.data?.pages[6]?.articleId, "tfos-dews-iii-na-pratica");
+  assert.equal(result.data?.pages[1]?.type, "ad");
+  assert.equal(result.data?.pages[33]?.type, "ad");
+  assert.equal(result.data?.pages.filter((page) => page.articleId).length, 4);
   assert.equal(result.data?.audioSources.length, 3);
   assert.ok(
     result.data?.audioSources.every((source) =>
@@ -122,10 +128,10 @@ test("generated edicao-00 manifest is a self-contained eight-page issue", async 
 });
 
 test("edicao-00 article text layers do not stack body paragraphs", async () => {
-  for (const page of [4, 5, 6, 7]) {
+  for (const page of [5, 6, 7, 8]) {
     const layer = JSON.parse(
       await readFile(
-        `public/superficie/issues/edicao-00/text/page-0${page}.json`,
+        `public/superficie/issues/edicao-00/text/page-${String(page).padStart(2, "0")}.json`,
         "utf8",
       ),
     );
@@ -142,6 +148,21 @@ test("edicao-00 article text layers do not stack body paragraphs", async () => {
       );
     }
   }
+});
+
+test("edicao-00 TFOS verso keeps the nine-drivers caption in the text layer", async () => {
+  const layer = JSON.parse(
+    await readFile(
+      "public/superficie/issues/edicao-00/text/page-08.json",
+      "utf8",
+    ),
+  );
+  const caption = layer.blocks.find((block) =>
+    String(block.id).includes("figure-caption"),
+  );
+  assert.ok(caption, "página 8 sem legenda da figura");
+  assert.match(String(caption.text), /mapa dos nove drivers/u);
+  assert.match(String(caption.text), /TFOS DEWS III/u);
 });
 
 test("generated POC manifest contains eight replaceable pages", async () => {

@@ -2,12 +2,12 @@ import { expect, test, type Page } from "@playwright/test";
 
 const readerUrl = "/superficie/lab/edicao-00";
 
-test("edicao-00 abre na página 4, busca DGM e resolve o H1 no modo texto", async ({
+test("edicao-00 abre na página 5, busca DGM e resolve o H1 no modo texto", async ({
   page,
 }) => {
-  await page.goto(`${readerUrl}?page=4`, { waitUntil: "domcontentloaded" });
+  await page.goto(`${readerUrl}?page=5`, { waitUntil: "domcontentloaded" });
   await readerReady(page);
-  await expect(page.locator("[data-page-input]")).toHaveValue("4");
+  await expect(page.locator("[data-page-input]")).toHaveValue("5");
   await expect(page.locator("[data-reader-brand-line]")).toContainText(
     "A nova era da superfície ocular",
   );
@@ -17,8 +17,8 @@ test("edicao-00 abre na página 4, busca DGM e resolve o H1 no modo texto", asyn
   await page
     .locator("[data-search-form]")
     .evaluate((form: HTMLFormElement) => form.requestSubmit());
-  const result = page.locator("[data-search-results] [data-navigate-page='4']");
-  await expect(result).toContainText("página 4");
+  const result = page.locator("[data-search-results] [data-navigate-page='5']");
+  await expect(result).toContainText("página 5");
 
   await page.locator(".reader-toolbar [data-action='text-mode']").click();
   await expect(page.locator("[data-text-mode-content] h1")).toHaveText(

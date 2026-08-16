@@ -1,34 +1,138 @@
 [
   {
     "page": 1,
-    "text": "EDIÇÃO 00 · SUPERFÍCIE A nova era da superfície ocular Do sintoma ao fenótipo: diagnóstico multimodal e terapias dirigidas por mecanismo. Duas matérias já publicadas em HTML. A edição fundadora continua em produção. 01"
+    "text": "EDIÇÃO 00 · EM PRODUÇÃO SUPERFÍCIE A nova era da superfície ocular Do sintoma ao fenótipo: diagnóstico multimodal e terapias dirigidas por mecanismo. Laboratório · não indexar 01"
   },
   {
     "page": 2,
-    "text": "EDITORIAL · PÁGINA 02 Duas leituras, edição ainda em produção O HTML publicado é o texto canônico desta revista. Este caderno de laboratório reúne as duas matérias já no ar da SUPERFÍCIE: a biologia molecular da DGM e o TFOS DEWS III na prática. A Edição Fundadora nº 0 continua em produção. O que você vê aqui é um objeto de revista para o reader — não é o editorial fundador ainda não escrito, e não substitui as páginas HTML. O texto canônico de cada matéria permanece em /superficie/artigos/. Referências, disclosures e o selo editorial estão lá. Nestas páginas impressas há só o recorte que cabe no papel. 02"
+    "text": "PUBLICIDADE 02"
   },
   {
     "page": 3,
-    "text": "SUMÁRIO · PÁGINA 03 Nesta edição Dois artigos já publicados; o restante da edição ainda está em produção. 02 — Editorial 04 — Além da obstrução: a biologia molecular da DGM 06 — TFOS DEWS III na prática 03"
+    "text": "EDITORIAL Duas leituras, edição ainda em produção O HTML publicado é o texto canônico desta revista. Este caderno de laboratório reúne as matérias já no ar da SUPERFÍCIE — a biologia molecular da DGM e o TFOS DEWS III na prática — e os recortes das dez matérias seladas da edição 0. A Edição Fundadora nº 0 continua em produção. O que você vê aqui é um objeto de revista para o reader — não é o editorial fundador ainda não escrito, e não substitui as páginas HTML. O texto canônico de cada matéria permanece em /superficie/artigos/. Referências, disclosures e o selo editorial estão lá. Nestas páginas impressas há só o recorte que cabe no papel. 03"
   },
   {
     "page": 4,
-    "text": "CLÍNICA · PÁGINA 04 Além da obstrução: a biologia molecular da DGM PPARγ, receptor androgênico e células progenitoras ajudam a explicar a perda funcional da glândula de Meibomius antes da atrofia. A disfunção das glândulas de Meibomius não é apenas uma doença de glândulas obstruídas. Alterações na diferenciação dos meibócitos, na sinalização androgênica e na renovação do compartimento progenitor podem preceder a atrofia — mas a evidência permanece majoritariamente pré-clínica. A obstrução é apenas parte da história: a DGM também pode envolver falha na produção e na renovação de meibócitos funcionais. Três eixos convergem: redução de PPARγ, menor suporte androgênico e disfunção do nicho progenitor. A implicação clínica atual é fenotipar melhor, não prescrever vias moleculares. 04"
+    "text": "SUMÁRIO Nesta edição Recortes de laboratório. A edição continua em produção. 01 Capa 02 PUBLICIDADE 03 Editorial 04 Sumário 05 Além da obstrução: a biologia molecular da DGM 07 TFOS DEWS III na prática 10 Quando sintomas e sinais não batem 12 Além do meiboscore 15 Cinco testes, cinco perguntas 17 A prega, o atrito e o piscar 20 Quando a higiene não basta 22 O mecanismo da visita, não o degrau 25 Três meses não são doze 27 Tratar antes de medir 30 O número automático não diagnostica 32 Quem entra, quem some 34 PUBLICIDADE 04"
   },
   {
     "page": 5,
-    "text": "CLÍNICA · PÁGINA 05 O que muda na prática — e o que ainda não sabemos A mudança imediata é de raciocínio, não de prescrição. A meibografia mostra estrutura; a expressão glandular e o exame da margem palpebral mostram parte da função; sintomas e estabilidade lacrimal mostram repercussão. Nenhuma dessas medidas revela diretamente a atividade de PPARγ, receptor androgênico, Notch, Hedgehog ou ferroptose em um paciente. Por isso, um fenótipo aparentemente obstrutivo não deve ser interpretado como mecanismo único. A avaliação pode integrar morfologia, qualidade e expressibilidade da secreção, sinais inflamatórios, estabilidade do filme, exposições e contexto hormonal. A maior parte da evidência que sustenta este modelo vem de culturas celulares, organoides, rastreamento de linhagem e animais. Não estabelece, sozinha, causalidade clínica nem eficácia terapêutica em pessoas com DGM. Agonistas de PPARγ, moduladores de Hedgehog, terapias androgênicas e estratégias de rejuvenescimento do nicho progenitor são hipóteses translacionais. Neste estágio, não devem ser apresentados como tratamento estabelecido. 05"
+    "text": "CLÍNICA Além da obstrução: a biologia molecular da DGM PPARγ, receptor androgênico e células progenitoras ajudam a explicar a perda funcional da glândula de Meibomius antes da atrofia. A disfunção das glândulas de Meibomius não é apenas uma doença de glândulas obstruídas. Alterações na diferenciação dos meibócitos, na sinalização androgênica e na renovação do compartimento progenitor podem preceder a atrofia — mas a evidência permanece majoritariamente pré-clínica. A obstrução é apenas parte da história: a DGM também pode envolver falha na produção e na renovação de meibócitos funcionais. Três eixos convergem: redução de PPARγ, menor suporte androgênico e disfunção do nicho progenitor. A implicação clínica atual é fenotipar melhor, não prescrever vias moleculares. 05"
   },
   {
     "page": 6,
-    "text": "EVIDÊNCIA · PÁGINA 06 TFOS DEWS III na prática O mecanismo decide a direção; a gravidade decide a urgência, a intensidade e a proteção. O TFOS DEWS III não aposenta a gravidade; muda sua função. Em vez de determinar, sozinha, uma sequência universal de tratamentos, ela passa a modular urgência, intensidade e proteção da superfície. O consenso define o olho seco como doença multifatorial e sintomática, marcada pela perda de homeostase do filme lacrimal e/ou da superfície ocular, na qual instabilidade e hiperosmolaridade, inflamação e dano, e anormalidades neurossensoriais atuam como fatores etiológicos. A superfície ocular passa a dividir explicitamente com o filme lacrimal o núcleo da homeostase. Isso acomoda melhor situações em que fricção, dano epitelial, anatomia, inflamação primária ou disfunção neural sustentam sintomas. A doença é, por definição, sintomática. Sinais isolados exigem acompanhamento, mas não preenchem sozinhos a definição. Sintomas sem evidência objetiva de perda de homeostase obrigam a ampliar o diagnóstico diferencial. 06"
+    "text": "CLÍNICA O que muda na prática — e o que ainda não sabemos A mudança imediata é de raciocínio, não de prescrição. A meibografia mostra estrutura; a expressão glandular e o exame da margem palpebral mostram parte da função; sintomas e estabilidade lacrimal mostram repercussão. Nenhuma dessas medidas revela diretamente a atividade de PPARγ, receptor androgênico, Notch, Hedgehog ou ferroptose em um paciente. Por isso, um fenótipo aparentemente obstrutivo não deve ser interpretado como mecanismo único. A avaliação pode integrar morfologia, qualidade e expressibilidade da secreção, sinais inflamatórios, estabilidade do filme, exposições e contexto hormonal. A maior parte da evidência que sustenta este modelo vem de culturas celulares, organoides, rastreamento de linhagem e animais. Não estabelece, sozinha, causalidade clínica nem eficácia terapêutica em pessoas com DGM. Agonistas de PPARγ, moduladores de Hedgehog, terapias androgênicas e estratégias de rejuvenescimento do nicho progenitor são hipóteses translacionais. Neste estágio, não devem ser apresentados como tratamento estabelecido. 06"
   },
   {
     "page": 7,
-    "text": "EVIDÊNCIA · PÁGINA 07 Nove drivers e o mapa de seis minutos O algoritmo pode ser iniciado com recursos presentes em grande parte dos consultórios oftalmológicos brasileiros. Filme lacrimal: lipídico, aquoso e mucina/glicocálix. Pálpebras: piscar/fechamento e margem palpebral. Superfície ocular: desalinhamento anatômico, disfunção neural, dano/ruptura celular e inflamação primária/estresse oxidativo. 0–1 min — Sintomas e impacto. 1–2 min — Mascaradores. 2–3 min — Filme sem corante. 3–4 min — Pálpebras e meibo. 4–5 min — Superfície com corantes. 5–6 min — Plano testável: nomeie os drivers, pareie cada conduta a um alvo e defina o que deverá ter mudado no retorno. 07"
+    "text": "EVIDÊNCIA TFOS DEWS III na prática O mecanismo decide a direção; a gravidade decide a urgência, a intensidade e a proteção. O TFOS DEWS III não aposenta a gravidade; muda sua função. Em vez de determinar, sozinha, uma sequência universal de tratamentos, ela passa a modular urgência, intensidade e proteção da superfície. O consenso define o olho seco como doença multifatorial e sintomática, marcada pela perda de homeostase do filme lacrimal e/ou da superfície ocular, na qual instabilidade e hiperosmolaridade, inflamação e dano, e anormalidades neurossensoriais atuam como fatores etiológicos. A superfície ocular passa a dividir explicitamente com o filme lacrimal o núcleo da homeostase. Isso acomoda melhor situações em que fricção, dano epitelial, anatomia, inflamação primária ou disfunção neural sustentam sintomas. A doença é, por definição, sintomática. Sinais isolados exigem acompanhamento, mas não preenchem sozinhos a definição. Sintomas sem evidência objetiva de perda de homeostase obrigam a ampliar o diagnóstico diferencial. 07"
   },
   {
     "page": 8,
-    "text": "CONTRACAPA · PÁGINA 08 SUPERFÍCIE Ler o artigo completo — o HTML é o texto canônico. Além da obstrução: a biologia molecular da DGM — /superficie/artigos/biologia-molecular-da-dgm TFOS DEWS III na prática — /superficie/artigos/tfos-dews-iii-na-pratica A edição continua em produção. Estas páginas não substituem o HTML publicado. 08"
+    "text": "EVIDÊNCIA Nove drivers e o mapa de seis minutos O algoritmo pode ser iniciado com recursos presentes em grande parte dos consultórios oftalmológicos brasileiros. O mapa dos nove drivers. Três territórios etiológicos — TFOS DEWS III (filme lacrimal, pálpebras, superfície ocular). Filme lacrimal: lipídico, aquoso e mucina/glicocálix. Pálpebras: piscar/fechamento e margem palpebral. Superfície ocular: desalinhamento anatômico, disfunção neural, dano/ruptura celular e inflamação primária/estresse oxidativo. 0–1 min — Sintomas e impacto. 1–2 min — Mascaradores. 2–3 min — Filme sem corante. 3–4 min — Pálpebras e meibo. 4–5 min — Superfície com corantes. 5–6 min — Plano testável: nomeie os drivers, pareie cada conduta a um alvo e defina o que deverá ter mudado no retorno. 08"
+  },
+  {
+    "page": 9,
+    "text": "PUBLICIDADE 09"
+  },
+  {
+    "page": 10,
+    "text": "ATUALIZAÇÃO CLÍNICA Quando sintomas e sinais não batem Fenotipagem integrada no consultório: mapear eixos, não forçar concordância Quando o questionário é alto e a coloração, o tempo de ruptura ou a osmolaridade são baixos — ou o inverso —, a tentação do consultório é repetir o exame, trocar o instrumento ou escalar o tratamento como se a discórdia fosse erro de medida. A pergunta útil é outra: como mapear o paciente aos eixos aquoso, evaporativo-DGM, inflamatório, neurossensorial e mecânico quando sintomas, sinais e mecanismos não batem, sem forçar concordância. Dr. Philipe Saraiva Cruz · CRM-MG 69.870 · RQE 71.903 10"
+  },
+  {
+    "page": 11,
+    "text": "ATUALIZAÇÃO CLÍNICA A discórdia é um achado, não um exame inconsistente Na prática, é tentador tratar a discórdia entre sintomas e sinais como falha do exame. Essa reação pressupõe que sintomas e sinais deveriam convergir. Não deveriam. A implicação clínica atual é hierarquizar o driver da visita — o que explica a discórdia de hoje — em vez de tratar todos os eixos de uma vez. 11"
+  },
+  {
+    "page": 12,
+    "text": "MÉTODOS & MÉTRICAS Além do meiboscore Como adquirir, ler e não superinterpretar a meibografia A meibografia mostra estrutura. Não fecha, sozinha, o diagnóstico nem a conduta. O recorte desta matéria é como adquirir a imagem, como ler o que ela mostra, e onde o meiboscore deixa de bastar. Dr. Philipe Saraiva Cruz · CRM-MG 69.870 · RQE 71.903 12"
+  },
+  {
+    "page": 13,
+    "text": "MÉTODOS & MÉTRICAS A imagem não fecha o diagnóstico Estrutura não é função. Uma imagem não é fenótipo estável. Fora de foco, com reflexo, com dedo no campo, com eversão incompleta ou excessiva: não se lauda. Pede-se nova aquisição. O protocolo mínimo: infravermelho sem contato; eversão reproduzível das duas pálpebras de ambos os olhos; iluminação sem reflexo no tarso; foco no plano das glândulas; registrar pré- ou pós-expressão; follow-up no mesmo aparelho, mesma pálpebra, mesma eversão. O que ler além do meiboscore: dropout, encurtamento, distorção, dilatação, contraste, assimetria superior–inferior. Sempre acoplar função: expressibilidade ao longo da pálpebra, não só no terço temporal. Onde a imagem decide: documentar baseline; acompanhar no mesmo sistema; subclassificar o eixo lipídio ou pálpebra. Onde não decide: diagnosticar doença do olho seco; diagnosticar DGM sozinha. 13"
+  },
+  {
+    "page": 14,
+    "text": "PUBLICIDADE 14"
+  },
+  {
+    "page": 15,
+    "text": "MÉTODOS & MÉTRICAS Cinco testes, cinco perguntas NIBUT, osmolaridade, coloração, interferometria e MMP-9 — o que cada um mede, e o que não mede O consultório ainda trata tempo de ruptura, osmolaridade, coloração, interferometria e MMP-9 como se fossem proxies intercambiáveis de gravidade. Cada um responde a uma pergunta. A discórdia entre eles é dado, não falha do exame. NIBUT mede estabilidade do filme. Osmolaridade mede homeostase e estresse hiperosmolar. Coloração localiza onde o epitélio falhou. Interferometria descreve a camada lipídica. MMP-9 ponto-de-cuidado é bandeira de inflamação. Nenhum deles é escala de gravidade. Nenhum substitui o outro. Dr. Philipe Saraiva Cruz · CRM-MG 69.870 · RQE 71.903 15"
+  },
+  {
+    "page": 16,
+    "text": "MÉTODOS & MÉTRICAS Cinco perguntas. Uma caixa de custo. NIBUT: o filme é estável? Preferir não invasivo. Não converter FBUT em NIBUT nem o inverso. Corte operacional DEWS III: menor que 10 segundos. Osmolaridade: há estresse hiperosmolar? ≥ 308 ou Δ > 8 é signo DEWS III, não gravidade. Uma leitura isolada no cinza 300–320 não decide. Colorações: onde o epitélio falhou? Fluoresceína, córnea. Lisamina, conjuntiva e margem. Não somar escalas. Interferometria: a camada lipídica é fina ou pobre? Não diagnostica DGM. MMP-9: há bandeira de inflamação agora? Não define fenótipo. Não exclui DED se negativo. O custo só se justifica se a decisão muda. Não se justifica como screening universal nem como “confirma DED”. 16"
+  },
+  {
+    "page": 17,
+    "text": "ATUALIZAÇÃO CLÍNICA A prega, o atrito e o piscar Olho seco mecânico: CCh mimetiza DED, não é DED O consultório ainda escala o paciente que não responde à lágrima como se o filme fosse o único endereço. Irritação, epífora, tempo de ruptura curto na córnea inferior: o reflexo é trocar o lubrificante, acrescentar anti-inflamatório, chamar de “olho seco refratário”. Uma parte desses pacientes tem desalinhamento, atrito ou dinâmica palpebral. A conjuntivocálase é o achado mais comum e o mais ignorado. Mimetiza doença do olho seco. Coexiste com ela. Não é ela. Dr. Philipe Saraiva Cruz · CRM-MG 69.870 · RQE 71.903 17"
+  },
+  {
+    "page": 18,
+    "text": "ATUALIZAÇÃO CLÍNICA Três sinais que o consultório mistura LWE — epiteliopatia do lid wiper — marca atrito quando o filme é “normal”. LIPCOF — pregas lid-paralelas — prediz sintoma e não é CCh. CCh é redundância em volume que invade o menisco, com sítio e dinâmica. Distinguir os três na lâmpada é o gesto. CCh mimetiza e coexiste. Irritação ou epífora com prega óbvia e filme já tratado é CCh sintomática, não “DED refratária”. Não escalar imunomodulador por causa da CCh. Médico primeiro. Lubrificante viscoso pode reduzir grau de prega e sintoma o bastante para adiar cirurgia. Cirurgia quando o sintoma e a topografia batem e o médico falhou. 18"
+  },
+  {
+    "page": 19,
+    "text": "PUBLICIDADE 19"
+  },
+  {
+    "page": 20,
+    "text": "ATUALIZAÇÃO CLÍNICA Quando a higiene não basta Anti-Demodex: caspa cilíndrica, carga e o que realmente reduz ácaro A higiene palpebral virou default para qualquer margem suja. Em infestação documentada, o default não erradica o ácaro. Tratar só com conforto é o mecanismo errado. Tratar toda blefarite como Demodex também é. Caspa cilíndrica — o colarete na base do cílio — é o sinal de lâmpada mais específico. Sem caspa — e sem amostragem ou microscopia confocal — a higiene é higiene. Dr. Philipe Saraiva Cruz · CRM-MG 69.870 · RQE 71.903 20"
+  },
+  {
+    "page": 21,
+    "text": "ATUALIZAÇÃO CLÍNICA O que reduz ácaro, e o que só reduz queixa Higiene diária com shampoo reduz a contagem de Demodex e não elimina. Conforto não é causal. Lotilaner 0,25% duas vezes ao dia por seis semanas é o único regime com ensaios fase 3, mascarados, veículo-controlados, e erradicação de ácaro como desfecho. Até 15 de agosto de 2026 não há registro oftalmológico ANVISA citável. Pipeline. Não vitrine. 21"
+  },
+  {
+    "page": 22,
+    "text": "DA EVIDÊNCIA À PRÁTICA O mecanismo da visita, não o degrau Terapias dirigidas: escolher, escalar e parar quando a evidência para O consultório ainda escala por gravidade: lágrima, anti-inflamatório, plug, aparelho. O driver da visita importa mais que o escore. Não há ensaio que teste tratamento dirigido por mecanismo contra escalada por gravidade. Falha terapêutica costuma ser lida como “precisa de mais droga”. Quando a lágrima não resolve, o gesto é procurar doença sistêmica, DGM, anatomia e disfunção neuropática. Re-fenotipar. Não subir o degrau. Dr. Philipe Saraiva Cruz · CRM-MG 69.870 · RQE 71.903 22"
+  },
+  {
+    "page": 23,
+    "text": "DA EVIDÊNCIA À PRÁTICA Escolher com o mapa na mão CsA, lifitegrast e corticoide curto têm RCT e revisão sistemática. O grau de certeza é baixo a moderado, não “aprovado = funciona em todos”. Secretagogos têm meta-análise contra hialuronato. Citáveis como classe. Neurossensorial: soro autólogo tem sinal fraco em DED clássica. Evaporativo: calor, expressão e lipídio como conceito. Aparelhos ficam na matéria de tecnologias. 23"
+  },
+  {
+    "page": 24,
+    "text": "PUBLICIDADE 24"
+  },
+  {
+    "page": 25,
+    "text": "TECNOLOGIA EM FOCO Três meses não são doze Tecnologias em olho seco: como ler a evidência comparativa O consultório está sendo vendido um ranking de aparelhos. A meta-análise em rede de 2026 compara 47 ensaios a dois a quatro meses. P-score não é “melhor aparelho para comprar”. Luz Intensa Pulsada Regulada (IRPL) e IPL de consultório não são o mesmo protocolo. Schirmer: nenhuma tecnologia supera o conservador. Esta matéria ensina a ler. Não prescreve aparelho. Dr. Philipe Saraiva Cruz · CRM-MG 69.870 · RQE 71.903 25"
+  },
+  {
+    "page": 26,
+    "text": "TECNOLOGIA EM FOCO Como ler o ranking — e o que ele não é TearCare com expressão e IPL com máscara aquecida ficam no topo de TBUT na rede. QMR no topo de coloração. IPL no topo de sintoma. A rede mistura subtipos de IPL. SAHARA compara pulsação térmica mais expressão com ciclosporina 0,05%. TBUT ganhou no braço térmico. OSDI empatou. Cochrane IPL e Cochrane LipiFlow são o contrapeso: a classe não tem evidência conclusiva de superioridade versus compressa ou higiene. 26"
+  },
+  {
+    "page": 27,
+    "text": "ATUALIZAÇÃO CLÍNICA Tratar antes de medir Prehab ocular: a superfície que muda a LIO e a satisfação A fila da catarata e da refrativa ainda opera no filme instável. “Dói o olho?” não identifica quem vai errar a ceratometria. Prehab é tratar a superfície visualmente significativa, re-medir quando o K repetir, e avisar o que a cirurgia também cria. Disfunção objetiva da superfície é a regra na fila, não a exceção. Quem só pergunta perde o paciente que vai trocar o poder da LIO. Dr. Philipe Saraiva Cruz · CRM-MG 69.870 · RQE 71.903 27"
+  },
+  {
+    "page": 28,
+    "text": "ATUALIZAÇÃO CLÍNICA Re-medir quando o K repetir O risco biométrico não é o questionário. Hiperosmolaridade associou-se a mais variabilidade de K e mais troca de poder de LIO. Agrupar por olho seco autorrelatado não separou os grupos. LIO premium multiplica o custo do erro. Duas semanas de lágrima não têm âncora de acurácia de LIO nesta lista. Não é vitrine de aparelho. 28"
+  },
+  {
+    "page": 29,
+    "text": "PUBLICIDADE 29"
+  },
+  {
+    "page": 30,
+    "text": "CONSULTÓRIO DIGITAL O número automático não diagnostica Como ler meibografia e interferometria de IA O laudo automático de meibografia já está na sala. O paper que o mercado vai citar diz o contrário do slide: a gradação por IA parece menos acurada que a humana. Certeza muito baixa a baixa. O número na tela é segmentação, não diagnóstico. Esta matéria ensina a ler o laudo e o paper. Não é catálogo de software. Dr. Philipe Saraiva Cruz · CRM-MG 69.870 · RQE 71.903 30"
+  },
+  {
+    "page": 31,
+    "text": "CONSULTÓRIO DIGITAL Segmentação não é diagnóstico A IA de meibografia parece menos acurada que o grader humano. Validação externa escassa. Dice alto no set interno cai no aparelho externo. Trocar de meibógrafo no follow-up e chamar a diferença de progressão é o mesmo erro da quantificação humana, agora com caixa-preta. 31"
+  },
+  {
+    "page": 32,
+    "text": "GESTÃO Quem entra, quem some Jornada, indicadores, custo e acesso de um Dry Eye Center O center que só recebe quem já tem o rótulo perde a maior parte da demanda. A maioria dos sintomáticos não tem o diagnóstico. Quase metade some de um center dedicado em dois anos. Anatomia aqui é funil: quem entra, quem some, o que se mede, a quem o sistema chega. Dr. Philipe Saraiva Cruz · CRM-MG 69.870 · RQE 71.903 32"
+  },
+  {
+    "page": 33,
+    "text": "GESTÃO O indicador que some do discurso Entrada: a maioria dos sintomáticos não tem o diagnóstico. Retenção: quase metade some de um center dedicado. O indicador que some do discurso de “investimento” é perda de seguimento em 12 a 24 meses, não só pacientes novos no mês. Prevalências não se somam. Cada número responde a uma pergunta. Não fundir. 33"
+  },
+  {
+    "page": 34,
+    "text": "PUBLICIDADE 34"
   }
 ]

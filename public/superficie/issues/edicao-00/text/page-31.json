@@ -1,0 +1,50 @@
+{
+  "page": 31,
+  "blocks": [
+    {
+      "id": "page-31-eyebrow",
+      "text": "CONSULTÓRIO DIGITAL",
+      "x": 0.1,
+      "y": 0.065,
+      "width": 0.8,
+      "height": 0.035,
+      "role": "label"
+    },
+    {
+      "id": "page-31-title",
+      "text": "Segmentação não é diagnóstico",
+      "x": 0.1,
+      "y": 0.10391001606855918,
+      "width": 0.8,
+      "height": 0.07138725227637922,
+      "role": "heading"
+    },
+    {
+      "id": "page-31-paragraph-1",
+      "text": "A IA de meibografia parece menos acurada que o grader humano. Validação externa escassa.",
+      "x": 0.1,
+      "y": 0.20850562399571504,
+      "width": 0.8,
+      "height": 0.040707016604177824,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-31-paragraph-2",
+      "text": "Dice alto no set interno cai no aparelho externo. Trocar de meibógrafo no follow-up e chamar a diferença de progressão é o mesmo erro da quantificação humana, agora com caixa-preta.",
+      "x": 0.1,
+      "y": 0.2609962506695233,
+      "width": 0.8,
+      "height": 0.07927155865024103,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-31-number",
+      "text": "31",
+      "x": 0.84,
+      "y": 0.93,
+      "width": 0.06,
+      "height": 0.025,
+      "role": "page-number"
+    }
+  ]
+}

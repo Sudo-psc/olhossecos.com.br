@@ -3,7 +3,7 @@
   "blocks": [
     {
       "id": "page-4-eyebrow",
-      "text": "CLÍNICA · PÁGINA 04",
+      "text": "SUMÁRIO",
       "x": 0.1,
       "y": 0.065,
       "width": 0.8,
@@ -12,56 +12,173 @@
     },
     {
       "id": "page-4-title",
-      "text": "Além da obstrução: a biologia molecular da DGM",
+      "text": "Nesta edição",
       "x": 0.1,
       "y": 0.10391001606855918,
       "width": 0.8,
-      "height": 0.07138725227637922,
+      "height": 0.037836100696304234,
       "role": "heading"
     },
     {
       "id": "page-4-subtitle",
-      "text": "PPARγ, receptor androgênico e células progenitoras ajudam a explicar a perda funcional da glândula de Meibomius antes da atrofia.",
+      "text": "Recortes de laboratório. A edição continua em produção.",
       "x": 0.1,
-      "y": 0.20207820032137117,
+      "y": 0.16852704874129618,
       "width": 0.8,
-      "height": 0.06106052490626674,
+      "height": 0.04177825388323514,
       "role": "paragraph"
     },
     {
       "id": "page-4-paragraph-1",
-      "text": "A disfunção das glândulas de Meibomius não é apenas uma doença de glândulas obstruídas. Alterações na diferenciação dos meibócitos, na sinalização androgênica e na renovação do compartimento progenitor podem preceder a atrofia — mas a evidência permanece majoritariamente pré-clínica.",
+      "text": "01 Capa",
       "x": 0.1,
-      "y": 0.2813497589716122,
+      "y": 0.22851633636850563,
       "width": 0.8,
-      "height": 0.11783610069630424,
+      "height": 0.021424745581146223,
       "role": "paragraph"
     },
     {
       "id": "page-4-paragraph-2",
-      "text": "A obstrução é apenas parte da história: a DGM também pode envolver falha na produção e na renovação de meibócitos funcionais.",
+      "text": "02 PUBLICIDADE",
       "x": 0.1,
-      "y": 0.41096946973754683,
+      "y": 0.2563685056239957,
       "width": 0.8,
-      "height": 0.059989287627209426,
+      "height": 0.021424745581146223,
       "role": "paragraph"
     },
     {
       "id": "page-4-paragraph-3",
-      "text": "Três eixos convergem: redução de PPARγ, menor suporte androgênico e disfunção do nicho progenitor.",
+      "text": "03 Editorial",
       "x": 0.1,
-      "y": 0.4827423674343867,
+      "y": 0.2842206748794858,
+      "width": 0.8,
+      "height": 0.021424745581146223,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-4-paragraph-4",
+      "text": "04 Sumário",
+      "x": 0.1,
+      "y": 0.3120728441349759,
+      "width": 0.8,
+      "height": 0.021424745581146223,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-4-paragraph-5",
+      "text": "05 Além da obstrução: a biologia molecular da DGM",
+      "x": 0.1,
+      "y": 0.339925013390466,
       "width": 0.8,
       "height": 0.040707016604177824,
       "role": "paragraph"
     },
     {
-      "id": "page-4-paragraph-4",
-      "text": "A implicação clínica atual é fenotipar melhor, não prescrever vias moleculares.",
+      "id": "page-4-paragraph-6",
+      "text": "07 TFOS DEWS III na prática",
       "x": 0.1,
-      "y": 0.5352329941081949,
+      "y": 0.3870594536689877,
       "width": 0.8,
-      "height": 0.040707016604177824,
+      "height": 0.021424745581146223,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-4-paragraph-7",
+      "text": "10 Quando sintomas e sinais não batem",
+      "x": 0.1,
+      "y": 0.41491162292447775,
+      "width": 0.8,
+      "height": 0.021424745581146223,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-4-paragraph-8",
+      "text": "12 Além do meiboscore",
+      "x": 0.1,
+      "y": 0.44276379217996786,
+      "width": 0.8,
+      "height": 0.021424745581146223,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-4-paragraph-9",
+      "text": "15 Cinco testes, cinco perguntas",
+      "x": 0.1,
+      "y": 0.4706159614354579,
+      "width": 0.8,
+      "height": 0.021424745581146223,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-4-paragraph-10",
+      "text": "17 A prega, o atrito e o piscar",
+      "x": 0.1,
+      "y": 0.49846813069094803,
+      "width": 0.8,
+      "height": 0.021424745581146223,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-4-paragraph-11",
+      "text": "20 Quando a higiene não basta",
+      "x": 0.1,
+      "y": 0.5263202999464381,
+      "width": 0.8,
+      "height": 0.021424745581146223,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-4-paragraph-12",
+      "text": "22 O mecanismo da visita, não o degrau",
+      "x": 0.1,
+      "y": 0.5541724692019282,
+      "width": 0.8,
+      "height": 0.021424745581146223,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-4-paragraph-13",
+      "text": "25 Três meses não são doze",
+      "x": 0.1,
+      "y": 0.5820246384574183,
+      "width": 0.8,
+      "height": 0.021424745581146223,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-4-paragraph-14",
+      "text": "27 Tratar antes de medir",
+      "x": 0.1,
+      "y": 0.6098768077129083,
+      "width": 0.8,
+      "height": 0.021424745581146223,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-4-paragraph-15",
+      "text": "30 O número automático não diagnostica",
+      "x": 0.1,
+      "y": 0.6377289769683985,
+      "width": 0.8,
+      "height": 0.021424745581146223,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-4-paragraph-16",
+      "text": "32 Quem entra, quem some",
+      "x": 0.1,
+      "y": 0.6655811462238885,
+      "width": 0.8,
+      "height": 0.021424745581146223,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-4-paragraph-17",
+      "text": "34 PUBLICIDADE",
+      "x": 0.1,
+      "y": 0.6934333154793786,
+      "width": 0.8,
+      "height": 0.021424745581146223,
       "role": "paragraph"
     },
     {
