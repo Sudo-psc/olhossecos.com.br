@@ -1,0 +1,23 @@
+{
+  "page": 34,
+  "blocks": [
+    {
+      "id": "page-34-ad-label",
+      "text": "PUBLICIDADE",
+      "x": 0.15,
+      "y": 0.46,
+      "width": 0.7,
+      "height": 0.04,
+      "role": "label"
+    },
+    {
+      "id": "page-34-number",
+      "text": "34",
+      "x": 0.84,
+      "y": 0.93,
+      "width": 0.06,
+      "height": 0.025,
+      "role": "page-number"
+    }
+  ]
+}

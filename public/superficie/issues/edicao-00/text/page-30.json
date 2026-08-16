@@ -1,0 +1,68 @@
+{
+  "page": 30,
+  "blocks": [
+    {
+      "id": "page-30-eyebrow",
+      "text": "CONSULTÓRIO DIGITAL",
+      "x": 0.1,
+      "y": 0.065,
+      "width": 0.8,
+      "height": 0.035,
+      "role": "label"
+    },
+    {
+      "id": "page-30-title",
+      "text": "O número automático não diagnostica",
+      "x": 0.1,
+      "y": 0.10391001606855918,
+      "width": 0.8,
+      "height": 0.07138725227637922,
+      "role": "heading"
+    },
+    {
+      "id": "page-30-subtitle",
+      "text": "Como ler meibografia e interferometria de IA",
+      "x": 0.1,
+      "y": 0.20207820032137117,
+      "width": 0.8,
+      "height": 0.022495982860203535,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-30-paragraph-1",
+      "text": "O laudo automático de meibografia já está na sala. O paper que o mercado vai citar diz o contrário do slide: a gradação por IA parece menos acurada que a humana. Certeza muito baixa a baixa.",
+      "x": 0.1,
+      "y": 0.242785216925549,
+      "width": 0.8,
+      "height": 0.07927155865024103,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-30-paragraph-2",
+      "text": "O número na tela é segmentação, não diagnóstico. Esta matéria ensina a ler o laudo e o paper. Não é catálogo de software.",
+      "x": 0.1,
+      "y": 0.33384038564542046,
+      "width": 0.8,
+      "height": 0.059989287627209426,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-30-byline",
+      "text": "Dr. Philipe Saraiva Cruz · CRM-MG 69.870 · RQE 71.903",
+      "x": 0.1,
+      "y": 0.4141831815747188,
+      "width": 0.8,
+      "height": 0.016068559185859668,
+      "role": "label"
+    },
+    {
+      "id": "page-30-number",
+      "text": "30",
+      "x": 0.84,
+      "y": 0.93,
+      "width": 0.06,
+      "height": 0.025,
+      "role": "page-number"
+    }
+  ]
+}

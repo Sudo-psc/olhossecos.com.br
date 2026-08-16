@@ -3,7 +3,7 @@
   "blocks": [
     {
       "id": "page-5-eyebrow",
-      "text": "CLÍNICA · PÁGINA 05",
+      "text": "CLÍNICA",
       "x": 0.1,
       "y": 0.065,
       "width": 0.8,
@@ -12,7 +12,7 @@
     },
     {
       "id": "page-5-title",
-      "text": "O que muda na prática — e o que ainda não sabemos",
+      "text": "Além da obstrução: a biologia molecular da DGM",
       "x": 0.1,
       "y": 0.10391001606855918,
       "width": 0.8,
@@ -21,47 +21,47 @@
     },
     {
       "id": "page-5-subtitle",
-      "text": "A mudança imediata é de raciocínio, não de prescrição.",
+      "text": "PPARγ, receptor androgênico e células progenitoras ajudam a explicar a perda funcional da glândula de Meibomius antes da atrofia.",
       "x": 0.1,
       "y": 0.20207820032137117,
       "width": 0.8,
-      "height": 0.04177825388323514,
+      "height": 0.06106052490626674,
       "role": "paragraph"
     },
     {
       "id": "page-5-paragraph-1",
-      "text": "A meibografia mostra estrutura; a expressão glandular e o exame da margem palpebral mostram parte da função; sintomas e estabilidade lacrimal mostram repercussão. Nenhuma dessas medidas revela diretamente a atividade de PPARγ, receptor androgênico, Notch, Hedgehog ou ferroptose em um paciente.",
+      "text": "A disfunção das glândulas de Meibomius não é apenas uma doença de glândulas obstruídas. Alterações na diferenciação dos meibócitos, na sinalização androgênica e na renovação do compartimento progenitor podem preceder a atrofia — mas a evidência permanece majoritariamente pré-clínica.",
       "x": 0.1,
-      "y": 0.2620674879485806,
-      "width": 0.8,
-      "height": 0.13711837171933583,
-      "role": "paragraph"
-    },
-    {
-      "id": "page-5-paragraph-2",
-      "text": "Por isso, um fenótipo aparentemente obstrutivo não deve ser interpretado como mecanismo único. A avaliação pode integrar morfologia, qualidade e expressibilidade da secreção, sinais inflamatórios, estabilidade do filme, exposições e contexto hormonal.",
-      "x": 0.1,
-      "y": 0.41096946973754683,
+      "y": 0.2813497589716122,
       "width": 0.8,
       "height": 0.11783610069630424,
       "role": "paragraph"
     },
     {
-      "id": "page-5-paragraph-3",
-      "text": "A maior parte da evidência que sustenta este modelo vem de culturas celulares, organoides, rastreamento de linhagem e animais. Não estabelece, sozinha, causalidade clínica nem eficácia terapêutica em pessoas com DGM.",
+      "id": "page-5-paragraph-2",
+      "text": "A obstrução é apenas parte da história: a DGM também pode envolver falha na produção e na renovação de meibócitos funcionais.",
       "x": 0.1,
-      "y": 0.5405891805034815,
+      "y": 0.41096946973754683,
       "width": 0.8,
-      "height": 0.09855382967327263,
+      "height": 0.059989287627209426,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-5-paragraph-3",
+      "text": "Três eixos convergem: redução de PPARγ, menor suporte androgênico e disfunção do nicho progenitor.",
+      "x": 0.1,
+      "y": 0.4827423674343867,
+      "width": 0.8,
+      "height": 0.040707016604177824,
       "role": "paragraph"
     },
     {
       "id": "page-5-paragraph-4",
-      "text": "Agonistas de PPARγ, moduladores de Hedgehog, terapias androgênicas e estratégias de rejuvenescimento do nicho progenitor são hipóteses translacionais. Neste estágio, não devem ser apresentados como tratamento estabelecido.",
+      "text": "A implicação clínica atual é fenotipar melhor, não prescrever vias moleculares.",
       "x": 0.1,
-      "y": 0.6509266202463846,
+      "y": 0.5352329941081949,
       "width": 0.8,
-      "height": 0.09855382967327263,
+      "height": 0.040707016604177824,
       "role": "paragraph"
     },
     {

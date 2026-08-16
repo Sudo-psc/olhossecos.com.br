@@ -6,6 +6,7 @@ export type MagazinePageType =
   | "article"
   | "infographic"
   | "closing"
+  | "ad"
   | "back-cover";
 
 export interface MagazinePage {

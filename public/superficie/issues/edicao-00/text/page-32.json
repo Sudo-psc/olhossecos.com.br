@@ -1,0 +1,68 @@
+{
+  "page": 32,
+  "blocks": [
+    {
+      "id": "page-32-eyebrow",
+      "text": "GESTÃO",
+      "x": 0.1,
+      "y": 0.065,
+      "width": 0.8,
+      "height": 0.035,
+      "role": "label"
+    },
+    {
+      "id": "page-32-title",
+      "text": "Quem entra, quem some",
+      "x": 0.1,
+      "y": 0.10391001606855918,
+      "width": 0.8,
+      "height": 0.037836100696304234,
+      "role": "heading"
+    },
+    {
+      "id": "page-32-subtitle",
+      "text": "Jornada, indicadores, custo e acesso de um Dry Eye Center",
+      "x": 0.1,
+      "y": 0.16852704874129618,
+      "width": 0.8,
+      "height": 0.04177825388323514,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-32-paragraph-1",
+      "text": "O center que só recebe quem já tem o rótulo perde a maior parte da demanda. A maioria dos sintomáticos não tem o diagnóstico. Quase metade some de um center dedicado em dois anos.",
+      "x": 0.1,
+      "y": 0.22851633636850563,
+      "width": 0.8,
+      "height": 0.07927155865024103,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-32-paragraph-2",
+      "text": "Anatomia aqui é funil: quem entra, quem some, o que se mede, a quem o sistema chega.",
+      "x": 0.1,
+      "y": 0.31957150508837706,
+      "width": 0.8,
+      "height": 0.040707016604177824,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-32-byline",
+      "text": "Dr. Philipe Saraiva Cruz · CRM-MG 69.870 · RQE 71.903",
+      "x": 0.1,
+      "y": 0.3806320299946438,
+      "width": 0.8,
+      "height": 0.016068559185859668,
+      "role": "label"
+    },
+    {
+      "id": "page-32-number",
+      "text": "32",
+      "x": 0.84,
+      "y": 0.93,
+      "width": 0.06,
+      "height": 0.025,
+      "role": "page-number"
+    }
+  ]
+}
