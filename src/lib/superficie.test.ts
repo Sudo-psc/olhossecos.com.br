@@ -347,8 +347,10 @@ const assertSealedArticle = (
   assert.deepEqual(superficie.validateMagazineArticle(article), []);
 
   const text = [
-    ...article.content.flatMap((section) => section.paragraphs),
-    ...(byId.pratica?.bullets ?? []),
+    ...article.content.flatMap((section) => [
+      ...section.paragraphs,
+      ...(section.bullets ?? []),
+    ]),
   ].join(" ");
   for (const lock of expected.locks) {
     assert.match(text, lock);
@@ -375,13 +377,14 @@ test("matéria Além do meiboscore publica as quatro seções e as travas do ras
     references: 15,
     practiceBullets: 6,
     locks: [
-      /O meiboscore virou atalho/,
-      /soma bruta dos 6 itens \(escala 0–24\)/,
-      /não no índice 0–100 do OSDI-12/,
+      /O meiboscore virou atalho de consultório/,
+      /soma bruta dos 6 itens, escala 0–24/,
+      /não o índice 0–100 do OSDI-12/,
       /Arita 0–3 com Pult 0–4/,
-      /estatística C ficou em torno de 0,63/,
+      /C-stat em torno de 0,63/,
       /n = 15/,
-      /corpo do workshop de Tomlinson/,
+      /corpo do workshop não foi recuperado/,
+      /R = 0,428/,
     ],
   });
 });
@@ -390,14 +393,14 @@ test("matéria Cinco testes, cinco perguntas publica as quatro seções e as tra
   assertSealedArticle("cinco-testes-cinco-perguntas", {
     category: "Diagnóstico",
     references: 14,
-    practiceBullets: 6,
+    practiceBullets: 5,
     locks: [
       /O consultório ainda trata tempo de ruptura/,
       /soma bruta dos 6 itens \(escala 0–24\)/,
-      /Interferometria e MMP-9 não são critérios diagnósticos/,
+      /Interferometria e MMP-9 não entram no critério diagnóstico/,
       /308 não é 316/,
       /85% versus 86%/,
-      /Youden de uma ficou em ≤ 8 segundos e o da outra em ≤ 14/,
+      /≤ 8 s numa plataforma, ≤ 14 s na outra/,
       /n = 33/,
     ],
     forbiddenLabels: [/NEI/],
@@ -411,11 +414,12 @@ test("matéria A prega, o atrito e o piscar publica as quatro seções e as trav
     practiceBullets: 8,
     locks: [
       /O consultório ainda escala o paciente/,
-      /6,8% nas faixas mais jovens para 90,2%/,
-      /76% dos sintomáticos e em 12% dos assintomáticos/,
-      /atraso de depuração em 88% e coloração em 78%/,
+      /6,8% na primeira década para 90,2%/,
+      /76% dos sintomáticos/,
+      /versus 12% dos assintomáticos/,
+      /88,2% sem DED e 78,0% com DED/,
       /n = 20/,
-      /não prescreve CPAP como terapia de olho seco/,
+      /indica CPAP como terapia de olho seco/,
       /Snap-back é manobra/,
     ],
     forbiddenDois: ["10.1097/ICO.0b013e3181ba0cb2"],
