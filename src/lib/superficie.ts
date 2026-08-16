@@ -604,7 +604,7 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
   subtitle:
     "De escalada por gravidade para tratamento dirigido por mecanismo — o que muda no consultório brasileiro",
   excerpt:
-    "O mecanismo decide a direção; a gravidade decide a urgência, a intensidade e a proteção.",
+    "O mecanismo decide a direção; a gravidade decide a urgência, a intensidade e a proteção. O DEWS III troca a escada por gravidade por tratamento dirigido por mecanismo — a pergunta no consultório muda; o ranking de gravidade não é o mapa.",
   category: "Evidência",
   author: {
     name: "Dr. Philipe Saraiva Cruz",
@@ -933,7 +933,7 @@ const fenotipagemIntegrada: MagazineArticle = {
   subtitle:
     "Fenotipagem integrada no consultório: mapear eixos, não forçar concordância",
   excerpt:
-    "A discórdia entre sintomas e sinais é um achado clínico, não um erro de medida.",
+    "A discórdia entre sintomas e sinais é um achado clínico, não um erro de medida. Fenotipagem integrada mapeia eixos no consultório: não se força concordância entre queixa e signo para fechar o caso.",
   category: "Diagnóstico",
   author: {
     name: "Dr. Philipe Saraiva Cruz",
@@ -1157,7 +1157,7 @@ const tresMesesNaoSaoDoze: MagazineArticle = {
   title: "Três meses não são doze",
   subtitle: "Tecnologias em olho seco: como ler a evidência comparativa",
   excerpt:
-    "O consultório está sendo vendido um ranking de aparelhos. P-score não é “melhor aparelho para comprar”. Esta matéria ensina a ler. Não prescreve aparelho.",
+    "O consultório está sendo vendido um ranking de aparelhos. P-score não é “melhor aparelho para comprar”. Esta matéria ensina a ler a evidência comparativa — e por que três meses não são doze. Não prescreve aparelho.",
   category: "Tecnologia",
   author: {
     name: "Dr. Philipe Saraiva Cruz",
@@ -1404,7 +1404,7 @@ const tresMesesNaoSaoDoze: MagazineArticle = {
   seo: {
     title: "Três meses não são doze | SUPERFÍCIE",
     description:
-      "O consultório está sendo vendido um ranking de aparelhos. P-score não é “melhor aparelho para comprar”. Esta matéria ensina a ler. Não prescreve aparelho.",
+      "O consultório está sendo vendido um ranking de aparelhos. P-score não é “melhor aparelho para comprar”. Esta matéria ensina a ler a evidência comparativa — e por que três meses não são doze. Não prescreve aparelho.",
     canonical: "/superficie/artigos/tres-meses-nao-sao-doze",
   },
 };
@@ -1414,7 +1414,7 @@ const alemDoMeiboscore: MagazineArticle = {
   title: "Além do meiboscore",
   subtitle: "Como adquirir, ler e não superinterpretar a meibografia",
   excerpt:
-    "O meiboscore quantifica perda de área visível. Não mede expressibilidade. Não diagnostica doença do olho seco.",
+    "O meiboscore quantifica perda de área visível. Não mede expressibilidade. Não distingue atrofia de oclusão. Não diagnostica doença do olho seco — e uma foto granulada não autoriza laudar DGM.",
   category: "Diagnóstico",
   author: {
     name: "Dr. Philipe Saraiva Cruz",
@@ -1631,7 +1631,7 @@ const alemDoMeiboscore: MagazineArticle = {
   seo: {
     title: "Além do meiboscore | SUPERFÍCIE",
     description:
-      "O meiboscore quantifica perda de área visível. Não mede expressibilidade. Não diagnostica doença do olho seco.",
+      "O meiboscore quantifica perda de área visível. Não mede expressibilidade. Não distingue atrofia de oclusão. Não diagnostica doença do olho seco — e uma foto granulada não autoriza laudar DGM.",
     canonical: "/superficie/artigos/alem-do-meiboscore",
   },
 };
@@ -1642,7 +1642,7 @@ const cincoTestesCincoPerguntas: MagazineArticle = {
   subtitle:
     "NIBUT, osmolaridade, coloração, interferometria e MMP-9 — o que cada um mede, e o que não mede",
   excerpt:
-    "Cada teste responde a uma pergunta. A discórdia entre eles é dado, não falha do exame.",
+    "Cada teste responde a uma pergunta. NIBUT, osmolaridade, coloração, interferometria e MMP-9 não são proxies intercambiáveis de gravidade. A discórdia entre eles é dado, não falha do exame.",
   category: "Diagnóstico",
   author: {
     name: "Dr. Philipe Saraiva Cruz",
@@ -1850,7 +1850,7 @@ const cincoTestesCincoPerguntas: MagazineArticle = {
   seo: {
     title: "Cinco testes, cinco perguntas | SUPERFÍCIE",
     description:
-      "Cada teste responde a uma pergunta. A discórdia entre eles é dado, não falha do exame.",
+      "Cada teste responde a uma pergunta. NIBUT, osmolaridade, coloração, interferometria e MMP-9 não são proxies intercambiáveis de gravidade. A discórdia entre eles é dado, não falha do exame.",
     canonical: "/superficie/artigos/cinco-testes-cinco-perguntas",
   },
 };
@@ -1860,7 +1860,7 @@ const aPregaOAtritoEOpiscar: MagazineArticle = {
   title: "A prega, o atrito e o piscar",
   subtitle: "Olho seco mecânico: CCh mimetiza DED, não é DED",
   excerpt:
-    "Conjuntivocálase mimetiza doença do olho seco. Coexiste com ela. Não é ela.",
+    "Conjuntivocálase mimetiza doença do olho seco. Coexiste com ela. Não é ela. Irritação, epífora e tempo de ruptura curto na córnea inferior pedem desalinhamento e piscar — não só outra lágrima.",
   category: "Clínica",
   author: {
     name: "Dr. Philipe Saraiva Cruz",
@@ -2078,7 +2078,7 @@ const aPregaOAtritoEOpiscar: MagazineArticle = {
   seo: {
     title: "A prega, o atrito e o piscar | SUPERFÍCIE",
     description:
-      "Conjuntivocálase mimetiza doença do olho seco. Coexiste com ela. Não é ela.",
+      "Conjuntivocálase mimetiza doença do olho seco. Coexiste com ela. Não é ela. Irritação, epífora e tempo de ruptura curto na córnea inferior pedem desalinhamento e piscar — não só outra lágrima.",
     canonical: "/superficie/artigos/a-prega-o-atrito-e-o-piscar",
   },
 };
