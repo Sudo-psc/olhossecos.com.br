@@ -914,7 +914,7 @@ const fenotipagemIntegrada: MagazineArticle = {
   subtitle:
     "Fenotipagem integrada no consultório: mapear eixos, não forçar concordância",
   excerpt:
-    "A discórdia entre sintomas e sinais é um achado clínico, não um erro de medida.",
+    "A discórdia entre sintomas e sinais é um achado clínico, não um erro de medida. Fenotipagem integrada mapeia eixos no consultório: não se força concordância entre queixa e signo para fechar o caso.",
   category: "Diagnóstico",
   author: {
     name: "Dr. Philipe Saraiva Cruz",
