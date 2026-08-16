@@ -298,7 +298,13 @@ const newsletterEndpoint =
           technologyTopics.map((topic, index) => (
             <li>
               <span>{String(index + 1).padStart(2, "0")}</span>
-              <strong>{topic}</strong>
+              {topic === "Tecnologias baseadas em energia" ? (
+                <a href="/superficie/artigos/tres-meses-nao-sao-doze">
+                  <strong>{topic}</strong>
+                </a>
+              ) : (
+                <strong>{topic}</strong>
+              )}
             </li>
           ))
         }
@@ -1008,6 +1014,16 @@ const newsletterEndpoint =
   .technology-list span {
     color: var(--surface-gold-light);
     font-family: var(--surface-serif);
+  }
+
+  .technology-list a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .technology-list a:hover,
+  .technology-list a:focus-visible {
+    color: var(--surface-gold-light);
   }
 
   .practice-grid {
