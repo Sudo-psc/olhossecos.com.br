@@ -1309,13 +1309,7 @@ const cincoTestesCincoPerguntas: MagazineArticle = {
     },
   ],
   sponsored: false,
-  tags: [
-    "NIBUT",
-    "osmolaridade",
-    "coloração",
-    "interferometria",
-    "MMP-9",
-  ],
+  tags: ["NIBUT", "osmolaridade", "coloração", "interferometria", "MMP-9"],
   seo: {
     title: "Cinco testes, cinco perguntas | SUPERFÍCIE",
     description:
@@ -1516,13 +1510,7 @@ const aPregaOAtritoEOpiscar: MagazineArticle = {
     },
   ],
   sponsored: false,
-  tags: [
-    "Conjuntivocálase",
-    "LWE",
-    "LIPCOF",
-    "olho seco mecânico",
-    "atrito",
-  ],
+  tags: ["Conjuntivocálase", "LWE", "LIPCOF", "olho seco mecânico", "atrito"],
   seo: {
     title: "A prega, o atrito e o piscar | SUPERFÍCIE",
     description:
