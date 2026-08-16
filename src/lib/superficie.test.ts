@@ -357,25 +357,33 @@ test("matéria de tecnologias publica as quatro seções sem capa nem figura cl�
   assert.match(text, /mediana foi de 8 meses/);
   assert.match(text, /IRPL não é o IPL genérico de consultório/);
   assert.match(text, /Wu e colaboradores \(2020\) comparam OPT com IRPL/);
-  assert.match(text, /não é Lumenis versus E-Eye/);
-  assert.match(text, /Jiang e colaboradores \(2022\) testam IPL de nova geração em duas sessões/);
+  assert.match(text, /Não é Lumenis versus E-Eye/);
   assert.match(
     text,
-    /zero RCT compara E-Eye\/IRPL versus M22\/Lumenis\/Toyos/,
+    /Jiang e colaboradores \(2022\) testam IPL de nova geração em duas sessões/,
   );
+  assert.match(text, /zero RCT compara E-Eye\/IRPL versus M22\/Lumenis\/Toyos/);
   assert.match(text, /certeza baixa/);
   assert.match(text, /certeza como muito baixa|certeza muito baixa/);
   assert.match(text, /versus cuidado padrão o ganho é incerto/);
-  assert.match(text, /efeito global não é significativo|efeito global não significativo/);
+  assert.match(
+    text,
+    /efeito global não é significativo|efeito global não significativo/,
+  );
   assert.match(text, /não resolve o empate|Não resolva o empate/);
   assert.match(text, /Três meses não são doze/);
-  assert.equal(text.includes("IPL cura DGM") && /Sem “IPL cura DGM”/.test(text), true);
+  assert.equal(
+    text.includes("IPL cura DGM") && /Sem “IPL cura DGM”/.test(text),
+    true,
+  );
   assert.match(text, /Sem Demodex/);
   assert.match(text, /Sem ANVISA inventada/);
   assert.match(text, /Sem press release/);
   assert.equal(article.references.length, 20);
   assert.equal(
-    article.references.every(({ url, doi }) => url === `https://doi.org/${doi}`),
+    article.references.every(
+      ({ url, doi }) => url === `https://doi.org/${doi}`,
+    ),
     true,
   );
   assert.equal(
