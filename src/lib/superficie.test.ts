@@ -299,6 +299,130 @@ test("matéria TFOS DEWS III cita os DOIs adicionais da prova resolvidos no Cros
   );
 });
 
+const assertSealedArticle = (
+  slug: string,
+  expected: {
+    category: string;
+    references: number;
+    practiceBullets: number;
+    locks: RegExp[];
+    forbiddenDois?: string[];
+    forbiddenLabels?: RegExp[];
+  },
+) => {
+  const article = superficie.publishedArticles.find(
+    ({ slug: value }) => value === slug,
+  );
+
+  assert.ok(article, `slug ${slug} deve estar em publishedArticles`);
+  assert.equal(
+    superficie.publishedArticles[0].slug,
+    "biologia-molecular-da-dgm",
+  );
+  assert.equal(article.status, "published");
+  assert.equal(article.category, expected.category);
+  assert.equal(
+    article.reviewSeal,
+    "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  );
+  assert.equal(article.reviewer, undefined);
+  assert.equal(article.featuredImage, undefined);
+  assert.equal(article.heroBackground, undefined);
+  assert.equal(article.ogImage, undefined);
+  assert.equal(article.sponsored, false);
+  assert.equal(article.issue, "edicao-00");
+  assert.equal(article.publishedAt, "2026-08-15");
+  assert.equal(article.modifiedAt, "2026-08-15");
+  assert.equal(article.seo.canonical, `/superficie/artigos/${slug}`);
+  assert.deepEqual(superficie.founderIssue.articles, []);
+
+  const byId = Object.fromEntries(
+    article.content.map((section) => [section.id, section]),
+  );
+  assert.equal(byId["por-que-importa"]?.kind, "why-it-matters");
+  assert.equal(byId.evidencia?.kind, "evidence");
+  assert.equal(byId.pratica?.kind, "practice");
+  assert.equal(byId.limitacoes?.kind, "limitations");
+  assert.equal(byId.pratica?.bullets?.length, expected.practiceBullets);
+  assert.deepEqual(superficie.validateMagazineArticle(article), []);
+
+  const text = [
+    ...article.content.flatMap((section) => section.paragraphs),
+    ...(byId.pratica?.bullets ?? []),
+  ].join(" ");
+  for (const lock of expected.locks) {
+    assert.match(text, lock);
+  }
+
+  assert.equal(article.references.length, expected.references);
+  for (const doi of expected.forbiddenDois ?? []) {
+    assert.equal(
+      article.references.some((reference) => reference.doi === doi),
+      false,
+    );
+  }
+  for (const label of expected.forbiddenLabels ?? []) {
+    assert.equal(
+      article.references.some((reference) => label.test(reference.label)),
+      false,
+    );
+  }
+};
+
+test("matéria Além do meiboscore publica as quatro seções e as travas do rascunho selado", () => {
+  assertSealedArticle("alem-do-meiboscore", {
+    category: "Diagnóstico",
+    references: 15,
+    practiceBullets: 6,
+    locks: [
+      /O meiboscore virou atalho/,
+      /soma bruta dos 6 itens \(escala 0–24\)/,
+      /não no índice 0–100 do OSDI-12/,
+      /Arita 0–3 com Pult 0–4/,
+      /estatística C ficou em torno de 0,63/,
+      /n = 15/,
+      /corpo do workshop de Tomlinson/,
+    ],
+  });
+});
+
+test("matéria Cinco testes, cinco perguntas publica as quatro seções e as travas do rascunho selado", () => {
+  assertSealedArticle("cinco-testes-cinco-perguntas", {
+    category: "Diagnóstico",
+    references: 14,
+    practiceBullets: 6,
+    locks: [
+      /O consultório ainda trata tempo de ruptura/,
+      /soma bruta dos 6 itens \(escala 0–24\)/,
+      /Interferometria e MMP-9 não são critérios diagnósticos/,
+      /308 não é 316/,
+      /85% versus 86%/,
+      /Youden de uma ficou em ≤ 8 segundos e o da outra em ≤ 14/,
+      /n = 33/,
+    ],
+    forbiddenLabels: [/NEI/],
+  });
+});
+
+test("matéria A prega, o atrito e o piscar publica as quatro seções e as travas do rascunho selado", () => {
+  assertSealedArticle("a-prega-o-atrito-e-o-piscar", {
+    category: "Clínica",
+    references: 14,
+    practiceBullets: 8,
+    locks: [
+      /O consultório ainda escala o paciente/,
+      /6,8% nas faixas mais jovens para 90,2%/,
+      /76% dos sintomáticos e em 12% dos assintomáticos/,
+      /atraso de depuração em 88% e coloração em 78%/,
+      /n = 20/,
+      /não prescreve CPAP como terapia de olho seco/,
+      /Snap-back é manobra/,
+    ],
+    forbiddenDois: ["10.1097/ICO.0b013e3181ba0cb2"],
+    forbiddenLabels: [/Höh/, /Hirotani/, /Korb DR, Herman JP, Blackie CA/],
+  });
+});
+
 test("validação exige canonical consistente com o slug", () => {
   const validateMagazineArticle =
     typeof api.validateMagazineArticle === "function"
