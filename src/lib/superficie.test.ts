@@ -407,6 +407,28 @@ test("matéria Cinco testes, cinco perguntas publica as quatro seções e as tra
   });
 });
 
+test("excerpts da listagem acompanham o comprimento do card DGM", () => {
+  const expected: Record<string, string> = {
+    "biologia-molecular-da-dgm":
+      "A disfunção das glândulas de Meibomius não é apenas uma doença de glândulas obstruídas. Alterações na diferenciação dos meibócitos, na sinalização androgênica e na renovação do compartimento progenitor podem preceder a atrofia — mas a evidência permanece majoritariamente pré-clínica.",
+    "tfos-dews-iii-na-pratica":
+      "O mecanismo decide a direção; a gravidade decide a urgência, a intensidade e a proteção. O DEWS III troca a escada por gravidade por tratamento dirigido por mecanismo — a pergunta no consultório muda; o ranking de gravidade não é o mapa.",
+    "alem-do-meiboscore":
+      "O meiboscore quantifica perda de área visível. Não mede expressibilidade. Não distingue atrofia de oclusão. Não diagnostica doença do olho seco — e uma foto granulada não autoriza laudar DGM.",
+    "cinco-testes-cinco-perguntas":
+      "Cada teste responde a uma pergunta. NIBUT, osmolaridade, coloração, interferometria e MMP-9 não são proxies intercambiáveis de gravidade. A discórdia entre eles é dado, não falha do exame.",
+    "a-prega-o-atrito-e-o-piscar":
+      "Conjuntivocálase mimetiza doença do olho seco. Coexiste com ela. Não é ela. Irritação, epífora e tempo de ruptura curto na córnea inferior pedem desalinhamento e piscar — não só outra lágrima.",
+  };
+
+  for (const [slug, excerpt] of Object.entries(expected)) {
+    const article = superficie.publishedArticles.find(
+      ({ slug: value }) => value === slug,
+    );
+    assert.equal(article?.excerpt, excerpt, slug);
+  }
+});
+
 test("matéria A prega, o atrito e o piscar publica as quatro seções e as travas do rascunho selado", () => {
   assertSealedArticle("a-prega-o-atrito-e-o-piscar", {
     category: "Clínica",
