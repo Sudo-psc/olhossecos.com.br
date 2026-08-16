@@ -1,11 +1,17 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
+import path from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
 import * as superficie from "./superficie.ts";
 import type { MagazineArticle } from "./superficie.ts";
 
-const read = (path: string) => readFileSync(path, "utf8");
+const read = (filePath: string) => readFileSync(filePath, "utf8");
+const repoRoot = path.resolve(
+  fileURLToPath(new URL(".", import.meta.url)),
+  "../..",
+);
 
 const article = (overrides: Partial<MagazineArticle> = {}): MagazineArticle =>
   ({
@@ -316,6 +322,48 @@ test("matéria TFOS DEWS III cita os DOIs adicionais da prova resolvidos no Cros
       "A Lifestyle Epidemic — Ocular Surface Disease",
     ),
   );
+});
+
+test("matéria TFOS DEWS III inclui o mapa dos nove drivers só no corpo", () => {
+  const article = superficie.publishedArticles.find(
+    ({ slug }) => slug === "tfos-dews-iii-na-pratica",
+  );
+  assert.ok(article);
+
+  const section = article.content.find(({ id }) => id === "nove-drivers");
+  assert.ok(section?.figure);
+  assert.equal(
+    section.figure.src,
+    "/images/superficie/artigos/tfos-dews-iii-na-pratica/mapa-nove-drivers.png",
+  );
+  assert.equal(
+    section.figure.caption,
+    "O mapa dos nove drivers. Três territórios etiológicos — TFOS DEWS III.",
+  );
+  assert.equal(
+    section.figure.alt,
+    "Mapa dos nove drivers da TFOS DEWS III: filme lacrimal (lipídico, aquoso, mucina/glicocálix), pálpebras (piscar e fechamento, margem palpebral) e superfície ocular (anatomia, disfunção neural, dano celular, inflamação).",
+  );
+  assert.ok(
+    existsSync(
+      path.join(repoRoot, "public", section.figure.src.replace(/^\//, "")),
+    ),
+    "o PNG do mapa dos nove drivers precisa estar versionado com o artigo",
+  );
+
+  const otherFigures = article.content.filter(
+    ({ id, figure }) => id !== "nove-drivers" && figure,
+  );
+  assert.deepEqual(otherFigures, []);
+
+  for (const other of superficie.publishedArticles.filter(
+    ({ slug }) => slug !== "tfos-dews-iii-na-pratica",
+  )) {
+    assert.ok(
+      other.content.every(({ figure }) => !figure),
+      `${other.slug} não deve receber a figura do TFOS`,
+    );
+  }
 });
 
 test("validação exige canonical consistente com o slug", () => {
