@@ -913,7 +913,7 @@ const tresMesesNaoSaoDoze: MagazineArticle = {
   title: "Três meses não são doze",
   subtitle: "Tecnologias em olho seco: como ler a evidência comparativa",
   excerpt:
-    "O consultório está sendo vendido um ranking de aparelhos. P-score não é “melhor aparelho para comprar”. Esta matéria ensina a ler. Não prescreve aparelho.",
+    "O consultório está sendo vendido um ranking de aparelhos. P-score não é “melhor aparelho para comprar”. Esta matéria ensina a ler a evidência comparativa — e por que três meses não são doze. Não prescreve aparelho.",
   category: "Tecnologia",
   author: {
     name: "Dr. Philipe Saraiva Cruz",
