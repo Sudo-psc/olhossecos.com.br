@@ -908,9 +908,267 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
   },
 };
 
+const tresMesesNaoSaoDoze: MagazineArticle = {
+  slug: "tres-meses-nao-sao-doze",
+  title: "Três meses não são doze",
+  subtitle: "Tecnologias em olho seco: como ler a evidência comparativa",
+  excerpt:
+    "O consultório está sendo vendido um ranking de aparelhos. P-score não é “melhor aparelho para comprar”. Esta matéria ensina a ler. Não prescreve aparelho.",
+  category: "Tecnologia",
+  author: {
+    name: "Dr. Philipe Saraiva Cruz",
+    slug: "philipe-saraiva-cruz",
+    specialty: "Oftalmologia — CRM-MG 69.870 · RQE 71.903",
+    affiliation: "Saraiva Vision, Caratinga/MG",
+  },
+  reviewSeal: "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  status: "published",
+  issue: "edicao-00",
+  publishedAt: "2026-08-15",
+  modifiedAt: "2026-08-15",
+  content: [
+    {
+      id: "por-que-importa",
+      title: "Por que importa",
+      kind: "why-it-matters",
+      paragraphs: [
+        "O consultório está sendo vendido um ranking de aparelhos. A meta-análise em rede de 2026 é o paper que o mercado vai citar. Ela compara 47 ensaios a dois a quatro meses. P-score não é “melhor aparelho para comprar”. SAHARA é o único ensaio grande aparelho-versus-fármaco desta lista — e é paper de periódico, não comunicado de fabricante. Esta matéria ensina a ler. Não prescreve aparelho.",
+        "A rede de Noyman e colaboradores (2026) — 47 RCTs, 3.581 pacientes, 16 países — ordena tecnologias a 2–4 meses. TearCare com expressão e IPL com máscara aquecida ficam no topo de TBUT. QMR no topo de coloração. IPL no topo de sintoma. A rede mistura subtipos de IPL. Luz Intensa Pulsada Regulada (IRPL) e IPL de consultório não são o mesmo protocolo. Schirmer: nenhuma tecnologia supera o conservador. Heterogeneidade extrema. Trinta por cento dos estudos com conflito industrial. Poucos head-to-heads reais. GRADE rebaixado por viés de mascaramento e indireção. O ranking descreve o que entrou na rede. Não o que existe no consultório.",
+        "SAHARA (Ayres e colaboradores, 2023) compara pulsação térmica mais expressão com ciclosporina 0,05% duas vezes ao dia, n = 345, seis meses. TBUT ganhou no braço térmico. OSDI empatou. Não é head-to-head contra IPL, LipiFlow, LLLT ou QMR. Os autores da empresa concluem “tratamento preferido”. A revista não herda o veredito. Holland não é este ensaio — OLYMPIA é outro paper, não entra aqui.",
+        "Cochrane IPL 2020 e Cochrane LipiFlow 2024 são o contrapeso: a classe não tem evidência conclusiva de superioridade versus compressa ou higiene. Peira e colaboradores (2025) atualizam IPL: versus placebo o OSDI provavelmente cai de forma clinicamente relevante; versus cuidado padrão o ganho é incerto.",
+        "LLLT e QMR entram no ranking com redes esparsas. Sintoma sobe mais fácil que sinal. I² alto. Segurança mal reportada. Três meses não são doze. Hovanesian e colaboradores (2025) — extensão industrial do braço TearCare — são o único follow-up longo numerado. Retratamento existe. Tao e colaboradores (2023), na avaliação da Academia Americana, já avisavam: durabilidade além de alguns meses e custo-eficácia são incertos.",
+      ],
+    },
+    {
+      id: "metodo",
+      title: "Método e recorte",
+      kind: "body",
+      paragraphs: [
+        "Este artigo é uma revisão narrativa. Não constitui diretriz nacional nem prescrição individual. Não é vitrine de fabricante.",
+        "As referências foram conferidas no Crossref em 15 de agosto de 2026. Autor e título precisaram bater com o registro persistente antes de entrar na lista. Vinte de vinte DOIs resolvidos.",
+        "Data de corte da busca: 15 de agosto de 2026.",
+      ],
+    },
+    {
+      id: "evidencia",
+      title: "Evidência",
+      kind: "evidence",
+      paragraphs: [
+        "Noyman e colaboradores (2026) são o paper que o mercado vai citar. A rede reúne 47 RCTs, 3.581 pacientes e 16 países, e ordena tecnologias a 2–4 meses. TearCare com expressão e IPL com máscara aquecida ficam no topo de TBUT. QMR no topo de coloração. IPL no topo de sintoma. Schirmer: nenhuma tecnologia supera o conservador. A rede mistura subtipos de IPL. P-score não é head-to-head. Heterogeneidade extrema — I² extremo. Cerca de 30% dos estudos com conflito industrial. Poucos head-to-heads reais. GRADE rebaixado por viés de mascaramento e indireção. O ranking descreve o que entrou na rede. Não o que existe no consultório. Não prescreve aparelho.",
+        "SAHARA (Ayres e colaboradores, 2023) é o único ensaio grande aparelho-versus-fármaco desta lista. Compara pulsação térmica mais expressão com ciclosporina 0,05% duas vezes ao dia, n = 345, seis meses. É paper de periódico, não comunicado de fabricante. TBUT ganhou no braço térmico. OSDI empatou. Não é head-to-head contra IPL, LipiFlow, LLLT ou QMR. Os autores da empresa concluem “tratamento preferido”. A revista não herda o veredito. Holland não é este ensaio — OLYMPIA é outro paper, não entra aqui.",
+        "Hovanesian e colaboradores (2025) são a extensão industrial do braço TearCare de SAHARA e o único follow-up longo numerado desta lista. Retratamento existe: a mediana foi de 8 meses no subgrupo térmico de SAHARA. Três meses não são doze.",
+        "Pucker e colaboradores (2024), na revisão Cochrane de LipiFlow, encontram a classe aproximadamente equivalente à compressa quente, com certeza baixa. Tao e colaboradores (2023), na avaliação da Academia Americana de Oftalmologia, já avisavam: durabilidade além de alguns meses e custo-eficácia são incertos. Tauber e colaboradores (2020) comparam dois dispositivos térmicos — iLUX e LipiFlow — no mesmo recorte de disfunção meibomiana; não substituem um ranking de compra e não são head-to-head contra IPL, IRPL, LLLT ou QMR.",
+        "Cote e colaboradores (2020), na Cochrane de IPL para disfunção das glândulas de Meibomius, classificam a certeza como muito baixa. Peira e colaboradores (2025) atualizam a classe: versus placebo o OSDI provavelmente cai de forma clinicamente relevante; versus cuidado padrão o ganho é incerto. Não é milagre contra o cuidado padrão.",
+        "Xue e colaboradores (2020) são o ensaio de IRPL — E-Eye / E-Swin — com curso de 4–5 sessões, randomizado, duplo-mascarado e controlado por placebo. IRPL não é o IPL genérico de consultório da classe Toyos/Lumenis. Craig e colaboradores (2015), Karaca e colaboradores (2020) e Vigo e colaboradores (2019) entram como a linha precoce de IPL e de IRPL: Craig no IPL prospectivo; Karaca e Vigo no protocolo regulado. Não unificam as duas classes.",
+        "Wu e colaboradores (2020) comparam OPT com IRPL. Não é Lumenis versus E-Eye. Jiang e colaboradores (2022) testam IPL de nova geração em duas sessões — não é o curso de 4–5 sessões de Xue. Castro e colaboradores (2023) comparam dispositivos baseados em luz na disfunção meibomiana; não fecham o furo de um RCT que coloque E-Eye/IRPL e M22/Lumenis/Toyos no mesmo calendário, fluência e uso de expressão. Cong e colaboradores (2025) meta-analisam em rede modalidades de IPL; a rede continua misturando protocolos. Toyos e colaboradores (2022) são IPL de consultório da classe Toyos — não IRPL.",
+        "Não há, nesta lista nem fora dela até o corte, RCT que compare E-Eye/IRPL versus M22/Lumenis/Toyos no mesmo calendário, fluência e uso de expressão (MGX). Este artigo não inventa esse head-to-head.",
+        "Chan e colaboradores (2025) revisam LLLT e IPL na disfunção meibomiana. LLLT entra no ranking de Noyman com rede esparsa. Sintoma sobe mais fácil que sinal. I² alto. Segurança mal reportada.",
+        "Shemer e colaboradores (2024) randomizam QMR. Ballesteros-Sánchez e colaboradores (2025) meta-analisam a classe: o efeito global não é significativo. Noyman coloca QMR no topo de coloração. Esta matéria não resolve o empate. QMR não vira “melhor aparelho” por um P-score de coloração, nem some porque a síntese global foi não significativa.",
+      ],
+    },
+    {
+      id: "pratica",
+      title: "Prática",
+      kind: "practice",
+      paragraphs: [
+        "Firewall. Avaliação independente. Nome de aparelho só quando o paper o exige. Sem vitrine. Sem “IPL cura DGM”. Sem ranking de compra.",
+        "Como ler um paper de tecnologia em olho seco — e como ler a rede que o mercado vai citar. O P-score descreve a ordem do que entrou na rede a 2–4 meses. Não descreve o que comprar, nem o que existe no consultório brasileiro, nem o que dura doze meses. SAHARA é aparelho versus fármaco, não aparelho versus aparelho. IRPL (E-Eye / E-Swin) não é IPL de consultório. Retratamento existe. A revista não herda o veredito do fabricante.",
+        "Quatro perguntas cabem no lugar de uma figura. Horizonte: o desfecho é de dois a quatro meses, ou há follow-up longo numerado? Comparador: é placebo, compressa, higiene, fármaco ou outro aparelho no mesmo calendário, fluência e uso de expressão? Conflito: quem financiou, e o paper é de periódico ou comunicado de fabricante? GRADE: a certeza foi rebaixada por mascaramento, indireção ou heterogeneidade? Sem essas quatro, o ranking vira vitrine.",
+      ],
+      bullets: [
+        "Não transforme P-score em ranking de compra. A rede de Noyman ordena o que entrou a 2–4 meses; não o que existe no consultório.",
+        "Pergunte o horizonte. Três meses não são doze. Retratamento existe — mediana de 8 meses no subgrupo térmico de SAHARA (Hovanesian).",
+        "Pergunte o comparador. SAHARA é térmico versus ciclosporina 0,05%, n = 345, seis meses. Não é head-to-head contra IPL, LipiFlow, LLLT ou QMR.",
+        "Separe IRPL de IPL de consultório. Xue (E-Eye / E-Swin, 4–5 sessões) não é a classe Toyos/Lumenis. Wu é OPT versus IRPL, não Lumenis versus E-Eye. Jiang é duas sessões, não o curso de Xue.",
+        "Declare o furo: zero RCT compara E-Eye/IRPL versus M22/Lumenis/Toyos no mesmo calendário, fluência e uso de MGX. Não invente esse head-to-head.",
+        "Leia Cochrane e Peira como contrapeso. LipiFlow ≈ compressa, certeza baixa. IPL 2020, certeza muito baixa. Versus placebo o OSDI provavelmente cai; versus cuidado padrão o ganho é incerto.",
+        "Não resolva o empate do QMR. Topo de coloração na rede de Noyman; efeito global não significativo em Ballesteros. LLLT e QMR entram com redes esparsas.",
+        "Nomeie o aparelho só quando o paper o exige. Sem “IPL cura DGM”. Sem Demodex. Sem ANVISA inventada. Sem press release. Sem registro brasileiro inventado.",
+      ],
+    },
+    {
+      id: "limitacoes",
+      title: "Limitações",
+      kind: "limitations",
+      paragraphs: [
+        "Esta matéria ensina a ler. Não prescreve aparelho. Não é diretriz. Não é vitrine de fabricante. O ranking de Noyman descreve o que entrou na rede a 2–4 meses — heterogeneidade extrema, I² extremo, cerca de 30% de conflito industrial, poucos head-to-heads reais, GRADE rebaixado por mascaramento e indireção. Não descreve o que existe no consultório brasileiro.",
+        "O furo duro permanece: zero RCT compara E-Eye/IRPL versus M22/Lumenis/Toyos no mesmo calendário, fluência e uso de expressão. Wu é OPT versus IRPL. Jiang é duas sessões, não o curso de 4–5 de Xue. A ausência desse head-to-head não autoriza equivalência, superioridade nem “mesmo IPL”.",
+        "SAHARA não é Holland/OLYMPIA. Não entra OLYMPIA. Os autores da empresa concluem “tratamento preferido”; a revista não herda o veredito. Hovanesian é extensão industrial do braço TearCare — o único follow-up longo numerado. Retratamento existe. Três meses não são doze.",
+        "Cochrane LipiFlow encontra equivalência aproximada à compressa, com certeza baixa. Cochrane IPL 2020, certeza muito baixa. Peira atualiza versus placebo, não versus cuidado padrão como milagre. LLLT e QMR entram com redes esparsas. Sintoma sobe mais fácil que sinal. Segurança mal reportada. QMR no topo de coloração na NMA e efeito global não significativo em Ballesteros: o empate não se resolve aqui.",
+        "Não há, nesta lista, registro sanitário brasileiro inventado, press release tratado como paper, nem afirmação de que IPL cura DGM. Demodex não entra. Durabilidade além de alguns meses e custo-eficácia permanecem incertos, como Tao já avisava.",
+      ],
+      bullets: [
+        "Zero RCT E-Eye/IRPL versus M22/Lumenis/Toyos no mesmo calendário, fluência e MGX.",
+        "A rede mistura subtipos de IPL; IRPL e IPL de consultório não são o mesmo protocolo.",
+        "P-score não é head-to-head. Schirmer: nenhuma tecnologia supera o conservador.",
+        "Cerca de 30% dos estudos da rede com conflito industrial. GRADE rebaixado.",
+        "Três meses não são doze. Retratamento existe.",
+        "Sem ANVISA inventada. Sem press release. Sem “IPL cura DGM”. Sem Demodex. Sem registro brasileiro inventado.",
+      ],
+    },
+  ],
+  references: [
+    {
+      label:
+        "Noyman DBE, Chan CC, Teichman JC, et al. Technological Interventions for Dry Eye Disease: A Systematic Review and Random-Effects Network Meta-analysis of 3-Month Outcomes. Ophthalmol Ther. 2026;15(5):1721-1759.",
+      url: "https://doi.org/10.1007/s40123-026-01360-x",
+      doi: "10.1007/s40123-026-01360-x",
+    },
+    {
+      label:
+        "Ayres B, Bloomenstein M, Loh J, et al. A Randomized, Controlled Trial Comparing TearCare and Cyclosporine Ophthalmic Emulsion for the Treatment of Dry Eye Disease (SAHARA). Clin Ophthalmol. 2023;17:3925-3940.",
+      url: "https://doi.org/10.2147/OPTH.S442971",
+      doi: "10.2147/OPTH.S442971",
+    },
+    {
+      label:
+        "Hovanesian J, Ayres BD, Bloomenstein MR, et al. Durability of the TearCare treatment effect in subjects with dry eye disease: Stage 3 of the Sahara randomized controlled trial. Optom Vis Sci. 2025;102(8):495-504.",
+      url: "https://doi.org/10.1097/OPX.0000000000002278",
+      doi: "10.1097/OPX.0000000000002278",
+    },
+    {
+      label:
+        "Pucker AD, Yim TW, Rueff E, et al. LipiFlow for the treatment of dry eye disease. Cochrane Database Syst Rev. 2024;2:CD015448.",
+      url: "https://doi.org/10.1002/14651858.CD015448.pub2",
+      doi: "10.1002/14651858.CD015448.pub2",
+    },
+    {
+      label:
+        "Tao JP, Shen JF, Aakalu VK, et al. Thermal Pulsation in the Management of Meibomian Gland Dysfunction and Dry Eye. Ophthalmology. 2023;130(12):1336-1341.",
+      url: "https://doi.org/10.1016/j.ophtha.2023.07.009",
+      doi: "10.1016/j.ophtha.2023.07.009",
+    },
+    {
+      label:
+        "Tauber J, Owen J, Bloomenstein M, Hovanesian J, Bullimore MA. Comparison of the iLUX and the LipiFlow for the Treatment of Meibomian Gland Dysfunction and Symptoms: A Randomized Clinical Trial. Clin Ophthalmol. 2020;14:405-418.",
+      url: "https://doi.org/10.2147/OPTH.S234008",
+      doi: "10.2147/OPTH.S234008",
+    },
+    {
+      label:
+        "Cote S, Zhang AC, Ahmadzai V, et al. Intense pulsed light (IPL) therapy for the treatment of meibomian gland dysfunction. Cochrane Database Syst Rev. 2020;3:CD013559.",
+      url: "https://doi.org/10.1002/14651858.CD013559",
+      doi: "10.1002/14651858.CD013559",
+    },
+    {
+      label:
+        "Peira N, Ali EM, Modén NK, et al. Effectiveness and safety of intense pulsed light therapy for dry eye symptoms due to meibomian gland dysfunction—A systematic review and meta-analysis. Acta Ophthalmol. 2025;103(4):371-379.",
+      url: "https://doi.org/10.1111/aos.16802",
+      doi: "10.1111/aos.16802",
+    },
+    {
+      label:
+        "Xue AL, Wang MT, Ormonde SE, Craig JP. Randomised double-masked placebo-controlled trial of the cumulative treatment efficacy profile of intense pulsed light therapy for meibomian gland dysfunction. Ocul Surf. 2020;18(2):286-297.",
+      url: "https://doi.org/10.1016/j.jtos.2020.01.003",
+      doi: "10.1016/j.jtos.2020.01.003",
+    },
+    {
+      label:
+        "Chan KE, Lau BSR, Lim BXH, et al. Low-level light therapy and intense pulse light therapy in meibomian gland dysfunction. A systematic review and meta-analysis. Cont Lens Anterior Eye. 2025;48(2):102344.",
+      url: "https://doi.org/10.1016/j.clae.2024.102344",
+      doi: "10.1016/j.clae.2024.102344",
+    },
+    {
+      label:
+        "Shemer A, Altarescu A, Nusbaum L, et al. Quantum Molecular Resonance Effects on Patients With Dry Eye Disease: A Randomized Controlled Trial. Cornea. 2024;43(9):1144-1149.",
+      url: "https://doi.org/10.1097/ICO.0000000000003443",
+      doi: "10.1097/ICO.0000000000003443",
+    },
+    {
+      label:
+        "Ballesteros-Sánchez A, Rocha-de-Lossada C, Sánchez-González J, Tedesco GR, Borroni D. Efficacy and Safety of Quantum Molecular Resonance Electrotherapy in Dry Eye Disease: A Systematic Review with Meta-analysis. Ophthalmol Ther. 2025;14(5):1111-1131.",
+      url: "https://doi.org/10.1007/s40123-025-01133-y",
+      doi: "10.1007/s40123-025-01133-y",
+    },
+    {
+      label:
+        "Craig JP, Chen Y, Turnbull PRK. Prospective Trial of Intense Pulsed Light for the Treatment of Meibomian Gland Dysfunction. Invest Ophthalmol Vis Sci. 2015;56(3):1965.",
+      url: "https://doi.org/10.1167/iovs.14-15764",
+      doi: "10.1167/iovs.14-15764",
+    },
+    {
+      label:
+        "Karaca EE, Evren Kemer Ö, Özek D. Intense regulated pulse light for the meibomian gland dysfunction. Eur J Ophthalmol. 2020;30(2):289-292.",
+      url: "https://doi.org/10.1177/1120672118817687",
+      doi: "10.1177/1120672118817687",
+    },
+    {
+      label:
+        "Vigo L, Taroni L, Bernabei F, et al. Ocular Surface Workup in Patients with Meibomian Gland Dysfunction Treated with Intense Regulated Pulsed Light. Diagnostics (Basel). 2019;9(4):147.",
+      url: "https://doi.org/10.3390/diagnostics9040147",
+      doi: "10.3390/diagnostics9040147",
+    },
+    {
+      label:
+        "Wu Y, Li J, Hu M, et al. Comparison of two intense pulsed light patterns for treating patients with meibomian gland dysfunction. Int Ophthalmol. 2020;40(7):1695-1705.",
+      url: "https://doi.org/10.1007/s10792-020-01337-0",
+      doi: "10.1007/s10792-020-01337-0",
+    },
+    {
+      label:
+        "Jiang X, Yuan H, Zhang M, et al. The Efficacy and Safety of New-Generation Intense Pulsed Light in the Treatment of Meibomian Gland Dysfunction-Related Dry Eye: A Multicenter, Randomized, Patients-Blind, Parallel-Control, Non-Inferiority Clinical Trial. Ophthalmol Ther. 2022;11(5):1895-1912.",
+      url: "https://doi.org/10.1007/s40123-022-00556-1",
+      doi: "10.1007/s40123-022-00556-1",
+    },
+    {
+      label:
+        "Castro C, Marques JH, Marta A, et al. Comparison of Light-Based Devices in the Treatment of Meibomian Gland Dysfunction. Cureus. 2023;e41386.",
+      url: "https://doi.org/10.7759/cureus.41386",
+      doi: "10.7759/cureus.41386",
+    },
+    {
+      label:
+        "Cong J, Wu Y, Dong C, et al. Network meta-analysis of different modalities of intense pulsed light therapy in the treatment of dry eye disease induced by meibomian gland dysfunction. Lasers Med Sci. 2025;40(1):303.",
+      url: "https://doi.org/10.1007/s10103-025-04545-1",
+      doi: "10.1007/s10103-025-04545-1",
+    },
+    {
+      label:
+        "Toyos R, Desai NR, Toyos M, Dell SJ. Intense pulsed light improves signs and symptoms of dry eye disease due to meibomian gland dysfunction: A randomized controlled study. PLoS One. 2022;17(6):e0270268.",
+      url: "https://doi.org/10.1371/journal.pone.0270268",
+      doi: "10.1371/journal.pone.0270268",
+    },
+  ],
+  disclosures: [
+    { label: "Financiamento", text: "Sem financiamento externo." },
+    {
+      label: "Conflitos de interesse",
+      text: "O autor declara não possuir vínculo com fabricantes de dispositivos, fármacos ou tecnologias citados neste artigo.",
+    },
+    {
+      label: "Uso de inteligência artificial",
+      text: "Houve assistência de IA na reorganização editorial, na revisão linguística e na conferência bibliográfica das referências contra Crossref e PubMed. A IA não foi tratada como fonte; as afirmações e referências foram verificadas pelo autor.",
+    },
+    {
+      label: "Revisão",
+      text: "Este artigo não passou por revisão independente por pares. Ver o selo editorial no topo da página.",
+    },
+    {
+      label: "Aprovação ética",
+      text: "Não se aplica: revisão narrativa sem dados individuais ou imagens identificáveis.",
+    },
+  ],
+  sponsored: false,
+  tags: [
+    "IPL",
+    "IRPL",
+    "TearCare",
+    "evidência comparativa",
+    "olho seco",
+    "consultório brasileiro",
+  ],
+  seo: {
+    title: "Três meses não são doze | SUPERFÍCIE",
+    description:
+      "O consultório está sendo vendido um ranking de aparelhos. P-score não é “melhor aparelho para comprar”. Esta matéria ensina a ler. Não prescreve aparelho.",
+    canonical: "/superficie/artigos/tres-meses-nao-sao-doze",
+  },
+};
+
 export const publishedArticles: MagazineArticle[] = [
   dgmBiologiaMolecular,
   tfosDewsIiiNaPratica,
+  tresMesesNaoSaoDoze,
 ];
 
 export interface MagazineIssue {
