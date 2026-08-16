@@ -908,9 +908,235 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
   },
 };
 
+const fenotipagemIntegrada: MagazineArticle = {
+  slug: "quando-sintomas-e-sinais-nao-batem",
+  title: "Quando sintomas e sinais não batem",
+  subtitle:
+    "Fenotipagem integrada no consultório: mapear eixos, não forçar concordância",
+  excerpt:
+    "A discórdia entre sintomas e sinais é um achado clínico, não um erro de medida.",
+  category: "Diagnóstico",
+  author: {
+    name: "Dr. Philipe Saraiva Cruz",
+    slug: "philipe-saraiva-cruz",
+    specialty: "Oftalmologia — CRM-MG 69.870 · RQE 71.903",
+    affiliation: "Saraiva Vision, Caratinga/MG",
+  },
+  reviewSeal: "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  status: "published",
+  issue: "edicao-00",
+  publishedAt: "2026-08-15",
+  modifiedAt: "2026-08-15",
+  content: [
+    {
+      id: "por-que-importa",
+      title: "Por que importa",
+      kind: "why-it-matters",
+      paragraphs: [
+        "Quando o questionário é alto e a coloração, o tempo de ruptura ou a osmolaridade são baixos — ou o inverso —, a tentação do consultório é repetir o exame, trocar o instrumento ou escalar o tratamento como se a discórdia fosse erro de medida. A pergunta útil é outra: como mapear o paciente aos eixos aquoso, evaporativo-DGM, inflamatório, neurossensorial e mecânico quando sintomas, sinais e mecanismos não batem, sem forçar concordância e sem transformar o contínuo em checklist.",
+        "Na prática, é tentador tratar a discórdia entre sintomas e sinais como falha do exame. O paciente descreve queimação, fotofobia ou dor ao vento; a córnea está quase limpa, o menisco é aceitável, o tempo de ruptura não é catastrófico. Ou o inverso: a superfície está marcada, o volume é baixo, e o paciente quase não se queixa. A primeira reação é técnica — repetir a coloração, trocar o questionário, “confirmar” o achado até os números coincidirem. Essa reação pressupõe que sintomas e sinais deveriam convergir. Não deveriam. A discórdia é um achado clínico, não um exame inconsistente.",
+        "Nichols e colaboradores (2004) já haviam mostrado, em uma amostra clínica de 75 pacientes com doença do olho seco, que sinais e sintomas não se associavam depois do ajuste para idade e uso de lágrima artificial. O “quandary” não era ruído de um instrumento antigo: era a ausência de correlação entre o que o paciente relata e o que o biomicroscópio mostra. Duas décadas depois, a observação se repetiu em cohorts maiores e com preditores. Vehof e colaboradores (2017), em 648 pacientes de um serviço terciário, descreveram as duas direções da discórdia. Mais sintomas do que sinais associaram-se a síndrome de dor crônica, atopia e alergia, uso de anti-histamínicos, depressão, osteoartrite e antidepressivos. Menos sintomas do que sinais associaram-se a idade, síndrome de Sjögren — sobretudo a forma primária — e doença do enxerto contra o hospedeiro. Mais sintomas que sinais associou-se a pior saúde percebida. Não é um detalhe psicométrico. É um dado que muda o que se pergunta a seguir.",
+        "O que mudou no enquadramento não foi a existência da discórdia — ela já estava na clínica. Foi o lugar da anormalidade neurossensorial. O relatório de definição e classificação do TFOS DEWS II (Craig e colaboradores, 2017) incluiu o componente neurossensorial na definição e admitiu, no esquema, sinais sem sintomas — inclusive o olho neurótrofico — e sintomas sem sinais demonstráveis — inclusive a dor neuropática referida à superfície. O TFOS DEWS III (Wolffsohn e colaboradores, 2025) dá o passo seguinte: a doença do olho seco é multifatorial, sintomática, e as anormalidades neurossensoriais entram como fator etiológico formal, não como comorbidade opcional. Isso altera duas categorias que o consultório ainda usa. “Olho seco silencioso” — sinais sem sintomas — deixa de ser doença do olho seco no sentido DEWS III; pode ser superfície alterada, neurotrofia ou outro diagnóstico, mas não fecha o critério de doença sintomática. “Olho seco sem teste” — sintomas sem signo de homeostase — também não fecha o diagnóstico DEWS III; o que se deve investigar é o ramo neurossensorial, a dor neuropática ocular, o driver neural. A discórdia não desaparece. Ela ganha endereço.",
+        "O consultório brasileiro, na maior parte dos dias, ainda escala por gravidade de sintoma ou por um binário aquoso versus evaporativo. Os dois atalhos são compreensíveis. Gravidade organiza a conversa com o paciente e a escolha da primeira intervenção. O binário aquoso–evaporativo é o mapa que o DEWS II ensinou e que a residência ainda desenha. Nenhum dos dois, porém, explica o paciente que dói desproporcionalmente, o Sjögren oligosintomático com superfície destruída, ou o misto em que filme, margem e dor convivem e a polifarmácia cresce porque cada visita acrescenta um tratamento ao eixo que não era o daquele dia.",
+        "Fenótipos mistos são a regra, não a exceção. O contínuo aquoso–evaporativo do DEWS II e os três blocos de subclassificação do DEWS III — filme, pálpebra, superfície — descrevem coexistência, não compartimentos estanques. Hierarquizar o driver da visita — o que explica a discórdia de hoje — é o que evita tratar todos os eixos de uma vez. Não é um algoritmo validado para quinze minutos. É uma mudança de pergunta: em vez de “qual a gravidade?”, “qual eixo está dirigindo esta consulta?”.",
+        "Há ainda um ponto de nomenclatura que muda conduta. O instrumento curto que o DEWS III adotou para screening é o OSDI-6, derivado por Pult e Wolffsohn (2019) a partir de seis itens do OSDI. Não é sucessor do OSDI de doze itens. Não cobre as três subescalas — função visual, sintomas, gatilhos ambientais — que o instrumento completo foi construído para caracterizar. Usá-lo como porta de entrada do algoritmo DEWS III é o que o consenso pede. Usá-lo como se esgotasse o fenótipo é afirmar o que o instrumento não cobre.",
+      ],
+    },
+    {
+      id: "metodo",
+      title: "Método e recorte",
+      kind: "body",
+      paragraphs: [
+        "Este artigo é uma revisão narrativa. Não constitui diretriz nacional nem prescrição individual.",
+        "As referências foram conferidas no Crossref em 15 de agosto de 2026. Autor e título precisaram bater com o registro persistente antes de entrar na lista. Quatorze de quatorze DOIs resolvidos.",
+        "Data de corte da busca: 15 de agosto de 2026.",
+      ],
+    },
+    {
+      id: "evidencia",
+      title: "Evidência",
+      kind: "evidence",
+      paragraphs: [
+        "O framework de fenótipo — não a pendência taxonômica — está no relatório de definição do DEWS II. Craig e colaboradores (2017) descrevem a doença do olho seco como perda de homeostase do filme lacrimal, com sintomas de desconforto ou distúrbio visual, e com etiologias-chave em instabilidade, hiperosmolaridade, inflamação e dano. O componente neurossensorial entra pela primeira vez. Aquoso e evaporativo existem em contínuo, não como polos que se excluem. O esquema admite as duas discórdias: sinais sem sintomas, inclusive o olho neurótrofico; sintomas sem sinais demonstráveis, inclusive a dor neuropática. É nesse sentido que o texto entra aqui. Não para reabrir a discussão sobre o nome da entidade. Para lembrar que a classificação já previa o paciente em que o filme e a queixa não caminham juntos.",
+        "O mapa diagnóstico que o leitor conhece é o do relatório de metodologia do DEWS II (Wolffsohn e colaboradores, 2017): triagem com DEQ-5 ou OSDI; em seguida tempo de ruptura — de preferência não invasivo —, osmolaridade e coloração de córnea, conjuntiva e margem; depois, subclassificação evaporativo versus aquoso para informar o manejo. Esse mapa ainda organiza a maior parte das fichas. Não é o mapa operacional desta matéria. É o contraste histórico: o que se pedia em 2017 e o que se pede agora.",
+        "O mapa operacional é o relatório de metodologia diagnóstica do DEWS III (Wolffsohn e colaboradores, 2025). A doença é multifatorial, sintomática, e os fatores etiológicos incluem instabilidade, hiperosmolaridade, inflamação e dano, e anormalidades neurossensoriais. O screening recomendado é OSDI-6 ≥ 4 na soma bruta dos 6 itens (escala 0–24), não no índice 0–100 do OSDI-12. O diagnóstico fecha com screening positivo mais um signo de homeostase: NIBUT menor que 10 segundos, ou hiperosmolaridade — ≥ 308 mOsm/L ou diferença interocular maior que 8 —, ou coloração (córnea > 5, ou conjuntiva > 9, ou margem palpebral ≥ 2 mm e ≥ 25% da largura). A subclassificação se organiza em três blocos. Deficiências do filme: lipídio, aquoso, mucina-glicocálice. Anomalias palpebrais: piscar e fechamento, margem. Anormalidades da superfície: desalinhamento anatômico, disfunção neural, dano celular, inflamação e estresse oxidativo primários. Filme, pálpebra e superfície não são um workshop a recapitular. São o esqueleto que se traduz, no consultório, nos eixos aquoso, evaporativo-DGM, inflamatório e neurossensorial, com o desalinhamento virando caixa mecânica.",
+        "O Digest do DEWS III (Stapleton e colaboradores, 2025) ancora o que esta matéria precisa do consenso de 2025 sem reabrir a biologia da glândula de Meibomius: o eixo dor e sensação, e a distinção fisiopatológica entre deficiência aquosa e evaporativa, inclusive o papel do estresse neural. É âncora, não recap.",
+        "A discórdia como fato clínico — não como falha do leitor — tem um landmark. Nichols, Nichols e Mitchell (2004) examinaram 75 pacientes com doença do olho seco e não encontraram associação entre sinais e sintomas após ajuste para idade e lágrima artificial. A amostra é pequena, o protocolo é anterior à osmolaridade e ao NIBUT de rotina, e o OSDI ainda não era o instrumento padronizado daquele desenho. Nada disso apaga o achado: a correlação que o consultório espera não estava lá.",
+        "Vehof e colaboradores (2017) dão o que o landmark não dava: preditores acionáveis, nas duas direções, em 648 pacientes de um serviço terciário holandês — 83% mulheres, mais próximo do consultório brasileiro do que as cohorts de veteranos. Mais sintomas que sinais: dor crônica, atopia, anti-histamínicos, depressão, osteoartrite, antidepressivos. Menos sintomas que sinais: idade, Sjögren, GVHD. Associação transversal não é causalidade. Continua sendo a lista que muda a anamnese quando a discórdia aparece.",
+        "As cohorts de veteranos americanos descrevem a outra face — a discórdia como fenótipo de sensibilização — e exigem caveat de população. Ong e colaboradores (2018) estudaram 326 pacientes de um hospital VA, 92% homens. O escore de discórdia associou-se a dor não ocular, transtorno de estresse pós-traumático, índices de saúde mental e hiperalgesia em testes quantitativos sensoriais, com pós-sensações ao calor e ao frio. Galor e colaboradores (2015), na mesma linha de serviço, mostraram que sintomas medidos por DEQ-5 e OSDI correlacionavam-se moderadamente com dor não ocular, depressão e PTSD, e fraca ou não se correlacionavam com parâmetros do filme lacrimal; na regressão, nenhum parâmetro lacrimal permaneceu associado. A implicação é direta e limitada: tratar só o filme em um paciente com discórdia alta e carga de dor não ocular pode ser o mecanismo errado. A limitação também é direta: maioria masculina, veteranos dos Estados Unidos. Para o consultório brasileiro — maioria mulher, terciário misto — a direção da discórdia apoia-se em Vehof, não nessas cohorts.",
+        "O substrato do eixo neurossensorial está no relatório de dor e sensação do DEWS II (Belmonte e colaboradores, 2017). Nociceptores polimodais e mecânicos sensibilizados, somados a termorreceptores ao frio anormais, produzem a queixa de ressecamento e dor. Lesão prolongada altera canais e receptores e pode gerar dor neuropática referida à superfície. A avaliação que o relatório aponta — questionários, estesiometria, microscopia confocal in vivo — descreve método. A confocal não é rotina do consultório médio e não será aprofundada aqui. O que cabe é o reconhecimento de que o sintoma pode nascer no nervo, não só no filme.",
+        "Galor e colaboradores (2018) traduzem isso em clínica. Doença do olho seco e dor neuropática compartilham epidemiologia e apresentação. Features de dor neuropática ocular — fotoalodinia, hipersensibilidade ao vento — marcam persistência e gravidade de sintomas com sinais semelhantes. O diagnóstico precisa de um ramo neurossensorial explícito. Sem esse ramo, o paciente com dor desproporcional continua recebendo o mesmo escalonamento de lubrificante e anti-inflamatório que o paciente cujo driver é o filme.",
+        "Há um contraste de definição que o leitor vai encontrar, sobretudo em literatura asiática, e que não deve ser apresentado como substituto. A Asia Dry Eye Society (Tsubota e colaboradores, 2017) descreveu um paradigma de sintomas mais tempo de ruptura curto — o fenótipo short-TFBUT, frequente em usuários de tela —, mesmo com poucos outros sinais. É um fenótipo real. O DEWS III, porém, exige sintoma (OSDI-6) e um signo de homeostase. Pacientes que fecham ADES podem ou não fechar DEWS III. A harmonização não está resolvida. Esta matéria não adota o paradigma ADES como algoritmo; usa-o como contraste para não apagar o paciente de TBUT curto e muitos sintomas.",
+        "Os questionários que mudam decisão nesta lista são três, com funções distintas. O OSDI de Schiffman e colaboradores (2000) tem doze itens e três subescalas — função visual, sintomas, gatilhos ambientais — e foi validado para gravidade. É instrumento de caracterização, não só de screening. O DEQ-5 de Chalmers, Begley e Caffery (2010) combina frequência e intensidade vespertina de desconforto e ressecamento com frequência de lacrimejamento: escore maior que 6 sugere doença do olho seco; maior que 12 sugere investigar Sjögren — sugere investigar, não diagnostica. O OSDI-6 de Pult e Wolffsohn (2019) reúne os itens 1, 4, 7, 9, 10 e 11 do OSDI, correlaciona-se com o instrumento completo (r ≈ 0,90) e prediz o DEQ-5 (AUC 0,80). É o atalho que o DEWS III adotou para screening. Não cobre as três subescalas. Foi derivado em amostras europeias relativamente jovens — no primeiro estudo, idade média em torno de 34 anos. O cutoff ≥ 4 na soma 0–24 que o consenso usa não está validado no Brasil.",
+      ],
+    },
+    {
+      id: "pratica",
+      title: "Prática",
+      kind: "practice",
+      paragraphs: [
+        "A mudança imediata é de raciocínio, não de escada prescritiva. Se o OSDI-6 ou o DEQ-5 estão altos e a coloração, o tempo de ruptura e a osmolaridade estão baixos — ou o inverso —, o primeiro gesto é registrar a discórdia como dado. Não como “exame inconsistente”. Não como motivo para repetir a lâmpada de fenda até os números coincidirem. A discórdia é o achado que abre o mapa, não o que o invalida.",
+        "O mapa cabe em uma figura pequena. Não é fluxograma mestre e não foi validado como algoritmo de visita de quinze a vinte minutos. Três blocos DEWS III — deficiências do filme (lipídio / aquoso / mucina-glicocálice), anomalias palpebrais (piscar, fechamento, margem), anormalidades da superfície (desalinhamento anatômico, disfunção neural, dano celular, inflamação/estresse oxidativo primários) — alimentam os eixos aquoso, evaporativo-DGM, inflamatório e neurossensorial. O desalinhamento vira caixa mecânica. Mistos: hierarquizar o driver da visita, não o checklist completo.",
+        "Os questionários entram na decisão, não na ficha por obrigação. O OSDI-6 decide se o paciente entra no algoritmo DEWS III. O DEQ-5, sobretudo acima de 12, puxa a investigação de Sjögren no eixo aquoso. O OSDI completo entra quando o formulário curto não explica o fenótipo — quando a queixa é função visual, ou quando os gatilhos ambientais são o que distingue este paciente daquele. SPEED e SANDE servem como alternativas de acompanhamento, não como instrumentos adotados para mudar o eixo.",
+        "O eixo aquoso se reconhece por volume baixo — Schirmer, menisco — e, quando o DEQ-5 está alto, pela pergunta de Sjögren. Vehof lembra a outra face: Sjögren, GVHD e idade predizem menos sintomas que sinais. O paciente oligosintomático com superfície marcada não é “olho seco leve”. Não se aprofunda imunologia nesta matéria; aprofunda-se o reconhecimento de que o volume e o contexto sistêmico podem ser o driver mesmo quando a queixa é discreta.",
+        "O eixo evaporativo-DGM se reconhece por tempo de ruptura curto, margem e expressibilidade, e filme lipídico. É um dos três blocos DEWS III — filme mais pálpebra — e para aqui. A biologia da glândula e os procedimentos de margem são de outras matérias. Nesta, o eixo existe para ser nomeado quando é ele que explica a visita, não para ser esgotado.",
+        "O eixo inflamatório se reconhece por coloração, hiperosmolaridade e, se o teste já estiver disponível no serviço, MMP-9 como bandeira — não como tema. A inflamação pode ser primária, no bloco de superfície do DEWS III, ou secundária a qualquer outro eixo. Fenótipo inflamatório “puro” é constructo clínico: coloração não é inflamação primária. Não se reconta o círculo vicioso aqui; o que cabe é não tratar toda coloração como se fosse o mesmo mecanismo.",
+        "O eixo neurossensorial é o núcleo desta matéria. Dor desproporcional aos sinais; features de dor neuropática ocular — vento, fotoalodinia —; comorbidades de dor crônica, depressão, PTSD quando o contexto as trouxer; testes quantitativos sensoriais se o serviço os tiver. O DEWS III lista disfunção neural como subclasse da superfície. A conduta que muda hoje não é uma nova gota: é parar de escalar lubrificante e anti-inflamatório indefinidamente quando o driver é neural, reconhecer o ramo e encaminhar. A matéria de terapia dirigida fará o escalonamento. O que se tem no consultório médio — discórdia, features de NOP, comorbidades de dor — é proxy. Não é gold standard. Estesiometria, confocal e QST não são rotina e não devem ser fingidos como se fossem.",
+        "A caixa mecânica é reconhecimento, não tratado. Desalinhamento anatômico, exposição, atrito, conjuntivocálase óbvia: reconhecer. Critérios de alerta cabem em uma linha — lagoftalmo, CCh evidente, atrito visível. Sem casos, sem biomecânica.",
+        "Mistos: a maioria dos pacientes terá dois eixos ou mais. Hierarquizar pelo driver da visita — o que explica a discórdia de hoje — é o gesto. Completar o checklist de todos os eixos em toda consulta é o que produz polifarmácia. Não há série de cinco casos nesta atualização. Não há fluxograma mestre. Há um mapa e uma pergunta.",
+      ],
+      bullets: [
+        "Passo 0. Se OSDI-6 ou DEQ-5 altos e coloração, TBUT ou osmolaridade baixos — ou o inverso —, registrar a discórdia como dado.",
+        "Questionários. OSDI-6 para o algoritmo DEWS III; DEQ-5 quando Sjögren ou deficiência aquosa está em jogo; OSDI completo quando o curto não explica função visual ou gatilhos.",
+        "Aquoso. Volume baixo; DEQ-5 > 12 sugere investigar Sjögren; menos sintomas que sinais se Sjögren, GVHD ou idade.",
+        "Evaporativo-DGM. TBUT curto, margem, expressibilidade, lipídio. Nomear o eixo; não esgotar a glândula aqui.",
+        "Inflamatório. Coloração, osmolaridade, MMP-9 só como bandeira se já disponível. Primário ou secundário; “puro” é constructo.",
+        "Neurossensorial. Dor desproporcional, vento, fotoalodinia, comorbidades de dor. Não escalar filme indefinidamente; reconhecer e encaminhar o ramo de dor.",
+        "Mecânico. Lagoftalmo, CCh óbvia, atrito: caixa.",
+        "Mistos. Hierarquizar o driver de hoje, não o checklist completo.",
+      ],
+    },
+    {
+      id: "limitacoes",
+      title: "Limitações",
+      kind: "limitations",
+      paragraphs: [
+        "Esta matéria propõe um mapa. Não vende desfecho. Não há ensaio randomizado que teste fenotipagem integrada contra escalada por gravidade de sintomas. Não há algoritmo consultorial validado que hierarquize cinco eixos e mistos em uma visita de quinze a vinte minutos. O DEWS III dá testes e cut-offs; não dá a ordem dos drivers quando eles convivem.",
+        "Não há gold standard de fenótipo neurossensorial no consultório médio. Microscopia confocal, estesiometria e testes quantitativos sensoriais não são rotina. Features de dor neuropática ocular, discórdia e comorbidades de dor são o melhor proxy disponível — e é proxy.",
+        "O cutoff OSDI-6 ≥ 4 na soma 0–24 não foi validado no Brasil. O instrumento foi derivado em amostras europeias relativamente jovens. O pacote de cut-offs do DEWS III — OSDI-6, NIBUT, osmolaridade, coloração — não foi testado prospectivamente como conjunto na clínica brasileira.",
+        "A harmonização entre ADES e DEWS III não está resolvida. Sintomas mais TBUT curto não são o mesmo critério que sintoma mais um signo de homeostase. Esta matéria não finge que estão.",
+        "A direção da discórdia em mulheres brasileiras — a maioria do consultório — apoia-se em Vehof, serviço terciário holandês, não nas cohorts VA de Ong e Galor, predominantemente masculinas. Nichols 2004 permanece landmark e permanece amostra pequena, pré-osmolaridade e pré-NIBUT de rotina.",
+        "Fenótipo inflamatório “puro”, sem biomarcador de consultório, é constructo. Coloração e osmolaridade não autorizam essa etiqueta.",
+        "O Digest do DEWS III tem corrigendum em 2026. Esta matéria usa só o eixo dor e sensação e a distinção ADDE versus evaporativo, sem recap de DGM, e não afirma ter verificado o texto da correção — o full text não estava disponível no corte.",
+        "Um artigo citado em base de consenso (Mejía-Salgado e colaboradores, 2026) não foi confirmado no PubMed até 15 de agosto de 2026 e não é citado.",
+      ],
+    },
+  ],
+  references: [
+    {
+      label:
+        "Craig JP, Nichols KK, Akpek EK, et al. TFOS DEWS II Definition and Classification Report. Ocul Surf. 2017;15(3):276-283.",
+      url: "https://doi.org/10.1016/j.jtos.2017.05.008",
+      doi: "10.1016/j.jtos.2017.05.008",
+    },
+    {
+      label:
+        "Wolffsohn JS, Arita R, Chalmers R, et al. TFOS DEWS II Diagnostic Methodology report. Ocul Surf. 2017;15(3):539-574.",
+      url: "https://doi.org/10.1016/j.jtos.2017.05.001",
+      doi: "10.1016/j.jtos.2017.05.001",
+    },
+    {
+      label:
+        "Wolffsohn JS, Benítez-Del-Castillo JM, Loya-Garcia D, et al. TFOS DEWS III: Diagnostic Methodology. Am J Ophthalmol. 2025;279:387-450.",
+      url: "https://doi.org/10.1016/j.ajo.2025.05.033",
+      doi: "10.1016/j.ajo.2025.05.033",
+    },
+    {
+      label:
+        "Stapleton F, Argüeso P, Asbell P, et al. TFOS DEWS III: Digest. Am J Ophthalmol. 2025;279:451-553.",
+      url: "https://doi.org/10.1016/j.ajo.2025.05.040",
+      doi: "10.1016/j.ajo.2025.05.040",
+    },
+    {
+      label:
+        "Nichols KK, Nichols JJ, Mitchell GL. The Lack of Association Between Signs and Symptoms in Patients With Dry Eye Disease. Cornea. 2004;23(8):762-770.",
+      url: "https://doi.org/10.1097/01.ico.0000133997.07144.9e",
+      doi: "10.1097/01.ico.0000133997.07144.9e",
+    },
+    {
+      label:
+        "Vehof J, Sillevis Smitt-Kamminga N, Nibourg SA, Hammond CJ. Predictors of Discordance between Symptoms and Signs in Dry Eye Disease. Ophthalmology. 2017;124(3):280-286.",
+      url: "https://doi.org/10.1016/j.ophtha.2016.11.008",
+      doi: "10.1016/j.ophtha.2016.11.008",
+    },
+    {
+      label:
+        "Ong ES, Felix ER, Levitt RC, et al. Epidemiology of discordance between symptoms and signs of dry eye. Br J Ophthalmol. 2018;102(5):674-679.",
+      url: "https://doi.org/10.1136/bjophthalmol-2017-310633",
+      doi: "10.1136/bjophthalmol-2017-310633",
+    },
+    {
+      label:
+        "Belmonte C, Nichols JJ, Cox SM, et al. TFOS DEWS II pain and sensation report. Ocul Surf. 2017;15(3):404-437.",
+      url: "https://doi.org/10.1016/j.jtos.2017.05.002",
+      doi: "10.1016/j.jtos.2017.05.002",
+    },
+    {
+      label:
+        "Galor A, Moein HR, Lee C, et al. Neuropathic pain and dry eye. Ocul Surf. 2018;16(1):31-44.",
+      url: "https://doi.org/10.1016/j.jtos.2017.10.001",
+      doi: "10.1016/j.jtos.2017.10.001",
+    },
+    {
+      label:
+        "Tsubota K, Yokoi N, Shimazaki J, et al. New Perspectives on Dry Eye Definition and Diagnosis: A Consensus Report by the Asia Dry Eye Society. Ocul Surf. 2017;15(1):65-76.",
+      url: "https://doi.org/10.1016/j.jtos.2016.09.003",
+      doi: "10.1016/j.jtos.2016.09.003",
+    },
+    {
+      label:
+        "Pult H, Wolffsohn JS. The development and evaluation of the new Ocular Surface Disease Index-6. Ocul Surf. 2019;17(4):817-821.",
+      url: "https://doi.org/10.1016/j.jtos.2019.08.008",
+      doi: "10.1016/j.jtos.2019.08.008",
+    },
+    {
+      label:
+        "Chalmers RL, Begley CG, Caffery B. Validation of the 5-Item Dry Eye Questionnaire (DEQ-5): Discrimination across self-assessed severity and aqueous tear deficient dry eye diagnoses. Cont Lens Anterior Eye. 2010;33(2):55-60.",
+      url: "https://doi.org/10.1016/j.clae.2009.12.010",
+      doi: "10.1016/j.clae.2009.12.010",
+    },
+    {
+      label:
+        "Schiffman RM, Christianson MD, Jacobsen G, Hirsch JD, Reis BL. Reliability and Validity of the Ocular Surface Disease Index. Arch Ophthalmol. 2000;118(5):615-621.",
+      url: "https://doi.org/10.1001/archopht.118.5.615",
+      doi: "10.1001/archopht.118.5.615",
+    },
+    {
+      label:
+        "Galor A, Felix ER, Feuer WJ, et al. Dry eye symptoms align more closely to non-ocular conditions than to tear film parameters. Br J Ophthalmol. 2015;99(8):1126-1129.",
+      url: "https://doi.org/10.1136/bjophthalmol-2014-306481",
+      doi: "10.1136/bjophthalmol-2014-306481",
+    },
+  ],
+  disclosures: [
+    { label: "Financiamento", text: "Sem financiamento externo." },
+    {
+      label: "Conflitos de interesse",
+      text: "O autor declara não possuir vínculo com fabricantes de dispositivos, fármacos ou tecnologias citados neste artigo.",
+    },
+    {
+      label: "Uso de inteligência artificial",
+      text: "Houve assistência de IA na reorganização editorial, na revisão linguística e na conferência bibliográfica das referências contra Crossref e PubMed. A IA não foi tratada como fonte; as afirmações e referências foram verificadas pelo autor.",
+    },
+    {
+      label: "Revisão",
+      text: "Este artigo não passou por revisão independente por pares. Ver o selo editorial no topo da página.",
+    },
+    {
+      label: "Aprovação ética",
+      text: "Não se aplica: revisão narrativa sem dados individuais ou imagens identificáveis.",
+    },
+  ],
+  sponsored: false,
+  tags: [
+    "Fenotipagem",
+    "Olho seco",
+    "Discórdia sintomas-sinais",
+    "DEWS III",
+    "Consultório brasileiro",
+  ],
+  seo: {
+    title: "Quando sintomas e sinais não batem | SUPERFÍCIE",
+    description:
+      "A discórdia entre sintomas e sinais é um achado clínico, não um erro de medida. Fenotipagem integrada no consultório: mapear eixos, não forçar concordância.",
+    canonical: "/superficie/artigos/quando-sintomas-e-sinais-nao-batem",
+  },
+};
+
 export const publishedArticles: MagazineArticle[] = [
   dgmBiologiaMolecular,
   tfosDewsIiiNaPratica,
+  fenotipagemIntegrada,
 ];
 
 export interface MagazineIssue {
