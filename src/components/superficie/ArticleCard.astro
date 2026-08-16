@@ -8,9 +8,10 @@ import {
 interface Props {
   article: MagazineArticle;
   compact?: boolean;
+  hideImage?: boolean;
 }
 
-const { article, compact = false } = Astro.props;
+const { article, compact = false, hideImage = false } = Astro.props;
 const path = getMagazineArticlePath(article);
 const readingTime = calculateArticleReadingTime(article);
 ---
@@ -20,7 +21,7 @@ const readingTime = calculateArticleReadingTime(article);
   data-tilt={compact ? undefined : true}
 >
   {
-    article.featuredImage && !compact && (
+    article.featuredImage && !compact && !hideImage && (
       <a
         class="article-image"
         href={path}

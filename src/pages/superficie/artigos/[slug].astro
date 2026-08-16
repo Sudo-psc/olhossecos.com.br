@@ -46,17 +46,7 @@ const authorUrl = article.author.slug
 const personId = article.author.slug
   ? new URL(`/autor/${article.author.slug}#person`, Astro.site).href
   : undefined;
-const ogImage =
-  article.ogImage ??
-  (article.featuredImage
-    ? {
-        src: article.featuredImage.src,
-        alt: article.featuredImage.alt,
-        width: article.featuredImage.width,
-        height: article.featuredImage.height,
-        type: "image/jpeg",
-      }
-    : undefined);
+const ogImage = article.ogImage;
 const articleImage = ogImage?.src ?? "/images/superficie/og-superficie.jpg";
 
 const articleSchema = isPublished
@@ -100,7 +90,7 @@ const articleSchema = isPublished
   title={article.seo.title}
   description={article.seo.description}
   image={articleImage}
-  imageAlt={ogImage?.alt ?? article.featuredImage?.alt}
+  imageAlt={ogImage?.alt}
   imageType={ogImage?.type ?? "image/jpeg"}
   imageWidth={ogImage?.width ?? 1200}
   imageHeight={ogImage?.height ?? 630}
