@@ -560,6 +560,17 @@ test("matéria IA na superfície ocular publica as quatro seções e o selo de c
   assert.deepEqual(superficie.validateMagazineArticle(article), []);
 });
 
+test("matérias SUPERFÍCIE não declaram esgotamento de cota Consensus/Elicit", () => {
+  const source = readFileSync(
+    new URL("./superficie.ts", import.meta.url),
+    "utf8",
+  );
+
+  assert.doesNotMatch(source, /Consensus não pôde/);
+  assert.doesNotMatch(source, /cota mensal/);
+  assert.doesNotMatch(source, /plano conectado ao Elicit/);
+});
+
 const assertSealedEditionArticle = (
   slug: string,
   referenceCount: number,
