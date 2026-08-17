@@ -2,6 +2,7 @@
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import AnalyticsCollector from "@/components/AnalyticsCollector.astro";
+import { author } from "@/lib/books";
 
 interface Props {
   title?: string;
@@ -64,6 +65,19 @@ const organization = {
   },
 };
 
+// Conteúdo médico é YMYL: quem assina importa tanto quanto o que está escrito.
+// Os guias declaravam a organização como autora, o que não carrega credencial
+// nenhuma. O nó aponta para a mesma Person de /autor/philipe-saraiva-cruz e
+// leva CRM e RQE em identifier.
+const person = {
+  "@type": "Person",
+  "@id": new URL(`/autor/${author.slug}#person`, siteUrl).href,
+  name: author.name,
+  jobTitle: author.role,
+  identifier: author.registration,
+  url: new URL(`/autor/${author.slug}`, siteUrl).href,
+};
+
 const website = {
   "@type": "WebSite",
   "@id": `${siteUrl.href}#website`,
@@ -99,7 +113,7 @@ const page = {
           alternateName: "Olho seco",
         }
       : undefined,
-  author: schemaType === "Article" ? { "@id": organization["@id"] } : undefined,
+  author: schemaType === "Article" ? { "@id": person["@id"] } : undefined,
   publisher:
     schemaType === "Article" ? { "@id": organization["@id"] } : undefined,
 };
@@ -134,6 +148,9 @@ const structuredData = {
     organization,
     website,
     imageObject,
+    // A Person só entra no grafo quando algo aponta para ela; nas páginas que
+    // não são Article o nó seria órfão.
+    ...(schemaType === "Article" ? [person] : []),
     page,
     ...(breadcrumbSchema ? [breadcrumbSchema] : []),
   ],

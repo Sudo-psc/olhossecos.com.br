@@ -9,6 +9,7 @@ import {
   type MagazineArticle,
 } from "@/lib/superficie";
 import { articleTemplatePreview } from "@/lib/superficie-preview";
+import { responsibleDoctor } from "@/lib/doctor";
 
 export function getStaticPaths() {
   const invalid = publishedArticles.flatMap((article) =>
@@ -67,6 +68,11 @@ const articleSchema = isPublished
         name: article.author.name,
         ...(personId ? { "@id": personId } : {}),
         ...(authorUrl ? { url: authorUrl } : {}),
+        // Registro no schema pelo mesmo motivo que ele está no rodapé: em
+        // conteúdo médico, quem assina precisa ser verificável.
+        ...(article.author.name === responsibleDoctor.name
+          ? { identifier: responsibleDoctor.registration }
+          : {}),
       },
       publisher: {
         "@id": new URL("/superficie#organization", Astro.site).href,
