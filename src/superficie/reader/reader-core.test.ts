@@ -11,6 +11,7 @@ import { validateIssueManifest } from "./manifest.ts";
 import { searchIssue } from "./search.ts";
 import { pageFromUrl, shareUrlForPage, urlForPage } from "./url-state.ts";
 import { sanitizeStoredReaderData } from "./stored-data.ts";
+import type { TextLayerDocument } from "./types.ts";
 
 const validManifest = {
   id: "superficie-poc",
@@ -128,10 +129,10 @@ test("edicao-00 article text layers do not stack body paragraphs", async () => {
         `public/superficie/issues/edicao-00/text/page-0${page}.json`,
         "utf8",
       ),
+    ) as TextLayerDocument;
+    const paragraphs = layer.blocks.filter((block) =>
+      String(block.id).includes("-paragraph-"),
     );
-    const paragraphs = (
-      layer.blocks as Array<{ id: string; y: number; height: number }>
-    ).filter((block) => String(block.id).includes("-paragraph-"));
     assert.ok(paragraphs.length >= 2, `página ${page} sem parágrafos`);
     for (let index = 1; index < paragraphs.length; index += 1) {
       const previous = paragraphs[index - 1];

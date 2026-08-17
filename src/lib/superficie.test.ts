@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
@@ -11,6 +11,8 @@ const repoRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   "../..",
 );
+const read = (relativePath: string) =>
+  readFileSync(path.join(repoRoot, relativePath), "utf8");
 
 const article = (overrides: Partial<MagazineArticle> = {}): MagazineArticle =>
   ({
@@ -205,6 +207,26 @@ test("validação exige as quatro perguntas editoriais em artigos publicados", (
   ]);
 });
 
+test("Tecnologia em foco liga os seis temas do hub a artigos já publicados", () => {
+  assert.deepEqual(
+    superficie.technologyTopics.map(({ label, href }) => [label, href]),
+    [
+      ["Meibografia", "/superficie/artigos/alem-do-meiboscore"],
+      ["Interferometria", "/superficie/artigos/cinco-testes-cinco-perguntas"],
+      ["Osmolaridade", "/superficie/artigos/cinco-testes-cinco-perguntas"],
+      ["Biomarcadores", "/superficie/artigos/cinco-testes-cinco-perguntas"],
+      [
+        "Tecnologias baseadas em energia",
+        "/superficie/artigos/tres-meses-nao-sao-doze",
+      ],
+      [
+        "Inteligência artificial",
+        "/superficie/artigos/ia-na-superficie-ocular",
+      ],
+    ],
+  );
+});
+
 test("descrição estável da revista não muda por página", () => {
   assert.equal(
     superficie.magazineDescription,
@@ -214,6 +236,22 @@ test("descrição estável da revista não muda por página", () => {
     superficie.publishedIssues.map(({ slug }) => slug),
     ["edicao-00"],
   );
+});
+
+test("template de artigo da revista não injeta capa nem fundo no layout", () => {
+  const template = read("src/components/superficie/MagazineArticlePage.astro");
+  const route = read("src/pages/superficie/artigos/[slug].astro");
+
+  assert.match(route, /MagazineArticlePage/);
+  assert.match(template, /<h1>\{article\.title\}<\/h1>/);
+  assert.match(template, /article\.excerpt/);
+  assert.match(template, /class="article-facts"/);
+  assert.doesNotMatch(template, /article\.featuredImage/);
+  assert.doesNotMatch(template, /article\.heroBackground/);
+  assert.doesNotMatch(template, /class="featured-image"/);
+  assert.doesNotMatch(template, /class="hero-image"/);
+  assert.doesNotMatch(route, /class="featured-image"/);
+  assert.doesNotMatch(route, /class="hero-image"/);
 });
 
 test("publishedArticles mantém os slugs da edição", () => {
@@ -394,17 +432,50 @@ test("matéria de fenotipagem integrada publica as quatro seções sem capa nem 
     "slug quando-sintomas-e-sinais-nao-batem deve estar em publishedArticles",
   );
   assert.equal(article.status, "published");
+  assert.equal(article.category, "Diagnóstico");
+  assert.equal(
+    article.reviewSeal,
+    "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  );
+  assert.equal(article.reviewer, undefined);
   assert.equal(article.featuredImage, undefined);
   assert.equal(article.heroBackground, undefined);
   assert.equal(article.ogImage, undefined);
+  assert.equal(
+    article.seo.canonical,
+    "/superficie/artigos/quando-sintomas-e-sinais-nao-batem",
+  );
+  assert.deepEqual(superficie.founderIssue.articles, []);
+
+  const byId = Object.fromEntries(
+    article.content.map((section) => [section.id, section]),
+  );
+  assert.equal(byId["por-que-importa"]?.kind, "why-it-matters");
+  assert.equal(byId.evidencia?.kind, "evidence");
+  assert.equal(byId.pratica?.kind, "practice");
+  assert.equal(byId.limitacoes?.kind, "limitations");
+  assert.equal(byId.pratica?.bullets?.length, 8);
+  assert.deepEqual(superficie.validateMagazineArticle(article), []);
+
+  const text = [
+    ...article.content.flatMap((section) => section.paragraphs),
+    ...(byId.pratica?.bullets ?? []),
+  ].join(" ");
+  assert.match(text, /soma bruta dos 6 itens \(escala 0–24\)/);
+  assert.match(text, /não no índice 0–100 do OSDI-12/);
+  assert.match(
+    text,
+    /Mais sintomas que sinais associou-se a pior saúde percebida/,
+  );
+  assert.match(
+    text,
+    /Não há ensaio randomizado que teste fenotipagem integrada contra escalada por gravidade/,
+  );
   assert.equal(article.references.length, 14);
-
-  const practice = article.content.find(({ id }) => id === "pratica");
-  assert.equal(practice?.bullets?.length, 8);
-
-  const text = article.content
-    .flatMap(({ paragraphs }) => paragraphs)
-    .join("\n");
+  assert.equal(
+    article.references.some(({ doi }) => doi === "10.1016/j.ajo.2026.04.007"),
+    false,
+  );
   assert.match(
     text,
     /Mejía-Salgado e colaboradores, 2026\) não foi confirmado no PubMed/,
@@ -413,8 +484,6 @@ test("matéria de fenotipagem integrada publica as quatro seções sem capa nem 
     article.references.some(({ label }) => /Mej[ií]a-Salgado/u.test(label)),
     false,
   );
-
-  assert.deepEqual(superficie.validateMagazineArticle(article), []);
 });
 
 test("matéria Três meses não são doze publica o ranking, Chen 2025 e quinze referências", () => {
@@ -494,6 +563,78 @@ test("matéria A prega, o atrito e o piscar não inventa bullets de prática", (
   assertDidacticArticleWithoutInventedBullets("a-prega-o-atrito-e-o-piscar");
 });
 
+const sealedProse = (slug: string) => {
+  const article = superficie.publishedArticles.find(
+    ({ slug: value }) => value === slug,
+  );
+  assert.ok(article, `slug ${slug} deve estar em publishedArticles`);
+  return article.content
+    .flatMap((section) => [...section.paragraphs, ...(section.bullets ?? [])])
+    .join(" ");
+};
+
+test("matéria Além do meiboscore conserva as travas do rascunho selado", () => {
+  const text = sealedProse("alem-do-meiboscore");
+  for (const lock of [
+    /O meiboscore virou atalho de consultório/,
+    /soma bruta dos 6 itens, escala 0–24/,
+    /não o índice 0–100 do OSDI-12/,
+    /C-stat em torno de 0,63/,
+    /n = 15/,
+    /corpo do workshop não foi recuperado/,
+    /R = 0,428/,
+  ]) {
+    assert.match(text, lock);
+  }
+});
+
+test("matéria Cinco testes, cinco perguntas conserva as travas do rascunho selado", () => {
+  const text = sealedProse("cinco-testes-cinco-perguntas");
+  for (const lock of [
+    /O consultório ainda trata tempo de ruptura/,
+    /soma bruta dos 6 itens \(escala 0–24\)/,
+    /Interferometria e MMP-9 não entram no critério diagnóstico/,
+    /308 não é 316/,
+    /85% versus 86%/,
+    /≤ 8 s numa plataforma, ≤ 14 s na outra/,
+    /n = 33/,
+  ]) {
+    assert.match(text, lock);
+  }
+});
+
+test("matéria A prega, o atrito e o piscar conserva as travas do rascunho selado", () => {
+  const article = superficie.publishedArticles.find(
+    ({ slug }) => slug === "a-prega-o-atrito-e-o-piscar",
+  );
+  assert.ok(article);
+  const text = sealedProse("a-prega-o-atrito-e-o-piscar");
+  for (const lock of [
+    /O consultório ainda escala o paciente/,
+    /6,8% na primeira década para 90,2%/,
+    /76% dos sintomáticos/,
+    /versus 12% dos assintomáticos/,
+    /88,2% sem DED e 78,0% com DED/,
+    /n = 20/,
+    /indica CPAP como terapia de olho seco/,
+    /Snap-back é manobra/,
+  ]) {
+    assert.match(text, lock);
+  }
+  assert.equal(
+    article.references.some(
+      (reference) => reference.doi === "10.1097/ICO.0b013e3181ba0cb2",
+    ),
+    false,
+  );
+  for (const label of [/Höh/, /Hirotani/, /Korb DR, Herman JP, Blackie CA/]) {
+    assert.equal(
+      article.references.some((reference) => label.test(reference.label)),
+      false,
+    );
+  }
+});
+
 test("matéria IA na superfície ocular publica as quatro seções e o selo de checagem editorial", () => {
   const article = superficie.publishedArticles.find(
     ({ slug }) => slug === "ia-na-superficie-ocular",
@@ -541,6 +682,17 @@ test("matéria IA na superfície ocular publica as quatro seções e o selo de c
   );
 
   assert.deepEqual(superficie.validateMagazineArticle(article), []);
+});
+
+test("matérias SUPERFÍCIE não declaram esgotamento de cota Consensus/Elicit", () => {
+  const source = readFileSync(
+    new URL("./superficie.ts", import.meta.url),
+    "utf8",
+  );
+
+  assert.doesNotMatch(source, /Consensus não pôde/);
+  assert.doesNotMatch(source, /cota mensal/);
+  assert.doesNotMatch(source, /plano conectado ao Elicit/);
 });
 
 const assertSealedEditionArticle = (
