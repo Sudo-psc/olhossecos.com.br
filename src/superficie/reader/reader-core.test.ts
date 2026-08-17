@@ -129,9 +129,9 @@ test("edicao-00 article text layers do not stack body paragraphs", async () => {
         "utf8",
       ),
     );
-    const paragraphs = layer.blocks.filter((block) =>
-      String(block.id).includes("-paragraph-"),
-    );
+    const paragraphs = (
+      layer.blocks as Array<{ id: string; y: number; height: number }>
+    ).filter((block) => String(block.id).includes("-paragraph-"));
     assert.ok(paragraphs.length >= 2, `página ${page} sem parágrafos`);
     for (let index = 1; index < paragraphs.length; index += 1) {
       const previous = paragraphs[index - 1];
