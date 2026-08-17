@@ -6,9 +6,15 @@ import ReaderToolbar from "./ReaderToolbar.astro";
 
 interface Props {
   manifestUrl: string;
+  issueLabel?: string;
+  pageCount?: number;
+  pdfHref?: string;
+  coverSrc?: string;
+  coverAlt?: string;
 }
 
-const { manifestUrl } = Astro.props;
+const { manifestUrl, issueLabel, pageCount, pdfHref, coverSrc, coverAlt } =
+  Astro.props;
 ---
 
 <div
@@ -23,7 +29,7 @@ const { manifestUrl } = Astro.props;
       aria-label="Sair do laboratório e voltar para SUPERFÍCIE"
     >
       <span>SUPERFÍCIE</span>
-      <small data-reader-brand-line>Reader Prototype · POC</small>
+      <small data-reader-brand-line hidden={!issueLabel}>{issueLabel}</small>
     </a>
     <div class="reader-page-nav" aria-label="Navegação de páginas">
       <button type="button" data-action="previous" aria-label="Página anterior"
@@ -41,8 +47,10 @@ const { manifestUrl } = Astro.props;
           value="1"
           inputmode="numeric"
         />
-        <span aria-hidden="true">/</span>
-        <span data-page-count>34</span>
+        <span data-page-total hidden={!pageCount}>
+          <span aria-hidden="true">/</span>
+          <span data-page-count>{pageCount ?? ""}</span>
+        </span>
       </form>
       <button type="button" data-action="next" aria-label="Próxima página"
         >→</button
@@ -63,12 +71,12 @@ const { manifestUrl } = Astro.props;
     aria-label="Progresso de leitura"
     aria-valuemin="0"
     aria-valuemax="100"
-    aria-valuenow="3"
+    aria-valuenow="13"
   >
     <span data-progress-bar></span>
   </div>
 
-  <PageViewport />
+  <PageViewport {pdfHref} {coverSrc} {coverAlt} />
   <ReaderPanels />
   <ReaderToolbar />
 </div>

@@ -1,5 +1,6 @@
 ---
 import EyeMark from "@/components/EyeMark.astro";
+import { isSurfaceNavCurrent } from "@/lib/superficie-nav";
 
 interface Props {
   home?: boolean;
@@ -7,6 +8,7 @@ interface Props {
 }
 
 const { home = false, compact = false } = Astro.props;
+const currentPath = Astro.url.pathname;
 
 const nav = [
   { label: "Edições", href: "/superficie/edicoes" },
@@ -57,7 +59,18 @@ const nav = [
       <span class="surface-rule" aria-hidden="true"><i></i></span>
       <p class="surface-tagline">Evidência que chega à prática.</p>
       <nav class="surface-nav" aria-label="Navegação da SUPERFÍCIE">
-        {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+        {
+          nav.map((item) => (
+            <a
+              href={item.href}
+              aria-current={
+                isSurfaceNavCurrent(item.href, currentPath) ? "page" : undefined
+              }
+            >
+              {item.label}
+            </a>
+          ))
+        }
       </nav>
     </div>
   </div>
@@ -69,7 +82,18 @@ const nav = [
     hidden
   >
     <div class="surface-shell">
-      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      {
+          nav.map((item) => (
+            <a
+              href={item.href}
+              aria-current={
+                isSurfaceNavCurrent(item.href, currentPath) ? "page" : undefined
+              }
+            >
+              {item.label}
+            </a>
+          ))
+        }
     </div>
   </nav>
 </header>
@@ -88,7 +112,13 @@ const nav = [
     <nav class="sticky-nav" aria-label="Navegação fixa da SUPERFÍCIE">
       {
         nav.map((item) => (
-          <a href={item.href} tabindex="-1">
+          <a
+            href={item.href}
+            tabindex="-1"
+            aria-current={
+              isSurfaceNavCurrent(item.href, currentPath) ? "page" : undefined
+            }
+          >
             {item.label}
           </a>
         ))
@@ -372,9 +402,28 @@ const nav = [
   }
 
   .surface-nav a:hover::after,
-  .surface-nav a:focus-visible::after {
+  .surface-nav a:focus-visible::after,
+  .surface-nav a[aria-current="page"]::after {
     transform: scaleX(1);
     transform-origin: left;
+  }
+
+  .surface-nav a[aria-current="page"] {
+    color: var(--surface-gold-light);
+  }
+
+  .sticky-nav a[aria-current="page"] {
+    color: var(--surface-gold-light);
+  }
+
+  .sticky-nav a[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background: var(--surface-gold-light);
   }
 
   /* Vidro fosco: o menu flutua sobre o conteúdo da página que já rolou por
@@ -518,7 +567,8 @@ const nav = [
   }
 
   .surface-mobile-nav a:hover,
-  .surface-mobile-nav a:focus-visible {
+  .surface-mobile-nav a:focus-visible,
+  .surface-mobile-nav a[aria-current="page"] {
     padding-left: 1rem;
     border-radius: var(--surface-radius-sm);
     background: rgb(217 182 101 / 12%);

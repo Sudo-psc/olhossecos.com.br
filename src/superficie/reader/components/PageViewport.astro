@@ -1,3 +1,14 @@
+---
+interface Props {
+  pdfHref?: string;
+  coverSrc?: string;
+  coverAlt?: string;
+}
+
+const { pdfHref, coverSrc, coverAlt = "Capa da edição" } = Astro.props;
+const hasCover = Boolean(coverSrc);
+---
+
 <main class="reader-stage" id="superficie-reader" tabindex="-1">
   <div class="resume-banner" data-resume-banner hidden>
     <span data-resume-copy></span>
@@ -9,7 +20,12 @@
     >
   </div>
 
-  <div class="reader-loading" data-reader-loading role="status">
+  <div
+    class="reader-loading"
+    data-reader-loading
+    role="status"
+    hidden={hasCover}
+  >
     <span class="loading-line" aria-hidden="true"></span>
     <p>Preparando edição…</p>
   </div>
@@ -18,9 +34,24 @@
     class="page-viewport"
     data-reader-viewport
     aria-label="Páginas da revista"
-    aria-busy="true"
+    aria-busy={hasCover ? "false" : "true"}
   >
-    <div class="reader-page-canvas" data-reader-canvas></div>
+    <div class="reader-page-canvas" data-reader-canvas>
+      {
+        coverSrc && (
+          <article class="magazine-page" data-ssr-cover data-simple-visible>
+            <img
+              src={coverSrc}
+              alt={coverAlt}
+              width="700"
+              height="990"
+              decoding="async"
+              fetchpriority="high"
+            />
+          </article>
+        )
+      }
+    </div>
   </section>
 
   <div
@@ -54,16 +85,14 @@
     <h2 id="fallback-title">Não foi possível iniciar a animação de páginas.</h2>
     <p data-fallback-detail>
       Você ainda pode ler uma página por vez, abrir o artigo HTML ou acessar o
-      PDF de teste.
+      PDF da edição.
     </p>
     <div>
       <button type="button" data-action="simple-reader"
         >Usar página única</button
       >
       <button type="button" data-action="text-mode">Abrir modo texto</button>
-      <a data-pdf-fallback href="/superficie/issues/poc/superficie-poc.pdf"
-        >Abrir PDF</a
-      >
+      <a data-pdf-fallback href={pdfHref} hidden={!pdfHref}>Abrir PDF</a>
     </div>
   </section>
 
