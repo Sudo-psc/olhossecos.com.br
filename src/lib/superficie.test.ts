@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
@@ -8,9 +8,11 @@ import * as superficie from "./superficie.ts";
 import type { MagazineArticle } from "./superficie.ts";
 
 const repoRoot = path.resolve(
-  fileURLToPath(new URL(".", import.meta.url)),
+  path.dirname(fileURLToPath(import.meta.url)),
   "../..",
 );
+const read = (relativePath: string) =>
+  readFileSync(path.join(repoRoot, relativePath), "utf8");
 
 const article = (overrides: Partial<MagazineArticle> = {}): MagazineArticle =>
   ({
@@ -216,6 +218,42 @@ test("descrição estável da revista não muda por página", () => {
   );
 });
 
+test("template de artigo da revista não injeta capa nem fundo no layout", () => {
+  const template = read("src/components/superficie/MagazineArticlePage.astro");
+  const route = read("src/pages/superficie/artigos/[slug].astro");
+
+  assert.match(route, /MagazineArticlePage/);
+  assert.match(template, /<h1>\{article\.title\}<\/h1>/);
+  assert.match(template, /article\.excerpt/);
+  assert.match(template, /class="article-facts"/);
+  assert.doesNotMatch(template, /article\.featuredImage/);
+  assert.doesNotMatch(template, /article\.heroBackground/);
+  assert.doesNotMatch(template, /class="featured-image"/);
+  assert.doesNotMatch(template, /class="hero-image"/);
+  assert.doesNotMatch(route, /class="featured-image"/);
+  assert.doesNotMatch(route, /class="hero-image"/);
+});
+
+test("publishedArticles mantém os 12 slugs da edição", () => {
+  assert.deepEqual(
+    superficie.publishedArticles.map(({ slug }) => slug),
+    [
+      "biologia-molecular-da-dgm",
+      "tfos-dews-iii-na-pratica",
+      "quando-sintomas-e-sinais-nao-batem",
+      "tres-meses-nao-sao-doze",
+      "alem-do-meiboscore",
+      "cinco-testes-cinco-perguntas",
+      "a-prega-o-atrito-e-o-piscar",
+      "ia-na-superficie-ocular",
+      "anti-demodex",
+      "terapias-dirigidas-por-mecanismo",
+      "prehab-ocular",
+      "anatomia-dry-eye-center",
+    ],
+  );
+});
+
 test("matéria DGM publica capa, fundo e OG próprios", () => {
   const [article] = superficie.publishedArticles;
   assert.equal(article.slug, "biologia-molecular-da-dgm");
@@ -228,6 +266,20 @@ test("matéria DGM publica capa, fundo e OG próprios", () => {
   assert.ok(article.ogImage?.src.includes("biologia-molecular-da-dgm/og.jpg"));
   assert.equal(article.ogImage?.width, 1200);
   assert.equal(article.ogImage?.height, 630);
+});
+
+test("matéria DGM cita Zhu 2024 e não o DOI de Yi", () => {
+  const article = superficie.publishedArticles.find(
+    ({ slug }) => slug === "biologia-molecular-da-dgm",
+  );
+  assert.ok(article);
+  assert.equal(article.references.length, 27);
+
+  const dois = new Set(
+    article.references.map(({ doi }) => doi).filter(Boolean),
+  );
+  assert.ok(dois.has("10.1016/j.jtos.2024.04.005"));
+  assert.ok(!dois.has("10.1016/j.jtos.2024.09.006"));
 });
 
 test("matéria TFOS DEWS III publica as quatro seções e o selo de checagem editorial", () => {
@@ -347,6 +399,248 @@ test("matéria TFOS DEWS III inclui o mapa dos nove drivers só no corpo", () =>
       `${other.slug} não deve receber a figura do TFOS`,
     );
   }
+});
+
+test("matéria de fenotipagem integrada publica as quatro seções sem capa nem figura clínica", () => {
+  const article = superficie.publishedArticles.find(
+    ({ slug }) => slug === "quando-sintomas-e-sinais-nao-batem",
+  );
+
+  assert.ok(
+    article,
+    "slug quando-sintomas-e-sinais-nao-batem deve estar em publishedArticles",
+  );
+  assert.equal(article.status, "published");
+  assert.equal(article.featuredImage, undefined);
+  assert.equal(article.heroBackground, undefined);
+  assert.equal(article.ogImage, undefined);
+  assert.equal(article.references.length, 14);
+
+  const practice = article.content.find(({ id }) => id === "pratica");
+  assert.equal(practice?.bullets?.length, 8);
+
+  const text = article.content
+    .flatMap(({ paragraphs }) => paragraphs)
+    .join("\n");
+  assert.match(
+    text,
+    /Mejía-Salgado e colaboradores, 2026\) não foi confirmado no PubMed/,
+  );
+  assert.equal(
+    article.references.some(({ label }) => /Mej[ií]a-Salgado/u.test(label)),
+    false,
+  );
+
+  assert.deepEqual(superficie.validateMagazineArticle(article), []);
+});
+
+test("matéria Três meses não são doze publica o ranking, Chen 2025 e quinze referências", () => {
+  const article = superficie.publishedArticles.find(
+    ({ slug }) => slug === "tres-meses-nao-sao-doze",
+  );
+
+  assert.ok(
+    article,
+    "slug tres-meses-nao-sao-doze deve estar em publishedArticles",
+  );
+  assert.equal(article.status, "published");
+  assert.equal(article.featuredImage, undefined);
+  assert.equal(article.heroBackground, undefined);
+  assert.equal(article.ogImage, undefined);
+  assert.equal(article.references.length, 15);
+
+  const ranking = article.content.find(
+    ({ id }) => id === "o-que-o-ranking-realmente-significa",
+  );
+  assert.equal(ranking?.kind, "body");
+
+  const practice = article.content.find(({ id }) => id === "pratica");
+  assert.equal(practice?.bullets, undefined);
+
+  const text = article.content
+    .flatMap((section) => [...section.paragraphs, ...(section.bullets ?? [])])
+    .join("\n");
+  assert.match(text, /Chen e colaboradores \(2025\)/);
+  assert.doesNotMatch(text, /Consensus/);
+  assert.doesNotMatch(text, /Elicit/);
+
+  const dois = new Set(
+    article.references.map(({ doi }) => doi).filter(Boolean),
+  );
+  assert.ok(dois.has("10.1177/25158414251338775"));
+
+  assert.deepEqual(superficie.validateMagazineArticle(article), []);
+});
+
+const assertDidacticArticleWithoutInventedBullets = (slug: string) => {
+  const article = superficie.publishedArticles.find(
+    (item) => item.slug === slug,
+  );
+
+  assert.ok(article, `slug ${slug} deve estar em publishedArticles`);
+  assert.equal(article.status, "published");
+  assert.equal(article.featuredImage, undefined);
+  assert.equal(article.heroBackground, undefined);
+  assert.equal(article.ogImage, undefined);
+
+  const practice = article.content.find(({ id }) => id === "pratica");
+  assert.equal(practice?.bullets?.length ?? 0, 0);
+
+  const kinds = new Set(article.content.map(({ kind }) => kind));
+  for (const kind of [
+    "why-it-matters",
+    "evidence",
+    "practice",
+    "limitations",
+  ] as const) {
+    assert.ok(kinds.has(kind), `falta a seção ${kind}`);
+  }
+
+  assert.deepEqual(superficie.validateMagazineArticle(article), []);
+};
+
+test("matéria Além do meiboscore não inventa bullets de prática", () => {
+  assertDidacticArticleWithoutInventedBullets("alem-do-meiboscore");
+});
+
+test("matéria Cinco testes, cinco perguntas não inventa bullets de prática", () => {
+  assertDidacticArticleWithoutInventedBullets("cinco-testes-cinco-perguntas");
+});
+
+test("matéria A prega, o atrito e o piscar não inventa bullets de prática", () => {
+  assertDidacticArticleWithoutInventedBullets("a-prega-o-atrito-e-o-piscar");
+});
+
+test("matéria IA na superfície ocular publica as quatro seções e o selo de checagem editorial", () => {
+  const article = superficie.publishedArticles.find(
+    ({ slug }) => slug === "ia-na-superficie-ocular",
+  );
+
+  assert.ok(
+    article,
+    "slug ia-na-superficie-ocular deve estar em publishedArticles",
+  );
+  assert.equal(article.status, "published");
+  assert.equal(article.publishedAt, "2026-08-17");
+  assert.equal(
+    article.reviewSeal,
+    "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  );
+  assert.equal(article.reviewer, undefined);
+  assert.equal(article.featuredImage, undefined);
+  assert.equal(article.heroBackground, undefined);
+  assert.equal(article.ogImage, undefined);
+  assert.equal(
+    article.seo.canonical,
+    "/superficie/artigos/ia-na-superficie-ocular",
+  );
+
+  const kinds = new Set(article.content.map(({ kind }) => kind));
+  for (const kind of [
+    "why-it-matters",
+    "evidence",
+    "practice",
+    "limitations",
+  ] as const) {
+    assert.ok(kinds.has(kind), `falta a seção ${kind}`);
+  }
+
+  assert.equal(article.references.length, 12);
+
+  const text = article.content
+    .flatMap(({ paragraphs }) => paragraphs)
+    .join("\n");
+  assert.match(text, /59,17%/);
+  assert.doesNotMatch(text, /1\.600 imagens/);
+  assert.match(
+    text,
+    /sem DOI próprio \/ não artigo publicado \/ fora da lista/,
+  );
+
+  assert.deepEqual(superficie.validateMagazineArticle(article), []);
+});
+
+test("matérias SUPERFÍCIE não declaram esgotamento de cota Consensus/Elicit", () => {
+  const source = readFileSync(
+    new URL("./superficie.ts", import.meta.url),
+    "utf8",
+  );
+
+  assert.doesNotMatch(source, /Consensus não pôde/);
+  assert.doesNotMatch(source, /cota mensal/);
+  assert.doesNotMatch(source, /plano conectado ao Elicit/);
+});
+
+const assertSealedEditionArticle = (
+  slug: string,
+  referenceCount: number,
+  keyDois: string[],
+) => {
+  const article = superficie.publishedArticles.find(
+    (item) => item.slug === slug,
+  );
+
+  assert.ok(article, `slug ${slug} deve estar em publishedArticles`);
+  assert.equal(article.status, "published");
+  assert.equal(article.publishedAt, "2026-08-17");
+  assert.equal(
+    article.reviewSeal,
+    "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  );
+  assert.equal(article.reviewer, undefined);
+  assert.equal(article.featuredImage, undefined);
+  assert.equal(article.heroBackground, undefined);
+  assert.equal(article.ogImage, undefined);
+  assert.equal(article.seo.canonical, `/superficie/artigos/${slug}`);
+  assert.equal(article.references.length, referenceCount);
+
+  const kinds = new Set(article.content.map(({ kind }) => kind));
+  for (const kind of [
+    "why-it-matters",
+    "evidence",
+    "practice",
+    "limitations",
+  ] as const) {
+    assert.ok(kinds.has(kind), `falta a seção ${kind}`);
+  }
+
+  const dois = new Set(
+    article.references.map(({ doi }) => doi).filter(Boolean),
+  );
+  for (const doi of keyDois) {
+    assert.ok(dois.has(doi), `falta o DOI ${doi}`);
+  }
+
+  assert.deepEqual(superficie.validateMagazineArticle(article), []);
+};
+
+test("matéria Anti-Demodex publica as quatro seções e o selo de checagem editorial", () => {
+  assert.equal(
+    superficie.publishedArticles[0].slug,
+    "biologia-molecular-da-dgm",
+  );
+  assertSealedEditionArticle("anti-demodex", 14, ["10.1167/iovs.05-0275"]);
+});
+
+test("matéria terapias dirigidas publica as quatro seções e o selo de checagem editorial", () => {
+  assertSealedEditionArticle("terapias-dirigidas-por-mecanismo", 14, [
+    "10.1002/14651858.CD010051.pub3",
+  ]);
+});
+
+test("matéria prehab ocular publica as quatro seções e o selo de checagem editorial", () => {
+  assertSealedEditionArticle("prehab-ocular", 14, [
+    "10.1016/j.jcrs.2019.03.023",
+  ]);
+});
+
+test("matéria anatomia do Dry Eye Center publica as quatro seções e o selo de checagem editorial", () => {
+  assertSealedEditionArticle("anatomia-dry-eye-center", 17, [
+    "10.1097/ICO.0b013e3181f7f363",
+    "10.1038/s41598-018-20273-9",
+    "10.1016/j.clinsp.2025.100578",
+    "10.5935/0004-2749.202200100",
+  ]);
 });
 
 test("validação exige canonical consistente com o slug", () => {
