@@ -82,6 +82,14 @@ class MagazineReaderController {
       const hasDeepLink = new URL(window.location.href).searchParams.has(
         "page",
       );
+      this.currentPage = pageFromUrl(window.location.href, manifest.pageCount);
+      this.preferences = defaultPreferences(manifest.id);
+      this.renderer = new PageRenderer(this.ui.canvas, manifest);
+      this.updateDisplayMode();
+      this.mountVisibleReader();
+      this.updatePageUi();
+      void this.upgradeToPageFlip();
+
       const [progress, preferences, bookmarks, highlights, notes] =
         await Promise.all([
           this.safeStorage(() => this.storage.getProgress(manifest.id), null),
@@ -104,17 +112,11 @@ class MagazineReaderController {
       this.bookmarks = stored.bookmarks;
       this.highlights = stored.highlights;
       this.notes = stored.notes;
-      this.currentPage = pageFromUrl(window.location.href, manifest.pageCount);
-      this.applyPreferences();
-
-      this.renderer = new PageRenderer(this.ui.canvas, manifest);
       this.renderer.setHighlights(this.highlights);
-      this.updateDisplayMode();
-      await this.rebuildAdapter();
+      this.applyPreferences();
       await this.renderer.hydrateWindow(this.currentPage);
       this.renderSavedData();
       this.updatePageUi();
-      this.ui.ready();
 
       if (hasDeepLink || !stored.progress) await this.saveProgress();
 
@@ -143,42 +145,49 @@ class MagazineReaderController {
     return validation.data;
   }
 
-  private async rebuildAdapter(): Promise<void> {
+  private mountVisibleReader(): void {
     if (!this.manifest || !this.renderer) return;
     this.adapter?.destroy();
     this.renderer.createPageElements();
     this.renderer.setHighlights(this.highlights);
-    await this.renderer.hydrateWindow(this.currentPage);
+    this.renderer.hydrateImages(this.currentPage);
+    this.root.dataset.reducedMotion = String(this.isMotionReduced());
+    this.mountSimpleAdapter();
+    this.ui.ready();
+  }
 
-    const shouldReduce = this.isMotionReduced();
-    this.root.dataset.reducedMotion = String(shouldReduce);
-    if (shouldReduce) {
-      this.adapter = new SimplePageTurnAdapter(this.currentPage);
-    } else {
-      try {
-        const { StPageFlipAdapter } =
-          await import("./engines/StPageFlipAdapter.ts");
-        this.adapter = new StPageFlipAdapter(this.currentPage);
-      } catch {
-        this.adapter = new SimplePageTurnAdapter(this.currentPage);
-        this.ui.announce("Animação 3D indisponível; usando transição simples.");
-      }
-    }
-
+  private async upgradeToPageFlip(): Promise<void> {
+    if (!this.manifest || !this.renderer || this.isMotionReduced()) return;
     try {
+      const { StPageFlipAdapter } =
+        await import("./engines/StPageFlipAdapter.ts");
+      if (!this.manifest || !this.renderer) return;
+      this.adapter?.destroy();
+      this.renderer.createPageElements();
+      this.renderer.setHighlights(this.highlights);
+      this.renderer.hydrateImages(this.currentPage);
+      this.adapter = new StPageFlipAdapter(this.currentPage);
       this.adapter.onPageChange((page) => void this.handlePageChange(page));
       this.adapter.mount(this.ui.canvas);
       this.adapter.setDisplayMode(this.displayMode);
       this.applyZoom();
     } catch {
-      this.renderer.createPageElements();
-      this.adapter = new SimplePageTurnAdapter(this.currentPage);
-      this.adapter.onPageChange((page) => void this.handlePageChange(page));
-      this.adapter.mount(this.ui.canvas);
-      this.adapter.setDisplayMode(this.displayMode);
-      this.applyZoom();
-      this.ui.announce("Flipbook indisponível; usando página única.");
+      this.mountSimpleAdapter();
+      this.ui.announce("Animação 3D indisponível; usando transição simples.");
     }
+  }
+
+  private async rebuildAdapter(): Promise<void> {
+    this.mountVisibleReader();
+    await this.upgradeToPageFlip();
+  }
+
+  private mountSimpleAdapter(): void {
+    this.adapter = new SimplePageTurnAdapter(this.currentPage);
+    this.adapter.onPageChange((page) => void this.handlePageChange(page));
+    this.adapter.mount(this.ui.canvas);
+    this.adapter.setDisplayMode(this.displayMode);
+    this.applyZoom();
   }
 
   private bindEvents(): void {
@@ -599,7 +608,7 @@ class MagazineReaderController {
       if (loadGeneration !== this.articleLoadGeneration) return;
       this.loadedArticlePath = null;
       this.ui.setTextModeMessage(
-        "O artigo HTML não carregou. Use o PDF de teste como último fallback.",
+        "O artigo HTML não carregou. Use o PDF da edição como último fallback.",
       );
     }
   }
@@ -720,7 +729,7 @@ class MagazineReaderController {
     } else if (contentBounds && this.preferences.zoomMode === "fit-width") {
       scale = availableWidth / contentBounds.width;
     }
-    scale = Math.max(0.5, Math.min(2, scale));
+    scale = Math.max(0.85, Math.min(2, scale));
     this.root.style.setProperty("--reader-scale", String(scale));
     zoomTargets.forEach((target) =>
       target.style.setProperty("transform", `scale(${scale})`),
@@ -903,7 +912,7 @@ function defaultPreferences(issueId: string): ReaderPreferences {
     soundEnabled: false,
     reducedMotion: false,
     toolbarMinimized: false,
-    zoomMode: "fit-page",
+    zoomMode: "fit-width",
     zoomPercent: 100,
   };
 }
