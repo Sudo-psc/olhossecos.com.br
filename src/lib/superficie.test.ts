@@ -486,7 +486,7 @@ test("matéria de fenotipagem integrada publica as quatro seções sem capa nem 
   );
 });
 
-test("matéria Três meses não são doze publica o ranking, Chen 2025 e quinze referências", () => {
+test("matéria de tecnologias publica as quatro seções sem capa nem figura clínica", () => {
   const article = superficie.publishedArticles.find(
     ({ slug }) => slug === "tres-meses-nao-sao-doze",
   );
@@ -496,32 +496,79 @@ test("matéria Três meses não são doze publica o ranking, Chen 2025 e quinze 
     "slug tres-meses-nao-sao-doze deve estar em publishedArticles",
   );
   assert.equal(article.status, "published");
+  assert.equal(article.category, "Tecnologia");
+  assert.equal(
+    article.reviewSeal,
+    "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  );
+  assert.equal(article.reviewer, undefined);
   assert.equal(article.featuredImage, undefined);
   assert.equal(article.heroBackground, undefined);
   assert.equal(article.ogImage, undefined);
-  assert.equal(article.references.length, 15);
-
-  const ranking = article.content.find(
-    ({ id }) => id === "o-que-o-ranking-realmente-significa",
+  assert.equal(
+    article.seo.canonical,
+    "/superficie/artigos/tres-meses-nao-sao-doze",
   );
-  assert.equal(ranking?.kind, "body");
+  assert.deepEqual(superficie.founderIssue.articles, []);
 
-  const practice = article.content.find(({ id }) => id === "pratica");
-  assert.equal(practice?.bullets, undefined);
-
-  const text = article.content
-    .flatMap((section) => [...section.paragraphs, ...(section.bullets ?? [])])
-    .join("\n");
-  assert.match(text, /Chen e colaboradores \(2025\)/);
-  assert.doesNotMatch(text, /Consensus/);
-  assert.doesNotMatch(text, /Elicit/);
-
-  const dois = new Set(
-    article.references.map(({ doi }) => doi).filter(Boolean),
+  const byId = Object.fromEntries(
+    article.content.map((section) => [section.id, section]),
   );
-  assert.ok(dois.has("10.1177/25158414251338775"));
-
+  assert.equal(byId["por-que-importa"]?.kind, "why-it-matters");
+  assert.equal(byId.evidencia?.kind, "evidence");
+  assert.equal(byId.pratica?.kind, "practice");
+  assert.equal(byId.limitacoes?.kind, "limitations");
+  assert.equal(byId.pratica?.bullets?.length, 8);
   assert.deepEqual(superficie.validateMagazineArticle(article), []);
+
+  const text = [
+    ...article.content.flatMap((section) => section.paragraphs),
+    ...(byId.pratica?.bullets ?? []),
+    ...(byId.limitacoes?.bullets ?? []),
+  ].join(" ");
+
+  assert.match(text, /47 RCTs, 3\.581 pacientes/);
+  assert.match(text, /2–4 meses/);
+  assert.match(text, /P-score não é head-to-head/);
+  assert.match(text, /n = 345/);
+  assert.match(text, /Holland não é este ensaio/);
+  assert.match(text, /OLYMPIA é outro paper, não entra aqui/);
+  assert.match(text, /mediana foi de 8 meses/);
+  assert.match(text, /IRPL não é o IPL genérico de consultório/);
+  assert.match(text, /Wu e colaboradores \(2020\) comparam OPT com IRPL/);
+  assert.match(text, /Não é Lumenis versus E-Eye/);
+  assert.match(
+    text,
+    /Jiang e colaboradores \(2022\) testam IPL de nova geração em duas sessões/,
+  );
+  assert.match(text, /zero RCT compara E-Eye\/IRPL versus M22\/Lumenis\/Toyos/);
+  assert.match(text, /certeza baixa/);
+  assert.match(text, /certeza como muito baixa|certeza muito baixa/);
+  assert.match(text, /versus cuidado padrão o ganho é incerto/);
+  assert.match(
+    text,
+    /efeito global não é significativo|efeito global não significativo/,
+  );
+  assert.match(text, /não resolve o empate|Não resolva o empate/);
+  assert.match(text, /Três meses não são doze/);
+  assert.equal(
+    text.includes("IPL cura DGM") && /Sem “IPL cura DGM”/.test(text),
+    true,
+  );
+  assert.match(text, /Sem Demodex/);
+  assert.match(text, /Sem ANVISA inventada/);
+  assert.match(text, /Sem press release/);
+  assert.equal(article.references.length, 20);
+  assert.equal(
+    article.references.every(
+      ({ url, doi }) => url === `https://doi.org/${doi}`,
+    ),
+    true,
+  );
+  assert.equal(
+    article.references.some(({ label }) => /Holland|OLYMPIA/u.test(label)),
+    false,
+  );
 });
 
 const assertDidacticArticleWithoutInventedBullets = (slug: string) => {
