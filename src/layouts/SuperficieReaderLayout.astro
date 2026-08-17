@@ -22,6 +22,7 @@ const { title, description } = Astro.props;
     <meta name="robots" content="noindex,nofollow,noarchive" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+    <slot name="head" />
   </head>
   <body>
     <AnalyticsCollector />

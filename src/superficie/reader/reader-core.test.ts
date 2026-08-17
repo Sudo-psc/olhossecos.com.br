@@ -102,6 +102,65 @@ test("manifest validation rejects encoded traversal and cross-issue assets", () 
   assert.equal(validateIssueManifest(crossIssue).success, false);
 });
 
+test("reader chrome does not seed a POC pageCount of 8", async () => {
+  const markup = await readFile(
+    "src/superficie/reader/components/MagazineReader.astro",
+    "utf8",
+  );
+  const viewport = await readFile(
+    "src/superficie/reader/components/PageViewport.astro",
+    "utf8",
+  );
+  const lab = await readFile(
+    "src/pages/superficie/lab/edicao-00.astro",
+    "utf8",
+  );
+  assert.match(markup, /data-page-count>\{pageCount \?\? ""\}<\/span>/u);
+  assert.match(markup, /data-page-total hidden=\{!pageCount\}/u);
+  assert.doesNotMatch(markup, /data-page-count>\s*8\s*</u);
+  assert.doesNotMatch(markup, /READER PROTOTYPE/iu);
+  assert.doesNotMatch(markup, /Prototype · POC/iu);
+  assert.doesNotMatch(viewport, /superficie-poc\.pdf/u);
+  assert.doesNotMatch(viewport, /PDF de teste/u);
+  assert.doesNotMatch(viewport, /Reader Prototype/iu);
+  assert.match(viewport, /PDF da edição/u);
+  assert.match(lab, /edicao-00\/manifest\.json/u);
+  assert.match(lab, /pageCount=\{issue\.pageCount\}/u);
+  assert.match(lab, /pdfHref=\{issue\.pdfFallback\}/u);
+  assert.doesNotMatch(lab, /superficie-poc/u);
+  assert.doesNotMatch(lab, /READER PROTOTYPE/iu);
+});
+
+test("reader reveals the cover before importing page-flip", async () => {
+  const source = await readFile("src/superficie/reader/reader-app.ts", "utf8");
+  const startAt = source.indexOf("async start()");
+  const startBlock = source.slice(
+    startAt,
+    source.indexOf("private async loadManifest"),
+  );
+  assert.match(startBlock, /this\.mountVisibleReader\(\)/u);
+  assert.match(startBlock, /void this\.upgradeToPageFlip\(\)/u);
+  assert.doesNotMatch(startBlock, /await this\.rebuildAdapter\(\)/u);
+  assert.doesNotMatch(startBlock, /await import\(/u);
+});
+
+test("reader default zoom keeps cover type above a readable floor", async () => {
+  const source = await readFile("src/superficie/reader/reader-app.ts", "utf8");
+  assert.match(source, /zoomMode: "fit-width"/u);
+  assert.match(source, /Math\.max\(0\.85/u);
+});
+
+test("reader masks the internal lab stamp without rewriting sealed copy", async () => {
+  const renderer = await readFile(
+    "src/superficie/reader/page-renderer.ts",
+    "utf8",
+  );
+  const css = await readFile("src/superficie/reader/reader.css", "utf8");
+  assert.match(renderer, /lab-stamp-mask/u);
+  assert.match(renderer, /não indexar/iu);
+  assert.match(css, /\.lab-stamp-mask/u);
+});
+
 test("generated edicao-00 manifest is a self-contained 34-page issue", async () => {
   const rawManifest = JSON.parse(
     await readFile("public/superficie/issues/edicao-00/manifest.json", "utf8"),

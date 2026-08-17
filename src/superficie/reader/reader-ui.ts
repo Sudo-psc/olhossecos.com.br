@@ -30,13 +30,19 @@ export class ReaderUi {
 
   prepareManifest(manifest: IssueManifest): void {
     this.find("[data-page-count]").textContent = String(manifest.pageCount);
+    const total = this.root.querySelector<HTMLElement>("[data-page-total]");
+    if (total) total.hidden = false;
     const input = this.find<HTMLInputElement>("[data-page-input]");
     input.max = String(manifest.pageCount);
-    this.find<HTMLAnchorElement>("[data-pdf-fallback]").href =
-      manifest.pdfFallback;
-    const brandLine = this.root.querySelector("[data-reader-brand-line]");
+    const pdf = this.find<HTMLAnchorElement>("[data-pdf-fallback]");
+    pdf.href = manifest.pdfFallback;
+    pdf.hidden = false;
+    const brandLine = this.root.querySelector<HTMLElement>(
+      "[data-reader-brand-line]",
+    );
     if (brandLine) {
       brandLine.textContent = `${manifest.number} · ${manifest.title}`;
+      brandLine.hidden = false;
     }
     this.renderToc(manifest);
     this.renderThumbnails(manifest);
