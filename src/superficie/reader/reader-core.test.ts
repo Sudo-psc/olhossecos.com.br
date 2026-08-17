@@ -11,6 +11,7 @@ import { validateIssueManifest } from "./manifest.ts";
 import { searchIssue } from "./search.ts";
 import { pageFromUrl, shareUrlForPage, urlForPage } from "./url-state.ts";
 import { sanitizeStoredReaderData } from "./stored-data.ts";
+import type { TextLayerDocument } from "./types.ts";
 
 const validManifest = {
   id: "superficie-poc",
@@ -134,7 +135,7 @@ test("edicao-00 article text layers do not stack body paragraphs", async () => {
         `public/superficie/issues/edicao-00/text/page-${String(page).padStart(2, "0")}.json`,
         "utf8",
       ),
-    );
+    ) as TextLayerDocument;
     const paragraphs = layer.blocks.filter((block) =>
       String(block.id).includes("-paragraph-"),
     );
@@ -156,7 +157,7 @@ test("edicao-00 TFOS verso keeps the nine-drivers caption in the text layer", as
       "public/superficie/issues/edicao-00/text/page-08.json",
       "utf8",
     ),
-  );
+  ) as TextLayerDocument;
   const caption = layer.blocks.find((block) =>
     String(block.id).includes("figure-caption"),
   );
