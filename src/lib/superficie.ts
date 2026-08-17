@@ -1226,6 +1226,10 @@ const tresMesesNaoSaoDoze: MagazineArticle = {
         "Os estudos variam em espectro, filtros, fluência, número de pulsos, área tratada, intervalo entre sessões, número total de sessões e associação com expressão glandular, máscara térmica, LLLT ou medicamentos.",
         "IRPL/E-Eye, OPT e outros protocolos baseados em luz pulsada pertencem à mesma família tecnológica, mas não são automaticamente intercambiáveis.",
         "Uma evidência obtida com determinada plataforma e determinado protocolo não pode ser transferida, sem validação, para qualquer outro equipamento que também utilize luz pulsada.",
+        "Xue e colaboradores (2020) fecham a identidade: o aparelho do ensaio mascarado é E-Eye Intense Regulated Pulsed Light (E-Swin). Quatro ou cinco flashes. Curso de pelo menos quatro sessões antes de julgar. Isso é IRPL. Não é o IPL de consultório da classe Toyos.",
+        "O único confronto randomizado de padrão é Wu e colaboradores (2020): 62 pacientes, OPT (três sessões, 10–14 J/cm², cerca de três semanas) versus IRPL (quatro sessões, 9–13 J/cm², dias 1, 15, 45 e 75). Os dois braços melhoram em relação ao início. OPT ganhou função da glândula da pálpebra inferior, primeiro NIKBUT e TBUT com fluoresceína. Não é Lumenis versus E-Eye.",
+        "Jiang e colaboradores (2022) comparam Eyesis com E-Eye em 132 pacientes, só nos dias 0 e 7. Eyesis não foi inferior na taxa de sucesso ao dia 14 (diferença −1,7% / +1,6%; p = 0,927). Os autores relatam ganho extra em OSDI, TBUT, Schirmer, menisco e qualidade do meibum. Duas sessões não são o curso de Xue.",
+        "Cong e colaboradores (2025) ranqueiam protocolos em rede, com busca até 10 de novembro de 2022. OPT com expressão lidera sintoma; E>eye com expressão lidera TBUT e qualidade de meibum. É indireto. Não escolhe aparelho no consultório.",
         "Até a busca realizada para esta revisão, não foi identificado um grande ensaio randomizado comparando diretamente E-Eye/IRPL com plataformas como M22/Lumenis ou Toyos sob o mesmo calendário, parâmetros equivalentes e mesma política de expressão glandular.",
         "A ausência dessa comparação não prova equivalência. Também não prova superioridade.",
         "Ela apenas significa que a pergunta ainda não foi adequadamente respondida.",
@@ -1337,6 +1341,30 @@ const tresMesesNaoSaoDoze: MagazineArticle = {
         "Demolin L, Es-Safi M, Soyfoo MS, Motulsky E. Intense Pulsed Light Therapy in the Treatment of Dry Eye Diseases: A Systematic Review and Meta-Analysis. Journal of Clinical Medicine. 2023;12:3039.",
       url: "https://doi.org/10.3390/jcm12083039",
       doi: "10.3390/jcm12083039",
+    },
+    {
+      label:
+        "Xue AL, Wang MTM, Ormonde SE, Craig JP. Ocul Surf. 2020;18(2):286-297. doi:10.1016/j.jtos.2020.01.003. PMID: 32007523.",
+      url: "https://doi.org/10.1016/j.jtos.2020.01.003",
+      doi: "10.1016/j.jtos.2020.01.003",
+    },
+    {
+      label:
+        "Wu Y, Li J, Hu M, et al. Int Ophthalmol. 2020;40(7):1695-1705. doi:10.1007/s10792-020-01337-0. PMID: 32200506.",
+      url: "https://doi.org/10.1007/s10792-020-01337-0",
+      doi: "10.1007/s10792-020-01337-0",
+    },
+    {
+      label:
+        "Jiang X, Yuan H, Zhang M, et al. Ophthalmol Ther. 2022;11(5):1895-1912. doi:10.1007/s40123-022-00556-1. PMID: 35974296.",
+      url: "https://doi.org/10.1007/s40123-022-00556-1",
+      doi: "10.1007/s40123-022-00556-1",
+    },
+    {
+      label:
+        "Cong J, Wu Y, Dong C, et al. Lasers Med Sci. 2025;40(1):303. doi:10.1007/s10103-025-04545-1. PMID: 40569448.",
+      url: "https://doi.org/10.1007/s10103-025-04545-1",
+      doi: "10.1007/s10103-025-04545-1",
     },
   ],
   disclosures: [
@@ -2067,6 +2095,7 @@ const iaNaSuperficieOcular: MagazineArticle = {
   status: "published",
   issue: "edicao-00",
   publishedAt: "2026-08-17",
+  modifiedAt: "2026-08-17",
   content: [
     {
       id: "por-que-importa",
@@ -2087,6 +2116,9 @@ const iaNaSuperficieOcular: MagazineArticle = {
         "Uma revisão sistemática de 70 estudos únicos (71 registros; um preprint e seu artigo de revista contados uma vez) mapeou modelos de aprendizado de máquina e profundo aplicados a olho seco e superfície ocular, com ênfase em abordagens que usam mais de uma fonte de dados. A busca inicial foi em março de 2025; registros com data de 2026 entraram na atualização do manuscrito.",
         "O grosso da literatura ainda é imagem única. Meibografia é o canal mais frequente. Redes que segmentam pálpebra e atrofia chegaram a 95,6% de acerto no meiboscore no conjunto de avaliação (209 imagens; 497 no treino e ajuste) e superaram o investigador clínico de referência em 16 pontos percentuais. Coloração de fluoresceína já tem modelo com teste externo em 2.376 imagens de 23 hospitais na China (r interno 0,898 e AUC 0,881; r externo 0,844–0,899 e AUC 0,804–0,883).",
         "O achado que importa para a clínica é outro. O mesmo grupo que relatou 73,01% de acerto no meiboscore no conjunto de validação caiu para 59,17% num centro independente (1.600 imagens). Os especialistas em disfunção de glândula de Meibômio, no conjunto de validação, ficaram em 53,44%. A queda do modelo é o cartão de visita: o número interno não viaja. Aparelho, recorte étnico e protocolo de captura mudam o resultado até prova em contrário.",
+        "Uma meta-análise de acurácia diagnóstica publicada em 2026 (Liu e colaboradores, Cornea) reuniu 14 estudos, 5.511 participantes e 18.926 imagens. A síntese de validação externa — só três avaliações — deu sensibilidade de 97,5% (77,5–99,8) e especificidade de 85,5% (47,3–97,5). A certeza GRADE foi muito baixa a baixa. A leitura dos autores: a IA na meibografia parece menos acurada que o avaliador humano. Quase todos os estudos tinham alto risco de viés em pelo menos um domínio.",
+        "A troca de aparelho é o outro cartão. Num modelo de segmentação, o Dice interno de 0,84 na glândula caiu para 0,69–0,71 num dispositivo externo; equalização de histograma não recuperou o desempenho. O melhor estudo de validação em quatro centros, num único aparelho, chegou a kappa 0,93 e AUC acima de 0,99 — ainda era segmentação e escore, não diagnóstico, e ficou limitado à plataforma que o treinou.",
+        "Estimativa de TBUT por IA, num recorte de 79 pacientes, teve acurácia 0,789 e AUC 0,877. Intervalo largo, amostra pequena.",
         "Há sinais de que a imagem pode dizer mais do que o escore. Aprendizado não supervisionado em 82.236 meibografias de 20.559 pessoas agrupou seis subtipos com perfis distintos de ruptura, menisco, atrofia e coloração. Outro modelo leu sinais, sintomas e diagnósticos a partir só da meibografia (562 imagens, 363 pessoas), com acurácias de 65% a 99% — 74% a 85% para disfunção glandular, deficiência aquosa e blefarite. Isso não valida o uso isolado da foto como diagnóstico. Mostra que a glândula carrega informação que o meiboscore joga fora.",
         "A via sem imagem também existe. Modelos tabulares, em 175 candidatos a lentes, explicaram cerca de 32% da variância da osmolaridade e acertaram cerca de 80% nas faixas baixa, média e alta. Preditores: NIKBUT, menisco, hiperemia, cobertura glandular e DEQ-5. Fatores de estilo de vida — tempo de perto, álcool, exercício, tempo ao ar livre — entram com peso em vários desfechos; cabine de avião e dirigir predisseram sintoma, não sinal. São hipóteses de triagem, não substitutos da meibografia.",
         "Grandes modelos de linguagem, alimentados com texto clínico e sintomas de 338 pacientes com suspeita de olho seco, concordaram com o clínico no “é DED” (sensibilidade 93–99%; kappa 0,81–0,86). A especificidade ficou entre 0% e 16%. A acurácia balanceada caiu para 48–56%. No subtipo (aquoso, evaporativo, misto) o acordo foi ao acaso. O modelo reproduz o viés de superdiagnóstico. Um pipeline multimodal (Insight / MDPipe) que traduz meibografia em morfologia e pede raciocínio ao LLM superou o GPT-4 em benchmarks de superfície ocular; ainda é prova de conceito, não ferramenta de consultório.",
@@ -2100,7 +2132,7 @@ const iaNaSuperficieOcular: MagazineArticle = {
       paragraphs: [
         "Três usos cabem hoje, se o clínico souber o que está comprando.",
         "Primeiro: segunda leitura de meibografia e de coloração, não diagnóstico. Um modelo que marca glândula, atrofia e reflexo especular reduz fadiga e padroniza o arquivo. Ele não decide evaporativo versus aquoso. Se o software não declara aparelho, recorte de pálpebra e conjunto externo, trate o número como rascunho.",
-        "Segundo: recusar o AUC interno como argumento de compra. A pergunta mínima é: testaram em outro centro, outro aparelho, outra etnia? Qual foi a queda? O caso Saha é o cartão dessa pergunta. Sem essa resposta, o modelo descreve o laboratório que o treinou.",
+        "Segundo: recusar o AUC interno como argumento de compra. A pergunta mínima é: testaram em outro centro, outro aparelho, outra etnia? Qual foi a queda? O caso Saha é o cartão dessa pergunta. Sem essa resposta, o modelo descreve o laboratório que o treinou. Peça o checklist TRIPOD+AI ou STARD-AI. Sem validação externa em outro aparelho e outra população, o número descreve o laboratório que o treinou.",
         "Terceiro: triagem, não atalho. Onde não há meibógrafo, um modelo tabular que estima instabilidade ou dropout a partir de coloração, expressibilidade e sintomas pode decidir quem precisa do exame extra. O teto desses modelos é baixo o bastante para não substituir o exame. É alto o bastante para ordenar a fila.",
         "O que ainda não cabe: fechar subtipo de olho seco com chatbot; usar LLM no prontuário como laudo; tratar cluster de meibografia como fenótipo terapêutico sem reprodução. A telemedicina com foto dirigida é outro capítulo — e no Brasil passa por regra do CFM, não por paper de visão computacional.",
         "No fluxo do consultório, a ordem honesta é: fenótipo clínico primeiro, imagem depois, software por último. A IA entra para repetir com menos ruído o que o exame já pediu, não para inventar um mecanismo.",
@@ -2189,6 +2221,42 @@ const iaNaSuperficieOcular: MagazineArticle = {
         "Fineide FA, Storås AM, Riegler MA, Utheim TP. Predicting Meibomian Gland Dropout and Feature Importance Analysis with Explainable Artificial Intelligence. 2023 IEEE 36th CBMS.",
       url: "https://doi.org/10.1109/cbms58004.2023.00245",
       doi: "10.1109/cbms58004.2023.00245",
+    },
+    {
+      label:
+        "Liu S-H, Shah M, Leslie L, et al. Artificial Intelligence for Diagnosing Meibomian Gland Dysfunction: A Systematic Review and Meta-Analysis of Diagnostic Test Accuracy Studies. Cornea. 2026. doi:10.1097/ICO.0000000000004151. PMID: 41931504.",
+      url: "https://doi.org/10.1097/ICO.0000000000004151",
+      doi: "10.1097/ICO.0000000000004151",
+    },
+    {
+      label:
+        "Deng X, Tian L, Zhang Y, et al. Is histogram manipulation always beneficial when trying to improve model performance across devices? Experiments using a Meibomian gland segmentation model. Front Cell Dev Biol. 2022;10:1067914. doi:10.3389/fcell.2022.1067914. PMID: 36544900.",
+      url: "https://doi.org/10.3389/fcell.2022.1067914",
+      doi: "10.3389/fcell.2022.1067914",
+    },
+    {
+      label:
+        "Li L, Xiao K, Lai T, et al. Development and multicenter validation of an AI driven model for quantitative meibomian gland evaluation. npj Digit Med. 2025;8(1):403. doi:10.1038/s41746-025-01753-5. PMID: 40615666.",
+      url: "https://doi.org/10.1038/s41746-025-01753-5",
+      doi: "10.1038/s41746-025-01753-5",
+    },
+    {
+      label:
+        "Shimizu E, Ishikawa T, Tanji M, et al. Artificial intelligence to estimate the tear film breakup time and diagnose dry eye disease. Sci Rep. 2023;13(1):5822. doi:10.1038/s41598-023-33021-5. PMID: 37037877.",
+      url: "https://doi.org/10.1038/s41598-023-33021-5",
+      doi: "10.1038/s41598-023-33021-5",
+    },
+    {
+      label:
+        "Collins GS, Moons KGM, Dhiman P, et al. TRIPOD+AI statement: updated guidance for reporting clinical prediction models that use regression or machine learning methods. BMJ. 2024;385:e078378. doi:10.1136/bmj-2023-078378.",
+      url: "https://doi.org/10.1136/bmj-2023-078378",
+      doi: "10.1136/bmj-2023-078378",
+    },
+    {
+      label:
+        "Sounderajah V, Guni A, Liu X, et al. The STARD-AI reporting guideline for diagnostic accuracy studies using artificial intelligence. Nat Med. 2025;31(10):3283-3289. doi:10.1038/s41591-025-03953-8.",
+      url: "https://doi.org/10.1038/s41591-025-03953-8",
+      doi: "10.1038/s41591-025-03953-8",
     },
   ],
   disclosures: [

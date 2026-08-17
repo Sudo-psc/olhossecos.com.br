@@ -523,8 +523,14 @@ test("matéria de tecnologias publica as quatro seções sem capa nem figura cl�
   assert.match(text, /aproximadamente 16 pontos no OSDI/);
   assert.match(text, /cerca de 7 pontos no OSDI/);
   assert.match(text, /E-Eye\/IRPL com plataformas como M22\/Lumenis ou Toyos/);
+  assert.match(text, /Xue e colaboradores \(2020\)/);
+  assert.match(text, /Wu e colaboradores \(2020\)/);
+  assert.match(text, /Jiang e colaboradores \(2022\)/);
+  assert.match(text, /Cong e colaboradores \(2025\)/);
+  assert.match(text, /E>eye com expressão lidera TBUT/);
+  assert.equal(text.includes("Park et al"), false);
   assert.match(text, /atualização científica foi realizada em 17\/08\/2026/);
-  assert.equal(article.references.length, 8);
+  assert.equal(article.references.length, 12);
   assert.equal(
     article.references.every(
       ({ url, doi }) => url === `https://doi.org/${doi}`,
@@ -538,8 +544,24 @@ test("matéria de tecnologias publica as quatro seções sem capa nem figura cl�
     true,
   );
   assert.equal(
-    article.references.some(({ label }) => /Holland|OLYMPIA/u.test(label)),
+    article.references.some(({ label }) => /Holland|OLYMPIA|Park et al/u.test(label)),
     false,
+  );
+  assert.equal(
+    article.references.some(({ doi }) => doi === "10.1016/j.jtos.2020.01.003"),
+    true,
+  );
+  assert.equal(
+    article.references.some(({ doi }) => doi === "10.1007/s10792-020-01337-0"),
+    true,
+  );
+  assert.equal(
+    article.references.some(({ doi }) => doi === "10.1007/s40123-022-00556-1"),
+    true,
+  );
+  assert.equal(
+    article.references.some(({ doi }) => doi === "10.1007/s10103-025-04545-1"),
+    true,
   );
 });
 const assertSealedArticle = (
@@ -705,7 +727,36 @@ test("matéria IA na superfície ocular publica as quatro seções e o selo de c
     assert.ok(kinds.has(kind), `falta a seção ${kind}`);
   }
 
+  assert.equal(article.modifiedAt, "2026-08-17");
+  assert.equal(article.issue, "edicao-00");
+  assert.equal(article.sponsored, false);
+  assert.equal(article.references.length, 18);
   assert.deepEqual(superficie.validateMagazineArticle(article), []);
+
+  const text = article.content.flatMap((section) => section.paragraphs).join(" ");
+  assert.match(text, /73,01%/);
+  assert.match(text, /59,17%/);
+  assert.match(text, /5\.511 participantes/);
+  assert.match(text, /97,5%/);
+  assert.match(text, /85,5%/);
+  assert.match(text, /TRIPOD\+AI ou STARD-AI/);
+  assert.match(text, /kappa 0,93/);
+  assert.match(text, /acurácia 0,789/);
+  assert.equal(text.includes("TearNET"), false);
+  assert.equal(text.includes("94,5%"), false);
+  assert.equal(text.includes("35,8%"), false);
+  assert.equal(
+    article.references.some(({ doi }) => doi === "10.1097/ICO.0000000000004151"),
+    true,
+  );
+  assert.equal(
+    article.references.some(({ doi }) => doi === "10.1136/bmj-2023-078378"),
+    true,
+  );
+  assert.equal(
+    article.references.some(({ doi }) => doi === "10.1038/s41591-025-03953-8"),
+    true,
+  );
 });
 
 test("validação exige canonical consistente com o slug", () => {
