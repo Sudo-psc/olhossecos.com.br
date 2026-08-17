@@ -86,9 +86,9 @@ class MagazineReaderController {
       this.preferences = defaultPreferences(manifest.id);
       this.renderer = new PageRenderer(this.ui.canvas, manifest);
       this.updateDisplayMode();
-      await this.rebuildAdapter();
+      this.mountVisibleReader();
       this.updatePageUi();
-      this.ui.ready();
+      void this.upgradeToPageFlip();
 
       const [progress, preferences, bookmarks, highlights, notes] =
         await Promise.all([
@@ -145,24 +145,27 @@ class MagazineReaderController {
     return validation.data;
   }
 
-  private async rebuildAdapter(): Promise<void> {
+  private mountVisibleReader(): void {
     if (!this.manifest || !this.renderer) return;
     this.adapter?.destroy();
     this.renderer.createPageElements();
     this.renderer.setHighlights(this.highlights);
     this.renderer.hydrateImages(this.currentPage);
-
-    const shouldReduce = this.isMotionReduced();
-    this.root.dataset.reducedMotion = String(shouldReduce);
+    this.root.dataset.reducedMotion = String(this.isMotionReduced());
     this.mountSimpleAdapter();
     this.ui.ready();
+  }
 
-    if (shouldReduce) return;
-
+  private async upgradeToPageFlip(): Promise<void> {
+    if (!this.manifest || !this.renderer || this.isMotionReduced()) return;
     try {
       const { StPageFlipAdapter } =
         await import("./engines/StPageFlipAdapter.ts");
+      if (!this.manifest || !this.renderer) return;
       this.adapter?.destroy();
+      this.renderer.createPageElements();
+      this.renderer.setHighlights(this.highlights);
+      this.renderer.hydrateImages(this.currentPage);
       this.adapter = new StPageFlipAdapter(this.currentPage);
       this.adapter.onPageChange((page) => void this.handlePageChange(page));
       this.adapter.mount(this.ui.canvas);
@@ -172,6 +175,11 @@ class MagazineReaderController {
       this.mountSimpleAdapter();
       this.ui.announce("Animação 3D indisponível; usando transição simples.");
     }
+  }
+
+  private async rebuildAdapter(): Promise<void> {
+    this.mountVisibleReader();
+    await this.upgradeToPageFlip();
   }
 
   private mountSimpleAdapter(): void {
@@ -600,7 +608,7 @@ class MagazineReaderController {
       if (loadGeneration !== this.articleLoadGeneration) return;
       this.loadedArticlePath = null;
       this.ui.setTextModeMessage(
-        "O artigo HTML não carregou. Use o PDF de teste como último fallback.",
+        "O artigo HTML não carregou. Use o PDF da edição como último fallback.",
       );
     }
   }

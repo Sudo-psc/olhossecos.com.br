@@ -106,12 +106,41 @@ test("reader chrome does not seed a POC pageCount of 8", async () => {
     "src/superficie/reader/components/MagazineReader.astro",
     "utf8",
   );
-  assert.match(markup, /data-page-count><\/span>/u);
-  assert.match(markup, /data-page-total hidden/u);
-  assert.match(markup, /data-reader-brand-line hidden><\/small>/u);
+  const viewport = await readFile(
+    "src/superficie/reader/components/PageViewport.astro",
+    "utf8",
+  );
+  const lab = await readFile(
+    "src/pages/superficie/lab/edicao-00.astro",
+    "utf8",
+  );
+  assert.match(markup, /data-page-count>\{pageCount \?\? ""\}<\/span>/u);
+  assert.match(markup, /data-page-total hidden=\{!pageCount\}/u);
   assert.doesNotMatch(markup, /data-page-count>\s*8\s*</u);
   assert.doesNotMatch(markup, /READER PROTOTYPE/iu);
   assert.doesNotMatch(markup, /Prototype · POC/iu);
+  assert.doesNotMatch(viewport, /superficie-poc\.pdf/u);
+  assert.doesNotMatch(viewport, /PDF de teste/u);
+  assert.doesNotMatch(viewport, /Reader Prototype/iu);
+  assert.match(viewport, /PDF da edição/u);
+  assert.match(lab, /edicao-00\/manifest\.json/u);
+  assert.match(lab, /pageCount=\{issue\.pageCount\}/u);
+  assert.match(lab, /pdfHref=\{issue\.pdfFallback\}/u);
+  assert.doesNotMatch(lab, /superficie-poc/u);
+  assert.doesNotMatch(lab, /READER PROTOTYPE/iu);
+});
+
+test("reader reveals the cover before importing page-flip", async () => {
+  const source = await readFile("src/superficie/reader/reader-app.ts", "utf8");
+  const startAt = source.indexOf("async start()");
+  const startBlock = source.slice(
+    startAt,
+    source.indexOf("private async loadManifest"),
+  );
+  assert.match(startBlock, /this\.mountVisibleReader\(\)/u);
+  assert.match(startBlock, /void this\.upgradeToPageFlip\(\)/u);
+  assert.doesNotMatch(startBlock, /await this\.rebuildAdapter\(\)/u);
+  assert.doesNotMatch(startBlock, /await import\(/u);
 });
 
 test("reader default zoom keeps cover type above a readable floor", async () => {

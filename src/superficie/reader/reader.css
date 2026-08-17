@@ -251,7 +251,8 @@
   transform-origin: top center;
 }
 
-.reader-page-canvas > .magazine-page[data-simple-visible] {
+.reader-page-canvas > .magazine-page[data-simple-visible],
+.reader-page-canvas > .magazine-page[data-ssr-cover] {
   width: min(100%, 700px);
   aspect-ratio: 700 / 990;
   flex: 0 1 700px;

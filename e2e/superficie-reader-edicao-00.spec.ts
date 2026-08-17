@@ -7,15 +7,25 @@ test("edicao-00 never shows a pageCount of 8 while the 34-page issue loads", asy
 }) => {
   await page.goto(readerUrl, { waitUntil: "domcontentloaded" });
   const count = page.locator("[data-page-count]");
+  await expect(count).toHaveText("34");
   await expect(count).not.toHaveText("8");
-  await expect(page.locator("[data-page-total]")).toBeHidden();
-  await expect(page.locator("[data-reader-brand-line]")).toBeHidden();
+  await expect(page.locator("[data-page-total]")).toBeVisible();
+  await expect(page.locator("[data-reader-brand-line]")).toContainText(
+    "A nova era da superfície ocular",
+  );
   await expect(page.getByText(/READER PROTOTYPE|Prototype · POC/i)).toHaveCount(
     0,
   );
+  await expect(page.locator("[data-pdf-fallback]")).toHaveAttribute(
+    "href",
+    "/superficie/issues/edicao-00/superficie-edicao-00.pdf",
+  );
+  await expect(page.locator("[data-ssr-cover] img")).toHaveAttribute(
+    "src",
+    "/superficie/issues/edicao-00/pages/page-01-medium.webp",
+  );
   await readerReady(page);
   await expect(count).toHaveText("34");
-  await expect(page.locator("[data-page-total]")).toBeVisible();
 });
 
 test("edicao-00 abre na página 5, busca DGM e resolve o H1 no modo texto", async ({
