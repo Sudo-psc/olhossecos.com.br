@@ -43,9 +43,10 @@ const { title, description } = Astro.props;
     background: #061821;
   }
 
+  /* Ver a nota em Layout.astro: nenhuma fonte web é hospedada, então Inter
+     sai da pilha para que o reader renderize igual em toda máquina. */
   body {
     font-family:
-      Inter,
       ui-sans-serif,
       system-ui,
       -apple-system,
