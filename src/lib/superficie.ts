@@ -2049,6 +2049,184 @@ const aPregaOAtritoEOpiscar: MagazineArticle = {
   },
 };
 
+const iaNaSuperficieOcular: MagazineArticle = {
+  slug: "ia-na-superficie-ocular",
+  title: "IA na superfície ocular: onde ajuda, onde erra e como validar",
+  subtitle:
+    "Onde a imagem já lê com alguma segurança, o que ainda não generaliza, e que pergunta fazer antes de deixar o software entrar na conduta.",
+  excerpt:
+    "A pergunta útil não é se uma rede consegue segmentar uma glândula. É se o número que ela devolve muda uma decisão no consultório. Meibografia e coloração já têm modelo; o AUC interno não viaja, e o LLM superdiagnostica — sem validação externa, o software descreve o laboratório que o treinou.",
+  category: "Tecnologia",
+  author: {
+    name: "Dr. Philipe Saraiva Cruz",
+    slug: "philipe-saraiva-cruz",
+    specialty: "Oftalmologia — CRM-MG 69.870 · RQE 71.903",
+    affiliation: "Saraiva Vision, Caratinga/MG",
+  },
+  reviewSeal: "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  status: "published",
+  issue: "edicao-00",
+  publishedAt: "2026-08-17",
+  content: [
+    {
+      id: "por-que-importa",
+      title: "Por que importa",
+      kind: "why-it-matters",
+      paragraphs: [
+        "O olho seco continua sendo um diagnóstico montado por pedaços. Sintoma, sinal e biomarcador discordam com frequência. O paciente pode chegar com OSDI alto e córnea quase limpa, ou o contrário. Cada teste — questionário, tempo de ruptura, coloração, osmolaridade, meibografia, interferometria — vê uma fatia. Nenhum fecha o fenótipo sozinho.",
+        "Isso já era o problema clínico antes da inteligência artificial. A IA entrou exatamente nesse ponto: automatizar a leitura de uma imagem, ou juntar imagens com a ficha. O apelo é óbvio. Meiboscore, camada lipídica e coloração ainda dependem do olho de quem examina. Um modelo treinado promete objetividade e velocidade.",
+        "O risco também é óbvio. Um AUC alto no conjunto que treinou o modelo não é um instrumento de consultório. A literatura de IA em olho seco cresceu depressa e ainda é, na maior parte, unimodal: uma foto, um vídeo, um escore. Poucos trabalhos juntam de verdade meibografia, filme lacrimal e sintomas. Menos ainda testam o modelo em outro aparelho, outro centro, outra população.",
+        "Para a SUPERFÍCIE, o ponto não é celebrar a ferramenta. É dizer ao clínico o que já lê uma imagem com alguma segurança, o que ainda não generaliza, e que pergunta fazer antes de deixar o software entrar na conduta.",
+      ],
+    },
+    {
+      id: "evidencia",
+      title: "Evidência",
+      kind: "evidence",
+      paragraphs: [
+        "Uma revisão sistemática de 70 estudos únicos (71 registros; um preprint e seu artigo de revista contados uma vez) mapeou modelos de aprendizado de máquina e profundo aplicados a olho seco e superfície ocular, com ênfase em abordagens que usam mais de uma fonte de dados. A busca inicial foi em março de 2025; registros com data de 2026 entraram na atualização do manuscrito.",
+        "O grosso da literatura ainda é imagem única. Meibografia é o canal mais frequente. Redes que segmentam pálpebra e atrofia chegaram a 95,6% de acerto no meiboscore no conjunto de avaliação (209 imagens; 497 no treino e ajuste) e superaram o investigador clínico de referência em 16 pontos percentuais. Coloração de fluoresceína já tem modelo com teste externo em 2.376 imagens de 23 hospitais na China (r interno 0,898 e AUC 0,881; r externo 0,844–0,899 e AUC 0,804–0,883).",
+        "O achado que importa para a clínica é outro. O mesmo grupo que relatou 73,01% de acerto no meiboscore no conjunto de validação caiu para 59,17% num centro independente (1.600 imagens). Os especialistas em disfunção de glândula de Meibômio, no conjunto de validação, ficaram em 53,44%. A queda do modelo é o cartão de visita: o número interno não viaja. Aparelho, recorte étnico e protocolo de captura mudam o resultado até prova em contrário.",
+        "Há sinais de que a imagem pode dizer mais do que o escore. Aprendizado não supervisionado em 82.236 meibografias de 20.559 pessoas agrupou seis subtipos com perfis distintos de ruptura, menisco, atrofia e coloração. Outro modelo leu sinais, sintomas e diagnósticos a partir só da meibografia (562 imagens, 363 pessoas), com acurácias de 65% a 99% — 74% a 85% para disfunção glandular, deficiência aquosa e blefarite. Isso não valida o uso isolado da foto como diagnóstico. Mostra que a glândula carrega informação que o meiboscore joga fora.",
+        "A via sem imagem também existe. Modelos tabulares, em 175 candidatos a lentes, explicaram cerca de 32% da variância da osmolaridade e acertaram cerca de 80% nas faixas baixa, média e alta. Preditores: NIKBUT, menisco, hiperemia, cobertura glandular e DEQ-5. Fatores de estilo de vida — tempo de perto, álcool, exercício, tempo ao ar livre — entram com peso em vários desfechos; cabine de avião e dirigir predisseram sintoma, não sinal. São hipóteses de triagem, não substitutos da meibografia.",
+        "Grandes modelos de linguagem, alimentados com texto clínico e sintomas de 338 pacientes com suspeita de olho seco, concordaram com o clínico no “é DED” (sensibilidade 93–99%; kappa 0,81–0,86). A especificidade ficou entre 0% e 16%. A acurácia balanceada caiu para 48–56%. No subtipo (aquoso, evaporativo, misto) o acordo foi ao acaso. O modelo reproduz o viés de superdiagnóstico. Um pipeline multimodal (Insight / MDPipe) que traduz meibografia em morfologia e pede raciocínio ao LLM superou o GPT-4 em benchmarks de superfície ocular; ainda é prova de conceito, não ferramenta de consultório.",
+        "A fusão de verdade — imagem mais clínica, no mesmo modelo, validada fora de casa — continua rara. Dinâmica temporal do filme lacrimal, o que o clínico já filma no NIBUT, quase não entra. Ensaio prospectivo medindo sintoma, adesão ou qualidade de vida depois da IA assistida não apareceu no corpus.",
+      ],
+    },
+    {
+      id: "pratica",
+      title: "Prática",
+      kind: "practice",
+      paragraphs: [
+        "Três usos cabem hoje, se o clínico souber o que está comprando.",
+        "Primeiro: segunda leitura de meibografia e de coloração, não diagnóstico. Um modelo que marca glândula, atrofia e reflexo especular reduz fadiga e padroniza o arquivo. Ele não decide evaporativo versus aquoso. Se o software não declara aparelho, recorte de pálpebra e conjunto externo, trate o número como rascunho.",
+        "Segundo: recusar o AUC interno como argumento de compra. A pergunta mínima é: testaram em outro centro, outro aparelho, outra etnia? Qual foi a queda? O caso Saha é o cartão dessa pergunta. Sem essa resposta, o modelo descreve o laboratório que o treinou.",
+        "Terceiro: triagem, não atalho. Onde não há meibógrafo, um modelo tabular que estima instabilidade ou dropout a partir de coloração, expressibilidade e sintomas pode decidir quem precisa do exame extra. O teto desses modelos é baixo o bastante para não substituir o exame. É alto o bastante para ordenar a fila.",
+        "O que ainda não cabe: fechar subtipo de olho seco com chatbot; usar LLM no prontuário como laudo; tratar cluster de meibografia como fenótipo terapêutico sem reprodução. A telemedicina com foto dirigida é outro capítulo — e no Brasil passa por regra do CFM, não por paper de visão computacional.",
+        "No fluxo do consultório, a ordem honesta é: fenótipo clínico primeiro, imagem depois, software por último. A IA entra para repetir com menos ruído o que o exame já pediu, não para inventar um mecanismo.",
+      ],
+    },
+    {
+      id: "limitacoes",
+      title: "Limitações",
+      kind: "limitations",
+      paragraphs: [
+        "Esta matéria assenta numa revisão sistemática em inglês, com heterogeneidade grande de tarefa, aparelho e n. Meta-análise não foi possível. Dois papers de método ficaram no corpus apesar de n humano baixo (um voluntário com 89.033 recortes de interferometria por smartphone; dez sadios em OCT de menisco), porque a unidade de análise era o quadro, não a coorte diagnóstica. Um item de 2026 em repositório aberto não foi recuperado no PubMed nem no Crossref e não sustenta claim.",
+        "A revisão não cobre registro na ANVISA, software como dispositivo médico, nem a regra brasileira de telemedicina. Também não mede desfecho de paciente. “Acurácia de segmentação” não é alívio de sintoma.",
+        "O selo desta versão é checagem editorial, não revisão por pares. Claims clínicos abaixo têm fonte. O que não tem DOI resolvido no Crossref não entra.",
+      ],
+    },
+  ],
+  references: [
+    {
+      label:
+        "Craig JP, Nichols KK, Akpek EK, et al. TFOS DEWS II Definition and Classification Report. Ocul Surf. 2017;15(3):276-283.",
+      url: "https://doi.org/10.1016/j.jtos.2017.05.008",
+      doi: "10.1016/j.jtos.2017.05.008",
+    },
+    {
+      label:
+        "Wolffsohn JS, Arita R, Chalmers R, et al. TFOS DEWS II Diagnostic Methodology report. Ocul Surf. 2017;15(3):539-574.",
+      url: "https://doi.org/10.1016/j.jtos.2017.05.001",
+      doi: "10.1016/j.jtos.2017.05.001",
+    },
+    {
+      label:
+        "Wang J, Yeh TN, Chakraborty R, Yu SX, Lin MC. A Deep Learning Approach for Meibomian Gland Atrophy Evaluation in Meibography Images. Transl Vis Sci Technol. 2019;8(6):37.",
+      url: "https://doi.org/10.1167/tvst.8.6.37",
+      doi: "10.1167/tvst.8.6.37",
+    },
+    {
+      label:
+        "Saha RK, Chowdhury AMM, Na KS, et al. Automated quantification of meibomian gland dropout in infrared meibography using deep learning. Ocul Surf. 2022;26:283-294.",
+      url: "https://doi.org/10.1016/j.jtos.2022.06.006",
+      doi: "10.1016/j.jtos.2022.06.006",
+    },
+    {
+      label:
+        "Deng Y, Cheng P, Xu R, et al. Advanced and interpretable corneal staining assessment through fine grained knowledge distillation. NPJ Digit Med. 2025;8(1):303.",
+      url: "https://doi.org/10.1038/s41746-025-01706-y",
+      doi: "10.1038/s41746-025-01706-y",
+    },
+    {
+      label:
+        "Li S, Wang Y, Yu C, et al. Unsupervised Learning Based on Meibography Enables Subtyping of Dry Eye Disease and Reveals Ocular Surface Features. Invest Ophthalmol Vis Sci. 2023;64(13):43.",
+      url: "https://doi.org/10.1167/iovs.64.13.43",
+      doi: "10.1167/iovs.64.13.43",
+    },
+    {
+      label:
+        "Graham AD, Kothapalli T, Wang J, et al. A machine learning approach to predicting dry eye-related signs, symptoms and diagnoses from meibography images. Heliyon. 2024;10(17):e36021.",
+      url: "https://doi.org/10.1016/j.heliyon.2024.e36021",
+      doi: "10.1016/j.heliyon.2024.e36021",
+    },
+    {
+      label:
+        "Garaszczuk IK, Romanos-Ibanez M, Consejo A. Machine learning-based prediction of tear osmolarity for contact lens practice. Ophthalmic Physiol Opt. 2024;44(4):727-736.",
+      url: "https://doi.org/10.1111/opo.13302",
+      doi: "10.1111/opo.13302",
+    },
+    {
+      label:
+        "Graham AD, Wang J, Kothapalli T, et al. Artificial intelligence models utilize lifestyle factors to predict dry eye related outcomes. Sci Rep. 2025;15(1):13378.",
+      url: "https://doi.org/10.1038/s41598-025-96778-x",
+      doi: "10.1038/s41598-025-96778-x",
+    },
+    {
+      label:
+        "Mejía-Salgado G, Rojas-Carabali W, Cifuentes-González C, et al. Diagnostic accuracy in dry eye: Insights into clinical and artificial intelligence limitations. Cont Lens Anterior Eye. 2026.",
+      url: "https://doi.org/10.1016/j.clae.2025.102509",
+      doi: "10.1016/j.clae.2025.102509",
+    },
+    {
+      label:
+        "Yeh CH, Wang J, Graham AD, et al. Insight: A Multi-Modal Diagnostic Pipeline using LLMs for Ocular Surface Disease Diagnosis. Med Image Comput Comput Assist Interv. 2024;15001:711-721.",
+      url: "https://doi.org/10.1007/978-3-031-72378-0_66",
+      doi: "10.1007/978-3-031-72378-0_66",
+    },
+    {
+      label:
+        "Fineide FA, Storås AM, Riegler MA, Utheim TP. Predicting Meibomian Gland Dropout and Feature Importance Analysis with Explainable Artificial Intelligence. 2023 IEEE 36th CBMS.",
+      url: "https://doi.org/10.1109/cbms58004.2023.00245",
+      doi: "10.1109/cbms58004.2023.00245",
+    },
+  ],
+  disclosures: [
+    { label: "Financiamento", text: "A declarar pelo autor." },
+    {
+      label: "Conflitos de interesse",
+      text: "A declarar pelo autor. Sem catálogo de marcas.",
+    },
+    {
+      label: "Uso de inteligência artificial",
+      text: "Houve assistência de IA na reorganização editorial, na revisão linguística e na conferência bibliográfica das referências contra Crossref e PubMed. A IA não foi tratada como fonte; as afirmações e referências foram verificadas pelo autor.",
+    },
+    {
+      label: "Revisão",
+      text: "Este artigo não passou por revisão independente por pares. Ver o selo editorial no topo da página.",
+    },
+    {
+      label: "Aprovação ética",
+      text: "Não se aplica: revisão narrativa sem dados individuais ou imagens identificáveis.",
+    },
+  ],
+  sponsored: false,
+  tags: [
+    "Inteligência artificial",
+    "Meibografia",
+    "Olho seco",
+    "Validação externa",
+    "Superfície ocular",
+  ],
+  seo: {
+    title:
+      "IA na superfície ocular: onde ajuda, onde erra e como validar | SUPERFÍCIE",
+    description:
+      "A pergunta útil não é se uma rede consegue segmentar uma glândula. É se o número que ela devolve muda uma decisão no consultório. Meibografia e coloração já têm modelo; o AUC interno não viaja, e o LLM superdiagnostica — sem validação externa, o software descreve o laboratório que o treinou.",
+    canonical: "/superficie/artigos/ia-na-superficie-ocular",
+  },
+};
+
 export const publishedArticles: MagazineArticle[] = [
   dgmBiologiaMolecular,
   tfosDewsIiiNaPratica,
@@ -2057,6 +2235,7 @@ export const publishedArticles: MagazineArticle[] = [
   alemDoMeiboscore,
   cincoTestesCincoPerguntas,
   aPregaOAtritoEOpiscar,
+  iaNaSuperficieOcular,
 ];
 
 export interface MagazineIssue {

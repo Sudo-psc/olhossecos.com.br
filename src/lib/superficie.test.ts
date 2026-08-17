@@ -385,6 +385,7 @@ test("matéria de fenotipagem integrada publica as quatro seções sem capa nem 
       "alem-do-meiboscore",
       "cinco-testes-cinco-perguntas",
       "a-prega-o-atrito-e-o-piscar",
+      "ia-na-superficie-ocular",
     ],
   );
   assert.equal(article.status, "published");
@@ -461,6 +462,7 @@ test("matéria de tecnologias publica as quatro seções sem capa nem figura cl�
       "alem-do-meiboscore",
       "cinco-testes-cinco-perguntas",
       "a-prega-o-atrito-e-o-piscar",
+      "ia-na-superficie-ocular",
     ],
   );
   assert.equal(article.status, "published");
@@ -666,6 +668,44 @@ test("matéria A prega, o atrito e o piscar publica as quatro seções e as trav
     forbiddenDois: ["10.1097/ICO.0b013e3181ba0cb2"],
     forbiddenLabels: [/Höh/, /Hirotani/, /Korb DR, Herman JP, Blackie CA/],
   });
+});
+
+
+test("matéria IA na superfície ocular publica as quatro seções e o selo de checagem editorial", () => {
+  const article = superficie.publishedArticles.find(
+    ({ slug }) => slug === "ia-na-superficie-ocular",
+  );
+
+  assert.ok(
+    article,
+    "slug ia-na-superficie-ocular deve estar em publishedArticles",
+  );
+  assert.equal(article.status, "published");
+  assert.equal(article.publishedAt, "2026-08-17");
+  assert.equal(
+    article.reviewSeal,
+    "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  );
+  assert.equal(article.reviewer, undefined);
+  assert.equal(article.featuredImage, undefined);
+  assert.equal(article.heroBackground, undefined);
+  assert.equal(article.ogImage, undefined);
+  assert.equal(
+    article.seo.canonical,
+    "/superficie/artigos/ia-na-superficie-ocular",
+  );
+
+  const kinds = new Set(article.content.map(({ kind }) => kind));
+  for (const kind of [
+    "why-it-matters",
+    "evidence",
+    "practice",
+    "limitations",
+  ] as const) {
+    assert.ok(kinds.has(kind), `falta a seção ${kind}`);
+  }
+
+  assert.deepEqual(superficie.validateMagazineArticle(article), []);
 });
 
 test("validação exige canonical consistente com o slug", () => {
