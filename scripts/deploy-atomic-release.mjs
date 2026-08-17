@@ -11,6 +11,7 @@ import {
 } from "node:fs";
 import { join, resolve } from "node:path";
 import { tmpdir } from "node:os";
+import { fileURLToPath } from "node:url";
 import {
   activateRelease,
   assertBuildMatchesCommit,
@@ -40,6 +41,13 @@ const healthOrigin = args.get("--health-origin") ?? "http://127.0.0.1:4321";
 const mode = args.get("--mode") ?? "activate";
 const runtimeUser = args.get("--runtime-user") ?? "www-data";
 const testMode = process.env.OLHOSSECOS_DEPLOY_TEST_MODE === "1";
+// A suíte de deploy roda contra diretórios temporários e não deve tocar em API
+// externa; --indexnow no ativa o mesmo desligamento à mão.
+const submitToIndexNow =
+  !testMode && (args.get("--indexnow") ?? "sim").toLowerCase() !== "nao";
+const indexNowScript = fileURLToPath(
+  new URL("./submit-indexnow.mjs", import.meta.url),
+);
 
 if (!/^[0-9a-f]{40}$/u.test(sha)) {
   throw new Error("--sha deve ser um SHA Git completo.");
@@ -247,6 +255,22 @@ try {
     }
 
     console.log(`Release ativo: ${releasePath}`);
+
+    // O IndexNow existia como npm run seo:indexnow e dependia de alguém
+    // lembrar — na prática, nunca rodou, e Bing e Yandex só descobriam
+    // conteúdo novo no rastreio natural.
+    //
+    // Roda depois do health gate, com o release já no ar: avisar buscador
+    // sobre página que ainda não responde é pior que não avisar. Falha aqui
+    // não derruba o deploy nem dispara rollback — o site já está servindo, e
+    // uma API de terceiro fora do ar não é motivo para desfazer a publicação.
+    if (submitToIndexNow) {
+      try {
+        execFileSync(process.execPath, [indexNowScript], { stdio: "inherit" });
+      } catch (error) {
+        console.warn(`IndexNow não foi notificado: ${error.message}`);
+      }
+    }
   }
 } catch (error) {
   rmSync(incomingPath, { recursive: true, force: true });
