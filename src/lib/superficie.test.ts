@@ -207,6 +207,26 @@ test("validação exige as quatro perguntas editoriais em artigos publicados", (
   ]);
 });
 
+test("Tecnologia em foco liga os seis temas do hub a artigos já publicados", () => {
+  assert.deepEqual(
+    superficie.technologyTopics.map(({ label, href }) => [label, href]),
+    [
+      ["Meibografia", "/superficie/artigos/alem-do-meiboscore"],
+      ["Interferometria", "/superficie/artigos/cinco-testes-cinco-perguntas"],
+      ["Osmolaridade", "/superficie/artigos/cinco-testes-cinco-perguntas"],
+      ["Biomarcadores", "/superficie/artigos/cinco-testes-cinco-perguntas"],
+      [
+        "Tecnologias baseadas em energia",
+        "/superficie/artigos/tres-meses-nao-sao-doze",
+      ],
+      [
+        "Inteligência artificial",
+        "/superficie/artigos/ia-na-superficie-ocular",
+      ],
+    ],
+  );
+});
+
 test("descrição estável da revista não muda por página", () => {
   assert.equal(
     superficie.magazineDescription,
