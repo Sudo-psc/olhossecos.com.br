@@ -193,6 +193,11 @@ const formatDate = (date?: string) =>
                 <p>{paragraph}</p>
               ),
             )}
+            {section.callout && (
+              <aside class="article-callout" role="note">
+                <p>{section.callout}</p>
+              </aside>
+            )}
             {section.bullets && (
               <ul>
                 {section.bullets.map((item) => (
@@ -628,6 +633,24 @@ const formatDate = (date?: string) =>
     font-family: var(--surface-sans);
     font-size: 0.84rem;
     line-height: 1.5;
+  }
+
+  .article-callout {
+    margin: 1.6rem 0 0;
+    padding: 1rem 1.2rem;
+    max-width: 68ch;
+    background: color-mix(in srgb, var(--surface-gold) 18%, var(--surface-white));
+    border: 1px solid var(--surface-gold);
+    border-left-width: 4px;
+  }
+
+  .article-callout p {
+    margin: 0;
+    color: var(--surface-ink, #1b1b1b);
+    font-family: var(--surface-sans);
+    font-size: 0.95rem;
+    font-weight: 650;
+    line-height: 1.55;
   }
 
   .article-section ul {

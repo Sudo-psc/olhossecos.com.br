@@ -473,9 +473,19 @@ test("matéria de tecnologias publica as quatro seções sem capa nem figura cl�
   assert.equal(article.featuredImage, undefined);
   assert.equal(article.heroBackground, undefined);
   assert.equal(article.ogImage, undefined);
+  assert.equal(article.publishedAt, "2026-08-15");
+  assert.equal(article.modifiedAt, "2026-08-17");
   assert.equal(
     article.seo.canonical,
     "/superficie/artigos/tres-meses-nao-sao-doze",
+  );
+  assert.match(
+    article.excerpt,
+    /P-score não é ranking de compra/,
+  );
+  assert.equal(
+    article.excerpt.includes("O consultório está sendo vendido um ranking de aparelhos"),
+    false,
   );
   assert.deepEqual(superficie.founderIssue.articles, []);
 
@@ -483,53 +493,45 @@ test("matéria de tecnologias publica as quatro seções sem capa nem figura cl�
     article.content.map((section) => [section.id, section]),
   );
   assert.equal(byId["por-que-importa"]?.kind, "why-it-matters");
+  assert.equal(byId.metodo?.kind, "body");
   assert.equal(byId.evidencia?.kind, "evidence");
   assert.equal(byId.pratica?.kind, "practice");
   assert.equal(byId.limitacoes?.kind, "limitations");
-  assert.equal(byId.pratica?.bullets?.length, 8);
+  assert.equal(article.content.length, 5);
+  assert.equal(byId.pratica?.bullets?.length, 6);
+  assert.match(
+    byId.metodo?.callout ?? "",
+    /^P-score não é ranking de compra\./,
+  );
   assert.deepEqual(superficie.validateMagazineArticle(article), []);
 
   const text = [
     ...article.content.flatMap((section) => section.paragraphs),
+    ...(byId.metodo?.callout ? [byId.metodo.callout] : []),
     ...(byId.pratica?.bullets ?? []),
-    ...(byId.limitacoes?.bullets ?? []),
   ].join(" ");
 
-  assert.match(text, /47 RCTs, 3\.581 pacientes/);
-  assert.match(text, /2–4 meses/);
-  assert.match(text, /P-score não é head-to-head/);
-  assert.match(text, /n = 345/);
-  assert.match(text, /Holland não é este ensaio/);
-  assert.match(text, /OLYMPIA é outro paper, não entra aqui/);
-  assert.match(text, /mediana foi de 8 meses/);
-  assert.match(text, /IRPL não é o IPL genérico de consultório/);
-  assert.match(text, /Wu e colaboradores \(2020\) comparam OPT com IRPL/);
-  assert.match(text, /Não é Lumenis versus E-Eye/);
-  assert.match(
-    text,
-    /Jiang e colaboradores \(2022\) testam IPL de nova geração em duas sessões/,
-  );
-  assert.match(text, /zero RCT compara E-Eye\/IRPL versus M22\/Lumenis\/Toyos/);
-  assert.match(text, /certeza baixa/);
-  assert.match(text, /certeza como muito baixa|certeza muito baixa/);
-  assert.match(text, /versus cuidado padrão o ganho é incerto/);
-  assert.match(
-    text,
-    /efeito global não é significativo|efeito global não significativo/,
-  );
-  assert.match(text, /não resolve o empate|Não resolva o empate/);
+  assert.match(text, /47 ensaios randomizados, 3\.581 participantes/);
+  assert.match(text, /2 a 4 meses/);
+  assert.match(text, /P-score não é ranking de compra/);
   assert.match(text, /Três meses não são doze/);
-  assert.equal(
-    text.includes("IPL cura DGM") && /Sem “IPL cura DGM”/.test(text),
-    true,
-  );
-  assert.match(text, /Sem Demodex/);
-  assert.match(text, /Sem ANVISA inventada/);
-  assert.match(text, /Sem press release/);
-  assert.equal(article.references.length, 20);
+  assert.match(text, /Antes de comprar um aparelho, faça seis perguntas|estas seis perguntas/);
+  assert.match(text, /Qual foi o horizonte do estudo/);
+  assert.match(text, /mediana até o retratamento ficou em torno de oito meses/);
+  assert.match(text, /aproximadamente 16 pontos no OSDI/);
+  assert.match(text, /cerca de 7 pontos no OSDI/);
+  assert.match(text, /E-Eye\/IRPL com plataformas como M22\/Lumenis ou Toyos/);
+  assert.match(text, /atualização científica foi realizada em 17\/08\/2026/);
+  assert.equal(article.references.length, 8);
   assert.equal(
     article.references.every(
       ({ url, doi }) => url === `https://doi.org/${doi}`,
+    ),
+    true,
+  );
+  assert.equal(
+    article.references.some(
+      ({ doi }) => doi === "10.1002/14651858.CD015448.pub2",
     ),
     true,
   );
@@ -538,8 +540,6 @@ test("matéria de tecnologias publica as quatro seções sem capa nem figura cl�
     false,
   );
 });
-
-
 const assertSealedArticle = (
   slug: string,
   expected: {
