@@ -299,6 +299,43 @@ test("matéria TFOS DEWS III cita os DOIs adicionais da prova resolvidos no Cros
   );
 });
 
+test("matéria IA na superfície ocular publica as quatro seções e o selo de checagem editorial", () => {
+  const article = superficie.publishedArticles.find(
+    ({ slug }) => slug === "ia-na-superficie-ocular",
+  );
+
+  assert.ok(
+    article,
+    "slug ia-na-superficie-ocular deve estar em publishedArticles",
+  );
+  assert.equal(article.status, "published");
+  assert.equal(article.publishedAt, "2026-08-17");
+  assert.equal(
+    article.reviewSeal,
+    "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  );
+  assert.equal(article.reviewer, undefined);
+  assert.equal(article.featuredImage, undefined);
+  assert.equal(article.heroBackground, undefined);
+  assert.equal(article.ogImage, undefined);
+  assert.equal(
+    article.seo.canonical,
+    "/superficie/artigos/ia-na-superficie-ocular",
+  );
+
+  const kinds = new Set(article.content.map(({ kind }) => kind));
+  for (const kind of [
+    "why-it-matters",
+    "evidence",
+    "practice",
+    "limitations",
+  ] as const) {
+    assert.ok(kinds.has(kind), `falta a seção ${kind}`);
+  }
+
+  assert.deepEqual(superficie.validateMagazineArticle(article), []);
+});
+
 test("validação exige canonical consistente com o slug", () => {
   const validateMagazineArticle =
     typeof api.validateMagazineArticle === "function"
