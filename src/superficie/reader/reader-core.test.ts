@@ -11,6 +11,7 @@ import { validateIssueManifest } from "./manifest.ts";
 import { searchIssue } from "./search.ts";
 import { pageFromUrl, shareUrlForPage, urlForPage } from "./url-state.ts";
 import { sanitizeStoredReaderData } from "./stored-data.ts";
+import type { TextLayerDocument } from "./types.ts";
 
 const validManifest = {
   id: "superficie-poc",
@@ -188,7 +189,7 @@ test("generated edicao-00 manifest is a self-contained 34-page issue", async () 
 
 test("edicao-00 article text layers do not stack body paragraphs", async () => {
   for (const page of [5, 6, 7, 8]) {
-    const layer = JSON.parse(
+    const layer: TextLayerDocument = JSON.parse(
       await readFile(
         `public/superficie/issues/edicao-00/text/page-${String(page).padStart(2, "0")}.json`,
         "utf8",
@@ -210,7 +211,7 @@ test("edicao-00 article text layers do not stack body paragraphs", async () => {
 });
 
 test("edicao-00 TFOS verso keeps the nine-drivers caption in the text layer", async () => {
-  const layer = JSON.parse(
+  const layer: TextLayerDocument = JSON.parse(
     await readFile(
       "public/superficie/issues/edicao-00/text/page-08.json",
       "utf8",
