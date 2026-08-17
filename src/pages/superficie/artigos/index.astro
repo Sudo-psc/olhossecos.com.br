@@ -3,14 +3,14 @@ import ArticleCard from "@/components/superficie/ArticleCard.astro";
 import SuperficieLayout from "@/layouts/SuperficieLayout.astro";
 import { getMagazineArticlePath, publishedArticles } from "@/lib/superficie";
 
-const title = "Artigos | SUPERFÍCIE";
+const title = "Artigos | SUPERFÍCIE — Revista de Olho Seco e Superfície Ocular";
 const description =
-  "Reportagens, análises e perspectivas serão publicadas aqui em páginas HTML próprias, com referências e disclosures.";
+  "Reportagens, análises e perspectivas da SUPERFÍCIE sobre olho seco e superfície ocular, em páginas HTML próprias, com referências e disclosures.";
 
 const collectionSchema = {
   "@type": "ItemList",
   "@id": new URL("/superficie/artigos#articles", Astro.site).href,
-  name: "Em destaque",
+  name: "Artigos",
   itemListElement: publishedArticles.map((article, index) => ({
     "@type": "ListItem",
     position: index + 1,
@@ -36,12 +36,8 @@ const collectionSchema = {
       <header class="section-heading">
         <div>
           <p class="eyebrow gold">Curadoria editorial</p>
-          <h1 id="highlight-title">Em destaque</h1>
+          <h1 id="highlight-title">Artigos</h1>
         </div>
-        <p>
-          Reportagens, análises e perspectivas serão publicadas aqui em páginas
-          HTML próprias, com referências e disclosures.
-        </p>
       </header>
     </div>
   </section>

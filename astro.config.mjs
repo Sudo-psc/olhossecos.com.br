@@ -94,6 +94,7 @@ export default defineConfig({
           "/blog",
           "/videos",
           "/exames",
+          "/newsletter/confirmar",
           "/newsletter/descadastrar",
           "/superficie/lab/flipbook",
           "/superficie/lab/edicao-00",
@@ -101,17 +102,29 @@ export default defineConfig({
       },
       serialize(item) {
         const path = new URL(item.url).pathname.replace(/\/$/, "") || "/";
-        item.lastmod = revisedOnAugust15.has(path)
-          ? "2026-08-15"
-          : revisedOnAugust8.has(path)
-            ? "2026-08-08"
-            : revisedOnAugust7.has(path)
-              ? "2026-08-07"
-              : revisedOnAugust5.has(path)
-                ? "2026-08-05"
-                : revisedOnJuly26.has(path)
-                  ? "2026-07-26"
-                  : "2026-07-25";
+        const articleLastmod = {
+          "/superficie/artigos/a-prega-o-atrito-e-o-piscar": "2026-08-15",
+          "/superficie/artigos/alem-do-meiboscore": "2026-08-15",
+          "/superficie/artigos/biologia-molecular-da-dgm": "2026-08-15",
+          "/superficie/artigos/cinco-testes-cinco-perguntas": "2026-08-15",
+          "/superficie/artigos/ia-na-superficie-ocular": "2026-08-17",
+          "/superficie/artigos/quando-sintomas-e-sinais-nao-batem": "2026-08-15",
+          "/superficie/artigos/tfos-dews-iii-na-pratica": "2026-08-15",
+          "/superficie/artigos/tres-meses-nao-sao-doze": "2026-08-17",
+        };
+        item.lastmod = articleLastmod[path]
+          ? articleLastmod[path]
+          : revisedOnAugust15.has(path)
+            ? "2026-08-15"
+            : revisedOnAugust8.has(path)
+              ? "2026-08-08"
+              : revisedOnAugust7.has(path)
+                ? "2026-08-07"
+                : revisedOnAugust5.has(path)
+                  ? "2026-08-05"
+                  : revisedOnJuly26.has(path)
+                    ? "2026-07-26"
+                    : "2026-07-25";
         return item;
       },
     }),
