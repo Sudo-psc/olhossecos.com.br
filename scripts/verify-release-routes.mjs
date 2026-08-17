@@ -2,6 +2,7 @@ import { spawn } from "node:child_process";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { dataBackedPaths, lastmodForPath } from "../src/lib/sitemap-lastmod.ts";
 
 const host = "127.0.0.1";
 const port = process.env.ROUTE_TEST_PORT ?? "44321";
@@ -169,6 +170,60 @@ try {
     if (!sitemap.includes(`<loc>${productionOrigin}${path}</loc>`)) {
       throw new Error(`sitemap: ${path} ausente`);
     }
+  }
+
+  // O lastmod é derivado dos módulos de conteúdo, mas quem serializa é o
+  // plugin de sitemap. Este é o único ponto que compara as duas pontas contra
+  // o XML realmente publicado — sem ele, um erro na serialização repetiria a
+  // falha que anunciou quatro artigos de agosto como sendo de julho.
+  const emitted = new Map(
+    [...sitemap.matchAll(/<loc>([^<]+)<\/loc><lastmod>([^<]{10})/gu)].map(
+      (match) => [
+        new URL(match[1]).pathname.replace(/\/$/u, "") || "/",
+        match[2],
+      ],
+    ),
+  );
+
+  const wrong = [];
+  for (const path of dataBackedPaths()) {
+    const expected = lastmodForPath(path);
+    const actual = emitted.get(path);
+    if (actual !== expected) {
+      wrong.push(`${path}: esperado ${expected}, publicado ${actual ?? "—"}`);
+    }
+  }
+  if (wrong.length > 0) {
+    throw new Error(`sitemap lastmod divergente:\n${wrong.join("\n")}`);
+  }
+
+  // Título e description vêm de origens diferentes — módulo de conteúdo em
+  // umas páginas, literal na própria página em outras. O teste unitário só
+  // alcança as primeiras; aqui mede o que é realmente servido, em toda página
+  // que o sitemap declara indexável.
+  const oversized = [];
+  for (const [path] of emitted) {
+    const html = await (await assertStatus(path)).text();
+    const title = html.match(/<title>([^<]*)<\/title>/u)?.[1] ?? "";
+    const description =
+      html.match(/<meta name="description" content="([^"]*)"/u)?.[1] ?? "";
+    const decode = (value) =>
+      value
+        .replace(/&quot;/gu, '"')
+        .replace(/&#39;/gu, "'")
+        .replace(/&amp;/gu, "&");
+    if (decode(title).length > 60) {
+      oversized.push(`${path}: título com ${decode(title).length}`);
+    }
+    if (decode(description).length > 158) {
+      oversized.push(`${path}: description com ${decode(description).length}`);
+    }
+    if (decode(description).length === 0) {
+      oversized.push(`${path}: sem description`);
+    }
+  }
+  if (oversized.length > 0) {
+    throw new Error(`campos truncados na SERP:\n${oversized.join("\n")}`);
   }
 
   console.log("release routes: pass");

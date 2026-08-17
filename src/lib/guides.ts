@@ -1,4 +1,4 @@
-import { figures, type FigureAsset } from "@/lib/figures";
+import { figures, type FigureAsset } from "./figures.ts";
 
 export interface GuideSection {
   heading: string;
@@ -13,6 +13,12 @@ export interface Guide {
   slug: string;
   category: string;
   title: string;
+  /**
+   * Título só para <title> e SERP, quando a manchete editorial passa dos ~60
+   * caracteres que o Google exibe. O H1 continua sendo `title`: encurtar a
+   * manchete para caber no buscador seria deixar o buscador escrever a pauta.
+   */
+  seoTitle?: string;
   description: string;
   readingTime: string;
   updated: string;
@@ -33,6 +39,8 @@ export const guides: Guide[] = [
       "Uma visão geral para quem recebeu o diagnóstico ou ainda está tentando entender os sintomas.",
     readingTime: "8 min",
     updated: "25 de julho de 2026",
+    datePublished: "2026-07-25",
+    dateModified: "2026-07-25",
     tags: ["começar", "sintomas", "diagnóstico", "tratamentos"],
     sections: [
       {
@@ -138,6 +146,8 @@ export const guides: Guide[] = [
       "Como atenção prolongada, posição da tela e ambiente podem mexer com o filme lacrimal.",
     readingTime: "6 min",
     updated: "25 de julho de 2026",
+    datePublished: "2026-07-25",
+    dateModified: "2026-07-25",
     tags: ["telas", "trabalho", "piscadas", "ambiente"],
     sections: [
       {
@@ -235,6 +245,8 @@ export const guides: Guide[] = [
       "Um roteiro curto para lembrar padrões, tratamentos já tentados e perguntas que realmente ajudam.",
     readingTime: "5 min",
     updated: "25 de julho de 2026",
+    datePublished: "2026-07-25",
+    dateModified: "2026-07-25",
     tags: ["sintomas", "registro", "decisão compartilhada"],
     sections: [
       {
@@ -317,6 +329,8 @@ export const guides: Guide[] = [
       "Entenda diferenças gerais de viscosidade, conservantes e uso sem comparar marcas.",
     readingTime: "7 min",
     updated: "25 de julho de 2026",
+    datePublished: "2026-07-25",
+    dateModified: "2026-07-25",
     tags: ["lubrificantes", "gotas", "conservantes", "segurança"],
     sections: [
       {
@@ -411,6 +425,7 @@ export const guides: Guide[] = [
     slug: "tratamento-com-colirios-diferencas-e-tipos",
     category: "Tratamentos",
     title: "Tratamento com colírios: tipos, diferenças e uso seguro",
+    seoTitle: "Colírios para olho seco: tipos e uso seguro",
     description:
       "Um guia para entender o que muda entre lágrimas artificiais, géis, pomadas, conservantes e colírios de prescrição.",
     readingTime: "9 min",
@@ -548,6 +563,7 @@ export const guides: Guide[] = [
     category: "Pós-operatório",
     title:
       "Olho seco após cirurgia ocular: o que é esperado, como cuidar e quando procurar ajuda",
+    seoTitle: "Olho seco após cirurgia ocular: o que esperar",
     description:
       "Como entender desconforto, visão oscilante e uso de colírios depois de catarata ou cirurgia refrativa.",
     readingTime: "9 min",
@@ -687,6 +703,7 @@ export const guides: Guide[] = [
     category: "Sintomas e investigação",
     title:
       "Quando o colírio não basta: olho seco persistente, depressão e apneia do sono",
+    seoTitle: "Olho seco persistente, depressão e apneia",
     description:
       "Como revisar causas, reconhecer associações com humor e sono e organizar os próximos passos sem parar tratamentos por conta própria.",
     readingTime: "11 min",
@@ -879,6 +896,8 @@ export const guides: Guide[] = [
       "O que essa prática pretende fazer, quais cuidados tomar e por que intensidade não é sinônimo de eficácia.",
     readingTime: "6 min",
     updated: "25 de julho de 2026",
+    datePublished: "2026-07-25",
+    dateModified: "2026-07-25",
     tags: ["pálpebras", "higiene", "blefarite", "glândulas"],
     sections: [
       {
@@ -962,6 +981,8 @@ export const guides: Guide[] = [
       "Estratégias para lidar com uma condição flutuante sem reduzir a experiência a uma pontuação.",
     readingTime: "7 min",
     updated: "25 de julho de 2026",
+    datePublished: "2026-07-25",
+    dateModified: "2026-07-25",
     tags: ["qualidade de vida", "dor", "rotina", "trabalho"],
     sections: [
       {
@@ -1015,6 +1036,7 @@ export const guides: Guide[] = [
     slug: "conjuntivocalase-olho-seco-mecanico",
     category: "Mecanismos",
     title: "Conjuntivocálase e atrito: o componente mecânico do olho seco",
+    seoTitle: "Conjuntivocálase: o olho seco mecânico",
     description:
       "Entenda como dobras da conjuntiva podem alterar o caminho das lágrimas, aumentar o atrito e produzir sintomas parecidos com olho seco.",
     readingTime: "7 min",
@@ -1109,6 +1131,7 @@ export const guides: Guide[] = [
     slug: "olho-seco-lentes-de-contato",
     category: "Vida diária",
     title: "Olho seco e lentes de contato: conforto, adaptação e segurança",
+    seoTitle: "Olho seco e lentes de contato: o que muda",
     description:
       "Entenda como as lentes interagem com as lágrimas, quais padrões observar e quando interromper o uso para proteger os olhos.",
     readingTime: "7 min",
