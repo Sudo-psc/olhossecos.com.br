@@ -562,6 +562,78 @@ test("matéria A prega, o atrito e o piscar não inventa bullets de prática", (
   assertDidacticArticleWithoutInventedBullets("a-prega-o-atrito-e-o-piscar");
 });
 
+const sealedProse = (slug: string) => {
+  const article = superficie.publishedArticles.find(
+    ({ slug: value }) => value === slug,
+  );
+  assert.ok(article, `slug ${slug} deve estar em publishedArticles`);
+  return article.content
+    .flatMap((section) => [...section.paragraphs, ...(section.bullets ?? [])])
+    .join(" ");
+};
+
+test("matéria Além do meiboscore conserva as travas do rascunho selado", () => {
+  const text = sealedProse("alem-do-meiboscore");
+  for (const lock of [
+    /O meiboscore virou atalho de consultório/,
+    /soma bruta dos 6 itens, escala 0–24/,
+    /não o índice 0–100 do OSDI-12/,
+    /C-stat em torno de 0,63/,
+    /n = 15/,
+    /corpo do workshop não foi recuperado/,
+    /R = 0,428/,
+  ]) {
+    assert.match(text, lock);
+  }
+});
+
+test("matéria Cinco testes, cinco perguntas conserva as travas do rascunho selado", () => {
+  const text = sealedProse("cinco-testes-cinco-perguntas");
+  for (const lock of [
+    /O consultório ainda trata tempo de ruptura/,
+    /soma bruta dos 6 itens \(escala 0–24\)/,
+    /Interferometria e MMP-9 não entram no critério diagnóstico/,
+    /308 não é 316/,
+    /85% versus 86%/,
+    /≤ 8 s numa plataforma, ≤ 14 s na outra/,
+    /n = 33/,
+  ]) {
+    assert.match(text, lock);
+  }
+});
+
+test("matéria A prega, o atrito e o piscar conserva as travas do rascunho selado", () => {
+  const article = superficie.publishedArticles.find(
+    ({ slug }) => slug === "a-prega-o-atrito-e-o-piscar",
+  );
+  assert.ok(article);
+  const text = sealedProse("a-prega-o-atrito-e-o-piscar");
+  for (const lock of [
+    /O consultório ainda escala o paciente/,
+    /6,8% na primeira década para 90,2%/,
+    /76% dos sintomáticos/,
+    /versus 12% dos assintomáticos/,
+    /88,2% sem DED e 78,0% com DED/,
+    /n = 20/,
+    /indica CPAP como terapia de olho seco/,
+    /Snap-back é manobra/,
+  ]) {
+    assert.match(text, lock);
+  }
+  assert.equal(
+    article.references.some(
+      (reference) => reference.doi === "10.1097/ICO.0b013e3181ba0cb2",
+    ),
+    false,
+  );
+  for (const label of [/Höh/, /Hirotani/, /Korb DR, Herman JP, Blackie CA/]) {
+    assert.equal(
+      article.references.some((reference) => label.test(reference.label)),
+      false,
+    );
+  }
+});
+
 test("matéria IA na superfície ocular publica as quatro seções e o selo de checagem editorial", () => {
   const article = superficie.publishedArticles.find(
     ({ slug }) => slug === "ia-na-superficie-ocular",
