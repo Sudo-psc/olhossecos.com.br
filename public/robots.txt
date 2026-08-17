@@ -1,6 +1,15 @@
 User-agent: *
 Allow: /
 Disallow: /superficie/lab/
-Disallow: /superficie/issues/poc/
+
+# Insumos do SUPERFÍCIE Reader: placas em webp, camadas de texto em JSON,
+# manifesto e fragmentos de artigo. Os fragmentos são HTML sem <head> e sem
+# canonical que repetem, palavra por palavra, o texto de /superficie/artigos/ —
+# indexá-los criaria conteúdo duplicado competindo com a página real, e ainda
+# carregando o carimbo interno de checagem editorial.
+Disallow: /superficie/issues/
+
+# A edição em PDF é entrega ao leitor, não plumbing: continua indexável.
+Allow: /superficie/issues/edicao-00/superficie-edicao-00.pdf
 
 Sitemap: https://olhossecos.com.br/sitemap-index.xml
