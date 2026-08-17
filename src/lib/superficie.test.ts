@@ -341,7 +341,10 @@ test("matéria IRPL versus IPL publica as quatro seções e o selo de checagem e
     ({ slug }) => slug === "irpl-versus-ipl-na-dgm",
   );
 
-  assert.ok(article, "slug irpl-versus-ipl-na-dgm deve estar em publishedArticles");
+  assert.ok(
+    article,
+    "slug irpl-versus-ipl-na-dgm deve estar em publishedArticles",
+  );
   assert.equal(
     superficie.publishedArticles.at(-1)?.slug,
     "irpl-versus-ipl-na-dgm",

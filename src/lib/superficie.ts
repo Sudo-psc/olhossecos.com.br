@@ -1088,7 +1088,8 @@ const iaNaSuperficieOcular: MagazineArticle = {
 
 const irplVersusIplNaDgm: MagazineArticle = {
   slug: "irpl-versus-ipl-na-dgm",
-  title: "IRPL versus IPL na DGM — classe distinta ou implementação proprietária?",
+  title:
+    "IRPL versus IPL na DGM — classe distinta ou implementação proprietária?",
   subtitle: "O sinal periocular existe. O confronto de aparelho, não.",
   excerpt:
     "IRPL é o trem de pulso da E-Swin, não uma classe biológica. Há um RCT sham a favor do E-Eye sem expressão glandular. IPL convencional foi medido com expressão. Até um ensaio com o mesmo protocolo, ausência de confronto não é equivalência — e também não autoriza dizer que são a mesma coisa.",
