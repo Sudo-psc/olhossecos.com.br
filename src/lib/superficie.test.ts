@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
@@ -11,6 +11,8 @@ const repoRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   "../..",
 );
+const read = (relativePath: string) =>
+  readFileSync(path.join(repoRoot, relativePath), "utf8");
 
 const article = (overrides: Partial<MagazineArticle> = {}): MagazineArticle =>
   ({
@@ -214,6 +216,22 @@ test("descrição estável da revista não muda por página", () => {
     superficie.publishedIssues.map(({ slug }) => slug),
     ["edicao-00"],
   );
+});
+
+test("template de artigo da revista não injeta capa nem fundo no layout", () => {
+  const template = read("src/components/superficie/MagazineArticlePage.astro");
+  const route = read("src/pages/superficie/artigos/[slug].astro");
+
+  assert.match(route, /MagazineArticlePage/);
+  assert.match(template, /<h1>\{article\.title\}<\/h1>/);
+  assert.match(template, /article\.excerpt/);
+  assert.match(template, /class="article-facts"/);
+  assert.doesNotMatch(template, /article\.featuredImage/);
+  assert.doesNotMatch(template, /article\.heroBackground/);
+  assert.doesNotMatch(template, /class="featured-image"/);
+  assert.doesNotMatch(template, /class="hero-image"/);
+  assert.doesNotMatch(route, /class="featured-image"/);
+  assert.doesNotMatch(route, /class="hero-image"/);
 });
 
 test("publishedArticles mantém os 12 slugs da edição", () => {
