@@ -411,17 +411,50 @@ test("matéria de fenotipagem integrada publica as quatro seções sem capa nem 
     "slug quando-sintomas-e-sinais-nao-batem deve estar em publishedArticles",
   );
   assert.equal(article.status, "published");
+  assert.equal(article.category, "Diagnóstico");
+  assert.equal(
+    article.reviewSeal,
+    "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  );
+  assert.equal(article.reviewer, undefined);
   assert.equal(article.featuredImage, undefined);
   assert.equal(article.heroBackground, undefined);
   assert.equal(article.ogImage, undefined);
+  assert.equal(
+    article.seo.canonical,
+    "/superficie/artigos/quando-sintomas-e-sinais-nao-batem",
+  );
+  assert.deepEqual(superficie.founderIssue.articles, []);
+
+  const byId = Object.fromEntries(
+    article.content.map((section) => [section.id, section]),
+  );
+  assert.equal(byId["por-que-importa"]?.kind, "why-it-matters");
+  assert.equal(byId.evidencia?.kind, "evidence");
+  assert.equal(byId.pratica?.kind, "practice");
+  assert.equal(byId.limitacoes?.kind, "limitations");
+  assert.equal(byId.pratica?.bullets?.length, 8);
+  assert.deepEqual(superficie.validateMagazineArticle(article), []);
+
+  const text = [
+    ...article.content.flatMap((section) => section.paragraphs),
+    ...(byId.pratica?.bullets ?? []),
+  ].join(" ");
+  assert.match(text, /soma bruta dos 6 itens \(escala 0–24\)/);
+  assert.match(text, /não no índice 0–100 do OSDI-12/);
+  assert.match(
+    text,
+    /Mais sintomas que sinais associou-se a pior saúde percebida/,
+  );
+  assert.match(
+    text,
+    /Não há ensaio randomizado que teste fenotipagem integrada contra escalada por gravidade/,
+  );
   assert.equal(article.references.length, 14);
-
-  const practice = article.content.find(({ id }) => id === "pratica");
-  assert.equal(practice?.bullets?.length, 8);
-
-  const text = article.content
-    .flatMap(({ paragraphs }) => paragraphs)
-    .join("\n");
+  assert.equal(
+    article.references.some(({ doi }) => doi === "10.1016/j.ajo.2026.04.007"),
+    false,
+  );
   assert.match(
     text,
     /Mejía-Salgado e colaboradores, 2026\) não foi confirmado no PubMed/,
@@ -430,8 +463,6 @@ test("matéria de fenotipagem integrada publica as quatro seções sem capa nem 
     article.references.some(({ label }) => /Mej[ií]a-Salgado/u.test(label)),
     false,
   );
-
-  assert.deepEqual(superficie.validateMagazineArticle(article), []);
 });
 
 test("matéria Três meses não são doze publica o ranking, Chen 2025 e quinze referências", () => {
