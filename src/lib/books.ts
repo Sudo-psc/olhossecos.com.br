@@ -152,7 +152,7 @@ export const books: Book[] = [
     language: "Português",
     isbn: "978-65-02-22313-0",
     numberOfPages: 191,
-    edition: "Edição digital v2.14",
+    edition: "Edição digital v2.21",
     year: 2026,
     purchaseLinks: [
       {

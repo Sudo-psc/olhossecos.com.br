@@ -1,11 +1,33 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="og-iris" cx="34%" cy="28%" r="72%">
+      <stop offset="0%" stop-color="#9ae3ec"/>
+      <stop offset="18%" stop-color="#3dc4d4"/>
+      <stop offset="48%" stop-color="#0b93a8"/>
+      <stop offset="78%" stop-color="#087f95"/>
+      <stop offset="100%" stop-color="#034650"/>
+    </radialGradient>
+    <radialGradient id="og-pupil" cx="38%" cy="32%" r="70%">
+      <stop offset="0%" stop-color="#1a3d66"/>
+      <stop offset="100%" stop-color="#071d45"/>
+    </radialGradient>
+    <linearGradient id="og-tear" x1="30%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="38%" stop-color="#dff6f9"/>
+      <stop offset="100%" stop-color="#4db4c6"/>
+    </linearGradient>
+  </defs>
   <rect width="1200" height="630" fill="#fff"/>
   <path d="M0 560c210 45 330-70 520-25s315 80 680-35" fill="none" stroke="#31b2c8" stroke-width="4"/>
   <g transform="translate(80 76)">
-    <path d="M0 70C28 24 68 0 118 0s92 24 122 70c-30 46-72 70-122 70S28 116 0 70Z" fill="none" stroke="#071d45" stroke-width="8"/>
-    <circle cx="118" cy="70" r="38" fill="#31b2c8"/>
-    <circle cx="118" cy="70" r="17" fill="#071d45"/>
-    <path d="M210 130c0 18-14 34-31 34s-31-16-31-34c0-15 20-38 31-50 11 12 31 35 31 50Z" fill="#fff" stroke="#087f95" stroke-width="7"/>
+    <path d="M0 70C28 24 68 0 118 0s92 24 122 70c-30 46-72 70-122 70S28 116 0 70Z" fill="#071d45" fill-opacity=".06" stroke="#071d45" stroke-width="8" stroke-linejoin="round"/>
+    <circle cx="118" cy="70" r="42" fill="url(#og-iris)"/>
+    <circle cx="118" cy="70" r="42" fill="none" stroke="#034650" stroke-width="2.2" opacity=".35"/>
+    <circle cx="118" cy="70" r="17.2" fill="url(#og-pupil)"/>
+    <ellipse cx="102" cy="54" rx="12.5" ry="8.4" fill="#fff" opacity=".92"/>
+    <circle cx="133" cy="84" r="4" fill="#fff" opacity=".28"/>
+    <path d="M210 130c0 18-14 34-31 34s-31-16-31-34c0-15 20-38 31-50 11 12 31 35 31 50Z" fill="url(#og-tear)" stroke="#087f95" stroke-width="5.5"/>
+    <ellipse cx="184" cy="122" rx="6.4" ry="9" fill="#fff" opacity=".88"/>
   </g>
   <text x="80" y="340" fill="#071d45" font-family="Georgia, serif" font-size="100" font-weight="600">Olho Seco</text>
   <text x="84" y="405" fill="#087f95" font-family="Arial, sans-serif" font-size="35">Portal do paciente</text>
