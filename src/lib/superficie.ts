@@ -2201,6 +2201,211 @@ const iaNaSuperficieOcular: MagazineArticle = {
   },
 };
 
+const irplVersusIplNaDgm: MagazineArticle = {
+  slug: "irpl-versus-ipl-na-dgm",
+  title:
+    "IRPL versus IPL na DGM — classe distinta ou implementação proprietária?",
+  subtitle: "O sinal periocular existe. O confronto de aparelho, não.",
+  excerpt:
+    "IRPL é o trem de pulso da E-Swin, não uma classe biológica. Há um RCT sham a favor do E-Eye sem expressão glandular. IPL convencional foi medido com expressão. Até um ensaio com o mesmo protocolo, ausência de confronto não é equivalência — e também não autoriza dizer que são a mesma coisa.",
+  category: "Tecnologia",
+  author: {
+    name: "Dr. Philipe Saraiva Cruz",
+    slug: "philipe-saraiva-cruz",
+    specialty: "Oftalmologia — CRM-MG 69.870 · RQE 71.903",
+    affiliation: "Saraiva Vision, Caratinga/MG",
+  },
+  reviewSeal: "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  status: "published",
+  issue: "edicao-00",
+  publishedAt: "2026-08-17",
+  content: [
+    {
+      id: "por-que-importa",
+      title: "Por que importa",
+      kind: "why-it-matters",
+      paragraphs: [
+        "A sigla IRPL chegou ao consultório como se fosse uma classe. Não é. IRPL nomeia o trem de pulso do E-Eye (E-Swin): flashes homogêneos, 9–13 J/cm² invertidos ao Fitzpatrick, 4 ou 5 disparos sob a pálpebra inferior, calendário D0/15/45 ± D75. IPL de consultório, na literatura que pesa, é outra implementação: filtro 560/590 nm, área malar mais larga, fluência na casa de 11–16 J/cm², quase sempre com expressão das glândulas. A sobreposição espectral é grande. Ninguém mediu espectro + fluência + temperatura da glândula + desfecho no mesmo paciente.",
+        "A pergunta útil não é “qual aparelho ganhou”. É: o que cada protocolo realmente mediu, com ou sem expressão, contra o quê — e o que ainda não existe.",
+        "Até a busca desta revisão (corte 15–17/08/2026), não há ensaio randomizado E-Eye versus M22, OptiLight ou LacryStim no mesmo calendário, com a mesma política de expressão. Essa ausência não prova equivalência. Também não prova superioridade.",
+      ],
+      bullets: [
+        "IRPL é implementação proprietária, não classe biológica.",
+        "Luz pulsada periocular tem sinal. Glândula atrófica não volta.",
+        "Sem confronto direto de aparelho, a diferença de sigla é protocolo e marca.",
+      ],
+    },
+    {
+      id: "metodo",
+      title: "Método e recorte",
+      kind: "body",
+      paragraphs: [
+        "Revisão narrativa crítica, um revisor, sem RoB formal e sem meta-análise. Corte 15–17/08/2026. Núcleo: Xue 2020, Craig 2015, Karaca (print 2020), Vigo 2019, Guilloto 2017, Yan 2021, Toyos 2022, Peira 2025, mais Wladis/AAO 2020, Cote/Cochrane 2020 e Demolin 2023. DOIs conferidos no Crossref e PMIDs no PubMed em 17/08/2026. Não entra claim sem identificador persistente. Mejía 2019 e Vergés 2021 ficaram de fora desta versão: PDF não foi extraído linha a linha. Consulta Anvisa foi feita; este texto não afirma registro nem indicação de bula para DGM.",
+      ],
+    },
+    {
+      id: "evidencia",
+      title: "Evidência",
+      kind: "evidence",
+      paragraphs: [
+        "As perguntas não são a mesma. Xue mediu E-Eye sem expressão. Yan e Toyos mediram IPL com expressão. Misturar os dois num ranking de aparelho é trocar de pergunta no meio da frase.",
+      ],
+      bullets: [
+        "Xue 2020 — RCT 3 braços, duplo-cego, sham, n=87, E-Eye 9–13 J/cm², 4 vs 5 flashes, D0/15/45/75, MGX não, vs sham. Ativos ↓ OSDI/SPEED/SANDE, ↑ camada lipídica, ↓ capping; 5 flashes antecipam (D45). Grant E-Swin, investigator-initiated. Melhor paper do aparelho. Viés: título chama de IPL.",
+        "Craig 2015 — RCT contralateral n=28, E>Eye, 4 pulsos, 9–13 J/cm², D1/15/45. NIBUT 14,1 vs 8,6 s aos 45 d; LLT sobe ≥1 grau em 82%. Evaporação e menisco sem diferença. Sintoma 86% melhor no lado tratado — desenho pareado contamina o relato. Sem expressão no protocolo clássico deste paper.",
+        "Karaca 2020 — série n=26, sem controle, E-Eye, 5 flashes, D1/15/45. TBUT 4,53→11,07 s; Schirmer 8,53→12,6 mm; SPEED cai. Sem mudança em Oxford, margem, qualidade ou expressibilidade. Não usar OSDI numérico. Mecanismo “neural” sem medida = especulação. Sexo no texto não fecha com n=26: não citar.",
+        "Vigo 2019 — todos receberam fosfato de cortisol tópico por 10 dias. n=28/40, E>Eye 9,8–13 J/cm², D1/15/45. NIBUT 7,5→10,2; LLT 2→3; osmolaridade 304→301; OSDI sem significância. Perda meibomiana inalterada. Isto é IRPL + esteroide.",
+        "Guilloto 2017 — n=36, muitos pós-operatórios, sem controle. Título chama de laser. Sem ganho no aquodeficiente. 2 eventos cutâneo-fotofóbicos.",
+        "Yan 2021 — RCT 4 centros, n=120, IPL (M22, 12–15 J/cm²)+MGX vs compressa 20 min+MGX. ΔTBUT +2,3 vs +0,5 s; SPEED −38% vs −22%; MGYSS +197% vs +96%. Outra pergunta: IPL com expressão.",
+        "Toyos 2022 — RCT 3 centros EUA, M22 560/590 nm+MGX vs sham de alumínio+MGX. TBUT 4,0→6,0 vs 3,8→4,5 s. OSDI não diferiu. Lumenis desenhou e analisou; todos os autores com COI Lumenis.",
+        "Peira 2025 — 13 RCTs, GRADE. OSDI −16 vs placebo (IC −20 a −12), relevante. −7 como adjuvante (IC −12 a −3), relevância incerta. Certeza de evento adverso muito baixa. Subgrupo por aparelho planejado e não entregue como citável. Mistura E-Eye e M22 no saco “IPL”.",
+      ],
+    },
+    {
+      id: "leitura-dos-papers",
+      title: "Karaca, Vigo, sinal e o que não existe",
+      kind: "evidence",
+      paragraphs: [
+        "Karaca e colaboradoras trataram 26 pacientes com E-Eye, cinco flashes, sem grupo controle, nos dias 1, 15 e 45. O TBUT subiu de 4,53 para 11,07 segundos. O Schirmer subiu de 8,53 para 12,6 mm. O SPEED melhorou. Oxford, escore de margem, qualidade da secreção e expressibilidade não mudaram. O resumo afirma melhora de OSDI; a tabela do artigo não é usável — esta matéria não cita o número. O texto menciona um mecanismo neural sem medir nervo, reflexo ou temperatura da glândula. Isso fica como especulação. Série sem controle mede trajetória, não superioridade.",
+        "Em Vigo e colaboradores, todos os pacientes receberam fosfato de cortisol tópico por dez dias. O protocolo de E>Eye foi 9,8–13 J/cm² nos dias 1, 15 e 45; 28 de 40 entraram na análise. NIBUT foi de 7,5 para 10,2 segundos. A camada lipídica subiu de 2 para 3. A osmolaridade foi de 304 para 301. O OSDI não fechou diferença. A perda meibomiana não mudou. O paper mede IRPL mais esteroide, não IRPL isolado.",
+        "Toyos melhorou TBUT e não separou OSDI do sham com expressão. Demolin, em 11 RCTs e 759 pacientes, favorece BUT/NIBUT e SPEED; OSDI contra controle não fecha. Peira acha −16 pontos de OSDI contra placebo — clinicamente relevante — e −7 como adjuvante, com relevância incerta. Sinal de filme e sintoma do paciente não viajam juntos. Quem vende “melhora o olho seco” precisa dizer qual desfecho.",
+        "O que os papers declaram de física: E-Eye, 580–1200 nm, pulsos homogêneos, 9–13 J/cm² invertidos ao Fitzpatrick, 4–5 flashes sob a pálpebra inferior, D0/15/45 ± D75, muitas vezes sem MGX. M22 com filtro 560/590 nm, 11–16 J/cm², área malar, quase sempre com MGX. Sobreposição espectral grande. Ninguém mediu espectro + fluência + temperatura da glândula + desfecho no mesmo paciente.",
+        "O que não existe: RCT E-Eye versus M22, OptiLight ou LacryStim; meta estratificada por trem de pulso; evidência medida de mecanismo neural do IRPL.",
+      ],
+    },
+    {
+      id: "pratica",
+      title: "O que muda no consultório",
+      kind: "practice",
+      paragraphs: [
+        "Luz pulsada periocular cabe quando o fenótipo é evaporativo com DGM obstrutiva que ainda expressa. Não é a primeira ferramenta do aquodeficiente primário. Não reconstrói glândula atrófica — meibografia de perda avançada não vira argumento de compra. O DEWS III pede mecanismo antes de plataforma: filme lipídico e margem primeiro; deficiência aquosa, exposição e dor neuropática são outros alvos. Quatro sessões no calendário E-Eye sem expressão respondem a uma pergunta. Três sessões de IPL com expressão respondem a outra. Transferir o ganho de um paper para outro aparelho, sem o mesmo protocolo, é inferência — não evidência.",
+        "Os ensaios do núcleo não mostram sinal consistente de evento grave. Guilloto relatou dois eventos cutâneo-fotofóbicos. Wladis/AAO descreve eventos pouco comuns e lembra COI de fabricante em vários estudos. Peira classifica a certeza de segurança como muito baixa. Ensaio pequeno e curto pega o evento frequente; o raro escapa. A frase honesta: sem sinal grave consistente, e sem segurança comparativa de longo prazo.",
+        "O E-Eye tem um RCT sham do grupo Craig. Isso é nomenclatura de aparelho, não vitória de classe.",
+        "Nota de linguagem no consultório: não escrever “IRPL é mais médico” — IRPL nomeia o trem de pulso do E-Eye. Não escrever que um estudo de três plataformas prova equivalência — observacional com LLLT num braço não é confronto de classe. Não escrever “aprovado pela Anvisa para DGM” — registro e indicação de bula não são afirmados neste texto.",
+      ],
+    },
+    {
+      id: "limitacoes",
+      title: "O que a evidência permite dizer hoje",
+      kind: "limitations",
+      paragraphs: [
+        "Até um ensaio com o mesmo protocolo, a mesma política de expressão e o mesmo calendário, IRPL é implementação proprietária da E-Swin com um RCT sham a favor — não uma classe biológica e não prova de superioridade. Ausência de confronto direto não é equivalência. Também não autoriza dizer que são a mesma coisa.",
+      ],
+      bullets: [
+        "Um revisor; sem RoB formal; sem PRISMA; sem meta própria.",
+        "Paywall 2025–26 não extraído linha a linha.",
+        "SciELO/LILACS bloqueados nesta busca.",
+        "Um único RCT carrega o núcleo do IRPL (Xue 2020).",
+        "Peira mistura aparelhos no saco IPL e não entrega o subgrupo por dispositivo.",
+        "Esta versão não inclui Mejía 2019 nem Vergés 2021.",
+        "Selo: checagem editorial, não revisão por pares.",
+      ],
+    },
+  ],
+  references: [
+    {
+      label:
+        "Xue AL, Wang MTM, Ormonde SE, Craig JP. Randomised double-masked placebo-controlled trial of the cumulative treatment efficacy profile of intense pulsed light therapy for meibomian gland dysfunction. Ocul Surf. 2020;18(2):286-297. PMID:32007523.",
+      url: "https://doi.org/10.1016/j.jtos.2020.01.003",
+      doi: "10.1016/j.jtos.2020.01.003",
+    },
+    {
+      // Crossref devolve só 1965; PubMed PMID 25678687 lista 1965-70.
+      label:
+        "Craig JP, Chen YH, Turnbull PR. Prospective Trial of Intense Pulsed Light for the Treatment of Meibomian Gland Dysfunction. Invest Ophthalmol Vis Sci. 2015;56(3):1965-1970. PMID:25678687.",
+      url: "https://doi.org/10.1167/iovs.14-15764",
+      doi: "10.1167/iovs.14-15764",
+    },
+    {
+      label:
+        "Karaca EE, Evren Kemer Ö, Özek D. Intense regulated pulse light for the meibomian gland dysfunction. Eur J Ophthalmol. 2020;30(2):289-292. PMID:30514116.",
+      url: "https://doi.org/10.1177/1120672118817687",
+      doi: "10.1177/1120672118817687",
+    },
+    {
+      label:
+        "Vigo L, Taroni L, Bernabei F, et al. Ocular Surface Workup in Patients with Meibomian Gland Dysfunction Treated with Intense Regulated Pulsed Light. Diagnostics (Basel). 2019;9(4):147. PMID:31614910.",
+      url: "https://doi.org/10.3390/diagnostics9040147",
+      doi: "10.3390/diagnostics9040147",
+    },
+    {
+      label:
+        "Guilloto Caballero S, García Madrona JL, Colmenero Reina E. Efecto del láser de luz pulsada en pacientes con síndrome de ojo seco. Arch Soc Esp Oftalmol. 2017;92(11):509-515. PMID:28256362.",
+      url: "https://doi.org/10.1016/j.oftal.2016.12.018",
+      doi: "10.1016/j.oftal.2016.12.018",
+    },
+    {
+      label:
+        "Yan X, Hong J, Jin X, et al. The Efficacy of Intense Pulsed Light Combined With Meibomian Gland Expression for the Treatment of Dry Eye Disease Due to Meibomian Gland Dysfunction: A Multicenter, Randomized Controlled Trial. Eye Contact Lens. 2021;47(1):45-53. PMID:32452923.",
+      url: "https://doi.org/10.1097/icl.0000000000000711",
+      doi: "10.1097/icl.0000000000000711",
+    },
+    {
+      label:
+        "Toyos R, Desai NR, Toyos M, Dell SJ. Intense pulsed light improves signs and symptoms of dry eye disease due to meibomian gland dysfunction: A randomized controlled study. PLoS One. 2022;17(6):e0270268. PMID:35737696.",
+      url: "https://doi.org/10.1371/journal.pone.0270268",
+      doi: "10.1371/journal.pone.0270268",
+    },
+    {
+      label:
+        "Peira N, Ali EM, Modén NK, et al. Effectiveness and safety of intense pulsed light therapy for dry eye symptoms due to meibomian gland dysfunction—A systematic review and meta-analysis. Acta Ophthalmol. 2025;103(4):371-379. PMID:39611367.",
+      url: "https://doi.org/10.1111/aos.16802",
+      doi: "10.1111/aos.16802",
+    },
+    {
+      label:
+        "Wladis EJ, Aakalu VK, Foster JA, et al. Intense Pulsed Light for Meibomian Gland Disease. Ophthalmology. 2020;127(9):1227-1233. PMID:32327256.",
+      url: "https://doi.org/10.1016/j.ophtha.2020.03.009",
+      doi: "10.1016/j.ophtha.2020.03.009",
+    },
+    {
+      label:
+        "Cote S, Zhang AC, Ahmadzai V, et al. Intense pulsed light (IPL) therapy for the treatment of meibomian gland dysfunction. Cochrane Database Syst Rev. 2020. PMID:32182637.",
+      url: "https://doi.org/10.1002/14651858.CD013559",
+      doi: "10.1002/14651858.CD013559",
+    },
+    {
+      label:
+        "Demolin L, Es-Safi M, Soyfoo MS, Motulsky E. Intense Pulsed Light Therapy in the Treatment of Dry Eye Diseases: A Systematic Review and Meta-Analysis. J Clin Med. 2023;12(8):3039. PMID:37109374.",
+      url: "https://doi.org/10.3390/jcm12083039",
+      doi: "10.3390/jcm12083039",
+    },
+    {
+      label:
+        "Jones L, Craig JP, Markoulli M, et al. TFOS DEWS III: Management and Therapy. Am J Ophthalmol. 2025;279:289-386.",
+      url: "https://doi.org/10.1016/j.ajo.2025.05.039",
+      doi: "10.1016/j.ajo.2025.05.039",
+    },
+  ],
+  disclosures: [
+    { label: "Financiamento", text: "Sem financiamento externo." },
+    {
+      label: "Conflitos de interesse",
+      text: "O autor declara não possuir vínculo com fabricantes de dispositivos, fármacos ou tecnologias citados neste artigo.",
+    },
+    {
+      label: "Uso de inteligência artificial",
+      text: "Houve assistência de IA na reorganização editorial, na revisão linguística e na conferência bibliográfica das referências contra Crossref e PubMed. A IA não foi tratada como fonte; as afirmações e referências foram verificadas pelo autor.",
+    },
+    {
+      label: "Revisão",
+      text: "Este artigo não passou por revisão independente por pares. Ver o selo editorial no topo da página.",
+    },
+    {
+      label: "Aprovação ética",
+      text: "Não se aplica: revisão narrativa sem dados individuais ou imagens identificáveis.",
+    },
+  ],
+  sponsored: false,
+  tags: ["IRPL", "IPL", "DGM", "E-Eye", "Luz pulsada"],
+  seo: {
+    title: "IRPL versus IPL na DGM | SUPERFÍCIE",
+    description:
+      "IRPL é o trem de pulso da E-Swin, não uma classe biológica. Há um RCT sham a favor do E-Eye sem expressão glandular. IPL convencional foi medido com expressão. Até um ensaio com o mesmo protocolo, ausência de confronto não é equivalência — e também não autoriza dizer que são a mesma coisa.",
+    canonical: "/superficie/artigos/irpl-versus-ipl-na-dgm",
+  },
+};
+
 const antiDemodex: MagazineArticle = {
   slug: "anti-demodex",
   title: "Quando a higiene não basta",
@@ -3081,6 +3286,7 @@ export const publishedArticles: MagazineArticle[] = [
   cincoTestesCincoPerguntas,
   aPregaOAtritoEOpiscar,
   iaNaSuperficieOcular,
+  irplVersusIplNaDgm,
   antiDemodex,
   terapiasDirigidasPorMecanismo,
   prehabOcular,

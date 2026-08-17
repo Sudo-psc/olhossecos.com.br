@@ -254,7 +254,7 @@ test("template de artigo da revista não injeta capa nem fundo no layout", () =>
   assert.doesNotMatch(route, /class="hero-image"/);
 });
 
-test("publishedArticles mantém os 12 slugs da edição", () => {
+test("publishedArticles mantém os slugs da edição", () => {
   assert.deepEqual(
     superficie.publishedArticles.map(({ slug }) => slug),
     [
@@ -266,6 +266,7 @@ test("publishedArticles mantém os 12 slugs da edição", () => {
       "cinco-testes-cinco-perguntas",
       "a-prega-o-atrito-e-o-piscar",
       "ia-na-superficie-ocular",
+      "irpl-versus-ipl-na-dgm",
       "anti-demodex",
       "terapias-dirigidas-por-mecanismo",
       "prehab-ocular",
@@ -736,6 +737,24 @@ const assertSealedEditionArticle = (
 
   assert.deepEqual(superficie.validateMagazineArticle(article), []);
 };
+
+test("matéria IRPL versus IPL publica as quatro seções e o selo de checagem editorial", () => {
+  assert.deepEqual(superficie.founderIssue.articles, []);
+  assertSealedEditionArticle("irpl-versus-ipl-na-dgm", 12, [
+    "10.1016/j.jtos.2020.01.003",
+    "10.1167/iovs.14-15764",
+    "10.1177/1120672118817687",
+    "10.3390/diagnostics9040147",
+    "10.1016/j.oftal.2016.12.018",
+    "10.1097/icl.0000000000000711",
+    "10.1371/journal.pone.0270268",
+    "10.1111/aos.16802",
+    "10.1016/j.ophtha.2020.03.009",
+    "10.1002/14651858.CD013559",
+    "10.3390/jcm12083039",
+    "10.1016/j.ajo.2025.05.039",
+  ]);
+});
 
 test("matéria Anti-Demodex publica as quatro seções e o selo de checagem editorial", () => {
   assert.equal(
