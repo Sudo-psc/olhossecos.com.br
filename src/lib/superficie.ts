@@ -3058,7 +3058,7 @@ export const founderIssue: MagazineIssue = {
     avifLarge: "/images/superficie/capa-edicao-00-1024.avif",
     webp600: "/images/superficie/capa-edicao-00-600.webp",
     webpLarge: "/images/superficie/capa-edicao-00-1024.webp",
-    fallback: "/images/superficie/capa-edicao-00.png",
+    fallback: "/images/superficie/capa-edicao-00.jpg",
     alt: "Capa da Edição Fundadora nº 0 da revista SUPERFÍCIE: A nova era da superfície ocular — do sintoma ao fenótipo, diagnóstico multimodal e terapias dirigidas por mecanismo",
     largeWidth: 1024,
     width: 1024,
