@@ -1289,7 +1289,7 @@ const tresMesesNaoSaoDoze: MagazineArticle = {
         "Essa resposta continuará exigindo julgamento clínico.",
         "É por isso que três meses não são doze.",
         "E é por isso que o melhor aparelho de uma tabela pode não ser o melhor investimento — nem o melhor tratamento — fora dela.",
-        "Esta é uma revisão narrativa editorial, e não uma revisão sistemática registrada. A atualização científica foi realizada em 17/08/2026 com SciSpace e Amass/BiomedCore, além da conferência do artigo-base e de referências primárias e secundárias relevantes. Consensus não pôde contribuir com novos resultados por esgotamento da cota mensal de busca, e o plano conectado ao Elicit não disponibilizou acesso à API nesta sessão. Não foi realizada meta-análise independente.",
+        "Esta é uma revisão narrativa editorial, e não uma revisão sistemática registrada. A atualização científica foi realizada em 17/08/2026 com SciSpace e Amass/BiomedCore, além da conferência do artigo-base e de referências primárias e secundárias relevantes.",
       ],
     },
   ],
