@@ -1,6 +1,7 @@
 ---
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import Layout from "@/layouts/Layout.astro";
+import { responsibleDoctor } from "@/lib/doctor";
 
 const breadcrumbs = [
   { name: "Início", url: "/" },
@@ -31,7 +32,8 @@ const softwareSchema = {
   license: "https://opensource.org/license/mit",
   author: {
     "@type": "Person",
-    name: "Dr. Philipe Saraiva Cruz",
+    name: `Dr. ${responsibleDoctor.name}`,
+    identifier: responsibleDoctor.registration,
   },
 };
 ---

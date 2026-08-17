@@ -6,6 +6,7 @@ import {
   getRadarReportPath,
   type RadarReport,
 } from "@/lib/radar";
+import { responsibleDoctor } from "@/lib/doctor";
 
 export const getStaticPaths = () =>
   radarReports.map((report) => ({
@@ -54,8 +55,8 @@ const reportSchema = {
   isPartOf: { "@id": new URL("/superficie#periodical", Astro.site).href },
   author: {
     "@type": "Person",
-    name: "Philipe Saraiva Cruz",
-    identifier: "CRM-MG 69.870 · RQE 71.903",
+    name: responsibleDoctor.name,
+    identifier: responsibleDoctor.registration,
   },
   citation: report.findings.map((finding) => ({
     "@type": "CreativeWork",
@@ -73,7 +74,7 @@ const reportSchema = {
   ogType="article"
   datePublished={report.publishedAt}
   dateModified={report.publishedAt}
-  authorName="Philipe Saraiva Cruz"
+  authorName={responsibleDoctor.name}
   breadcrumbs={[
     { name: "SUPERFÍCIE", url: "/superficie" },
     { name: "RADAR Científico", url: "/superficie/radar" },
@@ -287,8 +288,8 @@ const reportSchema = {
         <div>
           <p>{report.transparencyNote}</p>
           <p class="note-editor">
-            Curadoria e revisão editorial: Dr. Philipe Saraiva Cruz — CRM-MG
-            69.870 · RQE 71.903.
+            Curadoria e revisão editorial: Dr. {responsibleDoctor.name} —{" "}
+            {responsibleDoctor.registration}.
           </p>
           <a class="text-link" href="/superficie/radar"
             >Ver todos os ciclos do RADAR</a

@@ -646,6 +646,42 @@ const structuredData = {
     background-size: 14px 14px;
   }
 
+  /* Registro do responsável técnico: exigido pelo CFM, então fica acima da
+     linha de créditos e com contraste próprio, não na fonte reduzida do
+     rodapé inferior. */
+  .footer-imprint {
+    padding-block: 1.15rem;
+    border-top: 1px solid rgb(255 255 255 / 25%);
+  }
+
+  .footer-imprint p {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.4rem 0.85rem;
+    margin: 0;
+  }
+
+  .footer-imprint span {
+    color: #78d7e5;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .footer-imprint strong {
+    font-family: var(--serif);
+    font-size: 1.02rem;
+    font-weight: 600;
+  }
+
+  .footer-imprint em {
+    color: rgb(255 255 255 / 82%);
+    font-size: 0.84rem;
+    font-style: normal;
+  }
+
   .footer-bottom {
     display: flex;
     justify-content: space-between;

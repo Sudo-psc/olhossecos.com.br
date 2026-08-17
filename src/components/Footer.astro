@@ -1,5 +1,6 @@
 ---
 import EyeMark from "./EyeMark.astro";
+import { responsibleDoctor } from "@/lib/doctor";
 
 const year = new Date().getFullYear();
 ---
@@ -62,9 +63,17 @@ const year = new Date().getFullYear();
     </div>
   </div>
 
+  <div class="page-shell footer-imprint">
+    <p>
+      <span>Responsável técnico</span>
+      <strong>Dr. {responsibleDoctor.name}</strong>
+      <em>{responsibleDoctor.registration}</em>
+    </p>
+  </div>
+
   <div class="page-shell footer-bottom">
     <p>Conteúdo editorial independente, sem publicidade de terceiros.</p>
-    <p>Feito com ❤️ pela equipe do Dr. Philipe Saraiva Cruz.</p>
+    <p>Feito com ❤️ pela equipe do Dr. {responsibleDoctor.name}.</p>
     <p>© {year} Olho Seco — Portal do paciente</p>
   </div>
 </footer>

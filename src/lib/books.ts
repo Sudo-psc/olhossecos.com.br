@@ -1,3 +1,5 @@
+import { responsibleDoctor } from "./doctor.ts";
+
 export interface BookSeo {
   title: string;
   description: string;
@@ -41,8 +43,9 @@ export interface Book {
 }
 
 export const author = {
-  name: "Philipe Saraiva Cruz",
-  role: "Médico Oftalmologista",
+  name: responsibleDoctor.name,
+  role: responsibleDoctor.role,
+  registration: responsibleDoctor.registration,
   slug: "philipe-saraiva-cruz",
   description:
     "Philipe Saraiva Cruz é médico oftalmologista e autor de obras dedicadas à superfície ocular, doença do olho seco e conjuntivocálase. Sua produção editorial integra evidência científica, prática clínica, diagnóstico por imagem, tecnologia e inovação em saúde ocular.",

@@ -22,6 +22,7 @@ const personSchema = {
   "@id": new URL(`/autor/${author.slug}#person`, siteUrl).href,
   name: author.name,
   jobTitle: author.role,
+  identifier: author.registration,
   description: author.description,
   url: new URL(`/autor/${author.slug}`, siteUrl).href,
   sameAs: ["https://www.amazon.com/author/drphilipesaraiva"],
@@ -49,6 +50,7 @@ const personSchema = {
         <p class="label">Autor</p>
         <h1>{author.name}</h1>
         <p class="role">{author.role}</p>
+        <p class="registration">{author.registration}</p>
         <p class="bio">{author.description}</p>
         <a
           class="author-link"
@@ -138,6 +140,13 @@ const personSchema = {
     color: var(--teal-dark);
     font-family: var(--serif);
     font-size: 1.4rem;
+  }
+
+  .registration {
+    margin: 0.35rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    letter-spacing: 0.01em;
   }
 
   .bio {

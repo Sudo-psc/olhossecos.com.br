@@ -1,4 +1,6 @@
 ---
+import { responsibleDoctor } from "@/lib/doctor";
+
 const year = new Date().getFullYear();
 
 const groups = [
@@ -53,14 +55,14 @@ const groups = [
   <div class="surface-shell footer-imprint">
     <p>
       <span>Editor responsável</span>
-      <strong>Dr. Philipe Saraiva Cruz</strong>
-      <em>CRM-MG 69.870 · RQE 71.903</em>
+      <strong>Dr. {responsibleDoctor.name}</strong>
+      <em>{responsibleDoctor.registration}</em>
     </p>
   </div>
 
   <div class="surface-shell footer-bottom">
     <p>© {year} SUPERFÍCIE Media.</p>
-    <p>Feito com ❤️ pela equipe do Dr. Philipe Saraiva Cruz.</p>
+    <p>Feito com ❤️ pela equipe do Dr. {responsibleDoctor.name}.</p>
     <p>Conteúdo editorial independente. Sem fins promocionais.</p>
   </div>
 </footer>
