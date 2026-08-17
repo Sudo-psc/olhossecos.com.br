@@ -479,10 +479,7 @@ test("matéria de fenotipagem integrada publica as quatro seções sem capa nem 
   ].join(" ");
   assert.match(text, /soma bruta dos 6 itens \(escala 0–24\)/);
   assert.match(text, /não no índice 0–100 do OSDI-12/);
-  assert.match(
-    text,
-    /associou-se a pior saúde percebida/,
-  );
+  assert.match(text, /associou-se a pior saúde percebida/);
   assert.match(
     text,
     /Não há ensaio randomizado que teste fenotipagem integrada contra escalada por gravidade/,
@@ -544,12 +541,11 @@ test("matéria de tecnologias publica as quatro seções sem capa nem figura cl�
     article.seo.canonical,
     "/superficie/artigos/tres-meses-nao-sao-doze",
   );
-  assert.match(
-    article.excerpt,
-    /P-score não é ranking de compra/,
-  );
+  assert.match(article.excerpt, /P-score não é ranking de compra/);
   assert.equal(
-    article.excerpt.includes("O consultório está sendo vendido um ranking de aparelhos"),
+    article.excerpt.includes(
+      "O consultório está sendo vendido um ranking de aparelhos",
+    ),
     false,
   );
   assert.deepEqual(superficie.founderIssue.articles, []);
@@ -604,7 +600,9 @@ test("matéria de tecnologias publica as quatro seções sem capa nem figura cl�
     true,
   );
   assert.equal(
-    article.references.some(({ label }) => /Holland|OLYMPIA|Park et al/u.test(label)),
+    article.references.some(({ label }) =>
+      /Holland|OLYMPIA|Park et al/u.test(label),
+    ),
     false,
   );
   assert.equal(
@@ -760,7 +758,6 @@ test("matéria A prega, o atrito e o piscar publica as quatro seções e as trav
   });
 });
 
-
 test("matéria IA na superfície ocular publica as quatro seções e o selo de checagem editorial", () => {
   const article = superficie.publishedArticles.find(
     ({ slug }) => slug === "ia-na-superficie-ocular",
@@ -801,7 +798,9 @@ test("matéria IA na superfície ocular publica as quatro seções e o selo de c
   assert.equal(article.references.length, 12);
   assert.deepEqual(superficie.validateMagazineArticle(article), []);
 
-  const text = article.content.flatMap((section) => section.paragraphs).join(" ");
+  const text = article.content
+    .flatMap((section) => section.paragraphs)
+    .join(" ");
   assert.match(text, /73,01%/);
   assert.match(text, /59,17%/);
   assert.match(text, /síntese sem DOI próprio/);

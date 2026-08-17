@@ -594,14 +594,13 @@ const dgmBiologiaMolecular: MagazineArticle = {
   },
 };
 
-
 const tfosDewsIiiNaPratica: MagazineArticle = {
   slug: "tfos-dews-iii-na-pratica",
   title: "TFOS DEWS III na prática",
   subtitle:
     "De escalada por gravidade para tratamento dirigido por mecanismo: o que muda no consultório brasileiro",
   excerpt:
-    "Durante anos, a doença do olho seco foi ensinada como uma escada. O caso \"leve\" começava com educação e lubrificante. O \"moderado\" recebia anti-inflamatório ou tratamento palpebral. O \"grave\" avançava para lágrimas biológicas, lentes terapêuticas ou cirurgia.",
+    'Durante anos, a doença do olho seco foi ensinada como uma escada. O caso "leve" começava com educação e lubrificante. O "moderado" recebia anti-inflamatório ou tratamento palpebral. O "grave" avançava para lágrimas biológicas, lentes terapêuticas ou cirurgia.',
   category: "Evidência",
   author: {
     name: "Dr. Philipe Saraiva Cruz",
@@ -619,9 +618,9 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
       title: "Por que importa",
       kind: "why-it-matters",
       paragraphs: [
-        "Durante anos, a doença do olho seco foi ensinada como uma escada. O caso \"leve\" começava com educação e lubrificante. O \"moderado\" recebia anti-inflamatório ou tratamento palpebral. O \"grave\" avançava para lágrimas biológicas, lentes terapêuticas ou cirurgia. A estrutura era didática. Também era perigosa: podia fazer o clínico tratar a intensidade da manifestação antes de identificar o que a produz.",
-        "O TFOS DEWS III (terceiro workshop da Tear Film & Ocular Surface Society, publicado em 2025 no American Journal of Ophthalmology) desloca o centro dessa lógica. Sistemas que agrupam pacientes apenas como leve, moderado ou grave, ou somente como aquodeficiente versus evaporativo, escondem a coexistência e a variação temporal dos mecanismos. A pergunta operacional deixa de ser só \"quão grave é?\". Passa a ser: quais fatores etiológicos são clinicamente relevantes neste olho, hoje?",
-        "A mudança não é \"gravidade versus mecanismo\". É um sistema de duas coordenadas. O eixo horizontal (o mecanismo) indica o que tratar. O eixo vertical (gravidade e risco) indica quanto, quão rápido e com quanta proteção tratar. Uma paciente com sintomas moderados e lagoftalmo não deve esperar fracassar em vários lubrificantes para que a exposição seja tratada. Outro, com dor intensa e poucos sinais, não deve receber indefinidamente mais colírios sem investigação neurossensorial. No Brasil, o acesso a osmolarímetro, meibógrafo, IPL ou hemoderivados varia entre o consultório de médio porte, o centro de superfície e o SUS. O DEWS III, lido com rigor, não exige plataforma tecnológica. Exige hipótese explícita.",
+        'Durante anos, a doença do olho seco foi ensinada como uma escada. O caso "leve" começava com educação e lubrificante. O "moderado" recebia anti-inflamatório ou tratamento palpebral. O "grave" avançava para lágrimas biológicas, lentes terapêuticas ou cirurgia. A estrutura era didática. Também era perigosa: podia fazer o clínico tratar a intensidade da manifestação antes de identificar o que a produz.',
+        'O TFOS DEWS III (terceiro workshop da Tear Film & Ocular Surface Society, publicado em 2025 no American Journal of Ophthalmology) desloca o centro dessa lógica. Sistemas que agrupam pacientes apenas como leve, moderado ou grave, ou somente como aquodeficiente versus evaporativo, escondem a coexistência e a variação temporal dos mecanismos. A pergunta operacional deixa de ser só "quão grave é?". Passa a ser: quais fatores etiológicos são clinicamente relevantes neste olho, hoje?',
+        'A mudança não é "gravidade versus mecanismo". É um sistema de duas coordenadas. O eixo horizontal (o mecanismo) indica o que tratar. O eixo vertical (gravidade e risco) indica quanto, quão rápido e com quanta proteção tratar. Uma paciente com sintomas moderados e lagoftalmo não deve esperar fracassar em vários lubrificantes para que a exposição seja tratada. Outro, com dor intensa e poucos sinais, não deve receber indefinidamente mais colírios sem investigação neurossensorial. No Brasil, o acesso a osmolarímetro, meibógrafo, IPL ou hemoderivados varia entre o consultório de médio porte, o centro de superfície e o SUS. O DEWS III, lido com rigor, não exige plataforma tecnológica. Exige hipótese explícita.',
       ],
     },
     {
@@ -638,17 +637,17 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
       kind: "evidence",
       paragraphs: [
         "O consenso define o olho seco como doença multifatorial e sintomática, marcada pela perda de homeostase do filme lacrimal e/ou da superfície ocular, na qual instabilidade e hiperosmolaridade, inflamação e dano, e anormalidades neurossensoriais atuam como fatores etiológicos.",
-        "Três escolhas têm consequência clínica imediata. Primeiro, o olho seco é doença, não síndrome. Uma síndrome é um agrupamento de queixas. Uma doença tem fisiopatologia, drivers identificáveis e razão para terapia dirigida. O rótulo \"síndrome do olho seco\" ainda circula em prontuários e laudos. Vale abandoná-lo.",
+        'Três escolhas têm consequência clínica imediata. Primeiro, o olho seco é doença, não síndrome. Uma síndrome é um agrupamento de queixas. Uma doença tem fisiopatologia, drivers identificáveis e razão para terapia dirigida. O rótulo "síndrome do olho seco" ainda circula em prontuários e laudos. Vale abandoná-lo.',
         "Segundo, a superfície ocular passa a dividir explicitamente com o filme lacrimal o núcleo da homeostase. Isso acomoda melhor situações em que fricção, dano epitelial, anatomia, inflamação primária ou disfunção neural sustentam sintomas, mesmo quando a produção aquosa não é a história principal.",
         "Terceiro, a doença é, por definição, sintomática. Sinais isolados (disfunção de glândula meibomiana, blefarite, coloração puntiforme) exigem acompanhamento e busca de doença associada, mas não preenchem, sozinhos, a definição. Sintomas sem evidência objetiva de perda de homeostase obrigam a ampliar o diagnóstico diferencial. A discórdia entre queixa e sinal, e o mapeamento dos eixos quando eles não batem, está na matéria Quando sintomas e sinais não batem.",
         "O algoritmo separa duas tarefas que frequentemente se confundem na mesma consulta: confirmar a doença e, depois, explicá-la.",
         "Para confirmar, o rastreamento recomendado é o OSDI-6, com ponto de corte ≥ 4 na soma bruta dos 6 itens (escala 0–24), não no índice 0–100 do OSDI-12, seguido da demonstração de ao menos um marcador de perda de homeostase. Estabilidade: NIBUT < 10 s. Se o método não invasivo não estiver disponível, TBUT com volume mínimo de fluoresceína e corte < 5 s. Osmolaridade: ≥ 308 mOsm/L em qualquer olho ou diferença interocular > 8 mOsm/L (cortes estabelecidos com o sistema TearLab, não automaticamente transferíveis a qualquer equipamento). Coloração: > 5 pontos corneanos com fluoresceína; > 9 pontos conjuntivais com lisamina verde; e/ou margem palpebral com ≥ 2 mm de extensão e ≥ 25% de largura.",
         "O instrumento não deve ser reproduzido ou incorporado a prontuário, site ou aplicativo sem verificar as condições de uso e licenciamento aplicáveis. A versão completa do OSDI já foi traduzida e validada para o português. Isso não autoriza tratar o OSDI-6 como equivalente automático. Até que haja validação brasileira específica da versão curta, o escore integra (e não substitui) a entrevista clínica.",
         "Um único marcador positivo confirma a doença em paciente sintomático. Para não perder o diagnóstico, é desejável avaliar mais de um grupo de sinais. Em 1.427 participantes, o uso de um único marcador teria deixado sem diagnóstico entre 12,3% e 36,2% dos casos que preencheriam o protocolo completo. Limitar-se à fluoresceína só corneana reduz a sensibilidade a 44,6%. A avaliação ampla (córnea, conjuntiva e margem palpebral) é especialmente informativa.",
-        "Depois de confirmar, o exame localiza os fatores etiológicos. O DEWS III organiza nove componentes em três territórios. Filme: lipídico, aquoso, mucina/glicocálix. Pálpebras: piscar/fechamento, margem. Superfície: desalinhamento anatômico, disfunção neural, dano/ruptura celular, inflamação primária/estresse oxidativo. \"Evaporativo\" e \"aquodeficiente\" continuam úteis como descrição ampla, mas perdem poder se forem o ponto final. Dois pacientes evaporativos podem exigir condutas radicalmente diferentes: um apresenta meibo obstruído e telangiectasia; outro, piscar incompleto por trabalho prolongado em tela.",
+        'Depois de confirmar, o exame localiza os fatores etiológicos. O DEWS III organiza nove componentes em três territórios. Filme: lipídico, aquoso, mucina/glicocálix. Pálpebras: piscar/fechamento, margem. Superfície: desalinhamento anatômico, disfunção neural, dano/ruptura celular, inflamação primária/estresse oxidativo. "Evaporativo" e "aquodeficiente" continuam úteis como descrição ampla, mas perdem poder se forem o ponto final. Dois pacientes evaporativos podem exigir condutas radicalmente diferentes: um apresenta meibo obstruído e telangiectasia; outro, piscar incompleto por trabalho prolongado em tela.',
         "Os drivers não são mutuamente exclusivos. Em doença multifatorial, tratamento combinado pode ser a estratégia inicial mais coerente, desde que cada item tenha alvo, segurança e desfecho definidos.",
         "No Brasil, essa atenção ao contexto não é detalhe epidemiológico. Levantamentos identificaram associação com sexo feminino, idade, uso de telas, cirurgia ocular e medicamentos. Um inquérito domiciliar encontrou sintomas mais frequentes em área urbana que rural. O TFOS Lifestyle Report (2023) tornou formal o que o consultório brasileiro vê todos os dias: telas, ambiente, cosméticos e iatrogenia como drivers, não como apêndice.",
-        "O que não mudou: o diagnóstico continua clínico. O exame precisa excluir mascaradores. A evidência varia entre intervenções. \"Dirigido por mecanismo\" frequentemente significa dirigido por um mecanismo provável, inferido de história, sinais e resposta longitudinal. Biomarcadores que predizem resposta individual ainda são limitados.",
+        'O que não mudou: o diagnóstico continua clínico. O exame precisa excluir mascaradores. A evidência varia entre intervenções. "Dirigido por mecanismo" frequentemente significa dirigido por um mecanismo provável, inferido de história, sinais e resposta longitudinal. Biomarcadores que predizem resposta individual ainda são limitados.',
       ],
     },
     {
@@ -673,7 +672,7 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
       kind: "practice",
       paragraphs: [
         "O DEWS III não exige que toda consulta se transforme em um laboratório de superfície ocular. Osmolaridade, interferometria, meibografia, MMP-9, estesiometria e microscopia confocal podem aumentar a precisão em casos selecionados. O algoritmo, porém, pode ser iniciado com recursos presentes em grande parte dos consultórios oftalmológicos brasileiros.",
-        "Antes de confirmar, exclua o que muda a prioridade. Dor verdadeira, assimetria importante, secreção, edema, trauma, início abrupto, inflamação intraocular, defeito epitelial, infecção, queda visual não explicada ou suspeita sistêmica não são \"olho seco grave\". São outro problema, ou um problema que convive com o olho seco e o ultrapassa. Revise alergia, medicamentos, cosméticos, cirurgia, lente de contato e doenças da superfície que podem mascarar ou coexistir.",
+        'Antes de confirmar, exclua o que muda a prioridade. Dor verdadeira, assimetria importante, secreção, edema, trauma, início abrupto, inflamação intraocular, defeito epitelial, infecção, queda visual não explicada ou suspeita sistêmica não são "olho seco grave". São outro problema, ou um problema que convive com o olho seco e o ultrapassa. Revise alergia, medicamentos, cosméticos, cirurgia, lente de contato e doenças da superfície que podem mascarar ou coexistir.',
         "Além de secura, ardor e flutuação visual, pergunte quando o sintoma aparece, o que o interrompe e qual exposição o antecede. Tela, ar-condicionado, vento, cosméticos, lente de contato, colírios crônicos, cirurgia recente, alergia, rosácea, dor sistêmica, sono e medicamentos deixam de ser uma lista protocolar e passam a gerar hipóteses testáveis.",
         "Antes de instilar fluoresceína, observe piscar, fechamento, posição palpebral, menisco, debris, espuma e padrão de ruptura não invasivo, quando disponível. Muitos topógrafos e tomógrafos já instalados no país medem NIBUT. O gargalo costuma ser usá-los de forma padronizada, não comprá-los. Examine margem, orifícios, vascularização e expressão do meibo. Depois, use os corantes para mapear córnea, conjuntiva e margem palpebral. Lisamina verde é barata e subutilizada. Altura do menisco e Schirmer ganham valor quando há suspeita aquodeficiente. Sensibilidade corneana e pistas de dor neuropática tornam-se prioritárias quando sintomas e sinais divergem.",
         "Tecnologia entra como modificadora de probabilidade. Meibografia documenta perda glandular, mas não substitui a expressão, não mede sozinha a função atual e não diagnostica doença do olho seco isoladamente. Osmolaridade pode confirmar perda de homeostase, mas não localiza o mecanismo. MMP-9 sugere atividade inflamatória dentro das limitações do teste, mas não autoriza concluir que toda queixa decorre de inflamação. O investimento em equipamento deve responder a uma pergunta clínica concreta e alterar uma decisão.",
@@ -705,7 +704,7 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
       paragraphs: [
         "Consenso não é ensaio clínico. Um algoritmo abrangente não iguala a força da evidência entre intervenções. Há heterogeneidade em definições, dispositivos, parâmetros, comparadores e desfechos. Muitas terapias melhoram um sinal sem efeito proporcional nos sintomas. Outras têm estudos curtos, amostras pequenas ou forte dependência de tecnologia proprietária.",
         "O relatório de manejo declara apoio por doações irrestritas de múltiplas empresas e apresenta conflitos individuais dos autores. Transparência exige considerar esse contexto junto com método, consistência e qualidade dos estudos. Não é rejeição automática.",
-        "\"Tratamento dirigido por mecanismo\" ainda é, muitas vezes, fenótipo dirigido por mecanismo provável. A honestidade clínica consiste em explicitar a hipótese, escolher uma intervenção coerente e usar a resposta longitudinal como parte da inferência.",
+        '"Tratamento dirigido por mecanismo" ainda é, muitas vezes, fenótipo dirigido por mecanismo provável. A honestidade clínica consiste em explicitar a hipótese, escolher uma intervenção coerente e usar a resposta longitudinal como parte da inferência.',
         "Não há escore ponderado de gravidade validado pelo consenso. Gravidade permanece julgamento clínico. A lista internacional de classes e dispositivos não é formulário brasileiro. Biomarcadores que predizem resposta individual ainda são limitados.",
         "Este texto é uma interpretação editorial dos relatórios TFOS DEWS III, não uma reprodução integral do consenso e não uma diretriz brasileira. Não substitui leitura das fontes, bula, registro sanitário, julgamento clínico nem decisão compartilhada. Data de corte: 14 de agosto de 2026.",
       ],
@@ -732,7 +731,7 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
     },
     {
       label:
-        "Stapleton F, Argüeso P, Asbell P, et al. Corrigendum to \"TFOS DEWS III: Digest\" Am J Ophthalmol. 2025;279:451-553. Am J Ophthalmol. 2026;288:350-351.",
+        'Stapleton F, Argüeso P, Asbell P, et al. Corrigendum to "TFOS DEWS III: Digest" Am J Ophthalmol. 2025;279:451-553. Am J Ophthalmol. 2026;288:350-351.',
       url: "https://doi.org/10.1016/j.ajo.2026.04.007",
       doi: "10.1016/j.ajo.2026.04.007",
     },
@@ -824,7 +823,8 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
       url: "https://consultas.anvisa.gov.br/",
     },
     {
-      label: "Anvisa. Nota Técnica nº 03/2018 — produção de colírio de soro autólogo.",
+      label:
+        "Anvisa. Nota Técnica nº 03/2018 — produção de colírio de soro autólogo.",
       url: "https://www.gov.br/anvisa/pt-br/centraisdeconteudo/publicacoes/sangue-tecidos-celulas-e-orgaos/notas-tecnicas/vigentes/nota-tecnica-no-03-de-2018/view",
     },
   ],
@@ -885,11 +885,11 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
   },
 };
 
-
 const fenotipagemIntegrada: MagazineArticle = {
   slug: "quando-sintomas-e-sinais-nao-batem",
   title: "Quando sintomas e sinais não batem",
-  subtitle: "Fenotipagem integrada no consultório: mapear eixos, não forçar concordância",
+  subtitle:
+    "Fenotipagem integrada no consultório: mapear eixos, não forçar concordância",
   excerpt:
     "Quando o questionário é alto e a coloração, o tempo de ruptura ou a osmolaridade são baixos (ou o inverso), a tentação do consultório é repetir o exame, trocar o instrumento ou escalar o tratamento como se a discórdia fosse erro de medida.",
   category: "Diagnóstico",
@@ -912,7 +912,7 @@ const fenotipagemIntegrada: MagazineArticle = {
       paragraphs: [
         "Quando o questionário é alto e a coloração, o tempo de ruptura ou a osmolaridade são baixos (ou o inverso), a tentação do consultório é repetir o exame, trocar o instrumento ou escalar o tratamento como se a discórdia fosse erro de medida. O paciente descreve queimação, fotofobia ou dor ao vento. A córnea está quase limpa, o menisco é aceitável, o tempo de ruptura não é catastrófico. Ou o inverso: a superfície está marcada, o volume é baixo, e o paciente quase não se queixa. Essa reação pressupõe que sintomas e sinais deveriam convergir. Não deveriam. A discórdia é um achado clínico, não um exame inconsistente.",
         "A pergunta útil é outra. Como mapear o paciente aos eixos aquoso, evaporativo-DGM, inflamatório, neurossensorial e mecânico quando sintomas, sinais e mecanismos não batem, sem forçar concordância e sem transformar o contínuo em checklist?",
-        "O consultório brasileiro, na maior parte dos dias, ainda escala por gravidade de sintoma ou por um binário aquoso versus evaporativo. Nenhum dos dois explica o paciente que dói desproporcionalmente, o Sjögren oligosintomático com superfície destruída, ou o misto em que filme, margem e dor convivem e a polifarmácia cresce. Fenótipos mistos são a regra, não a exceção. A mudança de pergunta é esta: em vez de \"qual a gravidade?\", \"qual eixo está dirigindo esta consulta?\"",
+        'O consultório brasileiro, na maior parte dos dias, ainda escala por gravidade de sintoma ou por um binário aquoso versus evaporativo. Nenhum dos dois explica o paciente que dói desproporcionalmente, o Sjögren oligosintomático com superfície destruída, ou o misto em que filme, margem e dor convivem e a polifarmácia cresce. Fenótipos mistos são a regra, não a exceção. A mudança de pergunta é esta: em vez de "qual a gravidade?", "qual eixo está dirigindo esta consulta?"',
       ],
     },
     {
@@ -931,7 +931,7 @@ const fenotipagemIntegrada: MagazineArticle = {
         "O framework de fenótipo está no relatório de definição do DEWS II. Craig e colaboradores (2017) descrevem a doença do olho seco como perda de homeostase do filme lacrimal, com sintomas de desconforto ou distúrbio visual, e com etiologias-chave em instabilidade, hiperosmolaridade, inflamação e dano. O componente neurossensorial entra pela primeira vez. Aquoso e evaporativo existem em contínuo, não como polos que se excluem. O esquema já admitia as duas discórdias: sinais sem sintomas (inclusive o olho neurótrofico) e sintomas sem sinais demonstráveis (inclusive a dor neuropática).",
         "O mapa que o leitor conhece é o do relatório de metodologia do DEWS II (Wolffsohn e colaboradores, 2017): triagem com DEQ-5 ou OSDI; em seguida tempo de ruptura (de preferência não invasivo), osmolaridade e coloração de córnea, conjuntiva e margem; depois, subclassificação evaporativo versus aquoso. Esse mapa ainda organiza a maior parte das fichas. Não é o mapa operacional desta matéria. É o contraste: o que se pedia em 2017 e o que se pede agora.",
         "O mapa operacional é o relatório de metodologia diagnóstica do DEWS III (Wolffsohn e colaboradores, 2025). A doença é multifatorial e sintomática. Os fatores etiológicos incluem instabilidade, hiperosmolaridade, inflamação e dano, e anormalidades neurossensoriais como fator formal, não como comorbidade opcional. O screening recomendado é OSDI-6 ≥ 4 na soma bruta dos 6 itens (escala 0–24), não no índice 0–100 do OSDI-12. O diagnóstico fecha com screening positivo mais um signo de homeostase: NIBUT menor que 10 segundos, ou hiperosmolaridade (≥ 308 mOsm/L ou diferença interocular maior que 8), ou coloração (córnea > 5, ou conjuntiva > 9, ou margem palpebral ≥ 2 mm e ≥ 25% da largura). Isso é a porta diagnóstica. Não é o recap dos nove drivers (esse mapa está na matéria TFOS DEWS III na prática).",
-        "Duas categorias do consultório mudam de endereço. \"Olho seco silencioso\" (sinais sem sintomas) deixa de ser doença do olho seco no sentido DEWS III. Pode ser superfície alterada, neurotrofia ou outro diagnóstico. Não fecha o critério de doença sintomática. \"Olho seco sem teste\" (sintomas sem signo de homeostase) também não fecha. O que se investiga é o ramo neurossensorial, a dor neuropática ocular, o driver neural. A discórdia não desaparece. Ela ganha endereço.",
+        'Duas categorias do consultório mudam de endereço. "Olho seco silencioso" (sinais sem sintomas) deixa de ser doença do olho seco no sentido DEWS III. Pode ser superfície alterada, neurotrofia ou outro diagnóstico. Não fecha o critério de doença sintomática. "Olho seco sem teste" (sintomas sem signo de homeostase) também não fecha. O que se investiga é o ramo neurossensorial, a dor neuropática ocular, o driver neural. A discórdia não desaparece. Ela ganha endereço.',
         "A subclassificação em filme, pálpebra e superfície é o esqueleto. No consultório, isso se traduz nos eixos aquoso, evaporativo-DGM, inflamatório e neurossensorial, com o desalinhamento como caixa mecânica. O Digest do DEWS III (Stapleton e colaboradores, 2025) ancora o que esta matéria precisa do consenso de 2025 sem reabrir a biologia da glândula de Meibomius: o eixo dor e sensação, e a distinção fisiopatológica entre deficiência aquosa e evaporativa, inclusive o papel do estresse neural.",
         "A discórdia como fato clínico tem um landmark. Nichols e colaboradores (2004) examinaram 75 pacientes com doença do olho seco e não encontraram associação entre sinais e sintomas após ajuste para idade e lágrima artificial. A amostra é pequena. O protocolo é anterior à osmolaridade e ao NIBUT de rotina. O OSDI ainda não era o instrumento padronizado daquele desenho. Nada disso apaga o achado: a correlação que o consultório espera não estava lá.",
         "Vehof e colaboradores (2017) dão o que o landmark não dava: preditores acionáveis, nas duas direções, em 648 pacientes de um serviço terciário holandês (83% mulheres, mais próximo do consultório brasileiro do que as cohorts de veteranos). Mais sintomas que sinais: dor crônica, atopia, anti-histamínicos, depressão, osteoartrite, antidepressivos. Essa direção associou-se a pior saúde percebida. Menos sintomas que sinais: idade, Sjögren (sobretudo a forma primária), doença do enxerto contra o hospedeiro. Associação transversal não é causalidade. Continua sendo a lista que muda a anamnese quando a discórdia aparece.",
@@ -947,11 +947,11 @@ const fenotipagemIntegrada: MagazineArticle = {
       title: "Prática",
       kind: "practice",
       paragraphs: [
-        "A mudança imediata é de raciocínio, não de escada prescritiva. Se o OSDI-6 ou o DEQ-5 estão altos e a coloração, o tempo de ruptura e a osmolaridade estão baixos (ou o inverso), o primeiro gesto é registrar a discórdia como dado. Não como \"exame inconsistente\". Não como motivo para repetir a lâmpada de fenda até os números coincidirem. A discórdia é o achado que abre o mapa, não o que o invalida.",
+        'A mudança imediata é de raciocínio, não de escada prescritiva. Se o OSDI-6 ou o DEQ-5 estão altos e a coloração, o tempo de ruptura e a osmolaridade estão baixos (ou o inverso), o primeiro gesto é registrar a discórdia como dado. Não como "exame inconsistente". Não como motivo para repetir a lâmpada de fenda até os números coincidirem. A discórdia é o achado que abre o mapa, não o que o invalida.',
         "Os questionários entram na decisão, não na ficha por obrigação. O OSDI-6 decide se o paciente entra no algoritmo DEWS III. O DEQ-5, sobretudo acima de 12, puxa a investigação de Sjögren no eixo aquoso. O OSDI completo entra quando o formulário curto não explica o fenótipo: quando a queixa é função visual, ou quando os gatilhos ambientais são o que distingue este paciente daquele. SPEED e SANDE servem como alternativas de acompanhamento, não como instrumentos adotados para mudar o eixo.",
-        "O eixo aquoso se reconhece por volume baixo (Schirmer, menisco) e, quando o DEQ-5 está alto, pela pergunta de Sjögren. Sjögren, GVHD e idade predizem menos sintomas que sinais. O paciente oligosintomático com superfície marcada não é \"olho seco leve\". Não se aprofunda imunologia nesta matéria. Aprofunda-se o reconhecimento de que o volume e o contexto sistêmico podem ser o driver mesmo quando a queixa é discreta.",
+        'O eixo aquoso se reconhece por volume baixo (Schirmer, menisco) e, quando o DEQ-5 está alto, pela pergunta de Sjögren. Sjögren, GVHD e idade predizem menos sintomas que sinais. O paciente oligosintomático com superfície marcada não é "olho seco leve". Não se aprofunda imunologia nesta matéria. Aprofunda-se o reconhecimento de que o volume e o contexto sistêmico podem ser o driver mesmo quando a queixa é discreta.',
         "O eixo evaporativo-DGM se reconhece por tempo de ruptura curto, margem e expressibilidade, e filme lipídico. Nesta matéria, o eixo existe para ser nomeado quando é ele que explica a visita. A biologia da glândula e os procedimentos de margem são de outras matérias.",
-        "O eixo inflamatório se reconhece por coloração, hiperosmolaridade e, se o teste já estiver disponível no serviço, MMP-9 como bandeira (não como tema). A inflamação pode ser primária, no bloco de superfície, ou secundária a qualquer outro eixo. Fenótipo inflamatório \"puro\" é constructo clínico: coloração não é inflamação primária. O que cabe é não tratar toda coloração como se fosse o mesmo mecanismo.",
+        'O eixo inflamatório se reconhece por coloração, hiperosmolaridade e, se o teste já estiver disponível no serviço, MMP-9 como bandeira (não como tema). A inflamação pode ser primária, no bloco de superfície, ou secundária a qualquer outro eixo. Fenótipo inflamatório "puro" é constructo clínico: coloração não é inflamação primária. O que cabe é não tratar toda coloração como se fosse o mesmo mecanismo.',
         "O eixo neurossensorial é o núcleo desta matéria. Dor desproporcional aos sinais. Features de dor neuropática ocular (vento, fotoalodinia). Comorbidades de dor crônica, depressão, PTSD quando o contexto as trouxer. Testes quantitativos sensoriais se o serviço os tiver. A conduta que muda hoje não é uma nova gota: é parar de escalar lubrificante e anti-inflamatório indefinidamente quando o driver é neural, reconhecer o ramo e encaminhar. O que se tem no consultório médio (discórdia, features de NOP, comorbidades de dor) é proxy. Não é gold standard. Estesiometria, confocal e QST não são rotina e não devem ser fingidos como se fossem.",
         "A caixa mecânica é reconhecimento, não tratado. Desalinhamento anatômico, exposição, atrito, conjuntivocálase óbvia: reconhecer. Critérios de alerta cabem em uma linha: lagoftalmo, CCh evidente, atrito visível.",
         "Mistos: a maioria dos pacientes terá dois eixos ou mais. Hierarquizar pelo driver da visita (o que explica a discórdia de hoje) é o gesto. Completar o checklist de todos os eixos em toda consulta é o que produz polifarmácia. Não há série de cinco casos nesta atualização. Não há fluxograma mestre validado para quinze a vinte minutos. Há um mapa e uma pergunta.",
@@ -962,7 +962,7 @@ const fenotipagemIntegrada: MagazineArticle = {
         "OSDI-6 para o algoritmo DEWS III. DEQ-5 quando Sjögren ou deficiência aquosa está em jogo. OSDI completo quando o curto não explica função visual ou gatilhos.",
         "Aquoso: volume baixo. DEQ-5 > 12 sugere investigar Sjögren. Menos sintomas que sinais se Sjögren, GVHD ou idade.",
         "Evaporativo-DGM: TBUT curto, margem, expressibilidade, lipídio. Nomear o eixo. Não esgotar a glândula aqui.",
-        "Inflamatório: coloração, osmolaridade, MMP-9 só como bandeira se já disponível. Primário ou secundário. \"Puro\" é constructo.",
+        'Inflamatório: coloração, osmolaridade, MMP-9 só como bandeira se já disponível. Primário ou secundário. "Puro" é constructo.',
         "Neurossensorial: dor desproporcional, vento, fotoalodinia, comorbidades de dor. Não escalar filme indefinidamente. Reconhecer e encaminhar o ramo de dor.",
         "Mecânico: lagoftalmo, CCh óbvia, atrito. Caixa.",
         "Mistos: hierarquizar o driver de hoje, não o checklist completo.",
@@ -978,7 +978,7 @@ const fenotipagemIntegrada: MagazineArticle = {
         "O cutoff OSDI-6 ≥ 4 na soma 0–24 não foi validado no Brasil. O instrumento foi derivado em amostras europeias relativamente jovens. O pacote de cut-offs do DEWS III (OSDI-6, NIBUT, osmolaridade, coloração) não foi testado prospectivamente como conjunto na clínica brasileira.",
         "A harmonização entre ADES e DEWS III não está resolvida. Sintomas mais TBUT curto não são o mesmo critério que sintoma mais um signo de homeostase.",
         "A direção da discórdia em mulheres brasileiras (a maioria do consultório) apoia-se em Vehof, serviço terciário holandês, não nas cohorts VA de Ong e Galor, predominantemente masculinas. Nichols 2004 permanece landmark e permanece amostra pequena, pré-osmolaridade e pré-NIBUT de rotina.",
-        "Fenótipo inflamatório \"puro\", sem biomarcador de consultório, é constructo. Coloração e osmolaridade não autorizam essa etiqueta.",
+        'Fenótipo inflamatório "puro", sem biomarcador de consultório, é constructo. Coloração e osmolaridade não autorizam essa etiqueta.',
         "O Digest do DEWS III tem corrigendum em 2026. Esta matéria usa só o eixo dor e sensação e a distinção ADDE versus evaporativo, sem recap de DGM, e não afirma ter verificado o texto da correção (o full text não estava disponível no corte).",
         "Um artigo citado em base de consenso (Mejía-Salgado e colaboradores, 2026) não foi confirmado no PubMed até 15 de agosto de 2026 e não é citado.",
       ],
@@ -1105,7 +1105,6 @@ const fenotipagemIntegrada: MagazineArticle = {
   },
 };
 
-
 const tresMesesNaoSaoDoze: MagazineArticle = {
   slug: "tres-meses-nao-sao-doze",
   title: "Três meses não são doze",
@@ -1163,7 +1162,7 @@ const tresMesesNaoSaoDoze: MagazineArticle = {
         "Cong e colaboradores (2025) meta-analisam em rede OPT com ou sem expressão, E>eye com ou sem expressão e Eyesis com expressão. O ranking é indireto. A heterogeneidade é alta. Não há vencedor de consultório.",
         "Não foi identificado ensaio randomizado comparando E-Eye/IRPL com M22/Lumenis ou Toyos no mesmo calendário, mesma fluência e mesma política de expressão glandular. A ausência não prova equivalência. Também não prova superioridade.",
         "Eficácia inicial e durabilidade são desfechos diferentes. SAHARA (Ayres e colaboradores, 2023) comparou TearCare associado à expressão com ciclosporina oftálmica 0,05% em 345 participantes, com seguimento de seis meses. TBUT melhorou mais no braço térmico. OSDI melhorou nos dois, sem diferença entre braços. A extensão (Hovanesian e colaboradores, 2025) trouxe o dado mais útil para o consultório: no grupo térmico, a mediana até o retratamento ficou em torno de oito meses. Isso começa a responder quantas sessões poderão ser necessárias por ano, qual será o custo acumulado e qual é o intervalo esperado de benefício.",
-        "Alguns pacientes com LipiFlow mantêm benefício por períodos prolongados, inclusive além de um ano. Isso é relevante. Não é promessa universal de duração. O comportamento correto é falar em distribuição de resposta e necessidade de retratamento, não em frases como \"o efeito dura 12 meses\".",
+        'Alguns pacientes com LipiFlow mantêm benefício por períodos prolongados, inclusive além de um ano. Isso é relevante. Não é promessa universal de duração. O comportamento correto é falar em distribuição de resposta e necessidade de retratamento, não em frases como "o efeito dura 12 meses".',
         "LLLT apresenta resultados promissores, principalmente em protocolos combinados. O problema metodológico é separar quanto do efeito pertence à fotobiomodulação e quanto pertence à intervenção associada.",
         "QMR apresenta sinais favoráveis em ensaios recentes e alcançou posição elevada para coloração corneana na rede de 2026. Uma posição elevada em um desfecho não compensa uma base de evidência comparativa menor. Quanto menor a quantidade de ensaios por tecnologia, maior a possibilidade de o ranking oscilar quando novos estudos entram na rede.",
         "A rede de 2026 não registrou eventos adversos graves. A Cochrane do LipiFlow também não identificou eventos relacionados ao tratamento com ameaça à visão. A evidência de eventos adversos do IPL permanece de certeza muito baixa ou muito incerta. Ensaios relativamente pequenos e com seguimento curto detectam eventos comuns. São menos eficientes para caracterizar eventos raros. Não existe atualmente um sinal consistente de toxicidade grave. A segurança comparativa de longo prazo ainda é menos bem caracterizada do que a eficácia inicial.",
@@ -1328,7 +1327,6 @@ const tresMesesNaoSaoDoze: MagazineArticle = {
   },
 };
 
-
 const alemDoMeiboscore: MagazineArticle = {
   slug: "alem-do-meiboscore",
   title: "Além do meiboscore",
@@ -1439,7 +1437,8 @@ const alemDoMeiboscore: MagazineArticle = {
       doi: "10.1167/iovs.10-6997f",
     },
     {
-      label: "Pult H, Nichols JJ. A Review of Meibography. Optom Vis Sci. 2012;89(5):E760-E769.",
+      label:
+        "Pult H, Nichols JJ. A Review of Meibography. Optom Vis Sci. 2012;89(5):E760-E769.",
       url: "https://doi.org/10.1097/OPX.0b013e3182512ac1",
       doi: "10.1097/OPX.0b013e3182512ac1",
     },
@@ -1538,7 +1537,6 @@ const alemDoMeiboscore: MagazineArticle = {
     canonical: "/superficie/artigos/alem-do-meiboscore",
   },
 };
-
 
 const cincoTestesCincoPerguntas: MagazineArticle = {
   slug: "cinco-testes-cinco-perguntas",
@@ -1738,7 +1736,6 @@ const cincoTestesCincoPerguntas: MagazineArticle = {
     canonical: "/superficie/artigos/cinco-testes-cinco-perguntas",
   },
 };
-
 
 const aPregaOAtritoEOpiscar: MagazineArticle = {
   slug: "a-prega-o-atrito-e-o-piscar",
@@ -1943,7 +1940,6 @@ const aPregaOAtritoEOpiscar: MagazineArticle = {
   },
 };
 
-
 const iaNaSuperficieOcular: MagazineArticle = {
   slug: "ia-na-superficie-ocular",
   title: "IA na superfície ocular: onde ajuda, onde erra e como validar",
@@ -1984,7 +1980,7 @@ const iaNaSuperficieOcular: MagazineArticle = {
         "O achado que importa para a clínica é outro. Saha e colaboradores (2022) relataram 73,01% de acerto no meiboscore no conjunto de validação e caíram para 59,17% num centro independente. Os especialistas em disfunção de glândula de Meibômio, no conjunto de validação, ficaram em 53,44%. A queda é o cartão de visita: o número interno não viaja. Aparelho, recorte étnico e protocolo de captura mudam o resultado até prova em contrário.",
         "Há sinais de que a imagem pode dizer mais do que o escore. Aprendizado não supervisionado em 82.236 meibografias de 20.559 pessoas agrupou seis subtipos com perfis distintos de ruptura, menisco, atrofia e coloração. Outro modelo leu sinais, sintomas e diagnósticos a partir só da meibografia (562 imagens, 363 pessoas), com acurácias de 65% a 99%, e 74% a 85% para disfunção glandular, deficiência aquosa e blefarite. Isso não valida o uso isolado da foto como diagnóstico. Mostra que a glândula carrega informação que o meiboscore joga fora.",
         "A via sem imagem também existe. Modelos tabulares, em 175 candidatos a lentes, explicaram cerca de 32% da variância da osmolaridade e acertaram cerca de 80% nas faixas baixa, média e alta. Preditores: NIKBUT, menisco, hiperemia, cobertura glandular e DEQ-5. Fatores de estilo de vida (tempo de perto, álcool, exercício, tempo ao ar livre) entram com peso em vários desfechos. Cabine de avião e dirigir predisseram sintoma, não sinal. São hipóteses de triagem, não substitutos da meibografia.",
-        "Grandes modelos de linguagem, alimentados com texto clínico e sintomas de 338 pacientes com suspeita de olho seco, concordaram com o clínico no \"é DED\" (sensibilidade 93 a 99%; kappa 0,81 a 0,86). A especificidade ficou entre 0% e 16%. A acurácia balanceada caiu para 48 a 56%. No subtipo (aquoso, evaporativo, misto) o acordo foi ao acaso. O modelo reproduz o viés de superdiagnóstico. Um pipeline multimodal (Insight / MDPipe) que traduz meibografia em morfologia e pede raciocínio ao modelo de linguagem superou o GPT-4 em benchmarks de superfície ocular. Ainda é prova de conceito, não ferramenta de consultório.",
+        'Grandes modelos de linguagem, alimentados com texto clínico e sintomas de 338 pacientes com suspeita de olho seco, concordaram com o clínico no "é DED" (sensibilidade 93 a 99%; kappa 0,81 a 0,86). A especificidade ficou entre 0% e 16%. A acurácia balanceada caiu para 48 a 56%. No subtipo (aquoso, evaporativo, misto) o acordo foi ao acaso. O modelo reproduz o viés de superdiagnóstico. Um pipeline multimodal (Insight / MDPipe) que traduz meibografia em morfologia e pede raciocínio ao modelo de linguagem superou o GPT-4 em benchmarks de superfície ocular. Ainda é prova de conceito, não ferramenta de consultório.',
         "A fusão de verdade (imagem mais clínica, no mesmo modelo, validada fora de casa) continua rara. Dinâmica temporal do filme lacrimal, o que o clínico já filma no NIBUT, quase não entra. Ensaio prospectivo medindo sintoma, adesão ou qualidade de vida depois da IA assistida não apareceu no corpus.",
       ],
     },
@@ -2007,7 +2003,7 @@ const iaNaSuperficieOcular: MagazineArticle = {
       kind: "limitations",
       paragraphs: [
         "Esta matéria assenta numa revisão sistemática em inglês, com heterogeneidade grande de tarefa, aparelho e n. Meta-análise não foi possível. Dois papers de método ficaram no corpus apesar de n humano baixo (um voluntário com 89.033 recortes de interferometria por smartphone; dez sadios em OCT de menisco), porque a unidade de análise era o quadro, não a coorte diagnóstica. Um item de 2026 em repositório aberto não foi recuperado no PubMed nem no Crossref e não sustenta claim.",
-        "A revisão não cobre registro na ANVISA, software como dispositivo médico, nem a regra brasileira de telemedicina. Também não mede desfecho de paciente. \"Acurácia de segmentação\" não é alívio de sintoma.",
+        'A revisão não cobre registro na ANVISA, software como dispositivo médico, nem a regra brasileira de telemedicina. Também não mede desfecho de paciente. "Acurácia de segmentação" não é alívio de sintoma.',
         "O selo desta versão é checagem editorial, não revisão por pares. Claims clínicos abaixo têm fonte. O que não tem DOI resolvido no Crossref não entra. A revisão de 70 estudos únicos e os modelos sem nome de autor no texto ficam de fora desta lista.",
       ],
     },
@@ -2121,7 +2117,6 @@ const iaNaSuperficieOcular: MagazineArticle = {
     canonical: "/superficie/artigos/ia-na-superficie-ocular",
   },
 };
-
 
 const antiDemodex: MagazineArticle = {
   slug: "anti-demodex",

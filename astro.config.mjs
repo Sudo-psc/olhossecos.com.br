@@ -108,7 +108,8 @@ export default defineConfig({
           "/superficie/artigos/biologia-molecular-da-dgm": "2026-08-15",
           "/superficie/artigos/cinco-testes-cinco-perguntas": "2026-08-15",
           "/superficie/artigos/ia-na-superficie-ocular": "2026-08-17",
-          "/superficie/artigos/quando-sintomas-e-sinais-nao-batem": "2026-08-15",
+          "/superficie/artigos/quando-sintomas-e-sinais-nao-batem":
+            "2026-08-15",
           "/superficie/artigos/tfos-dews-iii-na-pratica": "2026-08-15",
           "/superficie/artigos/tres-meses-nao-sao-doze": "2026-08-17",
         };

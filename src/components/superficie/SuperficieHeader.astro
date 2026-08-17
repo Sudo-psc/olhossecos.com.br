@@ -49,7 +49,13 @@ const nav = [
       <p class="surface-descriptor">Revista de Olho Seco e Superfície Ocular</p>
       {
         home ? (
-          <h1 class="surface-wordmark">SUPERFÍCIE<span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"> — Revista de Olho Seco e Superfície Ocular</span></h1>
+          <h1 class="surface-wordmark">
+            SUPERFÍCIE
+            <span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">
+              {" "}
+              — Revista de Olho Seco e Superfície Ocular
+            </span>
+          </h1>
         ) : (
           <a class="surface-wordmark" href="/superficie">
             SUPERFÍCIE
@@ -83,17 +89,17 @@ const nav = [
   >
     <div class="surface-shell">
       {
-          nav.map((item) => (
-            <a
-              href={item.href}
-              aria-current={
-                isSurfaceNavCurrent(item.href, currentPath) ? "page" : undefined
-              }
-            >
-              {item.label}
-            </a>
-          ))
-        }
+        nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={
+              isSurfaceNavCurrent(item.href, currentPath) ? "page" : undefined
+            }
+          >
+            {item.label}
+          </a>
+        ))
+      }
     </div>
   </nav>
 </header>

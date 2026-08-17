@@ -21,10 +21,7 @@ execFileSync("astro", ["build"], {
   stdio: "inherit",
 });
 
-for (const leftover of [
-  "superficie/lab/flipbook",
-  "superficie/issues/poc",
-]) {
+for (const leftover of ["superficie/lab/flipbook", "superficie/issues/poc"]) {
   rmSync(join(repositoryDirectory, "dist", "client", leftover), {
     recursive: true,
     force: true,
