@@ -89,6 +89,30 @@ try {
   await assertStatus("/superficie/lab/edicao-00", 200);
   await assertStatus("/superficie/issues/poc/manifest.json", 404);
   await assertStatus("/superficie/issues/edicao-00/manifest.json", 200);
+
+  // Insumos dos geradores não podem voltar ao release: eram 65 MB de placas em
+  // art/ mais 7,7 MB de PNGs de origem, todos públicos e sem referência. O
+  // reader precisa continuar funcionando sem eles.
+  for (const input of [
+    "/superficie/issues/edicao-00/art/dgm.png",
+    "/images/hero-tear-film.png",
+    "/images/superficie/hero-interferometria.png",
+    "/images/superficie/capa-edicao-00.png",
+    "/images/superficie/og-superficie-source.png",
+    "/images/superficie/capa-edicao-00-conteudos-v2.png",
+  ]) {
+    await assertStatus(input, 404);
+  }
+
+  for (const shipped of [
+    "/superficie/issues/edicao-00/pages/page-01-large.webp",
+    "/superficie/issues/edicao-00/superficie-edicao-00.pdf",
+    "/images/hero-tear-film.jpg",
+    "/images/superficie/hero-interferometria.jpg",
+    "/images/superficie/capa-edicao-00.jpg",
+  ]) {
+    await assertStatus(shipped, 200);
+  }
   await assertPage("/superficie/parceiros", "/superficie/parceiros");
   await assertPage("/newsletter", "/newsletter");
   await assertPage("/newsletter/descadastrar", "/newsletter/descadastrar");

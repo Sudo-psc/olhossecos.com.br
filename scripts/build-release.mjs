@@ -21,7 +21,27 @@ execFileSync("astro", ["build"], {
   stdio: "inherit",
 });
 
-for (const leftover of ["superficie/lab/flipbook", "superficie/issues/poc"]) {
+// Caminhos que existem sob public/ mas não devem ir para produção.
+//
+// As placas em art/ e os PNGs de origem dos heros são INSUMOS dos geradores
+// (generate-superficie-edicao-00-assets.mjs, build-og-cards.mjs): moram sob
+// public/ apenas porque é para lá que os scripts escrevem. O reader consome
+// pages/*.webp pelo manifest e nunca toca em art/ — eram 65 MB de PNG servidos
+// publicamente sem nenhuma referência, 57% do build.
+const leftovers = [
+  "superficie/lab/flipbook",
+  "superficie/issues/poc",
+  "superficie/issues/edicao-00/art",
+  "images/superficie/capa-edicao-00-conteudos-v2.png",
+  "images/superficie/og-superficie-source.png",
+  // Masters dos heros. O <picture> serve avif/webp e cai no .jpg; o PNG só
+  // existe para regerar os derivados quando a arte mudar.
+  "images/hero-tear-film.png",
+  "images/superficie/hero-interferometria.png",
+  "images/superficie/capa-edicao-00.png",
+];
+
+for (const leftover of leftovers) {
   rmSync(join(repositoryDirectory, "dist", "client", leftover), {
     recursive: true,
     force: true,
