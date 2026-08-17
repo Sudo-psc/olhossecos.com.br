@@ -3,7 +3,7 @@
   "blocks": [
     {
       "id": "page-7-eyebrow",
-      "text": "EVIDÊNCIA · PÁGINA 07",
+      "text": "EVIDÊNCIA",
       "x": 0.1,
       "y": 0.065,
       "width": 0.8,
@@ -12,56 +12,56 @@
     },
     {
       "id": "page-7-title",
-      "text": "Nove drivers e o mapa de seis minutos",
+      "text": "TFOS DEWS III na prática",
       "x": 0.1,
       "y": 0.10391001606855918,
       "width": 0.8,
-      "height": 0.07138725227637922,
+      "height": 0.037836100696304234,
       "role": "heading"
     },
     {
       "id": "page-7-subtitle",
-      "text": "O algoritmo pode ser iniciado com recursos presentes em grande parte dos consultórios oftalmológicos brasileiros.",
+      "text": "O mecanismo decide a direção; a gravidade decide a urgência, a intensidade e a proteção.",
       "x": 0.1,
-      "y": 0.20207820032137117,
+      "y": 0.16852704874129618,
       "width": 0.8,
-      "height": 0.06106052490626674,
+      "height": 0.04177825388323514,
       "role": "paragraph"
     },
     {
       "id": "page-7-paragraph-1",
-      "text": "Filme lacrimal: lipídico, aquoso e mucina/glicocálix.",
+      "text": "O TFOS DEWS III não aposenta a gravidade; muda sua função. Em vez de determinar, sozinha, uma sequência universal de tratamentos, ela passa a modular urgência, intensidade e proteção da superfície.",
       "x": 0.1,
-      "y": 0.2813497589716122,
+      "y": 0.22851633636850563,
       "width": 0.8,
-      "height": 0.040707016604177824,
+      "height": 0.07927155865024103,
       "role": "paragraph"
     },
     {
       "id": "page-7-paragraph-2",
-      "text": "Pálpebras: piscar/fechamento e margem palpebral.",
+      "text": "O consenso define o olho seco como doença multifatorial e sintomática, marcada pela perda de homeostase do filme lacrimal e/ou da superfície ocular, na qual instabilidade e hiperosmolaridade, inflamação e dano, e anormalidades neurossensoriais atuam como fatores etiológicos.",
       "x": 0.1,
-      "y": 0.33384038564542046,
+      "y": 0.31957150508837706,
       "width": 0.8,
-      "height": 0.021424745581146223,
+      "height": 0.11783610069630424,
       "role": "paragraph"
     },
     {
       "id": "page-7-paragraph-3",
-      "text": "Superfície ocular: desalinhamento anatômico, disfunção neural, dano/ruptura celular e inflamação primária/estresse oxidativo.",
+      "text": "A superfície ocular passa a dividir explicitamente com o filme lacrimal o núcleo da homeostase. Isso acomoda melhor situações em que fricção, dano epitelial, anatomia, inflamação primária ou disfunção neural sustentam sintomas.",
       "x": 0.1,
-      "y": 0.3670487412961971,
+      "y": 0.4491912158543117,
       "width": 0.8,
-      "height": 0.059989287627209426,
+      "height": 0.09855382967327263,
       "role": "paragraph"
     },
     {
       "id": "page-7-paragraph-4",
-      "text": "0–1 min — Sintomas e impacto. 1–2 min — Mascaradores. 2–3 min — Filme sem corante. 3–4 min — Pálpebras e meibo. 4–5 min — Superfície com corantes. 5–6 min — Plano testável: nomeie os drivers, pareie cada conduta a um alvo e defina o que deverá ter mudado no retorno.",
+      "text": "A doença é, por definição, sintomática. Sinais isolados exigem acompanhamento, mas não preenchem sozinhos a definição. Sintomas sem evidência objetiva de perda de homeostase obrigam a ampliar o diagnóstico diferencial.",
       "x": 0.1,
-      "y": 0.43882163899303694,
+      "y": 0.5595286555972148,
       "width": 0.8,
-      "height": 0.11783610069630424,
+      "height": 0.09855382967327263,
       "role": "paragraph"
     },
     {

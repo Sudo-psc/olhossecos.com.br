@@ -3,7 +3,7 @@
   "blocks": [
     {
       "id": "page-8-eyebrow",
-      "text": "CONTRACAPA · PÁGINA 08",
+      "text": "EVIDÊNCIA",
       "x": 0.1,
       "y": 0.065,
       "width": 0.8,
@@ -12,47 +12,65 @@
     },
     {
       "id": "page-8-title",
-      "text": "SUPERFÍCIE",
+      "text": "Nove drivers e o mapa de seis minutos",
       "x": 0.1,
-      "y": 0.08891269416175683,
+      "y": 0.10391001606855918,
       "width": 0.8,
-      "height": 0.05403320835565078,
+      "height": 0.07138725227637922,
       "role": "heading"
     },
     {
       "id": "page-8-subtitle",
-      "text": "Ler o artigo completo — o HTML é o texto canônico.",
+      "text": "O algoritmo pode ser iniciado com recursos presentes em grande parte dos consultórios oftalmológicos brasileiros.",
       "x": 0.1,
-      "y": 0.18472415640064274,
+      "y": 0.20207820032137117,
       "width": 0.8,
-      "height": 0.022495982860203535,
+      "height": 0.06106052490626674,
       "role": "paragraph"
     },
     {
-      "id": "page-8-paragraph-1",
-      "text": "Além da obstrução: a biologia molecular da DGM — /superficie/artigos/biologia-molecular-da-dgm",
+      "id": "page-8-figure-caption",
+      "text": "O mapa dos nove drivers. Três territórios etiológicos — TFOS DEWS III (filme lacrimal, pálpebras, superfície ocular).",
       "x": 0.1,
-      "y": 0.22543117300482057,
+      "y": 0.6068559185859668,
+      "width": 0.8,
+      "height": 0.029994643813604713,
+      "role": "label"
+    },
+    {
+      "id": "page-8-paragraph-1",
+      "text": "Filme lacrimal: lipídico, aquoso e mucina/glicocálix.",
+      "x": 0.1,
+      "y": 0.6432779860739154,
       "width": 0.8,
       "height": 0.040707016604177824,
       "role": "paragraph"
     },
     {
       "id": "page-8-paragraph-2",
-      "text": "TFOS DEWS III na prática — /superficie/artigos/tfos-dews-iii-na-pratica",
+      "text": "Pálpebras: piscar/fechamento e margem palpebral.",
       "x": 0.1,
-      "y": 0.2779217996786288,
+      "y": 0.6957686127477236,
       "width": 0.8,
-      "height": 0.040707016604177824,
+      "height": 0.021424745581146223,
       "role": "paragraph"
     },
     {
       "id": "page-8-paragraph-3",
-      "text": "A edição continua em produção. Estas páginas não substituem o HTML publicado.",
+      "text": "Superfície ocular: desalinhamento anatômico, disfunção neural, dano/ruptura celular e inflamação primária/estresse oxidativo.",
       "x": 0.1,
-      "y": 0.33041242635243706,
+      "y": 0.7289769683985002,
       "width": 0.8,
-      "height": 0.040707016604177824,
+      "height": 0.059989287627209426,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-8-paragraph-4",
+      "text": "0–1 min — Sintomas e impacto. 1–2 min — Mascaradores. 2–3 min — Filme sem corante. 3–4 min — Pálpebras e meibo. 4–5 min — Superfície com corantes. 5–6 min — Plano testável: nomeie os drivers, pareie cada conduta a um alvo e defina o que deverá ter mudado no retorno.",
+      "x": 0.1,
+      "y": 0.8007498660953402,
+      "width": 0.8,
+      "height": 0.11783610069630424,
       "role": "paragraph"
     },
     {

@@ -1,0 +1,68 @@
+{
+  "page": 25,
+  "blocks": [
+    {
+      "id": "page-25-eyebrow",
+      "text": "TECNOLOGIA EM FOCO",
+      "x": 0.1,
+      "y": 0.065,
+      "width": 0.8,
+      "height": 0.035,
+      "role": "label"
+    },
+    {
+      "id": "page-25-title",
+      "text": "Três meses não são doze",
+      "x": 0.1,
+      "y": 0.10391001606855918,
+      "width": 0.8,
+      "height": 0.037836100696304234,
+      "role": "heading"
+    },
+    {
+      "id": "page-25-subtitle",
+      "text": "Tecnologias em olho seco: como ler a evidência comparativa",
+      "x": 0.1,
+      "y": 0.16852704874129618,
+      "width": 0.8,
+      "height": 0.04177825388323514,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-25-paragraph-1",
+      "text": "O consultório está sendo vendido um ranking de aparelhos. A meta-análise em rede de 2026 compara 47 ensaios a dois a quatro meses. P-score não é “melhor aparelho para comprar”.",
+      "x": 0.1,
+      "y": 0.22851633636850563,
+      "width": 0.8,
+      "height": 0.07927155865024103,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-25-paragraph-2",
+      "text": "Luz Intensa Pulsada Regulada (IRPL) e IPL de consultório não são o mesmo protocolo. Schirmer: nenhuma tecnologia supera o conservador. Esta matéria ensina a ler. Não prescreve aparelho.",
+      "x": 0.1,
+      "y": 0.31957150508837706,
+      "width": 0.8,
+      "height": 0.07927155865024103,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-25-byline",
+      "text": "Dr. Philipe Saraiva Cruz · CRM-MG 69.870 · RQE 71.903",
+      "x": 0.1,
+      "y": 0.419196572040707,
+      "width": 0.8,
+      "height": 0.016068559185859668,
+      "role": "label"
+    },
+    {
+      "id": "page-25-number",
+      "text": "25",
+      "x": 0.84,
+      "y": 0.93,
+      "width": 0.06,
+      "height": 0.025,
+      "role": "page-number"
+    }
+  ]
+}

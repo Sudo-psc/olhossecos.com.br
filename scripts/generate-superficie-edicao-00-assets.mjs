@@ -9,7 +9,9 @@ const PAGE_WIDTH = 1400;
 const PAGE_HEIGHT = 1867;
 const FOOTER_Y = 1748;
 const TEXT_LEFT = 140;
+const COLUMN_WIDTH = PAGE_WIDTH - TEXT_LEFT * 2;
 const TEXT_WIDTH = 0.8;
+const NEW_PLATE_SIZE = { width: 1086, height: 1448 };
 const outputRoot = path.resolve("public/superficie/issues/edicao-00");
 const artRoot = path.join(outputRoot, "art");
 const pageRoot = path.join(outputRoot, "pages");
@@ -17,20 +19,6 @@ const textRoot = path.join(outputRoot, "text");
 const audioRoot = path.join(outputRoot, "audio");
 const articleRoot = path.join(outputRoot, "articles");
 const pocAudioRoot = path.resolve("public/superficie/issues/poc/audio");
-
-const plateFiles = {
-  capa: path.join(artRoot, "capa.png"),
-  interior: path.join(artRoot, "interior.png"),
-  dgm: path.join(artRoot, "dgm.png"),
-  tfos: path.join(artRoot, "tfos.png"),
-};
-
-const expectedPlateSize = {
-  capa: { width: 1024, height: 1536 },
-  interior: { width: 1122, height: 1402 },
-  dgm: { width: 1122, height: 1402 },
-  tfos: { width: 1122, height: 1402 },
-};
 
 await Promise.all([
   mkdir(artRoot, { recursive: true }),
@@ -48,15 +36,25 @@ const searchIndex = [];
 for (const [index, page] of issue.pages.entries()) {
   const pageNumber = index + 1;
   const basename = `page-${String(pageNumber).padStart(2, "0")}`;
-  const platePath = plateFiles[page.plate];
-  const layout = layoutPage(page);
+  const platePath = platePathFor(page.plate);
+  const layout = await layoutPage(page);
   assertBodyDoesNotCollide(layout, pageNumber);
   const cropped = await centerCropToPage(platePath);
   const overlay = pageSvg(page, pageNumber, layout);
-  const composed = await sharp(cropped)
-    .composite([{ input: overlay, blend: "over" }])
-    .png()
-    .toBuffer();
+  const layers = [{ input: overlay, blend: "over" }];
+  if (layout.figure) {
+    const figurePng = await sharp(layout.figure.path)
+      .resize(layout.figure.width, layout.figure.height)
+      .png()
+      .toBuffer();
+    layers.push({
+      input: figurePng,
+      left: layout.figure.x,
+      top: layout.figure.y,
+      blend: "over",
+    });
+  }
+  const composed = await sharp(cropped).composite(layers).png().toBuffer();
 
   await Promise.all([
     renderWebp(composed, path.join(pageRoot, `${basename}-small.webp`), 480),
@@ -134,7 +132,45 @@ await Promise.all([
   ),
 ]);
 
-function layoutPage(page) {
+function platePathFor(plate) {
+  if (typeof plate !== "string" || plate.length === 0) {
+    throw new Error("Cada página precisa de page.plate.");
+  }
+  const filename = plate.endsWith(".png") ? plate : `${plate}.png`;
+  if (
+    filename.includes("/") ||
+    filename.includes("\\") ||
+    filename.includes("..")
+  ) {
+    throw new Error(`Placa inválida: ${plate}`);
+  }
+  return path.join(artRoot, filename);
+}
+
+function figurePathFor(src) {
+  if (typeof src !== "string" || src.length === 0) {
+    throw new Error("figure.src é obrigatório.");
+  }
+  if (src.includes("/") || src.includes("\\") || src.includes("..")) {
+    throw new Error(`Figura inválida: ${src}`);
+  }
+  return path.join(artRoot, src);
+}
+
+async function layoutPage(page) {
+  if (page.type === "ad") {
+    return {
+      kind: "ad",
+      title: null,
+      subtitle: null,
+      figure: null,
+      caption: null,
+      body: [],
+      byline: null,
+      endY: 200,
+    };
+  }
+
   const cover = page.type === "cover" || page.type === "back-cover";
   const titleSize = cover ? 86 : 58;
   const titleLineHeight = titleSize * 1.08;
@@ -142,8 +178,10 @@ function layoutPage(page) {
   const subtitleLineHeight = 36;
   const bodySize = 28;
   const bodyLineHeight = 36;
-  const paragraphGap = 26;
-  const bodyWrap = 52;
+  const paragraphGap = page.type === "contents" ? 16 : 26;
+  const bodyWrap = page.type === "contents" ? 48 : 52;
+  const captionSize = 20;
+  const captionLineHeight = 26;
 
   const title = {
     text: page.title,
@@ -152,34 +190,142 @@ function layoutPage(page) {
     size: titleSize,
     lineHeight: titleLineHeight,
   };
-  const subtitle = {
-    text: page.subtitle,
-    lines: wrapText(page.subtitle, 50),
-    y: title.y + title.lines.length * titleLineHeight + 28,
-    size: subtitleSize,
-    lineHeight: subtitleLineHeight,
-  };
+  const subtitleLines = page.subtitle ? wrapText(page.subtitle, 50) : [];
+  const subtitle = page.subtitle
+    ? {
+        text: page.subtitle,
+        lines: subtitleLines,
+        y: title.y + title.lines.length * titleLineHeight + 28,
+        size: subtitleSize,
+        lineHeight: subtitleLineHeight,
+      }
+    : null;
 
-  let cursor = subtitle.y + subtitle.lines.length * subtitleLineHeight + 40;
-  const body = page.body.map((text) => {
-    const block = {
-      text,
-      lines: wrapText(text, bodyWrap),
-      y: cursor,
-      size: bodySize,
-      lineHeight: bodyLineHeight,
+  let cursor = subtitle
+    ? subtitle.y + subtitle.lines.length * subtitleLineHeight + 40
+    : title.y + title.lines.length * titleLineHeight + 40;
+
+  const bodyDraft = (page.body ?? []).map((text) => ({
+    text,
+    lines: wrapText(text, bodyWrap),
+    size: bodySize,
+    lineHeight: bodyLineHeight,
+  }));
+  const bodyStackHeight = bodyDraft.reduce((total, block, index) => {
+    const gap = index === bodyDraft.length - 1 ? 0 : paragraphGap;
+    return total + block.lines.length * bodyLineHeight + gap;
+  }, 0);
+  const bylineHeight = page.byline ? 36 : 0;
+
+  let figure = null;
+  let caption = null;
+  if (page.figure) {
+    const figureFile = figurePathFor(page.figure.src);
+    const meta = await sharp(figureFile).metadata();
+    if (!meta.width || !meta.height) {
+      throw new Error(`Figura sem dimensões: ${figureFile}`);
+    }
+    const captionLines = wrapText(page.figure.caption, 68);
+    const captionBlockHeight = captionLines.length * captionLineHeight;
+    // caption.y usa baseline (cursor + captionSize); reserva essa subida
+    // para a figura ceder espaço ao recorte selado, nunca o contrário.
+    const reservedAfterFigure =
+      16 +
+      captionSize +
+      captionBlockHeight +
+      24 +
+      bodyStackHeight +
+      bylineHeight +
+      8;
+    const maxFigureHeight = FOOTER_Y - cursor - reservedAfterFigure;
+    const naturalHeight = Math.round((COLUMN_WIDTH * meta.height) / meta.width);
+    // Encolhe a figura se o recorte selado não couber; nunca descarta o texto.
+    const figureHeight = Math.min(
+      naturalHeight,
+      Math.max(1, Math.floor(maxFigureHeight)),
+    );
+    const figureWidth = Math.round((figureHeight * meta.width) / meta.height);
+    figure = {
+      path: figureFile,
+      x: TEXT_LEFT,
+      y: Math.round(cursor),
+      width: figureWidth,
+      height: figureHeight,
     };
+    cursor = figure.y + figure.height + 16;
+    caption = {
+      text: page.figure.caption,
+      lines: captionLines,
+      y: cursor + captionSize,
+      size: captionSize,
+      lineHeight: captionLineHeight,
+    };
+    cursor = caption.y + caption.lines.length * captionLineHeight + 24;
+  }
+
+  const body = bodyDraft.map((block) => {
+    const placed = { ...block, y: cursor };
     cursor += block.lines.length * bodyLineHeight + paragraphGap;
-    return block;
+    return placed;
   });
 
-  return { title, subtitle, body, endY: cursor - paragraphGap };
+  let byline = null;
+  if (page.byline) {
+    byline = {
+      text: page.byline,
+      lines: wrapText(page.byline, 56),
+      y: cursor + 8,
+      size: 20,
+      lineHeight: 26,
+    };
+    cursor = byline.y + byline.lines.length * byline.lineHeight;
+  }
+
+  return {
+    kind: "text",
+    title,
+    subtitle,
+    figure,
+    caption,
+    body,
+    byline,
+    endY: cursor,
+  };
 }
 
 function assertBodyDoesNotCollide(layout, pageNumber) {
+  if (layout.kind === "ad") return;
+
   let previousBottom =
-    layout.subtitle.y +
-    layout.subtitle.lines.length * layout.subtitle.lineHeight;
+    layout.title.y + layout.title.lines.length * layout.title.lineHeight;
+  if (layout.subtitle) {
+    if (layout.subtitle.y < previousBottom + 8) {
+      throw new Error(
+        `Página ${pageNumber}: o subtítulo colide com o título (y=${layout.subtitle.y}, fim anterior=${previousBottom}).`,
+      );
+    }
+    previousBottom =
+      layout.subtitle.y +
+      layout.subtitle.lines.length * layout.subtitle.lineHeight;
+  }
+  if (layout.figure) {
+    if (layout.figure.y < previousBottom + 8) {
+      throw new Error(
+        `Página ${pageNumber}: a figura colide com o bloco anterior (y=${layout.figure.y}, fim anterior=${previousBottom}).`,
+      );
+    }
+    previousBottom = layout.figure.y + layout.figure.height;
+  }
+  if (layout.caption) {
+    if (layout.caption.y < previousBottom + 4) {
+      throw new Error(
+        `Página ${pageNumber}: a legenda colide com a figura (y=${layout.caption.y}, fim anterior=${previousBottom}).`,
+      );
+    }
+    previousBottom =
+      layout.caption.y +
+      layout.caption.lines.length * layout.caption.lineHeight;
+  }
   for (const [index, block] of layout.body.entries()) {
     if (block.y < previousBottom + 8) {
       throw new Error(
@@ -187,6 +333,15 @@ function assertBodyDoesNotCollide(layout, pageNumber) {
       );
     }
     previousBottom = block.y + block.lines.length * block.lineHeight;
+  }
+  if (layout.byline) {
+    if (layout.byline.y < previousBottom + 4) {
+      throw new Error(
+        `Página ${pageNumber}: o byline colide com o corpo (y=${layout.byline.y}, fim anterior=${previousBottom}).`,
+      );
+    }
+    previousBottom =
+      layout.byline.y + layout.byline.lines.length * layout.byline.lineHeight;
   }
   if (previousBottom > FOOTER_Y) {
     throw new Error(
@@ -196,13 +351,37 @@ function assertBodyDoesNotCollide(layout, pageNumber) {
 }
 
 function pageBlocks(page, pageNumber, layout) {
+  if (layout.kind === "ad") {
+    const band = page.adPlacement === "band";
+    return [
+      {
+        id: `page-${pageNumber}-ad-label`,
+        text: "PUBLICIDADE",
+        x: 0.15,
+        y: band ? 0.78 : 0.46,
+        width: 0.7,
+        height: 0.04,
+        role: "label",
+      },
+      {
+        id: `page-${pageNumber}-number`,
+        text: String(pageNumber).padStart(2, "0"),
+        x: 0.84,
+        y: 0.93,
+        width: 0.06,
+        height: 0.025,
+        role: "page-number",
+      },
+    ];
+  }
+
   const toBox = (block, extra = 0) => ({
     x: TEXT_LEFT / PAGE_WIDTH,
     y: (block.y - block.size) / PAGE_HEIGHT,
     width: TEXT_WIDTH,
     height: (block.lines.length * block.lineHeight + extra) / PAGE_HEIGHT,
   });
-  return [
+  const blocks = [
     {
       id: `page-${pageNumber}-eyebrow`,
       text: page.eyebrow,
@@ -218,28 +397,60 @@ function pageBlocks(page, pageNumber, layout) {
       ...toBox(layout.title, 8),
       role: "heading",
     },
-    {
+  ];
+  if (layout.subtitle) {
+    blocks.push({
       id: `page-${pageNumber}-subtitle`,
       text: page.subtitle,
       ...toBox(layout.subtitle, 6),
       role: "paragraph",
-    },
+    });
+  }
+  if (layout.caption) {
+    blocks.push({
+      id: `page-${pageNumber}-figure-caption`,
+      text: layout.caption.text,
+      ...toBox(layout.caption, 4),
+      role: "label",
+    });
+  }
+  blocks.push(
     ...layout.body.map((block, index) => ({
       id: `page-${pageNumber}-paragraph-${index + 1}`,
       text: block.text,
       ...toBox(block, 4),
       role: "paragraph",
     })),
-    {
-      id: `page-${pageNumber}-number`,
-      text: String(pageNumber).padStart(2, "0"),
-      x: 0.84,
+  );
+  if (layout.byline) {
+    blocks.push({
+      id: `page-${pageNumber}-byline`,
+      text: layout.byline.text,
+      ...toBox(layout.byline, 4),
+      role: "label",
+    });
+  }
+  if (page.footer) {
+    blocks.push({
+      id: `page-${pageNumber}-footer`,
+      text: page.footer,
+      x: 0.1,
       y: 0.93,
-      width: 0.06,
+      width: 0.6,
       height: 0.025,
-      role: "page-number",
-    },
-  ];
+      role: "label",
+    });
+  }
+  blocks.push({
+    id: `page-${pageNumber}-number`,
+    text: String(pageNumber).padStart(2, "0"),
+    x: 0.84,
+    y: 0.93,
+    width: 0.06,
+    height: 0.025,
+    role: "page-number",
+  });
+  return blocks;
 }
 
 function pageSvg(page, pageNumber, layout) {
@@ -247,6 +458,21 @@ function pageSvg(page, pageNumber, layout) {
   const foreground = dark ? "#F7F3EA" : "#0B1F33";
   const muted = dark ? "#d7cbb3" : "#3d4f5c";
   const accent = dark ? "#d9b665" : "#00646A";
+  const pageLabel = String(pageNumber).padStart(2, "0");
+
+  if (layout.kind === "ad") {
+    const band = page.adPlacement === "band";
+    const labelY = band ? 1580 : 960;
+    return Buffer.from(
+      `
+    <svg xmlns="http://www.w3.org/2000/svg" width="${PAGE_WIDTH}" height="${PAGE_HEIGHT}" viewBox="0 0 ${PAGE_WIDTH} ${PAGE_HEIGHT}">
+      <text x="700" y="${labelY}" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" letter-spacing="8" font-weight="700" fill="${accent}">PUBLICIDADE</text>
+      <text x="1260" y="1795" text-anchor="end" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="${accent}">${pageLabel}</text>
+    </svg>`,
+      "utf8",
+    );
+  }
+
   const scrimHeight = Math.min(
     1680,
     Math.max(980, Math.round(layout.endY - 40)),
@@ -254,6 +480,28 @@ function pageSvg(page, pageNumber, layout) {
   const scrim = dark
     ? `<rect x="90" y="70" width="1220" height="${scrimHeight}" rx="18" fill="#0B1F33" opacity=".42"/>`
     : `<rect x="90" y="70" width="1220" height="${scrimHeight}" rx="18" fill="#F7F3EA" opacity=".62"/>`;
+  const subtitleMarkup = layout.subtitle
+    ? svgLines(
+        layout.subtitle.lines,
+        TEXT_LEFT,
+        layout.subtitle.y,
+        layout.subtitle.size,
+        layout.subtitle.lineHeight,
+        muted,
+        500,
+      )
+    : "";
+  const captionMarkup = layout.caption
+    ? svgLines(
+        layout.caption.lines,
+        TEXT_LEFT,
+        layout.caption.y,
+        layout.caption.size,
+        layout.caption.lineHeight,
+        muted,
+        500,
+      )
+    : "";
   const bodyMarkup = layout.body
     .map((block) =>
       svgLines(
@@ -267,6 +515,18 @@ function pageSvg(page, pageNumber, layout) {
       ),
     )
     .join("");
+  const bylineMarkup = layout.byline
+    ? svgLines(
+        layout.byline.lines,
+        TEXT_LEFT,
+        layout.byline.y,
+        layout.byline.size,
+        layout.byline.lineHeight,
+        accent,
+        600,
+      )
+    : "";
+  const footerText = page.footer ?? "SUPERFÍCIE · EDIÇÃO 00";
 
   return Buffer.from(
     `
@@ -275,10 +535,12 @@ function pageSvg(page, pageNumber, layout) {
       <path d="M0 0H1400V18H0Z" fill="${accent}"/>
       <text x="140" y="150" font-family="Arial, sans-serif" font-size="22" letter-spacing="4" font-weight="700" fill="${accent}">${escapeXml(page.eyebrow)}</text>
       ${svgLines(layout.title.lines, TEXT_LEFT, layout.title.y, layout.title.size, layout.title.lineHeight, foreground, 700)}
-      ${svgLines(layout.subtitle.lines, TEXT_LEFT, layout.subtitle.y, layout.subtitle.size, layout.subtitle.lineHeight, muted, 500)}
+      ${subtitleMarkup}
+      ${captionMarkup}
       ${bodyMarkup}
-      <text x="140" y="1795" font-family="Arial, sans-serif" font-size="18" letter-spacing="3" fill="${muted}">SUPERFÍCIE · EDIÇÃO 00</text>
-      <text x="1260" y="1795" text-anchor="end" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="${accent}">${String(pageNumber).padStart(2, "0")}</text>
+      ${bylineMarkup}
+      <text x="140" y="1795" font-family="Arial, sans-serif" font-size="18" letter-spacing="3" fill="${muted}">${escapeXml(footerText.toUpperCase())}</text>
+      <text x="1260" y="1795" text-anchor="end" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="${accent}">${pageLabel}</text>
     </svg>`,
     "utf8",
   );
@@ -459,20 +721,37 @@ function buildPlaceholderPdf() {
 }
 
 async function requireExistingPlates() {
-  for (const [name, file] of Object.entries(plateFiles)) {
+  const plates = [...new Set(issue.pages.map((page) => page.plate))];
+  for (const plate of plates) {
+    const file = platePathFor(plate);
     try {
       await access(file, fsConstants.R_OK);
     } catch {
       throw new Error(
-        `Missing Comfy original ${file}. Copy the attached PNG byte-for-byte before generating assets.`,
+        `Missing plate ${file}. Copy the ChatGPT PNG byte-for-byte before generating assets.`,
       );
     }
     const { width, height } = await sharp(file).metadata();
-    const expected = expectedPlateSize[name];
-    if (width !== expected.width || height !== expected.height) {
+    if (width !== NEW_PLATE_SIZE.width || height !== NEW_PLATE_SIZE.height) {
       throw new Error(
-        `Plate ${file} is ${width}×${height}, expected ${expected.width}×${expected.height}.`,
+        `Plate ${file} is ${width}×${height}, expected ${NEW_PLATE_SIZE.width}×${NEW_PLATE_SIZE.height}.`,
       );
+    }
+  }
+
+  const figures = [
+    ...new Set(
+      issue.pages
+        .map((page) => page.figure?.src)
+        .filter((src) => typeof src === "string"),
+    ),
+  ];
+  for (const src of figures) {
+    const file = figurePathFor(src);
+    try {
+      await access(file, fsConstants.R_OK);
+    } catch {
+      throw new Error(`Missing figure ${file}.`);
     }
   }
 }

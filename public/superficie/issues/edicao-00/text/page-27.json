@@ -1,0 +1,68 @@
+{
+  "page": 27,
+  "blocks": [
+    {
+      "id": "page-27-eyebrow",
+      "text": "ATUALIZAÇÃO CLÍNICA",
+      "x": 0.1,
+      "y": 0.065,
+      "width": 0.8,
+      "height": 0.035,
+      "role": "label"
+    },
+    {
+      "id": "page-27-title",
+      "text": "Tratar antes de medir",
+      "x": 0.1,
+      "y": 0.10391001606855918,
+      "width": 0.8,
+      "height": 0.037836100696304234,
+      "role": "heading"
+    },
+    {
+      "id": "page-27-subtitle",
+      "text": "Prehab ocular: a superfície que muda a LIO e a satisfação",
+      "x": 0.1,
+      "y": 0.16852704874129618,
+      "width": 0.8,
+      "height": 0.04177825388323514,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-27-paragraph-1",
+      "text": "A fila da catarata e da refrativa ainda opera no filme instável. “Dói o olho?” não identifica quem vai errar a ceratometria. Prehab é tratar a superfície visualmente significativa, re-medir quando o K repetir, e avisar o que a cirurgia também cria.",
+      "x": 0.1,
+      "y": 0.22851633636850563,
+      "width": 0.8,
+      "height": 0.11783610069630424,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-27-paragraph-2",
+      "text": "Disfunção objetiva da superfície é a regra na fila, não a exceção. Quem só pergunta perde o paciente que vai trocar o poder da LIO.",
+      "x": 0.1,
+      "y": 0.35813604713444025,
+      "width": 0.8,
+      "height": 0.059989287627209426,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-27-byline",
+      "text": "Dr. Philipe Saraiva Cruz · CRM-MG 69.870 · RQE 71.903",
+      "x": 0.1,
+      "y": 0.43847884306373863,
+      "width": 0.8,
+      "height": 0.016068559185859668,
+      "role": "label"
+    },
+    {
+      "id": "page-27-number",
+      "text": "27",
+      "x": 0.84,
+      "y": 0.93,
+      "width": 0.06,
+      "height": 0.025,
+      "role": "page-number"
+    }
+  ]
+}

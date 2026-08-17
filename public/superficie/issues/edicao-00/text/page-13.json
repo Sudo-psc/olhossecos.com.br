@@ -1,0 +1,77 @@
+{
+  "page": 13,
+  "blocks": [
+    {
+      "id": "page-13-eyebrow",
+      "text": "MÉTODOS & MÉTRICAS",
+      "x": 0.1,
+      "y": 0.065,
+      "width": 0.8,
+      "height": 0.035,
+      "role": "label"
+    },
+    {
+      "id": "page-13-title",
+      "text": "A imagem não fecha o diagnóstico",
+      "x": 0.1,
+      "y": 0.10391001606855918,
+      "width": 0.8,
+      "height": 0.07138725227637922,
+      "role": "heading"
+    },
+    {
+      "id": "page-13-subtitle",
+      "text": "Estrutura não é função. Uma imagem não é fenótipo estável.",
+      "x": 0.1,
+      "y": 0.20207820032137117,
+      "width": 0.8,
+      "height": 0.04177825388323514,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-13-paragraph-1",
+      "text": "Fora de foco, com reflexo, com dedo no campo, com eversão incompleta ou excessiva: não se lauda. Pede-se nova aquisição.",
+      "x": 0.1,
+      "y": 0.2620674879485806,
+      "width": 0.8,
+      "height": 0.059989287627209426,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-13-paragraph-2",
+      "text": "O protocolo mínimo: infravermelho sem contato; eversão reproduzível das duas pálpebras de ambos os olhos; iluminação sem reflexo no tarso; foco no plano das glândulas; registrar pré- ou pós-expressão; follow-up no mesmo aparelho, mesma pálpebra, mesma eversão.",
+      "x": 0.1,
+      "y": 0.33384038564542046,
+      "width": 0.8,
+      "height": 0.11783610069630424,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-13-paragraph-3",
+      "text": "O que ler além do meiboscore: dropout, encurtamento, distorção, dilatação, contraste, assimetria superior–inferior. Sempre acoplar função: expressibilidade ao longo da pálpebra, não só no terço temporal.",
+      "x": 0.1,
+      "y": 0.4634600964113551,
+      "width": 0.8,
+      "height": 0.09855382967327263,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-13-paragraph-4",
+      "text": "Onde a imagem decide: documentar baseline; acompanhar no mesmo sistema; subclassificar o eixo lipídio ou pálpebra. Onde não decide: diagnosticar doença do olho seco; diagnosticar DGM sozinha.",
+      "x": 0.1,
+      "y": 0.5737975361542581,
+      "width": 0.8,
+      "height": 0.07927155865024103,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-13-number",
+      "text": "13",
+      "x": 0.84,
+      "y": 0.93,
+      "width": 0.06,
+      "height": 0.025,
+      "role": "page-number"
+    }
+  ]
+}

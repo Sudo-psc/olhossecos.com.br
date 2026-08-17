@@ -1,0 +1,50 @@
+{
+  "page": 21,
+  "blocks": [
+    {
+      "id": "page-21-eyebrow",
+      "text": "ATUALIZAÇÃO CLÍNICA",
+      "x": 0.1,
+      "y": 0.065,
+      "width": 0.8,
+      "height": 0.035,
+      "role": "label"
+    },
+    {
+      "id": "page-21-title",
+      "text": "O que reduz ácaro, e o que só reduz queixa",
+      "x": 0.1,
+      "y": 0.10391001606855918,
+      "width": 0.8,
+      "height": 0.07138725227637922,
+      "role": "heading"
+    },
+    {
+      "id": "page-21-paragraph-1",
+      "text": "Higiene diária com shampoo reduz a contagem de Demodex e não elimina. Conforto não é causal.",
+      "x": 0.1,
+      "y": 0.20850562399571504,
+      "width": 0.8,
+      "height": 0.040707016604177824,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-21-paragraph-2",
+      "text": "Lotilaner 0,25% duas vezes ao dia por seis semanas é o único regime com ensaios fase 3, mascarados, veículo-controlados, e erradicação de ácaro como desfecho. Até 15 de agosto de 2026 não há registro oftalmológico ANVISA citável. Pipeline. Não vitrine.",
+      "x": 0.1,
+      "y": 0.2609962506695233,
+      "width": 0.8,
+      "height": 0.09855382967327263,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-21-number",
+      "text": "21",
+      "x": 0.84,
+      "y": 0.93,
+      "width": 0.06,
+      "height": 0.025,
+      "role": "page-number"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "page": 23,
+  "blocks": [
+    {
+      "id": "page-23-eyebrow",
+      "text": "DA EVIDÊNCIA À PRÁTICA",
+      "x": 0.1,
+      "y": 0.065,
+      "width": 0.8,
+      "height": 0.035,
+      "role": "label"
+    },
+    {
+      "id": "page-23-title",
+      "text": "Escolher com o mapa na mão",
+      "x": 0.1,
+      "y": 0.10391001606855918,
+      "width": 0.8,
+      "height": 0.037836100696304234,
+      "role": "heading"
+    },
+    {
+      "id": "page-23-paragraph-1",
+      "text": "CsA, lifitegrast e corticoide curto têm RCT e revisão sistemática. O grau de certeza é baixo a moderado, não “aprovado = funciona em todos”.",
+      "x": 0.1,
+      "y": 0.17495447241564005,
+      "width": 0.8,
+      "height": 0.059989287627209426,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-23-paragraph-2",
+      "text": "Secretagogos têm meta-análise contra hialuronato. Citáveis como classe. Neurossensorial: soro autólogo tem sinal fraco em DED clássica. Evaporativo: calor, expressão e lipídio como conceito. Aparelhos ficam na matéria de tecnologias.",
+      "x": 0.1,
+      "y": 0.24672737011247992,
+      "width": 0.8,
+      "height": 0.09855382967327263,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-23-number",
+      "text": "23",
+      "x": 0.84,
+      "y": 0.93,
+      "width": 0.06,
+      "height": 0.025,
+      "role": "page-number"
+    }
+  ]
+}

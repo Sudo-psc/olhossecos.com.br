@@ -1,0 +1,68 @@
+{
+  "page": 20,
+  "blocks": [
+    {
+      "id": "page-20-eyebrow",
+      "text": "ATUALIZAÇÃO CLÍNICA",
+      "x": 0.1,
+      "y": 0.065,
+      "width": 0.8,
+      "height": 0.035,
+      "role": "label"
+    },
+    {
+      "id": "page-20-title",
+      "text": "Quando a higiene não basta",
+      "x": 0.1,
+      "y": 0.10391001606855918,
+      "width": 0.8,
+      "height": 0.037836100696304234,
+      "role": "heading"
+    },
+    {
+      "id": "page-20-subtitle",
+      "text": "Anti-Demodex: caspa cilíndrica, carga e o que realmente reduz ácaro",
+      "x": 0.1,
+      "y": 0.16852704874129618,
+      "width": 0.8,
+      "height": 0.04177825388323514,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-20-paragraph-1",
+      "text": "A higiene palpebral virou default para qualquer margem suja. Em infestação documentada, o default não erradica o ácaro. Tratar só com conforto é o mecanismo errado. Tratar toda blefarite como Demodex também é.",
+      "x": 0.1,
+      "y": 0.22851633636850563,
+      "width": 0.8,
+      "height": 0.09855382967327263,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-20-paragraph-2",
+      "text": "Caspa cilíndrica — o colarete na base do cílio — é o sinal de lâmpada mais específico. Sem caspa — e sem amostragem ou microscopia confocal — a higiene é higiene.",
+      "x": 0.1,
+      "y": 0.33885377611140866,
+      "width": 0.8,
+      "height": 0.07927155865024103,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-20-byline",
+      "text": "Dr. Philipe Saraiva Cruz · CRM-MG 69.870 · RQE 71.903",
+      "x": 0.1,
+      "y": 0.43847884306373863,
+      "width": 0.8,
+      "height": 0.016068559185859668,
+      "role": "label"
+    },
+    {
+      "id": "page-20-number",
+      "text": "20",
+      "x": 0.84,
+      "y": 0.93,
+      "width": 0.06,
+      "height": 0.025,
+      "role": "page-number"
+    }
+  ]
+}

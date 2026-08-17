@@ -1,0 +1,50 @@
+{
+  "page": 26,
+  "blocks": [
+    {
+      "id": "page-26-eyebrow",
+      "text": "TECNOLOGIA EM FOCO",
+      "x": 0.1,
+      "y": 0.065,
+      "width": 0.8,
+      "height": 0.035,
+      "role": "label"
+    },
+    {
+      "id": "page-26-title",
+      "text": "Como ler o ranking — e o que ele não é",
+      "x": 0.1,
+      "y": 0.10391001606855918,
+      "width": 0.8,
+      "height": 0.07138725227637922,
+      "role": "heading"
+    },
+    {
+      "id": "page-26-paragraph-1",
+      "text": "TearCare com expressão e IPL com máscara aquecida ficam no topo de TBUT na rede. QMR no topo de coloração. IPL no topo de sintoma. A rede mistura subtipos de IPL.",
+      "x": 0.1,
+      "y": 0.20850562399571504,
+      "width": 0.8,
+      "height": 0.07927155865024103,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-26-paragraph-2",
+      "text": "SAHARA compara pulsação térmica mais expressão com ciclosporina 0,05%. TBUT ganhou no braço térmico. OSDI empatou. Cochrane IPL e Cochrane LipiFlow são o contrapeso: a classe não tem evidência conclusiva de superioridade versus compressa ou higiene.",
+      "x": 0.1,
+      "y": 0.2995607927155865,
+      "width": 0.8,
+      "height": 0.09855382967327263,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-26-number",
+      "text": "26",
+      "x": 0.84,
+      "y": 0.93,
+      "width": 0.06,
+      "height": 0.025,
+      "role": "page-number"
+    }
+  ]
+}
