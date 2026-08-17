@@ -589,7 +589,7 @@ const dgmBiologiaMolecular: MagazineArticle = {
   seo: {
     title: "Além da obstrução: a biologia molecular da DGM | SUPERFÍCIE",
     description:
-      "PPARγ, sinalização androgênica e renovação do nicho progenitor na disfunção das glândulas de Meibomius — o que a evidência pré-clínica mostra e o que ainda não sustenta prescrição.",
+      "PPARγ, sinalização androgênica e nicho progenitor na DGM: o que a evidência pré-clínica mostra e o que ainda não sustenta prescrição.",
     canonical: "/superficie/artigos/biologia-molecular-da-dgm",
   },
 };
@@ -1322,7 +1322,7 @@ const tresMesesNaoSaoDoze: MagazineArticle = {
   seo: {
     title: "Três meses não são doze | SUPERFÍCIE",
     description:
-      "Uma meta-análise em rede ordena tecnologias de olho seco a 2–4 meses. P-score não é ranking de compra. Três meses não são doze — e benefício contra placebo não é superioridade sobre o cuidado padrão.",
+      "Uma meta-análise em rede ordena tecnologias de olho seco a 2–4 meses. P-score não é ranking de compra, e três meses não são doze.",
     canonical: "/superficie/artigos/tres-meses-nao-sao-doze",
   },
 };
@@ -1533,7 +1533,7 @@ const alemDoMeiboscore: MagazineArticle = {
   seo: {
     title: "Além do meiboscore | SUPERFÍCIE",
     description:
-      "O meiboscore quantifica perda de área visível. Não mede expressibilidade. Não distingue atrofia de oclusão. Não diagnostica doença do olho seco — e uma foto granulada não autoriza laudar DGM.",
+      "O meiboscore quantifica perda de área visível. Não mede expressibilidade, não distingue atrofia de oclusão e não diagnostica olho seco.",
     canonical: "/superficie/artigos/alem-do-meiboscore",
   },
 };
@@ -1732,7 +1732,7 @@ const cincoTestesCincoPerguntas: MagazineArticle = {
   seo: {
     title: "Cinco testes, cinco perguntas | SUPERFÍCIE",
     description:
-      "Cada teste responde a uma pergunta. NIBUT, osmolaridade, coloração, interferometria e MMP-9 não são proxies intercambiáveis de gravidade. A discórdia entre eles é dado, não falha do exame.",
+      "NIBUT, osmolaridade, coloração, interferometria e MMP-9 não são proxies intercambiáveis de gravidade. A discórdia entre eles é dado, não falha.",
     canonical: "/superficie/artigos/cinco-testes-cinco-perguntas",
   },
 };
@@ -1935,7 +1935,7 @@ const aPregaOAtritoEOpiscar: MagazineArticle = {
   seo: {
     title: "A prega, o atrito e o piscar | SUPERFÍCIE",
     description:
-      "Conjuntivocálase mimetiza doença do olho seco. Coexiste com ela. Não é ela. Irritação, epífora e tempo de ruptura curto na córnea inferior pedem desalinhamento e piscar — não só outra lágrima.",
+      "Conjuntivocálase mimetiza doença do olho seco e coexiste com ela, mas não é ela: irritação e epífora pedem olhar o atrito e o piscar.",
     canonical: "/superficie/artigos/a-prega-o-atrito-e-o-piscar",
   },
 };
@@ -2110,10 +2110,9 @@ const iaNaSuperficieOcular: MagazineArticle = {
     "Superfície ocular",
   ],
   seo: {
-    title:
-      "IA na superfície ocular: onde ajuda, onde erra e como validar | SUPERFÍCIE",
+    title: "IA na superfície ocular: o que valida um modelo | SUPERFÍCIE",
     description:
-      "A pergunta útil não é se uma rede consegue segmentar uma glândula. É se o número que ela devolve muda uma decisão no consultório. Meibografia e coloração já têm modelo; o AUC interno não viaja, e o LLM superdiagnostica — sem validação externa, o software descreve o laboratório que o treinou.",
+      "Meibografia e coloração já têm modelo, mas o AUC interno não viaja e o LLM superdiagnostica. Sem validação externa, o software descreve o próprio treino.",
     canonical: "/superficie/artigos/ia-na-superficie-ocular",
   },
 };
@@ -2328,7 +2327,7 @@ const antiDemodex: MagazineArticle = {
   seo: {
     title: "Quando a higiene não basta | SUPERFÍCIE",
     description:
-      "A higiene palpebral virou default para qualquer margem suja. Em infestação documentada, o default não erradica o ácaro. Tratar só com conforto é o mecanismo errado. Tratar toda blefarite como Demodex também é.",
+      "Em infestação documentada por Demodex, a higiene palpebral padrão não erradica o ácaro. Tratar toda blefarite como Demodex erra na outra direção.",
     canonical: "/superficie/artigos/anti-demodex",
   },
 };
@@ -2541,7 +2540,7 @@ const terapiasDirigidasPorMecanismo: MagazineArticle = {
   seo: {
     title: "O mecanismo da visita, não o degrau | SUPERFÍCIE",
     description:
-      "O consultório ainda escala por gravidade: lágrima, anti-inflamatório, plug, aparelho. O mapa das pp. 23–28 já disse que o driver da visita importa mais que o escore. Não há ensaio que teste tratamento dirigido por mecanismo contra escalada por gravidade.",
+      "O driver da visita importa mais que o escore de gravidade. Ainda não há ensaio testando tratamento dirigido por mecanismo contra escalada por gravidade.",
     canonical: "/superficie/artigos/terapias-dirigidas-por-mecanismo",
   },
 };
@@ -2756,7 +2755,7 @@ const prehabOcular: MagazineArticle = {
   seo: {
     title: "Tratar antes de medir | SUPERFÍCIE",
     description:
-      "A fila da catarata e da refrativa ainda opera no filme instável. “Dói o olho?” não identifica quem vai errar a ceratometria. Duas semanas de lágrima não têm âncora de acurácia de LIO nesta lista.",
+      "A fila da catarata e da refrativa ainda opera no filme instável. Duas semanas de lágrima não têm âncora de acurácia de LIO nesta literatura.",
     canonical: "/superficie/artigos/prehab-ocular",
   },
 };
@@ -2984,7 +2983,7 @@ const anatomiaDryEyeCenter: MagazineArticle = {
   seo: {
     title: "Quem entra, quem some | SUPERFÍCIE",
     description:
-      "O center que só recebe quem já tem o rótulo perde a maior parte da demanda. Inomata e colaboradores (2020): 72,7% dos sintomáticos num aplicativo japonês estavam sem diagnóstico. Yeo e colaboradores (2014): 47,5% somem de uma clínica dedicada em dois anos.",
+      "O center que só recebe quem já tem o rótulo perde a maior parte da demanda: 72,7% dos sintomáticos estavam sem diagnóstico (Inomata, 2020).",
     canonical: "/superficie/artigos/anatomia-dry-eye-center",
   },
 };

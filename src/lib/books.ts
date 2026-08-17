@@ -114,7 +114,7 @@ export const books: Book[] = [
       },
     ],
     seo: {
-      title: "Conjuntivocálase: Diagnóstico e Abordagem Clínica",
+      title: "Conjuntivocálase e olho seco: diagnóstico e abordagem",
       description:
         "Conheça a obra de Philipe Saraiva Cruz sobre conjuntivocálase, fisiopatologia, diagnóstico diferencial, olho seco e abordagem clínica.",
     },
