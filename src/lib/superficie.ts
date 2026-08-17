@@ -267,7 +267,7 @@ const dgmBiologiaMolecular: MagazineArticle = {
   subtitle:
     "PPARγ, receptor androgênico e células progenitoras ajudam a explicar a perda funcional da glândula de Meibomius antes da atrofia.",
   excerpt:
-    "A disfunção das glândulas de Meibomius não é apenas uma doença de glândulas obstruídas. Alterações na diferenciação dos meibócitos, na sinalização androgênica e na renovação do compartimento progenitor podem preceder a atrofia — mas a evidência permanece majoritariamente pré-clínica.",
+    "Na prática, é tentador reduzir a DGM a uma sequência simples: meibum espesso, obstrução, instabilidade lacrimal e sintomas. Esse modelo é útil, mas incompleto.",
   category: "Clínica",
   author: {
     name: "Dr. Philipe Saraiva Cruz",
@@ -285,14 +285,10 @@ const dgmBiologiaMolecular: MagazineArticle = {
       title: "Por que importa",
       kind: "why-it-matters",
       paragraphs: [
-        "Na prática, é tentador reduzir a DGM a uma sequência simples: meibum espesso, obstrução, instabilidade lacrimal e sintomas. Esse modelo é útil, mas incompleto. A glândula de Meibomius é um tecido de renovação contínua. Cada meibócito amadurece, acumula lipídios e é eliminado pela secreção holócrina; para que a glândula continue funcionando, outra célula precisa completar o mesmo programa.",
-        "Quando essa transição falha, a perda funcional pode começar antes que a meibografia mostre atrofia avançada. Isso oferece uma explicação biologicamente plausível para a resposta desigual a intervenções exclusivamente mecânicas: pacientes com apresentações morfológicas semelhantes podem não compartilhar o mesmo mecanismo predominante.",
-        "Essa hipótese não permite identificar a via molecular de um paciente no consultório. Ela muda a pergunta clínica — de “onde está a obstrução?” para “quais componentes obstrutivos, inflamatórios, hormonais, metabólicos e degenerativos podem coexistir neste fenótipo?”.",
-      ],
-      bullets: [
-        "A obstrução é apenas parte da história: a DGM também pode envolver falha na produção e na renovação de meibócitos funcionais.",
-        "Três eixos convergem: redução de PPARγ, menor suporte androgênico e disfunção do nicho progenitor.",
-        "A implicação clínica atual é fenotipar melhor, não prescrever vias moleculares.",
+        "Na prática, é tentador reduzir a DGM a uma sequência simples: meibum espesso, obstrução, instabilidade lacrimal e sintomas. Esse modelo é útil, mas incompleto.",
+        "Por que pacientes com imagem glandular parecida respondem de forma desigual a intervenções só mecânicas? A glândula de Meibomius é um tecido de renovação contínua. Cada meibócito amadurece, acumula lipídios e é eliminado pela secreção holócrina. Quando essa transição falha, a perda funcional pode começar antes da atrofia avançada na imagem.",
+        "Essa hipótese não identifica a via molecular de um paciente no consultório. Ela muda a pergunta clínica: de “onde está a obstrução?” para “quais componentes obstrutivos, inflamatórios, hormonais, metabólicos e degenerativos podem coexistir neste fenótipo?”.",
+        "A implicação atual é fenotipar melhor, não prescrever vias moleculares. Três eixos sustentam essa leitura: PPARγ, suporte androgênico e nicho progenitor.",
       ],
     },
     {
@@ -310,9 +306,10 @@ const dgmBiologiaMolecular: MagazineArticle = {
       title: "PPARγ: identidade e diferenciação do meibócito",
       kind: "evidence",
       paragraphs: [
-        "O receptor gama ativado por proliferadores de peroxissoma (PPARγ) ocupa posição central na diferenciação meibocitária. Sua expressão acompanha o início da maturação celular e da síntese lipídica durante o desenvolvimento glandular. Em células humanas, a ativação dessa via promove saída do ciclo celular e aumenta a expressão de genes lipogênicos, entre eles ADFP, ELOVL4 e FABP4.",
-        "Modelos genéticos reforçam a centralidade da via, ainda que por caminho indireto: a deleção condicional de Fgfr2 ou de Hdac3 no epitélio meibomiano produz atrofia acinar e maturação meibocitária defeituosa, acompanhada de queda de PPARγ e de seus alvos lipogênicos. Vale a distinção: nesses modelos o PPARγ cai junto com o fenótipo — não há, até aqui, demonstração de que sua deleção isolada seja a causa da atrofia.",
-        "Estudos de envelhecimento descrevem menor atividade da via e perda de eficiência da diferenciação, com deslocamento da localização de PPARγ do citoplasma para o núcleo em glândulas de camundongos e humanos mais velhos. Em termos simples, o PPARγ não atua apenas na quantidade de lipídios; participa da definição da identidade funcional do meibócito.",
+        "O que define a identidade funcional do meibócito, além da quantidade de lipídio que ele acumula? O receptor gama ativado por proliferadores de peroxissoma (PPARγ) ocupa posição central nessa diferenciação.",
+        "Sua expressão acompanha o início da maturação celular e da síntese lipídica durante o desenvolvimento glandular. Em células humanas, a ativação dessa via promove saída do ciclo celular e aumenta a expressão de genes lipogênicos, entre eles ADFP, ELOVL4 e FABP4.",
+        "Modelos genéticos reforçam a centralidade da via, ainda que por caminho indireto. A deleção condicional de Fgfr2 ou de Hdac3 no epitélio meibomiano produz atrofia acinar e maturação meibocitária defeituosa, acompanhada de queda de PPARγ e de seus alvos lipogênicos. Nesses modelos o PPARγ cai junto com o fenótipo. Não há, até aqui, demonstração de que sua deleção isolada seja a causa da atrofia.",
+        "Estudos de envelhecimento descrevem menor atividade da via e perda de eficiência da diferenciação, com deslocamento da localização de PPARγ do citoplasma para o núcleo em glândulas de camundongos e humanos mais velhos.",
       ],
     },
     {
@@ -320,9 +317,10 @@ const dgmBiologiaMolecular: MagazineArticle = {
       title: "Andrógenos: suporte metabólico e imunomodulador",
       kind: "evidence",
       paragraphs: [
-        "A glândula de Meibomius expressa receptor androgênico e as enzimas necessárias à síntese e ao metabolismo local de esteroides. Em camundongo castrado, a testosterona eleva o RNA mensageiro de enzimas lipogênicas e das proteínas SREBP 1 e 2, além de enzimas da via de biossíntese do colesterol; em células meibomianas humanas imortalizadas, a di-hidrotestosterona altera a expressão de milhares de genes, com efeito sobre vias que incluem a sinalização PPAR.",
+        "Os andrógenos sustentam a glândula, ou só acompanham o fenótipo? A glândula de Meibomius expressa receptor androgênico e as enzimas necessárias à síntese e ao metabolismo local de esteroides.",
+        "Em camundongo castrado, a testosterona eleva o RNA mensageiro de enzimas lipogênicas e das proteínas SREBP 1 e 2, além de enzimas da via de biossíntese do colesterol. Em células meibomianas humanas imortalizadas, a di-hidrotestosterona altera a expressão de milhares de genes, com efeito sobre vias que incluem a sinalização PPAR.",
         "Há também sinal anti-inflamatório em modelos experimentais: a di-hidrotestosterona reduz mediadores como IL-6, IL-1β e VEGF-A em células meibomianas.",
-        "Em humanos, a disfunção do receptor androgênico na síndrome de insensibilidade androgênica completa associa-se a alterações meibomianas e a mais sinais e sintomas de olho seco, e o uso de antiandrogênicos altera o perfil de lipídios neutros da secreção. Esses dados dão plausibilidade biológica ao papel dos andrógenos na função glandular. Não demonstram que a reposição hormonal beneficie a DGM — e a morfologia glandular bruta não se mostrou consistentemente dependente de andrógenos nos modelos animais disponíveis.",
+        "Em humanos, a disfunção do receptor androgênico na síndrome de insensibilidade androgênica completa associa-se a alterações meibomianas e a mais sinais e sintomas de olho seco. O uso de antiandrogênicos altera o perfil de lipídios neutros da secreção. Esses dados dão plausibilidade biológica ao papel dos andrógenos na função glandular. Não demonstram que a reposição hormonal beneficie a DGM. A morfologia glandular bruta não se mostrou consistentemente dependente de andrógenos nos modelos animais disponíveis.",
       ],
     },
     {
@@ -330,9 +328,10 @@ const dgmBiologiaMolecular: MagazineArticle = {
       title: "Renovação celular: o nicho progenitor também pode falhar",
       kind: "evidence",
       paragraphs: [
-        "Como a secreção é holócrina, a manutenção da glândula depende de reposição celular contínua. Estudos de rastreamento de linhagem identificaram populações progenitoras envolvidas nesse processo. Células KROX20+ contribuem para a manutenção glandular; sua perda experimental produz atrofia e sinais de doença do olho seco. A sinalização Notch1 participa desse controle, e a superexpressão de Notch1 resgata parcialmente a atrofia causada pela perda de Krox20 — configurando um eixo Krox20–Notch1 relevante para a homeostase.",
+        "A manutenção da glândula depende de reposição celular contínua. Estudos de rastreamento de linhagem identificaram populações progenitoras envolvidas nesse processo.",
+        "Células KROX20+ contribuem para a manutenção glandular. Sua perda experimental produz atrofia e sinais de doença do olho seco. A sinalização Notch1 participa desse controle. A superexpressão de Notch1 resgata parcialmente a atrofia causada pela perda de Krox20, configurando um eixo Krox20–Notch1 relevante para a homeostase.",
         "A via Hedgehog participa do mesmo circuito, porém de forma menos linear do que “mais sinalização, glândula melhor”. Em células epiteliais meibomianas de rato, o receptor Smoothened e os fatores Gli são expressos in vivo e in vitro, e sua expressão diminui à medida que a célula se diferencia. O bloqueio farmacológico de Smoothened reduziu a proliferação, mas aumentou a expressão de SREBP1 e o acúmulo lipídico. O agonista (SAG) inibiu SREBP1 e o acúmulo lipídico, sem aumento significativo do número celular ou de Ki67. A leitura mais provável é que o Hedgehog sustente o compartimento proliferativo e precise ser atenuado para que a diferenciação meibocitária se complete.",
-        "Estudos de rastreamento de linhagem e sequenciamento de núcleos em camundongo reforçam o Hedgehog como regulador da proliferação das células-tronco meibomianas e mostram que a glândula envelhecida apresenta menor sinalização Hedgehog e EGF, inervação deficiente e perda de colágeno I nos fibroblastos do nicho. A degeneração associada à idade, portanto, não está apenas no epitélio: envolve também o microambiente que o sustenta.",
+        "Estudos de rastreamento de linhagem e sequenciamento de núcleos em camundongo reforçam o Hedgehog como regulador da proliferação das células-tronco meibomianas. A glândula envelhecida apresenta menor sinalização Hedgehog e EGF, inervação deficiente e perda de colágeno I nos fibroblastos do nicho. A degeneração associada à idade não está apenas no epitélio: envolve também o microambiente que o sustenta.",
         "O conjunto sugere que a DGM pode ser, em parte, uma doença da transição entre célula progenitora e meibócito maduro.",
       ],
     },
@@ -341,38 +340,33 @@ const dgmBiologiaMolecular: MagazineArticle = {
       title: "Envelhecimento e inflamação fecham o circuito",
       kind: "evidence",
       paragraphs: [
-        "“Exaustão” não deve ser entendida apenas como desaparecimento das células progenitoras. A capacidade clonogênica diminui com a idade: em análise clonal de glândulas de camundongo e humanas, holoclones e meroclones ficaram menores e menos frequentes em modelos de DGM associada à idade, com queda de K14, K6a e PPARγ nos clones. Some-se a isso a redução de Hedgehog e EGF e a deterioração do nicho fibroblástico descritas na glândula envelhecida. A questão relevante não é somente quantas células progenitoras restam, mas se elas ainda encontram o ambiente e os sinais necessários para completar o programa de maturação.",
+        "“Exaustão” não deve ser entendida apenas como desaparecimento das células progenitoras. A capacidade clonogênica diminui com a idade. Em análise clonal de glândulas de camundongo e humanas, holoclones e meroclones ficaram menores e menos frequentes em modelos de DGM associada à idade, com queda de K14, K6a e PPARγ nos clones. A questão relevante não é somente quantas células progenitoras restam, mas se elas ainda encontram o ambiente e os sinais necessários para completar o programa de maturação.",
         "A IL-1β ativa p38 MAPK, reduz PPARγ, prejudica a diferenciação meibocitária e favorece hiperqueratinização. Em modelos organoides, o bloqueio de p38 com SB203580 ou a restauração da atividade de PPARγ com rosiglitazona reverteu parte dessas alterações.",
-        "O estresse oxidativo acrescenta outra camada. A ferroptose — morte celular dependente de ferro e peroxidação lipídica — foi identificada em células progenitoras Lrig1+ em modelos experimentais de DGM, e inibidores de ferroptose atenuaram as manifestações nesses modelos. Assim, inflamação, dano oxidativo e falha de diferenciação podem formar um circuito de retroalimentação: a piora da função glandular altera o meibum, favorece obstrução e inflamação e, por sua vez, agride ainda mais o nicho responsável pela renovação.",
+        "O estresse oxidativo acrescenta outra camada. A ferroptose, morte celular dependente de ferro e peroxidação lipídica, foi identificada em células progenitoras Lrig1+ em modelos experimentais de DGM. Inibidores de ferroptose atenuaram as manifestações nesses modelos. Inflamação, dano oxidativo e falha de diferenciação podem formar um circuito de retroalimentação: a piora da função glandular altera o meibum, favorece obstrução e inflamação e, por sua vez, agride ainda mais o nicho responsável pela renovação.",
       ],
     },
     {
-      id: "na-pratica",
-      title: "O que muda na prática",
+      id: "pratica",
+      title: "Prática",
       kind: "practice",
       paragraphs: [
-        "A mudança imediata é de raciocínio, não de prescrição. A meibografia mostra estrutura; a expressão glandular e o exame da margem palpebral mostram parte da função; sintomas e estabilidade lacrimal mostram repercussão. Nenhuma dessas medidas revela diretamente a atividade de PPARγ, receptor androgênico, Notch, Hedgehog ou ferroptose em um paciente.",
-        "Por isso, um fenótipo aparentemente obstrutivo não deve ser interpretado como mecanismo único. A avaliação pode integrar morfologia glandular, qualidade e expressibilidade da secreção, sinais inflamatórios, estabilidade do filme lacrimal, doenças concomitantes da superfície ocular, exposições ambientais, medicamentos e contexto hormonal.",
+        "A mudança imediata é de raciocínio, não de prescrição. Nenhuma medida de consultório revela diretamente a atividade de PPARγ, receptor androgênico, Notch, Hedgehog ou ferroptose em um paciente.",
+        "Um fenótipo aparentemente obstrutivo não deve ser interpretado como mecanismo único. A avaliação pode integrar qualidade e expressibilidade da secreção, sinais inflamatórios, estabilidade do filme lacrimal, doenças concomitantes da superfície ocular, exposições ambientais, medicamentos e contexto hormonal. A imagem, quando existir, mostra estrutura. Como adquirir, ler e não superinterpretar essa imagem está em “Além do meiboscore”.",
         "No contexto brasileiro, a principal utilidade deste modelo é permitir fenotipagem progressiva sem tornar uma tecnologia isolada requisito para o cuidado. Onde meibografia, interferometria ou outros recursos avançados não estiverem disponíveis, biomicroscopia sistemática, avaliação da margem palpebral, expressão glandular, caracterização do meibum e documentação clínica seriada ainda podem organizar a decisão. Esta aplicação é uma inferência clínica e editorial: o conjunto de referências não apresenta estudo brasileiro comparativo de implementação, análise de custo-efetividade ou validação de biomarcadores moleculares para uso rotineiro.",
-      ],
-      bullets: [
         "Descreva o fenótipo antes de nomear o mecanismo: margem palpebral, orifícios, expressibilidade, qualidade do meibum, sinais inflamatórios e morfologia glandular quando disponível.",
-        "Procure fatores que modulam a glândula — idade, doenças da superfície ocular, medicamentos, exposição ambiental e contexto hormonal — sem atribuir causalidade a uma associação isolada.",
+        "Procure fatores que modulam a glândula (idade, doenças da superfície ocular, medicamentos, exposição ambiental e contexto hormonal) sem atribuir causalidade a uma associação isolada.",
         "Defina um alvo clínico observável: melhorar expressibilidade, reduzir inflamação, estabilizar o filme lacrimal ou controlar um fator associado.",
-        "Reavalie resposta e coerência diagnóstica: se a evolução não for a esperada, reveja adesão, diagnósticos diferenciais e componentes coexistentes antes de intensificar procedimentos.",
-        "Não transforme alvos experimentais em prescrição: modulação de PPARγ, Hedgehog, andrógenos ou nicho progenitor exige evidência clínica, avaliação regulatória e protocolos apropriados.",
+        "Reavalie resposta e coerência diagnóstica. Se a evolução não for a esperada, reveja adesão, diagnósticos diferenciais e componentes coexistentes antes de intensificar procedimentos.",
+        "Não transforme alvos experimentais em prescrição. Modulação de PPARγ, Hedgehog, andrógenos ou nicho progenitor exige evidência clínica, avaliação regulatória e protocolos apropriados.",
       ],
     },
     {
       id: "limitacoes",
-      title: "O que ainda não sabemos",
+      title: "Limitações",
       kind: "limitations",
       paragraphs: [
-        "A maior parte da evidência que sustenta este modelo vem de culturas celulares, organoides, rastreamento de linhagem e animais. Esses estudos são valiosos para demonstrar plausibilidade e mecanismos, mas não estabelecem, sozinhos, causalidade clínica, acurácia diagnóstica ou eficácia terapêutica em pessoas com DGM.",
-        "Agonistas de PPARγ, moduladores de Hedgehog, terapias androgênicas e estratégias de rejuvenescimento do nicho progenitor são hipóteses translacionais promissoras. Neste estágio, não devem ser apresentados como tratamento estabelecido.",
-        "A glândula de Meibomius não falha apenas porque seu conteúdo não consegue sair. Ela também pode falhar porque perde, progressivamente, a capacidade de produzir novos meibócitos funcionais.",
-      ],
-      bullets: [
+        "A maior parte da evidência que sustenta este modelo vem de culturas celulares, organoides, rastreamento de linhagem e animais. Esses estudos são valiosos para demonstrar plausibilidade e mecanismos. Não estabelecem, sozinhos, causalidade clínica, acurácia diagnóstica ou eficácia terapêutica em pessoas com DGM.",
+        "Agonistas de PPARγ, moduladores de Hedgehog, terapias androgênicas e estratégias de rejuvenescimento do nicho progenitor são hipóteses translacionais. Neste estágio, não devem ser apresentados como tratamento estabelecido.",
         "Faltam biomarcadores clínicos validados para medir diretamente essas vias na glândula humana.",
         "Faltam estudos longitudinais que demonstrem a sequência entre disfunção molecular, perda funcional e atrofia.",
         "Não há definição de subgrupos em que deficiência androgênica, inflamação, ferroptose ou falha progenitora seja realmente dominante.",
@@ -391,7 +385,7 @@ const dgmBiologiaMolecular: MagazineArticle = {
     {
       label:
         "Nien CJ, Massei S, Lin G, et al. The development of meibomian glands in mice. Mol Vis. 2010;16:1132-40.",
-      url: "https://pubmed.ncbi.nlm.nih.gov/20664693/",
+      url: "https://pubmed.ncbi.nlm.nih.gov/20664693",
     },
     {
       label:
@@ -407,9 +401,9 @@ const dgmBiologiaMolecular: MagazineArticle = {
     },
     {
       label:
-        "Zhu X, Xu M, Millar SE, et al. HDAC1/2 and HDAC3 play distinct roles in controlling adult Meibomian gland homeostasis. Ocul Surf. 2024;34:317-31.",
-      url: "https://doi.org/10.1016/j.jtos.2024.09.006",
-      doi: "10.1016/j.jtos.2024.09.006",
+        "Zhu X, Xu M, Millar SE. HDAC1/2 and HDAC3 play distinct roles in controlling adult Meibomian gland homeostasis. Ocul Surf. 2024 Jul;33:39-49.",
+      url: "https://doi.org/10.1016/j.jtos.2024.04.005",
+      doi: "10.1016/j.jtos.2024.04.005",
     },
     {
       label:
@@ -456,7 +450,7 @@ const dgmBiologiaMolecular: MagazineArticle = {
     {
       label:
         "Khandelwal P, Liu S, Sullivan DA. Androgen regulation of gene expression in human meibomian gland and conjunctival epithelial cells. Mol Vis. 2012;18:1055-67.",
-      url: "https://pubmed.ncbi.nlm.nih.gov/22605918/",
+      url: "https://pubmed.ncbi.nlm.nih.gov/22605918",
     },
     {
       label:
@@ -479,7 +473,7 @@ const dgmBiologiaMolecular: MagazineArticle = {
     {
       label:
         "Sullivan DA, Sullivan BD, Ullman MD, et al. Androgen influence on the meibomian gland. Invest Ophthalmol Vis Sci. 2000;41(12):3732-42.",
-      url: "https://pubmed.ncbi.nlm.nih.gov/11053270/",
+      url: "https://pubmed.ncbi.nlm.nih.gov/11053270",
     },
     {
       label:
@@ -600,13 +594,14 @@ const dgmBiologiaMolecular: MagazineArticle = {
   },
 };
 
+
 const tfosDewsIiiNaPratica: MagazineArticle = {
   slug: "tfos-dews-iii-na-pratica",
   title: "TFOS DEWS III na prática",
   subtitle:
-    "De escalada por gravidade para tratamento dirigido por mecanismo — o que muda no consultório brasileiro",
+    "De escalada por gravidade para tratamento dirigido por mecanismo: o que muda no consultório brasileiro",
   excerpt:
-    "O mecanismo decide a direção; a gravidade decide a urgência, a intensidade e a proteção. O DEWS III troca a escada por gravidade por tratamento dirigido por mecanismo — a pergunta no consultório muda; o ranking de gravidade não é o mapa.",
+    "Durante anos, a doença do olho seco foi ensinada como uma escada. O caso \"leve\" começava com educação e lubrificante. O \"moderado\" recebia anti-inflamatório ou tratamento palpebral. O \"grave\" avançava para lágrimas biológicas, lentes terapêuticas ou cirurgia.",
   category: "Evidência",
   author: {
     name: "Dr. Philipe Saraiva Cruz",
@@ -621,20 +616,12 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
   content: [
     {
       id: "por-que-importa",
-      title: "A pergunta que muda a consulta",
+      title: "Por que importa",
       kind: "why-it-matters",
       paragraphs: [
-        "O TFOS DEWS III não aposenta a gravidade; muda sua função. Em vez de determinar, sozinha, uma sequência universal de tratamentos, ela passa a modular urgência, intensidade e proteção da superfície. A escolha terapêutica começa pelos mecanismos que sustentam a doença naquele paciente — e isso pode ser feito, em grande parte, com história dirigida, lâmpada de fenda e poucos testes bem escolhidos.",
-        "Durante anos, a doença do olho seco foi ensinada como uma escada. O caso “leve” começava com educação e lubrificante; o “moderado” recebia anti-inflamatório ou tratamento palpebral; o “grave” avançava para lágrimas biológicas, lentes terapêuticas ou cirurgia. A estrutura era didática. Também era perigosa: podia fazer o clínico tratar a intensidade da manifestação antes de identificar o que a produz.",
-        "O TFOS DEWS III — terceiro workshop da Tear Film & Ocular Surface Society, publicado em 2025 no American Journal of Ophthalmology — desloca o centro dessa lógica. Sistemas que agrupam pacientes apenas como leve, moderado ou grave, ou somente como aquodeficiente versus evaporativo, são descritos como uma arquitetura insuficiente quando escondem a coexistência e a variação temporal dos mecanismos. A pergunta operacional deixa de ser apenas “quão grave é?” e passa a ser: quais fatores etiológicos são clinicamente relevantes neste olho, hoje?",
-        "A resposta não é uma lista de marcas. É um mapa. O relatório de manejo propõe três territórios — deficiências do filme lacrimal, anormalidades palpebrais e alterações da superfície ocular — e, dentro deles, drivers que podem ser identificados no consultório e pareados a intervenções com mecanismo de ação compatível. Mais de um alvo pode ser tratado desde o início. A gravidade continua indispensável, mas muda de função: deixa de ser o roteiro e passa a ser o eixo de urgência, intensidade e proteção.",
-        "Essa mudança é especialmente útil no Brasil. Em um país em que o acesso a osmolarímetro, meibógrafo, IPL ou hemoderivados varia radicalmente entre o consultório de médio porte, o centro de superfície e o SUS, um algoritmo que depende de plataforma tecnológica seria excludente. O DEWS III, lido com rigor, não exige isso. Exige hipótese explícita.",
-        "A mudança não é “gravidade versus mecanismo”. É um sistema de duas coordenadas. O eixo horizontal — o mecanismo — indica o que tratar. O eixo vertical — gravidade e risco — indica quanto, quão rápido e com quanta proteção tratar. Uma paciente com sintomas moderados e lagoftalmo não deve esperar fracassar em vários lubrificantes para que a exposição seja tratada. Outro, com dor intensa e poucos sinais, não deve receber indefinidamente mais colírios sem investigação neurossensorial.",
-      ],
-      bullets: [
-        "O mecanismo decide a direção; a gravidade decide a urgência, a intensidade e a proteção.",
-        "A pergunta operacional deixa de ser apenas “quão grave é?” e passa a ser quais fatores etiológicos são clinicamente relevantes neste olho, hoje.",
-        "Mais de um alvo pode ser tratado desde o início; a gravidade deixa de ser o roteiro e passa a ser o eixo de urgência, intensidade e proteção.",
+        "Durante anos, a doença do olho seco foi ensinada como uma escada. O caso \"leve\" começava com educação e lubrificante. O \"moderado\" recebia anti-inflamatório ou tratamento palpebral. O \"grave\" avançava para lágrimas biológicas, lentes terapêuticas ou cirurgia. A estrutura era didática. Também era perigosa: podia fazer o clínico tratar a intensidade da manifestação antes de identificar o que a produz.",
+        "O TFOS DEWS III (terceiro workshop da Tear Film & Ocular Surface Society, publicado em 2025 no American Journal of Ophthalmology) desloca o centro dessa lógica. Sistemas que agrupam pacientes apenas como leve, moderado ou grave, ou somente como aquodeficiente versus evaporativo, escondem a coexistência e a variação temporal dos mecanismos. A pergunta operacional deixa de ser só \"quão grave é?\". Passa a ser: quais fatores etiológicos são clinicamente relevantes neste olho, hoje?",
+        "A mudança não é \"gravidade versus mecanismo\". É um sistema de duas coordenadas. O eixo horizontal (o mecanismo) indica o que tratar. O eixo vertical (gravidade e risco) indica quanto, quão rápido e com quanta proteção tratar. Uma paciente com sintomas moderados e lagoftalmo não deve esperar fracassar em vários lubrificantes para que a exposição seja tratada. Outro, com dor intensa e poucos sinais, não deve receber indefinidamente mais colírios sem investigação neurossensorial. No Brasil, o acesso a osmolarímetro, meibógrafo, IPL ou hemoderivados varia entre o consultório de médio porte, o centro de superfície e o SUS. O DEWS III, lido com rigor, não exige plataforma tecnológica. Exige hipótese explícita.",
       ],
     },
     {
@@ -642,40 +629,26 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
       title: "Método e recorte",
       kind: "body",
       paragraphs: [
-        "Este artigo é uma revisão narrativa e uma interpretação prática dos relatórios oficiais do TFOS DEWS III publicados em 2025, do resumo executivo publicado em 2026 e de estudos complementares citados. Não constitui diretriz nacional nem prescrição individual.",
-        "As referências foram conferidas no Crossref em 15 de agosto de 2026. Autor e título precisaram bater com o registro persistente antes de entrar na lista. O relatório Digest tem corrigendum publicado em 2026. Disponibilidade, registro sanitário, indicação, contraindicações e condições de uso de fármacos e dispositivos devem ser conferidos em fontes regulatórias brasileiras atualizadas.",
-        "Data de corte da busca: 14 de agosto de 2026.",
+        "Este artigo é uma revisão narrativa e uma interpretação prática dos relatórios oficiais do TFOS DEWS III (2025), do resumo executivo (2026) e de estudos complementares citados. Não constitui diretriz nacional nem prescrição individual. Referências conferidas no Crossref em 15 de agosto de 2026. O Digest tem corrigendum em 2026. Data de corte da busca: 14 de agosto de 2026. Disponibilidade e registro sanitário de fármacos e dispositivos devem ser conferidos em fontes regulatórias brasileiras atualizadas.",
       ],
     },
     {
-      id: "definicao",
-      title: "O que mudou de verdade na definição",
+      id: "evidencia",
+      title: "Evidência",
       kind: "evidence",
       paragraphs: [
         "O consenso define o olho seco como doença multifatorial e sintomática, marcada pela perda de homeostase do filme lacrimal e/ou da superfície ocular, na qual instabilidade e hiperosmolaridade, inflamação e dano, e anormalidades neurossensoriais atuam como fatores etiológicos.",
-        "A redação parece próxima à de 2017. Três escolhas, porém, têm consequência clínica imediata. Primeiro, o olho seco é doença, não síndrome. Isso não é semântica de congresso: uma síndrome é um agrupamento de queixas; uma doença tem fisiopatologia, drivers identificáveis e razão para terapia dirigida. O rótulo “síndrome do olho seco” ainda circula em prontuários e laudos. Vale abandoná-lo.",
+        "Três escolhas têm consequência clínica imediata. Primeiro, o olho seco é doença, não síndrome. Uma síndrome é um agrupamento de queixas. Uma doença tem fisiopatologia, drivers identificáveis e razão para terapia dirigida. O rótulo \"síndrome do olho seco\" ainda circula em prontuários e laudos. Vale abandoná-lo.",
         "Segundo, a superfície ocular passa a dividir explicitamente com o filme lacrimal o núcleo da homeostase. Isso acomoda melhor situações em que fricção, dano epitelial, anatomia, inflamação primária ou disfunção neural sustentam sintomas, mesmo quando a produção aquosa não é a história principal.",
-        "Terceiro, a doença é, por definição, sintomática. Sinais isolados — disfunção de glândula meibomiana, blefarite, coloração puntiforme — exigem acompanhamento e busca de doença associada, mas não preenchem, sozinhos, a definição de doença do olho seco. Da mesma forma, sintomas sem evidência objetiva de perda de homeostase obrigam a ampliar o diagnóstico diferencial. A discordância entre queixa e sinal não é “falta de organicidade”: é informação biológica.",
-        "Essa formulação protege contra dois excessos comuns no consultório brasileiro. O primeiro é converter qualquer alteração palpebral ou coloração em “olho seco” sem demonstrar sintomas. O segundo é negar o sofrimento de quem tem dor desproporcional aos achados e responder com mais um lubrificante.",
-        "O que não mudou: o diagnóstico continua clínico. O exame precisa excluir mascaradores. A evidência varia entre intervenções. Disponibilidade, registro sanitário, contraindicações, custo e preferência do paciente permanecem parte da decisão compartilhada. “Dirigido por mecanismo” frequentemente significa dirigido por um mecanismo provável, inferido de história, sinais e resposta longitudinal. Biomarcadores que predizem resposta individual ainda são limitados.",
-      ],
-    },
-    {
-      id: "diagnostico",
-      title: "Diagnóstico em duas etapas",
-      kind: "evidence",
-      paragraphs: [
-        "O algoritmo do DEWS III separa duas tarefas que frequentemente se confundem na mesma consulta: confirmar a doença e, depois, explicá-la.",
-        "Para confirmar, o rastreamento recomendado é o OSDI-6, com ponto de corte ≥ 4 na soma bruta dos 6 itens (escala 0–24), não no índice 0–100 do OSDI-12, seguido da demonstração de ao menos um marcador de perda de homeostase. O instrumento não deve ser reproduzido ou incorporado a prontuário, site ou aplicativo sem verificar as condições de uso e licenciamento aplicáveis. Até que haja validação brasileira específica da versão curta, o escore integra — e não substitui — a entrevista clínica. A versão completa do OSDI já foi traduzida e validada para o português; isso não autoriza tratar o OSDI-6 como equivalente automático.",
-        "Depois de confirmar o diagnóstico, o exame deve localizar os fatores etiológicos relevantes. O DEWS III organiza nove componentes em três territórios: filme (lipídico, aquoso, mucina/glicocálix); pálpebras (piscar/fechamento, margem); superfície (desalinhamento anatômico, disfunção neural, dano/ruptura celular, inflamação primária/estresse oxidativo).",
-        "Essa segunda etapa é o salto conceitual. “Evaporativo” e “aquodeficiente” continuam úteis como descrição ampla, mas perdem poder se forem o ponto final. Dois pacientes evaporativos podem exigir condutas radicalmente diferentes: um apresenta meibo obstruído e telangiectasia; outro, piscar incompleto por trabalho prolongado em tela. Da mesma forma, a baixa altura do menisco pode coexistir com inflamação, toxicidade medicamentosa, conjuntivocálase e déficit neurossensorial.",
-        "Para não perder o diagnóstico, é desejável avaliar mais de um grupo de sinais; um único marcador positivo confirma a doença em paciente sintomático. Em 1.427 participantes, o uso de um único marcador teria deixado sem diagnóstico entre 12,3% e 36,2% dos casos que preencheriam o protocolo completo. Limitar-se à fluoresceína só corneana reduz a sensibilidade a 44,6%; a avaliação ampla — córnea, conjuntiva e margem palpebral — é especialmente informativa.",
-        "Antes de confirmar, exclua o que muda a prioridade. Dor verdadeira, assimetria importante, secreção, edema, trauma, início abrupto, inflamação intraocular, defeito epitelial, infecção, queda visual não explicada ou suspeita sistêmica não são “olho seco grave”: são outro problema, ou um problema que convive com o olho seco e o ultrapassa. Revise alergia, medicamentos, cosméticos, cirurgia, lente de contato e doenças da superfície que podem mascarar ou coexistir.",
-      ],
-      bullets: [
-        "Estabilidade: NIBUT < 10 s; se o método não invasivo não estiver disponível, TBUT com volume mínimo de fluoresceína e corte < 5 s.",
-        "Osmolaridade: ≥ 308 mOsm/L em qualquer olho ou diferença interocular > 8 mOsm/L — cortes estabelecidos com o sistema TearLab, não automaticamente transferíveis a qualquer equipamento.",
-        "Coloração: > 5 pontos corneanos com fluoresceína; > 9 pontos conjuntivais com lisamina verde; e/ou margem palpebral com ≥ 2 mm de extensão e ≥ 25% de largura.",
+        "Terceiro, a doença é, por definição, sintomática. Sinais isolados (disfunção de glândula meibomiana, blefarite, coloração puntiforme) exigem acompanhamento e busca de doença associada, mas não preenchem, sozinhos, a definição. Sintomas sem evidência objetiva de perda de homeostase obrigam a ampliar o diagnóstico diferencial. A discórdia entre queixa e sinal, e o mapeamento dos eixos quando eles não batem, está na matéria Quando sintomas e sinais não batem.",
+        "O algoritmo separa duas tarefas que frequentemente se confundem na mesma consulta: confirmar a doença e, depois, explicá-la.",
+        "Para confirmar, o rastreamento recomendado é o OSDI-6, com ponto de corte ≥ 4 na soma bruta dos 6 itens (escala 0–24), não no índice 0–100 do OSDI-12, seguido da demonstração de ao menos um marcador de perda de homeostase. Estabilidade: NIBUT < 10 s. Se o método não invasivo não estiver disponível, TBUT com volume mínimo de fluoresceína e corte < 5 s. Osmolaridade: ≥ 308 mOsm/L em qualquer olho ou diferença interocular > 8 mOsm/L (cortes estabelecidos com o sistema TearLab, não automaticamente transferíveis a qualquer equipamento). Coloração: > 5 pontos corneanos com fluoresceína; > 9 pontos conjuntivais com lisamina verde; e/ou margem palpebral com ≥ 2 mm de extensão e ≥ 25% de largura.",
+        "O instrumento não deve ser reproduzido ou incorporado a prontuário, site ou aplicativo sem verificar as condições de uso e licenciamento aplicáveis. A versão completa do OSDI já foi traduzida e validada para o português. Isso não autoriza tratar o OSDI-6 como equivalente automático. Até que haja validação brasileira específica da versão curta, o escore integra (e não substitui) a entrevista clínica.",
+        "Um único marcador positivo confirma a doença em paciente sintomático. Para não perder o diagnóstico, é desejável avaliar mais de um grupo de sinais. Em 1.427 participantes, o uso de um único marcador teria deixado sem diagnóstico entre 12,3% e 36,2% dos casos que preencheriam o protocolo completo. Limitar-se à fluoresceína só corneana reduz a sensibilidade a 44,6%. A avaliação ampla (córnea, conjuntiva e margem palpebral) é especialmente informativa.",
+        "Depois de confirmar, o exame localiza os fatores etiológicos. O DEWS III organiza nove componentes em três territórios. Filme: lipídico, aquoso, mucina/glicocálix. Pálpebras: piscar/fechamento, margem. Superfície: desalinhamento anatômico, disfunção neural, dano/ruptura celular, inflamação primária/estresse oxidativo. \"Evaporativo\" e \"aquodeficiente\" continuam úteis como descrição ampla, mas perdem poder se forem o ponto final. Dois pacientes evaporativos podem exigir condutas radicalmente diferentes: um apresenta meibo obstruído e telangiectasia; outro, piscar incompleto por trabalho prolongado em tela.",
+        "Os drivers não são mutuamente exclusivos. Em doença multifatorial, tratamento combinado pode ser a estratégia inicial mais coerente, desde que cada item tenha alvo, segurança e desfecho definidos.",
+        "No Brasil, essa atenção ao contexto não é detalhe epidemiológico. Levantamentos identificaram associação com sexo feminino, idade, uso de telas, cirurgia ocular e medicamentos. Um inquérito domiciliar encontrou sintomas mais frequentes em área urbana que rural. O TFOS Lifestyle Report (2023) tornou formal o que o consultório brasileiro vê todos os dias: telas, ambiente, cosméticos e iatrogenia como drivers, não como apêndice.",
+        "O que não mudou: o diagnóstico continua clínico. O exame precisa excluir mascaradores. A evidência varia entre intervenções. \"Dirigido por mecanismo\" frequentemente significa dirigido por um mecanismo provável, inferido de história, sinais e resposta longitudinal. Biomarcadores que predizem resposta individual ainda são limitados.",
       ],
     },
     {
@@ -691,62 +664,50 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
         height: 980,
       },
       paragraphs: [
-        "Os drivers não são mutuamente exclusivos. Em doença multifatorial, tratamento combinado pode ser a estratégia inicial mais coerente — desde que cada item tenha alvo, segurança e desfecho definidos.",
-        "No filme lacrimal, a pergunta é se há DGM funcional que sustente instabilidade, produção aquosa insuficiente, perda ou retenção inadequada, ou superfície que perdeu a capacidade de manter o filme uniformemente distribuído. Procure meibo, expressibilidade, orifícios, padrão lipídico, menisco, Schirmer quando indicado, padrão de ruptura, coloração conjuntival e sinais de toxicidade.",
-        "Nas pálpebras, a distribuição e a proteção falham por dinâmica palpebral? A margem gera inflamação, obstrução, fricção ou contaminação? Observe frequência e completude do piscar, vedação, lagoftalmo, exposição noturna, cílios, debris, Demodex, telangiectasias e queratinização.",
-        "Na superfície ocular, anatomia ou fricção perpetua a perda de homeostase? Há comprometimento trófico ou sensibilização além do filme? A prioridade imediata é proteger e regenerar tecido? A inflamação é driver primário clinicamente sustentado? Procure conjuntivocálase, pterígio, irregularidade, malposição palpebral, sensibilidade, alodinia, fotofobia, discordância sintoma–sinal, filamentos, hiperemia e pistas de doença sistêmica.",
-        "A pergunta prática, para cada item da receita, é uma frase incompleta: estou indicando isto para modificar aquilo e vou reavaliar por meio de um desfecho definido. Se médico e paciente não conseguem preenchê-la, o item provavelmente não pertence ao plano.",
-      ],
-      bullets: [
-        "Filme lacrimal: lipídico, aquoso e mucina/glicocálix.",
-        "Pálpebras: piscar/fechamento e margem palpebral.",
-        "Superfície ocular: desalinhamento anatômico, disfunção neural, dano/ruptura celular e inflamação primária/estresse oxidativo.",
+        "Os drivers não são mutuamente exclusivos. Em doença multifatorial, tratamento combinado pode ser a estratégia inicial mais coerente, desde que cada item tenha alvo, segurança e desfecho definidos.",
       ],
     },
     {
-      id: "na-pratica",
-      title: "O que muda no consultório",
+      id: "pratica",
+      title: "Prática",
       kind: "practice",
       paragraphs: [
         "O DEWS III não exige que toda consulta se transforme em um laboratório de superfície ocular. Osmolaridade, interferometria, meibografia, MMP-9, estesiometria e microscopia confocal podem aumentar a precisão em casos selecionados. O algoritmo, porém, pode ser iniciado com recursos presentes em grande parte dos consultórios oftalmológicos brasileiros.",
-        "Além de secura, ardor e flutuação visual, pergunte quando o sintoma aparece, o que o interrompe e qual exposição o antecede. Tela, ar-condicionado, vento, cosméticos, lente de contato, colírios crônicos, cirurgia recente, alergia, rosácea, dor sistêmica, sono e medicamentos deixam de ser uma lista protocolar e passam a gerar hipóteses testáveis. No Brasil, essa atenção não é detalhe epidemiológico: levantamentos identificaram associação com sexo feminino, idade, uso de telas, cirurgia ocular e medicamentos, e um inquérito domiciliar encontrou sintomas mais frequentes em área urbana que rural. O TFOS Lifestyle Report (2023) já havia tornado formal o que o consultório brasileiro vê todos os dias — telas, ambiente, cosméticos e iatrogenia como drivers, não como apêndice.",
-        "Antes de instilar fluoresceína, observe piscar, fechamento, posição palpebral, menisco, debris, espuma e padrão de ruptura não invasivo, quando disponível. Muitos topógrafos e tomógrafos já instalados no país medem NIBUT; o gargalo costuma ser usá-los de forma padronizada, não comprá-los. Examine margem, orifícios, vascularização e expressão do meibo. Depois, use os corantes para mapear córnea, conjuntiva e margem palpebral. Lisamina verde é barata e subutilizada. Altura do menisco e Schirmer ganham valor quando há suspeita aquodeficiente. Sensibilidade corneana e pistas de dor neuropática tornam-se prioritárias quando sintomas e sinais divergem.",
+        "Antes de confirmar, exclua o que muda a prioridade. Dor verdadeira, assimetria importante, secreção, edema, trauma, início abrupto, inflamação intraocular, defeito epitelial, infecção, queda visual não explicada ou suspeita sistêmica não são \"olho seco grave\". São outro problema, ou um problema que convive com o olho seco e o ultrapassa. Revise alergia, medicamentos, cosméticos, cirurgia, lente de contato e doenças da superfície que podem mascarar ou coexistir.",
+        "Além de secura, ardor e flutuação visual, pergunte quando o sintoma aparece, o que o interrompe e qual exposição o antecede. Tela, ar-condicionado, vento, cosméticos, lente de contato, colírios crônicos, cirurgia recente, alergia, rosácea, dor sistêmica, sono e medicamentos deixam de ser uma lista protocolar e passam a gerar hipóteses testáveis.",
+        "Antes de instilar fluoresceína, observe piscar, fechamento, posição palpebral, menisco, debris, espuma e padrão de ruptura não invasivo, quando disponível. Muitos topógrafos e tomógrafos já instalados no país medem NIBUT. O gargalo costuma ser usá-los de forma padronizada, não comprá-los. Examine margem, orifícios, vascularização e expressão do meibo. Depois, use os corantes para mapear córnea, conjuntiva e margem palpebral. Lisamina verde é barata e subutilizada. Altura do menisco e Schirmer ganham valor quando há suspeita aquodeficiente. Sensibilidade corneana e pistas de dor neuropática tornam-se prioritárias quando sintomas e sinais divergem.",
         "Tecnologia entra como modificadora de probabilidade. Meibografia documenta perda glandular, mas não substitui a expressão, não mede sozinha a função atual e não diagnostica doença do olho seco isoladamente. Osmolaridade pode confirmar perda de homeostase, mas não localiza o mecanismo. MMP-9 sugere atividade inflamatória dentro das limitações do teste, mas não autoriza concluir que toda queixa decorre de inflamação. O investimento em equipamento deve responder a uma pergunta clínica concreta e alterar uma decisão.",
-        "Na escada, os três casos abaixo poderiam receber o mesmo rótulo e o mesmo lubrificante. No mapa mecanístico, a intensidade pode ser parecida; o alvo inicial não. Caso 1 — tela, instabilidade e piscar: arquiteta, 38 anos, ardor e visão flutuante ao fim do expediente; piscar incompleto, NIBUT reduzido, meibo expressível, pouca coloração. O driver dominante é piscar/exposição; deficiência lipídica não está demonstrada como alvo principal. A primeira decisão é reorganizar piscar, pausas e ambiente, e escolher suplemento compatível com a instabilidade. Procedimento palpebral agressivo não decorre apenas de NIBUT baixo.",
-        "Caso 2 — aquodeficiência e risco epitelial: mulher, 62 anos, boca seca, menisco muito baixo, coloração corneoconjuntival e piora após cirurgia de catarata. O mapa combina deficiência aquosa e dano celular; a suspeita sistêmica aumenta risco e urgência. Reposição compatível, redução de toxicidade, proteção da superfície e investigação de Sjögren podem caminhar em paralelo. Não é racional esperar falhas sequenciais de lubrificante.",
-        "Caso 3 — dor 9/10, poucos sinais: homem, 46 anos, fotofobia e alodinia ao vento, sem marcador objetivo de perda de homeostase; usa cinco colírios. A doença do olho seco ainda não está confirmada. Toxicidade e disfunção neural entram no diferencial. O passo seguinte não é o sexto colírio. É revisar superfície, sensibilidade, cirurgia prévia, enxaqueca e dor crônica, e estruturar avaliação neurossensorial. Olho seco discreto e dor neuropática podem coexistir, mas exigem planos paralelos.",
-        "Traduzir o DEWS III não é importar uma lista de moléculas aprovadas no exterior. É montar, para cada mecanismo, uma cesta de opções disponíveis, regulatoramente sustentáveis e executáveis por aquele paciente. A lista do consenso não é formulário nacional. Moléculas e dispositivos devem ser conferidos, no dia da decisão, nas bases da Anvisa; uma denominação comum não prova que exista produto registrado. Para IPL, luz de baixa intensidade e sistemas térmicos, a regularização é específica do produto, do modelo e das instruções de uso — um aparelho dermatológico não deve ser presumido como indicado para aplicação periocular. Lágrimas de soro autólogo exigem serviço licenciado, rastreabilidade e controle de qualidade, nos termos da Nota Técnica nº 03/2018 da Anvisa.",
-        "Até a data de corte desta matéria, não havia protocolo clínico e diretriz terapêutica nacional específico para doença do olho seco na lista da Conitec. Procedimentos básicos como Schirmer e oclusão de ponto lacrimal têm mais clareza de nomenclatura do que NIBUT, osmolaridade, meibografia, MMP-9 e terapias instrumentais. Ausência de denominação específica não significa negativa automática, mas ajuda a explicar a heterogeneidade e o desembolso direto. O efeito prático é direto: o protocolo precisa funcionar em camadas.",
-        "Abandonar a escada rígida não equivale a tratar todos com a mesma intensidade. O próprio consenso não oferece um escore ponderado de gravidade validado: a associação fraca entre sinais e sintomas inviabilizou esse atalho. Gravidade permanece julgamento clínico, indispensável para urgência, proteção, carga terapêutica e intervalo de seguimento. A melhor imagem não é demolir a escada, mas girá-la: ela deixa de ser a rota universal de escolha e se torna o eixo vertical de intensidade dentro de um mapa horizontal de mecanismos.",
-        "Em síntese: o mecanismo decide a direção; a gravidade decide a velocidade e a proteção; a realidade do paciente decide se o plano será possível.",
-      ],
-      bullets: [
-        "0–1 min — Sintomas e impacto: aplique instrumento autorizado e registre frequência, gatilhos, flutuação visual, dor e limitação funcional.",
-        "1–2 min — Mascaradores: alergia predominante, infecção, toxicidade, erosão recorrente, alteração palpebral aguda, neuralgia e sinais de doença sistêmica ou urgência.",
-        "2–3 min — Filme sem corante: piscar, fechamento, menisco, debris e estabilidade; NIBUT se disponível.",
-        "3–4 min — Pálpebras e meibo: margem, Demodex, orifícios, vascularização, posição palpebral e qualidade/expressibilidade da secreção.",
-        "4–5 min — Superfície com corantes: mapeie córnea, conjuntiva e margem. Evite reduzir o exame à fluoresceína central.",
-        "5–6 min — Plano testável: nomeie os drivers dominantes, pareie cada conduta a um alvo e defina o que deverá ter mudado no retorno.",
-        "Separe diagnóstico de subclassificação: primeiro confirme sintomas mais perda de homeostase; depois localize os drivers.",
-        "Não pare em evaporativo versus aquodeficiente: registre filme, pálpebra, anatomia, células, inflamação e nervos.",
-        "Dê um alvo a cada item da receita. Use gravidade para intensidade e proteção, não como portão que adia a correção de uma causa evidente. Refenotipe no retorno.",
+        "No filme lacrimal, a pergunta é se há DGM funcional que sustente instabilidade, produção aquosa insuficiente, perda ou retenção inadequada, ou superfície que perdeu a capacidade de manter o filme uniformemente distribuído. Procure meibo, expressibilidade, orifícios, padrão lipídico, menisco, Schirmer quando indicado, padrão de ruptura, coloração conjuntival e sinais de toxicidade.",
+        "Nas pálpebras: a distribuição e a proteção falham por dinâmica palpebral? A margem gera inflamação, obstrução, fricção ou contaminação? Observe frequência e completude do piscar, vedação, lagoftalmo, exposição noturna, cílios, debris, Demodex, telangiectasias e queratinização.",
+        "Na superfície ocular: anatomia ou fricção perpetua a perda de homeostase? Há comprometimento trófico ou sensibilização além do filme? A prioridade imediata é proteger e regenerar tecido? A inflamação é driver primário clinicamente sustentado? Procure conjuntivocálase, pterígio, irregularidade, malposição palpebral, sensibilidade, alodinia, fotofobia, filamentos, hiperemia e pistas de doença sistêmica.",
+        "A pergunta prática, para cada item da receita, é uma frase incompleta: estou indicando isto para modificar aquilo e vou reavaliar por meio de um desfecho definido. Se médico e paciente não conseguem preenchê-la, o item provavelmente não pertence ao plano.",
+        "Na escada, os três casos abaixo poderiam receber o mesmo rótulo e o mesmo lubrificante. No mapa mecanístico, a intensidade pode ser parecida. O alvo inicial não.",
+        "Caso 1 (tela, instabilidade e piscar): arquiteta, 38 anos, ardor e visão flutuante ao fim do expediente. Piscar incompleto, NIBUT reduzido, meibo expressível, pouca coloração. O driver dominante é piscar/exposição. Deficiência lipídica não está demonstrada como alvo principal. A primeira decisão é reorganizar piscar, pausas e ambiente, e escolher suplemento compatível com a instabilidade. Procedimento palpebral agressivo não decorre apenas de NIBUT baixo.",
+        "Caso 2 (aquodeficiência e risco epitelial): mulher, 62 anos, boca seca, menisco muito baixo, coloração corneoconjuntival e piora após cirurgia de catarata. O mapa combina deficiência aquosa e dano celular. A suspeita sistêmica aumenta risco e urgência. Reposição compatível, redução de toxicidade, proteção da superfície e investigação de Sjögren podem caminhar em paralelo. Não é racional esperar falhas sequenciais de lubrificante.",
+        "Caso 3 (dor 9/10, poucos sinais): homem, 46 anos, fotofobia e alodinia ao vento, sem marcador objetivo de perda de homeostase. Usa cinco colírios. A doença do olho seco ainda não está confirmada. Toxicidade e disfunção neural entram no diferencial. O passo seguinte não é o sexto colírio. É revisar superfície, sensibilidade, cirurgia prévia, enxaqueca e dor crônica, e estruturar avaliação neurossensorial. Olho seco discreto e dor neuropática podem coexistir, mas exigem planos paralelos.",
+        "Traduzir o DEWS III não é importar uma lista de moléculas aprovadas no exterior. É montar, para cada mecanismo, uma cesta de opções disponíveis, regulatoramente sustentáveis e executáveis por aquele paciente. A lista do consenso não é formulário nacional. Moléculas e dispositivos devem ser conferidos, no dia da decisão, nas bases da Anvisa. Uma denominação comum não prova que exista produto registrado. Para IPL, luz de baixa intensidade e sistemas térmicos, a regularização é específica do produto, do modelo e das instruções de uso. Um aparelho dermatológico não deve ser presumido como indicado para aplicação periocular. Lágrimas de soro autólogo exigem serviço licenciado, rastreabilidade e controle de qualidade, nos termos da Nota Técnica nº 03/2018 da Anvisa.",
+        "Até a data de corte desta matéria, não havia protocolo clínico e diretriz terapêutica nacional específico para doença do olho seco na lista da Conitec. Procedimentos básicos como Schirmer e oclusão de ponto lacrimal têm mais clareza de nomenclatura do que NIBUT, osmolaridade, meibografia, MMP-9 e terapias instrumentais. Ausência de denominação específica não significa negativa automática, mas ajuda a explicar a heterogeneidade e o desembolso direto. O protocolo precisa funcionar em camadas.",
+        "Abandonar a escada rígida não equivale a tratar todos com a mesma intensidade. O próprio consenso não oferece um escore ponderado de gravidade validado: a associação fraca entre sinais e sintomas inviabilizou esse atalho. Gravidade permanece julgamento clínico, indispensável para urgência, proteção, carga terapêutica e intervalo de seguimento. A melhor imagem não é demolir a escada, mas girá-la. Ela deixa de ser a rota universal de escolha e se torna o eixo vertical de intensidade dentro de um mapa horizontal de mecanismos.",
+        "Amanhã, no consultório (seis minutos):",
+        "0–1 min. Sintomas e impacto: aplique instrumento autorizado e registre frequência, gatilhos, flutuação visual, dor e limitação funcional.",
+        "1–2 min. Mascaradores: alergia predominante, infecção, toxicidade, erosão recorrente, alteração palpebral aguda, neuralgia e sinais de doença sistêmica ou urgência.",
+        "2–3 min. Filme sem corante: piscar, fechamento, menisco, debris e estabilidade. NIBUT se disponível.",
+        "3–4 min. Pálpebras e meibo: margem, Demodex, orifícios, vascularização, posição palpebral e qualidade/expressibilidade da secreção.",
+        "4–5 min. Superfície com corantes: mapeie córnea, conjuntiva e margem. Evite reduzir o exame à fluoresceína central.",
+        "5–6 min. Plano testável: nomeie os drivers dominantes, pareie cada conduta a um alvo e defina o que deverá ter mudado no retorno.",
+        "Separe diagnóstico de subclassificação. Primeiro confirme sintomas mais perda de homeostase. Depois localize os drivers. Não pare em evaporativo versus aquodeficiente. Dê um alvo a cada item da receita. Use gravidade para intensidade e proteção, não como portão que adia a correção de uma causa evidente. Refenotipe no retorno.",
       ],
     },
     {
       id: "limitacoes",
-      title: "O que o DEWS III ainda não resolve",
+      title: "Limitações",
       kind: "limitations",
       paragraphs: [
-        "Consenso não é ensaio clínico, e um algoritmo abrangente não iguala a força da evidência entre intervenções. Há heterogeneidade em definições, dispositivos, parâmetros, comparadores e desfechos. Muitas terapias melhoram um sinal sem efeito proporcional nos sintomas; outras têm estudos curtos, amostras pequenas ou forte dependência de tecnologia proprietária.",
-        "O relatório de manejo declara apoio por doações irrestritas de múltiplas empresas e apresenta conflitos individuais dos autores. Transparência exige considerar esse contexto junto com método, consistência e qualidade dos estudos — não rejeição automática.",
-        "“Tratamento dirigido por mecanismo” ainda é, muitas vezes, fenótipo dirigido por mecanismo provável. A honestidade clínica consiste em explicitar a hipótese, escolher uma intervenção coerente e usar a resposta longitudinal como parte da inferência.",
+        "Consenso não é ensaio clínico. Um algoritmo abrangente não iguala a força da evidência entre intervenções. Há heterogeneidade em definições, dispositivos, parâmetros, comparadores e desfechos. Muitas terapias melhoram um sinal sem efeito proporcional nos sintomas. Outras têm estudos curtos, amostras pequenas ou forte dependência de tecnologia proprietária.",
+        "O relatório de manejo declara apoio por doações irrestritas de múltiplas empresas e apresenta conflitos individuais dos autores. Transparência exige considerar esse contexto junto com método, consistência e qualidade dos estudos. Não é rejeição automática.",
+        "\"Tratamento dirigido por mecanismo\" ainda é, muitas vezes, fenótipo dirigido por mecanismo provável. A honestidade clínica consiste em explicitar a hipótese, escolher uma intervenção coerente e usar a resposta longitudinal como parte da inferência.",
+        "Não há escore ponderado de gravidade validado pelo consenso. Gravidade permanece julgamento clínico. A lista internacional de classes e dispositivos não é formulário brasileiro. Biomarcadores que predizem resposta individual ainda são limitados.",
         "Este texto é uma interpretação editorial dos relatórios TFOS DEWS III, não uma reprodução integral do consenso e não uma diretriz brasileira. Não substitui leitura das fontes, bula, registro sanitário, julgamento clínico nem decisão compartilhada. Data de corte: 14 de agosto de 2026.",
-      ],
-      bullets: [
-        "Não há escore ponderado de gravidade validado pelo consenso; gravidade permanece julgamento clínico.",
-        "A força da evidência não é homogênea entre as intervenções organizadas no algoritmo.",
-        "A lista internacional de classes e dispositivos não é formulário brasileiro.",
-        "Biomarcadores que predizem resposta individual ainda são limitados.",
       ],
     },
   ],
@@ -771,7 +732,7 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
     },
     {
       label:
-        "Stapleton F, Argüeso P, Asbell P, et al. Corrigendum to “TFOS DEWS III: Digest” Am J Ophthalmol. 2025;279:451-553. Am J Ophthalmol. 2026;288:350-351.",
+        "Stapleton F, Argüeso P, Asbell P, et al. Corrigendum to \"TFOS DEWS III: Digest\" Am J Ophthalmol. 2025;279:451-553. Am J Ophthalmol. 2026;288:350-351.",
       url: "https://doi.org/10.1016/j.ajo.2026.04.007",
       doi: "10.1016/j.ajo.2026.04.007",
     },
@@ -830,7 +791,6 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
       doi: "10.1038/s41598-018-20273-9",
     },
     {
-      // Crossref omite páginas; PubMed PMID 35417509 lista 549-557.
       label:
         "Marculino LGC, Hazarbassanov RM, Hazarbassanov NGTQ, et al. Prevalence and risk factors for dry eye disease: the Sao Paulo dry eye study. Arq Bras Oftalmol. 2022;85(6):549-557.",
       url: "https://doi.org/10.5935/0004-2749.202200100",
@@ -858,18 +818,14 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
       label:
         "Ministério da Saúde / Conitec. Protocolos Clínicos e Diretrizes Terapêuticas — lista nacional.",
       url: "https://www.gov.br/conitec/pt-br/assuntos/avaliacao-de-tecnologias-em-saude/protocolos-clinicos-e-diretrizes-terapeuticas/pcdt",
-      accessedAt: "2026-08-14",
     },
     {
       label: "Anvisa. Consulta de medicamentos e produtos para saúde.",
       url: "https://consultas.anvisa.gov.br/",
-      accessedAt: "2026-08-14",
     },
     {
-      label:
-        "Anvisa. Nota Técnica nº 03/2018 — produção de colírio de soro autólogo.",
+      label: "Anvisa. Nota Técnica nº 03/2018 — produção de colírio de soro autólogo.",
       url: "https://www.gov.br/anvisa/pt-br/centraisdeconteudo/publicacoes/sangue-tecidos-celulas-e-orgaos/notas-tecnicas/vigentes/nota-tecnica-no-03-de-2018/view",
-      accessedAt: "2026-08-14",
     },
   ],
   disclosures: [
@@ -929,13 +885,13 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
   },
 };
 
+
 const fenotipagemIntegrada: MagazineArticle = {
   slug: "quando-sintomas-e-sinais-nao-batem",
   title: "Quando sintomas e sinais não batem",
-  subtitle:
-    "Fenotipagem integrada no consultório: mapear eixos, não forçar concordância",
+  subtitle: "Fenotipagem integrada no consultório: mapear eixos, não forçar concordância",
   excerpt:
-    "A discórdia entre sintomas e sinais é um achado clínico, não um erro de medida. Fenotipagem integrada mapeia eixos no consultório: não se força concordância entre queixa e signo para fechar o caso.",
+    "Quando o questionário é alto e a coloração, o tempo de ruptura ou a osmolaridade são baixos (ou o inverso), a tentação do consultório é repetir o exame, trocar o instrumento ou escalar o tratamento como se a discórdia fosse erro de medida.",
   category: "Diagnóstico",
   author: {
     name: "Dr. Philipe Saraiva Cruz",
@@ -954,13 +910,9 @@ const fenotipagemIntegrada: MagazineArticle = {
       title: "Por que importa",
       kind: "why-it-matters",
       paragraphs: [
-        "Quando o questionário é alto e a coloração, o tempo de ruptura ou a osmolaridade são baixos — ou o inverso —, a tentação do consultório é repetir o exame, trocar o instrumento ou escalar o tratamento como se a discórdia fosse erro de medida. A pergunta útil é outra: como mapear o paciente aos eixos aquoso, evaporativo-DGM, inflamatório, neurossensorial e mecânico quando sintomas, sinais e mecanismos não batem, sem forçar concordância e sem transformar o contínuo em checklist.",
-        "Na prática, é tentador tratar a discórdia entre sintomas e sinais como falha do exame. O paciente descreve queimação, fotofobia ou dor ao vento; a córnea está quase limpa, o menisco é aceitável, o tempo de ruptura não é catastrófico. Ou o inverso: a superfície está marcada, o volume é baixo, e o paciente quase não se queixa. A primeira reação é técnica — repetir a coloração, trocar o questionário, “confirmar” o achado até os números coincidirem. Essa reação pressupõe que sintomas e sinais deveriam convergir. Não deveriam. A discórdia é um achado clínico, não um exame inconsistente.",
-        "Nichols e colaboradores (2004) já haviam mostrado, em uma amostra clínica de 75 pacientes com doença do olho seco, que sinais e sintomas não se associavam depois do ajuste para idade e uso de lágrima artificial. O “quandary” não era ruído de um instrumento antigo: era a ausência de correlação entre o que o paciente relata e o que o biomicroscópio mostra. Duas décadas depois, a observação se repetiu em cohorts maiores e com preditores. Vehof e colaboradores (2017), em 648 pacientes de um serviço terciário, descreveram as duas direções da discórdia. Mais sintomas do que sinais associaram-se a síndrome de dor crônica, atopia e alergia, uso de anti-histamínicos, depressão, osteoartrite e antidepressivos. Menos sintomas do que sinais associaram-se a idade, síndrome de Sjögren — sobretudo a forma primária — e doença do enxerto contra o hospedeiro. Mais sintomas que sinais associou-se a pior saúde percebida. Não é um detalhe psicométrico. É um dado que muda o que se pergunta a seguir.",
-        "O que mudou no enquadramento não foi a existência da discórdia — ela já estava na clínica. Foi o lugar da anormalidade neurossensorial. O relatório de definição e classificação do TFOS DEWS II (Craig e colaboradores, 2017) incluiu o componente neurossensorial na definição e admitiu, no esquema, sinais sem sintomas — inclusive o olho neurótrofico — e sintomas sem sinais demonstráveis — inclusive a dor neuropática referida à superfície. O TFOS DEWS III (Wolffsohn e colaboradores, 2025) dá o passo seguinte: a doença do olho seco é multifatorial, sintomática, e as anormalidades neurossensoriais entram como fator etiológico formal, não como comorbidade opcional. Isso altera duas categorias que o consultório ainda usa. “Olho seco silencioso” — sinais sem sintomas — deixa de ser doença do olho seco no sentido DEWS III; pode ser superfície alterada, neurotrofia ou outro diagnóstico, mas não fecha o critério de doença sintomática. “Olho seco sem teste” — sintomas sem signo de homeostase — também não fecha o diagnóstico DEWS III; o que se deve investigar é o ramo neurossensorial, a dor neuropática ocular, o driver neural. A discórdia não desaparece. Ela ganha endereço.",
-        "O consultório brasileiro, na maior parte dos dias, ainda escala por gravidade de sintoma ou por um binário aquoso versus evaporativo. Os dois atalhos são compreensíveis. Gravidade organiza a conversa com o paciente e a escolha da primeira intervenção. O binário aquoso–evaporativo é o mapa que o DEWS II ensinou e que a residência ainda desenha. Nenhum dos dois, porém, explica o paciente que dói desproporcionalmente, o Sjögren oligosintomático com superfície destruída, ou o misto em que filme, margem e dor convivem e a polifarmácia cresce porque cada visita acrescenta um tratamento ao eixo que não era o daquele dia.",
-        "Fenótipos mistos são a regra, não a exceção. O contínuo aquoso–evaporativo do DEWS II e os três blocos de subclassificação do DEWS III — filme, pálpebra, superfície — descrevem coexistência, não compartimentos estanques. Hierarquizar o driver da visita — o que explica a discórdia de hoje — é o que evita tratar todos os eixos de uma vez. Não é um algoritmo validado para quinze minutos. É uma mudança de pergunta: em vez de “qual a gravidade?”, “qual eixo está dirigindo esta consulta?”.",
-        "Há ainda um ponto de nomenclatura que muda conduta. O instrumento curto que o DEWS III adotou para screening é o OSDI-6, derivado por Pult e Wolffsohn (2019) a partir de seis itens do OSDI. Não é sucessor do OSDI de doze itens. Não cobre as três subescalas — função visual, sintomas, gatilhos ambientais — que o instrumento completo foi construído para caracterizar. Usá-lo como porta de entrada do algoritmo DEWS III é o que o consenso pede. Usá-lo como se esgotasse o fenótipo é afirmar o que o instrumento não cobre.",
+        "Quando o questionário é alto e a coloração, o tempo de ruptura ou a osmolaridade são baixos (ou o inverso), a tentação do consultório é repetir o exame, trocar o instrumento ou escalar o tratamento como se a discórdia fosse erro de medida. O paciente descreve queimação, fotofobia ou dor ao vento. A córnea está quase limpa, o menisco é aceitável, o tempo de ruptura não é catastrófico. Ou o inverso: a superfície está marcada, o volume é baixo, e o paciente quase não se queixa. Essa reação pressupõe que sintomas e sinais deveriam convergir. Não deveriam. A discórdia é um achado clínico, não um exame inconsistente.",
+        "A pergunta útil é outra. Como mapear o paciente aos eixos aquoso, evaporativo-DGM, inflamatório, neurossensorial e mecânico quando sintomas, sinais e mecanismos não batem, sem forçar concordância e sem transformar o contínuo em checklist?",
+        "O consultório brasileiro, na maior parte dos dias, ainda escala por gravidade de sintoma ou por um binário aquoso versus evaporativo. Nenhum dos dois explica o paciente que dói desproporcionalmente, o Sjögren oligosintomático com superfície destruída, ou o misto em que filme, margem e dor convivem e a polifarmácia cresce. Fenótipos mistos são a regra, não a exceção. A mudança de pergunta é esta: em vez de \"qual a gravidade?\", \"qual eixo está dirigindo esta consulta?\"",
       ],
     },
     {
@@ -968,9 +920,7 @@ const fenotipagemIntegrada: MagazineArticle = {
       title: "Método e recorte",
       kind: "body",
       paragraphs: [
-        "Este artigo é uma revisão narrativa. Não constitui diretriz nacional nem prescrição individual.",
-        "As referências foram conferidas no Crossref em 15 de agosto de 2026. Autor e título precisaram bater com o registro persistente antes de entrar na lista. Quatorze de quatorze DOIs resolvidos.",
-        "Data de corte da busca: 15 de agosto de 2026.",
+        "Este artigo é uma revisão narrativa. Não constitui diretriz nacional nem prescrição individual. As referências foram conferidas no Crossref em 15 de agosto de 2026 (quatorze de quatorze DOIs resolvidos). Data de corte da busca: 15 de agosto de 2026.",
       ],
     },
     {
@@ -978,17 +928,18 @@ const fenotipagemIntegrada: MagazineArticle = {
       title: "Evidência",
       kind: "evidence",
       paragraphs: [
-        "O framework de fenótipo — não a pendência taxonômica — está no relatório de definição do DEWS II. Craig e colaboradores (2017) descrevem a doença do olho seco como perda de homeostase do filme lacrimal, com sintomas de desconforto ou distúrbio visual, e com etiologias-chave em instabilidade, hiperosmolaridade, inflamação e dano. O componente neurossensorial entra pela primeira vez. Aquoso e evaporativo existem em contínuo, não como polos que se excluem. O esquema admite as duas discórdias: sinais sem sintomas, inclusive o olho neurótrofico; sintomas sem sinais demonstráveis, inclusive a dor neuropática. É nesse sentido que o texto entra aqui. Não para reabrir a discussão sobre o nome da entidade. Para lembrar que a classificação já previa o paciente em que o filme e a queixa não caminham juntos.",
-        "O mapa diagnóstico que o leitor conhece é o do relatório de metodologia do DEWS II (Wolffsohn e colaboradores, 2017): triagem com DEQ-5 ou OSDI; em seguida tempo de ruptura — de preferência não invasivo —, osmolaridade e coloração de córnea, conjuntiva e margem; depois, subclassificação evaporativo versus aquoso para informar o manejo. Esse mapa ainda organiza a maior parte das fichas. Não é o mapa operacional desta matéria. É o contraste histórico: o que se pedia em 2017 e o que se pede agora.",
-        "O mapa operacional é o relatório de metodologia diagnóstica do DEWS III (Wolffsohn e colaboradores, 2025). A doença é multifatorial, sintomática, e os fatores etiológicos incluem instabilidade, hiperosmolaridade, inflamação e dano, e anormalidades neurossensoriais. O screening recomendado é OSDI-6 ≥ 4 na soma bruta dos 6 itens (escala 0–24), não no índice 0–100 do OSDI-12. O diagnóstico fecha com screening positivo mais um signo de homeostase: NIBUT menor que 10 segundos, ou hiperosmolaridade — ≥ 308 mOsm/L ou diferença interocular maior que 8 —, ou coloração (córnea > 5, ou conjuntiva > 9, ou margem palpebral ≥ 2 mm e ≥ 25% da largura). A subclassificação se organiza em três blocos. Deficiências do filme: lipídio, aquoso, mucina-glicocálice. Anomalias palpebrais: piscar e fechamento, margem. Anormalidades da superfície: desalinhamento anatômico, disfunção neural, dano celular, inflamação e estresse oxidativo primários. Filme, pálpebra e superfície não são um workshop a recapitular. São o esqueleto que se traduz, no consultório, nos eixos aquoso, evaporativo-DGM, inflamatório e neurossensorial, com o desalinhamento virando caixa mecânica.",
-        "O Digest do DEWS III (Stapleton e colaboradores, 2025) ancora o que esta matéria precisa do consenso de 2025 sem reabrir a biologia da glândula de Meibomius: o eixo dor e sensação, e a distinção fisiopatológica entre deficiência aquosa e evaporativa, inclusive o papel do estresse neural. É âncora, não recap.",
-        "A discórdia como fato clínico — não como falha do leitor — tem um landmark. Nichols, Nichols e Mitchell (2004) examinaram 75 pacientes com doença do olho seco e não encontraram associação entre sinais e sintomas após ajuste para idade e lágrima artificial. A amostra é pequena, o protocolo é anterior à osmolaridade e ao NIBUT de rotina, e o OSDI ainda não era o instrumento padronizado daquele desenho. Nada disso apaga o achado: a correlação que o consultório espera não estava lá.",
-        "Vehof e colaboradores (2017) dão o que o landmark não dava: preditores acionáveis, nas duas direções, em 648 pacientes de um serviço terciário holandês — 83% mulheres, mais próximo do consultório brasileiro do que as cohorts de veteranos. Mais sintomas que sinais: dor crônica, atopia, anti-histamínicos, depressão, osteoartrite, antidepressivos. Menos sintomas que sinais: idade, Sjögren, GVHD. Associação transversal não é causalidade. Continua sendo a lista que muda a anamnese quando a discórdia aparece.",
-        "As cohorts de veteranos americanos descrevem a outra face — a discórdia como fenótipo de sensibilização — e exigem caveat de população. Ong e colaboradores (2018) estudaram 326 pacientes de um hospital VA, 92% homens. O escore de discórdia associou-se a dor não ocular, transtorno de estresse pós-traumático, índices de saúde mental e hiperalgesia em testes quantitativos sensoriais, com pós-sensações ao calor e ao frio. Galor e colaboradores (2015), na mesma linha de serviço, mostraram que sintomas medidos por DEQ-5 e OSDI correlacionavam-se moderadamente com dor não ocular, depressão e PTSD, e fraca ou não se correlacionavam com parâmetros do filme lacrimal; na regressão, nenhum parâmetro lacrimal permaneceu associado. A implicação é direta e limitada: tratar só o filme em um paciente com discórdia alta e carga de dor não ocular pode ser o mecanismo errado. A limitação também é direta: maioria masculina, veteranos dos Estados Unidos. Para o consultório brasileiro — maioria mulher, terciário misto — a direção da discórdia apoia-se em Vehof, não nessas cohorts.",
-        "O substrato do eixo neurossensorial está no relatório de dor e sensação do DEWS II (Belmonte e colaboradores, 2017). Nociceptores polimodais e mecânicos sensibilizados, somados a termorreceptores ao frio anormais, produzem a queixa de ressecamento e dor. Lesão prolongada altera canais e receptores e pode gerar dor neuropática referida à superfície. A avaliação que o relatório aponta — questionários, estesiometria, microscopia confocal in vivo — descreve método. A confocal não é rotina do consultório médio e não será aprofundada aqui. O que cabe é o reconhecimento de que o sintoma pode nascer no nervo, não só no filme.",
-        "Galor e colaboradores (2018) traduzem isso em clínica. Doença do olho seco e dor neuropática compartilham epidemiologia e apresentação. Features de dor neuropática ocular — fotoalodinia, hipersensibilidade ao vento — marcam persistência e gravidade de sintomas com sinais semelhantes. O diagnóstico precisa de um ramo neurossensorial explícito. Sem esse ramo, o paciente com dor desproporcional continua recebendo o mesmo escalonamento de lubrificante e anti-inflamatório que o paciente cujo driver é o filme.",
-        "Há um contraste de definição que o leitor vai encontrar, sobretudo em literatura asiática, e que não deve ser apresentado como substituto. A Asia Dry Eye Society (Tsubota e colaboradores, 2017) descreveu um paradigma de sintomas mais tempo de ruptura curto — o fenótipo short-TFBUT, frequente em usuários de tela —, mesmo com poucos outros sinais. É um fenótipo real. O DEWS III, porém, exige sintoma (OSDI-6) e um signo de homeostase. Pacientes que fecham ADES podem ou não fechar DEWS III. A harmonização não está resolvida. Esta matéria não adota o paradigma ADES como algoritmo; usa-o como contraste para não apagar o paciente de TBUT curto e muitos sintomas.",
-        "Os questionários que mudam decisão nesta lista são três, com funções distintas. O OSDI de Schiffman e colaboradores (2000) tem doze itens e três subescalas — função visual, sintomas, gatilhos ambientais — e foi validado para gravidade. É instrumento de caracterização, não só de screening. O DEQ-5 de Chalmers, Begley e Caffery (2010) combina frequência e intensidade vespertina de desconforto e ressecamento com frequência de lacrimejamento: escore maior que 6 sugere doença do olho seco; maior que 12 sugere investigar Sjögren — sugere investigar, não diagnostica. O OSDI-6 de Pult e Wolffsohn (2019) reúne os itens 1, 4, 7, 9, 10 e 11 do OSDI, correlaciona-se com o instrumento completo (r ≈ 0,90) e prediz o DEQ-5 (AUC 0,80). É o atalho que o DEWS III adotou para screening. Não cobre as três subescalas. Foi derivado em amostras europeias relativamente jovens — no primeiro estudo, idade média em torno de 34 anos. O cutoff ≥ 4 na soma 0–24 que o consenso usa não está validado no Brasil.",
+        "O framework de fenótipo está no relatório de definição do DEWS II. Craig e colaboradores (2017) descrevem a doença do olho seco como perda de homeostase do filme lacrimal, com sintomas de desconforto ou distúrbio visual, e com etiologias-chave em instabilidade, hiperosmolaridade, inflamação e dano. O componente neurossensorial entra pela primeira vez. Aquoso e evaporativo existem em contínuo, não como polos que se excluem. O esquema já admitia as duas discórdias: sinais sem sintomas (inclusive o olho neurótrofico) e sintomas sem sinais demonstráveis (inclusive a dor neuropática).",
+        "O mapa que o leitor conhece é o do relatório de metodologia do DEWS II (Wolffsohn e colaboradores, 2017): triagem com DEQ-5 ou OSDI; em seguida tempo de ruptura (de preferência não invasivo), osmolaridade e coloração de córnea, conjuntiva e margem; depois, subclassificação evaporativo versus aquoso. Esse mapa ainda organiza a maior parte das fichas. Não é o mapa operacional desta matéria. É o contraste: o que se pedia em 2017 e o que se pede agora.",
+        "O mapa operacional é o relatório de metodologia diagnóstica do DEWS III (Wolffsohn e colaboradores, 2025). A doença é multifatorial e sintomática. Os fatores etiológicos incluem instabilidade, hiperosmolaridade, inflamação e dano, e anormalidades neurossensoriais como fator formal, não como comorbidade opcional. O screening recomendado é OSDI-6 ≥ 4 na soma bruta dos 6 itens (escala 0–24), não no índice 0–100 do OSDI-12. O diagnóstico fecha com screening positivo mais um signo de homeostase: NIBUT menor que 10 segundos, ou hiperosmolaridade (≥ 308 mOsm/L ou diferença interocular maior que 8), ou coloração (córnea > 5, ou conjuntiva > 9, ou margem palpebral ≥ 2 mm e ≥ 25% da largura). Isso é a porta diagnóstica. Não é o recap dos nove drivers (esse mapa está na matéria TFOS DEWS III na prática).",
+        "Duas categorias do consultório mudam de endereço. \"Olho seco silencioso\" (sinais sem sintomas) deixa de ser doença do olho seco no sentido DEWS III. Pode ser superfície alterada, neurotrofia ou outro diagnóstico. Não fecha o critério de doença sintomática. \"Olho seco sem teste\" (sintomas sem signo de homeostase) também não fecha. O que se investiga é o ramo neurossensorial, a dor neuropática ocular, o driver neural. A discórdia não desaparece. Ela ganha endereço.",
+        "A subclassificação em filme, pálpebra e superfície é o esqueleto. No consultório, isso se traduz nos eixos aquoso, evaporativo-DGM, inflamatório e neurossensorial, com o desalinhamento como caixa mecânica. O Digest do DEWS III (Stapleton e colaboradores, 2025) ancora o que esta matéria precisa do consenso de 2025 sem reabrir a biologia da glândula de Meibomius: o eixo dor e sensação, e a distinção fisiopatológica entre deficiência aquosa e evaporativa, inclusive o papel do estresse neural.",
+        "A discórdia como fato clínico tem um landmark. Nichols e colaboradores (2004) examinaram 75 pacientes com doença do olho seco e não encontraram associação entre sinais e sintomas após ajuste para idade e lágrima artificial. A amostra é pequena. O protocolo é anterior à osmolaridade e ao NIBUT de rotina. O OSDI ainda não era o instrumento padronizado daquele desenho. Nada disso apaga o achado: a correlação que o consultório espera não estava lá.",
+        "Vehof e colaboradores (2017) dão o que o landmark não dava: preditores acionáveis, nas duas direções, em 648 pacientes de um serviço terciário holandês (83% mulheres, mais próximo do consultório brasileiro do que as cohorts de veteranos). Mais sintomas que sinais: dor crônica, atopia, anti-histamínicos, depressão, osteoartrite, antidepressivos. Essa direção associou-se a pior saúde percebida. Menos sintomas que sinais: idade, Sjögren (sobretudo a forma primária), doença do enxerto contra o hospedeiro. Associação transversal não é causalidade. Continua sendo a lista que muda a anamnese quando a discórdia aparece.",
+        "As cohorts de veteranos americanos descrevem a outra face (a discórdia como fenótipo de sensibilização) e exigem caveat de população. Ong e colaboradores (2018) estudaram 326 pacientes de um hospital VA, 92% homens. O escore de discórdia associou-se a dor não ocular, transtorno de estresse pós-traumático, índices de saúde mental e hiperalgesia em testes quantitativos sensoriais, com pós-sensações ao calor e ao frio. Galor e colaboradores (2015), na mesma linha de serviço, mostraram que sintomas medidos por DEQ-5 e OSDI correlacionavam-se moderadamente com dor não ocular, depressão e PTSD, e fraca ou não se correlacionavam com parâmetros do filme lacrimal. Na regressão, nenhum parâmetro lacrimal permaneceu associado. A implicação é direta e limitada: tratar só o filme em um paciente com discórdia alta e carga de dor não ocular pode ser o mecanismo errado. Para o consultório brasileiro (maioria mulher, terciário misto), a direção da discórdia apoia-se em Vehof, não nessas cohorts.",
+        "O substrato do eixo neurossensorial está no relatório de dor e sensação do DEWS II (Belmonte e colaboradores, 2017). Nociceptores polimodais e mecânicos sensibilizados, somados a termorreceptores ao frio anormais, produzem a queixa de ressecamento e dor. Lesão prolongada altera canais e receptores e pode gerar dor neuropática referida à superfície. A avaliação que o relatório aponta (questionários, estesiometria, microscopia confocal in vivo) descreve método. A confocal não é rotina do consultório médio e não será aprofundada aqui. O que cabe é o reconhecimento de que o sintoma pode nascer no nervo, não só no filme.",
+        "Galor e colaboradores (2018) traduzem isso em clínica. Doença do olho seco e dor neuropática compartilham epidemiologia e apresentação. Features de dor neuropática ocular (fotoalodinia, hipersensibilidade ao vento) marcam persistência e gravidade de sintomas com sinais semelhantes. Sem um ramo neurossensorial explícito, o paciente com dor desproporcional continua recebendo o mesmo escalonamento de lubrificante e anti-inflamatório que o paciente cujo driver é o filme.",
+        "Há um contraste de definição que o leitor vai encontrar, sobretudo em literatura asiática, e que não deve ser apresentado como substituto. A Asia Dry Eye Society (Tsubota e colaboradores, 2017) descreveu um paradigma de sintomas mais tempo de ruptura curto (o fenótipo short-TFBUT, frequente em usuários de tela), mesmo com poucos outros sinais. É um fenótipo real. O DEWS III, porém, exige sintoma (OSDI-6) e um signo de homeostase. Pacientes que fecham ADES podem ou não fechar DEWS III. A harmonização não está resolvida. Esta matéria não adota o paradigma ADES como algoritmo. Usa-o como contraste para não apagar o paciente de TBUT curto e muitos sintomas.",
+        "Os questionários que mudam decisão nesta lista são três, com funções distintas. O OSDI de Schiffman e colaboradores (2000) tem doze itens e três subescalas (função visual, sintomas, gatilhos ambientais) e foi validado para gravidade. É instrumento de caracterização, não só de screening. O DEQ-5 de Chalmers, Begley e Caffery (2010) combina frequência e intensidade vespertina de desconforto e ressecamento com frequência de lacrimejamento: escore maior que 6 sugere doença do olho seco; maior que 12 sugere investigar Sjögren (sugere investigar, não diagnostica). O OSDI-6 de Pult e Wolffsohn (2019) reúne os itens 1, 4, 7, 9, 10 e 11 do OSDI, correlaciona-se com o instrumento completo (r ≈ 0,90) e prediz o DEQ-5 (AUC 0,80). É o atalho que o DEWS III adotou para screening. Não é sucessor do OSDI de doze itens. Não cobre as três subescalas. Foi derivado em amostras europeias relativamente jovens (no primeiro estudo, idade média em torno de 34 anos). O cutoff que o consenso usa não está validado no Brasil.",
       ],
     },
     {
@@ -996,25 +947,25 @@ const fenotipagemIntegrada: MagazineArticle = {
       title: "Prática",
       kind: "practice",
       paragraphs: [
-        "A mudança imediata é de raciocínio, não de escada prescritiva. Se o OSDI-6 ou o DEQ-5 estão altos e a coloração, o tempo de ruptura e a osmolaridade estão baixos — ou o inverso —, o primeiro gesto é registrar a discórdia como dado. Não como “exame inconsistente”. Não como motivo para repetir a lâmpada de fenda até os números coincidirem. A discórdia é o achado que abre o mapa, não o que o invalida.",
-        "O mapa cabe em uma figura pequena. Não é fluxograma mestre e não foi validado como algoritmo de visita de quinze a vinte minutos. Três blocos DEWS III — deficiências do filme (lipídio / aquoso / mucina-glicocálice), anomalias palpebrais (piscar, fechamento, margem), anormalidades da superfície (desalinhamento anatômico, disfunção neural, dano celular, inflamação/estresse oxidativo primários) — alimentam os eixos aquoso, evaporativo-DGM, inflamatório e neurossensorial. O desalinhamento vira caixa mecânica. Mistos: hierarquizar o driver da visita, não o checklist completo.",
-        "Os questionários entram na decisão, não na ficha por obrigação. O OSDI-6 decide se o paciente entra no algoritmo DEWS III. O DEQ-5, sobretudo acima de 12, puxa a investigação de Sjögren no eixo aquoso. O OSDI completo entra quando o formulário curto não explica o fenótipo — quando a queixa é função visual, ou quando os gatilhos ambientais são o que distingue este paciente daquele. SPEED e SANDE servem como alternativas de acompanhamento, não como instrumentos adotados para mudar o eixo.",
-        "O eixo aquoso se reconhece por volume baixo — Schirmer, menisco — e, quando o DEQ-5 está alto, pela pergunta de Sjögren. Vehof lembra a outra face: Sjögren, GVHD e idade predizem menos sintomas que sinais. O paciente oligosintomático com superfície marcada não é “olho seco leve”. Não se aprofunda imunologia nesta matéria; aprofunda-se o reconhecimento de que o volume e o contexto sistêmico podem ser o driver mesmo quando a queixa é discreta.",
-        "O eixo evaporativo-DGM se reconhece por tempo de ruptura curto, margem e expressibilidade, e filme lipídico. É um dos três blocos DEWS III — filme mais pálpebra — e para aqui. A biologia da glândula e os procedimentos de margem são de outras matérias. Nesta, o eixo existe para ser nomeado quando é ele que explica a visita, não para ser esgotado.",
-        "O eixo inflamatório se reconhece por coloração, hiperosmolaridade e, se o teste já estiver disponível no serviço, MMP-9 como bandeira — não como tema. A inflamação pode ser primária, no bloco de superfície do DEWS III, ou secundária a qualquer outro eixo. Fenótipo inflamatório “puro” é constructo clínico: coloração não é inflamação primária. Não se reconta o círculo vicioso aqui; o que cabe é não tratar toda coloração como se fosse o mesmo mecanismo.",
-        "O eixo neurossensorial é o núcleo desta matéria. Dor desproporcional aos sinais; features de dor neuropática ocular — vento, fotoalodinia —; comorbidades de dor crônica, depressão, PTSD quando o contexto as trouxer; testes quantitativos sensoriais se o serviço os tiver. O DEWS III lista disfunção neural como subclasse da superfície. A conduta que muda hoje não é uma nova gota: é parar de escalar lubrificante e anti-inflamatório indefinidamente quando o driver é neural, reconhecer o ramo e encaminhar. A matéria de terapia dirigida fará o escalonamento. O que se tem no consultório médio — discórdia, features de NOP, comorbidades de dor — é proxy. Não é gold standard. Estesiometria, confocal e QST não são rotina e não devem ser fingidos como se fossem.",
-        "A caixa mecânica é reconhecimento, não tratado. Desalinhamento anatômico, exposição, atrito, conjuntivocálase óbvia: reconhecer. Critérios de alerta cabem em uma linha — lagoftalmo, CCh evidente, atrito visível. Sem casos, sem biomecânica.",
-        "Mistos: a maioria dos pacientes terá dois eixos ou mais. Hierarquizar pelo driver da visita — o que explica a discórdia de hoje — é o gesto. Completar o checklist de todos os eixos em toda consulta é o que produz polifarmácia. Não há série de cinco casos nesta atualização. Não há fluxograma mestre. Há um mapa e uma pergunta.",
+        "A mudança imediata é de raciocínio, não de escada prescritiva. Se o OSDI-6 ou o DEQ-5 estão altos e a coloração, o tempo de ruptura e a osmolaridade estão baixos (ou o inverso), o primeiro gesto é registrar a discórdia como dado. Não como \"exame inconsistente\". Não como motivo para repetir a lâmpada de fenda até os números coincidirem. A discórdia é o achado que abre o mapa, não o que o invalida.",
+        "Os questionários entram na decisão, não na ficha por obrigação. O OSDI-6 decide se o paciente entra no algoritmo DEWS III. O DEQ-5, sobretudo acima de 12, puxa a investigação de Sjögren no eixo aquoso. O OSDI completo entra quando o formulário curto não explica o fenótipo: quando a queixa é função visual, ou quando os gatilhos ambientais são o que distingue este paciente daquele. SPEED e SANDE servem como alternativas de acompanhamento, não como instrumentos adotados para mudar o eixo.",
+        "O eixo aquoso se reconhece por volume baixo (Schirmer, menisco) e, quando o DEQ-5 está alto, pela pergunta de Sjögren. Sjögren, GVHD e idade predizem menos sintomas que sinais. O paciente oligosintomático com superfície marcada não é \"olho seco leve\". Não se aprofunda imunologia nesta matéria. Aprofunda-se o reconhecimento de que o volume e o contexto sistêmico podem ser o driver mesmo quando a queixa é discreta.",
+        "O eixo evaporativo-DGM se reconhece por tempo de ruptura curto, margem e expressibilidade, e filme lipídico. Nesta matéria, o eixo existe para ser nomeado quando é ele que explica a visita. A biologia da glândula e os procedimentos de margem são de outras matérias.",
+        "O eixo inflamatório se reconhece por coloração, hiperosmolaridade e, se o teste já estiver disponível no serviço, MMP-9 como bandeira (não como tema). A inflamação pode ser primária, no bloco de superfície, ou secundária a qualquer outro eixo. Fenótipo inflamatório \"puro\" é constructo clínico: coloração não é inflamação primária. O que cabe é não tratar toda coloração como se fosse o mesmo mecanismo.",
+        "O eixo neurossensorial é o núcleo desta matéria. Dor desproporcional aos sinais. Features de dor neuropática ocular (vento, fotoalodinia). Comorbidades de dor crônica, depressão, PTSD quando o contexto as trouxer. Testes quantitativos sensoriais se o serviço os tiver. A conduta que muda hoje não é uma nova gota: é parar de escalar lubrificante e anti-inflamatório indefinidamente quando o driver é neural, reconhecer o ramo e encaminhar. O que se tem no consultório médio (discórdia, features de NOP, comorbidades de dor) é proxy. Não é gold standard. Estesiometria, confocal e QST não são rotina e não devem ser fingidos como se fossem.",
+        "A caixa mecânica é reconhecimento, não tratado. Desalinhamento anatômico, exposição, atrito, conjuntivocálase óbvia: reconhecer. Critérios de alerta cabem em uma linha: lagoftalmo, CCh evidente, atrito visível.",
+        "Mistos: a maioria dos pacientes terá dois eixos ou mais. Hierarquizar pelo driver da visita (o que explica a discórdia de hoje) é o gesto. Completar o checklist de todos os eixos em toda consulta é o que produz polifarmácia. Não há série de cinco casos nesta atualização. Não há fluxograma mestre validado para quinze a vinte minutos. Há um mapa e uma pergunta.",
+        "Amanhã, no consultório:",
       ],
       bullets: [
-        "Passo 0. Se OSDI-6 ou DEQ-5 altos e coloração, TBUT ou osmolaridade baixos — ou o inverso —, registrar a discórdia como dado.",
-        "Questionários. OSDI-6 para o algoritmo DEWS III; DEQ-5 quando Sjögren ou deficiência aquosa está em jogo; OSDI completo quando o curto não explica função visual ou gatilhos.",
-        "Aquoso. Volume baixo; DEQ-5 > 12 sugere investigar Sjögren; menos sintomas que sinais se Sjögren, GVHD ou idade.",
-        "Evaporativo-DGM. TBUT curto, margem, expressibilidade, lipídio. Nomear o eixo; não esgotar a glândula aqui.",
-        "Inflamatório. Coloração, osmolaridade, MMP-9 só como bandeira se já disponível. Primário ou secundário; “puro” é constructo.",
-        "Neurossensorial. Dor desproporcional, vento, fotoalodinia, comorbidades de dor. Não escalar filme indefinidamente; reconhecer e encaminhar o ramo de dor.",
-        "Mecânico. Lagoftalmo, CCh óbvia, atrito: caixa.",
-        "Mistos. Hierarquizar o driver de hoje, não o checklist completo.",
+        "Se OSDI-6 ou DEQ-5 altos e coloração, TBUT ou osmolaridade baixos (ou o inverso), registrar a discórdia como dado.",
+        "OSDI-6 para o algoritmo DEWS III. DEQ-5 quando Sjögren ou deficiência aquosa está em jogo. OSDI completo quando o curto não explica função visual ou gatilhos.",
+        "Aquoso: volume baixo. DEQ-5 > 12 sugere investigar Sjögren. Menos sintomas que sinais se Sjögren, GVHD ou idade.",
+        "Evaporativo-DGM: TBUT curto, margem, expressibilidade, lipídio. Nomear o eixo. Não esgotar a glândula aqui.",
+        "Inflamatório: coloração, osmolaridade, MMP-9 só como bandeira se já disponível. Primário ou secundário. \"Puro\" é constructo.",
+        "Neurossensorial: dor desproporcional, vento, fotoalodinia, comorbidades de dor. Não escalar filme indefinidamente. Reconhecer e encaminhar o ramo de dor.",
+        "Mecânico: lagoftalmo, CCh óbvia, atrito. Caixa.",
+        "Mistos: hierarquizar o driver de hoje, não o checklist completo.",
       ],
     },
     {
@@ -1022,13 +973,13 @@ const fenotipagemIntegrada: MagazineArticle = {
       title: "Limitações",
       kind: "limitations",
       paragraphs: [
-        "Esta matéria propõe um mapa. Não vende desfecho. Não há ensaio randomizado que teste fenotipagem integrada contra escalada por gravidade de sintomas. Não há algoritmo consultorial validado que hierarquize cinco eixos e mistos em uma visita de quinze a vinte minutos. O DEWS III dá testes e cut-offs; não dá a ordem dos drivers quando eles convivem.",
-        "Não há gold standard de fenótipo neurossensorial no consultório médio. Microscopia confocal, estesiometria e testes quantitativos sensoriais não são rotina. Features de dor neuropática ocular, discórdia e comorbidades de dor são o melhor proxy disponível — e é proxy.",
-        "O cutoff OSDI-6 ≥ 4 na soma 0–24 não foi validado no Brasil. O instrumento foi derivado em amostras europeias relativamente jovens. O pacote de cut-offs do DEWS III — OSDI-6, NIBUT, osmolaridade, coloração — não foi testado prospectivamente como conjunto na clínica brasileira.",
-        "A harmonização entre ADES e DEWS III não está resolvida. Sintomas mais TBUT curto não são o mesmo critério que sintoma mais um signo de homeostase. Esta matéria não finge que estão.",
-        "A direção da discórdia em mulheres brasileiras — a maioria do consultório — apoia-se em Vehof, serviço terciário holandês, não nas cohorts VA de Ong e Galor, predominantemente masculinas. Nichols 2004 permanece landmark e permanece amostra pequena, pré-osmolaridade e pré-NIBUT de rotina.",
-        "Fenótipo inflamatório “puro”, sem biomarcador de consultório, é constructo. Coloração e osmolaridade não autorizam essa etiqueta.",
-        "O Digest do DEWS III tem corrigendum em 2026. Esta matéria usa só o eixo dor e sensação e a distinção ADDE versus evaporativo, sem recap de DGM, e não afirma ter verificado o texto da correção — o full text não estava disponível no corte.",
+        "Esta matéria propõe um mapa. Não vende desfecho. Não há ensaio randomizado que teste fenotipagem integrada contra escalada por gravidade de sintomas. Não há algoritmo consultorial validado que hierarquize cinco eixos e mistos em uma visita de quinze a vinte minutos. O DEWS III dá testes e cut-offs. Não dá a ordem dos drivers quando eles convivem.",
+        "Não há gold standard de fenótipo neurossensorial no consultório médio. Microscopia confocal, estesiometria e testes quantitativos sensoriais não são rotina. Features de dor neuropática ocular, discórdia e comorbidades de dor são o melhor proxy disponível. E é proxy.",
+        "O cutoff OSDI-6 ≥ 4 na soma 0–24 não foi validado no Brasil. O instrumento foi derivado em amostras europeias relativamente jovens. O pacote de cut-offs do DEWS III (OSDI-6, NIBUT, osmolaridade, coloração) não foi testado prospectivamente como conjunto na clínica brasileira.",
+        "A harmonização entre ADES e DEWS III não está resolvida. Sintomas mais TBUT curto não são o mesmo critério que sintoma mais um signo de homeostase.",
+        "A direção da discórdia em mulheres brasileiras (a maioria do consultório) apoia-se em Vehof, serviço terciário holandês, não nas cohorts VA de Ong e Galor, predominantemente masculinas. Nichols 2004 permanece landmark e permanece amostra pequena, pré-osmolaridade e pré-NIBUT de rotina.",
+        "Fenótipo inflamatório \"puro\", sem biomarcador de consultório, é constructo. Coloração e osmolaridade não autorizam essa etiqueta.",
+        "O Digest do DEWS III tem corrigendum em 2026. Esta matéria usa só o eixo dor e sensação e a distinção ADDE versus evaporativo, sem recap de DGM, e não afirma ter verificado o texto da correção (o full text não estava disponível no corte).",
         "Um artigo citado em base de consenso (Mejía-Salgado e colaboradores, 2026) não foi confirmado no PubMed até 15 de agosto de 2026 e não é citado.",
       ],
     },
@@ -1154,12 +1105,14 @@ const fenotipagemIntegrada: MagazineArticle = {
   },
 };
 
+
 const tresMesesNaoSaoDoze: MagazineArticle = {
   slug: "tres-meses-nao-sao-doze",
   title: "Três meses não são doze",
-  subtitle: "Quando um ranking de curto prazo vira argumento de venda, a evidência começa a ser lida além do que realmente demonstra.",
+  subtitle:
+    "Quando um ranking de curto prazo vira argumento de venda, a evidência começa a ser lida além do que realmente demonstra.",
   excerpt:
-    "Uma meta-análise em rede ordena tecnologias de olho seco a 2–4 meses. P-score não é ranking de compra. Três meses não são doze — e benefício contra placebo não é superioridade sobre o cuidado padrão.",
+    "Uma nova tecnologia chega com um gráfico: primeiro lugar em TBUT, melhor P-score em coloração. P-score não é ranking de compra. Três meses não são doze.",
   category: "Tecnologia",
   author: {
     name: "Dr. Philipe Saraiva Cruz",
@@ -1178,28 +1131,21 @@ const tresMesesNaoSaoDoze: MagazineArticle = {
       title: "Por que importa",
       kind: "why-it-matters",
       paragraphs: [
-        "Uma nova tecnologia chega ao mercado. Em seguida, aparece um gráfico: primeiro lugar para TBUT, melhor posição para sintomas, maior P-score para coloração corneana. A leitura parece simples — se ficou no topo, deve ser melhor.",
-        "Em olho seco, quase nunca é tão simples.",
-        "A maior meta-análise em rede recente sobre tecnologias para doença do olho seco reuniu 47 ensaios randomizados, 3.581 participantes de 16 países e comparou IPL, sistemas de pulsação térmica, TearCare, iLUX, LLLT, estimulação elétrica e ressonância molecular quântica. O trabalho é valioso. Mas seu horizonte principal foi de 2 a 4 meses.",
-        "Esse detalhe muda tudo.",
-        "Porque a pergunta que interessa ao consultório não é apenas “o paciente melhorou aos três meses?”. É também: quanto melhorou, em qual fenótipo, comparado a quê, por quanto tempo, com qual risco, quantas vezes será necessário retratar e a que custo?",
-        "Três meses não são doze.",
-        "E ranking estatístico não é ranking de compra.",
+        "Uma nova tecnologia chega com um gráfico: primeiro lugar em TBUT, melhor P-score em coloração. A pergunta do consultório não é só se o paciente melhorou aos três meses. É quanto melhorou, em qual fenótipo, comparado a quê, por quanto tempo, com qual risco, quantas vezes será preciso retratar e a que custo.",
+        "A maior meta-análise em rede recente sobre tecnologias para olho seco reuniu 47 ensaios randomizados, 3.581 participantes de 16 países. Comparou IPL, pulsação térmica, TearCare, iLUX, LLLT, estimulação elétrica e ressonância molecular quântica. O trabalho é valioso. O horizonte principal foi de 2 a 4 meses. Três meses não são doze.",
+        "P-score não é ranking de compra. IRPL não é o IPL de consultório.",
       ],
     },
     {
-      id: "metodo",
+      id: "o-que-o-ranking-realmente-significa",
       title: "O que o ranking realmente significa",
       kind: "body",
       paragraphs: [
-        "Na análise de Noyman e colaboradores publicada em 2026, TearCare associado à expressão das glândulas meibomianas e IPL associado a máscara aquecida ficaram entre as estratégias mais bem posicionadas para estabilidade lacrimal. QMR ocupou posição elevada para coloração corneana. Modalidades baseadas em IPL tiveram bom desempenho para sintomas.",
-        "Isso não significa que um equipamento tenha “vencido” os demais.",
-        "Meta-análises em rede permitem combinar comparações diretas e indiretas. É justamente essa característica que as torna úteis quando não existem ensaios colocando todas as tecnologias frente a frente. Mas ela também exige cautela: os pacientes não são idênticos, os protocolos variam, os comparadores mudam, algumas tecnologias aparecem em poucos estudos e várias intervenções incluem cointervenções diferentes.",
-        "O P-score serve para ordenar tratamentos dentro daquela rede estatística. Ele não mede retorno sobre investimento, durabilidade, aplicabilidade a outro equipamento da mesma classe nem a probabilidade clínica de uma tecnologia ser “a melhor” para determinado paciente.",
-        "Transformar P-score em recomendação de compra é pedir à estatística uma resposta que ela não foi desenhada para fornecer.",
+        "Na análise de Noyman e colaboradores (2026), TearCare associado à expressão das glândulas meibomianas e IPL associado a máscara aquecida ficaram entre as estratégias mais bem posicionadas para estabilidade lacrimal. QMR ocupou posição elevada para coloração corneana. Modalidades baseadas em IPL tiveram bom desempenho para sintomas.",
+        "Isso não significa que um equipamento tenha vencido os demais.",
+        "Meta-análises em rede combinam comparações diretas e indiretas. São úteis quando não existem ensaios com todas as tecnologias frente a frente. Os pacientes não são idênticos. Os protocolos variam. Os comparadores mudam. Algumas tecnologias aparecem em poucos estudos. Várias intervenções incluem cointervenções diferentes. A rede de 2026 misturou subtipos de IPL, relatou heterogeneidade extrema (I² de 98,6% em TBUT e 97,2% em coloração) e cerca de 30% dos ensaios com conflito industrial.",
+        "O P-score ordena tratamentos dentro daquela rede estatística. Ele não mede retorno sobre investimento, durabilidade, aplicabilidade a outro equipamento da mesma classe nem a probabilidade clínica de uma tecnologia ser a melhor para determinado paciente. Uma tecnologia pode ocupar o primeiro lugar em um desfecho e ainda ter evidência baseada em poucos estudos, comparações indiretas, protocolo específico ou seguimento curto.",
       ],
-      callout:
-        "P-score não é ranking de compra. Uma tecnologia pode ocupar o primeiro lugar em um desfecho e ainda ter evidência baseada em poucos estudos, comparações indiretas, protocolo específico ou seguimento curto.",
     },
     {
       id: "evidencia",
@@ -1207,122 +1153,119 @@ const tresMesesNaoSaoDoze: MagazineArticle = {
       kind: "evidence",
       paragraphs: [
         "Quando a literatura é observada por outra lente, a certeza diminui.",
-        "Um overview publicado no JAMA Ophthalmology avaliou revisões sistemáticas sobre tratamentos para olho seco. Das 71 revisões elegíveis, apenas 26 foram consideradas metodologicamente confiáveis. Entre elas, nenhuma intervenção apresentou evidência conclusiva de alta certeza.",
-        "IPL e pulsação térmica aparecem como intervenções potencialmente eficazes. Mas “potencialmente eficaz” é diferente de “superior”.",
-        "A diferença parece semântica. Não é.",
-        "Na revisão Cochrane dedicada ao LipiFlow, 13 ensaios e 1.155 participantes foram avaliados. Comparado a compressas mornas básicas, os resultados para sintomas foram conflitantes. Também não surgiu evidência clara de superioridade para expressão glandular, qualidade do meibum ou tempo de ruptura do filme lacrimal. A certeza global foi baixa ou muito baixa.",
-        "Uma meta-análise mais recente encontrou melhora da função glandular e discreta melhora da coloração corneana com LipiFlow, mas não demonstrou benefício significativo para OSDI ou espessura da camada lipídica.",
-        "As duas sínteses não precisam ser vistas como contraditórias. Elas mostram algo mais interessante: a conclusão muda conforme os estudos incluídos, os comparadores, o desfecho e o método de análise.",
-        "Esse é exatamente o tipo de nuance que desaparece quando toda a evidência é reduzida a uma tabela de posições.",
-        "Entre as tecnologias atuais, IPL possui uma das bases de evidência mais robustas para disfunção das glândulas meibomianas.",
-        "Uma revisão sistemática e meta-análise de ensaios randomizados publicada em 2025 encontrou que, comparado a placebo, IPL provavelmente produz uma redução clinicamente relevante dos sintomas — aproximadamente 16 pontos no OSDI.",
-        "É um resultado importante.",
-        "Mas quando IPL foi analisado como adjuvante ao tratamento padrão, a diferença caiu para cerca de 7 pontos no OSDI. Nesse cenário, tornou-se menos claro se o ganho adicional seria clinicamente relevante.",
-        "Essa distinção deveria fazer parte de qualquer conversa sobre eficácia.",
-        "Dizer que uma tecnologia funciona contra placebo responde a uma pergunta. Demonstrar que ela acrescenta benefício importante a um tratamento padrão já bem conduzido responde a outra.",
-        "Na prática, é a segunda que geralmente interessa.",
-        "Outro problema recorrente é falar de IPL como se toda plataforma entregasse a mesma intervenção.",
-        "Não entrega.",
-        "Os estudos variam em espectro, filtros, fluência, número de pulsos, área tratada, intervalo entre sessões, número total de sessões e associação com expressão glandular, máscara térmica, LLLT ou medicamentos.",
-        "IRPL/E-Eye, OPT e outros protocolos baseados em luz pulsada pertencem à mesma família tecnológica, mas não são automaticamente intercambiáveis.",
-        "Uma evidência obtida com determinada plataforma e determinado protocolo não pode ser transferida, sem validação, para qualquer outro equipamento que também utilize luz pulsada.",
-        "Xue e colaboradores (2020) fecham a identidade: o aparelho do ensaio mascarado é E-Eye Intense Regulated Pulsed Light (E-Swin). Quatro ou cinco flashes. Curso de pelo menos quatro sessões antes de julgar. Isso é IRPL. Não é o IPL de consultório da classe Toyos.",
-        "O único confronto randomizado de padrão é Wu e colaboradores (2020): 62 pacientes, OPT (três sessões, 10–14 J/cm², cerca de três semanas) versus IRPL (quatro sessões, 9–13 J/cm², dias 1, 15, 45 e 75). Os dois braços melhoram em relação ao início. OPT ganhou função da glândula da pálpebra inferior, primeiro NIKBUT e TBUT com fluoresceína. Não é Lumenis versus E-Eye.",
-        "Jiang e colaboradores (2022) comparam Eyesis com E-Eye em 132 pacientes, só nos dias 0 e 7. Eyesis não foi inferior na taxa de sucesso ao dia 14 (diferença −1,7% / +1,6%; p = 0,927). Os autores relatam ganho extra em OSDI, TBUT, Schirmer, menisco e qualidade do meibum. Duas sessões não são o curso de Xue.",
-        "Cong e colaboradores (2025) ranqueiam protocolos em rede, com busca até 10 de novembro de 2022. OPT com expressão lidera sintoma; E>eye com expressão lidera TBUT e qualidade de meibum. É indireto. Não escolhe aparelho no consultório.",
-        "Até a busca realizada para esta revisão, não foi identificado um grande ensaio randomizado comparando diretamente E-Eye/IRPL com plataformas como M22/Lumenis ou Toyos sob o mesmo calendário, parâmetros equivalentes e mesma política de expressão glandular.",
-        "A ausência dessa comparação não prova equivalência. Também não prova superioridade.",
-        "Ela apenas significa que a pergunta ainda não foi adequadamente respondida.",
-        "Em tecnologias para olho seco, eficácia inicial e durabilidade são desfechos diferentes.",
-        "O estudo SAHARA ajuda a ilustrar isso. TearCare associado à expressão glandular foi comparado à ciclosporina oftálmica 0,05% em 345 participantes, com seguimento de seis meses. Posteriormente, o estágio de extensão trouxe uma informação particularmente prática: no grupo tratado com TearCare, a mediana até o retratamento ficou em torno de oito meses.",
-        "Esse dado é muito mais útil para o consultório do que uma simples fotografia aos três meses.",
-        "Ele permite começar a responder perguntas reais: quantas sessões poderão ser necessárias por ano? Qual será o custo acumulado? Qual é o intervalo esperado de benefício? Existe um subgrupo que permanece bem por mais tempo?",
-        "LipiFlow também possui estudos relatando persistência de benefício por períodos prolongados em alguns pacientes, inclusive além de um ano. Isso é relevante, mas não deve ser convertido em uma promessa universal de duração.",
-        "O comportamento correto é falar em distribuição de resposta e necessidade de retratamento, e não em frases como “o efeito dura 12 meses”.",
-        "Porque alguns pacientes podem manter benefício. Outros não.",
-        "Low-level light therapy e ressonância molecular quântica aparecem cada vez mais na literatura.",
+        "McCann e colaboradores (2024), num overview no JAMA Ophthalmology, avaliaram 71 revisões elegíveis. Apenas 26 foram consideradas metodologicamente confiáveis. Nenhuma intervenção apresentou evidência conclusiva de alta certeza. IPL e pulsação térmica aparecem como potencialmente eficazes. Potencialmente eficaz não é superior.",
+        "Pucker e colaboradores (2024), na Cochrane dedicada ao LipiFlow, avaliaram 13 ensaios e 1.155 participantes. Comparado a compressas mornas básicas, os resultados para sintomas foram conflitantes. Também não surgiu evidência clara de superioridade para expressão glandular, qualidade do meibum ou tempo de ruptura do filme lacrimal. A certeza global foi baixa ou muito baixa.",
+        "Chen e colaboradores (2025) encontraram, no LipiFlow, melhora da função glandular (MGYSS) e discreta melhora da coloração corneana (CFS), sem benefício significativo para OSDI ou espessura da camada lipídica (LLT). As duas sínteses não precisam ser lidas como contraditórias. A conclusão muda conforme os estudos incluídos, os comparadores, o desfecho e o método de análise.",
+        "Peira e colaboradores (2025) atualizam o IPL. Comparado a placebo, IPL provavelmente produz uma redução clinicamente relevante dos sintomas, aproximadamente 16 pontos no OSDI. Quando IPL foi analisado como adjuvante ao tratamento padrão, a diferença caiu para cerca de 7 pontos. Nesse cenário, tornou-se menos claro se o ganho adicional seria clinicamente relevante. Funcionar contra placebo responde a uma pergunta. Acrescentar benefício a um tratamento padrão já bem conduzido responde a outra. No consultório, interessa a segunda.",
+        "IRPL e IPL de consultório não são a mesma intervenção. Xue e colaboradores (2020) usaram E-Eye Intense Regulated Pulsed Light (E-Swin): flashes homogêneos sequenciados, 4 versus 5 flashes, curso de pelo menos quatro sessões antes de julgar. Isso é IRPL. Não é o IPL genérico da classe Toyos.",
+        "Wu e colaboradores (2020) compararam OPT versus IRPL. OPT ganhou em função da glândula da pálpebra inferior, NIKBUT e FTBUT. Os dois melhoram versus a linha de base. Não é Lumenis versus E-Eye.",
+        "Jiang e colaboradores (2022) compararam Eyesis versus E-Eye em duas sessões (D0 e D7). Eyesis foi não inferior. Duas sessões não são o curso de Xue.",
+        "Cong e colaboradores (2025) meta-analisam em rede OPT com ou sem expressão, E>eye com ou sem expressão e Eyesis com expressão. O ranking é indireto. A heterogeneidade é alta. Não há vencedor de consultório.",
+        "Não foi identificado ensaio randomizado comparando E-Eye/IRPL com M22/Lumenis ou Toyos no mesmo calendário, mesma fluência e mesma política de expressão glandular. A ausência não prova equivalência. Também não prova superioridade.",
+        "Eficácia inicial e durabilidade são desfechos diferentes. SAHARA (Ayres e colaboradores, 2023) comparou TearCare associado à expressão com ciclosporina oftálmica 0,05% em 345 participantes, com seguimento de seis meses. TBUT melhorou mais no braço térmico. OSDI melhorou nos dois, sem diferença entre braços. A extensão (Hovanesian e colaboradores, 2025) trouxe o dado mais útil para o consultório: no grupo térmico, a mediana até o retratamento ficou em torno de oito meses. Isso começa a responder quantas sessões poderão ser necessárias por ano, qual será o custo acumulado e qual é o intervalo esperado de benefício.",
+        "Alguns pacientes com LipiFlow mantêm benefício por períodos prolongados, inclusive além de um ano. Isso é relevante. Não é promessa universal de duração. O comportamento correto é falar em distribuição de resposta e necessidade de retratamento, não em frases como \"o efeito dura 12 meses\".",
         "LLLT apresenta resultados promissores, principalmente em protocolos combinados. O problema metodológico é separar quanto do efeito pertence à fotobiomodulação e quanto pertence à intervenção associada.",
-        "QMR também apresenta sinais favoráveis em ensaios recentes e alcançou posição elevada para coloração corneana na meta-análise em rede de 2026.",
-        "Mas uma posição elevada em um desfecho não compensa uma base de evidência comparativa menor.",
-        "Quanto menor a quantidade de ensaios por tecnologia, maior a possibilidade de o ranking oscilar quando novos estudos entram na rede.",
-        "Por isso, em tecnologias emergentes, talvez seja mais importante perguntar “quanto sabemos?” do que “em qual posição ficou?”.",
-        "Os ensaios disponíveis não produziram um sinal importante de eventos adversos graves.",
-        "A meta-análise em rede de 2026 não registrou eventos adversos graves. A revisão Cochrane de LipiFlow também não identificou eventos relacionados ao tratamento com ameaça à visão.",
-        "Isso é tranquilizador.",
-        "Mas a revisão de IPL classificou a certeza da evidência sobre eventos adversos como muito baixa. Ensaios relativamente pequenos e com seguimento curto são bons para detectar eventos comuns; são muito menos eficientes para caracterizar eventos raros.",
-        "Portanto, a formulação cientificamente responsável é: não existe atualmente um sinal consistente de toxicidade grave, mas a segurança comparativa de longo prazo ainda é menos bem caracterizada do que a eficácia inicial.",
-        "Imagine duas tecnologias com ganho semelhante aos três meses.",
-        "A primeira exige uma sessão e retratamento eventual. A segunda exige quatro sessões iniciais, consumíveis de alto custo e manutenção periódica. Uma terceira oferece efeito um pouco menor, mas possui custo operacional muito inferior.",
-        "Qual é a melhor?",
-        "A meta-análise não responde.",
-        "Os estudos comparativos de tecnologias em olho seco ainda são muito mais desenvolvidos para eficácia clínica do que para custo por respondedor, custo por mês de benefício sustentado, custo por melhora clinicamente relevante ou impacto econômico do retratamento.",
-        "No Brasil, isso importa ainda mais. Custo do equipamento, impostos, consumíveis, treinamento, disponibilidade de peças, tempo de sala, ticket médio, número de sessões e perfil da população atendida podem modificar completamente o valor de uma tecnologia.",
-        "Uma diferença estatisticamente significativa não é sinônimo de investimento economicamente racional.",
+        "QMR apresenta sinais favoráveis em ensaios recentes e alcançou posição elevada para coloração corneana na rede de 2026. Uma posição elevada em um desfecho não compensa uma base de evidência comparativa menor. Quanto menor a quantidade de ensaios por tecnologia, maior a possibilidade de o ranking oscilar quando novos estudos entram na rede.",
+        "A rede de 2026 não registrou eventos adversos graves. A Cochrane do LipiFlow também não identificou eventos relacionados ao tratamento com ameaça à visão. A evidência de eventos adversos do IPL permanece de certeza muito baixa ou muito incerta. Ensaios relativamente pequenos e com seguimento curto detectam eventos comuns. São menos eficientes para caracterizar eventos raros. Não existe atualmente um sinal consistente de toxicidade grave. A segurança comparativa de longo prazo ainda é menos bem caracterizada do que a eficácia inicial.",
+        "Duas tecnologias com ganho semelhante aos três meses podem exigir uma sessão e retratamento eventual, ou quatro sessões iniciais, consumíveis caros e manutenção periódica. Uma terceira pode oferecer efeito um pouco menor com custo operacional muito inferior. A meta-análise não escolhe.",
+        "Os estudos comparativos ainda são muito mais desenvolvidos para eficácia clínica do que para custo por respondedor, custo por mês de benefício sustentado ou impacto econômico do retratamento. No Brasil, custo do equipamento, impostos, consumíveis, treinamento, peças, tempo de sala e perfil da população atendida podem modificar o valor de uma tecnologia. Diferença estatisticamente significativa não é investimento economicamente racional.",
       ],
     },
     {
       id: "pratica",
-      title: "Antes de comprar um aparelho, faça seis perguntas",
+      title: "Prática",
       kind: "practice",
       paragraphs: [
         "Antes de transformar um ranking de curto prazo em decisão de compra, estas seis perguntas separam o que o estudo mostrou do que o consultório precisa saber.",
-      ],
-      bullets: [
         "Qual foi o horizonte do estudo? Semanas, três meses, seis meses ou pelo menos um ano?",
         "Qual foi o comparador? Placebo, compressa, higiene palpebral, fármaco ou outro equipamento sob protocolo equivalente?",
         "Qual era o fenótipo? DGM obstrutiva, olho seco evaporativo, deficiência aquosa ou população mista?",
         "Qual protocolo foi realmente estudado? Plataforma, fluência, número de sessões, intervalo e expressão glandular importam.",
         "Qual é a certeza da evidência? Há comparações diretas? Quantos estudos sustentam o resultado? Qual o risco de viés?",
-        "Qual é o valor ao longo do tempo? Durabilidade, retratamento, segurança, custo total e ganho incremental sobre cuidado padrão.",
+        "Qual é o valor ao longo do tempo? Durabilidade, retratamento, segurança, custo total e ganho incremental sobre o cuidado padrão.",
+        "O que muda amanhã: IPL e sistemas térmicos são ferramentas legítimas e podem melhorar sinais e sintomas em pacientes selecionados, especialmente quando existe DGM e componente evaporativo relevante.",
+        "Para IPL, a evidência de benefício contra placebo é mais convincente do que a de benefício incremental sobre um tratamento padrão bem conduzido. Para pulsação térmica, há melhora documentada, sem demonstração consistente de superioridade universal sobre alternativas mais simples. LLLT e QMR ainda dependem de redes comparativas menores.",
+        "Nenhuma meta-análise resolve sozinha o equilíbrio entre fenótipo, magnitude, durabilidade, segurança e custo para aquele paciente e aquela prática.",
       ],
     },
     {
       id: "limitacoes",
-      title: "O que a evidência permite dizer hoje",
+      title: "Limitações",
       kind: "limitations",
       paragraphs: [
-        "Tecnologias como IPL e sistemas térmicos são ferramentas legítimas e podem melhorar sinais e sintomas em pacientes selecionados, especialmente quando existe DGM e componente evaporativo relevante.",
-        "Para IPL, a evidência de benefício contra placebo é mais convincente do que a evidência de benefício incremental sobre um tratamento padrão bem conduzido.",
-        "Para sistemas de pulsação térmica, há melhora documentada em diferentes estudos, mas não existe demonstração consistente de superioridade universal sobre alternativas mais simples ou sobre outras tecnologias.",
-        "LLLT e QMR são campos promissores, mas ainda dependem de redes comparativas menores.",
-        "E nenhuma meta-análise atual resolve sozinha a pergunta que mais interessa ao médico: qual tecnologia oferece o melhor equilíbrio entre fenótipo correto, magnitude de benefício, durabilidade, segurança e custo para aquele paciente e para aquela prática?",
-        "Essa resposta continuará exigindo julgamento clínico.",
-        "É por isso que três meses não são doze.",
-        "E é por isso que o melhor aparelho de uma tabela pode não ser o melhor investimento — nem o melhor tratamento — fora dela.",
-        "Esta é uma revisão narrativa editorial, e não uma revisão sistemática registrada. A atualização científica foi realizada em 17/08/2026 com SciSpace e Amass/BiomedCore, além da conferência do artigo-base e de referências primárias e secundárias relevantes.",
+        "Esta é uma revisão narrativa editorial, e não uma revisão sistemática registrada. Não foi realizada meta-análise independente. A conferência das fontes numeradas nesta versão é de 17 de agosto de 2026.",
+        "A rede de 2026 assume transitividade e não inclui SAHARA como confronto entre aparelhos. Pucker para em 2022. Peira atualiza sintoma do IPL e não substitui uma Cochrane nova.",
+        "Xue é IRPL (E-Eye/E-Swin), não o IPL genérico de consultório. Jiang usa duas sessões. Xue usa quatro a cinco. Fluência e fototipo brasileiros não foram validados nesta lista. Furo duro: zero ensaio randomizado E-Eye/IRPL versus M22/Lumenis/Toyos no mesmo calendário, mesma fluência e mesmo uso de expressão.",
+        "Nenhum paper numerado é brasileiro. Registro e disponibilidade nacional não foram verificados. Não se inventa status ANVISA. Não se afirma que IPL cura DGM.",
       ],
     },
   ],
   references: [
     {
       label:
-        "Noyman DBE, Chan CC, Teichman JC, et al. Technological Interventions for Dry Eye Disease: A Systematic Review and Random-Effects Network Meta-analysis of 3-Month Outcomes. Ophthalmology and Therapy. 2026;15(5):1721–1759.",
+        "Noyman DBE, Chan CC, Teichman JC, et al. Technological Interventions for Dry Eye Disease: A Systematic Review and Random-Effects Network Meta-analysis of 3-Month Outcomes. Ophthalmology and Therapy. 2026;15(5):1721-1759.",
       url: "https://doi.org/10.1007/s40123-026-01360-x",
       doi: "10.1007/s40123-026-01360-x",
     },
     {
       label:
-        "McCann P, Kruoch Z, Lopez S, et al. Interventions for Dry Eye: An Overview of Systematic Reviews. JAMA Ophthalmology. 2024.",
+        "McCann P, Kruoch Z, Lopez S, Malli S, Qureshi R, Li T. Interventions for Dry Eye: An Overview of Systematic Reviews. JAMA Ophthalmology. 2024;142(1):58-74.",
       url: "https://doi.org/10.1001/jamaophthalmol.2023.5751",
       doi: "10.1001/jamaophthalmol.2023.5751",
     },
     {
       label:
-        "Pucker AD, Yim TW, Rueff E, et al. LipiFlow for the treatment of dry eye disease. Cochrane Database of Systematic Reviews. 2024;2:CD015448.",
+        "Pucker AD, Yim TW, Rueff E, Ngo W, Tichenor AA, Conto JE. LipiFlow for the treatment of dry eye disease. Cochrane Database of Systematic Reviews. 2024;2(2):CD015448.",
       url: "https://doi.org/10.1002/14651858.CD015448.pub2",
       doi: "10.1002/14651858.CD015448.pub2",
+    },
+    {
+      label:
+        "Peira N, Ali EM, Modén NK, Fjellgren E, Lennmarken C, Hultcrantz M. Effectiveness and safety of intense pulsed light therapy for dry eye symptoms due to meibomian gland dysfunction. A systematic review and meta-analysis. Acta Ophthalmologica. 2025;103(4):371-379.",
+      url: "https://doi.org/10.1111/aos.16802",
+      doi: "10.1111/aos.16802",
+    },
+    {
+      label:
+        "Xue AL, Wang MTM, Ormonde SE, Craig JP. Randomised double-masked placebo-controlled trial of the cumulative treatment efficacy profile of intense pulsed light therapy for meibomian gland dysfunction. The Ocular Surface. 2020;18(2):286-297.",
+      url: "https://doi.org/10.1016/j.jtos.2020.01.003",
+      doi: "10.1016/j.jtos.2020.01.003",
+    },
+    {
+      label:
+        "Wu Y, Li J, Hu M, et al. Comparison of two intense pulsed light patterns for treating patients with meibomian gland dysfunction. International Ophthalmology. 2020;40(7):1695-1705.",
+      url: "https://doi.org/10.1007/s10792-020-01337-0",
+      doi: "10.1007/s10792-020-01337-0",
+    },
+    {
+      label:
+        "Jiang X, Yuan H, Zhang M, et al. The Efficacy and Safety of New-Generation Intense Pulsed Light in the Treatment of Meibomian Gland Dysfunction-Related Dry Eye: A Multicenter, Randomized, Patients-Blind, Parallel-Control, Non-Inferiority Clinical Trial. Ophthalmology and Therapy. 2022;11(5):1895-1912.",
+      url: "https://doi.org/10.1007/s40123-022-00556-1",
+      doi: "10.1007/s40123-022-00556-1",
+    },
+    {
+      label:
+        "Cong J, Wu Y, Dong C, et al. Network meta-analysis of different modalities of intense pulsed light therapy in the treatment of dry eye disease induced by meibomian gland dysfunction. Lasers in Medical Science. 2025;40(1):303.",
+      url: "https://doi.org/10.1007/s10103-025-04545-1",
+      doi: "10.1007/s10103-025-04545-1",
+    },
+    {
+      label:
+        "Ayres BD, Bloomenstein MR, Loh J, et al. A Randomized, Controlled Trial Comparing Tearcare and Cyclosporine Ophthalmic Emulsion for the Treatment of Dry Eye Disease (SAHARA). Clinical Ophthalmology. 2023;17:3925-3940.",
+      url: "https://doi.org/10.2147/OPTH.S442971",
+      doi: "10.2147/OPTH.S442971",
+    },
+    {
+      label:
+        "Hovanesian J, Ayres BD, Bloomenstein MR, et al. Durability of the TearCare treatment effect in subjects with dry eye disease: Stage 3 of the Sahara randomized controlled trial. Optometry and Vision Science. 2025;102(8):495-504.",
+      url: "https://doi.org/10.1097/OPX.0000000000002278",
+      doi: "10.1097/OPX.0000000000002278",
     },
     {
       label:
         "Yim TW, Pucker AD, Rueff E, et al. LipiFlow for the treatment of dry eye disease: A Cochrane systematic review summary. Contact Lens & Anterior Eye. 2025.",
       url: "https://doi.org/10.1016/j.clae.2024.102335",
       doi: "10.1016/j.clae.2024.102335",
-    },
-    {
-      label:
-        "Peira N, Ali E, Modén NK, et al. Effectiveness and safety of intense pulsed light therapy for dry eye symptoms due to meibomian gland dysfunction—A systematic review and meta-analysis. Acta Ophthalmologica. 2025.",
-      url: "https://doi.org/10.1111/aos.16802",
-      doi: "10.1111/aos.16802",
     },
     {
       label:
@@ -1344,27 +1287,9 @@ const tresMesesNaoSaoDoze: MagazineArticle = {
     },
     {
       label:
-        "Xue AL, Wang MTM, Ormonde SE, Craig JP. Ocul Surf. 2020;18(2):286-297. doi:10.1016/j.jtos.2020.01.003. PMID: 32007523.",
-      url: "https://doi.org/10.1016/j.jtos.2020.01.003",
-      doi: "10.1016/j.jtos.2020.01.003",
-    },
-    {
-      label:
-        "Wu Y, Li J, Hu M, et al. Int Ophthalmol. 2020;40(7):1695-1705. doi:10.1007/s10792-020-01337-0. PMID: 32200506.",
-      url: "https://doi.org/10.1007/s10792-020-01337-0",
-      doi: "10.1007/s10792-020-01337-0",
-    },
-    {
-      label:
-        "Jiang X, Yuan H, Zhang M, et al. Ophthalmol Ther. 2022;11(5):1895-1912. doi:10.1007/s40123-022-00556-1. PMID: 35974296.",
-      url: "https://doi.org/10.1007/s40123-022-00556-1",
-      doi: "10.1007/s40123-022-00556-1",
-    },
-    {
-      label:
-        "Cong J, Wu Y, Dong C, et al. Lasers Med Sci. 2025;40(1):303. doi:10.1007/s10103-025-04545-1. PMID: 40569448.",
-      url: "https://doi.org/10.1007/s10103-025-04545-1",
-      doi: "10.1007/s10103-025-04545-1",
+        "Chen KY, Chan HC, Chan CM. Is a thermal pulsation system (LipiFlow) effective as a standalone treatment for meibomian gland dysfunction and dry eye? A systematic review and meta-analysis. Ther Adv Ophthalmol. 2025;17:25158414251338775.",
+      url: "https://doi.org/10.1177/25158414251338775",
+      doi: "10.1177/25158414251338775",
     },
   ],
   disclosures: [
@@ -1403,12 +1328,13 @@ const tresMesesNaoSaoDoze: MagazineArticle = {
   },
 };
 
+
 const alemDoMeiboscore: MagazineArticle = {
   slug: "alem-do-meiboscore",
   title: "Além do meiboscore",
   subtitle: "Como adquirir, ler e não superinterpretar a meibografia",
   excerpt:
-    "O meiboscore quantifica perda de área visível. Não mede expressibilidade. Não distingue atrofia de oclusão. Não diagnostica doença do olho seco — e uma foto granulada não autoriza laudar DGM.",
+    "O meiboscore virou atalho de consultório. A pálpebra é evertida, o software devolve um número, o laudo sai “DGM grau 2”. A pergunta útil é outra: como adquirir, ler e não superinterpretar a imagem.",
   category: "Diagnóstico",
   author: {
     name: "Dr. Philipe Saraiva Cruz",
@@ -1427,10 +1353,9 @@ const alemDoMeiboscore: MagazineArticle = {
       title: "Por que importa",
       kind: "why-it-matters",
       paragraphs: [
-        "O meiboscore virou atalho de consultório: a pálpebra é evertida, o software devolve um número, o laudo sai “DGM grau 2”. A pergunta útil é outra — como adquirir, ler e não superinterpretar a imagem: o que o escore de perda de área não diz, quais eixos morfológicos existem além da porcentagem visível, e quais armadilhas de eversão, idade, lente, observador e um frame só impedem de chamar DGM a partir de uma foto granulada.",
-        "Na prática, é tentador tratar a meibografia como teste de DGM. A primeira reação é numérica — gravar o meiboscore e escalar o tratamento como se perda de área visível fosse função, obstrução, qualidade do meibum e doença do olho seco. Esse gesto pressupõe que o escore deveria fechar o diagnóstico. Não deveria. O meiboscore de Arita — 0 a 3 por pálpebra, soma 0 a 6 — quantifica perda de área glandular visível. Não mede expressibilidade. Não distingue atrofia de oclusão. Não diagnostica doença do olho seco.",
-        "O critério diagnóstico do TFOS DEWS III (Wolffsohn e colaboradores, 2025) fecha doença do olho seco com screening — OSDI-6 ≥ 4 na soma bruta dos 6 itens, escala 0–24, não o índice 0–100 do OSDI-12 — mais um signo de homeostase: tempo de ruptura não invasivo, ou osmolaridade, ou coloração. A meibografia não entra nesse critério. Entra, no máximo, na subclassificação de filme — o eixo lipídio — e de pálpebra. Usá-la como “teste de DGM” isolado é overclaim.",
-        "A aquisição muda o laudo. Eversão excessiva inclui tarso além da zona glandular; o software não distingue isso de dropout. Reflexo forte é tomado por glândula. Fora de foco, dedo no campo e imagem granulada são critérios de exclusão, não “grau 3”. Superior e inferior não são intercambiáveis. Estrutura não é função. Uma imagem não é fenótipo estável. Lente de contato e idade deslocam o meiboscore “normal”. Sem essas âncoras, o leitor superdiagnostica DGM em usuário de lente de 30 anos ou em septuagenário assintomático.",
+        "O meiboscore virou atalho de consultório. A pálpebra é evertida, o software devolve um número, o laudo sai “DGM grau 2”. A pergunta útil é outra: como adquirir, ler e não superinterpretar a imagem.",
+        "O meiboscore de Arita (0 a 3 por pálpebra, soma 0 a 6) quantifica perda de área glandular visível. Não mede expressibilidade. Não distingue atrofia de oclusão. Não diagnostica doença do olho seco.",
+        "Usá-lo como “teste de DGM” isolado é overclaim. O que o escore não mede é o ponto desta matéria.",
       ],
     },
     {
@@ -1448,19 +1373,19 @@ const alemDoMeiboscore: MagazineArticle = {
       title: "Evidência",
       kind: "evidence",
       paragraphs: [
-        "O marco de aquisição é a meibografia infravermelha sem contato de Arita, Itoh, Inoue e Amano (2008). Lâmpada de fenda, CCD infravermelho e filtro transmissor; sem sonda de transiluminação. Eversão de superior e inferior. Meiboscore por pálpebra: 0 = sem perda; 1 = perda menor que um terço da área; 2 = um terço a dois terços; 3 = mais de dois terços. Soma das duas pálpebras = 0 a 6. Em 236 “normais” de 4 a 98 anos, a correlação idade–meiboscore foi R = 0,428. Isso é norma etária e protocolo de captura. Não é teste diagnóstico de DGM.",
-        "A técnica clássica de contato — silhueta por retroiluminação transcutânea com sonda — cobre mal a pálpebra superior e incomoda. A revisão de Pult e Nichols (2012) descreve quatro décadas de técnicas, escalas e relevância diagnóstica. O princípio que cabe é infravermelho de contato versus sem contato, campo e eversão. Não é vitrine de aparelho.",
-        "Os critérios de qualidade estão no fulltext de Arita e colaboradores (2014). Excluir fora de foco e campo com dedo. Reflexo forte o software toma por glândula. Área escura em perda extensa exige correção manual. Eversão excessiva faz a área de análise incluir tarso além da zona glandular — indistinguível de dropout ou encurtamento. Dilatação ductal precoce pode aumentar a área medida: a porcentagem isolada subestima o início, não o denuncia. O recorte automático ainda precisa de correção humana; o sistema não é totalmente automático. ImageJ clássico exige o examinador desenhar a região. Software reduz ruído. Não substitui critério de qualidade.",
-        "O meiboscore não diagnostica DGM sozinho. Em disfunção obstrutiva versus controle — ambos em torno de 71 anos — Arita e colaboradores (2009) acharam o escore de sintomas com o maior AUC como parâmetro isolado, seguido de margem, meibo-score e tempo de ruptura. A proposta: suspeitar DGM obstrutiva se dois de três (sintomas, margem, meibo-score) forem anormais; “muito provável” se os três. A imagem é um dos três. Não é o ouro.",
+        "O marco de aquisição é a meibografia infravermelha sem contato de Arita, Itoh, Inoue e Amano (2008). Lâmpada de fenda, CCD infravermelho e filtro transmissor, sem sonda de transiluminação. Eversão de superior e inferior. Graus por pálpebra: 0 = sem perda; 1 = perda menor que um terço da área; 2 = um terço a dois terços; 3 = mais de dois terços. Em 236 “normais” de 4 a 98 anos, a correlação idade–meiboscore foi R = 0,428. Isso é norma etária e protocolo de captura.",
+        "A técnica clássica de contato (silhueta por retroiluminação transcutânea com sonda) cobre mal a pálpebra superior e incomoda. A revisão de Pult e Nichols (2012) descreve quatro décadas de técnicas, escalas e relevância diagnóstica. O princípio que cabe é infravermelho de contato versus sem contato, campo e eversão. Não é catálogo de aparelho.",
+        "Os critérios de qualidade estão no fulltext de Arita e colaboradores (2014). Excluir fora de foco e campo com dedo. Reflexo forte o software toma por glândula. Área escura em perda extensa exige correção manual. Eversão excessiva faz a área de análise incluir tarso além da zona glandular, indistinguível de dropout ou encurtamento. Dilatação ductal precoce pode aumentar a área medida: a porcentagem isolada subestima o início, não o denuncia. O recorte automático ainda precisa de correção humana; o sistema não é totalmente automático. ImageJ clássico exige o examinador desenhar a região. Software reduz ruído. Não substitui critério de qualidade.",
+        "Em disfunção obstrutiva versus controle, ambos em torno de 71 anos, Arita e colaboradores (2009) acharam o escore de sintomas com o maior AUC como parâmetro isolado, seguido de margem, meibo-score e tempo de ruptura. A proposta: suspeitar DGM obstrutiva se dois de três (sintomas, margem, meibo-score) forem anormais; “muito provável” se os três. A imagem é um dos três. Não é o ouro.",
         "O relatório da subcomissão de diagnóstico do workshop internacional de DGM (Tomlinson e colaboradores, 2011) é a âncora de que o padrão TFOS nunca foi meiboscore isolado. O corpo do workshop não foi recuperado em fulltext nesta busca. Não se cita cut-off nem frase específica do relatório.",
-        "O DEWS III (Wolffsohn e colaboradores, 2025), lido no abstract, confirma o outro lado: a doença do olho seco é sempre sintomática; a meibografia não está no critério diagnóstico. O abstract descreve subclassificação em filme, pálpebra e superfície. É o endereço da imagem, se tanto. Não é recap.",
+        "O DEWS III (Wolffsohn e colaboradores, 2025), lido no abstract, fecha doença do olho seco com screening (OSDI-6 ≥ 4 na soma bruta dos 6 itens, escala 0–24, não o índice 0–100 do OSDI-12) mais um signo de homeostase: tempo de ruptura não invasivo, ou osmolaridade, ou coloração. A doença é sempre sintomática. A meibografia não está no critério diagnóstico. O abstract descreve subclassificação em filme, pálpebra e superfície. É o endereço da imagem, se tanto.",
         "Superior e inferior diferem. Pult, Riede-Pult e Nichols (2012), em 20 participantes, acharam correlação de perda e de ângulo de curvatura entre as pálpebras; a espessura não correlacionou. Perda menor na superior (26,9% versus 32,3%); inferior mais espessa e mais curva. A perda correlacionou com camada lipídica e tempo de ruptura não invasivo. Combinar as duas pálpebras deu melhor AUC para OSDI positivo ou negativo (0,929). É piloto. Não é norma. Continua sendo o argumento para não laudar só a inferior.",
         "A concordância interexaminador do dropout é, no máximo, moderada. Powell, Nichols e Nichols (2012), em 410 mulheres pós-menopausa, acharam acordo observado de 42,8% e kappa ponderado de 0,50 entre exame em tempo real e fotografia; ácinos e debris foram piores (kappa ponderado em torno de 0,23). Dogan e colaboradores (2018), em 30 casos lidos por três clínicos, acharam kappa ponderado moderado a bom na superior (0,52–0,65) e apenas regular a moderado na inferior (0,21–0,53); o tempo de ruptura com fluoresceína correlacionou com perda só na superior. Pult e Riede-Pult (2013) compararam escalas subjetivas de 4 e 5 graus com ImageJ (0–100): o acordo intra e inter foi melhor na escala computadorizada; mesmo assim a variação intra-observador objetiva foi ±17 a 18 pontos percentuais. Meiboscore ordinal é ruidoso. Porcentagem contínua é menos ruidosa. Não é ouro.",
-        "Wang e colaboradores (2025) cruzaram, em 227 participantes, um desenho crossover mascarado de dois aparelhos infravermelhos de consultório, meiboscale versus porcentagem por ImageJ. A porcentagem de dropout (C-stat 0,63–0,65) superou a meiboscale (0,55–0,56) para detectar doença do olho seco pelo critério DEWS II — não DEWS III. O corte de Youden foi porcentagem maior que 20% ou meiboscale maior que 1. Kappa inter-aparelho 0,68–0,73; limites de concordância da porcentagem de cerca de −28 a +26 pontos. Não trocar de aparelho no follow-up e chamar de “progressão”. Não adotar esse corte Youden como diagnóstico de DGM no Brasil: o C-stat em torno de 0,63 diz que a imagem é fraca como teste de doença do olho seco — e esse é o ponto, não um defeito a esconder. ImageJ, aqui, é quantificação humana assistida. Não substitui o examinador.",
-        "A escala importa. O meiboscore de Arita é 0 a 3 por pálpebra. A meiboscale de Pult é 0 a 4. Misturá-las sem dizer qual é o erro de ficha. Se for ordinal, a escala de 5 graus concordou mais que a de 4. Se for pesquisa ou follow-up, a porcentagem contínua reduz ruído — e ainda oscila.",
-        "Função e estrutura. Korb e Blackie (2008) mostraram que o número de glândulas que rendem secreção líquida no cílio inferior correlaciona com sintomas. A distribuição não é uniforme: nasal 3,10 ± 0,15, central 2,14 ± 0,13, temporal 0,27 ± 0,06; 86% dos terços temporais tinham zero glândulas expressáveis versus 6% dos nasais. Amostragem só no terço temporal subestima a função. Kim, Eom e Song (2018) lembram que a classificação de baixo versus alto delivery assume correlação morfologia–função que a clínica não confirma: muitos casos são mistos. Dropout na meibografia não é obstrução. Obstrução não é atrofia.",
-        "Uma imagem mente. Swiderska e colaboradores (2024), em 15 participantes, mostraram que após expressão terapêutica o contraste e a razão de comprimento caem e, em 24 horas, voltam ao baseline. A interpretação dos autores: a meibografia captura também atividade acinar — lipídio hiper-reflexivo —, não só “estrutura morta”. Não laudar encurtamento ou atrofia em imagem imediatamente pós-expressão. Não tratar mudança de contraste como ganho ou perda anatômica permanente. Perda de contraste, glândula pouco visível, pode ser artefato, esvaziamento transitório ou aquisição ruim. Não é grau validado.",
-        "Lente de contato e idade são normas, não diagnósticos. Arita e colaboradores (2009) compararam 121 usuários de lente com 137 controles, idade em torno de 32 anos. Meiboscore médio 1,72 versus 0,96; o dos usuários aproximava a faixa etária 60–69 anos da população “normal” de 2008. Houve correlação positiva entre duração de uso e meiboscore. Associação transversal não é causalidade: a lente se associa a mais perda visível; o desenho não prova que a lente causa DGM. A perda glandular visível aumenta com a idade em “normais” (Arita e colaboradores, 2008). Um meiboscore 2 em octogenário não é, sozinho, DGM. Não há nomograma etário brasileiro nesta lista. Distorção e dilatação entram na leitura além da área (Arita e colaboradores, 2014; Pult e Nichols, 2012); não se afirma prevalência — o paper clássico não está neste arquivo de quinze.",
+        "Wang e colaboradores (2025) cruzaram, em 227 participantes, um desenho crossover mascarado de dois aparelhos infravermelhos de consultório, meiboscale versus porcentagem por ImageJ. A porcentagem de dropout (C-stat 0,63–0,65) superou a meiboscale (0,55–0,56) para detectar doença do olho seco pelo critério DEWS II, não DEWS III. O corte de Youden foi porcentagem maior que 20% ou meiboscale maior que 1. Kappa inter-aparelho 0,68–0,73; limites de concordância da porcentagem de cerca de −28 a +26 pontos. Não trocar de aparelho no follow-up e chamar de “progressão”. Não adotar esse corte Youden como diagnóstico de DGM no Brasil: o C-stat em torno de 0,63 diz que a imagem é fraca como teste de doença do olho seco, e esse é o ponto, não um defeito a esconder. ImageJ, aqui, é quantificação humana assistida. Não substitui o examinador.",
+        "A escala importa. A meiboscale de Pult é 0 a 4. Misturá-la com o meiboscore de Arita sem dizer qual é o erro de ficha. Se for ordinal, a escala de 5 graus concordou mais que a de 4. Se for pesquisa ou follow-up, a porcentagem contínua reduz ruído, e ainda oscila.",
+        "Função e estrutura não se substituem. Korb e Blackie (2008) mostraram que o número de glândulas que rendem secreção líquida no cílio inferior correlaciona com sintomas. A distribuição não é uniforme: nasal 3,10 ± 0,15, central 2,14 ± 0,13, temporal 0,27 ± 0,06; 86% dos terços temporais tinham zero glândulas expressáveis versus 6% dos nasais. Amostragem só no terço temporal subestima a função. Kim, Eom e Song (2018) lembram que a classificação de baixo versus alto delivery assume correlação morfologia–função que a clínica não confirma: muitos casos são mistos. Dropout na meibografia não é obstrução. Obstrução não é atrofia.",
+        "Uma imagem mente. Swiderska e colaboradores (2024), em 15 participantes, mostraram que após expressão terapêutica o contraste e a razão de comprimento caem e, em 24 horas, voltam ao baseline. A interpretação dos autores: a meibografia captura também atividade acinar (lipídio hiper-reflexivo), não só “estrutura morta”. Não laudar encurtamento ou atrofia em imagem imediatamente pós-expressão. Não tratar mudança de contraste como ganho ou perda anatômica permanente. Perda de contraste, glândula pouco visível, pode ser artefato, esvaziamento transitório ou aquisição ruim. Não é grau validado.",
+        "Lente de contato e idade são normas, não diagnósticos. Arita e colaboradores (2009) compararam 121 usuários de lente com 137 controles, idade em torno de 32 anos. Meiboscore médio 1,72 versus 0,96; o dos usuários aproximava a faixa etária 60–69 anos da população “normal” de 2008. Houve correlação positiva entre duração de uso e meiboscore. Associação transversal não é causalidade: a lente se associa a mais perda visível; o desenho não prova que a lente causa DGM. A perda glandular visível aumenta com a idade em “normais” (Arita e colaboradores, 2008). Um meiboscore 2 em octogenário não é, sozinho, DGM. Não há nomograma etário brasileiro nesta lista. Distorção e dilatação entram na leitura além da área (Arita e colaboradores, 2014; Pult e Nichols, 2012); não se afirma prevalência. O paper clássico não está neste arquivo de quinze.",
       ],
     },
     {
@@ -1469,18 +1394,11 @@ const alemDoMeiboscore: MagazineArticle = {
       kind: "practice",
       paragraphs: [
         "A mudança imediata é de recusa. Imagem fora de foco, com reflexo, com dedo no campo, com eversão incompleta ou excessiva: não se lauda. Pede-se nova aquisição. Não chutar meiboscore 2 ou 3 em frame granulado.",
-        "Eversão boa versus má: eversão excessiva inclui tarso além da zona glandular, indistinguível de dropout. O atlas mínimo lê dropout, encurtamento, distorção, dilatação e baixo contraste. Meiboscore não é função.",
         "O protocolo mínimo: infravermelho sem contato; eversão reproduzível das duas pálpebras de ambos os olhos; iluminação sem reflexo no tarso; foco no plano das glândulas; registrar pré- ou pós-expressão; follow-up no mesmo aparelho, mesma pálpebra, mesma eversão.",
-        "O que ler além do meiboscore: porcentagem de área ou dropout; encurtamento ou truncamento; tortuosidade ou distorção; dilatação — a área pode aumentar no início; contraste ou apagamento, que pode ser esvaziamento, não atrofia; assimetria superior–inferior. Sempre acoplar função: expressibilidade padronizada — não amostrar só o terço temporal — mais qualidade do meibum e margem. Imagem sem expressão é laudo incompleto.",
-        "Normas antes de “DGM”: idade; lente de contato e tempo de uso; não comparar aparelhos diferentes. Se a escala for ordinal, preferir 5 graus a 4 e dizer se é Arita 0–3 por pálpebra ou Pult 0–4. Se for pesquisa ou follow-up, porcentagem contínua. Onde a imagem decide: documentar baseline; acompanhar no mesmo sistema; subclassificar o eixo lipídio ou pálpebra. Onde não decide: diagnosticar doença do olho seco; diagnosticar DGM sozinha; “provar” resposta terapêutica em 24 horas.",
-      ],
-      bullets: [
-        "Passo 0. Fora de foco, reflexo, dedo, eversão incompleta ou excessiva: não laudar; repetir a aquisição.",
-        "Protocolo. Infravermelho sem contato; duas pálpebras, ambos os olhos; registrar pré- ou pós-expressão.",
-        "Além do escore. Dropout, encurtamento, distorção, dilatação, contraste, assimetria superior–inferior.",
-        "Função. Expressibilidade ao longo da pálpebra inferior, não só no terço temporal; meibum; margem.",
-        "Normas. Idade; lente e tempo de uso; mesmo aparelho no follow-up. Não misturar Arita 0–3 com Pult 0–4.",
-        "Onde decide / onde não. Baseline e subclassificação de filme ou pálpebra. Não diagnostica doença do olho seco nem DGM sozinha.",
+        "O atlas mínimo lê dropout, encurtamento, distorção, dilatação e baixo contraste. Dilatação pode aumentar a área no início. Contraste baixo pode ser esvaziamento, não atrofia. Superior e inferior não são intercambiáveis.",
+        "Acoplar função: expressibilidade padronizada ao longo da pálpebra inferior, não só no terço temporal, mais qualidade do meibum e margem. Imagem sem expressão é laudo incompleto.",
+        "Antes de escrever “DGM”, anote idade, lente de contato e tempo de uso. Não comparar aparelhos diferentes. Se a escala for ordinal, preferir 5 graus a 4 e dizer se é Arita 0–3 por pálpebra ou Pult 0–4. Se for pesquisa ou follow-up, porcentagem contínua.",
+        "Onde a imagem decide: documentar baseline; acompanhar no mesmo sistema; subclassificar o eixo lipídio ou pálpebra. Onde não decide: diagnosticar doença do olho seco; fechar DGM sozinha; “provar” resposta terapêutica em 24 horas.",
       ],
     },
     {
@@ -1489,17 +1407,9 @@ const alemDoMeiboscore: MagazineArticle = {
       kind: "limitations",
       paragraphs: [
         "Esta matéria ensina método. Não vende desfecho. Não há ensaio randomizado que teste laudo padronizado contra meiboscore isolado.",
-        "Arita 2008 e 2009 são cohorts japonesas de um grupo. Normas etárias e de lente não foram revalidadas no Brasil. Não há nomograma brasileiro nesta lista. Pult 2012 é n = 20; Dogan 2018 é n = 30; Swiderska 2024 é n = 15 — pilotos, não normas. Powell 2012 é só mulheres pós-menopausa; o acordo é foto versus tempo real, não dois clínicos no mesmo exame ao vivo.",
-        "Wang e colaboradores (2025) usam critério DEWS II de doença do olho seco, não DEWS III. O C-stat da meibografia é só cerca de 0,63. O corte Youden — porcentagem maior que 20% ou meiboscale maior que 1 — não se adota como corte brasileiro de DGM. O corpo do Tomlinson 2011 não foi recuperado: o PMC devolveu só front matter. Não se inventam frases do workshop. Wolffsohn e colaboradores (2025): claims de meibografia extraídas só do abstract. Não se afirma cut-off de imagem DEWS III.",
-        "Perda de contraste como grau, laterality sistemática em olho sem doença unilateral e nomograma etário brasileiro não têm fonte âncora nesta lista. Não há protocolo de aquisição brasileiro validado — eversão, iluminação, qual pálpebra, pré versus pós-expressão — com concordância interobservador em consultório real. Wang e colaboradores (2025) e Swiderska e colaboradores (2024) declaram financiamento de Johnson & Johnson Vision; o caveat de conflito cabe nesta frase, sem transformar o achado em ataque.",
-      ],
-      bullets: [
-        "Não há ensaio randomizado de laudo padronizado versus meiboscore isolado.",
-        "Normas etárias e de lente são japonesas; sem nomograma brasileiro.",
-        "Pult n = 20; Dogan n = 30; Swiderska n = 15 — pilotos. Powell: só pós-menopausa; foto versus ao vivo.",
-        "Wang: DEWS II, C-stat ~0,63; corte Youden não é corte brasileiro de DGM.",
-        "Tomlinson: corpo não recuperado. DEWS III: abstract only; meibografia fora do critério diagnóstico.",
-        "Sem âncora para perda de contraste como grau, para laterality interocular, para nomograma brasileiro.",
+        "Arita 2008 e 2009 são cohorts japonesas de um grupo. Normas etárias e de lente não foram revalidadas no Brasil. Não há nomograma brasileiro nesta lista. Pult 2012 é n = 20; Dogan 2018 é n = 30; Swiderska 2024 é n = 15: pilotos, não normas. Powell 2012 é só mulheres pós-menopausa; o acordo é foto versus tempo real, não dois clínicos no mesmo exame ao vivo.",
+        "Wang e colaboradores (2025) usam critério DEWS II de doença do olho seco, não DEWS III. O C-stat da meibografia é só cerca de 0,63. O corte Youden (porcentagem maior que 20% ou meiboscale maior que 1) não se adota como corte brasileiro de DGM. O corpo do Tomlinson 2011 não foi recuperado: o PMC devolveu só front matter. Não se inventam frases do workshop. Wolffsohn e colaboradores (2025): claims de meibografia extraídas só do abstract. Não se afirma cut-off de imagem DEWS III.",
+        "Perda de contraste como grau, laterality sistemática em olho sem doença unilateral e nomograma etário brasileiro não têm fonte âncora nesta lista. Não há protocolo de aquisição brasileiro validado (eversão, iluminação, qual pálpebra, pré versus pós-expressão) com concordância interobservador em consultório real. Wang e colaboradores (2025) e Swiderska e colaboradores (2024) declaram financiamento de Johnson & Johnson Vision; o caveat de conflito cabe nesta frase, sem transformar o achado em ataque.",
       ],
     },
   ],
@@ -1529,8 +1439,7 @@ const alemDoMeiboscore: MagazineArticle = {
       doi: "10.1167/iovs.10-6997f",
     },
     {
-      label:
-        "Pult H, Nichols JJ. A Review of Meibography. Optom Vis Sci. 2012;89(5):E760-E769.",
+      label: "Pult H, Nichols JJ. A Review of Meibography. Optom Vis Sci. 2012;89(5):E760-E769.",
       url: "https://doi.org/10.1097/OPX.0b013e3182512ac1",
       doi: "10.1097/OPX.0b013e3182512ac1",
     },
@@ -1630,13 +1539,14 @@ const alemDoMeiboscore: MagazineArticle = {
   },
 };
 
+
 const cincoTestesCincoPerguntas: MagazineArticle = {
   slug: "cinco-testes-cinco-perguntas",
   title: "Cinco testes, cinco perguntas",
   subtitle:
-    "NIBUT, osmolaridade, coloração, interferometria e MMP-9 — o que cada um mede, e o que não mede",
+    "NIBUT, osmolaridade, coloração, interferometria e MMP-9: o que cada um mede, e o que não mede",
   excerpt:
-    "Cada teste responde a uma pergunta. NIBUT, osmolaridade, coloração, interferometria e MMP-9 não são proxies intercambiáveis de gravidade. A discórdia entre eles é dado, não falha do exame.",
+    "O consultório ainda trata tempo de ruptura, osmolaridade, coloração, interferometria e MMP-9 como se fossem proxies intercambiáveis de gravidade. Cada um responde a uma pergunta. A discórdia entre eles é dado, não falha do exame.",
   category: "Diagnóstico",
   author: {
     name: "Dr. Philipe Saraiva Cruz",
@@ -1655,11 +1565,9 @@ const cincoTestesCincoPerguntas: MagazineArticle = {
       title: "Por que importa",
       kind: "why-it-matters",
       paragraphs: [
-        "O consultório ainda trata tempo de ruptura, osmolaridade, coloração, interferometria e MMP-9 como se fossem proxies intercambiáveis de gravidade. Cada um responde a uma pergunta. A discórdia entre eles é dado, não falha do exame. O que se pede aqui é o cardápio: qual constructo, qual corte, quando o custo muda a decisão — sem recap de fenótipo e sem catálogo de aparelho.",
-        "Na prática, é tentador somar os números e chamar o maior de “mais grave”. NIBUT mede estabilidade do filme. Osmolaridade mede homeostase e estresse hiperosmolar. Coloração localiza onde o epitélio falhou. Interferometria descreve a camada lipídica. MMP-9 ponto-de-cuidado é bandeira de inflamação. Nenhum deles é escala de gravidade. Nenhum substitui o outro.",
-        "O DEWS III (Wolffsohn e colaboradores, 2025) fixou cortes operacionais depois de OSDI-6 ≥ 4 na soma bruta dos 6 itens (escala 0–24): NIBUT menor que 10 segundos, ou hiperosmolaridade — ≥ 308 mOsm/L ou diferença interocular maior que 8 —, ou coloração (córnea > 5, ou conjuntiva > 9, ou margem ≥ 2 mm e ≥ 25% da largura). Esses números não validam o teste como escala. Não foram validados como pacote no Brasil. Interferometria e MMP-9 não entram no critério diagnóstico.",
-        "NIBUT e FBUT não são intercambiáveis. A fluoresceína desestabiliza o filme. Plataformas automatizadas discordam entre si e têm cortes de Youden diferentes. Osmolaridade não é “DED sim ou não” numa única leitura: Lemp e colaboradores (2011) — estudo financiado pelo fabricante — venderam a “melhor métrica única”; Bunya e colaboradores (2015), independentes, mostraram ruído de sessão que atravessa o intervalo normal–anormal. Coloração não é “quanto inflamado”. Interferometria não diagnostica DGM. MMP-9 não é fenótipo.",
-        "O Banco pergunta quando o custo de osmolaridade e MMP-9 se justifica. A literatura não fecha custo-efetividade. O que se pode dizer: o teste justifica-se quando a decisão muda. Não se justifica como screening universal nem como “confirma DED”.",
+        "O consultório ainda trata tempo de ruptura, osmolaridade, coloração, interferometria e MMP-9 como se fossem proxies intercambiáveis de gravidade. Cada um responde a uma pergunta. A discórdia entre eles é dado, não falha do exame.",
+        "NIBUT pergunta se o filme é estável. Osmolaridade pergunta se há estresse hiperosmolar e perda de homeostase. Coloração pergunta onde o epitélio falhou. Interferometria pergunta se a camada lipídica é fina ou pobre. MMP-9 ponto-de-cuidado pergunta se há bandeira de inflamação agora. Nenhum é escala de gravidade. Nenhum substitui o outro.",
+        "O DEWS III fixou cortes operacionais para três desses testes. Isso não os valida como escala. O pacote não foi validado no Brasil. Interferometria e MMP-9 não entram no critério diagnóstico. O custo de osmolaridade e de MMP-9 só se justifica quando a decisão muda. Não se justifica como screening universal nem para “confirmar DED”.",
       ],
     },
     {
@@ -1668,9 +1576,7 @@ const cincoTestesCincoPerguntas: MagazineArticle = {
       kind: "body",
       paragraphs: [
         "Este artigo é uma revisão narrativa. Não constitui diretriz nacional nem prescrição individual.",
-        "As referências foram conferidas no Crossref em 15 de agosto de 2026. Autor e título precisaram bater com o registro persistente antes de entrar na lista. Quatorze de quatorze DOIs resolvidos.",
-        "Data de corte da busca: 15 de agosto de 2026.",
-        "A escala NEI de 1995 não tem DOI Crossref e não é citada.",
+        "As referências foram conferidas no Crossref em 15 de agosto de 2026. Autor e título precisaram bater com o registro persistente antes de entrar na lista. Quatorze de quatorze DOIs resolvidos. Data de corte da busca: 15 de agosto de 2026. A escala NEI de 1995 não tem DOI Crossref e não é citada.",
       ],
     },
     {
@@ -1678,18 +1584,18 @@ const cincoTestesCincoPerguntas: MagazineArticle = {
       title: "Evidência",
       kind: "evidence",
       paragraphs: [
-        "O mapa clássico é o do DEWS II (Wolffsohn e colaboradores, 2017): depois da triagem, tempo de ruptura — de preferência não invasivo —, osmolaridade e coloração de córnea, conjuntiva e margem. Cada teste foi desenhado para um constructo. A subclassificação evaporativo versus aquoso informa manejo; não é o tema desta matéria.",
-        "O dicionário de limiares é o DEWS III (Wolffsohn e colaboradores, 2025). NIBUT menor que 10 segundos, ou 308 / Δ 8, ou coloração nos três sítios, após OSDI-6 ≥ 4 na soma 0–24. Interferometria e MMP-9 ficam em subclassificação ou bandeira. Não se reabre aqui o mapa de eixos das pp. 23–28.",
-        "NIBUT não é FBUT. Szczesna-Iskander e Llorens-Quintana (2024; n = 33) compararam dois videoceratóscopos automatizados com o tempo de ruptura por fluoresceína, com piscar padronizado. Um NIBUT ficou 0,6 ± 2,6 s mais curto que o FBUT; o outro, 3,3 ± 2,4 s mais longo. Limites de concordância de 26 a 31 segundos. Concordância melhor nos tempos curtos. Não são intercambiáveis.",
-        "NIBUT de uma plataforma não é NIBUT de outra. Lim, Wang e Craig (2021; n = 134, critério DEWS II) acharam correlação positiva entre dois sistemas automatizados, mas um deu tempos mais longos e maior variabilidade. Cortes de Youden: ≤ 8 s numa plataforma, ≤ 14 s na outra. AUC comparáveis, acima de 0,65. O corte DEWS III menor que 10 segundos é compromisso operacional, não o Youden de cada aparelho. Não se “corrige” o consenso no texto; o caveat cabe em uma linha.",
-        "Osmolaridade: dois números que não se fundem. Tomlinson e colaboradores (2006), em meta-análise, propuseram o referente 316 mOsm/L — sensibilidade 59%, especificidade 94%, acurácia global 89% naquelas amostras. Lemp e colaboradores (2011; n = 314, dez centros, financiamento de fabricante) acharam o corte mais sensível em 308, o mais específico em 315; em 312, sensibilidade 73% e especificidade 92%; AUC 0,89 contra coloração, TBUT, Schirmer e meibômio. A diferença interocular correlacionou com gravidade (r² = 0,32). O 308 do DEWS III é o limiar sensível de Lemp, não o referente de Tomlinson. A frase do estudo de 2011 — “melhor métrica única para diagnosticar e classificar” — é claim do paper, não conclusão desta matéria.",
-        "O contrapeso independente é Bunya e colaboradores (2015; n = 37: 18 Sjögren, 11 blefarite, 8 controles). Três medidas por sessão, até três sessões no mesmo dia. Médias 307, 304 e 301 — sem diferença entre grupos. Erro intra-sessão: controles 10,5; blefarite 14,6; Sjögren 15,8 mOsm/L. O intervalo de confiança de uma leitura atravessa o cinza 305–316. A diferença entre sessões em controles chegou a ±34 mOsm/L. Uma leitura no cinza 300–320 não tranquiliza e não condena. Delta visita a visita, se não for de dezenas de mOsm, costuma ser ruído.",
-        "Coloração localiza dano. Bron, Evans e Smith (2003) descrevem a escala de Oxford, painéis A–E, com incremento logarítmico de pontos. Fluoresceína para córnea, lisamina para conjuntiva, com filtros; rosa bengala aceitável, não preferido em ensaios. A escala localiza e gradua dano. Não mede gravidade global da doença. Escalas de uso clínico com nomes diferentes — entre elas a chamada escala NEI — não são equivalentes e não se somam. A escala NEI original de 1995 não tem DOI resolvível e não entra como fonte.",
-        "O mecanismo importa. Bron e colaboradores (2015) descrevem corantes hidrossolúveis excluídos por tight junctions, membrana e glicocálice. “Erosão pontuada” é, provavelmente, misnomer: entrada transcelular, não micropool. Fluoresceína, de peso molecular menor, espalha; lisamina e rosa bengala ficam mais confinados. Padrão e corante mudam a pergunta. Córnea sem mancha não exclui dano conjuntival ou de margem.",
-        "A margem é um sítio. Korb e colaboradores (2010) acharam epiteliopatia do lid wiper em 88% dos sintomáticos versus 16% dos assintomáticos; grau ≥ 2 em 66% versus 2%. O DEWS III inclui coloração de margem no critério. É este o lastro. Não é um “extra” da córnea.",
-        "Interferometria mede camada lipídica, não DGM. Finis e colaboradores (2013; 199 olhos) viram correlação entre espessura da camada lipídica e glândulas expressíveis (r = 0,36). Corte ≤ 75 nm: sensibilidade 65,8%, especificidade 63,4% para DGM; ≤ 60 nm: 47,9% e 90,2%. Screening possível. Diagnóstico de DGM, não. Os autores pedem estudos prospectivos. Camada lipídica normal não exclui DGM obstrutiva.",
-        "MMP-9 ponto-de-cuidado é bandeira, não fenótipo. Sambursky e colaboradores (2013; n = 206) reportaram sensibilidade 85% e especificidade 94% contra avaliação clínica — OSDI, Schirmer, TBUT, coloração — não contra gold standard independente. Ensaio com apoio da fabricante. O limiar operacional do teste é da ordem de 40 ng/mL. Lanza, Valenzuela, Perez e Galor (2016) lembram que inflamação é componente, mas nem todo olho seco tem inflamação mensurável e nem todo positivo responde a anti-inflamatório. Nenhum teste de screening prediz curso ou resposta. MMP-9 pode ajudar a escolher terapia quando a clínica é ambígua. Não define fenótipo inflamatório “puro”.",
-        "O único paper que tenta “quando muda a conduta” é Sambursky (2016; n = 100, retrospectivo, mesmo autor do teste). Positivos receberam anti-inflamatório mais ômega-3 e lágrima; negativos, só ômega-3 e lágrima. Melhora de pelo menos 50% em 85% versus 86%. Os braços andam iguais. Conversão de positivo para negativo em 54%. Não demonstra que o teste muda desfecho. Evidência fraca para “o custo se justifica”.",
+        "O mapa clássico é o do DEWS II (Wolffsohn e colaboradores, 2017): depois da triagem, tempo de ruptura de preferência não invasivo, osmolaridade e coloração de córnea, conjuntiva e margem. Cada teste foi desenhado para um constructo. A subclassificação evaporativo versus aquoso informa manejo. Não é o tema desta matéria.",
+        "O dicionário de limiares é o DEWS III (Wolffsohn e colaboradores, 2025), depois de OSDI-6 ≥ 4 na soma bruta dos 6 itens (escala 0–24): NIBUT menor que 10 segundos, ou hiperosmolaridade (≥ 308 mOsm/L ou diferença interocular maior que 8), ou coloração (córnea > 5, ou conjuntiva > 9, ou margem ≥ 2 mm e ≥ 25% da largura). Interferometria e MMP-9 ficam em subclassificação ou bandeira. Não se reabre o mapa de eixos das pp. 23–28.",
+        "O filme é estável? NIBUT não é FBUT. Szczesna-Iskander e Llorens-Quintana (2024; n = 33) compararam dois videoceratóscopos automatizados com o tempo de ruptura por fluoresceína, com piscar padronizado. Um NIBUT ficou 0,6 ± 2,6 s mais curto que o FBUT. O outro, 3,3 ± 2,4 s mais longo. Limites de concordância de 26 a 31 segundos. Concordância melhor nos tempos curtos. Não são intercambiáveis. A fluoresceína desestabiliza o filme.",
+        "NIBUT de uma plataforma não é NIBUT de outra. Lim, Wang e Craig (2021; n = 134, critério DEWS II) acharam correlação positiva entre dois sistemas automatizados, mas um deu tempos mais longos e maior variabilidade. Cortes de Youden: ≤ 8 s numa plataforma, ≤ 14 s na outra. AUC comparáveis, acima de 0,65. O corte menor que 10 segundos é compromisso operacional, não o Youden de cada aparelho. Não se “corrige” o consenso no texto.",
+        "Há estresse hiperosmolar? Osmolaridade não é “DED sim ou não” numa única leitura. Tomlinson e colaboradores (2006), em meta-análise, propuseram o referente 316 mOsm/L. Sensibilidade 59%, especificidade 94%, acurácia global 89% naquelas amostras. Lemp e colaboradores (2011; n = 314, dez centros, financiamento de fabricante) acharam o corte mais sensível em 308, o mais específico em 315. Em 312, sensibilidade 73% e especificidade 92%. AUC 0,89 contra coloração, TBUT, Schirmer e meibômio. A diferença interocular correlacionou com gravidade (r² = 0,32). O 308 do DEWS III é o limiar sensível de Lemp, não o referente de Tomlinson. A frase do estudo de 2011, “melhor métrica única para diagnosticar e classificar”, é claim do paper, não conclusão desta matéria.",
+        "O contrapeso independente é Bunya e colaboradores (2015; n = 37: 18 Sjögren, 11 blefarite, 8 controles). Três medidas por sessão, até três sessões no mesmo dia. Médias 307, 304 e 301, sem diferença entre grupos. Erro intra-sessão: controles 10,5; blefarite 14,6; Sjögren 15,8 mOsm/L. O intervalo de confiança de uma leitura atravessa o cinza 305–316. A diferença entre sessões em controles chegou a ±34 mOsm/L. Uma leitura no cinza 300–320 não tranquiliza e não condena. Delta visita a visita, se não for de dezenas de mOsm, costuma ser ruído.",
+        "Onde o epitélio falhou? Coloração localiza dano. Não mede “quanto inflamado”. Bron, Evans e Smith (2003) descrevem a escala de Oxford, painéis A–E, com incremento logarítmico de pontos. Fluoresceína para córnea, lisamina para conjuntiva, com filtros. Rosa bengala aceitável, não preferido em ensaios. A escala localiza e gradua dano. Não mede gravidade global da doença. Escalas de uso clínico com nomes diferentes, entre elas a chamada escala NEI, não são equivalentes e não se somam. A escala NEI original de 1995 não tem DOI resolvível e não entra como fonte.",
+        "O mecanismo importa. Bron e colaboradores (2015) descrevem corantes hidrossolúveis excluídos por tight junctions, membrana e glicocálice. “Erosão pontuada” é, provavelmente, misnomer: entrada transcelular, não micropool. Fluoresceína, de peso molecular menor, espalha. Lisamina e rosa bengala ficam mais confinados. Padrão e corante mudam a pergunta. Córnea sem mancha não exclui dano conjuntival ou de margem.",
+        "A margem é um sítio. Korb e colaboradores (2010) acharam epiteliopatia do lid wiper em 88% dos sintomáticos versus 16% dos assintomáticos. Grau ≥ 2 em 66% versus 2%. O DEWS III inclui coloração de margem no critério. É este o lastro. Não é um “extra” da córnea.",
+        "A camada lipídica é fina ou pobre? Interferometria mede camada lipídica, não DGM. Finis e colaboradores (2013; 199 olhos) viram correlação entre espessura da camada lipídica e glândulas expressíveis (r = 0,36). Corte ≤ 75 nm: sensibilidade 65,8%, especificidade 63,4% para DGM. Corte ≤ 60 nm: 47,9% e 90,2%. Screening possível. Diagnóstico de DGM, não. Os autores pedem estudos prospectivos. Camada lipídica normal não exclui DGM obstrutiva.",
+        "Há bandeira de inflamação agora? MMP-9 ponto-de-cuidado é bandeira, não fenótipo. Sambursky e colaboradores (2013; n = 206) reportaram sensibilidade 85% e especificidade 94% contra avaliação clínica (OSDI, Schirmer, TBUT, coloração), não contra gold standard independente. Ensaio com apoio da fabricante. O limiar operacional do teste é da ordem de 40 ng/mL. Lanza, Valenzuela, Perez e Galor (2016) lembram que inflamação é componente, mas nem todo olho seco tem inflamação mensurável e nem todo positivo responde a anti-inflamatório. Nenhum teste de screening prediz curso ou resposta. MMP-9 pode ajudar a escolher terapia quando a clínica é ambígua. Não define fenótipo inflamatório “puro”.",
+        "O único paper que tenta “quando muda a conduta” é Sambursky (2016; n = 100, retrospectivo, mesmo autor do teste). Positivos receberam anti-inflamatório mais ômega-3 e lágrima. Negativos, só ômega-3 e lágrima. Melhora de pelo menos 50% em 85% versus 86%. Os braços andam iguais. Conversão de positivo para negativo em 54%. Não demonstra que o teste muda desfecho. Evidência fraca para “o custo se justifica”.",
       ],
     },
     {
@@ -1698,20 +1604,12 @@ const cincoTestesCincoPerguntas: MagazineArticle = {
       kind: "practice",
       paragraphs: [
         "Cinco perguntas. Uma caixa de custo. Sem escada prescritiva.",
-        "NIBUT: o filme é estável? Não “quão grave”. Preferir não invasivo. Reportar a plataforma e se é a primeira ruptura ou a média. Não converter FBUT em NIBUT nem o inverso. Se só houver FBUT: volume mínimo de fluoresceína, cronometrar, não chamar de NIBUT. Corte operacional DEWS III: menor que 10 segundos. Duas plataformas automatizadas no mesmo recorte de literatura têm Youden em ≤ 8 s e ≤ 14 s — caveat, não correção do consenso.",
-        "Osmolaridade: há estresse hiperosmolar, perda de homeostase? Ler o pior olho e o delta interocular. ≥ 308 ou Δ > 8 é signo DEWS III, não gravidade. Uma leitura isolada no cinza 300–320 não decide. Repetir na mesma sessão se a decisão depende do número. Não usar para “monitorar terapia” visita a visita sem delta grande.",
-        "Colorações: onde o epitélio falhou? Fluoresceína, córnea. Lisamina, conjuntiva e margem. Rosa bengala: histórico, sicca, irrita; não é primeira linha. Oxford para documentar evolução. Não somar escalas. Margem ≥ 2 mm e ≥ 25% e lid wiper são o sítio que o leitor esquece.",
+        "NIBUT: o filme é estável? Não “quão grave”. Preferir não invasivo. Reportar a plataforma e se é a primeira ruptura ou a média. Não converter FBUT em NIBUT nem o inverso. Se só houver FBUT: volume mínimo de fluoresceína, cronometrar, não chamar de NIBUT. Usar o corte operacional do consenso. Os Youden das duas plataformas do recorte ficam como caveat, não como correção.",
+        "Osmolaridade: há estresse hiperosmolar, perda de homeostase? Ler o pior olho e o delta interocular. O signo do consenso não é gravidade. Uma leitura isolada no cinza não decide. Repetir na mesma sessão se a decisão depende do número. Não usar para “monitorar terapia” visita a visita sem delta grande.",
+        "Colorações: onde o epitélio falhou? Fluoresceína, córnea. Lisamina, conjuntiva e margem. Rosa bengala: histórico, sicca, irrita; não é primeira linha. Oxford para documentar evolução. Não somar escalas. Margem e lid wiper são o sítio que o leitor esquece.",
         "Interferometria: a camada lipídica é fina ou pobre? Não “é DGM”. Camada baixa mais poucas glândulas expressíveis aumenta probabilidade. Camada normal não exclui obstrução. Sem atlas de marcas. Sem ponte para meibografia.",
         "MMP-9: há bandeira de inflamação agora? Positivo: considera anti-inflamatório, adia plug, cuida o timing pré-cirurgia se isso muda a data. Negativo: não é “sem DED” e não proíbe anti-inflamatório se a clínica pedir. Não repetir como follow-up de gravidade.",
-        "Cinco perguntas — estabilidade, homeostase, sítio de dano, camada lipídica, bandeira inflamatória — e uma caixa: o custo só se justifica se a decisão muda.",
-        "Quando o custo se justifica — evidência fraca a moderada, lógica de decisão. Justifica: discórdia sintomas/sinais e a pergunta é homeostase (osmolaridade, Δ interocular); decisão de iniciar ou escalar anti-inflamatório versus só lágrima quando a clínica é ambígua (MMP-9 como bandeira); pré-cirurgia de superfície se o resultado muda o timing. Não justifica: screening de todo sintomático; “confirmar DED” quando NIBUT ou coloração já fecham DEWS III; monitorar visita a visita; substituir o exame clínico. Não há estudo de custo-efetividade brasileiro até 15 de agosto de 2026.",
-      ],
-      bullets: [
-        "NIBUT. Estabilidade. < 10 s é compromisso. Não converter em FBUT.",
-        "Osmolaridade. Homeostase. 308 ou Δ > 8; 316 é outro referente. Uma leitura no cinza não decide.",
-        "Coloração. Sítio. Fluoresceína ≠ lisamina ≠ margem. Oxford, uma escala.",
-        "Interferometria. Camada lipídica. Não diagnostica DGM.",
-        "MMP-9. Bandeira. Não fenótipo. Não exclui DED se negativo.",
+        "O custo só se justifica se a decisão muda. Justifica, com evidência fraca a moderada e lógica de decisão: discórdia sintomas/sinais quando a pergunta é homeostase; decisão de iniciar ou escalar anti-inflamatório versus só lágrima quando a clínica é ambígua; pré-cirurgia de superfície se o resultado muda o timing. Não justifica: screening de todo sintomático; “confirmar DED” quando NIBUT ou coloração já fecham o critério; monitorar visita a visita; substituir o exame clínico. Não há estudo de custo-efetividade brasileiro até 15 de agosto de 2026.",
       ],
     },
     {
@@ -1722,100 +1620,92 @@ const cincoTestesCincoPerguntas: MagazineArticle = {
         "Não há ensaio que teste este cardápio contra o exame usual com desfecho de paciente. Não há estudo de custo-efetividade de osmolaridade ou MMP-9 no Brasil até a data de corte. O pacote de cortes DEWS III não foi validado como algoritmo no consultório brasileiro.",
         "Lemp 2011 e Sambursky 2013 e 2016 têm conflito de fabricante. Bunya e Lanza são o contrapeso. A matéria precisa dos dois lados, não só do Se/Sp publicitário. Bunya é n pequeno, terciário, muitos já tratados. Szczesna é n = 33. Os Youden de Lim são amostra-específicos e não estão harmonizados com os 10 segundos do consenso.",
         "Finis é retrospectivo, um interferômetro, Se/Sp modestos. Generalizar “espessura lipídica = qualidade meibomiana” é excesso. Sambursky 2016: sem controle, braços com tratamentos diferentes, desfecho autorrelatado, perda de seguimento. Não fecha que MMP-9 muda conduta com ganho.",
-        "A escala NEI de 1995 não é citável — sem DOI no Crossref. van Bijsterveld 1969 não foi numerado e não é gold standard paralelo ao Oxford. Preço, registro e disponibilidade ficam de fora: esta matéria não é catálogo.",
-      ],
-      bullets: [
-        "Não há RCT de cardápio versus exame usual.",
-        "Não há custo-efetividade brasileira.",
-        "308 não é 316.",
-        "“Melhor métrica única” é claim de estudo financiado, não desta revista.",
-        "MMP-9 não muda desfecho no único paper que tentou mostrar isso.",
-        "Cortes DEWS III não validados no Brasil.",
+        "A escala NEI de 1995 não é citável: sem DOI no Crossref. van Bijsterveld 1969 não foi numerado e não é gold standard paralelo ao Oxford. Preço, registro e disponibilidade ficam de fora. Esta matéria não é catálogo.",
       ],
     },
   ],
   references: [
     {
       label:
-        "Wolffsohn JS, Arita R, Chalmers R, et al. TFOS DEWS II Diagnostic Methodology report. Ocul Surf. 2017;15(3):539-574.",
+        "Wolffsohn JS, Arita R, Chalmers R, et al. TFOS DEWS II Diagnostic Methodology report. The Ocular Surface. 2017;15(3):539-574.",
       url: "https://doi.org/10.1016/j.jtos.2017.05.001",
       doi: "10.1016/j.jtos.2017.05.001",
     },
     {
       label:
-        "Wolffsohn JS, Benítez-Del-Castillo JM, Loya-Garcia D, et al. TFOS DEWS III: Diagnostic Methodology. Am J Ophthalmol. 2025;279:387-450.",
+        "Wolffsohn JS, Benítez-Del-Castillo JM, Loya-Garcia D, et al. TFOS DEWS III: Diagnostic Methodology. American Journal of Ophthalmology. 2025;279:387-450.",
       url: "https://doi.org/10.1016/j.ajo.2025.05.033",
       doi: "10.1016/j.ajo.2025.05.033",
     },
     {
       label:
-        "Lemp MA, Bron AJ, Baudouin C, et al. Tear Osmolarity in the Diagnosis and Management of Dry Eye Disease. Am J Ophthalmol. 2011;151(5):792-798.e1.",
+        "Lemp MA, Bron AJ, Baudouin C, et al. Tear osmolarity in the diagnosis and management of dry eye disease. American Journal of Ophthalmology. 2011;151(5):792-798.e1.",
       url: "https://doi.org/10.1016/j.ajo.2010.10.032",
       doi: "10.1016/j.ajo.2010.10.032",
     },
     {
       label:
-        "Tomlinson A, Khanal S, Ramaesh K, et al. Tear Film Osmolarity: Determination of a Referent for Dry Eye Diagnosis. Invest Ophthalmol Vis Sci. 2006;47(10):4309.",
+        "Tomlinson A, Khanal S, Ramaesh K, Diaper C, McFadyen A. Tear film osmolarity: determination of a referent for dry eye diagnosis. Investigative Ophthalmology & Visual Science. 2006;47(10):4309-4315.",
       url: "https://doi.org/10.1167/iovs.05-1504",
       doi: "10.1167/iovs.05-1504",
     },
     {
       label:
-        "Bunya VY, Fuerst NM, Pistilli M, et al. Variability of Tear Osmolarity in Patients With Dry Eye. JAMA Ophthalmol. 2015;133(6):662.",
+        "Bunya VY, Fuerst NM, Pistilli M, et al. Variability of Tear Osmolarity in Patients With Dry Eye. JAMA Ophthalmology. 2015;133(6):662-667.",
       url: "https://doi.org/10.1001/jamaophthalmol.2015.0429",
       doi: "10.1001/jamaophthalmol.2015.0429",
     },
     {
       label:
-        "Bron AJ, Evans VE, Smith JA. Grading Of Corneal and Conjunctival Staining in the Context of Other Dry Eye Tests. Cornea. 2003;22(7):640-650.",
+        "Bron AJ, Evans VE, Smith JA. Grading of corneal and conjunctival staining in the context of other dry eye tests. Cornea. 2003;22(7):640-650.",
       url: "https://doi.org/10.1097/00003226-200310000-00008",
       doi: "10.1097/00003226-200310000-00008",
     },
     {
       label:
-        "Bron AJ, Argüeso P, Irkec M, et al. Clinical staining of the ocular surface: Mechanisms and interpretations. Prog Retin Eye Res. 2015;44:36-61.",
+        "Bron AJ, Argüeso P, Irkec M, Bright FV. Clinical staining of the ocular surface: mechanisms and interpretations. Progress in Retinal and Eye Research. 2015;44:36-61.",
       url: "https://doi.org/10.1016/j.preteyeres.2014.10.001",
       doi: "10.1016/j.preteyeres.2014.10.001",
     },
     {
       label:
-        "Korb DR, Herman JP, Blackie CA, et al. Prevalence of Lid Wiper Epitheliopathy in Subjects With Dry Eye Signs and Symptoms. Cornea. 2010;29(4):377-383.",
+        "Korb DR, Herman JP, Blackie CA, et al. Prevalence of lid wiper epitheliopathy in subjects with dry eye signs and symptoms. Cornea. 2010;29(4):377-383.",
       url: "https://doi.org/10.1097/ICO.0b013e3181ba0cb2",
       doi: "10.1097/ICO.0b013e3181ba0cb2",
     },
     {
       label:
-        "Lim J, Wang MTM, Craig JP. Evaluating the diagnostic ability of two automated non-invasive tear film stability measurement techniques. Cont Lens Anterior Eye. 2021;44(4):101362.",
+        "Lim J, Wang MTM, Craig JP. Evaluating the diagnostic ability of two automated non-invasive tear film stability measurement techniques. Contact Lens and Anterior Eye. 2021;44(4):101362.",
       url: "https://doi.org/10.1016/j.clae.2020.08.006",
       doi: "10.1016/j.clae.2020.08.006",
     },
     {
       label:
-        "Szczesna-Iskander DH, Llorens-Quintana C. Agreement between invasive and noninvasive measurement of tear film breakup time. Sci Rep. 2024;14(1).",
+        "Szczesna-Iskander DH, Llorens-Quintana C. Agreement between invasive and noninvasive measurement of tear film breakup time. Scientific Reports. 2024;14(1):3852.",
       url: "https://doi.org/10.1038/s41598-024-54219-1",
       doi: "10.1038/s41598-024-54219-1",
     },
     {
       label:
-        "Finis D, Pischel N, Schrader S, et al. Evaluation of Lipid Layer Thickness Measurement of the Tear Film as a Diagnostic Tool for Meibomian Gland Dysfunction. Cornea. 2013;32(12):1549-1553.",
+        "Finis D, Pischel N, Schrader S, Geerling G. Evaluation of lipid layer thickness measurement of the tear film as a diagnostic tool for Meibomian gland dysfunction. Cornea. 2013;32(12):1549-1553.",
       url: "https://doi.org/10.1097/ICO.0b013e3182a7f3e1",
       doi: "10.1097/ICO.0b013e3182a7f3e1",
     },
     {
       label:
-        "Sambursky R, Davitt WF, Latkany R, et al. Sensitivity and Specificity of a Point-of-Care Matrix Metalloproteinase 9 Immunoassay for Diagnosing Inflammation Related to Dry Eye. JAMA Ophthalmol. 2013;131(1):24.",
+        "Sambursky R, Davitt WF 3rd, Latkany R, et al. Sensitivity and specificity of a point-of-care matrix metalloproteinase 9 immunoassay for diagnosing inflammation related to dry eye. JAMA Ophthalmology. 2013;131(1):24-28.",
       url: "https://doi.org/10.1001/jamaophthalmol.2013.561",
       doi: "10.1001/jamaophthalmol.2013.561",
     },
     {
       label:
-        "Lanza NL, Valenzuela F, Perez VL, et al. The Matrix Metalloproteinase 9 Point-of-Care Test in Dry Eye. Ocul Surf. 2016;14(2):189-195.",
+        "Lanza NL, Valenzuela F, Perez VL, Galor A. The Matrix Metalloproteinase 9 Point-of-Care Test in Dry Eye. The Ocular Surface. 2016;14(2):189-195.",
       url: "https://doi.org/10.1016/j.jtos.2015.10.004",
       doi: "10.1016/j.jtos.2015.10.004",
     },
     {
       label:
-        "Sambursky R. Presence or absence of ocular surface inflammation directs clinical and therapeutic management of dry eye. Clin Ophthalmol. 2016;10:2337-2343.",
+        "Sambursky R. Presence or absence of ocular surface inflammation directs clinical and therapeutic management of dry eye. Clinical Ophthalmology. 2016;10:2337-2343.",
       url: "https://doi.org/10.2147/OPTH.S121256",
       doi: "10.2147/OPTH.S121256",
     },
@@ -1849,12 +1739,13 @@ const cincoTestesCincoPerguntas: MagazineArticle = {
   },
 };
 
+
 const aPregaOAtritoEOpiscar: MagazineArticle = {
   slug: "a-prega-o-atrito-e-o-piscar",
   title: "A prega, o atrito e o piscar",
   subtitle: "Olho seco mecânico: CCh mimetiza DED, não é DED",
   excerpt:
-    "Conjuntivocálase mimetiza doença do olho seco. Coexiste com ela. Não é ela. Irritação, epífora e tempo de ruptura curto na córnea inferior pedem desalinhamento e piscar — não só outra lágrima.",
+    "O consultório ainda escala o paciente que não responde à lágrima como se o filme fosse o único endereço. Irritação, epífora, tempo de ruptura curto na córnea inferior: o reflexo é trocar o lubrificante, acrescentar anti-inflamatório, chamar de “olho seco refratário”.",
   category: "Clínica",
   author: {
     name: "Dr. Philipe Saraiva Cruz",
@@ -1874,12 +1765,8 @@ const aPregaOAtritoEOpiscar: MagazineArticle = {
       kind: "why-it-matters",
       paragraphs: [
         "O consultório ainda escala o paciente que não responde à lágrima como se o filme fosse o único endereço. Irritação, epífora, tempo de ruptura curto na córnea inferior: o reflexo é trocar o lubrificante, acrescentar anti-inflamatório, chamar de “olho seco refratário”. Uma parte desses pacientes tem desalinhamento, atrito ou dinâmica palpebral. A conjuntivocálase é o achado mais comum e o mais ignorado. Mimetiza doença do olho seco. Coexiste com ela. Não é ela.",
-        "O work-up filme-cêntrico — tempo de ruptura, osmolaridade, coloração corneana — organiza a ficha. Não fecha o paciente cuja prega invade o menisco, cujo lid wiper está marcado e cujo filme “normal” não explica a queixa. O DEWS III (Wolffsohn e colaboradores, 2025) já formalizou o endereço: desalinhamento anatômico no bloco superfície, piscar e fechamento no bloco pálpebra. O eixo mecânico não é opinião editorial. É subclasse.",
-        "Conjuntivocálase é comum, etária e frequentemente lida como “senil normal”. Meller e Tseng (1998) descreviam o espectro: no leve, irritação e instabilidade; no moderado, obstáculo ao outflow; no grave, exposição. Mimura e colaboradores (2009), em série hospitalar de 1.416 pessoas, viram prevalência subir de 6,8% na primeira década para 90,2% entre 41 e 50 anos e quase universal depois dos 60. O achado é frequente. A atribuição causal — esta prega, neste sítio, explica este sintoma — é que é rara. Operar imagem não é tratar.",
-        "CCh mimetiza e coexiste. Irritação, epífora, TBUT curto. Yokoi e colaboradores (2005) operaram 168 olhos com CCh proeminente no menisco, sintoma não controlado por colírio: 50 tinham DED, 118 não. A cirurgia melhorou o sintoma-chefe em 88% sem DED e 78% com DED. Inflamação da prega, na imunohistoquímica daquele n pequeno, era desprezível frente a úlcera de Mooren ou penfigoide. O driver é mecânico. Escalar ciclosporina porque “a prega está inflamada” é o eixo errado.",
-        "Há três sinais que o consultório mistura. LWE — epiteliopatia do lid wiper — marca atrito quando o filme é “normal”. LIPCOF — pregas lid-paralelas — prediz sintoma e não é CCh. CCh é redundância em volume que invade o menisco, com sítio e dinâmica. Distinguir os três na lâmpada é o gesto. Tratar LIPCOF com higiene de margem é outro artigo. Higiene palpebral não trata CCh.",
-        "Piscar incompleto em tela aproximadamente dobra o intervalo interpiscar na córnea inferior (McMonnies, 2007). Floppy eyelid e lagoftalmo noturno são fenocópias de exposição. Mapear. Não abrir neuro-oftalmo.",
-        "A sobreposição com DGM cabe em uma frase. Vu e colaboradores (2018) mostraram que doença relacionada a atrito — SLK, CCh, LWE — encurta TBUT independentemente do subtipo aquoso ou short-TBUT, e que DGM faz o mesmo. Os eixos convivem. Não se absorve aqui a biologia da glândula.",
+        "O work-up filme-cêntrico organiza a ficha. Não fecha o paciente cuja prega invade o menisco, cujo lid wiper está marcado e cujo filme “normal” não explica a queixa. O DEWS III já formalizou o endereço: desalinhamento anatômico no bloco superfície, piscar e fechamento no bloco pálpebra. O eixo mecânico não é opinião editorial. É subclasse.",
+        "Três sinais se misturam na lâmpada. LWE marca atrito quando o filme é “normal”. LIPCOF prediz sintoma e não é CCh. CCh é redundância em volume que invade o menisco, com sítio e dinâmica. Distinguir os três é o gesto. Piscar incompleto, floppy eyelid e lagoftalmo noturno são fenocópias de exposição. Mapear. Não abrir neuro-oftalmo. Higiene palpebral não trata CCh. DGM pode coexistir. Não se absorve aqui a biologia da glândula.",
       ],
     },
     {
@@ -1888,9 +1775,7 @@ const aPregaOAtritoEOpiscar: MagazineArticle = {
       kind: "body",
       paragraphs: [
         "Este artigo é uma revisão narrativa. Não constitui diretriz nacional nem prescrição individual.",
-        "As referências foram conferidas no Crossref em 15 de agosto de 2026. Autor e título precisaram bater com o registro persistente antes de entrar na lista. Quatorze de quatorze DOIs resolvidos.",
-        "Data de corte da busca: 15 de agosto de 2026.",
-        "Höh (1995) e Hirotani (2003) não têm DOI Crossref e não são citados.",
+        "As referências foram conferidas no Crossref em 15 de agosto de 2026. Autor e título precisaram bater com o registro persistente antes de entrar na lista. Quatorze de quatorze DOIs resolvidos. Data de corte da busca: 15 de agosto de 2026. Höh (1995) e Hirotani (2003) não têm DOI Crossref e não são citados.",
       ],
     },
     {
@@ -1898,20 +1783,20 @@ const aPregaOAtritoEOpiscar: MagazineArticle = {
       title: "Evidência",
       kind: "evidence",
       paragraphs: [
-        "O gancho é o DEWS III. Wolffsohn e colaboradores (2025) definem DED como doença multifatorial sempre sintomática: screening OSDI-6 ≥ 4 na soma bruta dos 6 itens (escala 0–24) mais um signo de homeostase. A subclassificação tem três blocos. Filme: lipídio, aquoso, mucina. Pálpebra: piscar e fechamento, margem. Superfície: desalinhamento anatômico, neural, dano celular, inflamação primária. Desalinhamento e dinâmica palpebral já estão no mapa. Não se reabre o recap do workshop. Não se refaz a bateria de testes das pp. 33–36.",
-        "A definição clássica é de Meller e Tseng (1998). CCh é conjuntiva redundante, tipicamente entre o globo e a pálpebra inferior, frequentemente ignorada como mudança senil. Espectro: agrava olho seco no leve; perturba o outflow no moderado; exposição no grave. Lubrificantes tópicos podem ser tentados e frequentemente falham; excisão pode ser necessária. Os autores propõem um sistema de gradação e uma fisiopatologia hipotética centrada na dinâmica lacrimal. Marco de classificação. Não prova de que toda prega é doença.",
-        "Mimura e colaboradores (2009) aplicaram essa gradação em nasal, médio e temporal, n = 1.416, 1 a 94 anos, prospectivo hospitalar. Prevalência sobe com a idade. Grau médio maior em mulheres. Temporal pior que nasal. Mudança ao olhar para baixo e à pressão digital, e ceratite pontuada, aumentam com a idade e correlacionam com gravidade, sobretudo da conjuntiva média. CCh é etária e assimétrica por sítio. Temporal não é nasal. Série hospitalar japonesa: não é prevalência populacional brasileira. “Quase universal após 60” não autoriza operar todo idoso.",
-        "Yokoi e colaboradores (2005) dão o impacto clínico. Cento e sessenta e oito olhos, 131 pacientes, CCh proeminente no menisco inferior, sintoma não controlado por colírio. Cinquenta olhos com DED, 118 sem. Sintoma-chefe: irritação (51,7% sem DED; 80% com DED) e lacrimejamento (31,4% sem DED). Melhora do sintoma-chefe em 88,2% sem DED e 78,0% com DED após cirurgia. No grupo com DED, escores de fluoresceína caíram. Imunohistoquímica em n pequeno: CCh e conjuntiva normal com inflamação desprezível frente a conjuntiva inflamada. Claim: CCh causa sintomas e dano de superfície mesmo sem DED clássica. Coexistir com DED não a torna “só DED”. Inflamação da prega não é o driver. Série sem braço controle. A técnica “nova” dos autores não entra aqui; entra o desfecho.",
-        "Marmalidou, Kheirkhah e Dana (2018) sintetizam a doença. Pregas redundantes, tipicamente conjuntiva bulbar inferior bilateral. Causa comum de irritação no idoso, frequentemente ignorada. Fator de risco principal: envelhecimento. Sintomas via instabilidade do filme e/ou clearance tardio. Patogênese em aberto: conjuntiva envelhecida, filme instável, atrito mecânico, inflamação de superfície, clearance tardio. Histologia contraditória — alguns estudos com estrutura microscópica normal. Tratamento médico: lubrificação e anti-inflamatório. Refratário: cirurgia. CCh é entidade própria que se associa a DED. Não é sinônimo.",
-        "LWE é o marcador de atrito quando o filme “não explica”. Korb e colaboradores (2005) compararam 50 sintomáticos e 50 assintomáticos, todos com FBUT ≥ 10 s, Schirmer ≥ 10 mm, sem coloração corneana. Lid wiper: a conjuntiva marginal da pálpebra superior que varre a superfície no piscar. LWE — fluoresceína mais rosa bengala, grau 0–3 — em 76% dos sintomáticos (44% grau 1, 22% grau 2, 10% grau 3) versus 12% dos assintomáticos (8% grau 1, 4% grau 2, nenhum grau 3). LWE explica sintomas com work-up filme-cêntrico “normal”. Não é ouro: nem todos os estudos replicam a associação com a mesma força. Não se reusa aqui o paper de 2010, que já entrou nas pp. 33–36 como sítio de coloração de margem. A pergunta desta matéria é atrito.",
+        "Wolffsohn e colaboradores (2025) já colocam desalinhamento anatômico e dinâmica palpebral no mapa do DEWS III. Não se reabre o recap do workshop. Não se refaz a bateria de testes das pp. 33–36.",
+        "Esta prega explica este sintoma? A definição clássica é de Meller e Tseng (1998). CCh é conjuntiva redundante, tipicamente entre o globo e a pálpebra inferior, frequentemente ignorada como mudança senil. Espectro: agrava olho seco no leve; perturba o outflow no moderado; exposição no grave. Lubrificantes tópicos podem ser tentados e frequentemente falham. Excisão pode ser necessária. Os autores propõem um sistema de gradação e uma fisiopatologia hipotética centrada na dinâmica lacrimal. Marco de classificação. Não prova de que toda prega é doença.",
+        "Mimura e colaboradores (2009) aplicaram essa gradação em nasal, médio e temporal, n = 1.416, 1 a 94 anos, prospectivo hospitalar. Prevalência sobe com a idade: 6,8% na primeira década, 90,2% entre 41 e 50 anos, quase universal depois dos 60. Grau médio maior em mulheres. Temporal pior que nasal. Mudança ao olhar para baixo e à pressão digital, e ceratite pontuada, aumentam com a idade e correlacionam com gravidade, sobretudo da conjuntiva média. CCh é etária e assimétrica por sítio. Temporal não é nasal. Série hospitalar japonesa: não é prevalência populacional brasileira. “Quase universal após 60” não autoriza operar todo idoso.",
+        "Yokoi e colaboradores (2005) dão o impacto clínico. Cento e sessenta e oito olhos, 131 pacientes, CCh proeminente no menisco inferior, sintoma não controlado por colírio. Cinquenta olhos com DED, 118 sem. Sintoma-chefe: irritação (51,7% sem DED; 80% com DED) e lacrimejamento (31,4% sem DED). Melhora do sintoma-chefe em 88,2% sem DED e 78,0% com DED após cirurgia. No grupo com DED, escores de fluoresceína caíram. Imunohistoquímica em n pequeno: CCh e conjuntiva normal com inflamação desprezível frente a conjuntiva inflamada. CCh causa sintomas e dano de superfície mesmo sem DED clássica. Coexistir com DED não a torna “só DED”. Inflamação da prega não é o driver. Série sem braço controle. A técnica “nova” dos autores não entra aqui; entra o desfecho.",
+        "Marmalidou, Kheirkhah e Dana (2018) sintetizam a doença. Pregas redundantes, tipicamente conjuntiva bulbar inferior bilateral. Causa comum de irritação no idoso, frequentemente ignorada. Fator de risco principal: envelhecimento. Sintomas via instabilidade do filme e/ou clearance tardio. Patogênese em aberto: conjuntiva envelhecida, filme instável, atrito mecânico, inflamação de superfície, clearance tardio. Histologia contraditória: alguns estudos com estrutura microscópica normal. Tratamento médico: lubrificação e anti-inflamatório. Refratário: cirurgia. CCh é entidade própria que se associa a DED. Não é sinônimo.",
+        "Há atrito quando o filme é “normal”? LWE é o marcador. Korb e colaboradores (2005) compararam 50 sintomáticos e 50 assintomáticos, todos com FBUT ≥ 10 s, Schirmer ≥ 10 mm, sem coloração corneana. Lid wiper: a conjuntiva marginal da pálpebra superior que varre a superfície no piscar. LWE, fluoresceína mais rosa bengala, grau 0–3, em 76% dos sintomáticos (44% grau 1, 22% grau 2, 10% grau 3) versus 12% dos assintomáticos (8% grau 1, 4% grau 2, nenhum grau 3). LWE explica sintomas com work-up filme-cêntrico “normal”. Não é ouro: nem todos os estudos replicam a associação com a mesma força. Não se reusa aqui o paper de 2010, que já entrou nas pp. 33–36 como sítio de coloração de margem. A pergunta desta matéria é atrito.",
         "LIPCOF prediz sintoma e não diagnostica CCh. Pult e Bandlitz (2018; n = 148, três centros, idade média 37 anos) viram LIPCOF temporal, nasal e Soma correlacionar com OSDI e NIKBUT. AUC da Soma: 0,771 para sintomático (OSDI ≥ 15) e 0,798 para o compósito OSDI ≥ 15 mais NIKBUT ≤ 9 s. Sinal útil de atrito e sicca. Não é diagnóstico de CCh. A escala original dos anos 1990 não tem DOI resolvível e não entra como fonte.",
-        "LIPCOF e CCh são entidades distintas. Ballesteros-Sánchez e colaboradores (2024), em revisão de 26 estudos (2009–2023), pedem lâmpada de fenda para distinguir. Ambos associam-se a sintomas de DED em usuários e não-usuários de lente. Lubrificante reduz LIPCOF em não-usuários. Hipóteses de terapia de margem em usuários de lente ficam no outro artigo — higiene, Demodex, procedimentos de margem. Cirurgia é o que elimina CCh quando o médico falha. Não há critério operacional único validado — altura, número de pregas, invasão do menisco, OCT. A distinção é clínica.",
+        "LIPCOF e CCh são entidades distintas. Ballesteros-Sánchez e colaboradores (2024), em revisão de 26 estudos (2009–2023), pedem lâmpada de fenda para distinguir. Ambos associam-se a sintomas de DED em usuários e não-usuários de lente. Lubrificante reduz LIPCOF em não-usuários. Hipóteses de terapia de margem em usuários de lente ficam no outro artigo. Cirurgia é o que elimina CCh quando o médico falha. Não há critério operacional único validado: altura, número de pregas, invasão do menisco, OCT. A distinção é clínica.",
         "O modelo que liga os sinais à força, não à glândula, é o de Pult e colaboradores (2015). No sujeito saudável, o coeficiente de atrito da superfície se comporta como brushes poliméricos hidrofílicos em baixa velocidade; em alta velocidade, um filme fluido protege. No olho seco, falha o regime de filme completo: cisalhamento, deformação, wear do par pálpebra–globo. Liga LWE e LIPCOF a mecânica. Modelo. Não ensaio. Coeficiente de atrito de pálpebra humana não se mede no consultório.",
-        "Piscar incompleto muda a exposição. McMonnies (2007) associa piscar incompleto a ceratopatia de exposição — inclusive pós-LASIK — e a LWE. Na córnea ou lente inferior, um piscar incompleto aproximadamente dobra o intervalo interpiscar e o tempo de evaporação. Piora em computador e leitura, quando a taxa de piscar cai. Distribuição inadequada de aquoso, muco e lipídio. Osmolaridade sobe com evaporação. O autor propõe exercício de eficiência de piscar mais lubrificante. Review, não RCT. Suficiente para mapear o fenótipo de tela e exposição. Não abre VII par, EMG nem capítulo de paralisia.",
-        "O algoritmo de manejo é o de Marmalidou e colaboradores (2019). CCh assintomática: observar. Sintomática: primeiro lubrificação e, se houver outro eixo inflamatório, anti-inflamatório. Refratário: cirurgia. As vias mais usadas: cauterização e excisão com ou sem membrana amniótica. Há ainda fixação escleral, ligadura, laser, radiofrequência — taxas variáveis, sem RCT comparativo grande com desfecho funcional padronizado. Uma linha cada. Sem atlas. Sem nome de técnica proprietária.",
-        "O lastro do lubrificante viscoso é fraco e precisa ser dito assim. Kiss e Németh (2015; n = 20, aberto, autocontrolado) usaram lágrima com glicerol isotônico e hialuronato 0,015%. LIPCOF médio 2,9 para 1,4 em três meses; TFBUT ganhou cerca de 1 segundo; Oxford 1,3–1,4 para 0,2–0,3; OSDI 36 para 16. Lubrificante viscoso pode reduzir grau de prega e sintoma o bastante para adiar cirurgia. Sem máscara, sem controle, n pequeno, produto nomeado no título do paper — a marca não entra aqui. E o desfecho é LIPCOF, não CCh volumétrica de Meller. Extrapolar “lágrima desincha CCh grau 3” é overclaim.",
-        "A coexistência com DGM está em Vu e colaboradores (2018; n = 449, DECS-J, 86% mulheres). FRD — friction-related disease — = SLK + CCh + LWE. DGM encurtou TBUT (1,97 versus 2,94 s) em ADDE e em short-TBUT. ADDE com FRD: TBUT 2,08 versus 2,92 s sem FRD. Atrito e DGM coexistem e ambos encurtam TBUT. Não é “ou DGM ou mecânico”. Transversal, maioria mulher japonesa. Associação, não causalidade. Sem biologia da glândula.",
-        "Floppy eyelid é fenocópia. Salinas e colaboradores (2020) descrevem hiperlaxidade palpebral com conjuntivite papilar reativa, eversão fácil, irritação crônica; associações com ceratocone e apneia obstrutiva. Conservador: lubrificação agressiva, proteção noturna, não dormir sobre o olho afetado. CPAP prolongado pode melhorar sinais se houver AOS — associação de review, não indicação desta matéria para diagnosticar apneia nem prescrever CPAP como terapia de olho seco. Cirurgia de encurtamento se refratário. O leitor deve everter a pálpebra e perguntar sono. Sem atlas de blefaroplastia.",
+        "O piscar é completo? McMonnies (2007) associa piscar incompleto a ceratopatia de exposição, inclusive pós-LASIK, e a LWE. Na córnea ou lente inferior, um piscar incompleto aproximadamente dobra o intervalo interpiscar e o tempo de evaporação. Piora em computador e leitura, quando a taxa de piscar cai. Distribuição inadequada de aquoso, muco e lipídio. Osmolaridade sobe com evaporação. O autor propõe exercício de eficiência de piscar mais lubrificante. Review, não RCT. Suficiente para mapear o fenótipo de tela e exposição. Não abre VII par, EMG nem capítulo de paralisia.",
+        "Floppy eyelid é fenocópia. Salinas e colaboradores (2020) descrevem hiperlaxidade palpebral com conjuntivite papilar reativa, eversão fácil, irritação crônica; associações com ceratocone e apneia obstrutiva. Conservador: lubrificação agressiva, proteção noturna, não dormir sobre o olho afetado. CPAP prolongado pode melhorar sinais se houver AOS. Isso é associação de review, não indicação desta matéria para diagnosticar apneia nem prescrever CPAP como terapia de olho seco. Cirurgia de encurtamento se refratário. O leitor deve everter a pálpebra e perguntar sono. Sem atlas de blefaroplastia.",
+        "A coexistência com DGM está em Vu e colaboradores (2018; n = 449, DECS-J, 86% mulheres). FRD, friction-related disease, é SLK + CCh + LWE. DGM encurtou TBUT (1,97 versus 2,94 s) em ADDE e em short-TBUT. ADDE com FRD: TBUT 2,08 versus 2,92 s sem FRD. Atrito e DGM coexistem e ambos encurtam TBUT. Não é “ou DGM ou mecânico”. Transversal, maioria mulher japonesa. Associação, não causalidade. Sem biologia da glândula.",
+        "O lubrificante adianta? A cirurgia, quando? O algoritmo de manejo é o de Marmalidou e colaboradores (2019). CCh assintomática: observar. Sintomática: primeiro lubrificação e, se houver outro eixo inflamatório, anti-inflamatório. Refratário: cirurgia. As vias mais usadas: cauterização e excisão com ou sem membrana amniótica. Há ainda fixação escleral, ligadura, laser, radiofrequência. Taxas variáveis, sem RCT comparativo grande com desfecho funcional padronizado. Uma linha cada. Sem atlas. Sem nome de técnica proprietária.",
+        "O lastro do lubrificante viscoso é fraco e precisa ser dito assim. Kiss e Németh (2015; n = 20, aberto, autocontrolado) usaram lágrima com glicerol isotônico e hialuronato 0,015%. LIPCOF médio 2,9 para 1,4 em três meses. TFBUT ganhou cerca de 1 segundo. Oxford 1,3–1,4 para 0,2–0,3. OSDI 36 para 16. Lubrificante viscoso pode reduzir grau de prega e sintoma o bastante para adiar cirurgia. Sem máscara, sem controle, n pequeno, produto nomeado no título do paper. A marca não entra aqui. O desfecho é LIPCOF, não CCh volumétrica de Meller. Extrapolar “lágrima desincha CCh grau 3” é overclaim.",
       ],
     },
     {
@@ -1919,27 +1804,16 @@ const aPregaOAtritoEOpiscar: MagazineArticle = {
       title: "Prática",
       kind: "practice",
       paragraphs: [
-        "Começar do gancho DEWS III, não do filme. Se o OSDI-6 fecha DED e o filme não explica — ou o filme é instável só inferior —, olhar pálpebra (piscar, fechamento) e superfície (desalinhamento). Não repetir a bateria das pp. 33–36. Não reabrir os cinco eixos das pp. 23–28.",
-        "CCh: ver e graduar, não só “tem prega”. Três sítios — nasal, médio, temporal. Altura versus menisco. Mudança ao olhar para baixo e à pressão digital. Temporal costuma ser pior. Prega no menisco mais epífora: pensar obstáculo ao outflow, não lacrimejamento emocional. Prega etária é comum; a pergunta é se esta prega, neste sítio, com esta dinâmica, explica este sintoma.",
-        "CCh versus DED. Podem coexistir. Irritação ou epífora com prega óbvia e filme já tratado é CCh sintomática, não “DED refratária”. Inflamação da prega é desprezível no lastro que se tem. Não escalar imunomodulador por causa da CCh. Anti-inflamatório só se outro eixo pedir.",
-        "LWE. Fluoresceína mais lisamina ou rosa bengala na margem posterior da pálpebra superior — e inferior se quiser. Grau ≥ 2 com filme “normal” aponta atrito. Não relatar só a córnea. Não vender LWE como ouro.",
-        "LIPCOF não é CCh. LIPCOF: prega lid-paralela temporal e nasal, escala 0–3, preditor de sintoma. CCh: redundância em volume que invade o menisco, com sítio e dinâmica. Distinguir na lâmpada. Não tratar LIPCOF com higiene de margem nesta matéria. Higiene palpebral trata margem e Demodex — pp. 45–48. Não trata redundância conjuntival.",
+        "Se o filme não explica a queixa, ou se a instabilidade é só inferior, olhar pálpebra (piscar, fechamento) e superfície (desalinhamento). Não repetir a bateria das pp. 33–36. Não reabrir os cinco eixos das pp. 23–28.",
+        "CCh: ver e graduar, não só “tem prega”. Três sítios: nasal, médio, temporal. Altura versus menisco. Mudança ao olhar para baixo e à pressão digital. Temporal costuma ser pior. Prega no menisco mais epífora: pensar obstáculo ao outflow, não lacrimejamento emocional. Prega etária é comum. A pergunta é se esta prega, neste sítio, com esta dinâmica, explica este sintoma.",
+        "CCh e DED podem coexistir. Irritação ou epífora com prega óbvia e filme já tratado é CCh sintomática, não “DED refratária”. Inflamação da prega é desprezível no lastro que se tem. Não escalar imunomodulador por causa da CCh. Anti-inflamatório só se outro eixo pedir.",
+        "LWE. Fluoresceína mais lisamina ou rosa bengala na margem posterior da pálpebra superior, e inferior se quiser. Grau ≥ 2 com filme “normal” aponta atrito. Não relatar só a córnea. Não vender LWE como ouro.",
+        "LIPCOF não é CCh. LIPCOF: prega lid-paralela temporal e nasal, escala 0–3, preditor de sintoma. CCh: redundância em volume que invade o menisco, com sítio e dinâmica. Distinguir na lâmpada. Não tratar LIPCOF com higiene de margem nesta matéria. Higiene palpebral trata margem. Não trata redundância conjuntival.",
         "Snap-back e laxidade. Puxar a pálpebra inferior e ver o retorno. Manobra de consultório. Sem paper âncora com DOI nesta lista: descrever como exame, não como escala validada, sem cutoff inventado. Laxidade extrema mais eversão fácil: pensar FES. Perguntar sono. Everter.",
         "Piscar. Observar completeza, não só taxa. Tela e leitura: intervalo inferior dobrado se o piscar for incompleto. Lagoftalmo noturno e FES: fenocópia de exposição. Uma pergunta de sono e um relógio de piscar. Sem EMG. Sem capítulo de VII par.",
-        "Médico primeiro. Lubrificante viscoso — glicerol e hialuronato como classe, não marca. Pode reduzir grau de prega e sintoma o bastante para adiar cirurgia; a evidência é n = 20, aberta, e mede LIPCOF. Higiene palpebral não é o tratamento da CCh. Anti-inflamatório só se houver outro eixo.",
-        "Cirurgia quando o sintoma e a topografia batem e o médico falhou. Prega no menisco, exposição, epífora mecânica, depois de lubrificante viscoso. Cauterização no volume menor; ressecção com ou sem amniótica no volume maior. Uma linha cada. Sem atlas. Sem técnica proprietária. Sem operar imagem.",
-        "Coexistência com DGM. Se houver DGM e doença de atrito, o TBUT fica mais curto. Tratar os dois eixos. Não absorver a matéria molecular da glândula.",
-        "Três blocos DEWS III — filme, pálpebra (piscar e fechamento) e superfície (desalinhamento) — alimentam CCh (sítio e grau), LWE, LIPCOF e dinâmica (piscar incompleto, FES, lagoftalmo). Médico primeiro; cirurgia se o sintoma concordar e o tratamento médico falhar.",
-      ],
-      bullets: [
-        "Gancho. OSDI-6 fecha e o filme não explica: olhar desalinhamento e piscar.",
-        "CCh. Nasal, médio, temporal. Dinâmica. Atribuição causal, não prevalência.",
-        "CCh ≠ DED. Mimetiza e coexiste. Não escalar imunomodulador pela prega.",
-        "LWE. Margem superior. Atrito quando o filme é “normal”.",
-        "LIPCOF ≠ CCh. Lâmpada de fenda. Sem higiene como tratamento de CCh.",
-        "Piscar e FES. Completeza. Sono. Exposição. Mapear, não neuro-oftalmo.",
-        "Médico. Lubrificante viscoso. Higiene não trata CCh.",
-        "Cirurgia. Sintoma + topografia + falha médica. Sem atlas.",
+        "Médico primeiro. Lubrificante viscoso: glicerol e hialuronato como classe, não marca. Pode reduzir grau de prega e sintoma o bastante para adiar cirurgia. A evidência é n = 20, aberta, e mede LIPCOF. Higiene palpebral não é o tratamento da CCh. Anti-inflamatório só se houver outro eixo.",
+        "Cirurgia quando o sintoma e a topografia batem e o médico falhou. Prega no menisco, exposição, epífora mecânica, depois de lubrificante viscoso. Cauterização no volume menor. Ressecção com ou sem amniótica no volume maior. Uma linha cada. Sem atlas. Sem técnica proprietária. Sem operar imagem.",
+        "Se houver DGM e doença de atrito, o TBUT fica mais curto. Tratar os dois eixos. Não absorver a matéria molecular da glândula.",
       ],
     },
     {
@@ -1948,78 +1822,70 @@ const aPregaOAtritoEOpiscar: MagazineArticle = {
       kind: "limitations",
       paragraphs: [
         "Não há ensaio que teste “fenótipo mecânico versus escalada por filme” com desfecho de paciente. Não há RCT grande de cauterização versus ressecção versus amniótica versus lubrificante viscoso com desfecho funcional padronizado. Não há prevalência brasileira de CCh, LWE ou LIPCOF até 15 de agosto de 2026. Mimura é hospitalar japonês. Pult 2018 é europeu e relativamente jovem.",
-        "Yokoi 2005 é série cirúrgica sem controle; a imunohistoquímica tem n de um dígito. Meller e Tseng 1998 é review mais hipótese, não validação prospectiva da escala. A escala original de LIPCOF dos anos 1990 e o paper japonês de 2003 sobre junção mucocutânea existem no PubMed e não são citáveis — DOI Crossref irresolvível. Snap-back não tem paper âncora com DOI nesta lista.",
-        "Kiss 2015: n = 20, sem máscara, sem controle, produto nomeado; mede LIPCOF, não CCh volumétrica. Marmalidou 2018 e 2019 são reviews. Pult 2015 é modelo tribológico. McMonnies 2007 é review; exercício de piscar não tem RCT de desfecho nesta lista. Vu 2018 é transversal. Salinas 2020 é review de FES: a matéria não diagnostica AOS nem indica CPAP como terapia de olho seco.",
-        "A distinção LIPCOF versus CCh é pedida e não tem critério operacional único validado. Atribuição causal CCh → sintoma continua clínica: topografia, dinâmica, falha do filme. Prega etária é comum; operar por imagem é overtreatment. O corpo completo do DEWS III Diagnostic não está em PMC: a subclassificação desta matéria limita-se ao que o abstract deposita. LWE não é ouro em toda a literatura.",
-      ],
-      bullets: [
-        "Sem RCT de fenótipo mecânico versus filme.",
-        "Sem prevalência brasileira.",
-        "Sem DOI para a escala original de LIPCOF nem para o paper de 2003 da junção mucocutânea — não citados.",
-        "Snap-back é manobra, não escala.",
-        "Lubrificante viscoso: evidência fraca, e o paper mede LIPCOF.",
-        "Sem atlas. Sem higiene como tratamento de CCh.",
+        "Yokoi 2005 é série cirúrgica sem controle. A imunohistoquímica tem n de um dígito. Meller e Tseng 1998 é review mais hipótese, não validação prospectiva da escala. A escala original de LIPCOF dos anos 1990 e o paper japonês de 2003 sobre junção mucocutânea existem no PubMed e não são citáveis: DOI Crossref irresolvível. Snap-back não tem paper âncora com DOI nesta lista.",
+        "Kiss 2015: n = 20, sem máscara, sem controle, produto nomeado; mede LIPCOF, não CCh volumétrica. Marmalidou 2018 e 2019 são reviews. Pult 2015 é modelo tribológico. McMonnies 2007 é review. Exercício de piscar não tem RCT de desfecho nesta lista. Vu 2018 é transversal. Salinas 2020 é review de FES: a matéria não diagnostica AOS nem indica CPAP como terapia de olho seco.",
+        "A distinção LIPCOF versus CCh é pedida e não tem critério operacional único validado. Atribuição causal CCh → sintoma continua clínica: topografia, dinâmica, falha do filme. Prega etária é comum. Operar por imagem é overtreatment. O corpo completo do DEWS III Diagnostic não está em PMC: a subclassificação desta matéria limita-se ao que o abstract deposita. LWE não é ouro em toda a literatura.",
       ],
     },
   ],
   references: [
     {
       label:
-        "Meller D, Tseng SCG. Conjunctivochalasis. Surv Ophthalmol. 1998;43(3):225-232.",
+        "Meller D, Tseng SCG. Conjunctivochalasis: literature review and possible pathophysiology. Survey of Ophthalmology. 1998;43(3):225-232.",
       url: "https://doi.org/10.1016/s0039-6257(98)00037-x",
       doi: "10.1016/s0039-6257(98)00037-x",
     },
     {
       label:
-        "Mimura T, Yamagami S, Usui T, et al. Changes of Conjunctivochalasis with Age in a Hospital-based Study. Am J Ophthalmol. 2009;147(1):171-177.e1.",
+        "Mimura T, Yamagami S, Usui T, et al. Changes of conjunctivochalasis with age in a hospital-based study. American Journal of Ophthalmology. 2009;147(1):171-177.e1.",
       url: "https://doi.org/10.1016/j.ajo.2008.07.010",
       doi: "10.1016/j.ajo.2008.07.010",
     },
     {
       label:
-        "Yokoi N, Komuro A, Nishii M, et al. Clinical Impact of Conjunctivochalasis on the Ocular Surface. Cornea. 2005;24(8):S24-S31.",
+        "Yokoi N, Komuro A, Nishii M, et al. Clinical impact of conjunctivochalasis on the ocular surface. Cornea. 2005;24(8 Suppl):S24-S31.",
       url: "https://doi.org/10.1097/01.ico.0000178740.14212.1a",
       doi: "10.1097/01.ico.0000178740.14212.1a",
     },
     {
       label:
-        "Korb DR, Herman JP, Greiner JV, et al. Lid Wiper Epitheliopathy and Dry Eye Symptoms. Eye Contact Lens. 2005;31(1):2-8.",
+        "Korb DR, Herman JP, Greiner JV, et al. Lid wiper epitheliopathy and dry eye symptoms. Eye & Contact Lens. 2005;31(1):2-8.",
       url: "https://doi.org/10.1097/01.icl.0000140910.03095.fa",
       doi: "10.1097/01.icl.0000140910.03095.fa",
     },
     {
       label:
-        "Pult H, Bandlitz S. Lid-Parallel Conjunctival Folds and Their Ability to Predict Dry Eye. Eye Contact Lens. 2018;44(2):S113-S119.",
+        "Pult H, Bandlitz S. Lid-Parallel Conjunctival Folds and Their Ability to Predict Dry Eye. Eye & Contact Lens. 2018;44 Suppl 2:S113-S119.",
       url: "https://doi.org/10.1097/ICL.0000000000000435",
       doi: "10.1097/ICL.0000000000000435",
     },
     {
       label:
-        "Wolffsohn JS, Benítez-Del-Castillo JM, Loya-Garcia D, et al. TFOS DEWS III: Diagnostic Methodology. Am J Ophthalmol. 2025;279:387-450.",
+        "Wolffsohn JS, Benítez-Del-Castillo JM, Loya-Garcia D, et al. TFOS DEWS III: Diagnostic Methodology. American Journal of Ophthalmology. 2025;279:387-450.",
       url: "https://doi.org/10.1016/j.ajo.2025.05.033",
       doi: "10.1016/j.ajo.2025.05.033",
     },
     {
       label:
-        "McMonnies CW. Incomplete blinking: Exposure keratopathy, lid wiper epitheliopathy, dry eye, refractive surgery, and dry contact lenses. Cont Lens Anterior Eye. 2007;30(1):37-51.",
+        "McMonnies CW. Incomplete blinking: exposure keratopathy, lid wiper epitheliopathy, dry eye, refractive surgery, and dry contact lenses. Contact Lens and Anterior Eye. 2007;30(1):37-51.",
       url: "https://doi.org/10.1016/j.clae.2006.12.002",
       doi: "10.1016/j.clae.2006.12.002",
     },
     {
       label:
-        "Marmalidou A, Kheirkhah A, Dana R. Conjunctivochalasis: a systematic review. Surv Ophthalmol. 2018;63(4):554-564.",
+        "Marmalidou A, Kheirkhah A, Dana R. Conjunctivochalasis: a systematic review. Survey of Ophthalmology. 2018;63(4):554-564.",
       url: "https://doi.org/10.1016/j.survophthal.2017.10.010",
       doi: "10.1016/j.survophthal.2017.10.010",
     },
     {
       label:
-        "Marmalidou A, Palioura S, Dana R, et al. Medical and surgical management of conjunctivochalasis. Ocul Surf. 2019;17(3):393-399.",
+        "Marmalidou A, Palioura S, Dana R, Kheirkhah A. Medical and surgical management of conjunctivochalasis. The Ocular Surface. 2019;17(3):393-399.",
       url: "https://doi.org/10.1016/j.jtos.2019.04.008",
       doi: "10.1016/j.jtos.2019.04.008",
     },
     {
       label:
-        "Salinas R, Puig M, Fry CL, et al. Floppy eyelid syndrome: A comprehensive review. Ocul Surf. 2020;18(1):31-39.",
+        "Salinas R, Puig M, Fry CL, Johnson DA, Kheirkhah A. Floppy eyelid syndrome: A comprehensive review. The Ocular Surface. 2020;18(1):31-39.",
       url: "https://doi.org/10.1016/j.jtos.2019.10.002",
       doi: "10.1016/j.jtos.2019.10.002",
     },
@@ -2037,13 +1903,13 @@ const aPregaOAtritoEOpiscar: MagazineArticle = {
     },
     {
       label:
-        "Pult H, Tosatti SGP, Spencer ND, et al. Spontaneous Blinking from a Tribological Viewpoint. Ocul Surf. 2015;13(3):236-249.",
+        "Pult H, Tosatti SG, Spencer ND, Asfour JM, Ebenhoch M, Murphy PJ. Spontaneous Blinking from a Tribological Viewpoint. The Ocular Surface. 2015;13(3):236-249.",
       url: "https://doi.org/10.1016/j.jtos.2014.12.004",
       doi: "10.1016/j.jtos.2014.12.004",
     },
     {
       label:
-        "Ballesteros-Sánchez A, Sánchez-González JM, Borrone MA, et al. The Influence of Lid-Parallel Conjunctival Folds and Conjunctivochalasis on Dry Eye Symptoms with and Without Contact Lens Wear: A Review of the Literature. Ophthalmol Ther. 2024;13(3):651-670.",
+        "Ballesteros-Sánchez A, Sánchez-González JM, Borrone MA, Borroni D, Rocha-de-Lossada C. The Influence of Lid-Parallel Conjunctival Folds and Conjunctivochalasis on Dry Eye Symptoms with and Without Contact Lens Wear: A Review of the Literature. Ophthalmology and Therapy. 2024;13(3):651-670.",
       url: "https://doi.org/10.1007/s40123-023-00877-9",
       doi: "10.1007/s40123-023-00877-9",
     },
@@ -2077,13 +1943,14 @@ const aPregaOAtritoEOpiscar: MagazineArticle = {
   },
 };
 
+
 const iaNaSuperficieOcular: MagazineArticle = {
   slug: "ia-na-superficie-ocular",
   title: "IA na superfície ocular: onde ajuda, onde erra e como validar",
   subtitle:
     "Onde a imagem já lê com alguma segurança, o que ainda não generaliza, e que pergunta fazer antes de deixar o software entrar na conduta.",
   excerpt:
-    "A pergunta útil não é se uma rede consegue segmentar uma glândula. É se o número que ela devolve muda uma decisão no consultório. Meibografia e coloração já têm modelo; o AUC interno não viaja, e o LLM superdiagnostica — sem validação externa, o software descreve o laboratório que o treinou.",
+    "O olho seco continua sendo um diagnóstico montado por pedaços. Sintoma, sinal e biomarcador discordam. A IA entrou para automatizar a leitura de uma imagem ou juntar imagem e ficha. O apelo é objetividade e velocidade.",
   category: "Tecnologia",
   author: {
     name: "Dr. Philipe Saraiva Cruz",
@@ -2102,10 +1969,9 @@ const iaNaSuperficieOcular: MagazineArticle = {
       title: "Por que importa",
       kind: "why-it-matters",
       paragraphs: [
-        "O olho seco continua sendo um diagnóstico montado por pedaços. Sintoma, sinal e biomarcador discordam com frequência. O paciente pode chegar com OSDI alto e córnea quase limpa, ou o contrário. Cada teste — questionário, tempo de ruptura, coloração, osmolaridade, meibografia, interferometria — vê uma fatia. Nenhum fecha o fenótipo sozinho.",
-        "Isso já era o problema clínico antes da inteligência artificial. A IA entrou exatamente nesse ponto: automatizar a leitura de uma imagem, ou juntar imagens com a ficha. O apelo é óbvio. Meiboscore, camada lipídica e coloração ainda dependem do olho de quem examina. Um modelo treinado promete objetividade e velocidade.",
-        "O risco também é óbvio. Um AUC alto no conjunto que treinou o modelo não é um instrumento de consultório. A literatura de IA em olho seco cresceu depressa e ainda é, na maior parte, unimodal: uma foto, um vídeo, um escore. Poucos trabalhos juntam de verdade meibografia, filme lacrimal e sintomas. Menos ainda testam o modelo em outro aparelho, outro centro, outra população.",
-        "Para a SUPERFÍCIE, o ponto não é celebrar a ferramenta. É dizer ao clínico o que já lê uma imagem com alguma segurança, o que ainda não generaliza, e que pergunta fazer antes de deixar o software entrar na conduta.",
+        "O olho seco continua sendo um diagnóstico montado por pedaços. Sintoma, sinal e biomarcador discordam. A IA entrou para automatizar a leitura de uma imagem ou juntar imagem e ficha. O apelo é objetividade e velocidade.",
+        "O risco é tratar o número automático como diagnóstico. Um AUC alto no conjunto que treinou o modelo não é instrumento de consultório. A pergunta desta matéria é outra: o que já lê uma imagem com alguma segurança, o que ainda não generaliza, e o que perguntar antes de deixar o software entrar na conduta.",
+        "A literatura cresceu depressa e ainda é, na maior parte, unimodal: uma foto, um vídeo, um escore. Poucos trabalhos juntam de verdade meibografia, filme lacrimal e sintomas. Menos ainda testam o modelo em outro aparelho, outro centro, outra população.",
       ],
     },
     {
@@ -2113,16 +1979,13 @@ const iaNaSuperficieOcular: MagazineArticle = {
       title: "Evidência",
       kind: "evidence",
       paragraphs: [
-        "Uma revisão sistemática de 70 estudos únicos (71 registros; um preprint e seu artigo de revista contados uma vez) mapeou modelos de aprendizado de máquina e profundo aplicados a olho seco e superfície ocular, com ênfase em abordagens que usam mais de uma fonte de dados. A busca inicial foi em março de 2025; registros com data de 2026 entraram na atualização do manuscrito.",
-        "O grosso da literatura ainda é imagem única. Meibografia é o canal mais frequente. Redes que segmentam pálpebra e atrofia chegaram a 95,6% de acerto no meiboscore no conjunto de avaliação (209 imagens; 497 no treino e ajuste) e superaram o investigador clínico de referência em 16 pontos percentuais. Coloração de fluoresceína já tem modelo com teste externo em 2.376 imagens de 23 hospitais na China (r interno 0,898 e AUC 0,881; r externo 0,844–0,899 e AUC 0,804–0,883).",
-        "O achado que importa para a clínica é outro. O mesmo grupo que relatou 73,01% de acerto no meiboscore no conjunto de validação caiu para 59,17% num centro independente (1.600 imagens). Os especialistas em disfunção de glândula de Meibômio, no conjunto de validação, ficaram em 53,44%. A queda do modelo é o cartão de visita: o número interno não viaja. Aparelho, recorte étnico e protocolo de captura mudam o resultado até prova em contrário.",
-        "Uma meta-análise de acurácia diagnóstica publicada em 2026 (Liu e colaboradores, Cornea) reuniu 14 estudos, 5.511 participantes e 18.926 imagens. A síntese de validação externa — só três avaliações — deu sensibilidade de 97,5% (77,5–99,8) e especificidade de 85,5% (47,3–97,5). A certeza GRADE foi muito baixa a baixa. A leitura dos autores: a IA na meibografia parece menos acurada que o avaliador humano. Quase todos os estudos tinham alto risco de viés em pelo menos um domínio.",
-        "A troca de aparelho é o outro cartão. Num modelo de segmentação, o Dice interno de 0,84 na glândula caiu para 0,69–0,71 num dispositivo externo; equalização de histograma não recuperou o desempenho. O melhor estudo de validação em quatro centros, num único aparelho, chegou a kappa 0,93 e AUC acima de 0,99 — ainda era segmentação e escore, não diagnóstico, e ficou limitado à plataforma que o treinou.",
-        "Estimativa de TBUT por IA, num recorte de 79 pacientes, teve acurácia 0,789 e AUC 0,877. Intervalo largo, amostra pequena.",
-        "Há sinais de que a imagem pode dizer mais do que o escore. Aprendizado não supervisionado em 82.236 meibografias de 20.559 pessoas agrupou seis subtipos com perfis distintos de ruptura, menisco, atrofia e coloração. Outro modelo leu sinais, sintomas e diagnósticos a partir só da meibografia (562 imagens, 363 pessoas), com acurácias de 65% a 99% — 74% a 85% para disfunção glandular, deficiência aquosa e blefarite. Isso não valida o uso isolado da foto como diagnóstico. Mostra que a glândula carrega informação que o meiboscore joga fora.",
-        "A via sem imagem também existe. Modelos tabulares, em 175 candidatos a lentes, explicaram cerca de 32% da variância da osmolaridade e acertaram cerca de 80% nas faixas baixa, média e alta. Preditores: NIKBUT, menisco, hiperemia, cobertura glandular e DEQ-5. Fatores de estilo de vida — tempo de perto, álcool, exercício, tempo ao ar livre — entram com peso em vários desfechos; cabine de avião e dirigir predisseram sintoma, não sinal. São hipóteses de triagem, não substitutos da meibografia.",
-        "Grandes modelos de linguagem, alimentados com texto clínico e sintomas de 338 pacientes com suspeita de olho seco, concordaram com o clínico no “é DED” (sensibilidade 93–99%; kappa 0,81–0,86). A especificidade ficou entre 0% e 16%. A acurácia balanceada caiu para 48–56%. No subtipo (aquoso, evaporativo, misto) o acordo foi ao acaso. O modelo reproduz o viés de superdiagnóstico. Um pipeline multimodal (Insight / MDPipe) que traduz meibografia em morfologia e pede raciocínio ao LLM superou o GPT-4 em benchmarks de superfície ocular; ainda é prova de conceito, não ferramenta de consultório.",
-        "A fusão de verdade — imagem mais clínica, no mesmo modelo, validada fora de casa — continua rara. Dinâmica temporal do filme lacrimal, o que o clínico já filma no NIBUT, quase não entra. Ensaio prospectivo medindo sintoma, adesão ou qualidade de vida depois da IA assistida não apareceu no corpus.",
+        "Uma revisão sistemática de 70 estudos únicos (71 registros; um preprint e seu artigo de revista contados uma vez) — síntese sem DOI próprio, não tratada aqui como artigo publicado e fora da lista de referências — mapeou modelos de aprendizado de máquina e profundo aplicados a olho seco e superfície ocular, com ênfase em abordagens que usam mais de uma fonte de dados. A busca inicial foi em março de 2025. Registros com data de 2026 entraram na atualização do manuscrito. O grosso da literatura ainda é imagem única. Meibografia é o canal mais frequente.",
+        "O número interno pode parecer decisivo. Redes que segmentam pálpebra e atrofia chegaram a 95,6% de acerto no meiboscore no conjunto de avaliação (209 imagens; 497 no treino e ajuste) e superaram o investigador clínico de referência em 16 pontos percentuais. Coloração de fluoresceína já tem modelo com teste externo em 2.376 imagens de 23 hospitais na China (r interno 0,898 e AUC 0,881; r externo 0,844 a 0,899 e AUC 0,804 a 0,883).",
+        "O achado que importa para a clínica é outro. Saha e colaboradores (2022) relataram 73,01% de acerto no meiboscore no conjunto de validação e caíram para 59,17% num centro independente. Os especialistas em disfunção de glândula de Meibômio, no conjunto de validação, ficaram em 53,44%. A queda é o cartão de visita: o número interno não viaja. Aparelho, recorte étnico e protocolo de captura mudam o resultado até prova em contrário.",
+        "Há sinais de que a imagem pode dizer mais do que o escore. Aprendizado não supervisionado em 82.236 meibografias de 20.559 pessoas agrupou seis subtipos com perfis distintos de ruptura, menisco, atrofia e coloração. Outro modelo leu sinais, sintomas e diagnósticos a partir só da meibografia (562 imagens, 363 pessoas), com acurácias de 65% a 99%, e 74% a 85% para disfunção glandular, deficiência aquosa e blefarite. Isso não valida o uso isolado da foto como diagnóstico. Mostra que a glândula carrega informação que o meiboscore joga fora.",
+        "A via sem imagem também existe. Modelos tabulares, em 175 candidatos a lentes, explicaram cerca de 32% da variância da osmolaridade e acertaram cerca de 80% nas faixas baixa, média e alta. Preditores: NIKBUT, menisco, hiperemia, cobertura glandular e DEQ-5. Fatores de estilo de vida (tempo de perto, álcool, exercício, tempo ao ar livre) entram com peso em vários desfechos. Cabine de avião e dirigir predisseram sintoma, não sinal. São hipóteses de triagem, não substitutos da meibografia.",
+        "Grandes modelos de linguagem, alimentados com texto clínico e sintomas de 338 pacientes com suspeita de olho seco, concordaram com o clínico no \"é DED\" (sensibilidade 93 a 99%; kappa 0,81 a 0,86). A especificidade ficou entre 0% e 16%. A acurácia balanceada caiu para 48 a 56%. No subtipo (aquoso, evaporativo, misto) o acordo foi ao acaso. O modelo reproduz o viés de superdiagnóstico. Um pipeline multimodal (Insight / MDPipe) que traduz meibografia em morfologia e pede raciocínio ao modelo de linguagem superou o GPT-4 em benchmarks de superfície ocular. Ainda é prova de conceito, não ferramenta de consultório.",
+        "A fusão de verdade (imagem mais clínica, no mesmo modelo, validada fora de casa) continua rara. Dinâmica temporal do filme lacrimal, o que o clínico já filma no NIBUT, quase não entra. Ensaio prospectivo medindo sintoma, adesão ou qualidade de vida depois da IA assistida não apareceu no corpus.",
       ],
     },
     {
@@ -2132,9 +1995,9 @@ const iaNaSuperficieOcular: MagazineArticle = {
       paragraphs: [
         "Três usos cabem hoje, se o clínico souber o que está comprando.",
         "Primeiro: segunda leitura de meibografia e de coloração, não diagnóstico. Um modelo que marca glândula, atrofia e reflexo especular reduz fadiga e padroniza o arquivo. Ele não decide evaporativo versus aquoso. Se o software não declara aparelho, recorte de pálpebra e conjunto externo, trate o número como rascunho.",
-        "Segundo: recusar o AUC interno como argumento de compra. A pergunta mínima é: testaram em outro centro, outro aparelho, outra etnia? Qual foi a queda? O caso Saha é o cartão dessa pergunta. Sem essa resposta, o modelo descreve o laboratório que o treinou. Peça o checklist TRIPOD+AI ou STARD-AI. Sem validação externa em outro aparelho e outra população, o número descreve o laboratório que o treinou.",
+        "Segundo: recusar o AUC interno como argumento de compra. A pergunta mínima é: testaram em outro centro, outro aparelho, outra etnia? Qual foi a queda? Sem essa resposta, o modelo descreve o laboratório que o treinou.",
         "Terceiro: triagem, não atalho. Onde não há meibógrafo, um modelo tabular que estima instabilidade ou dropout a partir de coloração, expressibilidade e sintomas pode decidir quem precisa do exame extra. O teto desses modelos é baixo o bastante para não substituir o exame. É alto o bastante para ordenar a fila.",
-        "O que ainda não cabe: fechar subtipo de olho seco com chatbot; usar LLM no prontuário como laudo; tratar cluster de meibografia como fenótipo terapêutico sem reprodução. A telemedicina com foto dirigida é outro capítulo — e no Brasil passa por regra do CFM, não por paper de visão computacional.",
+        "O que ainda não cabe: fechar subtipo de olho seco com chatbot; usar modelo de linguagem no prontuário como laudo; tratar cluster de meibografia como fenótipo terapêutico sem reprodução. A telemedicina com foto dirigida é outro capítulo. No Brasil, passa por regra do CFM, não por paper de visão computacional.",
         "No fluxo do consultório, a ordem honesta é: fenótipo clínico primeiro, imagem depois, software por último. A IA entra para repetir com menos ruído o que o exame já pediu, não para inventar um mecanismo.",
       ],
     },
@@ -2144,8 +2007,8 @@ const iaNaSuperficieOcular: MagazineArticle = {
       kind: "limitations",
       paragraphs: [
         "Esta matéria assenta numa revisão sistemática em inglês, com heterogeneidade grande de tarefa, aparelho e n. Meta-análise não foi possível. Dois papers de método ficaram no corpus apesar de n humano baixo (um voluntário com 89.033 recortes de interferometria por smartphone; dez sadios em OCT de menisco), porque a unidade de análise era o quadro, não a coorte diagnóstica. Um item de 2026 em repositório aberto não foi recuperado no PubMed nem no Crossref e não sustenta claim.",
-        "A revisão não cobre registro na ANVISA, software como dispositivo médico, nem a regra brasileira de telemedicina. Também não mede desfecho de paciente. “Acurácia de segmentação” não é alívio de sintoma.",
-        "O selo desta versão é checagem editorial, não revisão por pares. Claims clínicos abaixo têm fonte. O que não tem DOI resolvido no Crossref não entra.",
+        "A revisão não cobre registro na ANVISA, software como dispositivo médico, nem a regra brasileira de telemedicina. Também não mede desfecho de paciente. \"Acurácia de segmentação\" não é alívio de sintoma.",
+        "O selo desta versão é checagem editorial, não revisão por pares. Claims clínicos abaixo têm fonte. O que não tem DOI resolvido no Crossref não entra. A revisão de 70 estudos únicos e os modelos sem nome de autor no texto ficam de fora desta lista.",
       ],
     },
   ],
@@ -2222,42 +2085,6 @@ const iaNaSuperficieOcular: MagazineArticle = {
       url: "https://doi.org/10.1109/cbms58004.2023.00245",
       doi: "10.1109/cbms58004.2023.00245",
     },
-    {
-      label:
-        "Liu S-H, Shah M, Leslie L, et al. Artificial Intelligence for Diagnosing Meibomian Gland Dysfunction: A Systematic Review and Meta-Analysis of Diagnostic Test Accuracy Studies. Cornea. 2026. doi:10.1097/ICO.0000000000004151. PMID: 41931504.",
-      url: "https://doi.org/10.1097/ICO.0000000000004151",
-      doi: "10.1097/ICO.0000000000004151",
-    },
-    {
-      label:
-        "Deng X, Tian L, Zhang Y, et al. Is histogram manipulation always beneficial when trying to improve model performance across devices? Experiments using a Meibomian gland segmentation model. Front Cell Dev Biol. 2022;10:1067914. doi:10.3389/fcell.2022.1067914. PMID: 36544900.",
-      url: "https://doi.org/10.3389/fcell.2022.1067914",
-      doi: "10.3389/fcell.2022.1067914",
-    },
-    {
-      label:
-        "Li L, Xiao K, Lai T, et al. Development and multicenter validation of an AI driven model for quantitative meibomian gland evaluation. npj Digit Med. 2025;8(1):403. doi:10.1038/s41746-025-01753-5. PMID: 40615666.",
-      url: "https://doi.org/10.1038/s41746-025-01753-5",
-      doi: "10.1038/s41746-025-01753-5",
-    },
-    {
-      label:
-        "Shimizu E, Ishikawa T, Tanji M, et al. Artificial intelligence to estimate the tear film breakup time and diagnose dry eye disease. Sci Rep. 2023;13(1):5822. doi:10.1038/s41598-023-33021-5. PMID: 37037877.",
-      url: "https://doi.org/10.1038/s41598-023-33021-5",
-      doi: "10.1038/s41598-023-33021-5",
-    },
-    {
-      label:
-        "Collins GS, Moons KGM, Dhiman P, et al. TRIPOD+AI statement: updated guidance for reporting clinical prediction models that use regression or machine learning methods. BMJ. 2024;385:e078378. doi:10.1136/bmj-2023-078378.",
-      url: "https://doi.org/10.1136/bmj-2023-078378",
-      doi: "10.1136/bmj-2023-078378",
-    },
-    {
-      label:
-        "Sounderajah V, Guni A, Liu X, et al. The STARD-AI reporting guideline for diagnostic accuracy studies using artificial intelligence. Nat Med. 2025;31(10):3283-3289. doi:10.1038/s41591-025-03953-8.",
-      url: "https://doi.org/10.1038/s41591-025-03953-8",
-      doi: "10.1038/s41591-025-03953-8",
-    },
   ],
   disclosures: [
     { label: "Financiamento", text: "A declarar pelo autor." },
@@ -2294,6 +2121,7 @@ const iaNaSuperficieOcular: MagazineArticle = {
     canonical: "/superficie/artigos/ia-na-superficie-ocular",
   },
 };
+
 
 const antiDemodex: MagazineArticle = {
   slug: "anti-demodex",

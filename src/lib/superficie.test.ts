@@ -265,6 +265,20 @@ test("matéria DGM publica capa, fundo e OG próprios", () => {
   assert.ok(article.ogImage?.src.includes("biologia-molecular-da-dgm/og.jpg"));
   assert.equal(article.ogImage?.width, 1200);
   assert.equal(article.ogImage?.height, 630);
+  assert.equal(article.references.length, 27);
+  assert.equal(
+    article.references.some(({ doi }) => doi === "10.1016/j.jtos.2024.04.005"),
+    true,
+  );
+  assert.equal(
+    article.references.some(({ doi }) => doi === "10.1016/j.jtos.2024.09.006"),
+    false,
+  );
+  assert.match(
+    article.references.find(({ doi }) => doi === "10.1016/j.jtos.2024.04.005")
+      ?.label ?? "",
+    /Zhu X, Xu M, Millar SE/,
+  );
 });
 
 test("matéria TFOS DEWS III publica as quatro seções e o selo de checagem editorial", () => {
@@ -446,7 +460,7 @@ test("matéria de fenotipagem integrada publica as quatro seções sem capa nem 
   assert.match(text, /não no índice 0–100 do OSDI-12/);
   assert.match(
     text,
-    /Mais sintomas que sinais associou-se a pior saúde percebida/,
+    /associou-se a pior saúde percebida/,
   );
   assert.match(
     text,
@@ -523,21 +537,16 @@ test("matéria de tecnologias publica as quatro seções sem capa nem figura cl�
     article.content.map((section) => [section.id, section]),
   );
   assert.equal(byId["por-que-importa"]?.kind, "why-it-matters");
-  assert.equal(byId.metodo?.kind, "body");
+  assert.equal(byId["o-que-o-ranking-realmente-significa"]?.kind, "body");
   assert.equal(byId.evidencia?.kind, "evidence");
   assert.equal(byId.pratica?.kind, "practice");
   assert.equal(byId.limitacoes?.kind, "limitations");
   assert.equal(article.content.length, 5);
-  assert.equal(byId.pratica?.bullets?.length, 6);
-  assert.match(
-    byId.metodo?.callout ?? "",
-    /^P-score não é ranking de compra\./,
-  );
+  assert.equal(byId.pratica?.bullets, undefined);
   assert.deepEqual(superficie.validateMagazineArticle(article), []);
 
   const text = [
     ...article.content.flatMap((section) => section.paragraphs),
-    ...(byId.metodo?.callout ? [byId.metodo.callout] : []),
     ...(byId.pratica?.bullets ?? []),
   ].join(" ");
 
@@ -545,20 +554,22 @@ test("matéria de tecnologias publica as quatro seções sem capa nem figura cl�
   assert.match(text, /2 a 4 meses/);
   assert.match(text, /P-score não é ranking de compra/);
   assert.match(text, /Três meses não são doze/);
-  assert.match(text, /Antes de comprar um aparelho, faça seis perguntas|estas seis perguntas/);
+  assert.match(text, /estas seis perguntas/);
   assert.match(text, /Qual foi o horizonte do estudo/);
   assert.match(text, /mediana até o retratamento ficou em torno de oito meses/);
   assert.match(text, /aproximadamente 16 pontos no OSDI/);
-  assert.match(text, /cerca de 7 pontos no OSDI/);
-  assert.match(text, /E-Eye\/IRPL com plataformas como M22\/Lumenis ou Toyos/);
+  assert.match(text, /cerca de 7 pontos/);
+  assert.match(text, /E-Eye\/IRPL com M22\/Lumenis ou Toyos/);
   assert.match(text, /Xue e colaboradores \(2020\)/);
   assert.match(text, /Wu e colaboradores \(2020\)/);
   assert.match(text, /Jiang e colaboradores \(2022\)/);
   assert.match(text, /Cong e colaboradores \(2025\)/);
-  assert.match(text, /E>eye com expressão lidera TBUT/);
+  assert.match(text, /Chen e colaboradores \(2025\)/);
   assert.equal(text.includes("Park et al"), false);
-  assert.match(text, /atualização científica foi realizada em 17\/08\/2026/);
-  assert.equal(article.references.length, 12);
+  assert.equal(text.includes("Consensus"), false);
+  assert.equal(text.includes("Elicit"), false);
+  assert.match(text, /17 de agosto de 2026/);
+  assert.equal(article.references.length, 15);
   assert.equal(
     article.references.every(
       ({ url, doi }) => url === `https://doi.org/${doi}`,
@@ -589,6 +600,10 @@ test("matéria de tecnologias publica as quatro seções sem capa nem figura cl�
   );
   assert.equal(
     article.references.some(({ doi }) => doi === "10.1007/s10103-025-04545-1"),
+    true,
+  );
+  assert.equal(
+    article.references.some(({ doi }) => doi === "10.1177/25158414251338775"),
     true,
   );
 });
@@ -636,7 +651,11 @@ const assertSealedArticle = (
   assert.equal(byId.evidencia?.kind, "evidence");
   assert.equal(byId.pratica?.kind, "practice");
   assert.equal(byId.limitacoes?.kind, "limitations");
-  assert.equal(byId.pratica?.bullets?.length, expected.practiceBullets);
+  if (expected.practiceBullets === 0) {
+    assert.equal(byId.pratica?.bullets, undefined);
+  } else {
+    assert.equal(byId.pratica?.bullets?.length, expected.practiceBullets);
+  }
   assert.deepEqual(superficie.validateMagazineArticle(article), []);
 
   const text = [
@@ -668,12 +687,12 @@ test("matéria Além do meiboscore publica as quatro seções e as travas do ras
   assertSealedArticle("alem-do-meiboscore", {
     category: "Diagnóstico",
     references: 15,
-    practiceBullets: 6,
+    practiceBullets: 0,
     locks: [
       /O meiboscore virou atalho de consultório/,
       /soma bruta dos 6 itens, escala 0–24/,
       /não o índice 0–100 do OSDI-12/,
-      /Arita 0–3 com Pult 0–4/,
+      /Arita 0–3 por pálpebra ou Pult 0–4/,
       /C-stat em torno de 0,63/,
       /n = 15/,
       /corpo do workshop não foi recuperado/,
@@ -686,12 +705,12 @@ test("matéria Cinco testes, cinco perguntas publica as quatro seções e as tra
   assertSealedArticle("cinco-testes-cinco-perguntas", {
     category: "Diagnóstico",
     references: 14,
-    practiceBullets: 5,
+    practiceBullets: 0,
     locks: [
       /O consultório ainda trata tempo de ruptura/,
       /soma bruta dos 6 itens \(escala 0–24\)/,
       /Interferometria e MMP-9 não entram no critério diagnóstico/,
-      /308 não é 316/,
+      /308 do DEWS III é o limiar sensível de Lemp/,
       /85% versus 86%/,
       /≤ 8 s numa plataforma, ≤ 14 s na outra/,
       /n = 33/,
@@ -704,16 +723,16 @@ test("matéria A prega, o atrito e o piscar publica as quatro seções e as trav
   assertSealedArticle("a-prega-o-atrito-e-o-piscar", {
     category: "Clínica",
     references: 14,
-    practiceBullets: 8,
+    practiceBullets: 0,
     locks: [
       /O consultório ainda escala o paciente/,
-      /6,8% na primeira década para 90,2%/,
+      /6,8% na primeira década, 90,2%/,
       /76% dos sintomáticos/,
       /versus 12% dos assintomáticos/,
       /88,2% sem DED e 78,0% com DED/,
       /n = 20/,
       /indica CPAP como terapia de olho seco/,
-      /Snap-back é manobra/,
+      /Snap-back/,
     ],
     forbiddenDois: ["10.1097/ICO.0b013e3181ba0cb2"],
     forbiddenLabels: [/Höh/, /Hirotani/, /Korb DR, Herman JP, Blackie CA/],
@@ -758,31 +777,19 @@ test("matéria IA na superfície ocular publica as quatro seções e o selo de c
   assert.equal(article.modifiedAt, "2026-08-17");
   assert.equal(article.issue, "edicao-00");
   assert.equal(article.sponsored, false);
-  assert.equal(article.references.length, 18);
+  assert.equal(article.references.length, 12);
   assert.deepEqual(superficie.validateMagazineArticle(article), []);
 
   const text = article.content.flatMap((section) => section.paragraphs).join(" ");
   assert.match(text, /73,01%/);
   assert.match(text, /59,17%/);
-  assert.match(text, /5\.511 participantes/);
-  assert.match(text, /97,5%/);
-  assert.match(text, /85,5%/);
-  assert.match(text, /TRIPOD\+AI ou STARD-AI/);
-  assert.match(text, /kappa 0,93/);
-  assert.match(text, /acurácia 0,789/);
+  assert.match(text, /síntese sem DOI próprio/);
+  assert.match(text, /não tratada aqui como artigo publicado/);
+  assert.match(text, /fora da lista de referências/);
+  assert.equal(text.includes("1.600 imagens"), false);
   assert.equal(text.includes("TearNET"), false);
-  assert.equal(text.includes("94,5%"), false);
-  assert.equal(text.includes("35,8%"), false);
   assert.equal(
-    article.references.some(({ doi }) => doi === "10.1097/ICO.0000000000004151"),
-    true,
-  );
-  assert.equal(
-    article.references.some(({ doi }) => doi === "10.1136/bmj-2023-078378"),
-    true,
-  );
-  assert.equal(
-    article.references.some(({ doi }) => doi === "10.1038/s41591-025-03953-8"),
+    article.references.some(({ doi }) => doi === "10.1016/j.jtos.2022.06.006"),
     true,
   );
 });
