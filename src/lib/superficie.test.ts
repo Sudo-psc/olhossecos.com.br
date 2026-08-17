@@ -355,6 +355,10 @@ test("matéria TFOS DEWS III inclui o mapa dos nove drivers só no corpo", () =>
   assert.match(markup, /loading="eager"/u);
   assert.match(markup, /fetchpriority="high"/u);
   assert.match(markup, /--figure-ratio/u);
+  assert.match(
+    markup,
+    /class="section-title"[\s\S]*section\.figure[\s\S]*section\.paragraphs/u,
+  );
   assert.doesNotMatch(
     markup,
     /class="article-inline-figure"[\s\S]*loading="lazy"/u,

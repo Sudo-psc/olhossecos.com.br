@@ -73,7 +73,7 @@
 }
 
 .reader-brand span,
-.reader-brand small {
+.reader-brand small:not([hidden]) {
   display: block;
 }
 
@@ -235,7 +235,7 @@
 }
 
 .page-viewport[data-display-mode="single"] {
-  max-width: min(500px, 100%);
+  max-width: min(720px, 100%);
 }
 
 .page-viewport[data-display-mode="double"] {
@@ -341,6 +341,15 @@
   font-size: clamp(0.5rem, 1.1vw, 1rem);
   line-height: 1.3;
   white-space: normal;
+}
+
+/* Carimbo interno da capa: a frase já está na placa. A camada
+   textual só tapa o retângulo — sem reescrever a sentença selada. */
+.text-layer .lab-stamp-mask {
+  z-index: 6;
+  background: #001a33;
+  box-shadow: 0 0 0 0.55em #001a33;
+  pointer-events: none;
 }
 
 .text-layer [data-role="heading"] {

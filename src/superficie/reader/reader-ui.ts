@@ -36,9 +36,12 @@ export class ReaderUi {
     input.max = String(manifest.pageCount);
     this.find<HTMLAnchorElement>("[data-pdf-fallback]").href =
       manifest.pdfFallback;
-    const brandLine = this.root.querySelector("[data-reader-brand-line]");
+    const brandLine = this.root.querySelector<HTMLElement>(
+      "[data-reader-brand-line]",
+    );
     if (brandLine) {
       brandLine.textContent = `${manifest.number} · ${manifest.title}`;
+      brandLine.hidden = false;
     }
     this.renderToc(manifest);
     this.renderThumbnails(manifest);

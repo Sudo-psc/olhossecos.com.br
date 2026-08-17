@@ -108,7 +108,27 @@ test("reader chrome does not seed a POC pageCount of 8", async () => {
   );
   assert.match(markup, /data-page-count><\/span>/u);
   assert.match(markup, /data-page-total hidden/u);
+  assert.match(markup, /data-reader-brand-line hidden><\/small>/u);
   assert.doesNotMatch(markup, /data-page-count>\s*8\s*</u);
+  assert.doesNotMatch(markup, /READER PROTOTYPE/iu);
+  assert.doesNotMatch(markup, /Prototype · POC/iu);
+});
+
+test("reader default zoom keeps cover type above a readable floor", async () => {
+  const source = await readFile("src/superficie/reader/reader-app.ts", "utf8");
+  assert.match(source, /zoomMode: "fit-width"/u);
+  assert.match(source, /Math\.max\(0\.85/u);
+});
+
+test("reader masks the internal lab stamp without rewriting sealed copy", async () => {
+  const renderer = await readFile(
+    "src/superficie/reader/page-renderer.ts",
+    "utf8",
+  );
+  const css = await readFile("src/superficie/reader/reader.css", "utf8");
+  assert.match(renderer, /lab-stamp-mask/u);
+  assert.match(renderer, /não indexar/iu);
+  assert.match(css, /\.lab-stamp-mask/u);
 });
 
 test("generated edicao-00 manifest is a self-contained 34-page issue", async () => {

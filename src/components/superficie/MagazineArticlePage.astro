@@ -204,46 +204,36 @@ const formatDate = (date?: string) =>
               <span>{String(index + 1).padStart(2, "0")}</span>
               <h2>{section.title}</h2>
             </div>
-            {section.paragraphs.map((paragraph, paragraphIndex) =>
-              section.figure && paragraphIndex === 0 ? (
-                <>
-                  <p>{paragraph}</p>
-                  <figure
-                    class="article-inline-figure"
-                    style={`--figure-ratio: ${section.figure.width} / ${section.figure.height}`}
-                  >
-                    <picture>
-                      {section.figure.avif && (
-                        <source
-                          type="image/avif"
-                          srcset={section.figure.avif}
-                        />
-                      )}
-                      {section.figure.webp && (
-                        <source
-                          type="image/webp"
-                          srcset={section.figure.webp}
-                        />
-                      )}
-                      <img
-                        src={section.figure.src}
-                        alt={section.figure.alt}
-                        width={section.figure.width}
-                        height={section.figure.height}
-                        loading="eager"
-                        fetchpriority="high"
-                        decoding="async"
-                      />
-                    </picture>
-                    <figcaption>
-                      <p>{section.figure.caption}</p>
-                    </figcaption>
-                  </figure>
-                </>
-              ) : (
-                <p>{paragraph}</p>
-              ),
+            {section.figure && (
+              <figure
+                class="article-inline-figure"
+                style={`--figure-ratio: ${section.figure.width} / ${section.figure.height}`}
+              >
+                <picture>
+                  {section.figure.avif && (
+                    <source type="image/avif" srcset={section.figure.avif} />
+                  )}
+                  {section.figure.webp && (
+                    <source type="image/webp" srcset={section.figure.webp} />
+                  )}
+                  <img
+                    src={section.figure.src}
+                    alt={section.figure.alt}
+                    width={section.figure.width}
+                    height={section.figure.height}
+                    loading="eager"
+                    fetchpriority="high"
+                    decoding="async"
+                  />
+                </picture>
+                <figcaption>
+                  <p>{section.figure.caption}</p>
+                </figcaption>
+              </figure>
             )}
+            {section.paragraphs.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
             {section.bullets && (
               <ul>
                 {section.bullets.map((item) => (
@@ -709,6 +699,10 @@ const formatDate = (date?: string) =>
     margin-top: 1.6rem;
     padding-top: 1.6rem;
     border-top: 1px solid var(--surface-line);
+  }
+
+  .section-title + .article-inline-figure {
+    margin: 0.85rem 0 1.75rem;
   }
 
   .article-inline-figure {

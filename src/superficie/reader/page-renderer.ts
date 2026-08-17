@@ -38,6 +38,20 @@ export class PageRenderer {
     this.highlights = highlights;
   }
 
+  hydrateImages(currentPage: number): void {
+    const minimum = Math.max(1, currentPage - 2);
+    const maximum = Math.min(this.manifest.pageCount, currentPage + 2);
+    this.manifest.pages.forEach((page) => {
+      const element = this.getPageElement(page.number);
+      if (!element) return;
+      if (page.number >= minimum && page.number <= maximum) {
+        this.hydrateImage(element, page, page.number === currentPage);
+      } else {
+        this.dehydrateImage(element);
+      }
+    });
+  }
+
   async hydrateWindow(currentPage: number): Promise<void> {
     const generation = ++this.hydrationGeneration;
     const minimum = Math.max(1, currentPage - 2);
@@ -48,7 +62,7 @@ export class PageRenderer {
       const element = this.getPageElement(page.number);
       if (!element) return;
       if (page.number >= minimum && page.number <= maximum) {
-        this.hydrateImage(element, page);
+        this.hydrateImage(element, page, page.number === currentPage);
         tasks.push(this.hydrateText(element, page, false, generation));
       } else {
         this.dehydrateImage(element);
@@ -121,7 +135,11 @@ export class PageRenderer {
     return element;
   }
 
-  private hydrateImage(element: HTMLElement, page: MagazinePage): void {
+  private hydrateImage(
+    element: HTMLElement,
+    page: MagazinePage,
+    current = false,
+  ): void {
     const image = element.querySelector<HTMLImageElement>("img[data-src]");
     if (!image || image.dataset.loaded === "true") return;
     element
@@ -132,6 +150,8 @@ export class PageRenderer {
     image.src = image.dataset.src ?? page.image.small;
     image.srcset = `${page.image.small} 480w, ${page.image.medium} 900w, ${page.image.large} 1400w`;
     image.sizes = "(max-width: 760px) 94vw, (max-width: 1100px) 62vw, 43vw";
+    image.loading = current ? "eager" : "lazy";
+    image.fetchPriority = current ? "high" : "auto";
     image.dataset.loaded = "true";
   }
 
@@ -215,6 +235,11 @@ export class PageRenderer {
     element.style.top = `${block.y * 100}%`;
     element.style.width = `${block.width * 100}%`;
     element.style.height = `${block.height * 100}%`;
+    if (isInternalLabStamp(block.text)) {
+      element.className = "lab-stamp-mask";
+      element.setAttribute("aria-hidden", "true");
+      return element;
+    }
     element.append(
       ...highlightedTextNodes(
         block.text,
@@ -237,6 +262,10 @@ export class PageRenderer {
       `[data-page-number="${pageNumber}"]`,
     );
   }
+}
+
+function isInternalLabStamp(text: string): boolean {
+  return /não indexar/iu.test(text);
 }
 
 function isValidTextLayer(

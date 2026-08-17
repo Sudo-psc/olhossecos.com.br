@@ -9,5 +9,11 @@ import MagazineReader from "../../../superficie/reader/components/MagazineReader
   title="SUPERFÍCIE Edição 00 — Laboratório"
   description="Caderno de laboratório, não indexado, da Edição 00 da SUPERFÍCIE."
 >
+  <link
+    slot="head"
+    rel="preload"
+    as="image"
+    href="/superficie/issues/edicao-00/pages/page-01-medium.webp"
+  />
   <MagazineReader manifestUrl="/superficie/issues/edicao-00/manifest.json" />
 </SuperficieReaderLayout>
