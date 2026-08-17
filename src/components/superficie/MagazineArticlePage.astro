@@ -28,29 +28,6 @@ const formatDate = (date?: string) =>
   <div class="reading-progress" aria-hidden="true"><span></span></div>
 
   <header class="article-hero">
-    {
-      article.heroBackground && (
-        <>
-          <picture class="hero-image" aria-hidden="true">
-            {article.heroBackground.avif && (
-              <source type="image/avif" srcset={article.heroBackground.avif} />
-            )}
-            {article.heroBackground.webp && (
-              <source type="image/webp" srcset={article.heroBackground.webp} />
-            )}
-            <img
-              src={article.heroBackground.src}
-              alt=""
-              width={article.heroBackground.width ?? 1920}
-              height={article.heroBackground.height ?? 1080}
-              loading="eager"
-              decoding="async"
-            />
-          </picture>
-          <div class="hero-wash" aria-hidden="true" />
-        </>
-      )
-    }
     <div
       class="surface-shell article-breadcrumb"
       aria-label="Navegação estrutural"
@@ -142,30 +119,6 @@ const formatDate = (date?: string) =>
     </div>
   </header>
 
-  {
-    article.featuredImage && (
-      <figure class="surface-shell featured-image">
-        <picture>
-          {article.featuredImage.avif && (
-            <source type="image/avif" srcset={article.featuredImage.avif} />
-          )}
-          {article.featuredImage.webp && (
-            <source type="image/webp" srcset={article.featuredImage.webp} />
-          )}
-          <img
-            src={article.featuredImage.src}
-            alt={article.featuredImage.alt}
-            width={article.featuredImage.width}
-            height={article.featuredImage.height}
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-          />
-        </picture>
-      </figure>
-    )
-  }
-
   <div class="surface-shell article-grid">
     <aside class="article-toc" aria-label="Nesta matéria">
       <p>Nesta matéria</p>
@@ -204,9 +157,42 @@ const formatDate = (date?: string) =>
               <span>{String(index + 1).padStart(2, "0")}</span>
               <h2>{section.title}</h2>
             </div>
-            {section.paragraphs.map((paragraph) => (
-              <p>{paragraph}</p>
-            ))}
+            {section.paragraphs.map((paragraph, paragraphIndex) =>
+              section.figure && paragraphIndex === 0 ? (
+                <>
+                  <p>{paragraph}</p>
+                  <figure class="article-inline-figure">
+                    <picture>
+                      {section.figure.avif && (
+                        <source
+                          type="image/avif"
+                          srcset={section.figure.avif}
+                        />
+                      )}
+                      {section.figure.webp && (
+                        <source
+                          type="image/webp"
+                          srcset={section.figure.webp}
+                        />
+                      )}
+                      <img
+                        src={section.figure.src}
+                        alt={section.figure.alt}
+                        width={section.figure.width}
+                        height={section.figure.height}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
+                    <figcaption>
+                      <p>{section.figure.caption}</p>
+                    </figcaption>
+                  </figure>
+                </>
+              ) : (
+                <p>{paragraph}</p>
+              ),
+            )}
             {section.bullets && (
               <ul>
                 {section.bullets.map((item) => (
@@ -389,49 +375,9 @@ const formatDate = (date?: string) =>
   }
 
   .article-hero {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
     padding-block: 1rem clamp(4rem, 8vw, 7rem);
     background: var(--surface-navy);
     color: var(--surface-paper);
-  }
-
-  .article-hero > .hero-image,
-  .article-hero > .hero-image img,
-  .article-hero > .hero-wash {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  .article-hero > .hero-image img {
-    object-fit: cover;
-    object-position: 50% 45%;
-    filter: saturate(0.55) brightness(0.62) contrast(1.08);
-  }
-
-  .article-hero > .hero-wash {
-    background:
-      linear-gradient(
-        90deg,
-        rgb(0 14 29 / 92%) 0%,
-        rgb(0 20 39 / 84%) 48%,
-        rgb(0 16 33 / 88%) 100%
-      ),
-      linear-gradient(
-        0deg,
-        rgb(0 13 27 / 80%) 0%,
-        rgb(0 14 29 / 40%) 55%,
-        rgb(0 14 29 / 55%) 100%
-      );
-  }
-
-  .article-hero > .article-breadcrumb,
-  .article-hero > .article-hero-grid {
-    position: relative;
-    z-index: 1;
   }
 
   .article-breadcrumb {
@@ -543,21 +489,6 @@ const formatDate = (date?: string) =>
     margin: 0.2rem 0 0;
     color: var(--surface-muted-on-dark);
     font-size: 0.86rem;
-  }
-
-  .featured-image {
-    margin-top: clamp(-3rem, -5vw, -5rem);
-  }
-
-  .featured-image picture,
-  .featured-image img {
-    display: block;
-    width: 100%;
-  }
-
-  .featured-image img {
-    max-height: 680px;
-    object-fit: cover;
   }
 
   .article-grid {
@@ -672,6 +603,31 @@ const formatDate = (date?: string) =>
     margin-top: 1.6rem;
     padding-top: 1.6rem;
     border-top: 1px solid var(--surface-line);
+  }
+
+  .article-inline-figure {
+    margin: 2rem 0 2.5rem;
+  }
+
+  .article-inline-figure picture,
+  .article-inline-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .article-inline-figure img {
+    background: var(--surface-white);
+    border: 1px solid var(--surface-line);
+  }
+
+  .article-inline-figure figcaption p {
+    margin: 0.75rem 0 0;
+    max-width: 68ch;
+    color: var(--surface-muted);
+    font-family: var(--surface-sans);
+    font-size: 0.84rem;
+    line-height: 1.5;
   }
 
   .article-section ul {

@@ -3208,12 +3208,29 @@ export const founderIssue: MagazineIssue = {
 export const publishedIssues: MagazineIssue[] = [founderIssue];
 
 export const technologyTopics = [
-  "Meibografia",
-  "Interferometria",
-  "Osmolaridade",
-  "Biomarcadores",
-  "Tecnologias baseadas em energia",
-  "Inteligência artificial",
+  { label: "Meibografia", href: "/superficie/artigos/alem-do-meiboscore" },
+  // Interferometria, osmolaridade e biomarcadores são recortes do mesmo
+  // artigo; o hub repete o URL com o rótulo de cada eixo.
+  {
+    label: "Interferometria",
+    href: "/superficie/artigos/cinco-testes-cinco-perguntas",
+  },
+  {
+    label: "Osmolaridade",
+    href: "/superficie/artigos/cinco-testes-cinco-perguntas",
+  },
+  {
+    label: "Biomarcadores",
+    href: "/superficie/artigos/cinco-testes-cinco-perguntas",
+  },
+  {
+    label: "Tecnologias baseadas em energia",
+    href: "/superficie/artigos/tres-meses-nao-sao-doze",
+  },
+  {
+    label: "Inteligência artificial",
+    href: "/superficie/artigos/ia-na-superficie-ocular",
+  },
 ] as const;
 
 export const evidenceFields = [
