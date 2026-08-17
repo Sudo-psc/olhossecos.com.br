@@ -208,7 +208,10 @@ const formatDate = (date?: string) =>
               section.figure && paragraphIndex === 0 ? (
                 <>
                   <p>{paragraph}</p>
-                  <figure class="article-inline-figure">
+                  <figure
+                    class="article-inline-figure"
+                    style={`--figure-ratio: ${section.figure.width} / ${section.figure.height}`}
+                  >
                     <picture>
                       {section.figure.avif && (
                         <source
@@ -227,7 +230,8 @@ const formatDate = (date?: string) =>
                         alt={section.figure.alt}
                         width={section.figure.width}
                         height={section.figure.height}
-                        loading="lazy"
+                        loading="eager"
+                        fetchpriority="high"
                         decoding="async"
                       />
                     </picture>
@@ -711,16 +715,22 @@ const formatDate = (date?: string) =>
     margin: 2rem 0 2.5rem;
   }
 
-  .article-inline-figure picture,
-  .article-inline-figure img {
+  /* A caixa reserva a razão da figura encomendada antes do decode.
+     Sem isso, loading mesmo eager ainda mostra um retângulo vazio
+     enquanto o PNG sobe — o flash que o lab mede como box oco. */
+  .article-inline-figure picture {
     display: block;
-    width: 100%;
-    height: auto;
+    overflow: hidden;
+    aspect-ratio: var(--figure-ratio);
+    background: var(--surface-white);
+    border: 1px solid var(--surface-line);
   }
 
   .article-inline-figure img {
-    background: var(--surface-white);
-    border: 1px solid var(--surface-line);
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 
   .article-inline-figure figcaption p {

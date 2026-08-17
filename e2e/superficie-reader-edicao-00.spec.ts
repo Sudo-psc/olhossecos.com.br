@@ -2,6 +2,18 @@ import { expect, test, type Page } from "@playwright/test";
 
 const readerUrl = "/superficie/lab/edicao-00";
 
+test("edicao-00 never shows a pageCount of 8 while the 34-page issue loads", async ({
+  page,
+}) => {
+  await page.goto(readerUrl, { waitUntil: "domcontentloaded" });
+  const count = page.locator("[data-page-count]");
+  await expect(count).not.toHaveText("8");
+  await expect(page.locator("[data-page-total]")).toBeHidden();
+  await readerReady(page);
+  await expect(count).toHaveText("34");
+  await expect(page.locator("[data-page-total]")).toBeVisible();
+});
+
 test("edicao-00 abre na página 5, busca DGM e resolve o H1 no modo texto", async ({
   page,
 }) => {

@@ -126,6 +126,12 @@
   font-size: 0.82rem;
 }
 
+.reader-page-nav [data-page-total]:not([hidden]) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
 .reader-page-nav input {
   width: 2.7rem;
   padding: 0.35rem 0.25rem;

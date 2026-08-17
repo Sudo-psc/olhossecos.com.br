@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
@@ -347,6 +347,18 @@ test("matéria TFOS DEWS III inclui o mapa dos nove drivers só no corpo", () =>
       `${other.slug} não deve receber a figura do TFOS`,
     );
   }
+
+  const markup = readFileSync(
+    path.join(repoRoot, "src/components/superficie/MagazineArticlePage.astro"),
+    "utf8",
+  );
+  assert.match(markup, /loading="eager"/u);
+  assert.match(markup, /fetchpriority="high"/u);
+  assert.match(markup, /--figure-ratio/u);
+  assert.doesNotMatch(
+    markup,
+    /class="article-inline-figure"[\s\S]*loading="lazy"/u,
+  );
 });
 
 test("validação exige canonical consistente com o slug", () => {

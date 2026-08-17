@@ -30,6 +30,8 @@ export class ReaderUi {
 
   prepareManifest(manifest: IssueManifest): void {
     this.find("[data-page-count]").textContent = String(manifest.pageCount);
+    const total = this.root.querySelector<HTMLElement>("[data-page-total]");
+    if (total) total.hidden = false;
     const input = this.find<HTMLInputElement>("[data-page-input]");
     input.max = String(manifest.pageCount);
     this.find<HTMLAnchorElement>("[data-pdf-fallback]").href =

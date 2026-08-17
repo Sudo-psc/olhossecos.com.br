@@ -101,6 +101,16 @@ test("manifest validation rejects encoded traversal and cross-issue assets", () 
   assert.equal(validateIssueManifest(crossIssue).success, false);
 });
 
+test("reader chrome does not seed a POC pageCount of 8", async () => {
+  const markup = await readFile(
+    "src/superficie/reader/components/MagazineReader.astro",
+    "utf8",
+  );
+  assert.match(markup, /data-page-count><\/span>/u);
+  assert.match(markup, /data-page-total hidden/u);
+  assert.doesNotMatch(markup, /data-page-count>\s*8\s*</u);
+});
+
 test("generated edicao-00 manifest is a self-contained 34-page issue", async () => {
   const rawManifest = JSON.parse(
     await readFile("public/superficie/issues/edicao-00/manifest.json", "utf8"),

@@ -4,6 +4,7 @@ import path from "node:path";
 import sharp from "sharp";
 import { issue } from "../src/superficie/issues/edicao-00/issue-source.mjs";
 import { publishedArticles } from "../src/lib/superficie.ts";
+import { buildEditionPdf } from "./lib/build-edition-pdf.mjs";
 
 const PAGE_WIDTH = 1400;
 const PAGE_HEIGHT = 1867;
@@ -32,6 +33,7 @@ await requireExistingPlates();
 
 const manifestPages = [];
 const searchIndex = [];
+const pdfPages = [];
 
 for (const [index, page] of issue.pages.entries()) {
   const pageNumber = index + 1;
@@ -55,6 +57,15 @@ for (const [index, page] of issue.pages.entries()) {
     });
   }
   const composed = await sharp(cropped).composite(layers).png().toBuffer();
+  const pdfJpeg = await sharp(composed)
+    .jpeg({ quality: 82, mozjpeg: true })
+    .toBuffer();
+  const pdfMeta = await sharp(pdfJpeg).metadata();
+  pdfPages.push({
+    width: pdfMeta.width,
+    height: pdfMeta.height,
+    jpeg: pdfJpeg,
+  });
 
   await Promise.all([
     renderWebp(composed, path.join(pageRoot, `${basename}-small.webp`), 480),
@@ -120,8 +131,7 @@ await Promise.all([
   ),
   writeFile(
     path.join(outputRoot, "superficie-edicao-00.pdf"),
-    buildPlaceholderPdf(),
-    "binary",
+    buildEditionPdf(pdfPages),
   ),
   ...publishedArticles.map((article) =>
     writeFile(
@@ -684,40 +694,6 @@ ${disclosures}
   </footer>
 </article>
 `;
-}
-
-function buildPlaceholderPdf() {
-  const objects = [];
-  const pageReferences = issue.pages
-    .map((_, index) => `${4 + index * 2} 0 R`)
-    .join(" ");
-  objects[1] = "<< /Type /Catalog /Pages 2 0 R >>";
-  objects[2] = `<< /Type /Pages /Kids [${pageReferences}] /Count ${issue.pages.length} >>`;
-  objects[3] = "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>";
-  issue.pages.forEach((page, index) => {
-    const pageObject = 4 + index * 2;
-    const contentObject = pageObject + 1;
-    const label = `SUPERFICIE EDICAO 00 - ${page.title}`.slice(0, 80);
-    const stream = `BT /F1 16 Tf 48 760 Td (${label}) Tj ET`;
-    objects[pageObject] =
-      `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents ${contentObject} 0 R >>`;
-    objects[contentObject] =
-      `<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`;
-  });
-
-  let pdf = "%PDF-1.4\n";
-  const offsets = [0];
-  for (let index = 1; index < objects.length; index += 1) {
-    offsets[index] = Buffer.byteLength(pdf, "ascii");
-    pdf += `${index} 0 obj\n${objects[index]}\nendobj\n`;
-  }
-  const xrefOffset = Buffer.byteLength(pdf, "ascii");
-  pdf += `xref\n0 ${objects.length}\n0000000000 65535 f \n`;
-  for (let index = 1; index < objects.length; index += 1) {
-    pdf += `${String(offsets[index]).padStart(10, "0")} 00000 n \n`;
-  }
-  pdf += `trailer\n<< /Size ${objects.length} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF\n`;
-  return Buffer.from(pdf, "ascii");
 }
 
 async function requireExistingPlates() {

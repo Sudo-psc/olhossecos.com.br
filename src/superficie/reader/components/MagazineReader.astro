@@ -41,8 +41,10 @@ const { manifestUrl } = Astro.props;
           value="1"
           inputmode="numeric"
         />
-        <span aria-hidden="true">/</span>
-        <span data-page-count>8</span>
+        <span data-page-total hidden>
+          <span aria-hidden="true">/</span>
+          <span data-page-count></span>
+        </span>
       </form>
       <button type="button" data-action="next" aria-label="Próxima página"
         >→</button
