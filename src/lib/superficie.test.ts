@@ -406,6 +406,10 @@ test("matéria de fenotipagem integrada publica as quatro seções sem capa nem 
       "cinco-testes-cinco-perguntas",
       "a-prega-o-atrito-e-o-piscar",
       "ia-na-superficie-ocular",
+      "anti-demodex",
+      "terapias-dirigidas-por-mecanismo",
+      "prehab-ocular",
+      "anatomia-dry-eye-center",
     ],
   );
   assert.equal(article.status, "published");
@@ -483,6 +487,10 @@ test("matéria de tecnologias publica as quatro seções sem capa nem figura cl�
       "cinco-testes-cinco-perguntas",
       "a-prega-o-atrito-e-o-piscar",
       "ia-na-superficie-ocular",
+      "anti-demodex",
+      "terapias-dirigidas-por-mecanismo",
+      "prehab-ocular",
+      "anatomia-dry-eye-center",
     ],
   );
   assert.equal(article.status, "published");
@@ -777,6 +785,78 @@ test("matéria IA na superfície ocular publica as quatro seções e o selo de c
     article.references.some(({ doi }) => doi === "10.1038/s41591-025-03953-8"),
     true,
   );
+});
+
+const assertSealedEditionArticle = (
+  slug: string,
+  referenceCount: number,
+  keyDois: string[],
+) => {
+  const article = superficie.publishedArticles.find(
+    (item) => item.slug === slug,
+  );
+
+  assert.ok(article, `slug ${slug} deve estar em publishedArticles`);
+  assert.equal(article.status, "published");
+  assert.equal(article.publishedAt, "2026-08-17");
+  assert.equal(
+    article.reviewSeal,
+    "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  );
+  assert.equal(article.reviewer, undefined);
+  assert.equal(article.featuredImage, undefined);
+  assert.equal(article.heroBackground, undefined);
+  assert.equal(article.ogImage, undefined);
+  assert.equal(article.seo.canonical, `/superficie/artigos/${slug}`);
+  assert.equal(article.references.length, referenceCount);
+
+  const kinds = new Set(article.content.map(({ kind }) => kind));
+  for (const kind of [
+    "why-it-matters",
+    "evidence",
+    "practice",
+    "limitations",
+  ] as const) {
+    assert.ok(kinds.has(kind), `falta a seção ${kind}`);
+  }
+
+  const dois = new Set(
+    article.references.map(({ doi }) => doi).filter(Boolean),
+  );
+  for (const doi of keyDois) {
+    assert.ok(dois.has(doi), `falta o DOI ${doi}`);
+  }
+
+  assert.deepEqual(superficie.validateMagazineArticle(article), []);
+};
+
+test("matéria Anti-Demodex publica as quatro seções e o selo de checagem editorial", () => {
+  assert.equal(
+    superficie.publishedArticles[0].slug,
+    "biologia-molecular-da-dgm",
+  );
+  assertSealedEditionArticle("anti-demodex", 14, ["10.1167/iovs.05-0275"]);
+});
+
+test("matéria terapias dirigidas publica as quatro seções e o selo de checagem editorial", () => {
+  assertSealedEditionArticle("terapias-dirigidas-por-mecanismo", 14, [
+    "10.1002/14651858.CD010051.pub3",
+  ]);
+});
+
+test("matéria prehab ocular publica as quatro seções e o selo de checagem editorial", () => {
+  assertSealedEditionArticle("prehab-ocular", 14, [
+    "10.1016/j.jcrs.2019.03.023",
+  ]);
+});
+
+test("matéria anatomia do Dry Eye Center publica as quatro seções e o selo de checagem editorial", () => {
+  assertSealedEditionArticle("anatomia-dry-eye-center", 17, [
+    "10.1097/ICO.0b013e3181f7f363",
+    "10.1038/s41598-018-20273-9",
+    "10.1016/j.clinsp.2025.100578",
+    "10.5935/0004-2749.202200100",
+  ]);
 });
 
 test("validação exige canonical consistente com o slug", () => {
