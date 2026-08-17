@@ -336,6 +336,66 @@ test("matéria IA na superfície ocular publica as quatro seções e o selo de c
   assert.deepEqual(superficie.validateMagazineArticle(article), []);
 });
 
+test("matéria IRPL versus IPL publica as quatro seções e o selo de checagem editorial", () => {
+  const article = superficie.publishedArticles.find(
+    ({ slug }) => slug === "irpl-versus-ipl-na-dgm",
+  );
+
+  assert.ok(article, "slug irpl-versus-ipl-na-dgm deve estar em publishedArticles");
+  assert.equal(
+    superficie.publishedArticles.at(-1)?.slug,
+    "irpl-versus-ipl-na-dgm",
+  );
+  assert.equal(article.status, "published");
+  assert.equal(article.publishedAt, "2026-08-17");
+  assert.equal(article.issue, "edicao-00");
+  assert.equal(article.category, "Tecnologia");
+  assert.equal(article.sponsored, false);
+  assert.equal(
+    article.reviewSeal,
+    "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  );
+  assert.equal(article.reviewer, undefined);
+  assert.equal(article.featuredImage, undefined);
+  assert.equal(article.heroBackground, undefined);
+  assert.equal(article.ogImage, undefined);
+  assert.equal(
+    article.seo.canonical,
+    "/superficie/artigos/irpl-versus-ipl-na-dgm",
+  );
+  assert.deepEqual(superficie.founderIssue.articles, []);
+
+  const kinds = new Set(article.content.map(({ kind }) => kind));
+  for (const kind of [
+    "why-it-matters",
+    "evidence",
+    "practice",
+    "limitations",
+  ] as const) {
+    assert.ok(kinds.has(kind), `falta a seção ${kind}`);
+  }
+
+  const dois = article.references.map(({ doi }) => doi);
+  for (const doi of [
+    "10.1016/j.jtos.2020.01.003",
+    "10.1167/iovs.14-15764",
+    "10.1177/1120672118817687",
+    "10.3390/diagnostics9040147",
+    "10.1016/j.oftal.2016.12.018",
+    "10.1097/icl.0000000000000711",
+    "10.1371/journal.pone.0270268",
+    "10.1111/aos.16802",
+    "10.1016/j.ophtha.2020.03.009",
+    "10.1002/14651858.CD013559",
+    "10.3390/jcm12083039",
+    "10.1016/j.ajo.2025.05.039",
+  ]) {
+    assert.ok(dois.includes(doi), `falta o DOI ${doi}`);
+  }
+
+  assert.deepEqual(superficie.validateMagazineArticle(article), []);
+});
+
 test("validação exige canonical consistente com o slug", () => {
   const validateMagazineArticle =
     typeof api.validateMagazineArticle === "function"
