@@ -1379,3 +1379,43 @@ export const guides: Guide[] = [
 
 export const getGuide = (slug: string) =>
   guides.find((guide) => guide.slug === slug);
+
+/**
+ * Guias relacionados por afinidade real de assunto.
+ *
+ * A seleção era `guides.filter(outro).slice(0, 3)`: os três primeiros do
+ * array, iguais em todas as doze páginas. O resultado aparecia na medição de
+ * links internos — três guias recebiam doze links cada e oito recebiam um só,
+ * o da listagem. E o leitor que terminava o guia de lentes de contato era
+ * mandado para os mesmos três textos de sempre.
+ *
+ * A pontuação é deliberadamente simples: tag em comum vale mais que categoria
+ * em comum, porque tag descreve assunto e categoria descreve prateleira.
+ *
+ * O desempate percorre o array em círculo a partir do próprio guia, em vez de
+ * ordenar por slug. Guias sem assunto em comum com ninguém empatam em zero, e
+ * um desempate alfabético mandaria todos eles para os mesmos dois destinos —
+ * trocaria um desequilíbrio por outro. A rotação é determinística: o mesmo
+ * conteúdo produz a mesma lista em qualquer build.
+ */
+export const selectRelatedGuides = (guide: Guide, pool = guides, limit = 3) => {
+  const tags = new Set(guide.tags);
+  const origin = pool.findIndex((candidate) => candidate.slug === guide.slug);
+
+  return pool
+    .map((candidate, index) => ({
+      candidate,
+      index,
+      score:
+        candidate.tags.filter((tag) => tags.has(tag)).length * 2 +
+        (candidate.category === guide.category ? 1 : 0),
+      distance: (index - origin + pool.length) % pool.length,
+    }))
+    .filter((entry) => entry.candidate.slug !== guide.slug)
+    .sort(
+      (left, right) =>
+        right.score - left.score || left.distance - right.distance,
+    )
+    .slice(0, limit)
+    .map((entry) => entry.candidate);
+};

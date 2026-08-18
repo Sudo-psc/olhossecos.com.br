@@ -136,6 +136,13 @@ const newsletterEndpoint =
           data-analytics-label="section_edicao_00"
           >Conhecer a Edição Fundadora</a
         >
+        <a
+          class="text-link"
+          href="/superficie/edicoes"
+          data-analytics-event="magazine_issue_click"
+          data-analytics-label="section_arquivo_edicoes"
+          >Ver o arquivo de edições</a
+        >
       </div>
 
       <div class="topics-panel">
@@ -541,7 +548,7 @@ const newsletterEndpoint =
   .eyebrow {
     margin: 0 0 0.9rem;
     color: var(--surface-paper);
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.18em;
     line-height: 1.35;
@@ -666,7 +673,7 @@ const newsletterEndpoint =
 
   .hero-index span,
   .hero-index small {
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.16em;
     writing-mode: vertical-rl;
@@ -717,7 +724,7 @@ const newsletterEndpoint =
   .hero-cover p {
     margin: 1.15rem 0 0;
     color: var(--surface-gold-light);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.15em;
     text-align: center;
@@ -770,6 +777,12 @@ const newsletterEndpoint =
     background: var(--surface-teal);
   }
 
+  /* Dois text-link seguidos no bloco da edição: sem o espaço eles encostam,
+     e o alvo de toque de 44px de um invade o do outro. */
+  .text-link + .text-link {
+    margin-left: 1.6rem;
+  }
+
   .text-link {
     min-height: 44px;
     display: inline-flex;
@@ -792,7 +805,7 @@ const newsletterEndpoint =
   .topics-label {
     margin-bottom: 1.3rem;
     color: var(--surface-muted);
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -1101,7 +1114,7 @@ const newsletterEndpoint =
 
   .labels-card > p {
     color: var(--surface-muted);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -1114,7 +1127,7 @@ const newsletterEndpoint =
     border: 1px solid var(--surface-line);
     border-radius: var(--surface-radius-sm);
     color: var(--surface-navy);
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 850;
     letter-spacing: 0.12em;
     text-transform: uppercase;
