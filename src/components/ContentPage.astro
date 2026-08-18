@@ -24,6 +24,13 @@ interface Props {
   dateModified?: string;
   /** Card OpenGraph próprio da seção; sem ele o Layout usa o genérico. */
   image?: string;
+  /**
+   * O componente serve tanto conteúdo clínico quanto páginas institucionais.
+   * MedicalWebPage arrasta consigo `about: MedicalCondition`, então declarar
+   * privacidade ou política editorial como conteúdo médico afirmava ao
+   * rastreador que aquelas páginas tratam da doença do olho seco.
+   */
+  schemaType?: "MedicalWebPage" | "WebPage";
 }
 
 const {
@@ -37,13 +44,14 @@ const {
   updated = "25 de julho de 2026",
   dateModified = "2026-07-25",
   image,
+  schemaType = "MedicalWebPage",
 } = Astro.props;
 ---
 
 <Layout
   title={title}
   description={description}
-  schemaType="MedicalWebPage"
+  {schemaType}
   dateModified={dateModified}
   {image}
   breadcrumbs={[
@@ -194,7 +202,7 @@ const {
     padding-top: 1.4rem;
     border-top: 1px solid var(--line);
     color: #5a6b80;
-    font-size: 0.74rem;
+    font-size: 0.75rem;
   }
 
   .content-meta p {
@@ -223,7 +231,7 @@ const {
     display: block;
     margin-top: 1.4rem;
     color: #5a6b80;
-    font-size: 0.74rem;
+    font-size: 0.75rem;
   }
 
   .content-summary {

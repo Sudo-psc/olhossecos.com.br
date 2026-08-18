@@ -226,6 +226,16 @@ try {
     throw new Error(`campos truncados na SERP:\n${oversized.join("\n")}`);
   }
 
+  // MedicalWebPage arrasta `about: MedicalCondition`. Declarar privacidade ou
+  // política editorial como conteúdo médico afirmava que aquelas páginas
+  // tratam da doença do olho seco.
+  for (const path of ["/privacidade", "/politica-editorial"]) {
+    const html = await (await assertStatus(path)).text();
+    if (html.includes("MedicalWebPage")) {
+      throw new Error(`${path}: página institucional tipada como médica`);
+    }
+  }
+
   console.log("release routes: pass");
 } finally {
   if (server.exitCode === null) server.kill("SIGTERM");
