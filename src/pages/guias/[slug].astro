@@ -2,7 +2,7 @@
 import Layout from "@/layouts/Layout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import EducationalFigure from "@/components/EducationalFigure.astro";
-import { guides, type Guide } from "@/lib/guides";
+import { guides, selectRelatedGuides, type Guide } from "@/lib/guides";
 
 export function getStaticPaths() {
   return guides.map((guide) => ({
@@ -16,9 +16,7 @@ interface Props {
 }
 
 const { guide } = Astro.props;
-const relatedGuides = guides
-  .filter((candidate) => candidate.slug !== guide.slug)
-  .slice(0, 3);
+const relatedGuides = selectRelatedGuides(guide);
 const breadcrumbs = [
   { name: "Início", url: "/" },
   { name: "Guias", url: "/guias" },
@@ -29,6 +27,8 @@ const breadcrumbs = [
 <Layout
   title={guide.seoTitle ?? guide.title}
   description={guide.description}
+  image={`/images/og/guias/${guide.slug}.png`}
+  imageAlt={`${guide.title} — guia do portal Olho Seco`}
   schemaType="Article"
   datePublished={guide.datePublished ?? "2026-07-25"}
   dateModified={guide.dateModified ?? "2026-07-25"}
@@ -318,7 +318,7 @@ const breadcrumbs = [
     gap: 0.45rem 1rem;
     margin-top: 0.85rem;
     color: #5a6b80;
-    font-size: 0.74rem;
+    font-size: 0.75rem;
   }
 
   .article-header aside {
@@ -352,7 +352,7 @@ const breadcrumbs = [
     margin: 0;
     padding: 0.8rem 0;
     color: var(--teal-dark);
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -403,7 +403,7 @@ const breadcrumbs = [
 
   .guide-sources small {
     color: #5a6b80;
-    font-size: 0.72rem;
+    font-size: 0.75rem;
   }
 
   .guide-footer {
@@ -437,7 +437,7 @@ const breadcrumbs = [
 
   .related-guides span {
     color: var(--teal-dark);
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -492,7 +492,7 @@ const breadcrumbs = [
 
     .article-header-grid > div > p {
       margin-bottom: 0.4rem;
-      font-size: 0.66rem;
+      font-size: 0.75rem;
     }
 
     .article-title {
@@ -502,7 +502,7 @@ const breadcrumbs = [
 
     .article-meta {
       margin-top: 0.55rem;
-      font-size: 0.65rem;
+      font-size: 0.75rem;
     }
 
     .article-header aside {
@@ -541,7 +541,7 @@ const breadcrumbs = [
       gap: 0.65rem;
       padding: 0.65rem 0.75rem;
       color: var(--teal-dark);
-      font-size: 0.68rem;
+      font-size: 0.75rem;
       font-weight: 850;
       letter-spacing: 0.08em;
       list-style: none;

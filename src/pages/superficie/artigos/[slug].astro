@@ -48,7 +48,13 @@ const personId = article.author.slug
   ? new URL(`/autor/${article.author.slug}#person`, Astro.site).href
   : undefined;
 const ogImage = article.ogImage;
-const articleImage = ogImage?.src ?? "/images/superficie/og-superficie.jpg";
+// Sem capa própria, cada artigo usa o card gerado por
+// scripts/build-og-cards.mjs. O genérico da revista dizia apenas que o link
+// vinha da SUPERFÍCIE, nunca qual texto estava sendo compartilhado.
+const articleImage =
+  ogImage?.src ?? `/images/og/superficie/${article.slug}.png`;
+const articleImageType =
+  ogImage?.type ?? (ogImage ? "image/jpeg" : "image/png");
 
 const articleSchema = isPublished
   ? {
@@ -96,8 +102,8 @@ const articleSchema = isPublished
   title={article.seo.title}
   description={article.seo.description}
   image={articleImage}
-  imageAlt={ogImage?.alt}
-  imageType={ogImage?.type ?? "image/jpeg"}
+  imageAlt={ogImage?.alt ?? `${article.title} — SUPERFÍCIE`}
+  imageType={articleImageType}
   imageWidth={ogImage?.width ?? 1200}
   imageHeight={ogImage?.height ?? 630}
   datePublished={article.publishedAt}
