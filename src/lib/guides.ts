@@ -363,7 +363,7 @@ export const guides: Guide[] = [
           "Uma revisão sobre a composição dos lubrificantes descreve grupos de ingredientes com papéis distintos. Agentes de viscosidade aumentam o tempo de permanência na superfície. Componentes lipídicos atuam sobre a camada mais externa do filme e interessam mais quando o problema é evaporativo.",
           "Eletrólitos e osmoprotetores buscam se aproximar da composição natural da lágrima e amortecer o efeito de uma lágrima concentrada demais. Já os surfactantes ajudam a espalhar a fórmula.",
         ],
-        note: "Isso explica por que dois produtos igualmente boas podem render experiências diferentes: eles não foram desenhados para o mesmo problema.",
+        note: "Isso explica por que dois produtos igualmente bons podem render experiências diferentes: eles não foram desenhados para o mesmo problema.",
       },
       {
         heading: "Conservantes e frequência de uso",
