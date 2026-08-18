@@ -89,7 +89,7 @@
 .reader-brand small {
   margin-top: 0.08rem;
   color: var(--reader-muted);
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -432,7 +432,7 @@
 }
 
 .toolbar-label {
-  font-size: 0.66rem;
+  font-size: 0.75rem;
   letter-spacing: 0.04em;
 }
 
@@ -513,7 +513,7 @@
 
 .reader-panel header p {
   color: var(--reader-teal);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -851,7 +851,7 @@
     padding-inline: 0.42rem;
   }
   .toolbar-label {
-    font-size: 0.61rem;
+    font-size: 0.75rem;
   }
 }
 

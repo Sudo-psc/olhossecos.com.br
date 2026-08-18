@@ -52,6 +52,27 @@ test("nenhuma fonte web é declarada ou baixada", async () => {
   );
 });
 
+test("nenhum texto é declarado abaixo de 12px", async () => {
+  // Piso de legibilidade: havia declarações de 0.62rem, 9,9px. São rótulos
+  // curtos em caixa alta, o que disfarça o tamanho, mas não o resolve — e a
+  // auditoria de font-size do Lighthouse mede o mesmo número.
+  const tiny: string[] = [];
+  for (const path of await collectStyleSources("src")) {
+    const source = await readFile(path, "utf8");
+    for (const match of source.matchAll(/font-size:\s*([\d.]+)(rem|em|px)/gu)) {
+      const value = Number(match[1]);
+      const px = match[2] === "px" ? value : value * 16;
+      if (px < 12) tiny.push(`${path}: ${match[0]} = ${px.toFixed(1)}px`);
+    }
+  }
+
+  assert.deepEqual(
+    tiny,
+    [],
+    `abaixo de 12px o texto deixa de ser confortável em tela pequena:\n${tiny.join("\n")}`,
+  );
+});
+
 test("as pilhas de fonte começam por famílias que o sistema resolve", async () => {
   const files = await collectStyleSources("src");
   // Famílias aceitas na primeira posição: palavras-chave genéricas do CSS,
