@@ -38,11 +38,27 @@ test("todo artigo publicado tem card OpenGraph próprio", () => {
   );
 });
 
-test("artigo com capa própria aponta para um arquivo que existe", () => {
-  const broken = publishedArticles
-    .filter((article) => article.ogImage)
-    .map((article) => `public${article.ogImage?.src}`)
-    .filter((path) => !existsSync(path));
+/**
+ * Dois artigos traziam foto de capa própria e os outros dez caíam no card
+ * gerado. O resultado aparecia em dois lugares: na home da revista, onde dois
+ * cards vinham com imagem e dez sem, e no preview de compartilhamento, onde os
+ * mesmos dois mostravam a foto em vez do card com o título.
+ *
+ * A capa por artigo continua sendo possível — os campos seguem no tipo. Mas
+ * volta como decisão de arte para a coleção inteira, não para um artigo
+ * isolado, porque é a mistura que quebra a grade.
+ */
+test("nenhum artigo publicado carrega capa própria", () => {
+  const comCapa = publishedArticles
+    .filter(
+      (article) =>
+        article.featuredImage ?? article.heroBackground ?? article.ogImage,
+    )
+    .map((article) => article.slug);
 
-  assert.deepEqual(broken, []);
+  assert.deepEqual(
+    comCapa,
+    [],
+    `a listagem mistura card com e sem imagem: ${comCapa.join(", ")}`,
+  );
 });

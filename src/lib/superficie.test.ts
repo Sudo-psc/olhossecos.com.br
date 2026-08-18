@@ -253,18 +253,12 @@ test("template de artigo da revista não injeta capa nem fundo no layout", () =>
   assert.doesNotMatch(route, /class="hero-image"/);
 });
 
-test("matéria DGM publica capa, fundo e OG próprios", () => {
+test("matéria DGM entra na listagem sem capa própria", () => {
   const [article] = superficie.publishedArticles;
   assert.equal(article.slug, "biologia-molecular-da-dgm");
-  assert.ok(
-    article.featuredImage?.src.includes("biologia-molecular-da-dgm/cover.jpg"),
-  );
-  assert.ok(
-    article.heroBackground?.src.includes("biologia-molecular-da-dgm/bg.jpg"),
-  );
-  assert.ok(article.ogImage?.src.includes("biologia-molecular-da-dgm/og.jpg"));
-  assert.equal(article.ogImage?.width, 1200);
-  assert.equal(article.ogImage?.height, 630);
+  assert.equal(article.featuredImage, undefined);
+  assert.equal(article.heroBackground, undefined);
+  assert.equal(article.ogImage, undefined);
   assert.equal(article.references.length, 27);
   assert.equal(
     article.references.some(({ doi }) => doi === "10.1016/j.jtos.2024.04.005"),
