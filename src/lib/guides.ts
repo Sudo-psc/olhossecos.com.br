@@ -135,7 +135,7 @@ export const guides: Guide[] = [
     category: "Vida diária",
     title: "Telas, piscadas e desconforto",
     description:
-      "Como atenção prolongada, posição da tela e ambiente podem mexer com o filme lacrimal.",
+      "Como o uso prolongado de telas, a redução das piscadas e o ambiente secam o filme lacrimal — e o que a regra 20-20-20 faz e não faz.",
     readingTime: "6 min",
     updated: "25 de julho de 2026",
     tags: ["telas", "trabalho", "piscadas", "ambiente"],

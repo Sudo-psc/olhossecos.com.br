@@ -94,6 +94,7 @@ export default defineConfig({
           "/blog",
           "/videos",
           "/exames",
+          "/newsletter/confirmar",
           "/newsletter/descadastrar",
           "/superficie/lab/flipbook",
           "/superficie/lab/edicao-00",
