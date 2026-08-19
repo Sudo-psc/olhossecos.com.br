@@ -294,7 +294,10 @@ test("matéria TFOS DEWS III publica as quatro seções e o selo de checagem edi
     "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
   );
   assert.equal(article.reviewer, undefined);
-  assert.deepEqual(superficie.founderIssue.articles, []);
+  assert.deepEqual(
+    superficie.founderIssue.articles.map(({ slug }) => slug),
+    superficie.publishedArticles.map(({ slug }) => slug),
+  );
 
   const kinds = new Set(article.content.map(({ kind }) => kind));
   for (const kind of [
@@ -455,7 +458,10 @@ test("matéria de fenotipagem integrada publica as quatro seções sem capa nem 
     article.seo.canonical,
     "/superficie/artigos/quando-sintomas-e-sinais-nao-batem",
   );
-  assert.deepEqual(superficie.founderIssue.articles, []);
+  assert.deepEqual(
+    superficie.founderIssue.articles.map(({ slug }) => slug),
+    superficie.publishedArticles.map(({ slug }) => slug),
+  );
 
   const byId = Object.fromEntries(
     article.content.map((section) => [section.id, section]),
@@ -542,7 +548,10 @@ test("matéria de tecnologias publica as quatro seções sem capa nem figura cl�
     ),
     false,
   );
-  assert.deepEqual(superficie.founderIssue.articles, []);
+  assert.deepEqual(
+    superficie.founderIssue.articles.map(({ slug }) => slug),
+    superficie.publishedArticles.map(({ slug }) => slug),
+  );
 
   const byId = Object.fromEntries(
     article.content.map((section) => [section.id, section]),
@@ -655,7 +664,10 @@ const assertSealedArticle = (
   assert.equal(article.publishedAt, "2026-08-15");
   assert.equal(article.modifiedAt, "2026-08-15");
   assert.equal(article.seo.canonical, `/superficie/artigos/${slug}`);
-  assert.deepEqual(superficie.founderIssue.articles, []);
+  assert.deepEqual(
+    superficie.founderIssue.articles.map(({ slug }) => slug),
+    superficie.publishedArticles.map(({ slug }) => slug),
+  );
 
   const byId = Object.fromEntries(
     article.content.map((section) => [section.id, section]),

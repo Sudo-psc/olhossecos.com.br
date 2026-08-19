@@ -3035,7 +3035,17 @@ export const founderIssue: MagazineIssue = {
     "Inteligência artificial",
     "Futuro do diagnóstico",
   ],
-  articles: [],
+  /**
+   * Os doze artigos saem antes da edição fechar: cada um é publicado assim que
+   * fica pronto, e a edição impressa se monta em novembro. Enquanto esta lista
+   * ficou vazia, /superficie/edicao-00 mostrava o estado de espera dizendo que
+   * "as matérias serão liberadas no lançamento" — com as doze já no ar, linkadas
+   * de /superficie e de /superficie/artigos.
+   *
+   * O filtro é por `issue` em vez de uma lista escrita à mão para que o próximo
+   * artigo entre na edição pelo campo que já declara a qual edição ele pertence.
+   */
+  articles: publishedArticles.filter(({ issue }) => issue === "edicao-00"),
   sponsors: [],
   seo: {
     title: "Edição Fundadora nº 0 | SUPERFÍCIE",
