@@ -42,10 +42,12 @@
 ### Task 1: Accept the portal newsletter source
 
 **Files:**
+
 - Modify: `src/lib/newsletter.test.ts`
 - Modify: `src/lib/newsletter.ts`
 
 **Interfaces:**
+
 - Consumes: `handleNewsletterRequest(request, options): Promise<Response>` e tabela `newsletter_subscribers` existentes.
 - Produces: `type NewsletterSource = "livros" | "superficie" | "newsletter"`; cadastro `source: "newsletter"` com token de perfil temporário.
 
@@ -170,9 +172,11 @@ Expected: one focused commit with no schema change.
 ### Task 2: Make the public route contract fail first
 
 **Files:**
+
 - Modify: `scripts/verify-release-routes.mjs`
 
 **Interfaces:**
+
 - Consumes: built server at `dist/server/entry.mjs` and sitemap at `/sitemap-0.xml`.
 - Produces: release contract for `/newsletter` and both global navigation entry points.
 
@@ -247,6 +251,7 @@ Expected: somente `scripts/verify-release-routes.mjs` modificado, sem artefatos 
 ### Task 3: Extract the shared form and create `/newsletter`
 
 **Files:**
+
 - Create: `src/components/NewsletterSignupForm.astro`
 - Modify: `src/components/superficie/SuperficieNewsletterForm.astro`
 - Create: `src/pages/newsletter.astro`
@@ -256,6 +261,7 @@ Expected: somente `scripts/verify-release-routes.mjs` modificado, sem artefatos 
 - Test: `scripts/verify-release-routes.mjs` from Task 2
 
 **Interfaces:**
+
 - Consumes: `PUBLIC_NEWSLETTER_ENDPOINT`, `source: NewsletterSource`, `Layout`, `Breadcrumbs` and analytics event convention.
 - Produces: `NewsletterSignupForm` props `{ endpoint?: string; source: "superficie" | "newsletter"; variant: "superficie" | "portal" }`, plus route `/newsletter`.
 
@@ -272,11 +278,7 @@ interface Props {
   variant: "superficie" | "portal";
 }
 
-const {
-  endpoint = "/api/newsletter",
-  source,
-  variant,
-} = Astro.props;
+const { endpoint = "/api/newsletter", source, variant } = Astro.props;
 
 const formId = `${source}-newsletter-form`;
 const emailId = `${source}-newsletter-email`;
@@ -300,6 +302,8 @@ colocar dados pessoais no DOM:
     data-source={source}
     novalidate
   >
+  </form>
+</div>
 ```
 
 Para o consentimento, renderizar copy por origem:
@@ -379,11 +383,7 @@ interface Props {
 const { endpoint = "/api/newsletter" } = Astro.props;
 ---
 
-<NewsletterSignupForm
-  {endpoint}
-  source="superficie"
-  variant="superficie"
-/>
+<NewsletterSignupForm {endpoint} source="superficie" variant="superficie" />
 ```
 
 Preservar na variante `superficie` os tokens visuais atuais por meio de
@@ -429,11 +429,7 @@ const endpoint =
             profissional.
           </p>
         </div>
-        <NewsletterSignupForm
-          {endpoint}
-          source="newsletter"
-          variant="portal"
-        />
+        <NewsletterSignupForm {endpoint} source="newsletter" variant="portal" />
       </div>
     </div>
   </header>
@@ -442,11 +438,17 @@ const endpoint =
     <h2 id="audiences-title">Conteúdo para diferentes jornadas.</h2>
     <article>
       <h3>Para pacientes</h3>
-      <p>Informação compreensível sobre sintomas, investigação, autocuidado responsável, tratamentos e quando procurar avaliação.</p>
+      <p>
+        Informação compreensível sobre sintomas, investigação, autocuidado
+        responsável, tratamentos e quando procurar avaliação.
+      </p>
     </article>
     <article>
       <h3>Para profissionais</h3>
-      <p>Novas edições da SUPERFÍCIE, evidências, diagnóstico multimodal, tecnologias e publicações editoriais.</p>
+      <p>
+        Novas edições da SUPERFÍCIE, evidências, diagnóstico multimodal,
+        tecnologias e publicações editoriais.
+      </p>
     </article>
   </section>
 
@@ -464,8 +466,15 @@ const endpoint =
 
   <aside class="trust page-shell" aria-labelledby="trust-title">
     <h2 id="trust-title">Uma relação editorial transparente.</h2>
-    <p>Consentimento explícito, dados mínimos e nenhuma lista nominal compartilhada com anunciantes sem base legal e consentimento específico.</p>
-    <p><a href="/privacidade">Privacidade</a> · <a href="/politica-editorial">Política editorial</a></p>
+    <p>
+      Consentimento explícito, dados mínimos e nenhuma lista nominal
+      compartilhada com anunciantes sem base legal e consentimento específico.
+    </p>
+    <p>
+      <a href="/privacidade">Privacidade</a> · <a href="/politica-editorial"
+        >Política editorial</a
+      >
+    </p>
   </aside>
 </Layout>
 ```
@@ -521,11 +530,13 @@ component, with no generated `dist` tracked.
 ### Task 4: Align privacy, documentation and release QA
 
 **Files:**
+
 - Modify: `src/pages/privacidade.astro`
 - Modify: `TESTING.md`
 - Test: complete application and browser behavior
 
 **Interfaces:**
+
 - Consumes: new source `newsletter`, public route, shared component and current privacy policy.
 - Produces: accurate visible disclosure and reproducible release evidence.
 
@@ -536,9 +547,9 @@ fluxo geral:
 
 ```astro
 <p>
-  Ao assinar as comunicações editoriais, você fornece inicialmente o e-mail.
-  Em formulários específicos, nome e profissão também podem ser solicitados.
-  Depois do cadastro mínimo, a identificação como médico, residente/fellow,
+  Ao assinar as comunicações editoriais, você fornece inicialmente o e-mail. Em
+  formulários específicos, nome e profissão também podem ser solicitados. Depois
+  do cadastro mínimo, a identificação como médico, residente/fellow,
   pesquisador, outro profissional, indústria ou parceiro, paciente ou outro
   perfil é opcional. Esses dados são usados para enviar e selecionar
   atualizações sobre conteúdos do portal, livros e edições da SUPERFÍCIE, com
@@ -666,10 +677,12 @@ specification commit.
 ### Task 5: Review and prepare the delivery handoff
 
 **Files:**
+
 - Review only: `origin/master...HEAD`
 - No new implementation files
 
 **Interfaces:**
+
 - Consumes: complete branch and proof artifacts.
 - Produces: evidence-backed review verdict and shipping-ready PR packet.
 

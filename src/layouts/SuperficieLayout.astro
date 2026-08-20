@@ -2,7 +2,9 @@
 import SuperficieFooter from "@/components/superficie/SuperficieFooter.astro";
 import SuperficieHeader from "@/components/superficie/SuperficieHeader.astro";
 import AnalyticsCollector from "@/components/AnalyticsCollector.astro";
+import GlobalSearchModal from "@/components/GlobalSearchModal.astro";
 import { magazineDescription } from "@/lib/superficie";
+import "@/styles/fonts.css";
 
 interface Props {
   title: string;
@@ -153,6 +155,13 @@ const structuredData = {
     <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="48x48" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
+    <link
+      rel="preload"
+      href="/fonts/source-serif-4-subset.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <meta property="og:type" content={ogType} />
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:site_name" content="SUPERFÍCIE" />
@@ -198,6 +207,7 @@ const structuredData = {
       <slot />
     </main>
     <SuperficieFooter />
+    <GlobalSearchModal />
   </body>
 </html>
 
@@ -263,10 +273,14 @@ const structuredData = {
     --surface-gold: #b98a36;
     --surface-gold-light: #d9b665;
     --surface-line: #d8d3c7;
+    /* Mesma serifada do portal, servida do próprio domínio. As duas frentes
+       seguem visualmente distintas pela cor, pela escala e pelo ritmo — não
+       por terem tipos diferentes na manchete. */
     --surface-serif:
-      "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-    /* Ver a nota em Layout.astro: nenhuma fonte web é hospedada, então Inter
-       sai da pilha para que a revista renderize igual em toda máquina. */
+      "Source Serif 4 Var", "Iowan Old Style", "Palatino Linotype", Palatino,
+      Georgia, serif;
+    /* O corpo continua na pilha do sistema: nenhuma requisição de fonte para o
+       texto de leitura. */
     --surface-sans:
       ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
       sans-serif;

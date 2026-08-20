@@ -157,7 +157,7 @@ export const issue = {
       subtitle:
         "Fenotipagem integrada no consultório: mapear eixos, não forçar concordância",
       body: [
-        "Quando o questionário é alto e a coloração, o tempo de ruptura ou a osmolaridade são baixos — ou o inverso —, a tentação do consultório é repetir o exame, trocar o instrumento ou escalar o tratamento como se a discórdia fosse erro de medida.",
+        "Quando o questionário é alto e a coloração, o tempo de ruptura ou a osmolaridade são baixos — ou o inverso —, a tentação do consultório é repetir o exame, trocar o instrumento ou escalar o tratamento como se a discordância fosse erro de medida.",
         "A pergunta útil é outra: como mapear o paciente aos eixos aquoso, evaporativo-DGM, inflamatório, neurossensorial e mecânico quando sintomas, sinais e mecanismos não batem, sem forçar concordância.",
       ],
       byline: "Dr. Philipe Saraiva Cruz · CRM-MG 69.870 · RQE 71.903",
@@ -167,10 +167,10 @@ export const issue = {
       plate: "p11-fenotipagem-verso",
       theme: "light",
       eyebrow: "ATUALIZAÇÃO CLÍNICA",
-      title: "A discórdia é um achado, não um exame inconsistente",
+      title: "A discordância é um achado, não um exame inconsistente",
       body: [
-        "Na prática, é tentador tratar a discórdia entre sintomas e sinais como falha do exame. Essa reação pressupõe que sintomas e sinais deveriam convergir. Não deveriam.",
-        "A implicação clínica atual é hierarquizar o driver da visita — o que explica a discórdia de hoje — em vez de tratar todos os eixos de uma vez.",
+        "Na prática, é tentador tratar a discordância entre sintomas e sinais como falha do exame. Essa reação pressupõe que sintomas e sinais deveriam convergir. Não deveriam.",
+        "A implicação clínica atual é hierarquizar o driver da visita — o que explica a discordância de hoje — em vez de tratar todos os eixos de uma vez.",
       ],
     },
     {
@@ -216,7 +216,7 @@ export const issue = {
       subtitle:
         "NIBUT, osmolaridade, coloração, interferometria e MMP-9 — o que cada um mede, e o que não mede",
       body: [
-        "O consultório ainda trata tempo de ruptura, osmolaridade, coloração, interferometria e MMP-9 como se fossem proxies intercambiáveis de gravidade. Cada um responde a uma pergunta. A discórdia entre eles é dado, não falha do exame.",
+        "O consultório ainda trata tempo de ruptura, osmolaridade, coloração, interferometria e MMP-9 como se fossem proxies intercambiáveis de gravidade. Cada um responde a uma pergunta. A discordância entre eles é dado, não falha do exame.",
         "NIBUT mede estabilidade do filme. Osmolaridade mede homeostase e estresse hiperosmolar. Coloração localiza onde o epitélio falhou. Interferometria descreve a camada lipídica. MMP-9 ponto-de-cuidado é bandeira de inflamação. Nenhum deles é escala de gravidade. Nenhum substitui o outro.",
       ],
       byline: "Dr. Philipe Saraiva Cruz · CRM-MG 69.870 · RQE 71.903",
@@ -229,7 +229,7 @@ export const issue = {
       title: "Cinco perguntas. Uma caixa de custo.",
       body: [
         "NIBUT: o filme é estável? Preferir não invasivo. Não converter FBUT em NIBUT nem o inverso. Corte operacional DEWS III: menor que 10 segundos.",
-        "Osmolaridade: há estresse hiperosmolar? ≥ 308 ou Δ > 8 é signo DEWS III, não gravidade. Uma leitura isolada no cinza 300–320 não decide.",
+        "Osmolaridade: há estresse hiperosmolar? ≥ 308 ou Δ > 8 é marcador DEWS III, não gravidade. Uma leitura isolada no cinza 300–320 não decide.",
         "Colorações: onde o epitélio falhou? Fluoresceína, córnea. Lisamina, conjuntiva e margem. Não somar escalas.",
         "Interferometria: a camada lipídica é fina ou pobre? Não diagnostica DGM.",
         "MMP-9: há bandeira de inflamação agora? Não define fenótipo. Não exclui DED se negativo.",

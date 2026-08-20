@@ -1,0 +1,264 @@
+---
+/**
+ * Ciclo do filme lacrimal entre duas piscadas: espalhamento, afinamento e
+ * ruptura em pontos secos.
+ *
+ * É o único conceito central do portal que imagem parada não mostra — a
+ * doença está justamente na passagem do tempo entre uma piscada e a seguinte.
+ * Feito em SVG animado por CSS em vez de vídeo: 6 KB no release, traço nítido
+ * em qualquer tela, e cada quadro é auditável, o que um MP4 gerado por modelo
+ * não é.
+ *
+ * A espessura não é interpolada: CSS não anima o `d` de um path, e emular com
+ * scaleY descolaria a fita da curva da córnea, porque a mesma transformação
+ * moveria as duas bordas. Em vez disso são três caminhos desenhados nas três
+ * espessuras, em cross-fade. Os pontos secos são furos numa máscara, então a
+ * ruptura expõe o epitélio de verdade em vez de pintar manchas por cima.
+ *
+ * A animação não carrega informação sozinha: a legenda diz o mesmo, e quem
+ * pede menos movimento recebe o quadro da ruptura parado — que é o estado que
+ * a seção explica.
+ */
+
+interface Props {
+  caption?: string;
+}
+
+const {
+  caption = "Entre duas piscadas, o filme se espalha, afina e se rompe em pontos onde a superfície fica exposta. A piscada seguinte o reconstitui. Quando a ruptura passa a acontecer antes da próxima piscada, a exposição deixa de ser momentânea.",
+} = Astro.props;
+
+// Fita entre a curva da córnea e a mesma curva deslocada para cima por t.
+const ribbon = (t: number) =>
+  `M40 ${160 - t} Q 320 ${40 - t} 600 ${160 - t} L 600 160 Q 320 40 40 160 Z`;
+---
+
+<figure class="tear-cycle">
+  <svg
+    viewBox="0 0 640 210"
+    role="img"
+    aria-label="Animação esquemática do ciclo do filme lacrimal: após a piscada o filme cobre a superfície da córnea, afina ao longo do tempo e se rompe em três pontos onde o epitélio fica exposto, até a piscada seguinte reconstituí-lo."
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <linearGradient id="tc-film" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#c8f2f7"></stop>
+        <stop offset="45%" stop-color="#3dc4d4"></stop>
+        <stop offset="100%" stop-color="#087f95"></stop>
+      </linearGradient>
+      <linearGradient id="tc-epithelium" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1e4675"></stop>
+        <stop offset="100%" stop-color="#071d45"></stop>
+      </linearGradient>
+      <!-- Furos = pontos secos. Só entram no caminho mais fino. -->
+      <mask id="tc-breakup">
+        <rect width="640" height="210" fill="white"></rect>
+        <g fill="black">
+          <ellipse cx="228" cy="120" rx="34" ry="20"></ellipse>
+          <ellipse cx="348" cy="84" rx="42" ry="22"></ellipse>
+          <ellipse cx="470" cy="114" rx="30" ry="19"></ellipse>
+        </g>
+      </mask>
+    </defs>
+
+    <!-- Epitélio: o que fica exposto onde o filme rompe. -->
+    <path
+      d="M40 160 Q 320 40 600 160 L 600 200 L 40 200 Z"
+      fill="url(#tc-epithelium)"></path>
+
+    <path class="tc-film tc-film--cheio" d={ribbon(30)} fill="url(#tc-film)"
+    ></path>
+    <path class="tc-film tc-film--medio" d={ribbon(15)} fill="url(#tc-film)"
+    ></path>
+    <path
+      class="tc-film tc-film--roto"
+      d={ribbon(7)}
+      fill="url(#tc-film)"
+      mask="url(#tc-breakup)"></path>
+
+    <path
+      d="M40 160 Q 320 40 600 160"
+      fill="none"
+      stroke="#0b5f70"
+      stroke-width="1.5"
+      opacity="0.45"></path>
+
+    <!-- Meniscos nas duas margens: encolhem junto com o filme. -->
+    <g class="tc-meniscus" stroke="#3dc4d4" stroke-linecap="round" fill="none">
+      <path d="M40 162 Q 108 186 158 196"></path>
+      <path d="M600 162 Q 532 186 482 196"></path>
+    </g>
+
+    <!-- Pálpebra: fora do quadro, cruza a superfície só na piscada. -->
+    <g class="tc-lid">
+      <path d="M20 -170 L 620 -170 L 620 26 Q 320 74 20 26 Z" fill="#f4f7f7"
+      ></path>
+      <path
+        d="M20 26 Q 320 74 620 26"
+        fill="none"
+        stroke="#c8d7e2"
+        stroke-width="4"></path>
+    </g>
+  </svg>
+
+  <figcaption>
+    <p>{caption}</p>
+    <small>
+      Ilustração original do portal · Representação esquemática, sem escala
+      anatômica e não é uma fotografia clínica. O intervalo mostrado é
+      ilustrativo e não corresponde a nenhuma medida de tempo de ruptura.
+    </small>
+  </figcaption>
+</figure>
+
+<style>
+  .tear-cycle {
+    margin: 2.5rem 0;
+  }
+
+  .tear-cycle svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+    background: #f4f7f7;
+  }
+
+  .tc-film {
+    opacity: 0;
+    animation: 9s ease-in-out infinite;
+  }
+
+  .tc-film--cheio {
+    animation-name: tc-cheio;
+  }
+
+  .tc-film--medio {
+    animation-name: tc-medio;
+  }
+
+  .tc-film--roto {
+    animation-name: tc-roto;
+  }
+
+  .tc-meniscus {
+    stroke-width: 8;
+    animation: tc-meniscus 9s ease-in-out infinite;
+  }
+
+  .tc-lid {
+    animation: tc-blink 9s ease-in-out infinite;
+  }
+
+  /* Espesso logo após a piscada, some enquanto o médio aparece. */
+  @keyframes tc-cheio {
+    0%,
+    14% {
+      opacity: 1;
+    }
+    36%,
+    92% {
+      opacity: 0;
+    }
+    97%,
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes tc-medio {
+    0%,
+    14% {
+      opacity: 0;
+    }
+    36%,
+    54% {
+      opacity: 1;
+    }
+    72%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  /* O rompido entra por último e sai na piscada. */
+  @keyframes tc-roto {
+    0%,
+    54% {
+      opacity: 0;
+    }
+    72%,
+    92% {
+      opacity: 1;
+    }
+    96%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes tc-meniscus {
+    0%,
+    14% {
+      stroke-width: 8;
+      opacity: 1;
+    }
+    92% {
+      stroke-width: 3;
+      opacity: 0.55;
+    }
+    97%,
+    100% {
+      stroke-width: 8;
+      opacity: 1;
+    }
+  }
+
+  @keyframes tc-blink {
+    0%,
+    92% {
+      transform: translateY(0);
+    }
+    95% {
+      transform: translateY(178px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  .tear-cycle figcaption {
+    margin-top: 0.9rem;
+  }
+
+  .tear-cycle figcaption p {
+    margin: 0;
+    color: var(--ink-soft);
+  }
+
+  .tear-cycle figcaption small {
+    display: block;
+    margin-top: 0.5rem;
+    color: var(--ink-soft);
+    font-size: 0.75rem;
+    opacity: 0.85;
+  }
+
+  /* Sem movimento: fica o quadro da ruptura, que é o estado explicado. */
+  @media (prefers-reduced-motion: reduce) {
+    .tc-film,
+    .tc-meniscus,
+    .tc-lid {
+      animation: none;
+    }
+
+    .tc-film--roto {
+      opacity: 1;
+    }
+
+    .tc-meniscus {
+      stroke-width: 3;
+      opacity: 0.55;
+    }
+  }
+</style>

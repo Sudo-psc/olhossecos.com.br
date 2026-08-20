@@ -1,5 +1,6 @@
 ---
 import ArticleCard from "@/components/superficie/ArticleCard.astro";
+import ArticleCitationModal from "@/components/superficie/ArticleCitationModal.astro";
 import {
   calculateArticleReadingTime,
   type MagazineArticle,
@@ -115,6 +116,12 @@ const formatDate = (date?: string) =>
             </div>
           )
         }
+        <div class="article-fact-citation">
+          <dt>Citação</dt>
+          <dd>
+            <ArticleCitationModal {article} />
+          </dd>
+        </div>
       </dl>
     </div>
   </header>
@@ -206,8 +213,13 @@ const formatDate = (date?: string) =>
       {
         article.references.length > 0 && (
           <section id="referencias" class="references-section">
-            <p class="section-kicker">Fontes</p>
-            <h2>Referências</h2>
+            <div class="references-header">
+              <div>
+                <p class="section-kicker">Fontes</p>
+                <h2>Referências</h2>
+              </div>
+              <ArticleCitationModal {article} />
+            </div>
             {/* A citação fica em texto corrido e só o identificador é
                 acionável. Envolver a citação inteira num link produzia
                 blocos de três linhas sublinhadas — ruído visual em 25
@@ -723,6 +735,23 @@ const formatDate = (date?: string) =>
   .references-section {
     padding-top: 2rem;
     border-top: 1px solid var(--surface-line);
+  }
+
+  .references-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .references-header h2 {
+    margin-bottom: 0;
+  }
+
+  .article-fact-citation dd {
+    margin-top: 0.45rem;
   }
 
   .sr-only {

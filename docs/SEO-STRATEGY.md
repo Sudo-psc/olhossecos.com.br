@@ -15,6 +15,7 @@ Implementar uma estratégia completa de SEO técnico focada em dados estruturado
 ## 📊 Schemas Implementados
 
 ### 1. LocalBusiness + Physician
+
 **Aplicação**: Todas as páginas institucionais
 **Finalidade**: Informações completas da clínica para SEO local
 
@@ -38,6 +39,7 @@ Implementar uma estratégia completa de SEO técnico focada em dados estruturado
 ```
 
 ### 2. MedicalWebPage + MedicalCondition
+
 **Aplicação**: `/olho-seco`
 **Finalidade**: Página pilar sobre olho seco com validação médica
 
@@ -63,6 +65,7 @@ Implementar uma estratégia completa de SEO técnico focada em dados estruturado
 ```
 
 ### 3. FAQPage
+
 **Aplicação**: `/faq`
 **Finalidade**: Rich snippets para perguntas frequentes
 
@@ -84,6 +87,7 @@ Implementar uma estratégia completa de SEO técnico focada em dados estruturado
 ```
 
 ### 4. VideoObject
+
 **Aplicação**: Páginas de vídeos individuais
 **Finalidade**: Rich snippets para vídeos educativos
 
@@ -105,6 +109,7 @@ Implementar uma estratégia completa de SEO técnico focada em dados estruturado
 ```
 
 ### 5. Article + MedicalArticle
+
 **Aplicação**: Posts do blog
 **Finalidade**: Artigos médicos otimizados para busca
 
@@ -130,6 +135,7 @@ Implementar uma estratégia completa de SEO técnico focada em dados estruturado
 ```
 
 ### 6. BreadcrumbList
+
 **Aplicação**: Todas as páginas com navegação hierárquica
 **Finalidade**: Melhorar navegação e contexto SEO
 
@@ -149,6 +155,7 @@ Implementar uma estratégia completa de SEO técnico focada em dados estruturado
 ```
 
 ### 7. WebSite
+
 **Aplicação**: Layout principal
 **Finalidade**: Schema geral do site
 
@@ -195,32 +202,34 @@ src/
 ### Uso dos Utilitários
 
 ```typescript
-import { 
-    StructuredData,
-    generateLocalBusinessSchema,
-    generateMedicalWebPageSchema,
-    generateFAQPageSchema,
-    generateVideoObjectSchema,
-    generateArticleSchema,
-    generateBreadcrumbSchema,
-    MEDICAL_DISCLAIMER 
-} from '@/lib/structured-data'
+import {
+  StructuredData,
+  generateLocalBusinessSchema,
+  generateMedicalWebPageSchema,
+  generateFAQPageSchema,
+  generateVideoObjectSchema,
+  generateArticleSchema,
+  generateBreadcrumbSchema,
+  MEDICAL_DISCLAIMER,
+} from "@/lib/structured-data";
 
 // Exemplo de implementação
-const businessSchema = generateLocalBusinessSchema()
-const medicalSchema = generateMedicalWebPageSchema('Olho Seco', content)
-const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs)
+const businessSchema = generateLocalBusinessSchema();
+const medicalSchema = generateMedicalWebPageSchema("Olho Seco", content);
+const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
 ```
 
 ## 📋 Regras de Conteúdo
 
 ### 1. Linguagem Educativa
+
 - ✅ Usar linguagem acessível e didática
 - ✅ Explicar termos técnicos de forma simples
 - ✅ Evitar jargões excessivos
 - ✅ Fornecer exemplos práticos
 
 ### 2. Sem Promessas de Resultado
+
 - ❌ "Garantia de cura"
 - ❌ "Resultado 100% eficaz"
 - ❌ "Tratamento definitivo"
@@ -229,13 +238,16 @@ const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs)
 - ✅ "Pode melhorar qualidade de vida"
 
 ### 3. Disclaimer Médico Obrigatório
+
 ```typescript
-export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm caráter educativo e informativo, não devendo ser utilizadas como substituto de consulta, diagnóstico ou tratamento médico. Sempre procure um profissional qualificado para avaliação adequada de sua condição de saúde.'
+export const MEDICAL_DISCLAIMER =
+  "As informações fornecidas neste site têm caráter educativo e informativo, não devendo ser utilizadas como substituto de consulta, diagnóstico ou tratamento médico. Sempre procure um profissional qualificado para avaliação adequada de sua condição de saúde.";
 ```
 
 ## 🎯 Palavras-Chave Estratégicas
 
 ### Primárias
+
 - olho seco Caratinga
 - tratamento olho seco
 - oftalmologista Caratinga
@@ -244,6 +256,7 @@ export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm c
 - síndrome olhos secos
 
 ### Secundárias
+
 - olho seco sintomas
 - olho seco tratamento
 - oftalmologista MG
@@ -254,6 +267,7 @@ export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm c
 - blefarite tratamento
 
 ### Long-Tail
+
 - como tratar olho seco em casa
 - melhores lágrimas artificiais
 - olho seco gravidez
@@ -265,6 +279,7 @@ export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm c
 ## 📈 Métricas de Sucesso
 
 ### SEO Técnico
+
 - **Google Rich Snippets**: 80+% de páginas com rich snippets
 - **Schema Validation**: 100% dos schemas validados
 - **Page Speed**: Score 90+ no Google PageSpeed
@@ -272,6 +287,7 @@ export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm c
 - **Core Web Vitals**: LCP < 2.5s, FID < 100ms, CLS < 0.1
 
 ### Negócio
+
 - **Leads de Agendamento**: 20+ por mês
 - **Tempo no Site**: > 3 minutos
 - **Taxa de Conversão**: 5-8%
@@ -280,11 +296,13 @@ export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm c
 ## 🔧 Ferramentas de Validação
 
 ### Teste de Schemas
+
 1. **Google Rich Results Test**: https://search.google.com/test/rich-results
 2. **Schema.org Validator**: https://validator.schema.org/
 3. **Chrome DevTools**: Painel Application > Structured Data
 
 ### SEO Técnico
+
 1. **Google Search Console**: Monitoramento de performance
 2. **Screaming Frog**: Audit completo de SEO
 3. **Ahrefs/SEMrush**: Análise de backlinks e palavras-chave
@@ -293,6 +311,7 @@ export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm c
 ## 📱 Mobile First
 
 ### Otimizações Essenciais
+
 - Design responsivo com breakpoint mobile-first
 - Botões de CTA com 44px+ de toque
 - Textos legíveis (16px+)
@@ -302,6 +321,7 @@ export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm c
 ## 🗺️ Arquitetura de Informação
 
 ### Hierarquia
+
 1. **Home**: Apresentação geral do site
 2. **Pilar (/olho-seco)**: Conteúdo abrangente sobre olho seco
 3. **Serviços**: Detalhes de tratamentos específicos
@@ -310,6 +330,7 @@ export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm c
 6. **Contato**: Informações completas da clínica
 
 ### Fluxo do Usuário
+
 1. **Awareness**: Descobrir sobre olho seco
 2. **Consideration**: Pesquisar tratamentos disponíveis
 3. **Conversion**: Agendar consulta
@@ -317,6 +338,7 @@ export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm c
 ## 📊 Relatórios e Monitoramento
 
 ### KPIs Semanais
+
 - Tráfego orgânico
 - Taxa de cliques nos rich snippets
 - Tempo médio na página
@@ -324,6 +346,7 @@ export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm c
 - Conversões de formulário
 
 ### Ferramentas
+
 - Google Analytics 4
 - Google Search Console
 - Hotjar (heatmaps)
@@ -332,17 +355,20 @@ export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm c
 ## 🚀 Implementação Futura
 
 ### Schema Adicionais
+
 - **Review Schema**: Avaliações de serviços médicos
 - **Event Schema**: Workshops e eventos educativos
 - **Physician Schema**: Detalhes dos médicos
 
 ### Conteúdo Avançado
+
 - **Vídeos Transcritos**: Acessibilidade e SEO
 - **Infográficos Interativos**: Conteúdo compartilhável
 - **Calculadoras**: Síntomas e gravidade
 - **Chatbot IA**: Qualificação inicial de leads
 
 ### Performance
+
 - **CDN Global**: Distribuição de conteúdo
 - **Lazy Loading**: Otimização de imagens
 - **Service Workers**: Cache inteligente
@@ -351,12 +377,14 @@ export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm c
 ## 📚 Recursos Adicionais
 
 ### Documentação
+
 - [Google Quality Rater Guidelines](https://developers.google.com/search/docs/essentials/quality-rater-overview)
 - [Schema.org Documentation](https://schema.org/)
 - [Web Content Accessibility Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
 - [Mobile-Friendly Test](https://search.google.com/test/mobile-friendly)
 
 ### Ferramentas
+
 - Google Search Console
 - Google Analytics
 - Google Tag Manager
@@ -367,6 +395,7 @@ export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm c
 ## ✅ Checklist de Implementação
 
 ### SEO On-Page
+
 - [ ] Metatags otimizadas (title, description, keywords)
 - [ ] Headings semanticamente estruturadas (H1 → H6)
 - [ ] URLs amigáveis e canônicas
@@ -375,6 +404,7 @@ export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm c
 - [ ] Conteúdo único e relevante
 
 ### Dados Estruturados
+
 - [ ] LocalBusiness em páginas institucionais
 - [ ] MedicalWebPage na página pilar
 - [ ] FAQPage para FAQs
@@ -384,6 +414,7 @@ export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm c
 - [ ] WebSite no layout principal
 
 ### Performance
+
 - [ ] Core Web Vitals otimizados
 - [ ] Imagens WebP e lazy loading
 - [ ] Minificação de CSS/JS
@@ -391,6 +422,7 @@ export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm c
 - [ ] CDN configurado
 
 ### Experiência do Usuário
+
 - [ ] Design responsivo (mobile-first)
 - [ ] Navegação intuitiva
 - [ ] Formulários otimizados
@@ -398,6 +430,7 @@ export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm c
 - [ ] Acessibilidade WCAG 2.1 AA
 
 ### Conteúdo
+
 - [ ] Linguagem educativa e acessível
 - [ ] Sem promessas de resultado
 - [ ] Disclaimer médico em páginas clínicas
@@ -407,21 +440,25 @@ export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm c
 ## 📈 Timeline de Implementação
 
 ### Fase 1 (Semanas 1-2)
+
 - Configurar estrutura de schemas
 - Implementar componentes básicos
 - Configurar dados estruturados no layout
 
 ### Fase 2 (Semanas 3-4)
+
 - Desenvolver página pilar de olho seco
 - Implementar páginas de FAQ e blog
 - Otimizar performance técnica
 
 ### Fase 3 (Semanas 5-6)
+
 - Desenvolver páginas de vídeos
 - Implementar rich snippets avançados
 - Configurar monitoramento analytics
 
 ### Fase 4 (Semanas 7-8)
+
 - Teste e validação de schemas
 - Otimização para Core Web Vitals
 - Lançamento e monitoramento contínuo
@@ -429,12 +466,14 @@ export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm c
 ## 🎯 Resultados Esperados
 
 ### 6 Meses
+
 - Posicionamento Top 3 para termos principais
 - 50+ rich snippets no Google
 - Aumento de 200% no tráfego orgânico
 - 15+ leads qualificados por mês
 
 ### 12 Meses
+
 - Domínio de autoridade em oftalmologia
 - 100+ palavras-chave no Top 10
 - 500+ sessões orgânicas mensais
@@ -443,6 +482,7 @@ export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm c
 ## 🔍 Validação Contínua
 
 ### Testes Mensais
+
 - Validação de schemas em todas as páginas
 - Teste de rich snippets
 - Auditoria de performance
@@ -450,6 +490,7 @@ export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm c
 - Teste de acessibilidade
 
 ### Ajustes Obrigatórios
+
 - Correção de erros de schema
 - Remoção de conteúdo thin
 - Melhoria de performance
@@ -458,4 +499,4 @@ export const MEDICAL_DISCLAIMER = 'As informações fornecidas neste site têm c
 
 ---
 
-*Este documento deve ser revisado e atualizado mensalmente para garantir alinhamento com as melhores práticas de SEO e as atualizações dos algoritmos dos mecanismos de busca.*
+_Este documento deve ser revisado e atualizado mensalmente para garantir alinhamento com as melhores práticas de SEO e as atualizações dos algoritmos dos mecanismos de busca._

@@ -1,0 +1,79 @@
+---
+/**
+ * Nível de evidência em cinco pontos. O grau vem sempre acompanhado do rótulo
+ * escrito: o desenho de bolinhas sozinho não é informação para quem usa leitor
+ * de tela nem para quem não conhece a convenção.
+ */
+interface Props {
+  level: 1 | 2 | 3 | 4 | 5;
+  label?: string;
+  note?: string;
+}
+
+const defaultLabels: Record<number, string> = {
+  1: "Muito baixo",
+  2: "Baixo",
+  3: "Moderado",
+  4: "Alto",
+  5: "Muito alto",
+};
+
+const { level, label = defaultLabels[level], note } = Astro.props;
+const dots = [1, 2, 3, 4, 5];
+---
+
+<p class="evidence-level">
+  <span class="evidence-level-caption">Nível de evidência</span>
+  <span class="evidence-level-dots" aria-hidden="true">
+    {dots.map((dot) => <span class:list={[dot <= level && "is-filled"]} />)}
+  </span>
+  <strong>{label}</strong>
+  <span class="visually-hidden">({level} de 5)</span>
+  {note && <em>{note}</em>}
+</p>
+
+<style>
+  .evidence-level {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.35rem 0.6rem;
+    margin: 0;
+    font-size: var(--text-meta);
+  }
+
+  .evidence-level-caption {
+    color: var(--ink-soft);
+    font-weight: 700;
+    letter-spacing: var(--tracking-kicker);
+    text-transform: uppercase;
+  }
+
+  .evidence-level-dots {
+    display: inline-flex;
+    gap: 0.28rem;
+    align-self: center;
+  }
+
+  .evidence-level-dots span {
+    width: 8px;
+    height: 8px;
+    border: 1px solid var(--teal-600);
+    border-radius: 50%;
+  }
+
+  .evidence-level-dots .is-filled {
+    background: var(--teal-600);
+  }
+
+  .evidence-level strong {
+    color: var(--ink);
+    font-size: var(--text-small);
+  }
+
+  .evidence-level em {
+    flex-basis: 100%;
+    color: var(--ink-soft);
+    font-style: normal;
+  }
+</style>

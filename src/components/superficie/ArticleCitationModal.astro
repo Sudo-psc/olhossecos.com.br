@@ -1,0 +1,484 @@
+---
+import { generateAllCitations } from "@/lib/citations";
+import type { MagazineArticle } from "@/lib/superficie";
+
+interface Props {
+  article: MagazineArticle;
+}
+
+const { article } = Astro.props;
+const citations = generateAllCitations(article);
+const modalId = `citation-modal-${article.slug}`;
+---
+
+<div class="citation-widget">
+  <button
+    type="button"
+    class="citation-open-btn"
+    aria-haspopup="dialog"
+    aria-controls={modalId}
+    data-open-citation={modalId}
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z" fill="currentColor"
+      ></path>
+    </svg>
+    <span>Citar este artigo</span>
+  </button>
+
+  <dialog
+    id={modalId}
+    class="citation-dialog"
+    aria-labelledby={`${modalId}-title`}
+  >
+    <div class="citation-dialog-card">
+      <header class="citation-dialog-header">
+        <div>
+          <p class="citation-kicker">Referência acadêmica</p>
+          <h2 id={`${modalId}-title`}>Como citar este artigo</h2>
+        </div>
+        <button
+          type="button"
+          class="citation-close-btn"
+          aria-label="Fechar janela de citação"
+          data-close-citation={modalId}
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M18 6L6 18M6 6l12 12"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"></path>
+          </svg>
+        </button>
+      </header>
+
+      <div
+        class="citation-tabs"
+        role="tablist"
+        aria-label="Formatos de citação"
+      >
+        <button
+          type="button"
+          role="tab"
+          aria-selected="true"
+          aria-controls={`${modalId}-tab-abnt`}
+          id={`${modalId}-btn-abnt`}
+          data-tab="abnt"
+        >
+          ABNT
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls={`${modalId}-tab-vancouver`}
+          id={`${modalId}-btn-vancouver`}
+          data-tab="vancouver"
+        >
+          Vancouver
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls={`${modalId}-tab-bibtex`}
+          id={`${modalId}-btn-bibtex`}
+          data-tab="bibtex"
+        >
+          BibTeX
+        </button>
+      </div>
+
+      <div class="citation-panels">
+        <div
+          id={`${modalId}-tab-abnt`}
+          role="tabpanel"
+          aria-labelledby={`${modalId}-btn-abnt`}
+          class="citation-panel active"
+          data-panel="abnt"
+        >
+          <p class="citation-text" data-citation-text>{citations.abnt}</p>
+        </div>
+
+        <div
+          id={`${modalId}-tab-vancouver`}
+          role="tabpanel"
+          aria-labelledby={`${modalId}-btn-vancouver`}
+          class="citation-panel"
+          data-panel="vancouver"
+          hidden
+        >
+          <p class="citation-text" data-citation-text>{citations.vancouver}</p>
+        </div>
+
+        <div
+          id={`${modalId}-tab-bibtex`}
+          role="tabpanel"
+          aria-labelledby={`${modalId}-btn-bibtex`}
+          class="citation-panel"
+          data-panel="bibtex"
+          hidden
+        >
+          <pre
+            class="citation-code"
+            data-citation-text><code>{citations.bibtex}</code></pre>
+        </div>
+      </div>
+
+      <footer class="citation-dialog-footer">
+        <button type="button" class="citation-copy-btn" data-copy-citation>
+          <svg class="copy-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <rect
+              x="9"
+              y="9"
+              width="13"
+              height="13"
+              rx="2"
+              ry="2"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"></rect>
+            <path
+              d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"></path>
+          </svg>
+          <span class="copy-label">Copiar citação</span>
+        </button>
+      </footer>
+    </div>
+  </dialog>
+</div>
+
+<script>
+  const setupCitationModals = () => {
+    document
+      .querySelectorAll<HTMLButtonElement>("[data-open-citation]")
+      .forEach((openBtn) => {
+        const modalId = openBtn.dataset.openCitation;
+        if (!modalId) return;
+        const dialog = document.getElementById(
+          modalId,
+        ) as HTMLDialogElement | null;
+        if (!dialog) return;
+
+        const closeBtn = dialog.querySelector<HTMLButtonElement>(
+          "[data-close-citation]",
+        );
+        const tabButtons =
+          dialog.querySelectorAll<HTMLButtonElement>("[role='tab']");
+        const tabPanels =
+          dialog.querySelectorAll<HTMLElement>("[role='tabpanel']");
+        const copyBtn = dialog.querySelector<HTMLButtonElement>(
+          "[data-copy-citation]",
+        );
+
+        const openModal = () => {
+          dialog.showModal();
+          dialog.classList.add("is-open");
+        };
+
+        const closeModal = () => {
+          dialog.classList.remove("is-open");
+          dialog.close();
+          openBtn.focus();
+        };
+
+        openBtn.addEventListener("click", openModal);
+        closeBtn?.addEventListener("click", closeModal);
+
+        // Fecha clicando no backdrop
+        dialog.addEventListener("click", (e) => {
+          const rect = dialog.getBoundingClientRect();
+          const isInDialog =
+            rect.top <= e.clientY &&
+            e.clientY <= rect.top + rect.height &&
+            rect.left <= e.clientX &&
+            e.clientX <= rect.left + rect.width;
+          if (!isInDialog) closeModal();
+        });
+
+        // Alternância de abas
+        tabButtons.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const tabName = btn.dataset.tab;
+            tabButtons.forEach((b) =>
+              b.setAttribute("aria-selected", String(b === btn)),
+            );
+            tabPanels.forEach((panel) => {
+              const isTarget = panel.dataset.panel === tabName;
+              panel.hidden = !isTarget;
+              panel.classList.toggle("active", isTarget);
+            });
+          });
+        });
+
+        // Cópia para a área de transferência
+        copyBtn?.addEventListener("click", async () => {
+          const activePanel = dialog.querySelector<HTMLElement>(
+            ".citation-panel.active [data-citation-text]",
+          );
+          if (!activePanel) return;
+
+          const textToCopy = activePanel.textContent?.trim() ?? "";
+          try {
+            await navigator.clipboard.writeText(textToCopy);
+            const label = copyBtn.querySelector<HTMLElement>(".copy-label");
+            if (label) {
+              const originalText = label.textContent;
+              label.textContent = "Copiado para a área de transferência! ✓";
+              copyBtn.classList.add("copied");
+              setTimeout(() => {
+                label.textContent = originalText;
+                copyBtn.classList.remove("copied");
+              }, 2500);
+            }
+          } catch (err) {
+            console.error("Falha ao copiar citação:", err);
+          }
+        });
+      });
+  };
+
+  setupCitationModals();
+  document.addEventListener("astro:page-load", setupCitationModals);
+</script>
+
+<style>
+  .citation-widget {
+    display: inline-block;
+  }
+
+  .citation-open-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.55rem 0.95rem;
+    border: 1px solid var(--surface-gold, #d9b665);
+    border-radius: var(--surface-radius-sm, 4px);
+    background: transparent;
+    color: var(--surface-gold-light, #f0dfa8);
+    font-family: var(--surface-sans, ui-sans-serif, system-ui, sans-serif);
+    font-size: 0.78rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+      background-color 200ms ease,
+      border-color 200ms ease,
+      transform 150ms ease;
+  }
+
+  .citation-open-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .citation-open-btn:hover {
+    background: rgb(217 182 101 / 14%);
+    border-color: var(--surface-gold-light, #f0dfa8);
+    transform: translateY(-1px);
+  }
+
+  .citation-open-btn:focus-visible {
+    outline: 2px solid var(--surface-gold-light, #f0dfa8);
+    outline-offset: 3px;
+  }
+
+  .citation-dialog {
+    padding: 0;
+    border: 0;
+    border-radius: var(--surface-radius-md, 8px);
+    background: transparent;
+    max-width: min(650px, 94vw);
+    box-shadow: 0 24px 64px rgb(0 14 29 / 60%);
+  }
+
+  .citation-dialog::backdrop {
+    background: rgb(0 14 29 / 75%);
+    backdrop-filter: blur(6px);
+  }
+
+  .citation-dialog-card {
+    background: #ffffff;
+    color: var(--surface-ink, #001a33);
+    border: 1px solid var(--surface-line, #c8d7e2);
+    border-radius: var(--surface-radius-md, 8px);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .citation-dialog-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.5rem 1.8rem 1.2rem;
+    border-bottom: 1px solid var(--surface-line, #e2e9ef);
+    background: #fbfbf9;
+  }
+
+  .citation-kicker {
+    margin: 0 0 0.35rem;
+    color: var(--surface-teal-dark, #0b827f);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .citation-dialog-header h2 {
+    margin: 0;
+    font-family: var(--surface-serif, serif);
+    font-size: 1.65rem;
+    font-weight: 500;
+    line-height: 1.15;
+    color: var(--surface-navy-deep, #001427);
+  }
+
+  .citation-close-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--surface-line, #d4dfe7);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--surface-navy, #001a33);
+    cursor: pointer;
+    transition: background-color 150ms ease;
+  }
+
+  .citation-close-btn:hover {
+    background: #eef3f6;
+  }
+
+  .citation-close-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .citation-tabs {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem 1.8rem 0;
+    border-bottom: 1px solid var(--surface-line, #e2e9ef);
+    background: #fbfbf9;
+  }
+
+  .citation-tabs button {
+    padding: 0.6rem 1.1rem;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    color: var(--surface-muted, #556877);
+    font-family: var(--surface-sans, ui-sans-serif, system-ui, sans-serif);
+    font-size: 0.82rem;
+    font-weight: 750;
+    cursor: pointer;
+    transition:
+      color 150ms ease,
+      border-color 150ms ease;
+  }
+
+  .citation-tabs button:hover {
+    color: var(--surface-teal-dark, #0b827f);
+  }
+
+  .citation-tabs button[aria-selected="true"] {
+    color: var(--surface-teal-dark, #0b827f);
+    border-bottom-color: var(--surface-teal-dark, #0b827f);
+  }
+
+  .citation-panels {
+    padding: 1.5rem 1.8rem;
+    min-height: 130px;
+    display: flex;
+    align-items: center;
+  }
+
+  .citation-panel {
+    width: 100%;
+  }
+
+  .citation-panel[hidden] {
+    display: none;
+  }
+
+  .citation-text {
+    margin: 0;
+    padding: 1.1rem 1.25rem;
+    border: 1px solid #d9e3ea;
+    border-left: 3px solid var(--surface-teal, #0b827f);
+    border-radius: 4px;
+    background: #f7fafb;
+    font-family: var(--surface-serif, serif);
+    font-size: 1.02rem;
+    line-height: 1.6;
+    color: var(--surface-copy, #1a2a3a);
+    user-select: all;
+  }
+
+  .citation-code {
+    margin: 0;
+    padding: 1.1rem 1.25rem;
+    border: 1px solid #d9e3ea;
+    border-left: 3px solid var(--surface-gold, #d9b665);
+    border-radius: 4px;
+    background: #00172e;
+    color: #f7f4ed;
+    font-family:
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.84rem;
+    line-height: 1.5;
+    overflow-x: auto;
+    user-select: all;
+  }
+
+  .citation-dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 1.8rem 1.5rem;
+    background: #fbfbf9;
+    border-top: 1px solid var(--surface-line, #e2e9ef);
+  }
+
+  .citation-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.75rem 1.35rem;
+    border: 1px solid var(--surface-teal-dark, #0b827f);
+    border-radius: var(--surface-radius-sm, 4px);
+    background: var(--surface-teal-dark, #0b827f);
+    color: #ffffff;
+    font-family: var(--surface-sans, ui-sans-serif, system-ui, sans-serif);
+    font-size: 0.85rem;
+    font-weight: 750;
+    cursor: pointer;
+    transition:
+      background-color 150ms ease,
+      transform 150ms ease;
+  }
+
+  .citation-copy-btn:hover {
+    background: var(--surface-navy-deep, #001427);
+    border-color: var(--surface-navy-deep, #001427);
+    transform: translateY(-1px);
+  }
+
+  .citation-copy-btn.copied {
+    background: #1e7e34;
+    border-color: #1e7e34;
+  }
+
+  .copy-icon {
+    width: 17px;
+    height: 17px;
+  }
+</style>

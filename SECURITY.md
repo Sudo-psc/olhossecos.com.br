@@ -15,12 +15,13 @@ This document outlines the security measures implemented in the Olhos Secos Cara
 
 **Status**: ✅ SECURED (Updated 2025-12-27)
 
-| Package | Previous Version | Current Version | Vulnerabilities Fixed |
-|---------|------------------|-----------------|----------------------|
-| Astro | 4.15.0 | 5.16.6 | XSS, Open Redirect, Header Reflection |
-| @astrojs/node | 8.3.4 | 9.5.1 | Open Redirect, Unauthorized Images |
+| Package       | Previous Version | Current Version | Vulnerabilities Fixed                 |
+| ------------- | ---------------- | --------------- | ------------------------------------- |
+| Astro         | 4.15.0           | 5.16.6          | XSS, Open Redirect, Header Reflection |
+| @astrojs/node | 8.3.4            | 9.5.1           | Open Redirect, Unauthorized Images    |
 
 **Vulnerabilities Resolved**:
+
 - ✅ **GHSA-wrwg-2hg8-v723**: Reflected XSS via server islands (CVSS 7.1)
 - ✅ **GHSA-9x9c-ghc5-jhw9**: Open redirect via trailing slash handling (CVSS 6.1)
 - ✅ **GHSA-5ff5-9fcw-vg88**: X-Forwarded-Host header reflection (CVSS 6.5)
@@ -62,6 +63,7 @@ Implemented comprehensive security headers:
 **Status**: ✅ RESTRICTED
 
 Whitelisted domains only:
+
 - ✅ `olhossecos.com.br` (main site)
 - ✅ `olhossecos.com` (alternative domain)
 - ✅ `cdn.sanity.io` (CMS images)
@@ -78,6 +80,7 @@ Whitelisted domains only:
 - ✅ Only `PUBLIC_` prefixed variables exposed to client
 
 **Environment Variables**:
+
 ```bash
 PUBLIC_SANITY_PROJECT_ID=<public-id>    # Safe - public identifier
 PUBLIC_SANITY_DATASET=production         # Safe - dataset name
@@ -96,6 +99,7 @@ WORDPRESS_API_URL=<url>                  # Server-side only
 ### 6. XSS Prevention
 
 **Measures**:
+
 - ✅ Content Security Policy (CSP) enforced
 - ✅ Controlled use of `set:html` (only for trusted JSON-LD schema)
 - ✅ All user-facing content from trusted CMS sources
@@ -115,18 +119,24 @@ WORDPRESS_API_URL=<url>                  # Server-side only
 ## 🛡️ Security Headers Explained
 
 ### X-Frame-Options: DENY
+
 Prevents the website from being embedded in `<iframe>`, `<frame>`, or `<object>` tags, protecting against clickjacking attacks where attackers trick users into clicking hidden elements.
 
 ### X-Content-Type-Options: nosniff
+
 Forces browsers to respect the declared `Content-Type` header, preventing MIME type confusion attacks where malicious files could be interpreted as executable code.
 
 ### Referrer-Policy: strict-origin-when-cross-origin
+
 Controls how much referrer information is shared:
+
 - Same-origin requests: Full URL with path
 - Cross-origin requests: Only protocol + domain (no path)
 
 ### Content Security Policy (CSP)
+
 Defines trusted sources for content, blocking:
+
 - ❌ Inline scripts (except whitelisted)
 - ❌ External iframes
 - ❌ Plugins (Flash, Java)
@@ -134,7 +144,9 @@ Defines trusted sources for content, blocking:
 - ✅ Only allows HTTPS resources
 
 ### Strict-Transport-Security (HSTS)
+
 Forces browsers to:
+
 - Only connect via HTTPS (never HTTP)
 - Apply to all subdomains
 - Cache policy for 1 year
@@ -167,6 +179,7 @@ After deployment, verify:
 ### Browser Console Check
 
 After deployment, open browser DevTools Console and verify:
+
 ```javascript
 // Should see no CSP violations
 // Should see no mixed content warnings
@@ -194,16 +207,19 @@ We will respond within 48 hours and provide updates on remediation progress.
 ## 📅 Security Maintenance Schedule
 
 ### Monthly
+
 - [ ] Run `npm audit` and update dependencies
 - [ ] Review security headers effectiveness
 - [ ] Check for new CVEs affecting dependencies
 
 ### Quarterly
+
 - [ ] Review CSP policy for tightening opportunities
 - [ ] Audit environment variables and secrets
 - [ ] Test security headers with external tools
 
 ### Annually
+
 - [ ] Comprehensive security audit
 - [ ] Review and update this security policy
 - [ ] Evaluate new security headers and standards
@@ -222,13 +238,13 @@ We will respond within 48 hours and provide updates on remediation progress.
 
 ## 📊 Current Security Score
 
-| Assessment | Score | Status |
-|------------|-------|--------|
-| Dependency Vulnerabilities | 0 | ✅ Excellent |
-| Security Headers | A+ | ✅ Excellent |
-| Secret Management | 100% | ✅ Excellent |
-| Input Validation | 95% | ✅ Excellent |
-| XSS Prevention | 98% | ✅ Excellent |
+| Assessment                  | Score  | Status                  |
+| --------------------------- | ------ | ----------------------- |
+| Dependency Vulnerabilities  | 0      | ✅ Excellent            |
+| Security Headers            | A+     | ✅ Excellent            |
+| Secret Management           | 100%   | ✅ Excellent            |
+| Input Validation            | 95%    | ✅ Excellent            |
+| XSS Prevention              | 98%    | ✅ Excellent            |
 | **Overall Security Rating** | **A+** | **✅ Production Ready** |
 
 ---
@@ -261,12 +277,12 @@ We will respond within 48 hours and provide updates on remediation progress.
 
 ## ✅ Compliance Status
 
-| Framework | Status | Notes |
-|-----------|--------|-------|
-| OWASP Top 10 (2021) | ✅ Compliant | All critical items addressed |
-| GDPR | ✅ Compliant | No personal data collection |
-| LGPD (Brazil) | ✅ Compliant | No PII stored |
-| Accessibility (WCAG) | ⚠️ Partial | Outside security scope |
+| Framework            | Status       | Notes                        |
+| -------------------- | ------------ | ---------------------------- |
+| OWASP Top 10 (2021)  | ✅ Compliant | All critical items addressed |
+| GDPR                 | ✅ Compliant | No personal data collection  |
+| LGPD (Brazil)        | ✅ Compliant | No PII stored                |
+| Accessibility (WCAG) | ⚠️ Partial   | Outside security scope       |
 
 ---
 

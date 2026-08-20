@@ -1,0 +1,87 @@
+---
+/**
+ * "Resumo em 30 segundos" — abre o artigo com achado, implicação e limitação.
+ *
+ * As três partes andam juntas de propósito: um achado sem a limitação ao lado
+ * lê como promessa, e o portal não publica promessa de resultado.
+ */
+interface Props {
+  finding: string;
+  implication: string;
+  limits: string;
+  readingSeconds?: number;
+}
+
+const { finding, implication, limits, readingSeconds = 30 } = Astro.props;
+---
+
+<aside class="summary" aria-labelledby="resumo-rapido">
+  <p class="summary-kicker" id="resumo-rapido">
+    Resumo em {readingSeconds} segundos
+  </p>
+  <dl>
+    <div>
+      <dt>Achado principal</dt>
+      <dd>{finding}</dd>
+    </div>
+    <div>
+      <dt>Implicação clínica</dt>
+      <dd>{implication}</dd>
+    </div>
+    <div>
+      <dt>Limitações</dt>
+      <dd>{limits}</dd>
+    </div>
+  </dl>
+</aside>
+
+<style>
+  .summary {
+    margin-block: 0 var(--space-block);
+    padding: 1.7rem 1.8rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--paper-0);
+    box-shadow: var(--shadow-hairline);
+  }
+
+  .summary-kicker {
+    margin: 0 0 1.15rem;
+    color: var(--copper-700);
+    font-size: var(--text-meta);
+    font-weight: 800;
+    letter-spacing: var(--tracking-kicker);
+    text-transform: uppercase;
+  }
+
+  /* auto-fit em vez de media query: o resumo vive dentro da coluna de leitura,
+     e a largura da coluna — não a da janela — é o que decide se cabem três
+     blocos lado a lado. */
+  dl {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1.4rem;
+    margin: 0;
+  }
+
+  dl > div {
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--line);
+  }
+
+  dt {
+    margin-bottom: 0.2rem;
+    color: var(--ink);
+    font-size: var(--text-meta);
+    font-weight: 750;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    max-width: var(--measure);
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: var(--text-small);
+  }
+</style>

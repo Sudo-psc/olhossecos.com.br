@@ -125,10 +125,7 @@
     {
       "id": "duas-camadas",
       "title": "Duas camadas, uma leitura",
-      "pages": [
-        4,
-        5
-      ],
+      "pages": [4, 5],
       "htmlPath": "/superficie/issues/poc/articles/duas-camadas.html"
     }
   ],

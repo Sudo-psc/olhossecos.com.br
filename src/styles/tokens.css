@@ -1,0 +1,186 @@
+/*
+ * Design system do portal — camada única de tokens.
+ *
+ * O portal e a SUPERFÍCIE continuam visualmente distintos: este arquivo define
+ * a escala compartilhada (tipografia, espaço, movimento, vidro, elevação) e a
+ * paleta do portal. A SUPERFÍCIE sobrescreve as cores no seu próprio layout e
+ * herda escala e movimento daqui — assim o ritmo é o mesmo nas duas frentes
+ * sem misturar as identidades.
+ *
+ * Os nomes antigos (--ink, --teal, --paper…) continuam existindo como apelidos
+ * dos tokens novos: quarenta páginas dependem deles, e trocar tudo de uma vez
+ * seria uma migração de risco sem ganho editorial.
+ */
+
+:root {
+  /* ---------------------------------------------------------------- cores */
+  --navy-900: #04142f;
+  --navy-800: #071d45;
+  --navy-700: #12305e;
+  --navy-600: #263d61;
+  --navy-400: #5c7395;
+  --navy-300: #8fa3bd;
+
+  --paper-0: #ffffff;
+  --paper-50: #fbfaf7;
+  --paper-100: #f5f2ec;
+  --paper-200: #ece8df;
+
+  --teal-700: #00657a;
+  --teal-600: #087f95;
+  --teal-100: #dff3f7;
+  --teal-50: #eff8fb;
+
+  /* Cobre editorial: entra em kicker, numeração de matéria e fio de destaque.
+     Nunca em texto corrido pequeno — o contraste sobre papel fica no limite. */
+  --copper-700: #7d4f22;
+  --copper-600: #9a6430;
+  --copper-500: #b07a3f;
+  --copper-100: #f3e8dc;
+
+  --alert-600: #a93c32;
+  --alert-500: #e95f4f;
+  --alert-50: #fff6f3;
+
+  --line-strong: #b8c7d6;
+  --line: #d3dbe4;
+  --line-soft: #e6e4dd;
+
+  /* apelidos herdados */
+  --ink: var(--navy-800);
+  --ink-soft: var(--navy-600);
+  --teal: var(--teal-600);
+  --teal-dark: var(--teal-700);
+  --aqua: var(--teal-100);
+  --mist: var(--teal-50);
+  --paper: var(--paper-0);
+  --coral: var(--alert-500);
+  --coral-text: var(--alert-600);
+  --coral-soft: var(--alert-50);
+
+  /* ----------------------------------------------------------- tipografia */
+  --serif:
+    "Source Serif 4 Var", "Iowan Old Style", "Palatino Linotype", Palatino,
+    Georgia, serif;
+  /* O corpo segue na pilha do sistema: é o que mantém o site sem requisição de
+     fonte para o texto de leitura. Só as manchetes carregam a serifada. */
+  --sans:
+    ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+
+  --text-display: clamp(2.5rem, 1.6rem + 3.6vw, 4rem);
+  --text-h1: clamp(2.25rem, 1.55rem + 2.8vw, 3.5rem);
+  --text-h2: clamp(1.75rem, 1.35rem + 1.6vw, 2.5rem);
+  --text-h3: clamp(1.3rem, 1.15rem + 0.6vw, 1.75rem);
+  --text-lead: clamp(1.125rem, 1.05rem + 0.4vw, 1.3125rem);
+  --text-body: clamp(1.0625rem, 1.02rem + 0.16vw, 1.1875rem);
+  --text-small: 0.9375rem;
+  --text-meta: 0.8125rem;
+
+  --leading-tight: 1.05;
+  --leading-snug: 1.25;
+  --leading-body: 1.65;
+  --tracking-tight: -0.035em;
+  --tracking-kicker: 0.14em;
+
+  /* 65–80 caracteres por linha no texto científico */
+  --measure: 68ch;
+  --measure-narrow: 58ch;
+  --article-column: 720px;
+
+  /* -------------------------------------------------------------- espaço */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+  /* Respiro entre grandes seções: 48–72px no mobile, 80–120px no desktop. */
+  --space-section: clamp(3rem, 1.5rem + 6vw, 7.5rem);
+  --space-block: clamp(2rem, 1.2rem + 3vw, 4rem);
+
+  /* ------------------------------------------------------------ movimento */
+  --duration-fast: 150ms;
+  --duration-base: 220ms;
+  --duration-slow: 300ms;
+  --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ---------------------------------------------------------- superfícies */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 18px;
+  --control-radius: var(--radius-sm);
+
+  --shadow-hairline: 0 1px 2px rgb(7 29 69 / 6%);
+  --shadow-card: 0 1px 3px rgb(7 29 69 / 5%), 0 12px 28px rgb(7 29 69 / 5%);
+  --shadow: 0 24px 60px rgb(7 29 69 / 10%);
+  /* Elevação no hover usa filter, não box-shadow: o anel de foco de dois tons
+     já ocupa box-shadow e uma propriedade esconderia a outra. */
+  --lift-hover: drop-shadow(0 14px 26px rgb(7 29 69 / 12%));
+  --lift-strong: drop-shadow(0 22px 40px rgb(7 29 69 / 16%));
+
+  /* --------------------------------------------------------- liquid glass */
+  --glass-bg: rgb(255 255 255 / 62%);
+  --glass-bg-strong: rgb(255 255 255 / 84%);
+  --glass-border: rgb(255 255 255 / 55%);
+  --glass-edge: rgb(7 29 69 / 8%);
+  --glass-blur: saturate(180%) blur(20px);
+  --glass-highlight: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 70%) 0%,
+    rgb(255 255 255 / 12%) 42%,
+    rgb(255 255 255 / 0%) 100%
+  );
+
+  --header-height: 76px;
+}
+
+/* Sem backdrop-filter o vidro vira vidro fosco opaco: mantém a legibilidade em
+   vez de deixar o texto do header brigar com a página que passa por baixo. */
+@supports not (
+  (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
+) {
+  :root {
+    --glass-bg: rgb(255 255 255 / 97%);
+    --glass-bg-strong: rgb(255 255 255 / 99%);
+  }
+}
+
+@media (max-width: 1080px) {
+  :root {
+    --header-height: 68px;
+  }
+}
+
+@media (max-width: 720px) {
+  :root {
+    --header-height: 62px;
+  }
+}
+
+/*
+ * Transições entre páginas. É a API de documento cruzado: sem router no
+ * cliente, sem mudar o ciclo de vida dos scripts das páginas. Onde o navegador
+ * não implementa, a navegação continua instantânea como sempre foi.
+ */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 220ms;
+  animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}

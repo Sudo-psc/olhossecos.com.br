@@ -4,13 +4,13 @@ import { join } from "node:path";
 import { test } from "node:test";
 
 /**
- * O site não carrega nenhuma fonte web, e isso é decisão, não descuido: zero
- * requisição de fonte é parte de por que ele pinta rápido.
+ * O corpo do site continua na pilha do sistema. A única fonte web é a serifada
+ * das manchetes, servida do próprio domínio (`/fonts/*.woff2`, subset latino).
  *
- * A CSP só permite `font-src 'self'`, então uma fonte externa que alguém
- * adicionasse funcionaria no dev e falharia calada em produção — o navegador
- * bloqueia o download e cai no fallback sem avisar ninguém. O teste tranca as
- * duas portas: nenhum @font-face e nenhum host de fonte.
+ * A CSP declara `font-src 'self'`: uma fonte de host externo funcionaria no dev
+ * e falharia calada em produção — o navegador bloqueia o download e cai no
+ * fallback sem avisar ninguém. O teste continua trancando essa porta e passa a
+ * exigir que todo @font-face aponte para um arquivo do próprio domínio.
  */
 
 const fontHosts = [
@@ -33,15 +33,19 @@ const collectStyleSources = async (directory: string): Promise<string[]> => {
   return files.flat();
 };
 
-test("nenhuma fonte web é declarada ou baixada", async () => {
+test("toda fonte declarada é servida pelo próprio domínio", async () => {
   const files = await collectStyleSources("src");
   const offenders: string[] = [];
 
   for (const path of files) {
     const source = await readFile(path, "utf8");
-    if (/@font-face/u.test(source)) offenders.push(`${path}: @font-face`);
     for (const host of fontHosts) {
       if (source.includes(host)) offenders.push(`${path}: ${host}`);
+    }
+    for (const [, url] of source.matchAll(
+      /@font-face[^}]*?url\(\s*["']?([^"')]+)/gsu,
+    )) {
+      if (!url.startsWith("/")) offenders.push(`${path}: url(${url})`);
     }
   }
 
@@ -76,10 +80,11 @@ test("nenhum texto é declarado abaixo de 12px", async () => {
 test("as pilhas de fonte começam por famílias que o sistema resolve", async () => {
   const files = await collectStyleSources("src");
   // Famílias aceitas na primeira posição: palavras-chave genéricas do CSS,
-  // fontes de sistema, e a serifa Iowan Old Style, que degrada por conta
-  // própria para Palatino e Georgia.
+  // fontes de sistema, a serifa Iowan Old Style — que degrada por conta própria
+  // para Palatino e Georgia — e a Source Serif 4, que o próprio domínio serve
+  // com font-display: swap e pilha de sistema atrás.
   const resolvable =
-    /^(ui-sans-serif|ui-serif|ui-monospace|system-ui|-apple-system|sans-serif|serif|monospace|inherit|var\(|"Iowan Old Style"|Georgia)/u;
+    /^(ui-sans-serif|ui-serif|ui-monospace|system-ui|-apple-system|sans-serif|serif|monospace|inherit|var\(|"Iowan Old Style"|"Source Serif 4 Var"|Georgia)/u;
 
   const offenders: string[] = [];
   for (const path of files) {

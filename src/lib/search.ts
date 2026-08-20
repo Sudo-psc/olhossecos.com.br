@@ -1,8 +1,26 @@
+import { books } from "./books.ts";
+import { glossaryTerms } from "./glossary.ts";
+import { guides } from "./guides.ts";
+import { publishedArticles } from "./superficie.ts";
+
 export interface PortalSearchEntry {
   href: string;
   category: string;
   title: string;
   description: string;
+  tags: string[];
+}
+
+export type UnifiedSearchType =
+  "portal" | "guia" | "artigo" | "livro" | "glossario";
+
+export interface UnifiedSearchItem {
+  type: UnifiedSearchType;
+  typeLabel: string;
+  title: string;
+  description: string;
+  href: string;
+  meta?: string;
   tags: string[];
 }
 
@@ -26,7 +44,7 @@ export const portalPages: PortalSearchEntry[] = [
       "queimação",
       "vermelhidão",
       "lacrimejamento",
-      "épifora",
+      "epífora",
       "olhos aguados",
       "lacrimejamento reflexo",
       "vias lacrimais",
@@ -66,7 +84,7 @@ export const portalPages: PortalSearchEntry[] = [
       "AS-OCT",
       "OCT do segmento anterior",
       "menisco lacrimal",
-      "épifora",
+      "epífora",
       "vias lacrimais",
       "ponto lacrimal",
       "canalículos",
@@ -88,7 +106,7 @@ export const portalPages: PortalSearchEntry[] = [
     title: "Autocuidado no dia a dia",
     description:
       "Mudanças de baixo risco para ambiente, telas, piscadas, pálpebras e produtos oculares.",
-    tags: ["telas", "pausas", "ambiente", "higiene", "piscadas"],
+    tags: ["telas", "pausas", "ambiente", "higiene", "piscadas", "20-20-20"],
   },
   {
     href: "/tratamentos",
@@ -130,7 +148,7 @@ export const portalPages: PortalSearchEntry[] = [
       "AS-OCT",
       "luz intensa pulsada",
       "IPL",
-      "épifora",
+      "epífora",
       "vias lacrimais",
       "canalículos",
       "ducto nasolacrimal",
@@ -148,6 +166,14 @@ export const portalPages: PortalSearchEntry[] = [
     tags: ["referências", "evidências", "TFOS", "DEWS III", "revisão"],
   },
   {
+    href: "/profissionais",
+    category: "Profissional",
+    title: "Área para profissionais",
+    description:
+      "Diagnóstico multimodal, fenotipagem, imagem, tecnologias e evidências contemporâneas.",
+    tags: ["profissionais", "médicos", "oftalmologia", "nibut", "osmolaridade"],
+  },
+  {
     href: "/app",
     category: "Ferramenta",
     title: "Dry Eye Widget",
@@ -156,3 +182,145 @@ export const portalPages: PortalSearchEntry[] = [
     tags: ["aplicativo", "widget", "telas", "pausas", "piscadas", "20-20-20"],
   },
 ];
+
+export const normalizeSearchText = (value: string): string => {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+};
+
+export const getUnifiedSearchIndex = (): UnifiedSearchItem[] => {
+  const portalItems: UnifiedSearchItem[] = portalPages.map((page) => ({
+    type: "portal",
+    typeLabel: "Portal",
+    title: page.title,
+    description: page.description,
+    href: page.href,
+    meta: page.category,
+    tags: page.tags,
+  }));
+
+  const guideItems: UnifiedSearchItem[] = guides.map((guide) => ({
+    type: "guia",
+    typeLabel: "Guia",
+    title: guide.title,
+    description: guide.description,
+    href: `/guias/${guide.slug}`,
+    meta: `${guide.category} • ${guide.readingTime}`,
+    tags: guide.tags,
+  }));
+
+  const articleItems: UnifiedSearchItem[] = publishedArticles.map(
+    (article) => ({
+      type: "artigo",
+      typeLabel: "SUPERFÍCIE",
+      title: article.title,
+      description: article.excerpt,
+      href: `/superficie/artigos/${article.slug}`,
+      meta: `Revista • ${article.category}`,
+      tags: article.tags,
+    }),
+  );
+
+  const bookItems: UnifiedSearchItem[] = books.map((book) => ({
+    type: "livro",
+    typeLabel: "Livro",
+    title: book.title,
+    description: book.subtitle || book.description,
+    href: `/livros/${book.slug}`,
+    meta: `Livro • ${book.year}`,
+    tags: book.topics,
+  }));
+
+  const glossaryItems: UnifiedSearchItem[] = glossaryTerms.map((term) => ({
+    type: "glossario",
+    typeLabel: "Glossário",
+    title: term.term,
+    description: term.shortDefinition,
+    href: `/glossario#${term.slug}`,
+    meta: term.category || "Termo",
+    tags: term.aliases || [],
+  }));
+
+  return [
+    ...portalItems,
+    ...guideItems,
+    ...articleItems,
+    ...glossaryItems,
+    ...bookItems,
+  ];
+};
+
+const calculateSearchScore = (
+  item: UnifiedSearchItem,
+  queryNorm: string,
+  tokens: string[],
+): number => {
+  const titleNorm = normalizeSearchText(item.title);
+  const descNorm = normalizeSearchText(item.description);
+  const tagsNorm = item.tags.map((t) => normalizeSearchText(t)).join(" ");
+  const metaNorm = normalizeSearchText(item.meta || "");
+
+  let score = 0;
+
+  if (titleNorm === queryNorm) score += 100;
+  else if (titleNorm.startsWith(queryNorm)) score += 60;
+  else if (titleNorm.includes(queryNorm)) score += 40;
+
+  if (tagsNorm.includes(queryNorm)) score += 30;
+  if (descNorm.includes(queryNorm)) score += 20;
+  if (metaNorm.includes(queryNorm)) score += 10;
+
+  const allTokensMatch = tokens.every(
+    (tok) =>
+      titleNorm.includes(tok) ||
+      descNorm.includes(tok) ||
+      tagsNorm.includes(tok) ||
+      metaNorm.includes(tok),
+  );
+
+  if (
+    !allTokensMatch &&
+    !titleNorm.includes(queryNorm) &&
+    !tagsNorm.includes(queryNorm)
+  ) {
+    return 0;
+  }
+
+  for (const tok of tokens) {
+    if (titleNorm.includes(tok)) score += 15;
+    if (tagsNorm.includes(tok)) score += 10;
+    if (descNorm.includes(tok)) score += 5;
+  }
+
+  return score;
+};
+
+export const searchUnified = (
+  query: string,
+  limit = 20,
+): UnifiedSearchItem[] => {
+  const queryNorm = normalizeSearchText(query);
+  if (!queryNorm) return [];
+
+  const tokens = queryNorm.split(/\s+/u).filter((t) => t.length > 1);
+  const index = getUnifiedSearchIndex();
+
+  const scored = index
+    .map((item) => ({
+      item,
+      score: calculateSearchScore(
+        item,
+        queryNorm,
+        tokens.length ? tokens : [queryNorm],
+      ),
+    }))
+    .filter(({ score }) => score > 0)
+    .sort(
+      (a, b) => b.score - a.score || a.item.title.localeCompare(b.item.title),
+    );
+
+  return scored.slice(0, limit).map(({ item }) => item);
+};

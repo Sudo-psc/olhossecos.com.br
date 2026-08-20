@@ -40,44 +40,47 @@ O site utiliza **Sanity CMS** como headless CMS para gerenciamento de conteúdo,
 O projeto utiliza **3 clientes distintos** para diferentes propósitos:
 
 #### 1. `client` - Cliente Público (Read-Only)
+
 ```typescript
 // src/sanity/client.ts
 export const client = createClient({
-    projectId,
-    dataset,
-    apiVersion,
-    useCdn: true, // CDN em produção
-    perspective: 'published',
-})
+  projectId,
+  dataset,
+  apiVersion,
+  useCdn: true, // CDN em produção
+  perspective: "published",
+});
 ```
 
 **Uso**: Buscar conteúdo publicado no frontend (pages, components).
 
 #### 2. `writeClient` - Cliente com Token de Escrita
+
 ```typescript
 export const writeClient = createClient({
-    projectId,
-    dataset,
-    apiVersion,
-    useCdn: false,
-    token: process.env.SANITY_API_WRITE_TOKEN,
-    perspective: 'published',
-})
+  projectId,
+  dataset,
+  apiVersion,
+  useCdn: false,
+  token: process.env.SANITY_API_WRITE_TOKEN,
+  perspective: "published",
+});
 ```
 
 **Uso**: Webhooks, scripts de seed, operações administrativas.
 ⚠️ **NUNCA exponha ao browser!**
 
 #### 3. `previewClient` - Cliente para Preview/Draft
+
 ```typescript
 export const previewClient = createClient({
-    projectId,
-    dataset,
-    apiVersion,
-    useCdn: false,
-    token: process.env.SANITY_API_READ_TOKEN,
-    perspective: 'previewDrafts',
-})
+  projectId,
+  dataset,
+  apiVersion,
+  useCdn: false,
+  token: process.env.SANITY_API_READ_TOKEN,
+  perspective: "previewDrafts",
+});
 ```
 
 **Uso**: Preview mode para visualizar rascunhos.
@@ -88,10 +91,10 @@ Wrapper inteligente que adiciona suporte a cache tags do Next.js:
 
 ```typescript
 const posts = await sanityFetch<Post[]>({
-    query: GET_ALL_POSTS,
-    tags: ['posts'], // Next.js cache tag
-    revalidate: 3600, // Revalidar a cada 1h
-})
+  query: GET_ALL_POSTS,
+  tags: ["posts"], // Next.js cache tag
+  revalidate: 3600, // Revalidar a cada 1h
+});
 ```
 
 ---
@@ -101,9 +104,11 @@ const posts = await sanityFetch<Post[]>({
 ### Documentos de Conteúdo
 
 #### 1. **Post** (`post`)
+
 Artigos do blog otimizados para SEO e compliance médico.
 
 **Campos Principais**:
+
 - `title`, `slug`, `excerpt`, `coverImage`
 - `body` (Portable Text com componentes customizados)
 - `author` (referência a `author`)
@@ -115,21 +120,26 @@ Artigos do blog otimizados para SEO e compliance médico.
 - `faq` (array de `faqItem`)
 
 **Grupos**:
+
 - Content, SEO, Organization, Compliance, Relations
 
 #### 2. **Video** (`video`)
+
 Vídeos do YouTube integrados ao site.
 
 **Campos Principais**:
+
 - `title`, `slug`, `youtubeUrl`, `duration`
 - `thumbnail` (imagem customizada ou auto do YouTube)
 - `category`, `tags`
 - `seo`, `medicalCompliance`
 
 #### 3. **Author** (`author`)
+
 Autores de conteúdo (médicos, editores).
 
 **Campos Específicos para Médicos**:
+
 ```typescript
 credentials: {
     crm: 'CRM-MG 69.870',
@@ -139,17 +149,21 @@ credentials: {
 ```
 
 #### 4. **Category** (`category`)
+
 Categorias principais para organização.
 
 **Campos**: `title`, `slug`, `description`, `icon`, `color`, `image`
 
 #### 5. **Tag** (`tag`)
+
 Tags para classificação granular.
 
 #### 6. **SiteSettings** (`siteSettings`)
+
 Configurações globais do site (singleton).
 
 **Inclui**:
+
 - Informações da clínica (nome, endereço, telefone)
 - Horários de funcionamento
 - Links sociais
@@ -159,25 +173,33 @@ Configurações globais do site (singleton).
 ### Object Types (Reutilizáveis)
 
 #### `seoFields`
+
 Campos SEO completos para cada documento:
+
 - `metaTitle`, `metaDescription`
 - `focusKeyword`, `ogImage`
 - `canonicalUrl`, `noIndex`
 
 #### `medicalCompliance`
+
 Compliance médico obrigatório:
+
 - `lastReviewedDate` (data da última revisão)
 - `reviewedBy` (profissional responsável)
 - `disclaimer` (aviso legal)
 - `references` (array de referências científicas)
 
 #### `faqItem`
+
 Perguntas frequentes estruturadas para SEO:
+
 - `question` (string)
 - `answer` (Portable Text)
 
 #### `portableTextBody`
+
 Rich text customizado com componentes:
+
 - Headings (H2, H3, H4)
 - Lists (bullet, number)
 - Blockquotes
@@ -204,6 +226,7 @@ O projeto inclui **6 artigos iniciais sobre olho seco** prontos para importaçã
 6. **Lentes de Contato e Olho Seco** - Uso seguro
 
 Além disso, o seed cria:
+
 - **1 autor médico**: Dr. Philipe Saraiva Cruz
 - **5 categorias**: Sintomas, Tratamentos, Causas, Prevenção, Local (Caratinga)
 
@@ -272,21 +295,21 @@ Edite `scripts/seed-data.ts` para adicionar mais posts:
 
 ```typescript
 export const seedData = {
-    author: { /* ... */ },
-    categories: [ /* ... */ ],
-    posts: [
-        {
-            title: 'Seu Novo Artigo',
-            slug: { _type: 'slug', current: 'seu-novo-artigo' },
-            excerpt: 'Descrição do artigo...',
-            categoryRefs: [0, 1], // Índices das categorias
-            body: [ /* Portable Text blocks */ ],
-            seo: { /* SEO fields */ },
-            medicalCompliance: { /* Compliance fields */ },
-        },
-        // Adicione mais posts aqui
-    ],
-}
+  author: {/* ... */},
+  categories: [/* ... */],
+  posts: [
+    {
+      title: "Seu Novo Artigo",
+      slug: { _type: "slug", current: "seu-novo-artigo" },
+      excerpt: "Descrição do artigo...",
+      categoryRefs: [0, 1], // Índices das categorias
+      body: [/* Portable Text blocks */],
+      seo: {/* SEO fields */},
+      medicalCompliance: {/* Compliance fields */},
+    },
+    // Adicione mais posts aqui
+  ],
+};
 ```
 
 ---
@@ -300,21 +323,21 @@ O site usa **cache tags do Next.js 15** para revalidação granular:
 ```typescript
 // Exemplo: buscar posts com cache tag
 const posts = await sanityFetch<Post[]>({
-    query: GET_ALL_POSTS,
-    tags: ['posts'], // Tag para revalidação
-    revalidate: 3600, // 1 hora
-})
+  query: GET_ALL_POSTS,
+  tags: ["posts"], // Tag para revalidação
+  revalidate: 3600, // 1 hora
+});
 ```
 
 ### Tags Utilizadas:
 
-| Tag | Revalida | Quando |
-|-----|----------|--------|
-| `posts` | Listagem de posts | Post criado/editado/deletado |
-| `post:{slug}` | Post específico | Post editado |
-| `videos` | Listagem de vídeos | Vídeo criado/editado/deletado |
-| `video:{slug}` | Vídeo específico | Vídeo editado |
-| `siteSettings` | Configurações globais | Settings editado |
+| Tag            | Revalida              | Quando                        |
+| -------------- | --------------------- | ----------------------------- |
+| `posts`        | Listagem de posts     | Post criado/editado/deletado  |
+| `post:{slug}`  | Post específico       | Post editado                  |
+| `videos`       | Listagem de vídeos    | Vídeo criado/editado/deletado |
+| `video:{slug}` | Vídeo específico      | Vídeo editado                 |
+| `siteSettings` | Configurações globais | Settings editado              |
 
 ### Webhook de Revalidação
 
@@ -342,6 +365,7 @@ SANITY_REVALIDATE_SECRET=seu-token-seguro-aqui
 #### 3. Webhook Funcionando:
 
 Ao publicar/editar conteúdo no Sanity Studio, o webhook:
+
 1. Dispara requisição POST para `/api/revalidate`
 2. Valida a assinatura HMAC
 3. Identifica o tipo de documento (`_type`)
@@ -367,28 +391,28 @@ Ao publicar/editar conteúdo no Sanity Studio, o webhook:
 ```typescript
 // ✅ Bom
 const posts = await sanityFetch({
-    query: GET_ALL_POSTS,
-    tags: ['posts'],
-})
+  query: GET_ALL_POSTS,
+  tags: ["posts"],
+});
 
 // ❌ Ruim (não permite revalidação)
-const posts = await client.fetch(GET_ALL_POSTS)
+const posts = await client.fetch(GET_ALL_POSTS);
 ```
 
 ### 2. Use o Cliente Apropriado
 
 ```typescript
 // ✅ Frontend (pages/components)
-import { client, sanityFetch } from '@/sanity/client'
+import { client, sanityFetch } from "@/sanity/client";
 
 // ✅ Preview mode
-import { previewClient } from '@/sanity/client'
+import { previewClient } from "@/sanity/client";
 
 // ✅ Scripts administrativos
-import { writeClient } from '@/sanity/client'
+import { writeClient } from "@/sanity/client";
 
 // ❌ NUNCA no frontend
-import { writeClient } from '@/sanity/client' // EXPÕE TOKEN!
+import { writeClient } from "@/sanity/client"; // EXPÕE TOKEN!
 ```
 
 ### 3. Compliance Médico Obrigatório
@@ -417,22 +441,22 @@ seo: {
 
 ```typescript
 body: [
-    {
-        _type: 'block',
-        style: 'h2',
-        children: [{ _type: 'span', text: 'Título da Seção' }],
-    },
-    {
-        _type: 'block',
-        style: 'normal',
-        children: [{ _type: 'span', text: 'Parágrafo de texto.' }],
-    },
-    {
-        _type: 'block',
-        listItem: 'bullet',
-        children: [{ _type: 'span', text: 'Item de lista' }],
-    },
-]
+  {
+    _type: "block",
+    style: "h2",
+    children: [{ _type: "span", text: "Título da Seção" }],
+  },
+  {
+    _type: "block",
+    style: "normal",
+    children: [{ _type: "span", text: "Parágrafo de texto." }],
+  },
+  {
+    _type: "block",
+    listItem: "bullet",
+    children: [{ _type: "span", text: "Item de lista" }],
+  },
+];
 ```
 
 ---

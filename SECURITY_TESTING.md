@@ -11,6 +11,7 @@ Quick reference for testing security implementations after deployment.
 **Expected Grade**: **A+**
 
 **Expected Headers**:
+
 ```http
 X-Frame-Options: DENY
 X-Content-Type-Options: nosniff
@@ -38,28 +39,39 @@ Open your deployed site and check the Console:
 ### 3. Manual Security Tests
 
 #### Test 1: XSS Protection
+
 Try accessing:
+
 ```
 https://olhossecos.com.br/blog?search=<script>alert('XSS')</script>
 ```
+
 **Expected**: Script should NOT execute (should be escaped or blocked by CSP)
 
 #### Test 2: Clickjacking Protection
+
 Try embedding the site in an iframe:
+
 ```html
 <iframe src="https://olhossecos.com.br"></iframe>
 ```
+
 **Expected**: Should be blocked by `X-Frame-Options: DENY`
 
 #### Test 3: HTTPS Enforcement
+
 Try accessing:
+
 ```
 http://olhossecos.com.br
 ```
+
 **Expected**: Should redirect to `https://olhossecos.com.br`
 
 #### Test 4: Image Domain Restriction
+
 Check that only images from whitelisted domains load:
+
 - ✅ Images from `cdn.sanity.io` → Should load
 - ✅ Images from `olhossecos.com.br` → Should load
 - ❌ Images from random domains → Should be blocked
@@ -82,6 +94,7 @@ npm audit
 **Expected Grade**: **A** or **A+**
 
 **Check for**:
+
 - ✅ TLS 1.2 or 1.3 only
 - ✅ Strong cipher suites
 - ✅ HSTS enabled
@@ -92,6 +105,7 @@ npm audit
 **Online Tool**: https://csp-evaluator.withgoogle.com/
 
 Paste your CSP policy and check for:
+
 - ✅ No high-risk directives
 - ✅ 'unsafe-inline' only where necessary
 - ✅ 'unsafe-eval' NOT present
@@ -124,13 +138,15 @@ curl -I https://olhossecos.com.br
 ### Problem: CSP Blocking Legitimate Resources
 
 **Symptom**: Browser console shows CSP violations
+
 ```
 Refused to load the script 'https://example.com/script.js' because it violates the CSP directive
 ```
 
 **Solution**: Update CSP in [src/middleware.ts](src/middleware.ts) to include the legitimate source:
+
 ```typescript
-"script-src 'self' 'unsafe-inline' https://cdn.sanity.io https://trusted-domain.com"
+"script-src 'self' 'unsafe-inline' https://cdn.sanity.io https://trusted-domain.com";
 ```
 
 ### Problem: Images Not Loading
@@ -138,13 +154,15 @@ Refused to load the script 'https://example.com/script.js' because it violates t
 **Symptom**: Images from Sanity or WordPress not displaying
 
 **Solution 1**: Check image configuration in [astro.config.mjs](astro.config.mjs)
+
 ```typescript
-domains: ['olhossecos.com.br', 'cdn.sanity.io']
+domains: ["olhossecos.com.br", "cdn.sanity.io"];
 ```
 
 **Solution 2**: Verify CSP allows image loading:
+
 ```typescript
-"img-src 'self' data: https: blob:"
+"img-src 'self' data: https: blob:";
 ```
 
 ### Problem: HSTS Too Strict
@@ -152,9 +170,10 @@ domains: ['olhossecos.com.br', 'cdn.sanity.io']
 **Symptom**: Can't test on localhost or HTTP environments
 
 **Solution**: HSTS is only enabled in production
+
 ```typescript
 if (import.meta.env.PROD) {
-    response.headers.set('Strict-Transport-Security', '...');
+  response.headers.set("Strict-Transport-Security", "...");
 }
 ```
 
@@ -163,9 +182,10 @@ if (import.meta.env.PROD) {
 **Symptom**: Google Analytics, tracking scripts not working
 
 **Solution**: Add trusted domains to CSP:
+
 ```typescript
-"script-src 'self' 'unsafe-inline' https://cdn.sanity.io https://*.googletagmanager.com"
-"connect-src 'self' https://olhossecos.com https://cdn.sanity.io https://*.google-analytics.com"
+"script-src 'self' 'unsafe-inline' https://cdn.sanity.io https://*.googletagmanager.com";
+"connect-src 'self' https://olhossecos.com https://cdn.sanity.io https://*.google-analytics.com";
 ```
 
 ## ✅ Security Checklist
@@ -192,7 +212,7 @@ Use this checklist after each deployment:
 
 ```typescript
 // In CSP directives array, add to appropriate directive:
-"script-src 'self' 'unsafe-inline' https://cdn.sanity.io https://new-trusted-domain.com"
+"script-src 'self' 'unsafe-inline' https://cdn.sanity.io https://new-trusted-domain.com";
 ```
 
 ### Allow New Image Source
@@ -217,23 +237,24 @@ image: {
 
 ```typescript
 // Comment out or change condition:
-if (false) { // Disabled for testing
-    response.headers.set('Strict-Transport-Security', '...');
+if (false) {
+  // Disabled for testing
+  response.headers.set("Strict-Transport-Security", "...");
 }
 ```
 
 ## 📊 Expected Test Results Summary
 
-| Test | Tool | Expected Result |
-|------|------|-----------------|
-| Security Headers | securityheaders.com | A+ |
-| SSL/TLS | ssllabs.com | A or A+ |
-| Dependency Audit | `npm audit` | 0 vulnerabilities |
-| CSP Policy | csp-evaluator.withgoogle.com | No high-risk issues |
-| Performance | Lighthouse | 90+ (minimal impact) |
-| XSS Protection | Manual testing | Scripts blocked/escaped |
-| Clickjacking | Manual iframe test | Blocked |
-| HTTPS Redirect | Manual HTTP access | Redirects to HTTPS |
+| Test             | Tool                         | Expected Result         |
+| ---------------- | ---------------------------- | ----------------------- |
+| Security Headers | securityheaders.com          | A+                      |
+| SSL/TLS          | ssllabs.com                  | A or A+                 |
+| Dependency Audit | `npm audit`                  | 0 vulnerabilities       |
+| CSP Policy       | csp-evaluator.withgoogle.com | No high-risk issues     |
+| Performance      | Lighthouse                   | 90+ (minimal impact)    |
+| XSS Protection   | Manual testing               | Scripts blocked/escaped |
+| Clickjacking     | Manual iframe test           | Blocked                 |
+| HTTPS Redirect   | Manual HTTP access           | Redirects to HTTPS      |
 
 ---
 

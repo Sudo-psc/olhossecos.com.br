@@ -132,7 +132,7 @@ ou promessas de publicação não confirmados.
 
 - Title: `Newsletter sobre Olho Seco e Superfície Ocular | Olhos Secos`.
 - Meta description: `Receba conteúdos selecionados sobre olho seco, saúde
-  ocular, novas publicações, livros e atualizações da revista SUPERFÍCIE.`
+ocular, novas publicações, livros e atualizações da revista SUPERFÍCIE.`
 - Canonical: `https://olhossecos.com.br/newsletter`.
 - Um único H1.
 - Breadcrumbs visíveis e `BreadcrumbList` emitido pelo layout.

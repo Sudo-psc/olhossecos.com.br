@@ -32,7 +32,32 @@ const nav = [
         <EyeMark class="portal-mark" />
         <span><strong>Olho Seco</strong> — Portal do paciente</span>
       </a>
-      <a class="portal-return" href="/"> Voltar ao portal Olhos Secos </a>
+      <div class="surface-utility-actions">
+        <button
+          type="button"
+          class="surface-search-btn"
+          aria-label="Buscar na SUPERFÍCIE e portal (Cmd+K)"
+          data-open-global-search
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle
+              cx="10.8"
+              cy="10.8"
+              r="6.7"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"></circle>
+            <path
+              d="m16 16 4.5 4.5"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"></path>
+          </svg>
+          <span>Buscar</span>
+          <kbd>⌘K</kbd>
+        </button>
+        <a class="portal-return" href="/"> Voltar ao portal </a>
+      </div>
       <button
         class="surface-menu-button"
         type="button"
@@ -88,6 +113,28 @@ const nav = [
     hidden
   >
     <div class="surface-shell">
+      <button
+        type="button"
+        class="surface-mobile-search-btn"
+        data-open-global-search
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle
+            cx="10.8"
+            cy="10.8"
+            r="6.7"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"></circle>
+          <path
+            d="m16 16 4.5 4.5"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"></path>
+        </svg>
+        <span>Buscar na SUPERFÍCIE...</span>
+        <kbd>⌘K</kbd>
+      </button>
       {
         nav.map((item) => (
           <a
@@ -130,15 +177,39 @@ const nav = [
         ))
       }
     </nav>
-    <button
-      class="sticky-menu-button surface-menu-button"
-      type="button"
-      tabindex="-1"
-      aria-expanded="false"
-      aria-controls="surface-mobile-nav"
-    >
-      Menu
-    </button>
+    <div class="sticky-actions">
+      <button
+        class="sticky-search-btn"
+        type="button"
+        tabindex="-1"
+        aria-label="Buscar na SUPERFÍCIE"
+        data-open-global-search
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle
+            cx="10.8"
+            cy="10.8"
+            r="6.7"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"></circle>
+          <path
+            d="m16 16 4.5 4.5"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"></path>
+        </svg>
+      </button>
+      <button
+        class="sticky-menu-button surface-menu-button"
+        type="button"
+        tabindex="-1"
+        aria-expanded="false"
+        aria-controls="surface-mobile-nav"
+      >
+        Menu
+      </button>
+    </div>
   </div>
   <div class="sticky-progress" data-reading-progress></div>
 </div>
@@ -247,6 +318,103 @@ const nav = [
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
+  }
+
+  .surface-utility-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .surface-search-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.75rem;
+    border: 1px solid var(--surface-line, #d8d3c7);
+    border-radius: var(--surface-radius-sm, 6px);
+    background: #ffffff;
+    color: var(--surface-navy, #001a33);
+    font-size: 0.78rem;
+    font-weight: 750;
+    cursor: pointer;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease;
+  }
+
+  .surface-search-btn svg {
+    width: 15px;
+    height: 15px;
+    color: var(--surface-teal, #0b827f);
+  }
+
+  .surface-search-btn kbd,
+  .surface-mobile-search-btn kbd {
+    padding: 0.15rem 0.35rem;
+    border: 1px solid #c8d7e2;
+    border-radius: 3px;
+    background: #f0f4f8;
+    font-family: ui-monospace, monospace;
+    font-size: 0.75rem;
+    color: var(--surface-muted, #5b7081);
+  }
+
+  .surface-search-btn:hover {
+    background: #f4f8fa;
+    border-color: var(--surface-teal, #0b827f);
+  }
+
+  .surface-mobile-search-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.8rem;
+    border: 1px solid var(--surface-gold, #b98a36);
+    border-radius: var(--surface-radius-sm, 6px);
+    background: rgb(217 182 101 / 14%);
+    color: var(--surface-paper, #f7f4ed);
+    font-size: 0.84rem;
+    font-weight: 750;
+    cursor: pointer;
+  }
+
+  .surface-mobile-search-btn svg {
+    width: 17px;
+    height: 17px;
+    color: var(--surface-gold-light, #d9b665);
+  }
+
+  .sticky-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .sticky-search-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--surface-gold, #b98a36);
+    border-radius: var(--surface-radius-sm, 6px);
+    background: transparent;
+    color: var(--surface-paper, #f7f4ed);
+    cursor: pointer;
+    transition: background-color 150ms ease;
+  }
+
+  .sticky-search-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .sticky-search-btn:hover {
+    background: rgb(217 182 101 / 15%);
   }
 
   .portal-brand,

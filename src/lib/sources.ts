@@ -228,15 +228,15 @@ export const sources = {
     verified: verifiedToday,
   },
   epiphoraEtiology: {
-    name: "Lee e Baek — causas de épifora",
+    name: "Lee e Baek — causas de epífora",
     type: "Estudo clínico retrospectivo",
     url: "https://pubmed.ncbi.nlm.nih.gov/34237206/",
     description:
-      "Estudo que ilustra a natureza multifatorial da épifora, incluindo lacrimejamento reflexo associado ao olho seco e alterações das vias lacrimais.",
+      "Estudo que ilustra a natureza multifatorial da epífora, incluindo lacrimejamento reflexo associado ao olho seco e alterações das vias lacrimais.",
     verified: verifiedToday,
   },
   functionalEpiphora: {
-    name: "Usmani et al. — épifora funcional",
+    name: "Usmani et al. — epífora funcional",
     type: "Estudo clínico retrospectivo",
     url: "https://pubmed.ncbi.nlm.nih.gov/36952153/",
     description:

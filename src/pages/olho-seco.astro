@@ -1,6 +1,8 @@
 ---
 import ContentPage from "@/components/ContentPage.astro";
 import EducationalFigure from "@/components/EducationalFigure.astro";
+import TearFilmCycle from "@/components/TearFilmCycle.astro";
+import GlossaryTooltip from "@/components/GlossaryTooltip.astro";
 import { figures } from "@/lib/figures";
 import { sourceLink, sources } from "@/lib/sources";
 ---
@@ -49,8 +51,10 @@ import { sourceLink, sources } from "@/lib/sources";
   <p>
     Uma forma didática de entender o filme lacrimal é pensar em três componentes
     que cooperam: uma porção lipídica, associada principalmente às glândulas das
-    pálpebras; uma porção aquosa, rica em água e proteínas; e mucinas, que
-    ajudam as lágrimas a aderirem e se distribuírem pela superfície do olho.
+    pálpebras; uma porção aquosa, rica em água e proteínas; e <GlossaryTooltip
+      term="mucinas"
+    />, que ajudam as lágrimas a aderirem e se distribuírem pela superfície do
+    olho.
   </p>
   <ul>
     <li>
@@ -67,6 +71,8 @@ import { sourceLink, sources } from "@/lib/sources";
     Essa divisão é útil para aprender, mas o filme lacrimal real é dinâmico:
     suas partes se misturam e mudam a cada piscada.
   </p>
+
+  <TearFilmCycle />
 
   <EducationalFigure figure={figures.tearFilmLayersEducation} />
 
@@ -86,14 +92,22 @@ import { sourceLink, sources } from "@/lib/sources";
   <h2 id="tipos">Tipos mais comuns</h2>
   <h3>Predomínio evaporativo</h3>
   <p>
-    As lágrimas evaporam rápido demais. Alterações das glândulas de Meibomius,
-    responsáveis por parte dos lipídios do filme lacrimal, são uma causa
-    frequente.
+    As lágrimas evaporam rápido demais. Alterações das <GlossaryTooltip
+      term="glandulas-de-meibomius"
+      label="glândulas de Meibomius"
+    />, responsáveis por parte dos lipídios do filme lacrimal, são uma causa
+    frequente (<GlossaryTooltip
+      term="evaporativo"
+      label="olho seco evaporativo"
+    />).
   </p>
   <h3>Predomínio aquodeficiente</h3>
   <p>
-    Há produção insuficiente da porção aquosa das lágrimas. Pode ocorrer de
-    forma isolada ou associada a condições como a doença de Sjögren.
+    Há produção insuficiente da porção aquosa das lágrimas (<GlossaryTooltip
+      term="aquodeficiente"
+      label="olho seco aquodeficiente"
+    />). Pode ocorrer de forma isolada ou associada a condições como a doença de
+    Sjögren.
   </p>
   <h3>Forma mista</h3>
   <p>

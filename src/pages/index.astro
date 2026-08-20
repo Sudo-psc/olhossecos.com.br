@@ -1,12 +1,54 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import IssueCover from "@/components/superficie/IssueCover.astro";
+import EyeExplorer from "@/components/science/EyeExplorer.astro";
+import MechanismScrolly from "@/components/science/MechanismScrolly.astro";
+import NewsletterSignupForm from "@/components/NewsletterSignupForm.astro";
 import { essentialContents, homeJourneys, superficieTopics } from "@/lib/home";
-import { founderIssue } from "@/lib/superficie";
+import {
+  calculateArticleReadingTime,
+  founderIssue,
+  getMagazineArticlePath,
+  publishedArticles,
+} from "@/lib/superficie";
+import { guides } from "@/lib/guides";
+import { author, books } from "@/lib/books";
 
 const homeTitle = "Olho Seco e Superfície Ocular | Conteúdo, Livros e Ciência";
 const homeDescription =
   "Informação sobre sintomas, diagnóstico e tratamento do olho seco, além de conteúdo profissional, livros, tecnologia e a revista SUPERFÍCIE.";
+
+// A grande matéria é escolhida por slug, não pela ordem do array: a capa da
+// home é decisão editorial e não deve mudar sozinha quando um artigo novo
+// entrar na lista.
+const leadArticle =
+  publishedArticles.find(({ slug }) => slug === "tfos-dews-iii-na-pratica") ??
+  publishedArticles[0];
+const recentArticles = publishedArticles
+  .filter(({ slug }) => slug !== leadArticle?.slug)
+  .slice(0, 6);
+
+const featuredGuide =
+  guides.find(({ slug }) => slug === "olho-seco-guia-essencial") ?? guides[0];
+
+// "Em 5 minutos": os guias mais curtos, lidos do próprio campo de tempo de
+// leitura em vez de uma lista paralela que envelheceria sozinha.
+const parseMinutes = (readingTime: string) =>
+  Number.parseInt(readingTime, 10) || 99;
+const quickGuides = guides
+  .filter((guide) => guide.slug !== featuredGuide?.slug)
+  .sort((a, b) => parseMinutes(a.readingTime) - parseMinutes(b.readingTime))
+  .slice(0, 4);
+
+const editorialGuides = guides
+  .filter(
+    (guide) =>
+      guide.slug !== featuredGuide?.slug &&
+      !quickGuides.some((quick) => quick.slug === guide.slug),
+  )
+  .slice(0, 5);
+
+const featuredBooks = books.slice(0, 2);
 ---
 
 <Layout
@@ -14,8 +56,9 @@ const homeDescription =
   title={homeTitle}
   description={homeDescription}
   imageAlt="Olhos Secos — ciência e informação sobre superfície ocular"
-  dateModified="2026-08-07"
+  dateModified="2026-08-19"
 >
+  <!-- ------------------------------------------------------------- hero -->
   <section class="home-hero" aria-labelledby="home-title">
     <div class="page-shell hero-grid">
       <div class="hero-copy">
@@ -51,38 +94,58 @@ const homeDescription =
         </p>
       </div>
 
-      <div class="hero-visual">
+      <figure class="hero-visual" data-parallax>
         <p class="visual-label">Superfície ocular • Filme lacrimal</p>
-        <picture>
-          <source
-            type="image/avif"
-            srcset="/images/hero-tear-film-720.avif 720w, /images/hero-tear-film-1448.avif 1448w"
-            sizes="(max-width: 760px) calc(100vw - 2rem), (max-width: 1100px) 48vw, 640px"
-          />
-          <source
-            type="image/webp"
-            srcset="/images/hero-tear-film-720.webp 720w, /images/hero-tear-film-1448.webp 1448w"
-            sizes="(max-width: 760px) calc(100vw - 2rem), (max-width: 1100px) 48vw, 640px"
-          />
-          <img
-            src="/images/hero-tear-film.jpg"
-            alt="Composição editorial da superfície ocular e das camadas do filme lacrimal"
-            width="1448"
-            height="1086"
-            fetchpriority="high"
-          />
-        </picture>
-        <aside class="science-index" aria-label="Índice científico">
+        <div class="hero-frame">
+          <picture>
+            <source
+              type="image/avif"
+              srcset="/images/hero-filme-lacrimal-720.avif 720w, /images/hero-filme-lacrimal-1024.avif 1024w"
+              sizes="(max-width: 760px) calc(100vw - 2rem), (max-width: 1100px) 48vw, 640px"
+            />
+            <source
+              type="image/webp"
+              srcset="/images/hero-filme-lacrimal-720.webp 720w, /images/hero-filme-lacrimal-1024.webp 1024w"
+              sizes="(max-width: 760px) calc(100vw - 2rem), (max-width: 1100px) 48vw, 640px"
+            />
+            <img
+              src="/images/hero-filme-lacrimal.jpg"
+              alt="Composição editorial da superfície da córnea vista de perfil, com uma película lacrimal iridescente espalhada sobre a curva"
+              width="1024"
+              height="768"
+              fetchpriority="high"
+            />
+          </picture>
+          <!-- Interferência do filme lacrimal: duas faixas que derivam devagar
+               sobre a imagem. É o único movimento contínuo do hero, e some
+               inteiro em prefers-reduced-motion. -->
+          <svg
+            class="hero-interference"
+            viewBox="0 0 600 450"
+            aria-hidden="true"
+          >
+            <path d="M-40 150 q150 -46 300 0 t300 0"></path>
+            <path d="M-40 250 q150 46 300 0 t300 0"></path>
+            <path d="M-40 340 q150 -34 300 0 t300 0"></path>
+          </svg>
+        </div>
+        <figcaption class="science-index">
           <span>03</span>
           <p>
             Camadas interdependentes contribuem para estabilidade, proteção e
             qualidade óptica da superfície ocular.
           </p>
-        </aside>
-      </div>
+          <small>
+            Ilustração original do portal · Imagem gerada com IA para fins
+            editoriais; representação esquemática, sem escala anatômica e não é
+            uma fotografia clínica.
+          </small>
+        </figcaption>
+      </figure>
     </div>
   </section>
 
+  <!-- ------------------------------------------------------- duas jornadas -->
   <nav class="audience-rail" aria-label="Escolha sua jornada">
     <a
       href="/olho-seco"
@@ -106,11 +169,337 @@ const homeDescription =
     </a>
   </nav>
 
+  <!-- ---------------------------------------------------- a grande matéria -->
+  {
+    leadArticle && (
+      <section class="lead-story" aria-labelledby="lead-story-title">
+        <div class="page-shell lead-grid">
+          <div class="lead-copy">
+            <p class="lead-kicker">
+              <span>Em destaque</span>
+              <span>{leadArticle.category}</span>
+            </p>
+            <h2 id="lead-story-title">
+              <a
+                href={getMagazineArticlePath(leadArticle)}
+                data-home-event="article_click"
+                data-home-content={leadArticle.slug}
+              >
+                {leadArticle.title}
+              </a>
+            </h2>
+            {leadArticle.subtitle && (
+              <p class="lead-standfirst">{leadArticle.subtitle}</p>
+            )}
+            <p class="lead-excerpt">{leadArticle.excerpt}</p>
+            <p class="lead-meta">
+              <span>Por {leadArticle.author.name}</span>
+              <span>
+                {calculateArticleReadingTime(leadArticle)} min de leitura
+              </span>
+              <span>SUPERFÍCIE</span>
+            </p>
+            <a
+              class="text-link"
+              href={getMagazineArticlePath(leadArticle)}
+              data-home-event="article_click"
+              data-home-content={leadArticle.slug}
+            >
+              Ler a matéria
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 12h16m-5-5 5 5-5 5" />
+              </svg>
+            </a>
+          </div>
+
+          {/* Nenhum artigo da edição fundadora tem imagem de capa própria. Em vez
+              de deixar a coluna vazia — ou inventar uma ilustração —, ela recebe
+              a ficha da matéria, que é informação editorial de verdade. */}
+          <aside class="lead-sheet" aria-label="Ficha da matéria">
+            <dl>
+              <div>
+                <dt>Edição</dt>
+                <dd>Fundadora nº {founderIssue.number}</dd>
+              </div>
+              <div>
+                <dt>Publicado</dt>
+                <dd>{leadArticle.publishedAt ?? "Edição em produção"}</dd>
+              </div>
+              <div>
+                <dt>Revisão</dt>
+                <dd>{leadArticle.reviewSeal}</dd>
+              </div>
+            </dl>
+            {leadArticle.tags.length > 0 && (
+              <ul class="lead-tags">
+                {leadArticle.tags.slice(0, 6).map((tag) => (
+                  <li>{tag}</li>
+                ))}
+              </ul>
+            )}
+          </aside>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- --------------------------------------------- destaques editoriais -->
+  <section class="editorial" aria-labelledby="editorial-title">
+    <div class="page-shell">
+      <header class="section-intro">
+        <p class="eyebrow">Guias do portal</p>
+        <h2 id="editorial-title" class="section-heading">
+          Comece por onde a dúvida está
+        </h2>
+      </header>
+
+      <div class="editorial-grid">
+        {
+          featuredGuide && (
+            <article class="editorial-feature">
+              <p class="card-kicker">{featuredGuide.category}</p>
+              <h3>
+                <a
+                  href={`/guias/${featuredGuide.slug}`}
+                  data-home-event="article_click"
+                  data-home-content={featuredGuide.slug}
+                >
+                  {featuredGuide.title}
+                </a>
+              </h3>
+              <p>{featuredGuide.description}</p>
+              <p class="card-meta">
+                <span>{featuredGuide.readingTime} de leitura</span>
+                <span>Revisado em {featuredGuide.updated}</span>
+              </p>
+            </article>
+          )
+        }
+
+        <ol class="editorial-list">
+          {
+            editorialGuides.map((guide, index) => (
+              <li>
+                <span class="list-index">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <p class="card-kicker">{guide.category}</p>
+                  <h3>
+                    <a
+                      href={`/guias/${guide.slug}`}
+                      data-home-event="article_click"
+                      data-home-content={guide.slug}
+                    >
+                      {guide.title}
+                    </a>
+                  </h3>
+                  <p class="card-meta">{guide.readingTime} de leitura</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+
+      <a class="text-link section-footer-link" href="/guias">
+        Ver os doze guias
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 12h16m-5-5 5 5-5 5"></path>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- --------------------------------------------------------- SUPERFÍCIE -->
+  <section class="surface-feature" aria-labelledby="surface-title">
+    <div class="page-shell surface-grid">
+      <div class="surface-copy">
+        <p class="surface-signature">Olho Seco • Córnea • Tecnologia</p>
+        <h2 id="surface-title">SUPERFÍCIE</h2>
+        <p class="surface-descriptor">
+          Revista de Olho Seco e Superfície Ocular
+        </p>
+        <h3>Evidência que chega à prática.</h3>
+        <p class="surface-intro">
+          Uma publicação periódica dedicada à atualização clínica, científica e
+          tecnológica da superfície ocular, reunindo análise, evidências,
+          especialistas, diagnóstico, terapias e inovação.
+        </p>
+        <ul class="surface-topics">
+          {superficieTopics.slice(0, 6).map((topic) => <li>{topic}</li>)}
+        </ul>
+        <div class="surface-actions">
+          <a
+            class="button-primary"
+            href="/superficie"
+            data-home-event="superficie_click"
+          >
+            Conheça a SUPERFÍCIE
+          </a>
+          <a
+            class="text-link"
+            href="/superficie/edicao-00"
+            data-home-event="superficie_issue_click"
+          >
+            Ver a Edição Fundadora
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 12h16m-5-5 5 5-5 5"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <article class="founding-issue">
+        <div class="issue-cover-thumb">
+          <IssueCover
+            issue={founderIssue}
+            sizes="(max-width: 720px) 45vw, 240px"
+          />
+        </div>
+        <div class="issue-content">
+          <p class="issue-status">
+            Edição Fundadora nº {founderIssue.number} • {
+              founderIssue.articles.length
+            } artigos publicados
+          </p>
+          <h3>{founderIssue.title}</h3>
+          <p>{founderIssue.subtitle}</p>
+          <a
+            href="/superficie/edicao-00"
+            class="text-link"
+            data-home-event="superficie_issue_click"
+          >
+            Abrir a edição
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 12h16m-5-5 5 5-5 5"></path>
+            </svg>
+          </a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------ em 5 minutos -->
+  <section class="quick-reads" aria-labelledby="quick-reads-title">
+    <div class="page-shell">
+      <header class="section-intro compact">
+        <p class="eyebrow">Em cinco minutos</p>
+        <h2 id="quick-reads-title" class="section-heading">
+          Leituras curtas, sem perder o rigor
+        </h2>
+      </header>
+
+      <ul class="quick-grid">
+        {
+          quickGuides.map((guide) => (
+            <li>
+              <p class="card-kicker">{guide.readingTime}</p>
+              <h3>
+                <a
+                  href={`/guias/${guide.slug}`}
+                  data-home-event="article_click"
+                  data-home-content={guide.slug}
+                >
+                  {guide.title}
+                </a>
+              </h3>
+              <p>{guide.description}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------- artigos recentes -->
+  <section class="recent-articles" aria-labelledby="recent-articles-title">
+    <div class="page-shell">
+      <header class="section-intro compact">
+        <p class="eyebrow">Da revista</p>
+        <h2 id="recent-articles-title" class="section-heading">
+          Artigos recentes da SUPERFÍCIE
+        </h2>
+      </header>
+
+      <ul class="recent-grid">
+        {
+          recentArticles.map((article) => (
+            <li>
+              <p class="card-meta">
+                <span>{article.category}</span>
+                <span>{calculateArticleReadingTime(article)} min</span>
+              </p>
+              <h3>
+                <a
+                  href={getMagazineArticlePath(article)}
+                  data-home-event="article_click"
+                  data-home-content={article.slug}
+                >
+                  {article.title}
+                </a>
+              </h3>
+              <p>{article.excerpt}</p>
+            </li>
+          ))
+        }
+      </ul>
+
+      <a class="text-link section-footer-link" href="/superficie/artigos">
+        Ver todos os artigos
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 12h16m-5-5 5 5-5 5"></path>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- --------------------------------------------- dossiê visual e 3D -->
+  <MechanismScrolly />
+  <EyeExplorer />
+
+  <!-- --------------------------------------------------------- essenciais -->
+  <section class="essentials" aria-labelledby="essentials-title">
+    <div class="page-shell">
+      <header class="section-intro compact">
+        <p class="eyebrow">Conteúdos essenciais</p>
+        <h2 id="essentials-title" class="section-heading">
+          As perguntas que abrem o assunto
+        </h2>
+      </header>
+
+      <ul class="essential-grid">
+        {
+          essentialContents.map((content, index) => (
+            <li>
+              <span class="list-index">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <h3>
+                <a
+                  href={content.href}
+                  data-home-event="article_click"
+                  data-home-content={content.label}
+                >
+                  {content.label}
+                </a>
+              </h3>
+              <p>{content.description}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- -------------------------------------------------------- as jornadas -->
   <section class="journeys" aria-labelledby="journeys-title">
     <div class="page-shell">
       <header class="section-intro">
-        <p class="section-kicker">Duas jornadas, um mesmo rigor editorial</p>
-        <h2 id="journeys-title">Informação certa para cada momento</h2>
+        <p class="eyebrow">Duas jornadas, um mesmo rigor editorial</p>
+        <h2 id="journeys-title" class="section-heading">
+          Informação certa para cada momento
+        </h2>
         <p>
           Olho seco pode representar desde sintomas ocasionais associados ao
           ambiente e às telas até uma doença complexa da superfície ocular.
@@ -126,7 +515,7 @@ const homeDescription =
                 <span class="journey-number">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <p>{journey.eyebrow}</p>
+                <p class="card-kicker">{journey.eyebrow}</p>
                 <h3>{journey.title}</h3>
               </header>
               <p class="journey-description">{journey.description}</p>
@@ -134,21 +523,24 @@ const homeDescription =
                 {journey.links.map((link) => (
                   <a href={link.href}>
                     {link.label}
-                    <span>↗</span>
+                    <span aria-hidden="true">↗</span>
                   </a>
                 ))}
               </nav>
               <a
-                class="journey-cta"
+                class="text-link"
                 href={journey.cta.href}
                 data-home-event={
                   journey.audience === "patient"
                     ? "patient_path_click"
                     : "professional_path_click"
                 }
-                data-home-placement="journey"
+                data-home-placement="journeys"
               >
-                {journey.cta.label} <span>→</span>
+                {journey.cta.label}
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 12h16m-5-5 5 5-5 5" />
+                </svg>
               </a>
             </article>
           ))
@@ -157,96 +549,108 @@ const homeDescription =
     </div>
   </section>
 
-  <section class="essentials" aria-labelledby="essentials-title">
+  <!-- ------------------------------------------------------------- livros -->
+  <section class="books" aria-labelledby="books-title">
     <div class="page-shell">
-      <header class="essentials-heading">
-        <div>
-          <p class="section-kicker">Conteúdos essenciais</p>
-          <h2 id="essentials-title">Comece por aqui</h2>
-        </div>
-        <p>Guias fundamentais para compreender a doença do olho seco.</p>
+      <header class="section-intro compact">
+        <p class="eyebrow">Obras do autor</p>
+        <h2 id="books-title" class="section-heading">Livros</h2>
       </header>
 
-      <div class="essential-grid">
+      <ul class="book-grid">
         {
-          essentialContents.map((content, index) => (
-            <article>
-              <span>{String(index + 1).padStart(2, "0")}</span>
+          featuredBooks.map((book) => (
+            <li>
+              <p class="card-kicker">{book.badge}</p>
               <h3>
-                <a href={content.href}>{content.label}</a>
+                <a
+                  href={`/livros/${book.slug}`}
+                  data-home-event="book_click"
+                  data-home-content={book.slug}
+                >
+                  {book.title}
+                </a>
               </h3>
-              <p>{content.description}</p>
-              <a
-                class="essential-link"
-                href={content.href}
-                data-home-event="article_click"
-                data-home-content={content.label}
-              >
-                Ler conteúdo →
-              </a>
-            </article>
+              <p>{book.subtitle}</p>
+              <p class="card-meta">{book.status}</p>
+            </li>
           ))
         }
-      </div>
+      </ul>
 
-      <a class="all-content-link" href="/guias">Ver todos os conteúdos →</a>
+      <a class="text-link section-footer-link" href="/livros">
+        Ver o catálogo
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 12h16m-5-5 5 5-5 5"></path>
+        </svg>
+      </a>
     </div>
   </section>
 
-  <section class="surface-feature" aria-labelledby="surface-title">
-    <div class="page-shell surface-grid">
-      <div class="surface-copy">
-        <p class="surface-signature">Olho Seco • Córnea • Tecnologia</p>
-        <h2 id="surface-title">SUPERFÍCIE</h2>
-        <p class="surface-descriptor">
-          Revista de Olho Seco e Superfície Ocular
+  <!-- ------------------------------------------------ responsável editorial -->
+  <section class="editorial-board" aria-labelledby="board-title">
+    <div class="page-shell board-grid">
+      <div>
+        <p class="eyebrow">Quem assina</p>
+        <h2 id="board-title" class="section-heading">
+          Responsabilidade editorial
+        </h2>
+        <p class="board-lead">{author.description}</p>
+        <p class="board-credential">
+          <strong>{author.name}</strong>
+          <span>{author.role}</span>
+          <em>{author.registration}</em>
         </p>
-        <h3>Evidência que chega à prática.</h3>
-        <p class="surface-intro">
-          Uma publicação periódica dedicada à atualização clínica, científica e
-          tecnológica da superfície ocular, reunindo análise, evidências,
-          especialistas, diagnóstico, terapias e inovação.
-        </p>
-        <div class="surface-actions">
-          <a
-            class="surface-button surface-button-primary"
-            href="/superficie"
-            data-home-event="superficie_click"
-          >
-            Conheça a SUPERFÍCIE
-          </a>
-          <a
-            class="surface-button surface-button-secondary"
-            href="/livros#newsletter"
-            data-home-event="superficie_issue_click"
-          >
-            Receba a próxima edição
-          </a>
-        </div>
+        <a class="text-link" href={`/autor/${author.slug}`}>
+          Sobre o autor
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 12h16m-5-5 5 5-5 5"></path>
+          </svg>
+        </a>
       </div>
 
-      <article class="founding-issue">
-        <p class="issue-status">Edição Fundadora • Em desenvolvimento</p>
-        <div class="issue-body">
-          <div class="issue-cover-thumb">
-            <IssueCover issue={founderIssue} sizes="180px" />
-          </div>
-          <div class="issue-content">
-            <p>Edição Fundadora</p>
-            <h3>{founderIssue.title}</h3>
-            <span>{founderIssue.subtitle}</span>
-            <ul aria-label="Temas previstos">
-              {superficieTopics.slice(0, 4).map((topic) => <li>{topic}</li>)}
-            </ul>
-            <a
-              href="/livros#newsletter"
-              data-home-event="superficie_issue_click"
-            >
-              Acompanhar o lançamento →
-            </a>
-          </div>
-        </div>
-      </article>
+      <ul class="board-principles">
+        <li>
+          <h3>Evidência declarada</h3>
+          <p>
+            Cada afirmação clínica aponta para a fonte que a sustenta, e o texto
+            diz quando a evidência é curta, fraca ou de efeito transitório.
+          </p>
+        </li>
+        <li>
+          <h3>Sem promessa de resultado</h3>
+          <p>
+            Ao descrever um tratamento, o portal diz o que ele pretende e o que
+            ainda é incerto. Não há superlativo nem comparação com outros
+            serviços.
+          </p>
+        </li>
+        <li>
+          <h3>Publicidade separada do conteúdo</h3>
+          <p>
+            Na SUPERFÍCIE, parceria comercial não determina pauta nem conclusão
+            clínica; rótulo e disclosure são obrigatórios onde houver
+            patrocínio.
+          </p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- --------------------------------------------------------- newsletter -->
+  <section class="home-newsletter" aria-labelledby="home-newsletter-title">
+    <div class="page-shell newsletter-grid">
+      <div>
+        <p class="eyebrow">Newsletter</p>
+        <h2 id="home-newsletter-title" class="section-heading">
+          Receba o que for publicado
+        </h2>
+        <p>
+          Guias novos, edições da SUPERFÍCIE e o RADAR Científico. Sem
+          frequência fixa: só quando há o que dizer.
+        </p>
+      </div>
+      <NewsletterSignupForm source="newsletter" variant="portal" />
     </div>
   </section>
 </Layout>
@@ -287,113 +691,129 @@ const homeDescription =
         });
       });
     });
+
+  // Parallax do hero: deslocamento de poucos pixels, só no desktop e só quando
+  // o visitante não pediu menos movimento. Nada além do hero se move.
+  const parallax = document.querySelector<HTMLElement>("[data-parallax]");
+  const canMove =
+    window.matchMedia("(min-width: 900px)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (parallax && canMove) {
+    let ticking = 0;
+    const update = () => {
+      ticking = 0;
+      const offset = Math.min(window.scrollY, 600) * 0.06;
+      parallax.style.setProperty("--parallax-shift", `${offset.toFixed(2)}px`);
+    };
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (ticking) return;
+        ticking = requestAnimationFrame(update);
+      },
+      { passive: true },
+    );
+    update();
+  }
 </script>
 
 <style>
+  /* ------------------------------------------------------------------ hero */
   .home-hero {
-    min-height: min(790px, calc(100svh - var(--header-height)));
-    display: grid;
-    align-items: center;
-    overflow: hidden;
-    border-bottom: 1px solid #d8d7d1;
-    background: #f7f6f1;
+    padding-block: clamp(2.5rem, 5vw, 5rem) var(--space-section);
+    background:
+      radial-gradient(
+        120% 90% at 78% 6%,
+        rgb(8 127 149 / 8%) 0%,
+        transparent 62%
+      ),
+      var(--paper-50);
   }
 
   .hero-grid {
     display: grid;
-    grid-template-columns: 1.03fr 0.97fr;
-    align-items: center;
-    gap: clamp(3rem, 6vw, 7rem);
-    padding-block: clamp(4.5rem, 7vw, 7.5rem);
+    gap: clamp(2.5rem, 5vw, 4.5rem);
   }
 
-  .hero-copy {
-    position: relative;
-    z-index: 2;
-  }
-
-  .hero-eyebrow,
-  .section-kicker {
-    margin: 0;
-    color: var(--teal-dark);
-    font-size: 0.75rem;
-    font-weight: 850;
-    letter-spacing: 0.16em;
+  .hero-eyebrow {
+    margin: 0 0 1.4rem;
+    color: var(--copper-700);
+    font-size: var(--text-meta);
+    font-weight: 800;
+    letter-spacing: var(--tracking-kicker);
     text-transform: uppercase;
   }
 
   .hero-copy h1 {
-    max-width: 790px;
-    margin: 1.2rem 0 0;
+    max-width: 15ch;
+    margin: 0;
     font-family: var(--serif);
-    font-size: clamp(3.6rem, 5.6vw, 6.4rem);
-    font-weight: 500;
-    letter-spacing: -0.065em;
-    line-height: 0.92;
+    font-size: var(--text-display);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-tight);
+    text-wrap: balance;
   }
 
   .hero-lead {
-    max-width: 680px;
-    margin: 2rem 0 0;
+    max-width: var(--measure-narrow);
+    margin: 1.8rem 0 0;
     color: var(--ink-soft);
-    font-size: clamp(1.04rem, 1.35vw, 1.2rem);
-    line-height: 1.65;
+    font-size: var(--text-lead);
   }
 
-  .hero-actions,
-  .surface-actions {
+  .hero-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.8rem;
-    margin-top: 2.25rem;
+    gap: 0.85rem;
+    margin-top: 2.2rem;
   }
 
-  .hero-button,
-  .surface-button {
-    min-height: 54px;
+  .hero-button {
     display: inline-flex;
+    min-height: 52px;
     align-items: center;
     justify-content: center;
-    padding: 0.85rem 1.35rem;
-    border: 1px solid var(--ink);
-    border-radius: var(--control-radius);
-    font-size: 0.91rem;
-    font-weight: 800;
-    line-height: 1.2;
+    padding: 0.85rem 1.45rem;
+    border: 1px solid var(--navy-800);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-small);
+    font-weight: 700;
     transition:
-      background 180ms ease,
-      color 180ms ease,
-      transform 180ms ease;
-  }
-
-  .hero-button:hover,
-  .surface-button:hover {
-    transform: translateY(-2px);
+      background-color var(--duration-base) var(--ease-out-soft),
+      color var(--duration-base) var(--ease-out-soft),
+      transform var(--duration-base) var(--ease-out-soft);
   }
 
   .hero-button-primary {
-    border-color: var(--teal-dark);
-    background: var(--teal-dark);
-    color: white;
+    background: var(--navy-800);
+    color: #ffffff;
   }
 
-  .hero-button-primary:hover {
-    background: var(--teal-dark);
+  .hero-button-secondary {
+    background: transparent;
+    color: var(--ink);
+  }
+
+  .hero-button:hover {
+    transform: translateY(-2px);
   }
 
   .hero-button-secondary:hover {
-    background: white;
+    background: var(--navy-800);
+    color: #ffffff;
   }
 
   .ecosystem-line {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.8rem 1.8rem;
-    margin: 2rem 0 0;
-    color: #586477;
-    font-size: 0.75rem;
-    font-weight: 750;
-    letter-spacing: 0.08em;
+    gap: 0.5rem 1.6rem;
+    margin: 2.6rem 0 0;
+    color: var(--ink-soft);
+    font-size: var(--text-meta);
+    font-weight: 700;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 
@@ -403,761 +823,878 @@ const homeDescription =
 
   .ecosystem-line span + span::before {
     position: absolute;
-    top: 50%;
-    left: -1rem;
-    width: 3px;
-    height: 3px;
-    border-radius: 50%;
-    background: #b69a64;
-    content: "";
+    left: -0.85rem;
+    color: var(--copper-700);
+    content: "·";
   }
 
   .hero-visual {
-    position: relative;
-    padding-top: 3.35rem;
-    background: white;
-  }
-
-  .hero-visual::before {
-    position: absolute;
-    z-index: 0;
-    inset: 8% -12% -8% 15%;
-    border: 1px solid #d8d7d1;
-    content: "";
-  }
-
-  .hero-visual picture {
-    position: relative;
-    z-index: 1;
-    display: block;
-    overflow: hidden;
+    margin: 0;
   }
 
   .visual-label {
-    position: absolute;
-    z-index: 2;
-    top: 1.25rem;
-    left: 2rem;
-    margin: 0;
-    color: #88691f;
-    font-size: 0.75rem;
-    font-weight: 850;
-    letter-spacing: 0.14em;
+    margin: 0 0 0.9rem;
+    color: var(--ink-soft);
+    font-size: var(--text-meta);
+    font-weight: 700;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 
-  .hero-visual img {
+  .hero-frame {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: var(--paper-100);
+    /* O deslocamento vem de uma custom property escrita pelo script; sem JS o
+       valor é zero e a imagem simplesmente não se move. */
+    transform: translate3d(0, calc(var(--parallax-shift, 0px) * -1), 0);
+  }
+
+  .hero-frame img {
     width: 100%;
     height: auto;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-    filter: saturate(0.82) contrast(1.04);
+  }
+
+  .hero-interference {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: rgb(8 127 149 / 24%);
+    stroke-width: 1.4;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+
+  .hero-interference path {
+    animation: interference-drift 18s var(--ease-standard) infinite alternate;
+  }
+
+  .hero-interference path:nth-child(2) {
+    animation-duration: 24s;
+    animation-delay: -6s;
+  }
+
+  .hero-interference path:nth-child(3) {
+    animation-duration: 30s;
+    animation-delay: -12s;
+  }
+
+  @keyframes interference-drift {
+    from {
+      transform: translate3d(-2%, 0, 0);
+    }
+
+    to {
+      transform: translate3d(2%, 1.2%, 0);
+    }
   }
 
   .science-index {
-    position: absolute;
-    z-index: 2;
-    right: -1.5rem;
-    bottom: -2rem;
-    width: min(82%, 410px);
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: 1.1rem;
-    padding: 1.2rem 1.35rem;
-    border-top: 2px solid #b69a64;
-    background: var(--ink);
-    color: white;
+    gap: 0 1.1rem;
+    align-items: start;
+    margin: 1.4rem 0 0;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--line);
   }
 
-  .science-index > span {
-    color: #d9c59c;
+  /* O figcaption é grade de duas colunas; a divulgação atravessa as duas em
+     vez de virar um terceiro item na coluna do número. */
+  .science-index small {
+    grid-column: 1 / -1;
+    margin-top: 0.8rem;
+    color: var(--ink-soft);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    opacity: 0.85;
+  }
+
+  .science-index span {
     font-family: var(--serif);
-    font-size: 2rem;
+    font-size: 2.4rem;
     line-height: 1;
+    color: var(--copper-500);
   }
 
   .science-index p {
+    max-width: 44ch;
     margin: 0;
-    color: rgb(255 255 255 / 66%);
-    font-size: 0.75rem;
-    line-height: 1.45;
+    color: var(--ink-soft);
+    font-size: var(--text-small);
   }
 
+  /* -------------------------------------------------------- trilho público */
   .audience-rail {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    border-bottom: 1px solid var(--line);
+    border-block: 1px solid var(--line);
+    background: var(--paper-0);
   }
 
   .audience-rail a {
-    min-height: 152px;
     display: grid;
-    grid-template-columns: 2.8rem minmax(0, 1fr);
-    align-content: center;
-    gap: 0.35rem;
-    padding: 2rem max(2rem, calc((100vw - 1340px) / 2));
-    transition: background 180ms ease;
-  }
-
-  .audience-rail a:first-child {
-    padding-left: max(2rem, calc((100vw - 1340px) / 2));
-    border-right: 1px solid var(--line);
-  }
-
-  .audience-rail a:last-child {
-    padding-right: max(2rem, calc((100vw - 1340px) / 2));
+    gap: 0.45rem;
+    padding: clamp(1.8rem, 3vw, 2.6rem) clamp(1.2rem, 4vw, 3rem);
+    transition: background-color var(--duration-base) var(--ease-standard);
   }
 
   .audience-rail a:hover {
-    background: #f3f8f9;
+    background: var(--paper-100);
   }
 
-  .audience-rail .audience-index {
-    grid-row: 1 / 4;
-    align-self: start;
-    color: var(--teal-dark);
+  .audience-index {
+    color: var(--copper-700);
     font-family: var(--serif);
-    font-size: 1.8rem;
-    font-weight: 500;
-    letter-spacing: -0.04em;
+    font-size: 1.3rem;
   }
 
-  .audience-rail .audience-label {
-    color: var(--teal-dark);
-    font-size: 0.75rem;
-    font-weight: 850;
-    letter-spacing: 0.14em;
+  .audience-label {
+    color: var(--teal-700);
+    font-size: var(--text-meta);
+    font-weight: 800;
+    letter-spacing: var(--tracking-kicker);
     text-transform: uppercase;
   }
 
   .audience-rail strong {
-    grid-column: 2;
-    max-width: 560px;
+    max-width: 30ch;
     font-family: var(--serif);
-    font-size: clamp(1.35rem, 2vw, 1.8rem);
-    font-weight: 550;
-    line-height: 1.15;
+    font-size: var(--text-h3);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
   }
 
   .audience-rail small {
-    grid-column: 2;
-    margin-top: 0.3rem;
     color: var(--ink-soft);
-    font-weight: 750;
+    font-size: var(--text-small);
+    font-weight: 650;
   }
 
-  .journeys,
-  .essentials {
-    padding-block: clamp(5.5rem, 9vw, 9rem);
+  /* ---------------------------------------------------------- grande matéria */
+  .lead-story {
+    padding-block: var(--space-section);
+    background: var(--paper-0);
   }
 
-  .section-intro {
+  .lead-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr);
-    column-gap: clamp(3rem, 8vw, 9rem);
+    gap: clamp(2rem, 4vw, 3.5rem);
   }
 
-  .section-intro .section-kicker {
-    grid-column: 1 / -1;
-    margin-bottom: 1.2rem;
-  }
-
-  .section-intro h2,
-  .essentials-heading h2 {
-    margin: 0;
-    font-family: var(--serif);
-    font-size: clamp(3rem, 5.4vw, 5.8rem);
-    font-weight: 500;
-    letter-spacing: -0.06em;
-    line-height: 0.94;
-  }
-
-  .section-intro > p:last-child {
-    align-self: end;
-    margin: 0;
-    color: var(--ink-soft);
-  }
-
-  .journey-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    margin-top: clamp(3rem, 6vw, 5.5rem);
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-  }
-
-  .journey {
+  .lead-kicker {
     display: flex;
-    flex-direction: column;
-    padding: clamp(2rem, 4vw, 4rem);
-  }
-
-  .journey + .journey {
-    border-left: 1px solid var(--line);
-  }
-
-  .journey header {
-    display: grid;
-    grid-template-columns: 3.2rem minmax(0, 1fr);
-  }
-
-  .journey-number {
-    grid-row: 1 / 3;
-    color: #a18a60;
-    font-family: var(--serif);
-    font-size: 1.7rem;
-  }
-
-  .journey header p {
-    margin: 0 0 0.7rem;
-    color: var(--teal-dark);
-    font-size: 0.75rem;
-    font-weight: 850;
-    letter-spacing: 0.14em;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.2rem;
+    margin: 0 0 1.5rem;
+    font-size: var(--text-meta);
+    font-weight: 800;
+    letter-spacing: var(--tracking-kicker);
     text-transform: uppercase;
   }
 
-  .journey h3 {
+  .lead-kicker span:first-child {
+    color: var(--copper-700);
+  }
+
+  .lead-kicker span + span {
+    color: var(--teal-700);
+  }
+
+  .lead-copy h2 {
+    max-width: 18ch;
     margin: 0;
     font-family: var(--serif);
-    font-size: clamp(2.3rem, 3.8vw, 4rem);
-    font-weight: 500;
-    letter-spacing: -0.05em;
-    line-height: 0.98;
+    font-size: var(--text-h1);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-tight);
+    text-wrap: balance;
   }
 
-  .journey-description {
-    max-width: 650px;
-    margin: 1.8rem 0 2.3rem;
+  .lead-copy h2 a {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    transition: background-size var(--duration-slow) var(--ease-out-soft);
+  }
+
+  .lead-copy h2 a:hover {
+    background-size: 100% 1px;
+  }
+
+  .lead-standfirst {
+    max-width: var(--measure-narrow);
+    margin: 1.3rem 0 0;
     color: var(--ink-soft);
-  }
-
-  .journey nav {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    margin-bottom: 2.5rem;
-    border-top: 1px solid var(--line);
-  }
-
-  .journey nav a {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.8rem 0;
-    border-bottom: 1px solid var(--line);
-    font-size: 0.86rem;
-    font-weight: 700;
-  }
-
-  .journey nav a:nth-child(odd) {
-    padding-right: 1.1rem;
-  }
-
-  .journey nav a:nth-child(even) {
-    padding-left: 1.1rem;
-    border-left: 1px solid var(--line);
-  }
-
-  .journey nav a:hover {
-    color: var(--teal-dark);
-  }
-
-  .journey-cta {
-    width: fit-content;
-    display: inline-flex;
-    gap: 0.8rem;
-    margin-top: auto;
-    padding-bottom: 0.2rem;
-    border-bottom: 1px solid currentColor;
-    color: var(--teal-dark);
-    font-weight: 800;
-  }
-
-  .essentials {
-    border-top: 1px solid #e4e8eb;
-    background: #fbfbf9;
-  }
-
-  .essentials-heading {
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: 3rem;
-    margin-bottom: clamp(3rem, 6vw, 5rem);
-  }
-
-  .essentials-heading .section-kicker {
-    margin-bottom: 1rem;
-  }
-
-  .essentials-heading > p {
-    max-width: 390px;
-    margin: 0 0 0.45rem;
-    color: var(--ink-soft);
-  }
-
-  .essential-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border-top: 1px solid var(--line);
-    border-left: 1px solid var(--line);
-  }
-
-  .essential-grid article {
-    min-height: 300px;
-    display: flex;
-    flex-direction: column;
-    padding: clamp(1.5rem, 3vw, 2.4rem);
-    border-right: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    background: white;
-  }
-
-  .essential-grid article > span {
-    color: #745e36;
     font-family: var(--serif);
-    font-size: 1.45rem;
+    font-size: var(--text-lead);
   }
 
-  .essential-grid h3 {
-    margin: 2.5rem 0 0;
-    font-family: var(--serif);
-    font-size: clamp(1.55rem, 2.2vw, 2.25rem);
-    font-weight: 550;
-    line-height: 1.08;
-  }
-
-  .essential-grid h3 a:hover {
-    color: var(--teal-dark);
-  }
-
-  .essential-grid p {
-    margin: 1rem 0 1.7rem;
+  .lead-excerpt {
+    max-width: var(--measure);
+    margin: 1.2rem 0 0;
     color: var(--ink-soft);
-    font-size: 0.91rem;
   }
 
-  .essential-link {
-    width: fit-content;
-    margin-top: auto;
-    padding-bottom: 0.15rem;
-    border-bottom: 1px solid currentColor;
-    color: var(--teal-dark);
-    font-size: 0.82rem;
+  .lead-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.4rem;
+    margin: 1.6rem 0;
+    color: var(--ink-soft);
+    font-size: var(--text-meta);
+  }
+
+  .lead-meta span + span::before {
+    margin-right: 1.4rem;
+    color: var(--line-strong);
+    content: "·";
+  }
+
+  .lead-sheet {
+    padding: clamp(1.4rem, 3vw, 2rem);
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--copper-500);
+    border-radius: var(--radius-md);
+    background: var(--paper-50);
+  }
+
+  .lead-sheet dl {
+    display: grid;
+    gap: 1.1rem;
+    margin: 0;
+  }
+
+  .lead-sheet dt {
+    margin-bottom: 0.25rem;
+    color: var(--ink-soft);
+    font-size: var(--text-meta);
     font-weight: 800;
+    letter-spacing: var(--tracking-kicker);
+    text-transform: uppercase;
   }
 
-  .all-content-link {
-    display: block;
-    width: fit-content;
-    margin: 2.2rem 0 0 auto;
-    padding-bottom: 0.2rem;
-    border-bottom: 1px solid currentColor;
-    color: var(--teal-dark);
+  .lead-sheet dd {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    line-height: 1.35;
+  }
+
+  .lead-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin: 1.5rem 0 0;
+    padding: 1.3rem 0 0;
+    border-top: 1px solid var(--line);
+    list-style: none;
+  }
+
+  .lead-tags li {
+    padding: 0.28rem 0.7rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--ink-soft);
+    font-size: var(--text-meta);
+  }
+
+  /* ---------------------------------------------------------- seções gerais */
+  .section-intro {
+    max-width: 44rem;
+    margin-bottom: clamp(2.2rem, 4vw, 3.5rem);
+  }
+
+  .section-intro p:last-child:not(.eyebrow) {
+    max-width: var(--measure);
+    margin: 1.3rem 0 0;
+    color: var(--ink-soft);
+    font-size: var(--text-lead);
+  }
+
+  .section-footer-link {
+    margin-top: clamp(2rem, 3vw, 3rem);
+  }
+
+  .card-kicker {
+    margin: 0 0 0.6rem;
+    color: var(--teal-700);
+    font-size: var(--text-meta);
     font-weight: 800;
+    letter-spacing: var(--tracking-kicker);
+    text-transform: uppercase;
   }
 
+  .card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 1.1rem;
+    margin: 0.8rem 0 0;
+    color: var(--ink-soft);
+    font-size: var(--text-meta);
+  }
+
+  .list-index {
+    color: var(--copper-700);
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ------------------------------------------------------------- editorial */
+  .editorial {
+    padding-block: var(--space-section);
+    border-top: 1px solid var(--line-soft);
+    background: var(--paper-50);
+  }
+
+  .editorial-grid {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .editorial-feature {
+    padding: clamp(1.6rem, 3vw, 2.4rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--paper-0);
+    box-shadow: var(--shadow-hairline);
+    transition: filter var(--duration-base) var(--ease-out-soft);
+  }
+
+  .editorial-feature:hover {
+    filter: var(--lift-hover);
+  }
+
+  .editorial-feature h3 {
+    max-width: 20ch;
+    margin: 0;
+    font-family: var(--serif);
+    font-size: var(--text-h2);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    line-height: 1.1;
+  }
+
+  .editorial-feature > p {
+    max-width: var(--measure);
+    margin: 1.1rem 0 0;
+    color: var(--ink-soft);
+  }
+
+  .editorial-list {
+    display: grid;
+    gap: 1.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .editorial-list li {
+    display: grid;
+    grid-template-columns: 2.4rem 1fr;
+    gap: 0.6rem;
+    padding-bottom: 1.6rem;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .editorial-list li:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .editorial-list h3 {
+    max-width: 34ch;
+    margin: 0;
+    font-family: var(--serif);
+    font-size: var(--text-h3);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.22;
+  }
+
+  .editorial-list a,
+  .editorial-feature h3 a,
+  .quick-grid a,
+  .recent-grid a,
+  .essential-grid a,
+  .book-grid a {
+    display: inline;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    transition: background-size var(--duration-base) var(--ease-out-soft);
+  }
+
+  .editorial-list a:hover,
+  .editorial-feature h3 a:hover,
+  .quick-grid a:hover,
+  .recent-grid a:hover,
+  .essential-grid a:hover,
+  .book-grid a:hover {
+    background-size: 100% 1px;
+  }
+
+  /* ------------------------------------------------------------ SUPERFÍCIE */
   .surface-feature {
-    overflow: hidden;
-    padding-block: clamp(5.5rem, 9vw, 9rem);
-    background: var(--ink);
-    color: white;
+    padding-block: var(--space-section);
+    background: var(--navy-800);
+    color: #ffffff;
   }
 
   .surface-grid {
     display: grid;
-    grid-template-columns: 0.92fr 1.08fr;
+    gap: clamp(2.5rem, 5vw, 4rem);
     align-items: center;
-    gap: clamp(4rem, 8vw, 9rem);
   }
 
   .surface-signature {
     margin: 0 0 1.2rem;
-    color: #d9c59c;
-    font-size: 0.75rem;
-    font-weight: 850;
-    letter-spacing: 0.15em;
+    color: #d9b665;
+    font-size: var(--text-meta);
+    font-weight: 800;
+    letter-spacing: var(--tracking-kicker);
     text-transform: uppercase;
   }
 
   .surface-copy h2 {
     margin: 0;
     font-family: var(--serif);
-    font-size: clamp(4.5rem, 8vw, 8.5rem);
-    font-weight: 500;
-    letter-spacing: -0.07em;
-    line-height: 0.82;
+    font-size: clamp(2.6rem, 1.6rem + 4vw, 4.6rem);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1;
   }
 
   .surface-descriptor {
-    margin: 1.2rem 0 3rem;
-    color: rgb(255 255 255 / 65%);
-    font-size: 0.9rem;
+    margin: 0.8rem 0 0;
+    color: rgb(255 255 255 / 72%);
+    font-size: var(--text-small);
+    letter-spacing: 0.04em;
   }
 
   .surface-copy h3 {
-    max-width: 670px;
-    margin: 0;
+    margin: 2rem 0 0;
     font-family: var(--serif);
-    font-size: clamp(2.7rem, 4.6vw, 5rem);
-    font-weight: 500;
-    letter-spacing: -0.05em;
-    line-height: 0.95;
+    font-size: var(--text-h3);
+    font-weight: 600;
   }
 
   .surface-intro {
-    max-width: 680px;
-    margin: 1.8rem 0 0;
-    color: rgb(255 255 255 / 72%);
+    max-width: var(--measure);
+    margin: 1rem 0 0;
+    color: rgb(255 255 255 / 80%);
   }
 
-  .surface-button {
-    border-color: white;
-  }
-
-  .surface-button-primary {
-    background: white;
-    color: var(--ink);
-  }
-
-  .surface-button-secondary {
-    color: white;
-  }
-
-  .surface-button-secondary:hover {
-    background: white;
-    color: var(--ink);
-  }
-
-  .founding-issue {
-    position: relative;
-    min-height: 650px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    overflow: hidden;
-    padding: clamp(1.5rem, 3vw, 3rem);
-    border: 1px solid rgb(217 197 156 / 55%);
-    background: #0b2448;
-  }
-
-  .issue-status {
-    position: relative;
-    z-index: 2;
-    margin: 0;
-    color: #d9c59c;
-    font-size: 0.75rem;
-    font-weight: 850;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-
-  .issue-body {
-    display: flex;
-    align-items: flex-start;
-    gap: clamp(1.5rem, 3vw, 2.5rem);
-  }
-
-  .issue-cover-thumb {
-    flex: none;
-    width: 180px;
-  }
-
-  .issue-content {
-    flex: 1;
-    min-width: 0;
-    max-width: 560px;
-  }
-
-  .issue-content > p {
-    margin: 0 0 0.8rem;
-    color: #d9c59c;
-    font-size: 0.75rem;
-    font-weight: 850;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
-  .issue-content h3 {
-    margin: 0;
-    font-family: var(--serif);
-    font-size: clamp(3.1rem, 5vw, 5.4rem);
-    font-weight: 500;
-    letter-spacing: -0.06em;
-    line-height: 0.9;
-  }
-
-  .issue-content > span {
-    display: block;
-    max-width: 500px;
-    margin-top: 1.3rem;
-    color: rgb(255 255 255 / 68%);
-  }
-
-  .issue-content ul {
+  .surface-topics {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin: 1.4rem 0;
+    margin: 1.8rem 0 0;
     padding: 0;
     list-style: none;
   }
 
-  .issue-content li {
-    padding: 0.35rem 0.55rem;
-    border: 1px solid rgb(255 255 255 / 24%);
-    color: rgb(255 255 255 / 76%);
-    font-size: 0.75rem;
+  .surface-topics li {
+    padding: 0.35rem 0.8rem;
+    border: 1px solid rgb(255 255 255 / 28%);
+    border-radius: 999px;
+    color: rgb(255 255 255 / 82%);
+    font-size: var(--text-meta);
+  }
+
+  .surface-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem 1.8rem;
+    align-items: center;
+    margin-top: 2.2rem;
+  }
+
+  .surface-actions .button-primary {
+    border-color: #d9b665;
+    background: #d9b665;
+    color: var(--navy-900);
+  }
+
+  .surface-actions .button-primary:hover {
+    background: #e8cf95;
+    border-color: #e8cf95;
+    color: var(--navy-900);
+  }
+
+  .surface-actions .text-link {
+    color: #ffffff;
+  }
+
+  .founding-issue {
+    display: grid;
+    gap: 1.6rem;
+    padding: clamp(1.4rem, 3vw, 2rem);
+    border: 1px solid rgb(255 255 255 / 22%);
+    border-radius: var(--radius-md);
+    background: rgb(255 255 255 / 6%);
+  }
+
+  .issue-cover-thumb {
+    max-width: 220px;
+  }
+
+  .issue-status {
+    margin: 0 0 0.8rem;
+    color: #d9b665;
+    font-size: var(--text-meta);
+    font-weight: 700;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
-  .issue-content a {
-    display: inline-block;
-    padding-bottom: 0.2rem;
-    border-bottom: 1px solid #d9c59c;
-    color: white;
-    font-size: 0.85rem;
-    font-weight: 800;
+  .issue-content h3 {
+    margin: 0 0 0.6rem;
+    font-family: var(--serif);
+    font-size: var(--text-h3);
+    font-weight: 600;
   }
 
-  @media (max-width: 1080px) {
-    .home-hero {
-      min-height: auto;
+  .issue-content p {
+    margin: 0 0 1.2rem;
+    color: rgb(255 255 255 / 78%);
+    font-size: var(--text-small);
+  }
+
+  .issue-content .text-link {
+    color: #ffffff;
+  }
+
+  /* ----------------------------------------------- listas de leitura curta */
+  .quick-reads,
+  .recent-articles,
+  .essentials,
+  .books {
+    padding-block: var(--space-section);
+    border-top: 1px solid var(--line-soft);
+    background: var(--paper-0);
+  }
+
+  .recent-articles,
+  .books {
+    background: var(--paper-50);
+  }
+
+  .quick-grid,
+  .recent-grid,
+  .essential-grid,
+  .book-grid {
+    display: grid;
+    gap: clamp(1.8rem, 3vw, 2.6rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .quick-grid li,
+  .recent-grid li,
+  .book-grid li {
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .quick-grid h3,
+  .recent-grid h3,
+  .book-grid h3,
+  .essential-grid h3 {
+    max-width: 26ch;
+    margin: 0;
+    font-family: var(--serif);
+    font-size: var(--text-h3);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.22;
+  }
+
+  .quick-grid p,
+  .recent-grid p,
+  .book-grid p,
+  .essential-grid p {
+    max-width: 42ch;
+    margin: 0.8rem 0 0;
+    color: var(--ink-soft);
+    font-size: var(--text-small);
+  }
+
+  .recent-grid .card-meta {
+    margin: 0 0 0.7rem;
+    color: var(--teal-700);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .essential-grid li {
+    display: grid;
+    grid-template-columns: 2.4rem 1fr;
+    gap: 0.3rem 0.6rem;
+    align-items: baseline;
+  }
+
+  .essential-grid .list-index {
+    grid-row: span 2;
+  }
+
+  /* --------------------------------------------------------------- jornadas */
+  .journeys {
+    padding-block: var(--space-section);
+    border-top: 1px solid var(--line-soft);
+    background: var(--paper-100);
+  }
+
+  .journey-grid {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3rem);
+  }
+
+  .journey {
+    display: grid;
+    align-content: start;
+    gap: 1.2rem;
+    padding: clamp(1.6rem, 3vw, 2.4rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--paper-0);
+  }
+
+  .journey-professional {
+    border-top: 3px solid var(--navy-700);
+  }
+
+  .journey-patient {
+    border-top: 3px solid var(--teal-600);
+  }
+
+  .journey header {
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .journey-number {
+    color: var(--copper-700);
+    font-family: var(--serif);
+    font-size: 1.3rem;
+  }
+
+  .journey h3 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: var(--text-h3);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .journey-description {
+    max-width: var(--measure);
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: var(--text-small);
+  }
+
+  .journey nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .journey nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 40px;
+    padding: 0.4rem 0.85rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--ink-soft);
+    font-size: var(--text-meta);
+    font-weight: 650;
+    transition:
+      border-color var(--duration-fast) var(--ease-standard),
+      color var(--duration-fast) var(--ease-standard);
+  }
+
+  .journey nav a:hover {
+    border-color: var(--teal-600);
+    color: var(--ink);
+  }
+
+  .journey nav span {
+    color: var(--copper-700);
+  }
+
+  /* ------------------------------------------------------ conselho e autor */
+  .editorial-board {
+    padding-block: var(--space-section);
+    border-top: 1px solid var(--line-soft);
+    background: var(--paper-0);
+  }
+
+  .board-grid {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .board-lead {
+    max-width: var(--measure);
+    margin: 1.4rem 0 0;
+    color: var(--ink-soft);
+  }
+
+  .board-credential {
+    display: grid;
+    gap: 0.2rem;
+    margin: 1.8rem 0;
+    padding-left: 1.1rem;
+    border-left: 3px solid var(--copper-500);
+  }
+
+  .board-credential strong {
+    font-family: var(--serif);
+    font-size: var(--text-h3);
+    font-weight: 600;
+  }
+
+  .board-credential span,
+  .board-credential em {
+    color: var(--ink-soft);
+    font-size: var(--text-small);
+    font-style: normal;
+  }
+
+  .board-principles {
+    display: grid;
+    gap: 1.8rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .board-principles li {
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .board-principles h3 {
+    margin: 0 0 0.5rem;
+    font-family: var(--serif);
+    font-size: var(--text-h3);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .board-principles p {
+    max-width: 46ch;
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: var(--text-small);
+  }
+
+  /* ------------------------------------------------------------ newsletter */
+  .home-newsletter {
+    padding-block: var(--space-section);
+    background: var(--paper-100);
+  }
+
+  .newsletter-grid {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3.5rem);
+    align-items: start;
+  }
+
+  .newsletter-grid > div p {
+    max-width: var(--measure);
+    margin: 1.3rem 0 0;
+    color: var(--ink-soft);
+    font-size: var(--text-lead);
+  }
+
+  /* -------------------------------------------------------------- desktop */
+  @media (min-width: 760px) {
+    .audience-rail {
+      grid-template-columns: 1fr 1fr;
     }
 
+    .audience-rail a + a {
+      border-left: 1px solid var(--line);
+    }
+
+    .quick-grid,
+    .recent-grid,
+    .essential-grid,
+    .book-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: clamp(2rem, 4vw, 3.5rem);
+    }
+  }
+
+  @media (min-width: 1000px) {
     .hero-grid {
-      grid-template-columns: 1fr 0.9fr;
-      gap: 2.5rem;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      align-items: center;
     }
 
-    .hero-copy h1 {
-      font-size: clamp(3.3rem, 6.5vw, 5.1rem);
+    /* Composição assimétrica: a matéria principal ocupa a coluna larga e a
+       imagem entra deslocada, sem o bloco simétrico de card. */
+    .lead-grid {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      align-items: center;
     }
 
-    .science-index {
-      right: -0.5rem;
-    }
-
-    .section-intro,
-    .surface-grid {
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-    }
-
-    .journey {
-      padding-inline: 2rem;
-    }
-
-    .journey nav {
-      grid-template-columns: 1fr;
-    }
-
-    .journey nav a:nth-child(odd),
-    .journey nav a:nth-child(even) {
-      padding-inline: 0;
-      border-left: 0;
-    }
-
-    .essential-grid {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .surface-grid {
+    .editorial-grid {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
       align-items: start;
     }
 
-    .founding-issue {
-      min-height: 590px;
-    }
-  }
-
-  @media (max-width: 760px) {
-    .hero-grid,
-    .section-intro,
-    .journey-grid,
     .surface-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
     }
 
-    .hero-grid {
-      gap: 2.25rem;
-      padding-block: 2.75rem 4rem;
+    .founding-issue {
+      grid-template-columns: 200px 1fr;
+      align-items: center;
     }
 
-    .hero-copy h1 {
-      margin-top: 0.9rem;
-      font-size: clamp(3rem, 14vw, 4.6rem);
+    .recent-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
-    .hero-lead {
-      margin-top: 1.5rem;
-      line-height: 1.55;
-    }
-
-    .hero-actions {
-      display: grid;
-      margin-top: 1.5rem;
-    }
-
-    .hero-button {
-      width: 100%;
-    }
-
-    .hero-visual::before {
-      inset: 7% -0.5rem -5% 18%;
-    }
-
-    .hero-visual {
-      padding-top: 1.5rem;
-    }
-
-    .ecosystem-line {
-      flex-wrap: nowrap;
-      gap: 0.35rem 0.9rem;
-      margin-top: 1.25rem;
-      font-size: 0.75rem;
-      letter-spacing: 0.07em;
-      white-space: nowrap;
-    }
-
-    .science-index {
-      right: 0;
-      bottom: -2rem;
-      width: 88%;
-    }
-
-    .audience-rail {
-      grid-template-columns: 1fr;
-    }
-
-    .audience-rail a {
-      min-height: 146px;
-      padding: 1.7rem 1rem;
-    }
-
-    .audience-rail a:first-child {
-      padding-left: 1rem;
-      border-right: 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .audience-rail a:last-child {
-      padding-right: 1rem;
-    }
-
-    .section-intro {
-      gap: 1.8rem;
-    }
-
-    .section-intro h2,
-    .essentials-heading h2 {
-      font-size: clamp(2.8rem, 13vw, 4.2rem);
+    .essential-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .journey-grid {
-      border-bottom: 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .journey {
-      padding: 2.5rem 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .journey + .journey {
-      border-left: 0;
-    }
-
-    .journey header {
-      grid-template-columns: 2.6rem minmax(0, 1fr);
-    }
-
-    .journey nav {
-      grid-template-columns: 1fr;
-    }
-
-    .essentials-heading {
-      display: grid;
-      align-items: start;
-      gap: 1.5rem;
-    }
-
-    .essential-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .essential-grid article {
-      min-height: 265px;
-    }
-
-    .all-content-link {
-      margin-left: 0;
-    }
-
-    .surface-grid {
-      gap: 4rem;
-    }
-
-    .surface-actions {
-      display: grid;
-    }
-
-    .surface-button {
-      width: 100%;
-    }
-
-    .founding-issue {
-      min-height: 540px;
-    }
-
-    .issue-body {
-      flex-direction: column;
-      align-items: center;
-      text-align: left;
-    }
-
-    .issue-cover-thumb {
-      width: 140px;
-    }
-  }
-
-  @media (max-width: 390px) {
-    .hero-copy h1 {
-      font-size: 2.8rem;
-    }
-
-    .ecosystem-line {
-      gap: 0.25rem 0.55rem;
-      font-size: 0.75rem;
-    }
-
-    .ecosystem-line span + span::before {
-      left: -0.8rem;
-    }
-
-    .science-index {
-      width: 94%;
-      grid-template-columns: 2.3rem 1fr;
-      gap: 0.7rem;
-      padding: 1rem;
-    }
-
-    .journey h3 {
-      font-size: 2.35rem;
-    }
-
-    .surface-copy h2 {
-      font-size: 4.1rem;
-    }
-
-    .issue-content h3 {
-      font-size: 3.1rem;
+    .board-grid,
+    .newsletter-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero-button,
-    .surface-button {
-      transition: none;
+    .hero-frame {
+      transform: none;
+    }
+
+    .hero-interference path {
+      animation: none;
+    }
+
+    .hero-button:hover {
+      transform: none;
     }
   }
 </style>

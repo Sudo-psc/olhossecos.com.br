@@ -2,7 +2,10 @@
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import AnalyticsCollector from "@/components/AnalyticsCollector.astro";
+import GlobalSearchModal from "@/components/GlobalSearchModal.astro";
 import { author } from "@/lib/books";
+import "@/styles/fonts.css";
+import "@/styles/tokens.css";
 
 interface Props {
   title?: string;
@@ -175,6 +178,13 @@ const structuredData = {
     <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="48x48" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
+    <link
+      rel="preload"
+      href="/fonts/source-serif-4-subset.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:site_name" content="Olhos Secos" />
@@ -207,45 +217,11 @@ const structuredData = {
       <slot />
     </main>
     <Footer />
+    <GlobalSearchModal />
   </body>
 </html>
 
 <style is:global>
-  :root {
-    --ink: #071d45;
-    --ink-soft: #263d61;
-    --teal: #087f95;
-    --teal-dark: #00657a;
-    --aqua: #dff3f7;
-    --mist: #eff8fb;
-    --line: #c8d7e2;
-    --paper: #ffffff;
-    --coral: #e95f4f;
-    --coral-text: #a93c32;
-    --coral-soft: #fff6f3;
-    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-    /* Sem fonte web: o site não faz nenhuma requisição de fonte, e é parte de
-       por que ele é rápido. A pilha começava com Inter, que não é hospedada
-       aqui — só quem já tinha Inter instalada via o design pretendido, e todo
-       o resto caía em system-ui. Duas renderizações decididas pela máquina do
-       visitante. Assumida a do sistema, que é o que quase todos já viam. */
-    --sans:
-      ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-      sans-serif;
-    --shadow: 0 24px 60px rgb(7 29 69 / 10%);
-    --space-1: 0.25rem;
-    --space-2: 0.5rem;
-    --space-3: 0.75rem;
-    --space-4: 1rem;
-    --space-6: 1.5rem;
-    --space-8: 2rem;
-    --space-12: 3rem;
-    --space-16: 4rem;
-    --space-24: 6rem;
-    --header-height: 76px;
-    --control-radius: 6px;
-  }
-
   * {
     box-sizing: border-box;
   }
@@ -255,14 +231,20 @@ const structuredData = {
     color-scheme: light;
   }
 
+  :target,
+  [id] {
+    scroll-margin-top: calc(var(--header-height) + 1.25rem);
+  }
+
   body {
     margin: 0;
-    background: var(--paper);
+    background: var(--paper-50);
     color: var(--ink);
     font-family: var(--sans);
-    font-size: clamp(1rem, 0.98rem + 0.1vw, 1.0625rem);
-    line-height: 1.65;
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
     text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
   }
 
   img,
@@ -287,9 +269,9 @@ const structuredData = {
   }
 
   :focus-visible {
-    outline: 3px solid var(--teal);
-    outline-offset: 4px;
-    border-radius: 3px;
+    outline: 3px solid var(--teal-600);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 6px rgb(8 127 149 / 18%);
   }
 
   ::selection {
@@ -329,12 +311,42 @@ const structuredData = {
     margin-inline: auto;
   }
 
+  /* Header em vidro: transparente sobre o conteúdo, ficando mais opaco
+     conforme a página rola. O brilho de topo é um único gradiente de 1px —
+     é o que dá leitura de material óptico sem virar glassmorphism. */
   .site-header {
     position: sticky;
     z-index: 50;
     top: 0;
-    background: rgb(255 255 255 / 96%);
-    backdrop-filter: blur(14px);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-bottom: 1px solid transparent;
+    transition:
+      background-color var(--duration-slow) var(--ease-out-soft),
+      border-color var(--duration-slow) var(--ease-out-soft),
+      box-shadow var(--duration-slow) var(--ease-out-soft);
+  }
+
+  .site-header::after {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgb(255 255 255 / 85%) 22%,
+      rgb(255 255 255 / 85%) 78%,
+      transparent
+    );
+    content: "";
+    pointer-events: none;
+  }
+
+  .site-header[data-scrolled="true"] {
+    background: var(--glass-bg-strong);
+    border-bottom-color: var(--glass-edge);
+    box-shadow: 0 1px 20px rgb(7 29 69 / 6%);
   }
 
   .header-inner {
@@ -343,7 +355,6 @@ const structuredData = {
     grid-template-columns: 220px 1fr auto;
     align-items: center;
     gap: 2rem;
-    border-bottom: 1px solid var(--line);
   }
 
   .brand {
@@ -439,17 +450,18 @@ const structuredData = {
     margin: 0;
     font-family: var(--serif);
     font-weight: 600;
-    letter-spacing: -0.045em;
-    line-height: 0.98;
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-tight);
+    text-wrap: balance;
   }
 
   .section-heading {
-    font-size: clamp(2.35rem, 4.5vw, 4.7rem);
+    font-size: var(--text-h2);
   }
 
   .page-title {
-    max-width: 980px;
-    font-size: clamp(2.8rem, 5vw, 5rem);
+    max-width: 18ch;
+    font-size: var(--text-h1);
   }
 
   .text-link {
@@ -501,10 +513,10 @@ const structuredData = {
 
   .eyebrow {
     margin: 0 0 1.1rem;
-    color: var(--teal-dark);
-    font-size: 0.76rem;
+    color: var(--copper-700);
+    font-size: var(--text-meta);
     font-weight: 800;
-    letter-spacing: 0.13em;
+    letter-spacing: var(--tracking-kicker);
     text-transform: uppercase;
   }
 
@@ -521,27 +533,31 @@ const structuredData = {
   }
 
   .content-section {
-    padding-block: clamp(4.5rem, 9vw, 8.5rem);
+    padding-block: var(--space-section);
   }
 
   .prose {
-    max-width: 780px;
+    max-width: var(--measure);
     color: var(--ink-soft);
   }
 
   .prose h2 {
-    margin: 3.5rem 0 1.15rem;
+    margin: 3.25rem 0 1.15rem;
     color: var(--ink);
     font-family: var(--serif);
-    font-size: clamp(2rem, 4vw, 3rem);
-    line-height: 1.06;
-    letter-spacing: -0.035em;
+    font-size: var(--text-h2);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
+    text-wrap: balance;
   }
 
   .prose h3 {
     margin: 2.4rem 0 0.7rem;
     color: var(--ink);
-    font-size: 1.1rem;
+    font-family: var(--serif);
+    font-size: var(--text-h3);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
   }
 
   .prose p,
@@ -560,20 +576,45 @@ const structuredData = {
     text-underline-offset: 3px;
   }
 
-  .info-note {
-    margin-block: 2.5rem;
+  /* Mesma família visual dos blocos de ScienceCallout: fio de 3px à esquerda,
+     canto arredondado só do lado aberto e rótulo em versalete. */
+  .info-note,
+  .alert-note {
+    position: relative;
+    margin-block: var(--space-block);
     padding: 1.4rem 1.6rem;
-    border-left: 3px solid var(--teal);
-    background: var(--mist);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
     color: var(--ink);
   }
 
+  .info-note {
+    border-left: 3px solid var(--teal-600);
+    background: var(--teal-50);
+  }
+
   .alert-note {
-    margin-block: 2.5rem;
-    padding: 1.4rem 1.6rem;
-    border-left: 3px solid var(--coral);
-    background: var(--coral-soft);
-    color: var(--ink);
+    border-left: 3px solid var(--alert-500);
+    background: var(--alert-50);
+  }
+
+  .info-note::before,
+  .alert-note::before {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: var(--text-meta);
+    font-weight: 800;
+    letter-spacing: var(--tracking-kicker);
+    text-transform: uppercase;
+  }
+
+  .info-note::before {
+    color: var(--teal-700);
+    content: "Nota";
+  }
+
+  .alert-note::before {
+    color: var(--alert-600);
+    content: "Atenção";
   }
 
   .site-footer {
@@ -784,8 +825,10 @@ const structuredData = {
 
     .mobile-nav {
       display: block;
-      border-bottom: 1px solid var(--line);
-      background: white;
+      border-bottom: 1px solid var(--glass-edge);
+      background: var(--glass-bg-strong);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
     }
 
     .mobile-nav[hidden] {

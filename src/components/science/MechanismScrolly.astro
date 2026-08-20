@@ -1,0 +1,436 @@
+---
+/**
+ * Scrollytelling do círculo vicioso do olho seco. A ilustração fica presa na
+ * tela enquanto o texto avança; cada etapa acende uma camada diferente do
+ * mesmo corte esquemático.
+ *
+ * O scroll é o do navegador — nada é sequestrado. Sem JavaScript, ou com
+ * "menos movimento" ativo, as seis etapas continuam legíveis em sequência.
+ */
+const steps = [
+  {
+    id: "instabilidade",
+    label: "Instabilidade lacrimal",
+    text: "A película lacrimal deixa de se manter íntegra até a próxima piscada. Áreas de ruptura aparecem sobre a córnea no intervalo entre uma piscada e outra.",
+  },
+  {
+    id: "evaporacao",
+    label: "Evaporação",
+    text: "Com a camada lipídica insuficiente ou alterada, a perda de água acelera. Ambiente seco, vento, ar-condicionado e piscada incompleta empurram na mesma direção.",
+  },
+  {
+    id: "hiperosmolaridade",
+    label: "Hiperosmolaridade",
+    text: "A lágrima que resta fica mais concentrada em sais. É o ponto em que um desequilíbrio físico passa a agir como estímulo biológico sobre as células da superfície.",
+  },
+  {
+    id: "inflamacao",
+    label: "Inflamação",
+    text: "O estresse osmótico ativa vias inflamatórias e a liberação de mediadores, entre eles a MMP-9 — marcador que alguns testes de consultório detectam na lágrima.",
+  },
+  {
+    id: "dano-epitelial",
+    label: "Dano epitelial",
+    text: "Células caliciformes e epitélio sofrem perda. A superfície fica mais irregular, o que realimenta a instabilidade do filme e fecha o círculo.",
+  },
+  {
+    id: "neurossensorial",
+    label: "Alteração neurossensorial",
+    text: "A inervação da córnea muda de limiar. É parte da explicação para os casos em que sintoma e sinal não andam juntos: muito desconforto com pouco achado, ou o contrário.",
+  },
+];
+---
+
+<section class="mechanism" aria-labelledby="mechanism-title" data-mechanism>
+  <div class="page-shell">
+    <header class="mechanism-intro">
+      <p class="eyebrow">Mecanismo</p>
+      <h2 id="mechanism-title" class="section-heading">
+        O círculo vicioso, etapa por etapa
+      </h2>
+      <p>
+        A sequência abaixo descreve o mecanismo central descrito pelo TFOS DEWS.
+        Nem todo caso percorre todas as etapas, nem nessa ordem — o valor do
+        modelo está em mostrar onde uma intervenção pode interromper o ciclo.
+      </p>
+    </header>
+
+    <div class="mechanism-grid">
+      <figure class="mechanism-stage">
+        <svg
+          viewBox="0 0 440 340"
+          role="img"
+          aria-label="Corte esquemático da superfície ocular: camada lipídica, camada aquosa, camada de mucina, epitélio e terminações nervosas"
+          data-mechanism-figure
+          data-step="instabilidade"
+        >
+          <defs>
+            <linearGradient id="mech-aqueous" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#bfe6ef"></stop>
+              <stop offset="100%" stop-color="#e7f5f8"></stop>
+            </linearGradient>
+          </defs>
+
+          <rect x="0" y="0" width="440" height="340" fill="#f7f9fb"></rect>
+
+          <g class="layer layer-aqueous">
+            <path d="M24 104 H416 V200 H24 Z" fill="url(#mech-aqueous)"></path>
+            <text x="30" y="132">Camada aquosa</text>
+          </g>
+
+          <g class="layer layer-lipid">
+            <path
+              class="lipid-line"
+              d="M24 104 q42 -14 84 0 t84 0 t84 0 t84 0 t84 0"
+              fill="none"
+              stroke="#b07a3f"
+              stroke-width="5"
+              stroke-linecap="round"></path>
+            <text x="30" y="80">Camada lipídica</text>
+          </g>
+
+          <g class="layer layer-break">
+            <circle cx="212" cy="152" r="30" class="break-zone"></circle>
+            <path
+              d="M196 108 q16 22 32 0"
+              fill="none"
+              stroke="#a93c32"
+              stroke-width="3"
+              stroke-dasharray="4 5"></path>
+            <text x="250" y="150" class="mark-label">ruptura</text>
+          </g>
+
+          <g class="layer layer-evaporation">
+            <path d="M116 100 q6 -26 -4 -44" class="vapor"></path>
+            <path d="M212 100 q8 -30 -2 -52" class="vapor"></path>
+            <path d="M310 100 q6 -24 -4 -42" class="vapor"></path>
+          </g>
+
+          <g class="layer layer-osmolarity">
+            <g class="salt">
+              <circle cx="252" cy="160" r="4"></circle>
+              <circle cx="292" cy="186" r="4"></circle>
+              <circle cx="264" cy="130" r="4"></circle>
+              <circle cx="312" cy="150" r="4"></circle>
+              <circle cx="356" cy="184" r="4"></circle>
+              <circle cx="386" cy="152" r="4"></circle>
+            </g>
+            <text x="30" y="176" class="mark-label">osmolaridade ↑</text>
+          </g>
+
+          <g class="layer layer-mucin">
+            <path
+              d="M24 200 H416"
+              stroke="#7fbfc9"
+              stroke-width="6"
+              stroke-linecap="round"></path>
+            <text x="358" y="190">Mucina</text>
+          </g>
+
+          <g class="layer layer-epithelium">
+            <g class="cells">
+              <rect x="26" y="212" width="48" height="28" rx="6"></rect>
+              <rect x="82" y="212" width="48" height="28" rx="6"></rect>
+              <rect x="138" y="212" width="48" height="28" rx="6"></rect>
+              <rect x="194" y="212" width="48" height="28" rx="6"></rect>
+              <rect x="250" y="212" width="48" height="28" rx="6"></rect>
+              <rect x="306" y="212" width="48" height="28" rx="6"></rect>
+              <rect x="362" y="212" width="48" height="28" rx="6"></rect>
+            </g>
+            <text x="30" y="264">Epitélio</text>
+          </g>
+
+          <g class="layer layer-inflammation">
+            <circle cx="150" cy="196" r="7" class="mediator"></circle>
+            <circle cx="238" cy="196" r="7" class="mediator"></circle>
+            <circle cx="306" cy="196" r="7" class="mediator"></circle>
+            <text x="150" y="264" class="mark-label">mediadores</text>
+          </g>
+
+          <g class="layer layer-nerve">
+            <path
+              d="M40 296 q40 -20 80 0 t80 0 t80 0 t80 0"
+              fill="none"
+              stroke="#12305e"
+              stroke-width="2.5"></path>
+            <circle cx="120" cy="296" r="5"></circle>
+            <circle cx="280" cy="296" r="5"></circle>
+            <text x="30" y="324" class="mark-label">terminações nervosas</text>
+          </g>
+        </svg>
+        <figcaption>
+          Representação esquemática, sem escala anatômica e não é uma fotografia
+          clínica.
+        </figcaption>
+      </figure>
+
+      <ol class="mechanism-steps">
+        {
+          steps.map((step, index) => (
+            <li data-mechanism-step={step.id}>
+              <span class="step-index">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <h3>{step.label}</h3>
+              <p>{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .mechanism {
+    padding-block: var(--space-section);
+    background: var(--paper-100);
+  }
+
+  .mechanism-intro {
+    max-width: 42rem;
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .mechanism-intro p {
+    max-width: var(--measure);
+    margin: 1.4rem 0 0;
+    color: var(--ink-soft);
+    font-size: var(--text-lead);
+  }
+
+  .mechanism-stage {
+    margin: 0;
+  }
+
+  .mechanism-stage svg {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-md);
+    background: var(--paper-0);
+  }
+
+  .mechanism-stage figcaption {
+    max-width: 46ch;
+    margin-top: 0.9rem;
+    color: var(--ink-soft);
+    font-size: var(--text-meta);
+  }
+
+  .mechanism-steps {
+    display: grid;
+    gap: clamp(2.5rem, 8vw, 6rem);
+    margin: clamp(2rem, 4vw, 3rem) 0 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: mechanism;
+  }
+
+  /* A etapa ativa é marcada por um fio de cobre, não por apagar as outras:
+     esmaecer o texto derrubava o contraste das etapas inativas abaixo de
+     4,5:1 — a informação continuava na tela e continuava ilegível. */
+  .mechanism-steps li {
+    max-width: var(--measure);
+    padding-left: 1.2rem;
+    border-left: 2px solid transparent;
+    transition: border-color var(--duration-slow) var(--ease-out-soft);
+  }
+
+  .mechanism-steps li[data-active="true"] {
+    border-left-color: var(--copper-500);
+  }
+
+  .step-index {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--copper-700);
+    font-size: var(--text-meta);
+    font-weight: 800;
+    letter-spacing: var(--tracking-kicker);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .mechanism-steps h3 {
+    margin: 0 0 0.6rem;
+    font-family: var(--serif);
+    font-size: var(--text-h3);
+    letter-spacing: -0.02em;
+  }
+
+  .mechanism-steps p {
+    margin: 0;
+    color: var(--ink-soft);
+  }
+
+  /* ------------------------------------------------------------- ilustração */
+  /* Unidades do viewBox, não pixels de tela: o desenho é escalado para cima na
+     maioria das larguras. Ainda assim ficam em 12+ para não passar por baixo do
+     piso tipográfico do portal na menor delas. */
+  svg text {
+    fill: var(--ink-soft);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 650;
+  }
+
+  svg .mark-label {
+    fill: var(--copper-700);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .layer {
+    transition:
+      opacity var(--duration-slow) var(--ease-out-soft),
+      transform var(--duration-slow) var(--ease-out-soft);
+  }
+
+  .layer-break,
+  .layer-evaporation,
+  .layer-osmolarity,
+  .layer-inflammation,
+  .layer-nerve {
+    opacity: 0;
+  }
+
+  .break-zone {
+    fill: rgb(169 60 50 / 12%);
+    stroke: #a93c32;
+    stroke-dasharray: 3 6;
+  }
+
+  .vapor {
+    fill: none;
+    stroke: #5c7395;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 3 7;
+  }
+
+  .salt circle {
+    fill: #0b6b7d;
+  }
+
+  .cells rect {
+    fill: #dbe6ee;
+    stroke: #a9bccd;
+  }
+
+  .mediator {
+    fill: #a93c32;
+  }
+
+  .layer-nerve circle {
+    fill: #12305e;
+  }
+
+  /* Estados por etapa. Cada uma acrescenta uma camada à anterior: o desenho
+     acompanha o texto em vez de trocar de assunto a cada rolagem. */
+  [data-step="instabilidade"] .layer-break,
+  [data-step="evaporacao"] .layer-break,
+  [data-step="hiperosmolaridade"] .layer-break,
+  [data-step="inflamacao"] .layer-break,
+  [data-step="dano-epitelial"] .layer-break,
+  [data-step="neurossensorial"] .layer-break {
+    opacity: 1;
+  }
+
+  [data-step="evaporacao"] .layer-evaporation,
+  [data-step="hiperosmolaridade"] .layer-evaporation,
+  [data-step="inflamacao"] .layer-evaporation,
+  [data-step="dano-epitelial"] .layer-evaporation,
+  [data-step="neurossensorial"] .layer-evaporation {
+    opacity: 1;
+  }
+
+  [data-step="hiperosmolaridade"] .layer-osmolarity,
+  [data-step="inflamacao"] .layer-osmolarity,
+  [data-step="dano-epitelial"] .layer-osmolarity,
+  [data-step="neurossensorial"] .layer-osmolarity {
+    opacity: 1;
+  }
+
+  [data-step="inflamacao"] .layer-inflammation,
+  [data-step="dano-epitelial"] .layer-inflammation,
+  [data-step="neurossensorial"] .layer-inflammation {
+    opacity: 1;
+  }
+
+  [data-step="dano-epitelial"] .cells rect:nth-child(2),
+  [data-step="dano-epitelial"] .cells rect:nth-child(5),
+  [data-step="neurossensorial"] .cells rect:nth-child(2),
+  [data-step="neurossensorial"] .cells rect:nth-child(5) {
+    fill: #f2dcd8;
+    stroke: #a93c32;
+  }
+
+  [data-step="neurossensorial"] .layer-nerve {
+    opacity: 1;
+  }
+
+  [data-step="hiperosmolaridade"] .layer-aqueous path,
+  [data-step="inflamacao"] .layer-aqueous path,
+  [data-step="dano-epitelial"] .layer-aqueous path,
+  [data-step="neurossensorial"] .layer-aqueous path {
+    opacity: 0.55;
+  }
+
+  @media (min-width: 900px) {
+    .mechanism-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+      gap: clamp(2.5rem, 5vw, 5rem);
+      align-items: start;
+    }
+
+    .mechanism-stage {
+      position: sticky;
+      top: calc(var(--header-height) + 2.5rem);
+    }
+
+    .mechanism-steps {
+      margin-top: 0;
+      /* Espaço no fim para a última etapa alcançar o meio da tela antes de a
+         seção sair — sem isso a etapa 06 nunca fica ativa. */
+      padding-bottom: 30vh;
+    }
+  }
+</style>
+
+<script>
+  const figure = document.querySelector<SVGElement>("[data-mechanism-figure]");
+  const steps = [
+    ...document.querySelectorAll<HTMLElement>("[data-mechanism-step]"),
+  ];
+
+  if (figure && steps.length > 0) {
+    steps.forEach((step, index) => {
+      step.dataset.active = String(index === 0);
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const active = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort(
+            (a, b) => a.boundingClientRect.top - b.boundingClientRect.top,
+          )[0];
+        if (!active) return;
+        const target = active.target as HTMLElement;
+        const id = target.dataset.mechanismStep;
+        if (!id || figure.dataset.step === id) return;
+        figure.dataset.step = id;
+        steps.forEach((step) => {
+          step.dataset.active = String(step === target);
+        });
+      },
+      // A faixa estreita no meio da tela é o que faz a etapa trocar quando ela
+      // está sendo lida, e não quando entra pela borda.
+      { rootMargin: "-45% 0px -45% 0px", threshold: 0 },
+    );
+
+    steps.forEach((step) => observer.observe(step));
+  }
+</script>

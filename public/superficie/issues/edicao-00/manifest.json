@@ -138,7 +138,7 @@
       "thumbnail": "/superficie/issues/edicao-00/pages/page-11-thumb.webp",
       "textLayer": "/superficie/issues/edicao-00/text/page-11.json",
       "type": "article",
-      "alt": "Página 11: A discórdia é um achado, não um exame inconsistente."
+      "alt": "Página 11: A discordância é um achado, não um exame inconsistente."
     },
     {
       "number": 12,
@@ -475,19 +475,13 @@
     {
       "id": "biologia-molecular-da-dgm",
       "title": "Além da obstrução: a biologia molecular da DGM",
-      "pages": [
-        5,
-        6
-      ],
+      "pages": [5, 6],
       "htmlPath": "/superficie/issues/edicao-00/articles/biologia-molecular-da-dgm.html"
     },
     {
       "id": "tfos-dews-iii-na-pratica",
       "title": "TFOS DEWS III na prática",
-      "pages": [
-        7,
-        8
-      ],
+      "pages": [7, 8],
       "htmlPath": "/superficie/issues/edicao-00/articles/tfos-dews-iii-na-pratica.html"
     }
   ],

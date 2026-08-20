@@ -4,6 +4,7 @@ import EyeMark from "./EyeMark.astro";
 const pathname = Astro.url.pathname;
 const nav = [
   { label: "Olho Seco", href: "/olho-seco" },
+  { label: "Guias", href: "/guias" },
   { label: "Profissionais", href: "/profissionais" },
   { label: "SUPERFÍCIE", href: "/superficie" },
   { label: "Livros", href: "/livros" },
@@ -14,7 +15,7 @@ const nav = [
 const isActive = (href: string) => pathname.startsWith(href);
 ---
 
-<header class="site-header">
+<header class="site-header" data-scrolled="false">
   <div class="page-shell header-inner">
     <a href="/" class="brand">
       <EyeMark class="brand-mark" />
@@ -37,7 +38,32 @@ const isActive = (href: string) => pathname.startsWith(href);
       }
     </nav>
 
-    <a class="header-cta" href="/newsletter"> Newsletter </a>
+    <div class="header-actions">
+      <button
+        type="button"
+        class="header-search-btn"
+        aria-label="Buscar no site (Cmd+K)"
+        data-open-global-search
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle
+            cx="10.8"
+            cy="10.8"
+            r="6.7"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"></circle>
+          <path
+            d="m16 16 4.5 4.5"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"></path>
+        </svg>
+        <span class="search-btn-label">Buscar</span>
+        <kbd>⌘K</kbd>
+      </button>
+      <a class="header-cta" href="/newsletter"> Newsletter </a>
+    </div>
 
     <button
       class="menu-button"
@@ -52,6 +78,24 @@ const isActive = (href: string) => pathname.startsWith(href);
 
   <nav id="mobile-menu" class="mobile-nav" aria-label="Navegação móvel" hidden>
     <div class="page-shell">
+      <button type="button" class="mobile-search-btn" data-open-global-search>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle
+            cx="10.8"
+            cy="10.8"
+            r="6.7"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"></circle>
+          <path
+            d="m16 16 4.5 4.5"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"></path>
+        </svg>
+        <span>Buscar no portal...</span>
+        <kbd>⌘K</kbd>
+      </button>
       {
         nav.map((item) => (
           <a
@@ -67,7 +111,120 @@ const isActive = (href: string) => pathname.startsWith(href);
   </nav>
 </header>
 
+<style>
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .header-search-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 42px;
+    padding: 0.45rem 0.8rem;
+    border: 1px solid var(--line, #c8d7e2);
+    border-radius: var(--control-radius, 6px);
+    background: var(--mist, #eff8fb);
+    color: var(--ink-soft, #263d61);
+    font-size: 0.84rem;
+    font-weight: 650;
+    cursor: pointer;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease,
+      color 150ms ease;
+  }
+
+  .header-search-btn svg {
+    width: 16px;
+    height: 16px;
+    color: var(--teal, #087f95);
+  }
+
+  .header-search-btn kbd {
+    padding: 0.15rem 0.35rem;
+    border: 1px solid #ccd9e2;
+    border-radius: 3px;
+    background: #ffffff;
+    font-family: ui-monospace, monospace;
+    font-size: 0.75rem;
+    color: #556877;
+  }
+
+  .header-search-btn:hover {
+    background: #e2f1f5;
+    border-color: var(--teal, #087f95);
+    color: var(--ink, #071d45);
+  }
+
+  .mobile-search-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.8rem;
+    border: 1.5px solid var(--teal, #087f95);
+    border-radius: var(--control-radius, 6px);
+    background: var(--mist, #eff8fb);
+    color: var(--ink, #071d45);
+    font-size: 0.9rem;
+    font-weight: 650;
+    cursor: pointer;
+  }
+
+  .mobile-search-btn svg {
+    width: 18px;
+    height: 18px;
+    color: var(--teal, #087f95);
+  }
+
+  .mobile-search-btn kbd {
+    padding: 0.15rem 0.35rem;
+    border: 1px solid #ccd9e2;
+    border-radius: 3px;
+    background: #ffffff;
+    font-family: ui-monospace, monospace;
+    font-size: 0.75rem;
+    color: #556877;
+  }
+
+  @media (max-width: 1080px) {
+    .header-actions {
+      display: none;
+    }
+  }
+</style>
+
 <script>
+  // Transparência do header reage ao scroll. rAF + limiar com histerese:
+  // sem a folga o estado piscava a cada pixel na faixa de troca.
+  const header = document.querySelector<HTMLElement>(".site-header");
+  let scrollFrame = 0;
+
+  const syncHeaderState = () => {
+    scrollFrame = 0;
+    if (!header) return;
+    const scrolled = header.dataset.scrolled === "true";
+    const y = window.scrollY;
+    if (!scrolled && y > 24) header.dataset.scrolled = "true";
+    else if (scrolled && y < 8) header.dataset.scrolled = "false";
+  };
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (scrollFrame) return;
+      scrollFrame = window.requestAnimationFrame(syncHeaderState);
+    },
+    { passive: true },
+  );
+
+  syncHeaderState();
+
   const button = document.querySelector<HTMLButtonElement>(".menu-button");
   const menu = document.querySelector<HTMLElement>("#mobile-menu");
 

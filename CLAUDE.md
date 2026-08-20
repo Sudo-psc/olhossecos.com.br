@@ -30,7 +30,15 @@ desatualizada.
 
 **Não há Tailwind.** `tailwind.config.mjs` sobrou de uma fase anterior e não é
 usado por nada — nenhuma dependência, nenhuma classe. O estilo é CSS com escopo
-do Astro e custom properties.
+do Astro e custom properties, com a camada de tokens em `src/styles/tokens.css`
+(cor, tipografia, espaço, movimento, vidro, elevação). Os nomes antigos
+(`--ink`, `--teal`, `--paper`) continuam como apelidos dos tokens novos.
+
+**Uma fonte web, servida por nós.** `src/styles/fonts.css` declara a Source
+Serif 4 (subset latino, 400–700, 29 KB) em `/fonts` — só para manchetes. O corpo
+segue na pilha do sistema. A CSP declara `font-src 'self'`: fonte de host
+externo funciona no dev e falha calada em produção, e `src/lib/typography.test.ts`
+tranca essa porta.
 
 ## Comandos
 
@@ -122,6 +130,24 @@ os tokens.
 `#f7f4ed`, teal `#0b827f`, ouro `#d9b665`, serifa para títulos. Também define
 `--surface-radius-sm/md/lg`, `--surface-lift-*` e `--surface-shadow-lg`.
 
+A escala (tipografia, espaço, movimento) é compartilhada pelas duas frentes; o
+que as separa é cor, ritmo e densidade — não o tipo da manchete.
+
+### Componentes científicos
+
+`src/components/science/` reúne o vocabulário editorial de evidência:
+
+| Componente | Para quê |
+| --- | --- |
+| `ArticleSummary` | resumo de abertura: achado, implicação, limitações |
+| `EvidenceCard` + `EvidenceLevel` | resultado quantitativo com desenho, amostra, grau e ressalva |
+| `ScienceCallout` | mensagem-chave, implicação, limitação, controvérsia, diretriz, dado |
+| `MechanismScrolly` | círculo vicioso em seis etapas, ilustração fixa |
+| `EyeExplorer` | olho 3D com hotspots (Three.js sob demanda, fallback SVG) |
+
+`GuideSummary.limits` e `GuideEvidence.caveat` são campos obrigatórios da
+estrutura de propósito: número sem a limitação ao lado vira promessa.
+
 ### Regras que não são óbvias
 
 **Elevação no hover usa `filter`, não `box-shadow`.** O anel de foco de dois
@@ -130,6 +156,11 @@ a outra quando hover e foco coincidem.
 
 **O anel de foco não fixa `border-radius`.** `outline` e `box-shadow` já seguem o
 raio do elemento; fixar um valor faria o canto pular no momento do foco.
+
+**O 3D não pode ser condição para o conteúdo.** `EyeExplorer` só busca o
+Three.js quando a seção se aproxima da viewport, e não busca em WebGL ausente,
+`deviceMemory < 4`, `saveData` ou 2G. A lista de estruturas é HTML com botões
+que funcionam por teclado; o canvas é enfeite informativo, não a informação.
 
 **Cuidado ao mover CSS com escopo para global.** O escopo do Astro adiciona um
 atributo ao seletor, o que aumenta a especificidade. Regras que funcionavam

@@ -1,12 +1,40 @@
 import { figures, type FigureAsset } from "./figures.ts";
 
+/**
+ * Resultado quantitativo de um estudo citado na seção. `caveat` carrega a
+ * limitação que anda junto do número — evidência curta, amostra pequena, efeito
+ * que não se sustenta depois de interromper. Sem ela o bloco vira propaganda.
+ */
+export interface GuideEvidence {
+  design: string;
+  effect: string;
+  outcome: string;
+  stats?: string[];
+  level?: 1 | 2 | 3 | 4 | 5;
+  levelLabel?: string;
+  caveat?: string;
+  reference?: { label: string; url: string };
+}
+
 export interface GuideSection {
   heading: string;
   paragraphs?: string[];
   bullets?: string[];
   note?: string;
   alert?: string;
+  evidence?: GuideEvidence;
   figure?: FigureAsset;
+}
+
+/**
+ * Abertura do guia em três frases: o que se sabe, o que isso muda na prática e
+ * o que ainda não está resolvido. A limitação é campo obrigatório da estrutura
+ * justamente para não existir resumo que só entregue a boa notícia.
+ */
+export interface GuideSummary {
+  finding: string;
+  implication: string;
+  limits: string;
 }
 
 export interface Guide {
@@ -20,6 +48,7 @@ export interface Guide {
    */
   seoTitle?: string;
   description: string;
+  summary?: GuideSummary;
   readingTime: string;
   updated: string;
   datePublished?: string;
@@ -37,6 +66,14 @@ export const guides: Guide[] = [
     title: "Olho seco: o que é, por que acontece e por onde começar",
     description:
       "Uma visão geral para quem recebeu o diagnóstico ou ainda está tentando entender os sintomas.",
+    summary: {
+      finding:
+        "Olho seco é uma doença multifatorial da superfície ocular: evaporação, baixa produção aquosa, inflamação, pálpebras, ambiente e percepção nervosa participam em proporções diferentes em cada pessoa.",
+      implication:
+        "Saber qual mecanismo predomina muda o foco do cuidado — pálpebras e ambiente quando a evaporação lidera, lubrificação e proteção quando falta produção aquosa. Formas mistas são frequentes.",
+      limits:
+        "Nenhum teste, produto ou procedimento isolado explica e resolve todos os casos, e os sintomas se confundem com os de alergia, infecção e alterações palpebrais.",
+    },
     readingTime: "8 min",
     updated: "25 de julho de 2026",
     datePublished: "2026-07-25",
@@ -144,6 +181,14 @@ export const guides: Guide[] = [
     title: "Telas, piscadas e desconforto",
     description:
       "Como atenção prolongada, posição da tela e ambiente podem mexer com o filme lacrimal.",
+    summary: {
+      finding:
+        "Ler reduz a frequência de piscadas em qualquer suporte, mas o aumento de piscadas incompletas apareceu só nos formatos eletrônicos. Exercícios de piscada reduziram a proporção de piscadas incompletas de 54% para 34% em quatro semanas.",
+      implication:
+        "Pausas regulares, ajuste do posto de trabalho, fonte maior e piscadas lentas e completas são medidas de baixo custo para quem passa horas diante de telas.",
+      limits:
+        "Os ganhos dos exercícios voltaram ao ponto de partida semanas depois da interrupção, e a regra 20-20-20 melhorou sintomas sem alterar nenhuma medida objetiva do filme lacrimal — a melhora não se manteve uma semana após desligar os lembretes.",
+    },
     readingTime: "6 min",
     updated: "25 de julho de 2026",
     datePublished: "2026-07-25",
@@ -183,6 +228,24 @@ export const guides: Guide[] = [
           "Em um estudo anterior, quatro semanas de exercícios reduziram a proporção de piscadas incompletas de 54% para 34%, com melhora nos questionários de sintomas.",
         ],
         note: "Nos dois estudos, os ganhos tenderam a voltar ao ponto de partida algumas semanas depois que os exercícios foram interrompidos. É uma prática de manutenção, não algo que se faz uma vez e resolve.",
+        evidence: {
+          design: "Ensaio clínico de exercícios de piscada",
+          effect: "54% → 34%",
+          outcome: "proporção de piscadas incompletas após quatro semanas",
+          stats: [
+            "4 semanas de treino",
+            "melhora nos questionários de sintomas",
+          ],
+          level: 2,
+          levelLabel: "Baixo",
+          caveat:
+            "Ensaio de curta duração: o desfecho foi medido ao fim das quatro semanas de treino.",
+          reference: {
+            label:
+              "Kim et al. Therapeutic benefits of blinking exercises in dry eye disease, 2021",
+            url: "https://doi.org/10.1016/j.clae.2020.04.014",
+          },
+        },
       },
       {
         heading: "O que a regra 20-20-20 faz e o que ela não faz",
@@ -243,6 +306,14 @@ export const guides: Guide[] = [
     title: "Como organizar uma conversa sobre seus sintomas",
     description:
       "Um roteiro curto para lembrar padrões, tratamentos já tentados e perguntas que realmente ajudam.",
+    summary: {
+      finding:
+        "Questionários padronizados como o OSDI e o DEQ-5 transformam a queixa em número e permitem comparar a mesma pessoa ao longo do tempo. Papel e aplicativo produziram resultados equivalentes.",
+      implication:
+        "Levar linha do tempo, lista de medicamentos, o que já foi tentado e notas de 0 a 10 registradas em dias fixos torna a consulta mais objetiva do que descrever de memória.",
+      limits:
+        "São medidas de sintoma, não exames: escore alto não fecha diagnóstico, escore baixo não descarta doença, e variação pequena entre consultas pode ser apenas oscilação natural.",
+    },
     readingTime: "5 min",
     updated: "25 de julho de 2026",
     datePublished: "2026-07-25",
@@ -327,6 +398,14 @@ export const guides: Guide[] = [
     title: "Lubrificantes, géis e pomadas: perguntas úteis",
     description:
       "Entenda diferenças gerais de viscosidade, conservantes e uso sem comparar marcas.",
+    summary: {
+      finding:
+        "Lubrificantes diferem em viscosidade, componentes lipídicos, eletrólitos, osmoprotetores e sistema de conservação; cada grupo de ingrediente responde a um problema distinto da superfície.",
+      implication:
+        "A escolha acompanha o mecanismo predominante e a frequência de uso. Com muitas aplicações diárias, outros colírios contínuos ou lentes de contato, consensos recomendam evitar formulações com BAK.",
+      limits:
+        "Nenhuma revisão elege um produto superior aos demais: dois lubrificantes igualmente bons podem render experiências opostas porque não foram desenhados para o mesmo problema.",
+    },
     readingTime: "7 min",
     updated: "25 de julho de 2026",
     datePublished: "2026-07-25",
@@ -428,6 +507,14 @@ export const guides: Guide[] = [
     seoTitle: "Colírios para olho seco: tipos e uso seguro",
     description:
       "Um guia para entender o que muda entre lágrimas artificiais, géis, pomadas, conservantes e colírios de prescrição.",
+    summary: {
+      finding:
+        "Colírio é um formato de aplicação, não um tratamento único. Lágrimas artificiais aliviam sintomas e apoiam o filme lacrimal; imunomoduladores, corticoides e antimicrobianos tratam mecanismos e doenças específicas.",
+      implication:
+        "Viscosidade, conservante, horário e compatibilidade com lentes precisam combinar com a rotina — e colírio de prescrição depende de indicação e acompanhamento, não da intensidade do ardor ou da vermelhidão.",
+      limits:
+        "O alívio logo após pingar mostra que a superfície foi umedecida, mas não confirma a causa. Não existe um “colírio mais forte” que seja melhor para todo mundo.",
+    },
     readingTime: "9 min",
     updated: "10 de agosto de 2026",
     datePublished: "2026-08-10",
@@ -566,6 +653,14 @@ export const guides: Guide[] = [
     seoTitle: "Olho seco após cirurgia ocular: o que esperar",
     description:
       "Como entender desconforto, visão oscilante e uso de colírios depois de catarata ou cirurgia refrativa.",
+    summary: {
+      finding:
+        "Catarata e cirurgia refrativa podem alterar temporariamente a superfície ocular, a sensibilidade da córnea e a estabilidade do filme lacrimal. Uma revisão sistemática encontrou piora de parâmetros do olho seco que pode persistir até três meses após a catarata.",
+      implication:
+        "A tendência importa mais que o sintoma isolado: desconforto leve que melhora aos poucos difere de dor, vermelhidão ou perda visual que aumentam. As instruções da equipe que operou prevalecem sobre regras gerais.",
+      limits:
+        "Os prazos descrevem grupos de pacientes, não uma pessoa. Olho seco é uma possibilidade, não um diagnóstico automático — infecção, inflamação e mudança refrativa também causam dor e embaçamento.",
+    },
     readingTime: "9 min",
     updated: "10 de agosto de 2026",
     datePublished: "2026-08-10",
@@ -706,6 +801,14 @@ export const guides: Guide[] = [
     seoTitle: "Olho seco persistente, depressão e apneia",
     description:
       "Como revisar causas, reconhecer associações com humor e sono e organizar os próximos passos sem parar tratamentos por conta própria.",
+    summary: {
+      finding:
+        "Uma metanálise de 32 estudos estimou 40% de depressão entre pessoas com olho seco (IC 95% 29–52%), com 1,81 vez a chance dos controles. Em apneia obstrutiva do sono, 11 estudos com 1.526 pessoas mostraram ruptura lacrimal cerca de 3 s menor, Schirmer 2,61 mm menor e OSDI 14,63 pontos maior.",
+      implication:
+        "Colírio que alivia pouco é motivo para revisar mecanismo, técnica de uso e condições associadas — inclusive sono e humor — em vez de procurar uma gota mais forte.",
+      limits:
+        "Os estudos são majoritariamente observacionais: mostram associação, não causa. Sintoma ocular não diagnostica depressão nem apneia, e nem antidepressivo nem CPAP devem ser alterados por conta própria.",
+    },
     readingTime: "11 min",
     updated: "10 de agosto de 2026",
     datePublished: "2026-08-10",
@@ -752,6 +855,26 @@ export const guides: Guide[] = [
           "Uma revisão de revisões publicada em 2022 também concluiu que existe associação entre olho seco e depressão, mas destacou que ainda são necessários estudos melhores para esclarecer o mecanismo e a causalidade. Esses resultados não significam que o olho seco cause depressão, que a depressão cause olho seco ou que toda pessoa com sintomas oculares tenha um transtorno depressivo.",
         ],
         note: "A associação pode envolver dor persistente, piora da visão funcional, sono interrompido, limitações na rotina, inflamação, condições compartilhadas e a forma como os sintomas são percebidos e relatados.",
+        evidence: {
+          design: "Revisão sistemática e metanálise",
+          effect: "40%",
+          outcome:
+            "prevalência de depressão em pessoas com doença do olho seco",
+          stats: [
+            "32 estudos",
+            "IC 95% 29–52%",
+            "1,81 vez a chance dos controles",
+          ],
+          level: 2,
+          levelLabel: "Baixo — estudos observacionais",
+          caveat:
+            "Os escores de sintoma acompanharam os de depressão, mas os sinais clínicos objetivos não tiveram a mesma relação em todos os estudos. Associação não é causa.",
+          reference: {
+            label:
+              "Basilious et al. Dry eye disease and psychiatric disorders, 2022",
+            url: "https://pubmed.ncbi.nlm.nih.gov/34935549/",
+          },
+        },
       },
       {
         heading: "Depressão e antidepressivos podem mudar o plano",
@@ -783,6 +906,26 @@ export const guides: Guide[] = [
           "Outra metanálise, com 15 estudos, estimou olho seco em 48% das pessoas com apneia e encontrou menor Schirmer e menor estabilidade lacrimal, além de mais sintomas, alterações de córnea e perda de glândulas de Meibomius, especialmente nos quadros mais graves (Sun et al., 2023). Uma associação com a gravidade não prova que tratar apenas a apneia resolverá o olho seco.",
         ],
         note: "Esses números descrevem grupos de pesquisa. Não servem para calcular a chance individual de alguém nem substituem exame ocular ou estudo do sono.",
+        evidence: {
+          design: "Metanálise de estudos observacionais",
+          effect: "+14,63",
+          outcome: "pontos de OSDI na apneia obstrutiva do sono",
+          stats: [
+            "11 estudos",
+            "n = 1.526",
+            "ruptura lacrimal ~3 s menor",
+            "Schirmer 2,61 mm menor",
+          ],
+          level: 2,
+          levelLabel: "Baixo",
+          caveat:
+            "Os próprios autores classificaram a qualidade da evidência como limitada pelo desenho observacional.",
+          reference: {
+            label:
+              "Lin et al. Obstructive sleep apnea, CPAP and dry eye disease, 2024",
+            url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC11629664/",
+          },
+        },
       },
       {
         heading: "Sono ruim pode reforçar o círculo de sintomas",
@@ -894,6 +1037,14 @@ export const guides: Guide[] = [
     title: "Higiene palpebral com segurança",
     description:
       "O que essa prática pretende fazer, quais cuidados tomar e por que intensidade não é sinônimo de eficácia.",
+    summary: {
+      finding:
+        "Calor local confortável e limpeza gentil das bordas seguem sendo a base do cuidado na disfunção das glândulas de Meibomius. Uma revisão Cochrane de 13 ensaios com 1.155 participantes não encontrou vantagem consistente da pulsação térmica de consultório sobre a compressa morna feita em casa.",
+      implication:
+        "A rotina simples e barata tem respaldo comparável ao de alternativas bem mais caras, desde que a técnica seja confortável e não machuque a pele nem o globo ocular.",
+      limits:
+        "A certeza dessa evidência foi classificada como baixa a muito baixa, e os ensaios de produtos de limpeza palpebral são pequenos e curtos. Mais frequência e mais força não significam melhor resultado.",
+    },
     readingTime: "6 min",
     updated: "25 de julho de 2026",
     datePublished: "2026-07-25",
@@ -930,6 +1081,22 @@ export const guides: Guide[] = [
           "Uma revisão Cochrane de 13 ensaios com 1.155 participantes avaliou um dispositivo de pulsação térmica usado em consultório e não encontrou vantagem consistente sobre a compressa morna feita em casa. A certeza da evidência foi classificada como baixa a muito baixa.",
         ],
         note: "A leitura prática é encorajadora: a rotina simples e barata tem respaldo comparável ao de alternativas bem mais caras.",
+        evidence: {
+          design: "Revisão Cochrane de pulsação térmica",
+          effect: "Sem vantagem",
+          outcome:
+            "do dispositivo de consultório sobre a compressa morna feita em casa",
+          stats: ["13 ensaios", "n = 1.155"],
+          level: 1,
+          levelLabel: "Muito baixo a baixo",
+          caveat:
+            "A certeza da evidência foi classificada como baixa a muito baixa pelos próprios revisores.",
+          reference: {
+            label:
+              "Pucker et al. LipiFlow for the treatment of dry eye disease. Cochrane, 2024",
+            url: "https://doi.org/10.1002/14651858.CD015448.pub2",
+          },
+        },
       },
       {
         heading: "Produtos de limpeza palpebral",
@@ -979,6 +1146,14 @@ export const guides: Guide[] = [
     title: "Qualidade de vida e olho seco",
     description:
       "Estratégias para lidar com uma condição flutuante sem reduzir a experiência a uma pontuação.",
+    summary: {
+      finding:
+        "Olho seco interfere em leitura, direção, trabalho, sono e lazer, e a aparência do olho nem sempre acompanha a intensidade do sintoma — o que torna o impacto invisível para quem está por perto.",
+      implication:
+        "Registrar limitações concretas — tempo de tela tolerado, interrupções no trabalho, dificuldade para dirigir — comunica o efeito na vida diária melhor do que descrever a intensidade da dor.",
+      limits:
+        "Em parte das pessoas a dor permanece desproporcional aos sinais da superfície, o que envolve processamento nervoso e pede abordagem ampla. Relatos de comunidades servem como pergunta a investigar, não como prescrição.",
+    },
     readingTime: "7 min",
     updated: "25 de julho de 2026",
     datePublished: "2026-07-25",
@@ -1039,6 +1214,14 @@ export const guides: Guide[] = [
     seoTitle: "Conjuntivocálase: o olho seco mecânico",
     description:
       "Entenda como dobras da conjuntiva podem alterar o caminho das lágrimas, aumentar o atrito e produzir sintomas parecidos com olho seco.",
+    summary: {
+      finding:
+        "Pregas frouxas da conjuntiva podem desestabilizar o filme lacrimal e atrasar a eliminação das lágrimas. É essa segunda parte que explica arder e lacrimejar ao mesmo tempo.",
+      implication:
+        "O que orienta o cuidado é a localização e o volume da prega e sua relação com o menisco lacrimal e os pontos de drenagem, não a simples existência de uma dobra.",
+      limits:
+        "A condição se torna comum com o envelhecimento e frequentemente não dá sintoma. Alergia, blefarite e alterações palpebrais produzem queixas parecidas, e procedimentos na conjuntiva dependem de avaliação especializada.",
+    },
     readingTime: "7 min",
     updated: "26 de julho de 2026",
     datePublished: "2026-07-26",
@@ -1134,6 +1317,14 @@ export const guides: Guide[] = [
     seoTitle: "Olho seco e lentes de contato: o que muda",
     description:
       "Entenda como as lentes interagem com as lágrimas, quais padrões observar e quando interromper o uso para proteger os olhos.",
+    summary: {
+      finding:
+        "A lente de contato divide o filme lacrimal em camadas à frente e atrás dela e pode revelar ou agravar instabilidade e evaporação, com desconforto que cresce ao longo do dia.",
+      implication:
+        "Material, desenho, adaptação, calendário de troca e produtos compatíveis são revisáveis; em doença mais grave da superfície, lentes esclerais podem ter papel terapêutico com equipe habilitada.",
+      limits:
+        "Nem todo desconforto com lentes é olho seco: adaptação inadequada, alergia, inflamação e infecção entram no diagnóstico. Dor, fotofobia, secreção ou queda de visão pedem avaliação rápida, não mais lubrificante.",
+    },
     readingTime: "7 min",
     updated: "26 de julho de 2026",
     datePublished: "2026-07-26",
@@ -1233,16 +1424,24 @@ export const guides: Guide[] = [
   {
     slug: "epifora-olho-seco-vias-lacrimais",
     category: "Sintomas e investigação",
-    title: "Épifora, olho seco e avaliação das vias lacrimais",
+    title: "Epífora, olho seco e avaliação das vias lacrimais",
     description:
       "Entenda por que um olho pode lacrimejar, como as lágrimas chegam ao nariz e o que cada etapa da avaliação procura responder.",
+    summary: {
+      finding:
+        "Epífora nomeia o sintoma, não a causa. Uma superfície ressecada ou irritada pode disparar lacrimejamento reflexo, e pregas de conjuntivocálase podem atrasar a saída da lágrima sem que haja obstrução do canal.",
+      implication:
+        "Relatar se começou de repente, se atinge um ou os dois olhos e o que piora o quadro ajuda a separar lacrimejamento reflexo, alteração palpebral e obstrução — cada um com estratégia própria.",
+      limits:
+        "O teste de desaparecimento da fluoresceína pode sugerir escoamento lento sem localizar o ponto do problema, e nem toda epífora exige sondagem, irrigação, imagem ou endoscopia.",
+    },
     readingTime: "9 min",
     updated: "26 de julho de 2026",
     datePublished: "2026-07-26",
     dateModified: "2026-07-26",
     sourcesVerified: "26 de julho de 2026",
     tags: [
-      "épifora",
+      "epífora",
       "lacrimejamento",
       "olhos aguados",
       "olho seco",
@@ -1259,9 +1458,9 @@ export const guides: Guide[] = [
     ],
     sections: [
       {
-        heading: "Épifora descreve o sintoma, não a causa",
+        heading: "Epífora descreve o sintoma, não a causa",
         paragraphs: [
-          "Épifora é o nome usado para lacrimejamento anormal, sobretudo quando as lágrimas se acumulam ou transbordam para as pálpebras e o rosto. A palavra não significa automaticamente que exista um canal obstruído.",
+          "Epífora é o nome usado para lacrimejamento anormal, sobretudo quando as lágrimas se acumulam ou transbordam para as pálpebras e o rosto. A palavra não significa automaticamente que exista um canal obstruído.",
           "O volume de lágrimas percebido resulta do equilíbrio entre produção, distribuição pelas piscadas, evaporação e drenagem. Uma alteração em qualquer uma dessas etapas pode deixar o olho aguado, e mais de um mecanismo pode coexistir.",
         ],
         note: "“Olho aguado” e “olho seco” não são opostos perfeitos. Uma pessoa pode produzir lágrimas reflexas em excesso e ainda ter um filme lacrimal instável.",
@@ -1317,15 +1516,15 @@ export const guides: Guide[] = [
           "No teste de desaparecimento da fluoresceína, uma pequena quantidade de corante é colocada nas lágrimas e se observa quanto permanece após um intervalo. Retenção pode sugerir escoamento mais lento, mas o teste não localiza sozinho o ponto do problema.",
           "Na sondagem e irrigação, uma equipe habilitada avalia resistência, refluxo e passagem de líquido ao longo da via. O teste pode ajudar a localizar bloqueios, mas a passagem de líquido não garante que o sistema drene normalmente durante a rotina.",
           "Quando história, exame e irrigação não explicam o sintoma, exames selecionados podem mapear a anatomia ou o trânsito. A dacriocistografia usa contraste para mostrar o trajeto; a dacriocintilografia acompanha o deslocamento de uma pequena quantidade de marcador radioativo. Endoscopia nasal ou outras imagens são reservadas a perguntas específicas.",
-          "AS-OCT pode medir altura, área ou volume do menisco lacrimal, porém não percorre sozinho toda a via de drenagem até o nariz.",
+          "A tomografia de coerência óptica do segmento anterior (AS-OCT) pode medir altura, área ou volume do menisco lacrimal, porém não percorre sozinha toda a via de drenagem até o nariz.",
         ],
-        note: "Nem toda pessoa com épifora precisa de sondagem, irrigação, imagem ou endoscopia. A sequência depende da história e do que já foi encontrado no exame.",
+        note: "Nem toda pessoa com epífora precisa de sondagem, irrigação, imagem ou endoscopia. A sequência depende da história e do que já foi encontrado no exame.",
       },
       {
         heading: "O cuidado depende do mecanismo",
         paragraphs: [
           "Quando predomina lacrimejamento reflexo, o objetivo é identificar e reduzir a irritação da superfície. Alterações das pálpebras e da bomba lacrimal precisam de uma estratégia própria. Se há estreitamento ou obstrução, a localização e a repercussão orientam quais opções podem ser discutidas.",
-          "Plugue lacrimal e cauterização reduzem intencionalmente a drenagem para conservar lágrimas em alguns contextos de olho seco. Eles não devem ser tratados como solução automática quando já existe épifora ou quando a causa do lacrimejamento ainda não foi esclarecida.",
+          "Plugue lacrimal e cauterização reduzem intencionalmente a drenagem para conservar lágrimas em alguns contextos de olho seco. Eles não devem ser tratados como solução automática quando já existe epífora ou quando a causa do lacrimejamento ainda não foi esclarecida.",
           "Não tente sondar, irrigar ou pressionar repetidamente a região em casa. O portal não recomenda antibiótico, colírio ou procedimento com base apenas no sintoma.",
         ],
       },
@@ -1344,7 +1543,7 @@ export const guides: Guide[] = [
           "Inchaço doloroso junto ao canto interno do olho, especialmente com secreção ou febre, pode indicar inflamação ou infecção do saco lacrimal e também não deve esperar.",
         ],
         alert:
-          "Épifora persistente merece investigação; épifora acompanhada de dor intensa, piora visual, trauma ou inchaço doloroso com febre exige prioridade.",
+          "Epífora persistente merece investigação; epífora acompanhada de dor intensa, piora visual, trauma ou inchaço doloroso com febre exige prioridade.",
       },
     ],
     sources: [
@@ -1365,8 +1564,7 @@ export const guides: Guide[] = [
         url: "https://pubmed.ncbi.nlm.nih.gov/34237206/",
       },
       {
-        label:
-          "Marmalidou et al. Conjunctivochalasis: a systematic review. Surv Ophthalmol, 2017.",
+        label: "Marmalidou et al. — Conjunctivochalasis: a systematic review",
         url: "https://doi.org/10.1016/j.survophthal.2017.10.010",
       },
       {

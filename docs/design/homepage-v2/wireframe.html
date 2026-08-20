@@ -17,7 +17,9 @@
         --sans: Arial, Helvetica, sans-serif;
       }
 
-      * { box-sizing: border-box; }
+      * {
+        box-sizing: border-box;
+      }
       body {
         margin: 0;
         background: var(--paper);
@@ -25,22 +27,54 @@
         font-family: var(--sans);
         line-height: 1.5;
       }
-      a { color: inherit; text-decoration: none; }
-      .shell { width: min(100% - 64px, 1320px); margin-inline: auto; }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .shell {
+        width: min(100% - 64px, 1320px);
+        margin-inline: auto;
+      }
       .eyebrow {
         margin: 0 0 12px;
         color: var(--muted);
         font-size: 12px;
         font-weight: 700;
-        letter-spacing: .13em;
+        letter-spacing: 0.13em;
         text-transform: uppercase;
       }
-      h1, h2, h3 { font-family: var(--serif); font-weight: 500; letter-spacing: -.035em; }
-      h1 { max-width: 700px; margin: 0; font-size: clamp(52px, 5vw, 78px); line-height: .98; }
-      h2 { margin: 0; font-size: clamp(38px, 4vw, 60px); line-height: 1; }
-      h3 { margin: 0; font-size: 26px; line-height: 1.08; }
-      .lead { max-width: 690px; color: var(--muted); font-size: 19px; }
-      .rule { height: 1px; background: var(--line); }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--serif);
+        font-weight: 500;
+        letter-spacing: -0.035em;
+      }
+      h1 {
+        max-width: 700px;
+        margin: 0;
+        font-size: clamp(52px, 5vw, 78px);
+        line-height: 0.98;
+      }
+      h2 {
+        margin: 0;
+        font-size: clamp(38px, 4vw, 60px);
+        line-height: 1;
+      }
+      h3 {
+        margin: 0;
+        font-size: 26px;
+        line-height: 1.08;
+      }
+      .lead {
+        max-width: 690px;
+        color: var(--muted);
+        font-size: 19px;
+      }
+      .rule {
+        height: 1px;
+        background: var(--line);
+      }
       .button {
         display: inline-flex;
         min-height: 48px;
@@ -51,129 +85,539 @@
         font-size: 14px;
         font-weight: 700;
       }
-      .button.primary { background: var(--ink); color: white; }
+      .button.primary {
+        background: var(--ink);
+        color: white;
+      }
 
-      header { border-bottom: 1px solid var(--line); }
-      .header-row { display: grid; grid-template-columns: 220px 1fr auto; align-items: center; min-height: 76px; gap: 28px; }
-      .brand { display: flex; align-items: center; gap: 12px; font-family: var(--serif); font-size: 22px; font-weight: 700; }
-      .brand-mark { width: 36px; height: 28px; border: 2px solid var(--ink); border-radius: 55% 45%; position: relative; }
-      .brand-mark::after { position: absolute; inset: 7px 11px; border: 2px solid var(--ink); border-radius: 50%; content: ""; }
-      .desktop-nav { display: flex; justify-content: center; gap: 24px; font-size: 13px; font-weight: 700; }
-      .header-cta { padding-bottom: 3px; border-bottom: 1px solid var(--ink); font-size: 13px; font-weight: 700; }
-      .menu { display: none; width: 44px; height: 44px; border: 1px solid var(--line); background: white; }
+      header {
+        border-bottom: 1px solid var(--line);
+      }
+      .header-row {
+        display: grid;
+        grid-template-columns: 220px 1fr auto;
+        align-items: center;
+        min-height: 76px;
+        gap: 28px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-family: var(--serif);
+        font-size: 22px;
+        font-weight: 700;
+      }
+      .brand-mark {
+        width: 36px;
+        height: 28px;
+        border: 2px solid var(--ink);
+        border-radius: 55% 45%;
+        position: relative;
+      }
+      .brand-mark::after {
+        position: absolute;
+        inset: 7px 11px;
+        border: 2px solid var(--ink);
+        border-radius: 50%;
+        content: "";
+      }
+      .desktop-nav {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .header-cta {
+        padding-bottom: 3px;
+        border-bottom: 1px solid var(--ink);
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .menu {
+        display: none;
+        width: 44px;
+        height: 44px;
+        border: 1px solid var(--line);
+        background: white;
+      }
 
-      .hero { padding: 70px 0 64px; }
-      .hero-grid { display: grid; grid-template-columns: 1.08fr .92fr; align-items: center; gap: 68px; min-height: 610px; }
-      .hero-copy .lead { margin: 24px 0 0; }
-      .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
-      .ecosystem { margin: 22px 0 0; color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-      .visual-placeholder { min-height: 490px; border: 1px solid var(--line); background: var(--wash); display: grid; place-items: center; padding: 40px; }
-      .visual-eye { position: relative; width: 78%; aspect-ratio: 1.55; border: 2px solid var(--line); border-radius: 70% 30% 70% 30% / 55% 45% 55% 45%; transform: rotate(-8deg); }
-      .visual-eye::before { position: absolute; inset: 21% 33%; border: 2px solid var(--line); border-radius: 50%; content: ""; }
-      .visual-eye::after { position: absolute; right: -16%; bottom: 10%; width: 42%; height: 55%; border: 2px solid var(--line); border-radius: 50% 50% 58% 42% / 66% 66% 34% 34%; content: ""; }
+      .hero {
+        padding: 70px 0 64px;
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.08fr 0.92fr;
+        align-items: center;
+        gap: 68px;
+        min-height: 610px;
+      }
+      .hero-copy .lead {
+        margin: 24px 0 0;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 30px;
+      }
+      .ecosystem {
+        margin: 22px 0 0;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .visual-placeholder {
+        min-height: 490px;
+        border: 1px solid var(--line);
+        background: var(--wash);
+        display: grid;
+        place-items: center;
+        padding: 40px;
+      }
+      .visual-eye {
+        position: relative;
+        width: 78%;
+        aspect-ratio: 1.55;
+        border: 2px solid var(--line);
+        border-radius: 70% 30% 70% 30% / 55% 45% 55% 45%;
+        transform: rotate(-8deg);
+      }
+      .visual-eye::before {
+        position: absolute;
+        inset: 21% 33%;
+        border: 2px solid var(--line);
+        border-radius: 50%;
+        content: "";
+      }
+      .visual-eye::after {
+        position: absolute;
+        right: -16%;
+        bottom: 10%;
+        width: 42%;
+        height: 55%;
+        border: 2px solid var(--line);
+        border-radius: 50% 50% 58% 42% / 66% 66% 34% 34%;
+        content: "";
+      }
 
-      section { padding: 96px 0; }
-      .section-intro { display: grid; grid-template-columns: .8fr 1.2fr; gap: 70px; align-items: end; margin-bottom: 48px; }
-      .section-intro p { margin: 0; color: var(--muted); }
-      .journeys { background: var(--wash); border-block: 1px solid var(--line); }
-      .journey-grid { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); background: white; }
-      .journey { padding: 46px; }
-      .journey + .journey { border-left: 1px solid var(--line); }
-      .journey > p { color: var(--muted); }
-      .link-grid { display: grid; grid-template-columns: 1fr 1fr; margin: 30px 0; border-top: 1px solid var(--line); }
-      .link-grid span { padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 13px; font-weight: 700; }
+      section {
+        padding: 96px 0;
+      }
+      .section-intro {
+        display: grid;
+        grid-template-columns: 0.8fr 1.2fr;
+        gap: 70px;
+        align-items: end;
+        margin-bottom: 48px;
+      }
+      .section-intro p {
+        margin: 0;
+        color: var(--muted);
+      }
+      .journeys {
+        background: var(--wash);
+        border-block: 1px solid var(--line);
+      }
+      .journey-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border: 1px solid var(--line);
+        background: white;
+      }
+      .journey {
+        padding: 46px;
+      }
+      .journey + .journey {
+        border-left: 1px solid var(--line);
+      }
+      .journey > p {
+        color: var(--muted);
+      }
+      .link-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin: 30px 0;
+        border-top: 1px solid var(--line);
+      }
+      .link-grid span {
+        padding: 12px 0;
+        border-bottom: 1px solid var(--line);
+        font-size: 13px;
+        font-weight: 700;
+      }
 
-      .essential-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
-      .essential { min-height: 210px; padding: 30px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-      .essential .num { color: var(--muted); font-family: var(--serif); font-size: 22px; }
-      .essential h3 { margin-top: 44px; font-size: 24px; }
-      .essential p { margin: 12px 0 0; color: var(--muted); font-size: 14px; }
+      .essential-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border-top: 1px solid var(--line);
+        border-left: 1px solid var(--line);
+      }
+      .essential {
+        min-height: 210px;
+        padding: 30px;
+        border-right: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+      .essential .num {
+        color: var(--muted);
+        font-family: var(--serif);
+        font-size: 22px;
+      }
+      .essential h3 {
+        margin-top: 44px;
+        font-size: 24px;
+      }
+      .essential p {
+        margin: 12px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
 
-      .superficie { background: var(--navy); color: white; }
-      .surface-grid { display: grid; grid-template-columns: 1.12fr .88fr; gap: 80px; align-items: center; }
-      .surface-mark { font-family: var(--serif); font-size: clamp(64px, 7vw, 104px); letter-spacing: -.055em; }
-      .surface-copy { max-width: 700px; color: #d8e0e8; }
-      .surface-meta { color: #d9c398; }
-      .surface-buttons .button { border-color: white; }
-      .surface-buttons .primary { background: white; color: var(--navy); }
-      .cover-placeholder { min-height: 520px; border: 1px solid #7f8fa1; background: #1a2c43; display: flex; flex-direction: column; justify-content: space-between; padding: 34px; }
-      .cover-placeholder small { color: #d9c398; letter-spacing: .12em; }
-      .cover-placeholder strong { font-family: var(--serif); font-size: 42px; line-height: 1; }
+      .superficie {
+        background: var(--navy);
+        color: white;
+      }
+      .surface-grid {
+        display: grid;
+        grid-template-columns: 1.12fr 0.88fr;
+        gap: 80px;
+        align-items: center;
+      }
+      .surface-mark {
+        font-family: var(--serif);
+        font-size: clamp(64px, 7vw, 104px);
+        letter-spacing: -0.055em;
+      }
+      .surface-copy {
+        max-width: 700px;
+        color: #d8e0e8;
+      }
+      .surface-meta {
+        color: #d9c398;
+      }
+      .surface-buttons .button {
+        border-color: white;
+      }
+      .surface-buttons .primary {
+        background: white;
+        color: var(--navy);
+      }
+      .cover-placeholder {
+        min-height: 520px;
+        border: 1px solid #7f8fa1;
+        background: #1a2c43;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 34px;
+      }
+      .cover-placeholder small {
+        color: #d9c398;
+        letter-spacing: 0.12em;
+      }
+      .cover-placeholder strong {
+        font-family: var(--serif);
+        font-size: 42px;
+        line-height: 1;
+      }
 
-      .books-layout { display: grid; grid-template-columns: 1.15fr .85fr; gap: 72px; align-items: center; }
-      .book-stage { position: relative; min-height: 540px; background: var(--wash); border: 1px solid var(--line); }
-      .book-shape { position: absolute; width: 250px; aspect-ratio: .72; border: 1px solid var(--ink); background: white; padding: 24px; display: flex; align-items: end; font-family: var(--serif); font-size: 25px; line-height: 1; box-shadow: 12px 14px 0 #d9dee3; }
-      .book-one { top: 55px; left: 13%; z-index: 2; }
-      .book-two { right: 12%; bottom: 45px; }
-      .books-copy article + article { margin-top: 42px; padding-top: 36px; border-top: 1px solid var(--line); }
-      .books-copy p { color: var(--muted); }
+      .books-layout {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 72px;
+        align-items: center;
+      }
+      .book-stage {
+        position: relative;
+        min-height: 540px;
+        background: var(--wash);
+        border: 1px solid var(--line);
+      }
+      .book-shape {
+        position: absolute;
+        width: 250px;
+        aspect-ratio: 0.72;
+        border: 1px solid var(--ink);
+        background: white;
+        padding: 24px;
+        display: flex;
+        align-items: end;
+        font-family: var(--serif);
+        font-size: 25px;
+        line-height: 1;
+        box-shadow: 12px 14px 0 #d9dee3;
+      }
+      .book-one {
+        top: 55px;
+        left: 13%;
+        z-index: 2;
+      }
+      .book-two {
+        right: 12%;
+        bottom: 45px;
+      }
+      .books-copy article + article {
+        margin-top: 42px;
+        padding-top: 36px;
+        border-top: 1px solid var(--line);
+      }
+      .books-copy p {
+        color: var(--muted);
+      }
 
-      .tool { background: var(--wash); border-block: 1px solid var(--line); }
-      .tool-grid { display: grid; grid-template-columns: .75fr 1.25fr; gap: 80px; align-items: center; }
-      .widget-placeholder { min-height: 330px; border: 1px solid var(--line); background: white; padding: 32px; }
-      .widget-ui { height: 100%; border: 1px solid var(--line); display: grid; place-items: center; color: var(--muted); }
+      .tool {
+        background: var(--wash);
+        border-block: 1px solid var(--line);
+      }
+      .tool-grid {
+        display: grid;
+        grid-template-columns: 0.75fr 1.25fr;
+        gap: 80px;
+        align-items: center;
+      }
+      .widget-placeholder {
+        min-height: 330px;
+        border: 1px solid var(--line);
+        background: white;
+        padding: 32px;
+      }
+      .widget-ui {
+        height: 100%;
+        border: 1px solid var(--line);
+        display: grid;
+        place-items: center;
+        color: var(--muted);
+      }
 
-      .updates { display: grid; grid-template-columns: .7fr 1.3fr; gap: 70px; }
-      .article-list { border-top: 1px solid var(--line); }
-      .article-row { display: grid; grid-template-columns: 120px 1fr 90px; gap: 24px; padding: 26px 0; border-bottom: 1px solid var(--line); }
-      .article-row small, .article-row span { color: var(--muted); font-size: 12px; }
+      .updates {
+        display: grid;
+        grid-template-columns: 0.7fr 1.3fr;
+        gap: 70px;
+      }
+      .article-list {
+        border-top: 1px solid var(--line);
+      }
+      .article-row {
+        display: grid;
+        grid-template-columns: 120px 1fr 90px;
+        gap: 24px;
+        padding: 26px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .article-row small,
+      .article-row span {
+        color: var(--muted);
+        font-size: 12px;
+      }
 
-      .newsletter { background: var(--ink); color: white; }
-      .newsletter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end; }
-      .newsletter p { color: #d5dce5; }
-      .form { display: grid; grid-template-columns: 1fr auto; }
-      .field { min-height: 54px; padding: 14px; border: 1px solid #8f9eaf; color: #cbd3dc; }
-      .form .button { min-height: 54px; border-color: white; background: white; color: var(--ink); }
-      .legal { margin-top: 12px; color: #b8c2cf; font-size: 11px; }
+      .newsletter {
+        background: var(--ink);
+        color: white;
+      }
+      .newsletter-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: end;
+      }
+      .newsletter p {
+        color: #d5dce5;
+      }
+      .form {
+        display: grid;
+        grid-template-columns: 1fr auto;
+      }
+      .field {
+        min-height: 54px;
+        padding: 14px;
+        border: 1px solid #8f9eaf;
+        color: #cbd3dc;
+      }
+      .form .button {
+        min-height: 54px;
+        border-color: white;
+        background: white;
+        color: var(--ink);
+      }
+      .legal {
+        margin-top: 12px;
+        color: #b8c2cf;
+        font-size: 11px;
+      }
 
-      .about-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 90px; }
-      .responsibility { padding-left: 36px; border-left: 1px solid var(--line); }
-      .about-grid p { color: var(--muted); }
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 90px;
+      }
+      .responsibility {
+        padding-left: 36px;
+        border-left: 1px solid var(--line);
+      }
+      .about-grid p {
+        color: var(--muted);
+      }
 
-      footer { background: #15253a; color: white; padding: 68px 0 34px; }
-      .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 50px; }
-      footer h3 { font-family: var(--sans); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
-      footer ul { margin: 18px 0 0; padding: 0; list-style: none; color: #bdc7d2; font-size: 13px; }
-      footer li + li { margin-top: 9px; }
-      .footer-bottom { margin-top: 54px; padding-top: 20px; border-top: 1px solid #667589; color: #aeb9c6; font-size: 11px; }
+      footer {
+        background: #15253a;
+        color: white;
+        padding: 68px 0 34px;
+      }
+      .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 50px;
+      }
+      footer h3 {
+        font-family: var(--sans);
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      footer ul {
+        margin: 18px 0 0;
+        padding: 0;
+        list-style: none;
+        color: #bdc7d2;
+        font-size: 13px;
+      }
+      footer li + li {
+        margin-top: 9px;
+      }
+      .footer-bottom {
+        margin-top: 54px;
+        padding-top: 20px;
+        border-top: 1px solid #667589;
+        color: #aeb9c6;
+        font-size: 11px;
+      }
 
       @media (max-width: 900px) {
-        .shell { width: min(100% - 32px, 1320px); }
-        .header-row { grid-template-columns: 1fr auto; min-height: 64px; }
-        .desktop-nav, .header-cta { display: none; }
-        .menu { display: block; }
-        .hero { padding: 48px 0 56px; }
-        .hero-grid { grid-template-columns: 1fr; min-height: auto; gap: 38px; }
-        h1 { font-size: clamp(44px, 12vw, 62px); }
-        .actions { display: grid; }
-        .visual-placeholder { min-height: 340px; }
-        section { padding: 72px 0; }
-        .section-intro, .journey-grid, .surface-grid, .books-layout, .tool-grid, .updates, .newsletter-grid, .about-grid { grid-template-columns: 1fr; gap: 34px; }
-        .journey + .journey { border-top: 1px solid var(--line); border-left: 0; }
-        .journey { padding: 30px 24px; }
-        .essential-grid { grid-template-columns: 1fr; }
-        .cover-placeholder { min-height: 430px; }
-        .book-stage { min-height: 460px; }
-        .book-shape { width: 190px; }
-        .book-one { left: 7%; }
-        .book-two { right: 7%; }
-        .updates { gap: 26px; }
-        .article-row { grid-template-columns: 84px 1fr; }
-        .article-row > span { display: none; }
-        .form { grid-template-columns: 1fr; gap: 10px; }
-        .responsibility { padding: 30px 0 0; border-top: 1px solid var(--line); border-left: 0; }
-        .footer-grid { grid-template-columns: 1fr 1fr; }
+        .shell {
+          width: min(100% - 32px, 1320px);
+        }
+        .header-row {
+          grid-template-columns: 1fr auto;
+          min-height: 64px;
+        }
+        .desktop-nav,
+        .header-cta {
+          display: none;
+        }
+        .menu {
+          display: block;
+        }
+        .hero {
+          padding: 48px 0 56px;
+        }
+        .hero-grid {
+          grid-template-columns: 1fr;
+          min-height: auto;
+          gap: 38px;
+        }
+        h1 {
+          font-size: clamp(44px, 12vw, 62px);
+        }
+        .actions {
+          display: grid;
+        }
+        .visual-placeholder {
+          min-height: 340px;
+        }
+        section {
+          padding: 72px 0;
+        }
+        .section-intro,
+        .journey-grid,
+        .surface-grid,
+        .books-layout,
+        .tool-grid,
+        .updates,
+        .newsletter-grid,
+        .about-grid {
+          grid-template-columns: 1fr;
+          gap: 34px;
+        }
+        .journey + .journey {
+          border-top: 1px solid var(--line);
+          border-left: 0;
+        }
+        .journey {
+          padding: 30px 24px;
+        }
+        .essential-grid {
+          grid-template-columns: 1fr;
+        }
+        .cover-placeholder {
+          min-height: 430px;
+        }
+        .book-stage {
+          min-height: 460px;
+        }
+        .book-shape {
+          width: 190px;
+        }
+        .book-one {
+          left: 7%;
+        }
+        .book-two {
+          right: 7%;
+        }
+        .updates {
+          gap: 26px;
+        }
+        .article-row {
+          grid-template-columns: 84px 1fr;
+        }
+        .article-row > span {
+          display: none;
+        }
+        .form {
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+        .responsibility {
+          padding: 30px 0 0;
+          border-top: 1px solid var(--line);
+          border-left: 0;
+        }
+        .footer-grid {
+          grid-template-columns: 1fr 1fr;
+        }
       }
 
       @media (max-width: 420px) {
-        .lead { font-size: 17px; }
-        .link-grid { grid-template-columns: 1fr; }
-        .visual-placeholder { min-height: 285px; padding: 28px; }
-        .surface-mark { font-size: 52px; }
-        .cover-placeholder { min-height: 390px; }
-        .book-stage { min-height: 420px; }
-        .book-shape { width: 170px; font-size: 19px; padding: 18px; }
-        .footer-grid { grid-template-columns: 1fr; }
+        .lead {
+          font-size: 17px;
+        }
+        .link-grid {
+          grid-template-columns: 1fr;
+        }
+        .visual-placeholder {
+          min-height: 285px;
+          padding: 28px;
+        }
+        .surface-mark {
+          font-size: 52px;
+        }
+        .cover-placeholder {
+          min-height: 390px;
+        }
+        .book-stage {
+          min-height: 420px;
+        }
+        .book-shape {
+          width: 170px;
+          font-size: 19px;
+          padding: 18px;
+        }
+        .footer-grid {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
@@ -181,8 +625,12 @@
     <header>
       <div class="shell header-row">
         <div class="brand"><span class="brand-mark"></span> OLHOS SECOS</div>
-        <nav class="desktop-nav"><a>Olho Seco</a><a>Profissionais</a><a>SUPERFÍCIE</a><a>Livros</a><a>App</a><a>Sobre</a></nav>
-        <a class="header-cta">Newsletter</a><button class="menu" aria-label="Menu">☰</button>
+        <nav class="desktop-nav">
+          <a>Olho Seco</a><a>Profissionais</a><a>SUPERFÍCIE</a><a>Livros</a
+          ><a>App</a><a>Sobre</a>
+        </nav>
+        <a class="header-cta">Newsletter</a
+        ><button class="menu" aria-label="Menu">☰</button>
       </div>
     </header>
 
@@ -191,53 +639,306 @@
         <div class="shell hero-grid">
           <div class="hero-copy">
             <p class="eyebrow">Olho seco • Superfície ocular • Ciência</p>
-            <h1>Entenda o olho seco. Acompanhe a evolução da superfície ocular.</h1>
-            <p class="lead">Informação baseada em evidências para pacientes e profissionais, com caminhos claramente separados.</p>
-            <div class="actions"><a class="button primary">Tenho sintomas de olho seco</a><a class="button">Sou profissional de saúde</a></div>
+            <h1>
+              Entenda o olho seco. Acompanhe a evolução da superfície ocular.
+            </h1>
+            <p class="lead">
+              Informação baseada em evidências para pacientes e profissionais,
+              com caminhos claramente separados.
+            </p>
+            <div class="actions">
+              <a class="button primary">Tenho sintomas de olho seco</a
+              ><a class="button">Sou profissional de saúde</a>
+            </div>
             <p class="ecosystem">Livros • Revista • Evidências • Tecnologia</p>
           </div>
-          <div class="visual-placeholder"><div class="visual-eye" aria-label="Área do visual científico"></div></div>
+          <div class="visual-placeholder">
+            <div
+              class="visual-eye"
+              aria-label="Área do visual científico"
+            ></div>
+          </div>
         </div>
       </section>
 
       <section class="journeys">
         <div class="shell">
-          <div class="section-intro"><h2>Informação certa para cada momento</h2><p>Escolha o caminho mais adequado ao que você procura, sem misturar educação do paciente e atualização profissional.</p></div>
+          <div class="section-intro">
+            <h2>Informação certa para cada momento</h2>
+            <p>
+              Escolha o caminho mais adequado ao que você procura, sem misturar
+              educação do paciente e atualização profissional.
+            </p>
+          </div>
           <div class="journey-grid">
-            <article class="journey"><p class="eyebrow">Para pacientes</p><h3>Entenda seus sintomas</h3><p>Ardência, sensação de areia, visão oscilante, lacrimejamento e desconforto com telas.</p><div class="link-grid"><span>Sintomas</span><span>Causas</span><span>Diagnóstico</span><span>Tratamento</span><span>Glândulas de Meibomius</span><span>Olho seco e telas</span><span>Conjuntivocálase</span><span>Perguntas frequentes</span></div><a class="button primary">Explorar olho seco</a></article>
-            <article class="journey"><p class="eyebrow">Para profissionais</p><h3>Superfície ocular em profundidade</h3><p>Diagnóstico multimodal, fenotipagem, imagem, tecnologia, terapias e evidências contemporâneas.</p><div class="link-grid"><span>Diagnóstico multimodal</span><span>Meibografia</span><span>NIBUT</span><span>Interferometria</span><span>Osmolaridade</span><span>Fenotipagem</span><span>Terapias</span><span>Evidências</span></div><a class="button">Acessar área profissional</a></article>
+            <article class="journey">
+              <p class="eyebrow">Para pacientes</p>
+              <h3>Entenda seus sintomas</h3>
+              <p>
+                Ardência, sensação de areia, visão oscilante, lacrimejamento e
+                desconforto com telas.
+              </p>
+              <div class="link-grid">
+                <span>Sintomas</span><span>Causas</span><span>Diagnóstico</span
+                ><span>Tratamento</span><span>Glândulas de Meibomius</span
+                ><span>Olho seco e telas</span><span>Conjuntivocálase</span
+                ><span>Perguntas frequentes</span>
+              </div>
+              <a class="button primary">Explorar olho seco</a>
+            </article>
+            <article class="journey">
+              <p class="eyebrow">Para profissionais</p>
+              <h3>Superfície ocular em profundidade</h3>
+              <p>
+                Diagnóstico multimodal, fenotipagem, imagem, tecnologia,
+                terapias e evidências contemporâneas.
+              </p>
+              <div class="link-grid">
+                <span>Diagnóstico multimodal</span><span>Meibografia</span
+                ><span>NIBUT</span><span>Interferometria</span
+                ><span>Osmolaridade</span><span>Fenotipagem</span
+                ><span>Terapias</span><span>Evidências</span>
+              </div>
+              <a class="button">Acessar área profissional</a>
+            </article>
           </div>
         </div>
       </section>
 
       <section>
-        <div class="shell"><div class="section-intro"><h2>Comece por aqui</h2><p>Guias fundamentais para compreender a doença do olho seco.</p></div><div class="essential-grid">
-          <article class="essential"><span class="num">01</span><h3>O que é doença do olho seco?</h3><p>Definição clara e visão geral.</p></article>
-          <article class="essential"><span class="num">02</span><h3>Sintomas de olho seco</h3><p>Padrões, contexto e sinais.</p></article>
-          <article class="essential"><span class="num">03</span><h3>Como é feito o diagnóstico?</h3><p>O que cada etapa procura responder.</p></article>
-          <article class="essential"><span class="num">04</span><h3>Tratamentos disponíveis</h3><p>Possibilidades de cuidado por mecanismo.</p></article>
-          <article class="essential"><span class="num">05</span><h3>Glândulas de Meibomius</h3><p>Evaporação e estabilidade lacrimal.</p></article>
-          <article class="essential"><span class="num">06</span><h3>Olho seco e uso de telas</h3><p>Piscadas, ambiente e hábitos.</p></article>
-        </div></div>
+        <div class="shell">
+          <div class="section-intro">
+            <h2>Comece por aqui</h2>
+            <p>Guias fundamentais para compreender a doença do olho seco.</p>
+          </div>
+          <div class="essential-grid">
+            <article class="essential">
+              <span class="num">01</span>
+              <h3>O que é doença do olho seco?</h3>
+              <p>Definição clara e visão geral.</p>
+            </article>
+            <article class="essential">
+              <span class="num">02</span>
+              <h3>Sintomas de olho seco</h3>
+              <p>Padrões, contexto e sinais.</p>
+            </article>
+            <article class="essential">
+              <span class="num">03</span>
+              <h3>Como é feito o diagnóstico?</h3>
+              <p>O que cada etapa procura responder.</p>
+            </article>
+            <article class="essential">
+              <span class="num">04</span>
+              <h3>Tratamentos disponíveis</h3>
+              <p>Possibilidades de cuidado por mecanismo.</p>
+            </article>
+            <article class="essential">
+              <span class="num">05</span>
+              <h3>Glândulas de Meibomius</h3>
+              <p>Evaporação e estabilidade lacrimal.</p>
+            </article>
+            <article class="essential">
+              <span class="num">06</span>
+              <h3>Olho seco e uso de telas</h3>
+              <p>Piscadas, ambiente e hábitos.</p>
+            </article>
+          </div>
+        </div>
       </section>
 
       <section class="superficie">
-        <div class="shell surface-grid"><div><p class="eyebrow surface-meta">Olho seco • Córnea • Tecnologia</p><div class="surface-mark">SUPERFÍCIE</div><p>Revista de Olho Seco e Superfície Ocular</p><h2>Evidência que chega à prática.</h2><p class="surface-copy">Publicação periódica dedicada à atualização clínica, científica e tecnológica da superfície ocular.</p><div class="actions surface-buttons"><a class="button primary">Conheça a SUPERFÍCIE</a><a class="button">Receba a próxima edição</a></div></div><div class="cover-placeholder"><small>EDIÇÃO FUNDADORA • EM DESENVOLVIMENTO</small><strong>A nova era da superfície ocular</strong><span>Do sintoma ao fenótipo</span></div></div>
+        <div class="shell surface-grid">
+          <div>
+            <p class="eyebrow surface-meta">Olho seco • Córnea • Tecnologia</p>
+            <div class="surface-mark">SUPERFÍCIE</div>
+            <p>Revista de Olho Seco e Superfície Ocular</p>
+            <h2>Evidência que chega à prática.</h2>
+            <p class="surface-copy">
+              Publicação periódica dedicada à atualização clínica, científica e
+              tecnológica da superfície ocular.
+            </p>
+            <div class="actions surface-buttons">
+              <a class="button primary">Conheça a SUPERFÍCIE</a
+              ><a class="button">Receba a próxima edição</a>
+            </div>
+          </div>
+          <div class="cover-placeholder">
+            <small>EDIÇÃO FUNDADORA • EM DESENVOLVIMENTO</small
+            ><strong>A nova era da superfície ocular</strong
+            ><span>Do sintoma ao fenótipo</span>
+          </div>
+        </div>
       </section>
 
       <section>
-        <div class="shell books-layout"><div class="book-stage"><div class="book-shape book-one">Conjuntivocálase</div><div class="book-shape book-two">O Custo Invisível do Olho Seco</div></div><div class="books-copy"><p class="eyebrow">Livros</p><h2>Profundidade clínica e conceitual</h2><article><h3>Conjuntivocálase</h3><p>Diagnóstico, fisiopatologia e abordagem clínica.</p><a class="button">Conhecer o livro</a></article><article><h3>O Custo Invisível do Olho Seco</h3><p>Impactos clínicos, funcionais e sistêmicos.</p><a class="button">Conhecer o livro</a></article></div></div>
+        <div class="shell books-layout">
+          <div class="book-stage">
+            <div class="book-shape book-one">Conjuntivocálase</div>
+            <div class="book-shape book-two">
+              O Custo Invisível do Olho Seco
+            </div>
+          </div>
+          <div class="books-copy">
+            <p class="eyebrow">Livros</p>
+            <h2>Profundidade clínica e conceitual</h2>
+            <article>
+              <h3>Conjuntivocálase</h3>
+              <p>Diagnóstico, fisiopatologia e abordagem clínica.</p>
+              <a class="button">Conhecer o livro</a>
+            </article>
+            <article>
+              <h3>O Custo Invisível do Olho Seco</h3>
+              <p>Impactos clínicos, funcionais e sistêmicos.</p>
+              <a class="button">Conhecer o livro</a>
+            </article>
+          </div>
+        </div>
       </section>
 
-      <section class="tool"><div class="shell tool-grid"><div class="widget-placeholder"><div class="widget-ui">Área do produto digital</div></div><div><p class="eyebrow">Ferramenta</p><h2>Dry Eye Widget</h2><p class="lead">Apoio a hábitos de cuidado visual e organização de informações relacionadas ao olho seco e ao uso prolongado de telas.</p><a class="button primary">Conhecer o Dry Eye Widget</a></div></div></section>
+      <section class="tool">
+        <div class="shell tool-grid">
+          <div class="widget-placeholder">
+            <div class="widget-ui">Área do produto digital</div>
+          </div>
+          <div>
+            <p class="eyebrow">Ferramenta</p>
+            <h2>Dry Eye Widget</h2>
+            <p class="lead">
+              Apoio a hábitos de cuidado visual e organização de informações
+              relacionadas ao olho seco e ao uso prolongado de telas.
+            </p>
+            <a class="button primary">Conhecer o Dry Eye Widget</a>
+          </div>
+        </div>
+      </section>
 
-      <section><div class="shell updates"><div><p class="eyebrow">Profissionais</p><h2>Atualização profissional</h2></div><div class="article-list"><article class="article-row"><small>Diagnóstico</small><div><h3>Fenotipagem e diagnóstico multimodal</h3><small>Resumo, autor e data</small></div><span>Ler artigo →</span></article><article class="article-row"><small>Tecnologia</small><div><h3>Imagem da superfície ocular</h3><small>Resumo, autor e data</small></div><span>Ler artigo →</span></article><article class="article-row"><small>Evidência</small><div><h3>O que muda na prática</h3><small>Resumo, autor e data</small></div><span>Ler artigo →</span></article></div></div></section>
+      <section>
+        <div class="shell updates">
+          <div>
+            <p class="eyebrow">Profissionais</p>
+            <h2>Atualização profissional</h2>
+          </div>
+          <div class="article-list">
+            <article class="article-row">
+              <small>Diagnóstico</small>
+              <div>
+                <h3>Fenotipagem e diagnóstico multimodal</h3>
+                <small>Resumo, autor e data</small>
+              </div>
+              <span>Ler artigo →</span>
+            </article>
+            <article class="article-row">
+              <small>Tecnologia</small>
+              <div>
+                <h3>Imagem da superfície ocular</h3>
+                <small>Resumo, autor e data</small>
+              </div>
+              <span>Ler artigo →</span>
+            </article>
+            <article class="article-row">
+              <small>Evidência</small>
+              <div>
+                <h3>O que muda na prática</h3>
+                <small>Resumo, autor e data</small>
+              </div>
+              <span>Ler artigo →</span>
+            </article>
+          </div>
+        </div>
+      </section>
 
-      <section class="newsletter"><div class="shell newsletter-grid"><div><p class="eyebrow surface-meta">Newsletter</p><h2>Continue acompanhando a superfície ocular</h2><p>Novos conteúdos, publicações, livros e atualizações da SUPERFÍCIE no seu e-mail.</p></div><div><div class="form"><div class="field">E-mail</div><a class="button">Quero receber</a></div><p class="legal">Consentimento explícito, cancelamento a qualquer momento e link para a Política de Privacidade.</p></div></div></section>
+      <section class="newsletter">
+        <div class="shell newsletter-grid">
+          <div>
+            <p class="eyebrow surface-meta">Newsletter</p>
+            <h2>Continue acompanhando a superfície ocular</h2>
+            <p>
+              Novos conteúdos, publicações, livros e atualizações da SUPERFÍCIE
+              no seu e-mail.
+            </p>
+          </div>
+          <div>
+            <div class="form">
+              <div class="field">E-mail</div>
+              <a class="button">Quero receber</a>
+            </div>
+            <p class="legal">
+              Consentimento explícito, cancelamento a qualquer momento e link
+              para a Política de Privacidade.
+            </p>
+          </div>
+        </div>
+      </section>
 
-      <section><div class="shell about-grid"><div><p class="eyebrow">Sobre o projeto</p><h2>Sobre o olhossecos.com.br</h2><p class="lead">Plataforma dedicada à educação, atualização e produção editorial em doença do olho seco e superfície ocular.</p></div><aside class="responsibility"><p class="eyebrow">Responsabilidade editorial</p><h3>Philipe Saraiva Cruz</h3><p>Médico Oftalmologista. Autor e responsável pelo desenvolvimento editorial do projeto.</p><a class="button">Conheça o autor</a></aside></div></section>
+      <section>
+        <div class="shell about-grid">
+          <div>
+            <p class="eyebrow">Sobre o projeto</p>
+            <h2>Sobre o olhossecos.com.br</h2>
+            <p class="lead">
+              Plataforma dedicada à educação, atualização e produção editorial
+              em doença do olho seco e superfície ocular.
+            </p>
+          </div>
+          <aside class="responsibility">
+            <p class="eyebrow">Responsabilidade editorial</p>
+            <h3>Philipe Saraiva Cruz</h3>
+            <p>
+              Médico Oftalmologista. Autor e responsável pelo desenvolvimento
+              editorial do projeto.
+            </p>
+            <a class="button">Conheça o autor</a>
+          </aside>
+        </div>
+      </section>
     </main>
 
-    <footer><div class="shell"><div class="footer-grid"><div><h3>Olho Seco</h3><ul><li>Sintomas</li><li>Causas</li><li>Diagnóstico</li><li>Tratamento</li><li>Perguntas frequentes</li></ul></div><div><h3>Profissionais</h3><ul><li>Diagnóstico multimodal</li><li>Meibografia</li><li>Fenotipagem</li><li>Terapias</li><li>Evidências</li></ul></div><div><h3>Editorial</h3><ul><li>SUPERFÍCIE</li><li>Livros</li><li>Autores</li><li>Newsletter</li></ul></div><div><h3>Projeto</h3><ul><li>Sobre</li><li>Dry Eye Widget</li><li>Parceiros</li><li>Privacidade</li><li>Termos</li><li>Contato</li></ul></div></div><div class="footer-bottom">WIREFRAME • HOMEPAGE V2 • PRIMEIRO GATE</div></div></footer>
+    <footer>
+      <div class="shell">
+        <div class="footer-grid">
+          <div>
+            <h3>Olho Seco</h3>
+            <ul>
+              <li>Sintomas</li>
+              <li>Causas</li>
+              <li>Diagnóstico</li>
+              <li>Tratamento</li>
+              <li>Perguntas frequentes</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Profissionais</h3>
+            <ul>
+              <li>Diagnóstico multimodal</li>
+              <li>Meibografia</li>
+              <li>Fenotipagem</li>
+              <li>Terapias</li>
+              <li>Evidências</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Editorial</h3>
+            <ul>
+              <li>SUPERFÍCIE</li>
+              <li>Livros</li>
+              <li>Autores</li>
+              <li>Newsletter</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Projeto</h3>
+            <ul>
+              <li>Sobre</li>
+              <li>Dry Eye Widget</li>
+              <li>Parceiros</li>
+              <li>Privacidade</li>
+              <li>Termos</li>
+              <li>Contato</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">WIREFRAME • HOMEPAGE V2 • PRIMEIRO GATE</div>
+      </div>
+    </footer>
   </body>
 </html>
