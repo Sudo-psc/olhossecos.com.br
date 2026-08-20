@@ -126,9 +126,16 @@ const ribbon = (t: number) =>
     background: #f4f7f7;
   }
 
+  /* Longhands, não o atalho sem nome. `animation: 9s ease-in-out infinite`
+     é CSS válido, mas o processador do build descartava a declaração inteira
+     e a duração voltava a 0s — o nome resolvia, a animação nunca rodava e as
+     três camadas ficavam em opacity 0. Nada quebrava: sem erro, sem teste
+     falhando, só o filme invisível na página. */
   .tc-film {
     opacity: 0;
-    animation: 9s ease-in-out infinite;
+    animation-duration: 9s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
   }
 
   .tc-film--cheio {
