@@ -89,12 +89,14 @@ const ribbon = (t: number) =>
       <path d="M600 162 Q 532 186 482 196"></path>
     </g>
 
-    <!-- Pálpebra: fora do quadro, cruza a superfície só na piscada. -->
+    <!-- Pálpebra: em repouso o ponto mais baixo da borda fica em y=-10, fora
+         do viewBox. Antes parava em y=50 e desenhava um arco permanente sobre
+         a córnea, visível em todos os quadros. -->
     <g class="tc-lid">
-      <path d="M20 -170 L 620 -170 L 620 26 Q 320 74 20 26 Z" fill="#f4f7f7"
+      <path d="M20 -230 L 620 -230 L 620 -34 Q 320 14 20 -34 Z" fill="#f4f7f7"
       ></path>
       <path
-        d="M20 26 Q 320 74 620 26"
+        d="M20 -34 Q 320 14 620 -34"
         fill="none"
         stroke="#c8d7e2"
         stroke-width="4"></path>
