@@ -350,16 +350,20 @@ const structures = [
           <div class="hud-biomarker" data-eye-hud-biomarker>
             <svg
               viewBox="0 0 24 24"
-              width="13"
-              height="13"
+              width="14"
+              height="14"
               fill="none"
               stroke="currentColor"
               stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
               aria-hidden="true"
             >
-              <path
-                d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
-              ></path>
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="22" y1="12" x2="18" y2="12"></line>
+              <line x1="6" y1="12" x2="2" y2="12"></line>
+              <line x1="12" y1="6" x2="12" y2="2"></line>
+              <line x1="12" y1="22" x2="12" y2="18"></line>
             </svg>
             <span data-eye-hud-biomarker-text
               >NIBUT / Estabilidade lacrimal</span
