@@ -2961,6 +2961,23 @@ export const publishedArticles: MagazineArticle[] = [
   anatomiaDryEyeCenter,
 ];
 
+/**
+ * A ordem de cadastro é editorial, não cronológica: matérias novas entram no
+ * fim do módulo para evitar reordenar blocos longos. Os hubs, porém, precisam
+ * apresentar os lançamentos recentes primeiro para distribuir autoridade e
+ * descoberta de forma previsível.
+ */
+export const sortPublishedArticlesByDate = (articles: MagazineArticle[]) =>
+  [...articles]
+    .map((article, index) => ({ article, index }))
+    .sort(
+      (left, right) =>
+        (right.article.publishedAt ?? "").localeCompare(
+          left.article.publishedAt ?? "",
+        ) || left.index - right.index,
+    )
+    .map(({ article }) => article);
+
 export interface MagazineIssue {
   number: string;
   slug: string;

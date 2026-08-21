@@ -329,461 +329,484 @@ const structures = [
     { id: "meibomian", position: [0.54, -0.98, 0.48], color: 0x9a6430 },
   ];
 
-  const stage = document.querySelector<HTMLElement>("[data-eye-stage]");
-  const canvas = document.querySelector<HTMLCanvasElement>("[data-eye-canvas]");
-  const buttons = [
-    ...document.querySelectorAll<HTMLButtonElement>("[data-eye-structure]"),
-  ];
-  const details = [
-    ...document.querySelectorAll<HTMLElement>("[data-eye-detail]"),
-  ];
+  const initEyeExplorer = () => {
+    const stage = document.querySelector<HTMLElement>("[data-eye-stage]");
+    const canvas =
+      document.querySelector<HTMLCanvasElement>("[data-eye-canvas]");
+    const buttons = [
+      ...document.querySelectorAll<HTMLButtonElement>("[data-eye-structure]"),
+    ];
+    const details = [
+      ...document.querySelectorAll<HTMLElement>("[data-eye-detail]"),
+    ];
 
-  let activeId = anchors[0]?.id ?? "";
-
-  const selectStructure = (id: string) => {
-    activeId = id;
-    buttons.forEach((button) => {
-      button.setAttribute(
-        "aria-pressed",
-        String(button.dataset.eyeStructure === id),
-      );
-    });
-    details.forEach((detail) => {
-      detail.hidden = detail.dataset.eyeDetail !== id;
-    });
-  };
-
-  buttons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const id = button.dataset.eyeStructure;
-      if (!id) return;
-      selectStructure(id);
-      window.dispatchEvent(
-        new CustomEvent("olhossecos:eye-select", { detail: { id } }),
-      );
-    });
-  });
-
-  // A partir daqui é só o 3D. Sem WebGL, sem Three.js ou com pouca memória, a
-  // seção continua funcionando com a ilustração e a lista acima.
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  );
-
-  const isCapable = () => {
-    if (!stage || !canvas) return false;
-    // deviceMemory só existe em navegadores Chromium; onde não existe, seguimos
-    // adiante e o próprio teste de contexto WebGL decide.
-    const memory = (navigator as Navigator & { deviceMemory?: number })
-      .deviceMemory;
-    if (memory !== undefined && memory < 4) return false;
-
-    // Three.js passa de 700 KB antes da compressão. Em modo de economia de
-    // dados ou em conexão lenta declarada, a ilustração estática é a resposta
-    // certa — ela já contém a mesma informação.
-    const connection = (
-      navigator as Navigator & {
-        connection?: { saveData?: boolean; effectiveType?: string };
-      }
-    ).connection;
-    if (connection?.saveData) return false;
     if (
-      connection?.effectiveType &&
-      /(^|-)(slow-)?2g$/u.test(connection.effectiveType)
+      !stage ||
+      !canvas ||
+      buttons.length === 0 ||
+      stage.dataset.eyeInited === "true"
     ) {
-      return false;
+      return;
     }
-    try {
-      const probe = document.createElement("canvas");
-      return Boolean(probe.getContext("webgl2") ?? probe.getContext("webgl"));
-    } catch {
-      return false;
-    }
-  };
+    stage.dataset.eyeInited = "true";
 
-  const boot = async () => {
-    if (!stage || !canvas || !isCapable()) return;
+    let activeId = anchors[0]?.id ?? "";
 
-    const THREE = await import("three");
+    const selectStructure = (id: string) => {
+      activeId = id;
+      buttons.forEach((button) => {
+        button.setAttribute(
+          "aria-pressed",
+          String(button.dataset.eyeStructure === id),
+        );
+      });
+      details.forEach((detail) => {
+        detail.hidden = detail.dataset.eyeDetail !== id;
+      });
+    };
 
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      antialias: true,
-      alpha: true,
-      powerPreference: "low-power",
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const id = button.dataset.eyeStructure;
+        if (!id) return;
+        selectStructure(id);
+        window.dispatchEvent(
+          new CustomEvent("olhossecos:eye-select", { detail: { id } }),
+        );
+      });
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 40);
-    camera.position.set(0, 0, 5.1);
-
-    const eye = new THREE.Group();
-    eye.rotation.set(0.08, -0.25, 0);
-    scene.add(eye);
-
-    // Esclera. O leve tom quente evita o branco chapado, que sob luz frontal
-    // some contra o fundo claro da seção.
-    const sclera = new THREE.Mesh(
-      new THREE.SphereGeometry(1, 56, 40),
-      new THREE.MeshStandardMaterial({
-        color: 0xf3f1ec,
-        roughness: 0.62,
-        metalness: 0,
-      }),
+    // A partir daqui é só o 3D. Sem WebGL, sem Three.js ou com pouca memória, a
+    // seção continua funcionando com a ilustração e a lista acima.
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
     );
-    eye.add(sclera);
 
-    // Vasos discretos na esclera: dois anéis finos, o suficiente para o olho
-    // não parecer uma esfera de plástico.
-    const vessels = new THREE.Mesh(
-      new THREE.TorusGeometry(0.94, 0.006, 6, 60, Math.PI * 1.2),
-      new THREE.MeshBasicMaterial({ color: 0xd8a9a4 }),
-    );
-    vessels.rotation.set(0.4, 0.3, 1.1);
-    eye.add(vessels);
+    const isCapable = () => {
+      if (!stage || !canvas) return false;
+      // deviceMemory só existe em navegadores Chromium; onde não existe, seguimos
+      // adiante e o próprio teste de contexto WebGL decide.
+      const memory = (navigator as Navigator & { deviceMemory?: number })
+        .deviceMemory;
+      if (memory !== undefined && memory < 4) return false;
 
-    // Íris e pupila ficam à frente da esfera (z > raio) e sob a cúpula da
-    // córnea: dentro dela a esclera as esconderia.
-    const iris = new THREE.Mesh(
-      new THREE.CircleGeometry(0.4, 56),
-      new THREE.MeshStandardMaterial({
-        color: 0x0f5f72,
-        roughness: 0.35,
-        metalness: 0.05,
-      }),
-    );
-    iris.position.z = 1.005;
-    eye.add(iris);
+      // Three.js passa de 700 KB antes da compressão. Em modo de economia de
+      // dados ou em conexão lenta declarada, a ilustração estática é a resposta
+      // certa — ela já contém a mesma informação.
+      const connection = (
+        navigator as Navigator & {
+          connection?: { saveData?: boolean; effectiveType?: string };
+        }
+      ).connection;
+      if (connection?.saveData) return false;
+      if (
+        connection?.effectiveType &&
+        /(^|-)(slow-)?2g$/u.test(connection.effectiveType)
+      ) {
+        return false;
+      }
+      try {
+        const probe = document.createElement("canvas");
+        return Boolean(probe.getContext("webgl2") ?? probe.getContext("webgl"));
+      } catch {
+        return false;
+      }
+    };
 
-    const irisRing = new THREE.Mesh(
-      new THREE.RingGeometry(0.38, 0.42, 56),
-      new THREE.MeshBasicMaterial({ color: 0x063343 }),
-    );
-    irisRing.position.z = 1.008;
-    eye.add(irisRing);
+    const boot = async () => {
+      if (!stage || !canvas || !isCapable()) return;
 
-    const pupil = new THREE.Mesh(
-      new THREE.CircleGeometry(0.16, 40),
-      new THREE.MeshBasicMaterial({ color: 0x041b24 }),
-    );
-    pupil.position.z = 1.012;
-    eye.add(pupil);
+      const THREE = await import("three");
 
-    // Córnea: calota transparente sobre a íris. Sem transmission — o custo em
-    // GPU não se paga num objeto deste tamanho na tela.
-    const cornea = new THREE.Mesh(
-      new THREE.SphereGeometry(1.05, 48, 32, 0, Math.PI * 2, 0, 0.52),
-      new THREE.MeshPhysicalMaterial({
-        color: 0xcfeaf1,
-        transparent: true,
-        opacity: 0.26,
-        roughness: 0.06,
-        clearcoat: 1,
-        side: THREE.DoubleSide,
-      }),
-    );
-    cornea.rotation.x = Math.PI / 2;
-    eye.add(cornea);
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        alpha: true,
+        powerPreference: "low-power",
+      });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // Filme lacrimal: cúpula fina por cima da córnea, quase só um brilho.
-    const tearFilm = new THREE.Mesh(
-      new THREE.SphereGeometry(1.09, 40, 28, 0, Math.PI * 2, 0, 0.6),
-      new THREE.MeshPhysicalMaterial({
-        color: 0x8fd8e4,
-        transparent: true,
-        opacity: 0.12,
-        roughness: 0.02,
-        side: THREE.DoubleSide,
-      }),
-    );
-    tearFilm.rotation.x = Math.PI / 2;
-    eye.add(tearFilm);
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 40);
+      camera.position.set(0, 0, 5.1);
 
-    // Margens palpebrais: dois arcos deslocados para a frente, como as bordas
-    // que tocam a superfície.
-    const lidMaterial = new THREE.MeshStandardMaterial({
-      color: 0xb07a3f,
-      roughness: 0.55,
-    });
-    const upperLid = new THREE.Mesh(
-      new THREE.TorusGeometry(0.86, 0.045, 12, 56, Math.PI * 0.86),
-      lidMaterial,
-    );
-    upperLid.position.z = 0.5;
-    upperLid.rotation.z = Math.PI * 0.07;
-    eye.add(upperLid);
+      const eye = new THREE.Group();
+      eye.rotation.set(0.08, -0.25, 0);
+      scene.add(eye);
 
-    const lowerLid = new THREE.Mesh(
-      new THREE.TorusGeometry(0.86, 0.045, 12, 56, Math.PI * 0.86),
-      lidMaterial,
-    );
-    lowerLid.position.z = 0.5;
-    lowerLid.rotation.z = Math.PI * 1.07;
-    eye.add(lowerLid);
-
-    // Glândulas de Meibômio: fileira curta atrás da margem inferior.
-    const glands = new THREE.Group();
-    const glandMaterial = new THREE.MeshStandardMaterial({
-      color: 0x9a6430,
-      roughness: 0.7,
-    });
-    for (let index = 0; index < 11; index += 1) {
-      const gland = new THREE.Mesh(
-        new THREE.CapsuleGeometry(0.02, 0.13, 4, 8),
-        glandMaterial,
-      );
-      const angle = Math.PI * (1.12 + index * 0.07);
-      gland.position.set(Math.cos(angle) * 0.9, Math.sin(angle) * 0.9, 0.42);
-      gland.rotation.z = angle + Math.PI / 2;
-      glands.add(gland);
-    }
-    eye.add(glands);
-
-    // Conjuntiva: faixa lateral levemente destacada sobre a esclera.
-    const conjunctiva = new THREE.Mesh(
-      new THREE.SphereGeometry(1.005, 40, 28, Math.PI * 0.62, Math.PI * 0.5),
-      new THREE.MeshStandardMaterial({
-        color: 0xdfe7ef,
-        roughness: 0.5,
-        transparent: true,
-        opacity: 0.85,
-      }),
-    );
-    eye.add(conjunctiva);
-
-    scene.add(new THREE.AmbientLight(0xffffff, 1.1));
-    const keyLight = new THREE.DirectionalLight(0xffffff, 2.4);
-    keyLight.position.set(2.4, 2.8, 3.2);
-    scene.add(keyLight);
-    const rimLight = new THREE.DirectionalLight(0x8fc9dd, 1.1);
-    rimLight.position.set(-3, -1.2, 0.8);
-    scene.add(rimLight);
-
-    const markers = new Map<string, Mesh>();
-    anchors.forEach((anchor) => {
-      const marker = new THREE.Mesh(
-        new THREE.SphereGeometry(0.055, 16, 12),
-        new THREE.MeshBasicMaterial({
-          color: anchor.color,
-          transparent: true,
-          // Sem depthWrite o marcador não é recortado pelas cúpulas
-          // transparentes que passam por cima dele.
-          depthWrite: false,
+      // Esclera. O leve tom quente evita o branco chapado, que sob luz frontal
+      // some contra o fundo claro da seção.
+      const sclera = new THREE.Mesh(
+        new THREE.SphereGeometry(1, 56, 40),
+        new THREE.MeshStandardMaterial({
+          color: 0xf3f1ec,
+          roughness: 0.62,
+          metalness: 0,
         }),
       );
-      marker.position.set(...anchor.position);
-      marker.renderOrder = 3;
-      marker.userData.structureId = anchor.id;
-      markers.set(anchor.id, marker);
-      eye.add(marker);
-    });
+      eye.add(sclera);
 
-    let needsRender = true;
-    let visible = false;
-    let frame = 0;
-    let drifting = !prefersReducedMotion.matches;
-    let idleTimer = 0;
+      // Vasos discretos na esclera: dois anéis finos, o suficiente para o olho
+      // não parecer uma esfera de plástico.
+      const vessels = new THREE.Mesh(
+        new THREE.TorusGeometry(0.94, 0.006, 6, 60, Math.PI * 1.2),
+        new THREE.MeshBasicMaterial({ color: 0xd8a9a4 }),
+      );
+      vessels.rotation.set(0.4, 0.3, 1.1);
+      eye.add(vessels);
 
-    const resize = () => {
-      const size = canvas.clientWidth || 1;
-      renderer.setSize(size, size, false);
-      camera.aspect = 1;
-      camera.updateProjectionMatrix();
-      needsRender = true;
-    };
+      // Íris e pupila ficam à frente da esfera (z > raio) e sob a cúpula da
+      // córnea: dentro dela a esclera as esconderia.
+      const iris = new THREE.Mesh(
+        new THREE.CircleGeometry(0.4, 56),
+        new THREE.MeshStandardMaterial({
+          color: 0x0f5f72,
+          roughness: 0.35,
+          metalness: 0.05,
+        }),
+      );
+      iris.position.z = 1.005;
+      eye.add(iris);
 
-    const highlight = () => {
-      markers.forEach((marker, id) => {
-        const scale = id === activeId ? 1.7 : 1;
-        marker.scale.setScalar(scale);
-        (marker.material as MeshBasicMaterial).opacity =
-          id === activeId ? 1 : 0.55;
-        (marker.material as MeshBasicMaterial).transparent = true;
+      const irisRing = new THREE.Mesh(
+        new THREE.RingGeometry(0.38, 0.42, 56),
+        new THREE.MeshBasicMaterial({ color: 0x063343 }),
+      );
+      irisRing.position.z = 1.008;
+      eye.add(irisRing);
+
+      const pupil = new THREE.Mesh(
+        new THREE.CircleGeometry(0.16, 40),
+        new THREE.MeshBasicMaterial({ color: 0x041b24 }),
+      );
+      pupil.position.z = 1.012;
+      eye.add(pupil);
+
+      // Córnea: calota transparente sobre a íris. Sem transmission — o custo em
+      // GPU não se paga num objeto deste tamanho na tela.
+      const cornea = new THREE.Mesh(
+        new THREE.SphereGeometry(1.05, 48, 32, 0, Math.PI * 2, 0, 0.52),
+        new THREE.MeshPhysicalMaterial({
+          color: 0xcfeaf1,
+          transparent: true,
+          opacity: 0.26,
+          roughness: 0.06,
+          clearcoat: 1,
+          side: THREE.DoubleSide,
+        }),
+      );
+      cornea.rotation.x = Math.PI / 2;
+      eye.add(cornea);
+
+      // Filme lacrimal: cúpula fina por cima da córnea, quase só um brilho.
+      const tearFilm = new THREE.Mesh(
+        new THREE.SphereGeometry(1.09, 40, 28, 0, Math.PI * 2, 0, 0.6),
+        new THREE.MeshPhysicalMaterial({
+          color: 0x8fd8e4,
+          transparent: true,
+          opacity: 0.12,
+          roughness: 0.02,
+          side: THREE.DoubleSide,
+        }),
+      );
+      tearFilm.rotation.x = Math.PI / 2;
+      eye.add(tearFilm);
+
+      // Margens palpebrais: dois arcos deslocados para a frente, como as bordas
+      // que tocam a superfície.
+      const lidMaterial = new THREE.MeshStandardMaterial({
+        color: 0xb07a3f,
+        roughness: 0.55,
       });
-      needsRender = true;
-    };
-
-    // Gira o modelo até a estrutura escolhida ficar de frente. Interpolação
-    // curta: o movimento orienta, não faz cena.
-    let targetYaw = 0;
-    let targetPitch = 0;
-    const faceStructure = (id: string) => {
-      const anchor = anchors.find((item) => item.id === id);
-      if (!anchor) return;
-      const [x, y, z] = anchor.position;
-      targetYaw = -Math.atan2(x, z) * 0.55;
-      targetPitch = Math.max(
-        -0.28,
-        Math.min(0.28, Math.atan2(y, Math.hypot(x, z)) * 0.4),
+      const upperLid = new THREE.Mesh(
+        new THREE.TorusGeometry(0.86, 0.045, 12, 56, Math.PI * 0.86),
+        lidMaterial,
       );
-      needsRender = true;
-    };
+      upperLid.position.z = 0.5;
+      upperLid.rotation.z = Math.PI * 0.07;
+      eye.add(upperLid);
 
-    const loop = () => {
-      frame = 0;
-      if (!visible) return;
-
-      if (drifting) {
-        targetYaw += 0.0016;
-      }
-
-      const yawDelta = targetYaw - eye.rotation.y;
-      const pitchDelta = targetPitch - eye.rotation.x;
-      if (Math.abs(yawDelta) > 0.0005 || Math.abs(pitchDelta) > 0.0005) {
-        eye.rotation.y += yawDelta * 0.08;
-        eye.rotation.x += pitchDelta * 0.08;
-        needsRender = true;
-      }
-
-      if (needsRender) {
-        renderer.render(scene, camera);
-        needsRender = false;
-      }
-
-      if (visible && (drifting || needsRender)) {
-        frame = requestAnimationFrame(loop);
-      }
-    };
-
-    const kick = () => {
-      needsRender = true;
-      if (!frame && visible) frame = requestAnimationFrame(loop);
-    };
-
-    // Arrasto: rotação manual com limites, para o modelo nunca ficar de costas.
-    let dragging = false;
-    let lastX = 0;
-    let lastY = 0;
-
-    const pauseDrift = () => {
-      drifting = false;
-      window.clearTimeout(idleTimer);
-      if (prefersReducedMotion.matches) return;
-      idleTimer = window.setTimeout(() => {
-        drifting = true;
-        kick();
-      }, 6000);
-    };
-
-    canvas.addEventListener("pointerdown", (event) => {
-      dragging = true;
-      lastX = event.clientX;
-      lastY = event.clientY;
-      canvas.setPointerCapture(event.pointerId);
-      pauseDrift();
-    });
-
-    canvas.addEventListener("pointermove", (event) => {
-      if (!dragging) return;
-      targetYaw += (event.clientX - lastX) * 0.006;
-      targetPitch = Math.max(
-        -0.6,
-        Math.min(0.6, targetPitch + (event.clientY - lastY) * 0.004),
+      const lowerLid = new THREE.Mesh(
+        new THREE.TorusGeometry(0.86, 0.045, 12, 56, Math.PI * 0.86),
+        lidMaterial,
       );
-      lastX = event.clientX;
-      lastY = event.clientY;
-      kick();
-    });
+      lowerLid.position.z = 0.5;
+      lowerLid.rotation.z = Math.PI * 1.07;
+      eye.add(lowerLid);
 
-    const endDrag = (event: PointerEvent) => {
-      if (!dragging) return;
-      dragging = false;
-      canvas.releasePointerCapture?.(event.pointerId);
-    };
-    canvas.addEventListener("pointerup", endDrag);
-    canvas.addEventListener("pointercancel", endDrag);
-
-    canvas.addEventListener(
-      "wheel",
-      (event) => {
-        if (!event.ctrlKey && Math.abs(event.deltaY) < 24) return;
-        event.preventDefault();
-        camera.position.z = Math.max(
-          3.6,
-          Math.min(6.4, camera.position.z + event.deltaY * 0.004),
+      // Glândulas de Meibômio: fileira curta atrás da margem inferior.
+      const glands = new THREE.Group();
+      const glandMaterial = new THREE.MeshStandardMaterial({
+        color: 0x9a6430,
+        roughness: 0.7,
+      });
+      for (let index = 0; index < 11; index += 1) {
+        const gland = new THREE.Mesh(
+          new THREE.CapsuleGeometry(0.02, 0.13, 4, 8),
+          glandMaterial,
         );
+        const angle = Math.PI * (1.12 + index * 0.07);
+        gland.position.set(Math.cos(angle) * 0.9, Math.sin(angle) * 0.9, 0.42);
+        gland.rotation.z = angle + Math.PI / 2;
+        glands.add(gland);
+      }
+      eye.add(glands);
+
+      // Conjuntiva: faixa lateral levemente destacada sobre a esclera.
+      const conjunctiva = new THREE.Mesh(
+        new THREE.SphereGeometry(1.005, 40, 28, Math.PI * 0.62, Math.PI * 0.5),
+        new THREE.MeshStandardMaterial({
+          color: 0xdfe7ef,
+          roughness: 0.5,
+          transparent: true,
+          opacity: 0.85,
+        }),
+      );
+      eye.add(conjunctiva);
+
+      scene.add(new THREE.AmbientLight(0xffffff, 1.1));
+      const keyLight = new THREE.DirectionalLight(0xffffff, 2.4);
+      keyLight.position.set(2.4, 2.8, 3.2);
+      scene.add(keyLight);
+      const rimLight = new THREE.DirectionalLight(0x8fc9dd, 1.1);
+      rimLight.position.set(-3, -1.2, 0.8);
+      scene.add(rimLight);
+
+      const markers = new Map<string, Mesh>();
+      anchors.forEach((anchor) => {
+        const marker = new THREE.Mesh(
+          new THREE.SphereGeometry(0.055, 16, 12),
+          new THREE.MeshBasicMaterial({
+            color: anchor.color,
+            transparent: true,
+            // Sem depthWrite o marcador não é recortado pelas cúpulas
+            // transparentes que passam por cima dele.
+            depthWrite: false,
+          }),
+        );
+        marker.position.set(...anchor.position);
+        marker.renderOrder = 3;
+        marker.userData.structureId = anchor.id;
+        markers.set(anchor.id, marker);
+        eye.add(marker);
+      });
+
+      let needsRender = true;
+      let visible = false;
+      let frame = 0;
+      let drifting = !prefersReducedMotion.matches;
+      let idleTimer = 0;
+
+      const resize = () => {
+        const size = canvas.clientWidth || 1;
+        renderer.setSize(size, size, false);
+        camera.aspect = 1;
+        camera.updateProjectionMatrix();
+        needsRender = true;
+      };
+
+      const highlight = () => {
+        markers.forEach((marker, id) => {
+          const scale = id === activeId ? 1.7 : 1;
+          marker.scale.setScalar(scale);
+          (marker.material as MeshBasicMaterial).opacity =
+            id === activeId ? 1 : 0.55;
+          (marker.material as MeshBasicMaterial).transparent = true;
+        });
+        needsRender = true;
+      };
+
+      // Gira o modelo até a estrutura escolhida ficar de frente pelo menor arco
+      let targetYaw = -0.25;
+      let targetPitch = 0.08;
+      const faceStructure = (id: string) => {
+        const anchor = anchors.find((item) => item.id === id);
+        if (!anchor) return;
+        const [x, y, z] = anchor.position;
+        const baseYaw = -Math.atan2(x, z) * 0.55;
+        const currentYaw = eye.rotation.y;
+        const diff =
+          ((((baseYaw - currentYaw + Math.PI) % (Math.PI * 2)) + Math.PI * 2) %
+            (Math.PI * 2)) -
+          Math.PI;
+        targetYaw = currentYaw + diff;
+        targetPitch = Math.max(
+          -0.28,
+          Math.min(0.28, Math.atan2(y, Math.hypot(x, z)) * 0.4),
+        );
+        needsRender = true;
+      };
+
+      const loop = () => {
+        frame = 0;
+        if (!visible) return;
+
+        if (drifting) {
+          targetYaw += 0.0016;
+        }
+
+        const yawDelta = targetYaw - eye.rotation.y;
+        const pitchDelta = targetPitch - eye.rotation.x;
+        if (Math.abs(yawDelta) > 0.0005 || Math.abs(pitchDelta) > 0.0005) {
+          eye.rotation.y += yawDelta * 0.08;
+          eye.rotation.x += pitchDelta * 0.08;
+          needsRender = true;
+        }
+
+        if (needsRender) {
+          renderer.render(scene, camera);
+          needsRender = false;
+        }
+
+        if (visible && (drifting || needsRender)) {
+          frame = requestAnimationFrame(loop);
+        }
+      };
+
+      const kick = () => {
+        needsRender = true;
+        if (!frame && visible) frame = requestAnimationFrame(loop);
+      };
+
+      // Arrasto: rotação manual com limites, para o modelo nunca ficar de costas.
+      let dragging = false;
+      let lastX = 0;
+      let lastY = 0;
+
+      const pauseDrift = () => {
+        drifting = false;
+        window.clearTimeout(idleTimer);
+        if (prefersReducedMotion.matches) return;
+        idleTimer = window.setTimeout(() => {
+          drifting = true;
+          kick();
+        }, 6000);
+      };
+
+      canvas.addEventListener("pointerdown", (event) => {
+        dragging = true;
+        lastX = event.clientX;
+        lastY = event.clientY;
+        targetYaw = eye.rotation.y;
+        targetPitch = eye.rotation.x;
+        canvas.setPointerCapture(event.pointerId);
+        pauseDrift();
+      });
+
+      canvas.addEventListener("pointermove", (event) => {
+        if (!dragging) return;
+        targetYaw += (event.clientX - lastX) * 0.006;
+        targetPitch = Math.max(
+          -0.6,
+          Math.min(0.6, targetPitch + (event.clientY - lastY) * 0.004),
+        );
+        lastX = event.clientX;
+        lastY = event.clientY;
         kick();
-      },
-      { passive: false },
-    );
+      });
 
-    const raycaster = new THREE.Raycaster();
-    const pointer = new THREE.Vector2();
+      const endDrag = (event: PointerEvent) => {
+        if (!dragging) return;
+        dragging = false;
+        canvas.releasePointerCapture?.(event.pointerId);
+      };
+      canvas.addEventListener("pointerup", endDrag);
+      canvas.addEventListener("pointercancel", endDrag);
 
-    const pickMarker = (event: PointerEvent | MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-      pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-      raycaster.setFromCamera(pointer, camera);
-      return raycaster.intersectObjects([...markers.values()])[0];
+      canvas.addEventListener(
+        "wheel",
+        (event) => {
+          if (!event.ctrlKey && Math.abs(event.deltaY) < 24) return;
+          event.preventDefault();
+          camera.position.z = Math.max(
+            3.6,
+            Math.min(6.4, camera.position.z + event.deltaY * 0.004),
+          );
+          kick();
+        },
+        { passive: false },
+      );
+
+      const raycaster = new THREE.Raycaster();
+      const pointer = new THREE.Vector2();
+
+      const pickMarker = (event: PointerEvent | MouseEvent) => {
+        const rect = canvas.getBoundingClientRect();
+        pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+        raycaster.setFromCamera(pointer, camera);
+        return raycaster.intersectObjects([...markers.values()])[0];
+      };
+
+      canvas.addEventListener("pointermove", (event) => {
+        if (dragging) return;
+        canvas.style.cursor = pickMarker(event) ? "pointer" : "grab";
+      });
+      canvas.addEventListener("click", (event) => {
+        const hit = pickMarker(event);
+        const id = hit?.object.userData.structureId as string | undefined;
+        if (!id) return;
+        selectStructure(id);
+        faceStructure(id);
+        highlight();
+        pauseDrift();
+        kick();
+      });
+
+      window.addEventListener("olhossecos:eye-select", (event) => {
+        const id = (event as CustomEvent<{ id: string }>).detail.id;
+        faceStructure(id);
+        highlight();
+        pauseDrift();
+        kick();
+      });
+
+      prefersReducedMotion.addEventListener("change", (event) => {
+        drifting = !event.matches;
+        kick();
+      });
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          visible = entries.some((entry) => entry.isIntersecting);
+          if (visible) kick();
+          else if (frame) {
+            cancelAnimationFrame(frame);
+            frame = 0;
+          }
+        },
+        { rootMargin: "120px" },
+      );
+      observer.observe(stage);
+
+      new ResizeObserver(() => {
+        resize();
+        kick();
+      }).observe(canvas);
+
+      resize();
+      highlight();
+      faceStructure(activeId);
+      stage.dataset.eyeReady = "true";
+      kick();
     };
 
-    canvas.addEventListener("pointermove", (event) => {
-      if (dragging) return;
-      canvas.style.cursor = pickMarker(event) ? "pointer" : "grab";
-    });
-    canvas.addEventListener("click", (event) => {
-      const hit = pickMarker(event);
-      const id = hit?.object.userData.structureId as string | undefined;
-      if (!id) return;
-      selectStructure(id);
-      faceStructure(id);
-      highlight();
-      pauseDrift();
-      kick();
-    });
-
-    window.addEventListener("olhossecos:eye-select", (event) => {
-      const id = (event as CustomEvent<{ id: string }>).detail.id;
-      faceStructure(id);
-      highlight();
-      pauseDrift();
-      kick();
-    });
-
-    prefersReducedMotion.addEventListener("change", (event) => {
-      drifting = !event.matches;
-      kick();
-    });
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        visible = entries.some((entry) => entry.isIntersecting);
-        if (visible) kick();
-        else if (frame) {
-          cancelAnimationFrame(frame);
-          frame = 0;
-        }
-      },
-      { rootMargin: "120px" },
-    );
-    observer.observe(stage);
-
-    new ResizeObserver(() => {
-      resize();
-      kick();
-    }).observe(canvas);
-
-    resize();
-    highlight();
-    faceStructure(activeId);
-    stage.dataset.eyeReady = "true";
-    kick();
+    // Só busca o Three.js quando a seção se aproxima da viewport.
+    if (stage && canvas) {
+      const loadObserver = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+          loadObserver.disconnect();
+          void boot().catch(() => {
+            stage.dataset.eyeReady = "false";
+          });
+        },
+        { rootMargin: "300px" },
+      );
+      loadObserver.observe(stage);
+    }
   };
 
-  // Só busca o Three.js quando a seção se aproxima da viewport.
-  if (stage && canvas) {
-    const loadObserver = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((entry) => entry.isIntersecting)) return;
-        loadObserver.disconnect();
-        void boot().catch(() => {
-          stage.dataset.eyeReady = "false";
-        });
-      },
-      { rootMargin: "300px" },
-    );
-    loadObserver.observe(stage);
-  }
+  initEyeExplorer();
+  document.addEventListener("astro:page-load", initEyeExplorer);
 </script>

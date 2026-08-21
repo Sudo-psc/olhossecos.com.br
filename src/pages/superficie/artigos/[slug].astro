@@ -4,10 +4,10 @@ import SuperficieLayout from "@/layouts/SuperficieLayout.astro";
 import {
   getMagazineArticlePath,
   publishedArticles,
-  selectRelatedArticles,
   validateMagazineArticle,
   type MagazineArticle,
 } from "@/lib/superficie";
+import { selectRelatedContent } from "@/lib/related-content";
 import { articleTemplatePreview } from "@/lib/superficie-preview";
 import { responsibleDoctor } from "@/lib/doctor";
 
@@ -38,7 +38,7 @@ interface Props {
 
 const { article } = Astro.props;
 const isPublished = article.status === "published";
-const related = selectRelatedArticles(article, publishedArticles);
+const related = selectRelatedContent(article);
 const canonicalPath = getMagazineArticlePath(article);
 const articleUrl = new URL(canonicalPath, Astro.site).href;
 const authorUrl = article.author.slug

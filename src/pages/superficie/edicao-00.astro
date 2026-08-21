@@ -2,10 +2,11 @@
 import ArticleCard from "@/components/superficie/ArticleCard.astro";
 import IssueCover from "@/components/superficie/IssueCover.astro";
 import SuperficieLayout from "@/layouts/SuperficieLayout.astro";
-import { founderIssue } from "@/lib/superficie";
+import { founderIssue, sortPublishedArticlesByDate } from "@/lib/superficie";
 
 const title = founderIssue.seo.title;
 const description = founderIssue.seo.description;
+const orderedArticles = sortPublishedArticlesByDate(founderIssue.articles);
 
 const issueSchema = {
   "@type": "PublicationIssue",
@@ -159,7 +160,7 @@ const issueSchema = {
               <h2 id="articles-title">Leituras da Edição 00</h2>
             </header>
             <div class="articles-grid">
-              {founderIssue.articles.map((article) => (
+              {orderedArticles.map((article) => (
                 <ArticleCard {article} />
               ))}
             </div>

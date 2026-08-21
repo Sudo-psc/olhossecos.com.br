@@ -1,14 +1,14 @@
 ---
-import ArticleCard from "@/components/superficie/ArticleCard.astro";
 import ArticleCitationModal from "@/components/superficie/ArticleCitationModal.astro";
 import {
   calculateArticleReadingTime,
   type MagazineArticle,
 } from "@/lib/superficie";
+import type { RelatedContent } from "@/lib/related-content";
 
 interface Props {
   article: MagazineArticle;
-  related: MagazineArticle[];
+  related: RelatedContent[];
 }
 
 const { article, related } = Astro.props;
@@ -273,14 +273,25 @@ const formatDate = (date?: string) =>
       <section class="related-section" aria-labelledby="related-title">
         <div class="surface-shell">
           <header>
-            <p>Curadoria semântica</p>
-            <h2 id="related-title">Leia também</h2>
+            <p>Próximas leituras</p>
+            <h2 id="related-title">Conteúdos relacionados</h2>
           </header>
-          <div class="related-grid">
+          <ul class="related-grid">
             {related.map((item) => (
-              <ArticleCard article={item} compact />
+              <li>
+                <a class="related-card" href={item.href}>
+                  <span class="related-label">{item.label}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                  <span class="related-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M5 19 19 5m-10 0h10v10" />
+                    </svg>
+                  </span>
+                </a>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
     )
@@ -837,8 +848,77 @@ const formatDate = (date?: string) =>
 
   .related-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: clamp(1.5rem, 4vw, 3.5rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .related-grid li {
+    min-width: 0;
+  }
+
+  .related-card {
+    display: flex;
+    min-height: 100%;
+    flex-direction: column;
+    padding: 1.35rem 0 0;
+    border-top: 2px solid var(--surface-teal);
+    color: var(--surface-copy);
+    transition:
+      border-color 220ms ease,
+      color 220ms ease;
+  }
+
+  .related-card:hover,
+  .related-card:focus-visible {
+    border-color: var(--surface-gold);
+  }
+
+  .related-label {
+    color: var(--surface-teal-dark);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    line-height: 1.35;
+    text-transform: uppercase;
+  }
+
+  .related-card h3 {
+    margin: 0.8rem 0 0.65rem;
+    font-family: var(--surface-serif);
+    font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+  }
+
+  .related-card p {
+    margin: 0;
+    color: var(--surface-muted);
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+
+  .related-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    margin-top: auto;
+    padding-top: 1.25rem;
+    color: var(--surface-teal-dark);
+  }
+
+  .related-arrow svg {
+    width: 1.1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.5;
   }
 
   .article-newsletter {

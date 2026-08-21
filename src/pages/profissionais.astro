@@ -2,6 +2,11 @@
 import Layout from "@/layouts/Layout.astro";
 import EducationalFigure from "@/components/EducationalFigure.astro";
 import { figures } from "@/lib/figures";
+import {
+  getMagazineArticlePath,
+  publishedArticles,
+  sortPublishedArticlesByDate,
+} from "@/lib/superficie";
 
 const topics = [
   {
@@ -35,6 +40,11 @@ const topics = [
     text: "Análises e atualizações serão publicadas com autoria, data, fontes verificáveis e revisão editorial.",
   },
 ];
+
+const latestArticles = sortPublishedArticlesByDate(publishedArticles).slice(
+  0,
+  5,
+);
 ---
 
 <Layout
@@ -42,7 +52,7 @@ const topics = [
   title="Área para profissionais de saúde ocular"
   description="Conteúdo técnico para profissionais sobre diagnóstico multimodal, imagem, fenotipagem, tecnologias, terapias e evidências em superfície ocular."
   schemaType="CollectionPage"
-  dateModified="2026-08-07"
+  dateModified="2026-08-21"
 >
   <header class="professional-hero">
     <div class="page-shell">
@@ -77,6 +87,41 @@ const topics = [
         ))
       }
     </div>
+  </section>
+
+  <section
+    class="page-shell professional-articles"
+    aria-labelledby="professional-articles-title"
+  >
+    <header>
+      <p class="eyebrow">Da revista</p>
+      <h2 id="professional-articles-title">Leituras recentes da SUPERFÍCIE</h2>
+      <p>
+        As matérias mais recentes ficam a um passo dos eixos técnicos do portal,
+        com referências, limitações e contexto editorial.
+      </p>
+    </header>
+    <ul class="professional-article-list">
+      {
+        latestArticles.map((article) => (
+          <li>
+            <a href={getMagazineArticlePath(article)}>
+              <span>{article.category}</span>
+              <strong>{article.title}</strong>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 12h16m-5-5 5 5-5 5" />
+              </svg>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <a class="text-link" href="/superficie/artigos">
+      Ver todos os artigos
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 12h16m-5-5 5 5-5 5"></path>
+      </svg>
+    </a>
   </section>
 </Layout>
 
@@ -136,10 +181,83 @@ const topics = [
     color: var(--ink-soft);
   }
 
+  .professional-articles {
+    padding-block: 0 clamp(4rem, 8vw, 7rem);
+  }
+
+  .professional-articles header {
+    max-width: 760px;
+    margin-bottom: 2rem;
+  }
+
+  .professional-articles h2 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(2.3rem, 4vw, 4rem);
+    line-height: 1;
+  }
+
+  .professional-articles header > p:last-child {
+    margin: 1rem 0 0;
+    color: var(--ink-soft);
+  }
+
+  .professional-article-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 0 0 2rem;
+    padding: 0;
+    border-top: 1px solid var(--line);
+    list-style: none;
+  }
+
+  .professional-article-list li {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .professional-article-list a {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.5rem 1rem;
+    align-items: center;
+    min-height: 112px;
+    padding: 1.25rem 1rem 1.25rem 0;
+  }
+
+  .professional-article-list span {
+    grid-column: 1 / -1;
+    color: var(--teal-dark);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .professional-article-list strong {
+    font-family: var(--serif);
+    font-size: clamp(1.25rem, 2vw, 1.7rem);
+    font-weight: 400;
+    line-height: 1.1;
+  }
+
+  .professional-article-list svg,
+  .professional-articles > .text-link svg {
+    width: 1.2rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.5;
+  }
+
   @media (max-width: 720px) {
     .topic-list article {
       grid-template-columns: 2.5rem minmax(0, 1fr);
       gap: 0.75rem;
+    }
+
+    .professional-article-list {
+      grid-template-columns: 1fr;
     }
   }
 </style>

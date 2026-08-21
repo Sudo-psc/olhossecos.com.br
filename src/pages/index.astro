@@ -10,6 +10,7 @@ import {
   founderIssue,
   getMagazineArticlePath,
   publishedArticles,
+  sortPublishedArticlesByDate,
 } from "@/lib/superficie";
 import { guides } from "@/lib/guides";
 import { author, books } from "@/lib/books";
@@ -21,10 +22,11 @@ const homeDescription =
 // A grande matéria é escolhida por slug, não pela ordem do array: a capa da
 // home é decisão editorial e não deve mudar sozinha quando um artigo novo
 // entrar na lista.
+const latestArticles = sortPublishedArticlesByDate(publishedArticles);
 const leadArticle =
-  publishedArticles.find(({ slug }) => slug === "tfos-dews-iii-na-pratica") ??
-  publishedArticles[0];
-const recentArticles = publishedArticles
+  latestArticles.find(({ slug }) => slug === "tfos-dews-iii-na-pratica") ??
+  latestArticles[0];
+const recentArticles = latestArticles
   .filter(({ slug }) => slug !== leadArticle?.slug)
   .slice(0, 6);
 

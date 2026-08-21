@@ -8,6 +8,7 @@ import {
   evidenceFields,
   founderIssue,
   publishedArticles,
+  sortPublishedArticlesByDate,
   technologyTopics,
 } from "@/lib/superficie";
 
@@ -31,7 +32,10 @@ const perioperativeTopics = [
   "Superfície ocular no pós-operatório",
 ];
 
-const featuredArticles = publishedArticles.slice(0, 6);
+const featuredArticles = sortPublishedArticlesByDate(publishedArticles).slice(
+  0,
+  6,
+);
 const newsletterEndpoint =
   import.meta.env.PUBLIC_NEWSLETTER_ENDPOINT || "/api/newsletter";
 ---

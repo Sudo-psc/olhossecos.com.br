@@ -1,7 +1,13 @@
 ---
 import ArticleCard from "@/components/superficie/ArticleCard.astro";
 import SuperficieLayout from "@/layouts/SuperficieLayout.astro";
-import { getMagazineArticlePath, publishedArticles } from "@/lib/superficie";
+import {
+  getMagazineArticlePath,
+  publishedArticles,
+  sortPublishedArticlesByDate,
+} from "@/lib/superficie";
+
+const orderedArticles = sortPublishedArticlesByDate(publishedArticles);
 
 const title = "Artigos da SUPERFÍCIE | Revista de Olho Seco";
 const description =
@@ -11,7 +17,7 @@ const collectionSchema = {
   "@type": "ItemList",
   "@id": new URL("/superficie/artigos#articles", Astro.site).href,
   name: "Artigos",
-  itemListElement: publishedArticles.map((article, index) => ({
+  itemListElement: orderedArticles.map((article, index) => ({
     "@type": "ListItem",
     position: index + 1,
     name: article.title,
@@ -46,11 +52,7 @@ const collectionSchema = {
     <div class="surface-shell">
       <h2 id="artigos-lista" class="visually-hidden">Artigos</h2>
       <div class="featured-grid">
-        {
-          publishedArticles.map((article) => (
-            <ArticleCard {article} hideImage />
-          ))
-        }
+        {orderedArticles.map((article) => <ArticleCard {article} hideImage />)}
       </div>
     </div>
   </section>
