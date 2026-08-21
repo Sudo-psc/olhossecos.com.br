@@ -1,17 +1,9 @@
 ---
 /**
- * Olho interativo com visualização anatômica de precisão da superfície ocular.
+ * Explorador Anatômico Interativo de Alta Fidelidade da Superfície Ocular.
  *
- * O modelo 3D e o fallback vetorial localizam e diferenciam claramente as 5
- * estruturas-chave da homeostase ocular:
- * 1. Filme lacrimal (película externa e meniscos)
- * 2. Córnea (cúpula óptica transparente e anel limbar)
- * 3. Conjuntiva (revestimento bulbar e microvasos epiesclerais)
- * 4. Margem palpebral (borda livre de aposição e espalhamento)
- * 5. Glândulas de Meibômio (colunas glandulares tarsais e orifícios marginais)
- *
- * A seleção de uma estrutura realça o elemento anatômico correspondente em 3D,
- * gira o modelo pelo menor arco e atualiza o HUD e os detalhes editoriais.
+ * Integra renderização médica 3D de alta definição, iluminação dinâmica interativa,
+ * mapeamento topográfico vetorial e marcadores de sonar com biomarcadores clínicos.
  */
 const structures = [
   {
@@ -20,8 +12,13 @@ const structures = [
     color: "#087f95",
     colorRgb: "8, 127, 149",
     tag: "Película & Meniscos",
+    biomarker: "NIBUT / Estabilidade lacrimal",
+    top: "32%",
+    left: "48%",
     summary:
-      "Película fluida de 3 a 5 micrômetros que recobre a superfície ocular e forma meniscos nas margens palpebrais. Sua estabilidade e tensão superficial garantem o conforto e a qualidade da refração óptica.",
+      "Película fluida de 3 a 5 micrômetros que recobre a superfície exposta do olho e forma meniscos nas margens palpebrais. Sua estabilidade físico-química e tensão superficial determinam o conforto e a qualidade da refração óptica.",
+    clinicalDetail:
+      "A ruptura precoce (BUT < 10s) expõe o epitélio e desencadeia estresse hiperosmolar.",
     href: "/guias/olho-seco-guia-essencial",
     linkLabel: "Como o filme lacrimal se organiza",
   },
@@ -30,9 +27,14 @@ const structures = [
     name: "Córnea",
     color: "#0b827f",
     colorRgb: "11, 130, 127",
-    tag: "Cúpula Transparente",
+    tag: "Cúpula Óptica Transparente",
+    biomarker: "Fluoresceína / Integridade epitelial",
+    top: "48%",
+    left: "54%",
     summary:
-      "Lente biológica transparente e prolata, densamente inervada pelos ramos ciliares do trigêmeo. É o principal elemento refrativo do olho e onde o sofrimento celular e a perda epitelial se manifestam.",
+      "Lente biológica asférica transparente, prolata e avascular, densamente inervada pelos ramos ciliares do trigêmeo. Responde por cerca de 70% do poder dióptrico ocular e é onde a perda celular e a dor neuropática se manifestam.",
+    clinicalDetail:
+      "A ceratite ponteada e as alterações na sensibilidade corneana são avaliadas com corantes vitais.",
     href: "/diagnostico",
     linkLabel: "O que o exame investiga",
   },
@@ -41,9 +43,14 @@ const structures = [
     name: "Conjuntiva",
     color: "#5c7395",
     colorRgb: "92, 115, 149",
-    tag: "Mucosa Bulbar",
+    tag: "Mucosa Bulbar & Fórnices",
+    biomarker: "Lissamina verde / Células caliciformes",
+    top: "54%",
+    left: "78%",
     summary:
-      "Membrana mucosa vascularizada que recobre a esclera até o limbo e dobra-se nos fundos de saco. Abriga as células caliciformes produtoras de mucina e a rede vascular de defesa da superfície.",
+      "Membrana mucosa ricamente vascularizada que reveste a esclera (conjuntiva bulbar) até o limbo e dobra-se nos fórnices. Abriga as células caliciformes que produzem a camada de mucina essencial para a aderência da lágrima.",
+    clinicalDetail:
+      "A conjuntivocalase e a microinflamação geram atrito mecânico constante durante a piscada.",
     href: "/guias/conjuntivocalase-olho-seco-mecanico",
     linkLabel: "Quando a conjuntiva sobra e atrapalha",
   },
@@ -52,9 +59,14 @@ const structures = [
     name: "Margem palpebral",
     color: "#b07a3f",
     colorRgb: "176, 122, 63",
-    tag: "Borda de Aposição",
+    tag: "Borda Livre de Aposição",
+    biomarker: "Linha de Marx / Dinâmica do piscar",
+    top: "22%",
+    left: "40%",
     summary:
-      "Borda livre de contato entre as pálpebras superior e inferior. A dinâmica da piscada e a integridade da linha mucocutânea distribuem o filme e renovam a película sobre a córnea.",
+      "Borda livre de contato e aposição entre as pálpebras superior e inferior. A dinâmica da piscada completa distribui o filme, enquanto a integridade da linha mucocutânea previne o escape prematuro de lágrimas.",
+    clinicalDetail:
+      "Piscadas incompletas e queratinização da margem reduzem a renovação do filme sobre a córnea.",
     href: "/guias/higiene-palpebral-com-seguranca",
     linkLabel: "Higiene palpebral com segurança",
   },
@@ -63,9 +75,14 @@ const structures = [
     name: "Glândulas de Meibômio",
     color: "#d97706",
     colorRgb: "217, 119, 6",
-    tag: "Colunas Lipídicas",
+    tag: "Colunas Lipídicas Tarsais",
+    biomarker: "Meibografia infravermelha / Meiboscore",
+    top: "76%",
+    left: "60%",
     summary:
-      "Glândulas sebáceas dispostas verticalmente no interior das placas tarsais, com orifícios excretores na margem. Secretam o meibum, lipídio essencial que desacelera a evaporação da lágrima.",
+      "Glândulas sebáceas modificadas dispostas verticalmente nas placas tarsais, com orifícios excretores na margem palpebral. Secretam o meibum, fração lipídica que retarda em até 95% a evaporação da fase aquosa.",
+    clinicalDetail:
+      "A Disfunção das Glândulas de Meibômio (DGM) é o fator etiológico mais comum do olho seco evaporativo.",
     href: "/causas#evaporacao",
     linkLabel: "Evaporação como causa",
   },
@@ -75,28 +92,262 @@ const structures = [
 <section class="eye-explorer" aria-labelledby="eye-explorer-title">
   <div class="page-shell eye-explorer-grid">
     <header class="eye-explorer-intro">
-      <p class="eyebrow">Anatomia da superfície</p>
+      <p class="eyebrow">Anatomia da superfície ocular</p>
       <h2 id="eye-explorer-title" class="section-heading">
         Onde cada estrutura entra na história
       </h2>
       <p>
-        O olho seco é uma disfunção multifatorial da unidade funcional da
-        superfície. Explore o modelo 3D ou selecione cada estrutura para
-        visualizar sua localização anatômica e função na homeostase.
+        O olho seco é uma disfunção multifatorial da unidade integrada da
+        superfície. Explore a renderização médica em alta definição, interaja
+        com a iluminação dinâmica ou selecione cada estrutura para examinar seus
+        marcadores fisiológicos.
       </p>
     </header>
 
-    <figure class="eye-stage" data-eye-stage data-active-id="tear-film">
-      <div class="eye-canvas-holder">
-        <canvas data-eye-canvas aria-hidden="true"></canvas>
+    <!-- Palco Visual de Alta Fidelidade -->
+    <figure
+      class="eye-stage"
+      data-eye-stage
+      data-active-id="tear-film"
+      role="region"
+      aria-label="Explorador anatômico interativo da superfície ocular"
+    >
+      <div class="eye-canvas-holder" data-eye-holder>
+        <!-- Camada Base: Renderização Médica 3D Fotorealista -->
+        <picture class="eye-render-picture">
+          <source
+            srcset="/images/educacao/anatomia-superficie-ocular-3d-760.avif 760w, /images/educacao/anatomia-superficie-ocular-3d-1200.avif 1200w"
+            type="image/avif"
+          />
+          <source
+            srcset="/images/educacao/anatomia-superficie-ocular-3d-760.webp 760w, /images/educacao/anatomia-superficie-ocular-3d-1200.webp 1200w"
+            type="image/webp"
+          />
+          <img
+            src="/images/educacao/anatomia-superficie-ocular-3d.jpg"
+            alt="Renderização médica tridimensional do segmento anterior e superfície ocular de alta definição"
+            width="1200"
+            height="1200"
+            loading="lazy"
+            class="eye-render-img"
+            data-eye-img
+          />
+        </picture>
 
-        <!-- HUD visual sobre o modelo -->
-        <div class="eye-hud" data-eye-hud aria-hidden="true">
-          <div class="eye-hud-badge">
-            <span class="eye-hud-dot" data-eye-hud-dot></span>
-            <span class="eye-hud-name" data-eye-hud-name>Filme lacrimal</span>
+        <!-- Camada Dinâmica de Brilho e Iluminação Interativa -->
+        <canvas class="eye-shimmer-canvas" data-eye-canvas aria-hidden="true"
+        ></canvas>
+
+        <!-- Camada Vetorial de Realce Anatômico Topográfico -->
+        <svg
+          class="eye-vector-overlay"
+          viewBox="0 0 1000 1000"
+          aria-hidden="true"
+        >
+          <defs>
+            <!-- Gradiente de Menisco / Filme Lacrimal -->
+            <radialGradient id="grad-tear" cx="48%" cy="46%" r="52%">
+              <stop offset="0%" stop-color="#087f95" stop-opacity="0.1"></stop>
+              <stop offset="70%" stop-color="#2fb6c8" stop-opacity="0.45"
+              ></stop>
+              <stop offset="100%" stop-color="#38d8ec" stop-opacity="0.85"
+              ></stop>
+            </radialGradient>
+
+            <!-- Gradiente da Córnea -->
+            <radialGradient id="grad-cornea" cx="46%" cy="48%" r="48%">
+              <stop offset="0%" stop-color="#0b827f" stop-opacity="0.08"></stop>
+              <stop offset="75%" stop-color="#0b827f" stop-opacity="0.38"
+              ></stop>
+              <stop offset="100%" stop-color="#14b8a6" stop-opacity="0.9"
+              ></stop>
+            </radialGradient>
+
+            <!-- Filtro de Brilho Lúmen -->
+            <filter
+              id="glow-lumen"
+              x="-20%"
+              y="-20%"
+              width="140%"
+              height="140%"
+            >
+              <feGaussianBlur stdDeviation="6" result="blur"></feGaussianBlur>
+              <feComposite in="SourceGraphic" in2="blur" operator="over"
+              ></feComposite>
+            </filter>
+          </defs>
+
+          <!-- 1. Camada Filme Lacrimal & Meniscos -->
+          <g
+            class="vector-structure-layer layer-tear-film"
+            data-layer="tear-film"
+          >
+            <!-- Película sobre a zona óptica -->
+            <ellipse
+              cx="490"
+              cy="495"
+              rx="230"
+              ry="230"
+              fill="url(#grad-tear)"
+              stroke="#2fb6c8"
+              stroke-width="3"
+              stroke-dasharray="8 6"
+              filter="url(#glow-lumen)"></ellipse>
+            <!-- Menisco Superior -->
+            <path
+              d="M260 300 Q 480 235 710 295"
+              fill="none"
+              stroke="#38d8ec"
+              stroke-width="6"
+              stroke-linecap="round"
+              filter="url(#glow-lumen)"></path>
+            <!-- Menisco Inferior -->
+            <path
+              d="M265 690 Q 490 755 725 695"
+              fill="none"
+              stroke="#38d8ec"
+              stroke-width="6"
+              stroke-linecap="round"
+              filter="url(#glow-lumen)"></path>
+          </g>
+
+          <!-- 2. Camada Córnea & Anel Limbar -->
+          <g class="vector-structure-layer layer-cornea" data-layer="cornea">
+            <circle
+              cx="490"
+              cy="495"
+              r="225"
+              fill="url(#grad-cornea)"
+              stroke="#0b827f"
+              stroke-width="4.5"
+              filter="url(#glow-lumen)"></circle>
+            <!-- Anel Limbar de Transição -->
+            <circle
+              cx="490"
+              cy="495"
+              r="232"
+              fill="none"
+              stroke="#14b8a6"
+              stroke-width="3"
+              stroke-dasharray="5 3"></circle>
+          </g>
+
+          <!-- 3. Camada Conjuntiva Bulbar -->
+          <g
+            class="vector-structure-layer layer-conjunctiva"
+            data-layer="conjunctiva"
+          >
+            <!-- Zona Bulbar Temporal -->
+            <path
+              d="M710 320 Q 880 430 920 540 Q 880 660 720 705 Q 740 540 710 320 Z"
+              fill="#5c7395"
+              fill-opacity="0.32"
+              stroke="#8fa3bd"
+              stroke-width="2.5"
+              filter="url(#glow-lumen)"></path>
+            <!-- Zona Bulbar Nasal -->
+            <path
+              d="M260 310 Q 140 430 110 520 Q 140 640 260 690 Q 240 530 260 310 Z"
+              fill="#5c7395"
+              fill-opacity="0.32"
+              stroke="#8fa3bd"
+              stroke-width="2.5"
+              filter="url(#glow-lumen)"></path>
+          </g>
+
+          <!-- 4. Camada Margem Palpebral -->
+          <g
+            class="vector-structure-layer layer-lid-margin"
+            data-layer="lid-margin"
+          >
+            <!-- Arco Margem Superior -->
+            <path
+              d="M110 520 Q 480 180 910 500"
+              fill="none"
+              stroke="#d97706"
+              stroke-width="8"
+              stroke-linecap="round"
+              filter="url(#glow-lumen)"></path>
+            <!-- Arco Margem Inferior -->
+            <path
+              d="M110 520 Q 490 820 910 500"
+              fill="none"
+              stroke="#d97706"
+              stroke-width="8"
+              stroke-linecap="round"
+              filter="url(#glow-lumen)"></path>
+          </g>
+
+          <!-- 5. Camada Glândulas de Meibômio -->
+          <g
+            class="vector-structure-layer layer-meibomian"
+            data-layer="meibomian"
+          >
+            <!-- Orifícios excretores ao longo da margem inferior -->
+            <g fill="#f59e0b" filter="url(#glow-lumen)">
+              <circle cx="280" cy="712" r="5"></circle>
+              <circle cx="320" cy="735" r="5"></circle>
+              <circle cx="365" cy="754" r="5"></circle>
+              <circle cx="415" cy="768" r="5"></circle>
+              <circle cx="465" cy="775" r="5"></circle>
+              <circle cx="515" cy="775" r="5"></circle>
+              <circle cx="565" cy="768" r="5"></circle>
+              <circle cx="615" cy="754" r="5"></circle>
+              <circle cx="660" cy="735" r="5"></circle>
+              <circle cx="700" cy="712" r="5"></circle>
+            </g>
+            <!-- Colunas Tarsais Verticais -->
+            <g
+              stroke="#f59e0b"
+              stroke-width="4.5"
+              stroke-linecap="round"
+              filter="url(#glow-lumen)"
+            >
+              <line x1="320" y1="745" x2="315" y2="820"></line>
+              <line x1="365" y1="765" x2="360" y2="840"></line>
+              <line x1="415" y1="778" x2="410" y2="860"></line>
+              <line x1="465" y1="785" x2="465" y2="870"></line>
+              <line x1="515" y1="785" x2="515" y2="870"></line>
+              <line x1="565" y1="778" x2="570" y2="860"></line>
+              <line x1="615" y1="765" x2="620" y2="840"></line>
+              <line x1="660" y1="745" x2="665" y2="820"></line>
+            </g>
+          </g>
+        </svg>
+
+        <!-- Marcadores Sonar Interativos -->
+        <div class="eye-pins-overlay">
+          {
+            structures.map((s, index) => (
+              <button
+                type="button"
+                class="eye-sonar-pin"
+                data-pin-id={s.id}
+                style={`top: ${s.top}; left: ${s.left}; --pin-color: ${s.color};`}
+                aria-label={`Visualizar ${s.name}`}
+              >
+                <span class="sonar-wave" aria-hidden="true" />
+                <span class="sonar-core">
+                  <span class="sonar-num">{index + 1}</span>
+                </span>
+                <span class="sonar-tooltip" role="tooltip">
+                  <strong>{s.name}</strong>
+                  <small>{s.tag}</small>
+                </span>
+              </button>
+            ))
+          }
+        </div>
+
+        <!-- HUD Superior com Identificação e Biomarcadores -->
+        <div class="eye-stage-hud" data-eye-hud aria-hidden="true">
+          <div class="hud-pill-badge">
+            <span class="hud-dot" data-eye-hud-dot></span>
+            <span class="hud-name" data-eye-hud-name>Filme lacrimal</span>
+            <span class="hud-tag" data-eye-hud-tag>Película & Meniscos</span>
           </div>
-          <span class="eye-hud-hint">
+
+          <div class="hud-biomarker" data-eye-hud-biomarker>
             <svg
               viewBox="0 0 24 24"
               width="13"
@@ -106,267 +357,58 @@ const structures = [
               stroke-width="2"
               aria-hidden="true"
             >
-              <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
-              <path d="M21 3v6h-6"></path>
+              <path
+                d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+              ></path>
             </svg>
-            Arraste para girar • Toque nos pontos
-          </span>
+            <span data-eye-hud-biomarker-text
+              >NIBUT / Estabilidade lacrimal</span
+            >
+          </div>
         </div>
 
-        <!-- Fallback vetorial anatômico de alta definição -->
-        <svg
-          class="eye-fallback"
-          viewBox="0 0 400 400"
-          role="img"
-          aria-label="Esquema anatômico detalhado da superfície ocular mostrando filme lacrimal, córnea, conjuntiva, margem palpebral e glândulas de Meibômio"
-          data-eye-fallback
-        >
-          <defs>
-            <radialGradient id="fb-sclera" cx="45%" cy="40%" r="65%">
-              <stop offset="0%" stop-color="#ffffff"></stop>
-              <stop offset="70%" stop-color="#f2f5f8"></stop>
-              <stop offset="100%" stop-color="#d4dee8"></stop>
-            </radialGradient>
-            <radialGradient id="fb-iris" cx="40%" cy="38%" r="68%">
-              <stop offset="0%" stop-color="#147994"></stop>
-              <stop offset="55%" stop-color="#0c5a6d"></stop>
-              <stop offset="100%" stop-color="#042733"></stop>
-            </radialGradient>
-            <radialGradient id="fb-cornea" cx="35%" cy="35%" r="70%">
-              <stop offset="0%" stop-color="#d8f3f8" stop-opacity="0.65"></stop>
-              <stop offset="80%" stop-color="#93dbe9" stop-opacity="0.3"></stop>
-              <stop offset="100%" stop-color="#0b827f" stop-opacity="0.5"
-              ></stop>
-            </radialGradient>
-          </defs>
-
-          <!-- Esclera do globo ocular -->
-          <circle
-            cx="200"
-            cy="200"
-            r="145"
-            fill="url(#fb-sclera)"
-            stroke="#b8c8d8"
-            stroke-width="1.5"></circle>
-
-          <!-- Conjuntiva bulbar com microvasos -->
-          <g
-            class="svg-layer svg-layer-conjunctiva"
-            data-svg-layer="conjunctiva"
-          >
-            <path
-              d="M75 130 Q 55 200 75 270 Q 130 300 200 300 Q 270 300 325 270 Q 345 200 325 130 Z"
-              fill="#5c7395"
-              fill-opacity="0.1"
-              stroke="#5c7395"
-              stroke-width="1.2"
-              stroke-dasharray="3 3"></path>
-            <!-- Vasos conjuntivais nasais e temporais -->
-            <path
-              d="M78 175 Q 110 180 135 168 M85 210 Q 115 205 138 218 M322 175 Q 290 180 265 168 M315 210 Q 285 205 262 218"
+        <!-- Dica de Interação no Rodapé do Palco -->
+        <div class="eye-stage-footer">
+          <span class="footer-hint">
+            <svg
+              viewBox="0 0 24 24"
+              width="14"
+              height="14"
               fill="none"
-              stroke="#d47068"
-              stroke-width="1.4"
-              opacity="0.7"></path>
-          </g>
-
-          <!-- Limbo e Íris -->
-          <circle
-            cx="200"
-            cy="200"
-            r="76"
-            fill="none"
-            stroke="#042733"
-            stroke-width="3"
-            opacity="0.85"></circle>
-          <circle cx="200" cy="200" r="74" fill="url(#fb-iris)"></circle>
-
-          <!-- Detalhe estriado da íris -->
-          <g stroke="#1db0cb" stroke-width="0.8" opacity="0.35">
-            <line x1="200" y1="128" x2="200" y2="162"></line>
-            <line x1="200" y1="238" x2="200" y2="272"></line>
-            <line x1="128" y1="200" x2="162" y2="200"></line>
-            <line x1="238" y1="200" x2="272" y2="200"></line>
-            <line x1="149" y1="149" x2="173" y2="173"></line>
-            <line x1="227" y1="227" x2="251" y2="251"></line>
-            <line x1="149" y1="251" x2="173" y2="227"></line>
-            <line x1="227" y1="173" x2="251" y2="149"></line>
-          </g>
-
-          <!-- Pupila -->
-          <circle cx="200" cy="200" r="28" fill="#031219"></circle>
-
-          <!-- Córnea (cúpula óptica anterior) -->
-          <g class="svg-layer svg-layer-cornea" data-svg-layer="cornea">
-            <circle cx="200" cy="200" r="75" fill="url(#fb-cornea)"></circle>
-            <circle
-              cx="200"
-              cy="200"
-              r="75"
-              fill="none"
-              stroke="#0b827f"
-              stroke-width="2.5"
-              stroke-opacity="0.8"></circle>
-          </g>
-
-          <!-- Filme lacrimal (película de superfície e meniscos) -->
-          <g class="svg-layer svg-layer-tear-film" data-svg-layer="tear-film">
-            <circle
-              cx="200"
-              cy="200"
-              r="82"
-              fill="none"
-              stroke="#2fb6c8"
-              stroke-width="2.5"
-              stroke-dasharray="8 4"
-              opacity="0.85"></circle>
-            <!-- Menisco superior e inferior -->
-            <path
-              d="M130 148 Q 200 128 270 148"
-              fill="none"
-              stroke="#2fb6c8"
-              stroke-width="3.5"
-              stroke-linecap="round"></path>
-            <path
-              d="M130 252 Q 200 272 270 252"
-              fill="none"
-              stroke="#2fb6c8"
-              stroke-width="3.5"
-              stroke-linecap="round"></path>
-          </g>
-
-          <!-- Brilho de reflexo corneano -->
-          <circle cx="178" cy="176" r="9" fill="#ffffff" opacity="0.8"></circle>
-          <circle cx="188" cy="186" r="3.5" fill="#ffffff" opacity="0.6"
-          ></circle>
-
-          <!-- Glândulas de Meibômio (colunas verticais tarsais) -->
-          <g
-            class="svg-layer svg-layer-meibomian"
-            data-svg-layer="meibomian"
-            stroke="#d97706"
-            stroke-linecap="round"
-          >
-            <!-- Glândulas superiores -->
-            <g stroke-width="2.8" opacity="0.8">
-              <line x1="150" y1="102" x2="150" y2="128"></line>
-              <line x1="162" y1="96" x2="162" y2="124"></line>
-              <line x1="174" y1="92" x2="174" y2="122"></line>
-              <line x1="187" y1="90" x2="187" y2="120"></line>
-              <line x1="200" y1="88" x2="200" y2="120"></line>
-              <line x1="213" y1="90" x2="213" y2="120"></line>
-              <line x1="226" y1="92" x2="226" y2="122"></line>
-              <line x1="238" y1="96" x2="238" y2="124"></line>
-              <line x1="250" y1="102" x2="250" y2="128"></line>
-            </g>
-            <!-- Glândulas inferiores -->
-            <g stroke-width="2.8" opacity="0.8">
-              <line x1="150" y1="272" x2="150" y2="298"></line>
-              <line x1="162" y1="276" x2="162" y2="304"></line>
-              <line x1="174" y1="278" x2="174" y2="308"></line>
-              <line x1="187" y1="280" x2="187" y2="310"></line>
-              <line x1="200" y1="280" x2="200" y2="312"></line>
-              <line x1="213" y1="280" x2="213" y2="310"></line>
-              <line x1="226" y1="278" x2="226" y2="308"></line>
-              <line x1="238" y1="276" x2="238" y2="304"></line>
-              <line x1="250" y1="272" x2="250" y2="298"></line>
-            </g>
-            <!-- Orifícios excretores nas margens -->
-            <g fill="#f59e0b" stroke="none">
-              <circle cx="150" cy="130" r="2"></circle>
-              <circle cx="174" cy="124" r="2"></circle>
-              <circle cx="200" cy="122" r="2"></circle>
-              <circle cx="226" cy="124" r="2"></circle>
-              <circle cx="250" cy="130" r="2"></circle>
-              <circle cx="150" cy="270" r="2"></circle>
-              <circle cx="174" cy="276" r="2"></circle>
-              <circle cx="200" cy="278" r="2"></circle>
-              <circle cx="226" cy="276" r="2"></circle>
-              <circle cx="250" cy="270" r="2"></circle>
-            </g>
-          </g>
-
-          <!-- Margens palpebrais superior e inferior -->
-          <g class="svg-layer svg-layer-lid-margin" data-svg-layer="lid-margin">
-            <path
-              d="M60 156 Q 200 96 340 156"
-              fill="none"
-              stroke="#b07a3f"
-              stroke-width="5.5"
-              stroke-linecap="round"></path>
-            <path
-              d="M60 244 Q 200 304 340 244"
-              fill="none"
-              stroke="#b07a3f"
-              stroke-width="5.5"
-              stroke-linecap="round"></path>
-          </g>
-
-          <!-- Marcadores e Pinos de Referência -->
-          <g
-            class="svg-pin"
-            data-svg-pin="tear-film"
-            transform="translate(200, 136)"
-          >
-            <circle r="9" fill="#087f95" opacity="0.25"></circle>
-            <circle r="5" fill="#087f95"></circle>
-            <circle r="2" fill="#ffffff"></circle>
-          </g>
-          <g
-            class="svg-pin"
-            data-svg-pin="cornea"
-            transform="translate(245, 185)"
-          >
-            <circle r="9" fill="#0b827f" opacity="0.25"></circle>
-            <circle r="5" fill="#0b827f"></circle>
-            <circle r="2" fill="#ffffff"></circle>
-          </g>
-          <g
-            class="svg-pin"
-            data-svg-pin="conjunctiva"
-            transform="translate(105, 195)"
-          >
-            <circle r="9" fill="#5c7395" opacity="0.25"></circle>
-            <circle r="5" fill="#5c7395"></circle>
-            <circle r="2" fill="#ffffff"></circle>
-          </g>
-          <g
-            class="svg-pin"
-            data-svg-pin="lid-margin"
-            transform="translate(170, 114)"
-          >
-            <circle r="9" fill="#b07a3f" opacity="0.25"></circle>
-            <circle r="5" fill="#b07a3f"></circle>
-            <circle r="2" fill="#ffffff"></circle>
-          </g>
-          <g
-            class="svg-pin"
-            data-svg-pin="meibomian"
-            transform="translate(225, 290)"
-          >
-            <circle r="9" fill="#d97706" opacity="0.25"></circle>
-            <circle r="5" fill="#d97706"></circle>
-            <circle r="2" fill="#ffffff"></circle>
-          </g>
-        </svg>
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path
+                d="M15 15l6 6m-11-4a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm-3-7h6m-3-3v6"
+              ></path>
+            </svg>
+            Toque nos pontos numerados ou alterne os botões para examinar cada camada
+          </span>
+        </div>
       </div>
+
       <figcaption>
-        Representação esquemática tridimensional da unidade da superfície ocular
-        com identificação topográfica dos eixos fisiológicos.
+        Visualização 3D de alta resolução do segmento anterior. Representação
+        anatômica integrada da unidade funcional da superfície ocular.
       </figcaption>
     </figure>
 
+    <!-- Lista de Navegação e Artigos Explicativos -->
     <div class="eye-structures">
-      <ul class="eye-structure-list" data-eye-list>
+      <ul class="eye-structure-list" data-eye-list role="tablist">
         {
           structures.map((structure, index) => (
-            <li>
+            <li role="presentation">
               <button
                 type="button"
+                role="tab"
                 data-eye-structure={structure.id}
                 data-color={structure.color}
                 style={`--structure-accent: ${structure.color};`}
-                aria-pressed={index === 0 ? "true" : "false"}
+                aria-selected={index === 0 ? "true" : "false"}
+                aria-controls={`detail-${structure.id}`}
+                id={`tab-${structure.id}`}
               >
                 <span class="eye-structure-index">
                   {String(index + 1).padStart(2, "0")}
@@ -387,16 +429,28 @@ const structures = [
         {
           structures.map((structure, index) => (
             <article
+              id={`detail-${structure.id}`}
+              role="tabpanel"
+              aria-labelledby={`tab-${structure.id}`}
               data-eye-detail={structure.id}
               style={`--structure-accent: ${structure.color};`}
               hidden={index !== 0 ? true : undefined}
             >
-              <div class="detail-badge-row">
+              <div class="detail-header-row">
                 <span class="detail-tag">{structure.tag}</span>
-                <span class="detail-number">Estrutura 0{index + 1}</span>
+                <span class="detail-biomarker-pill">
+                  🎯 {structure.biomarker}
+                </span>
               </div>
               <h3>{structure.name}</h3>
               <p>{structure.summary}</p>
+              <div class="detail-clinical-box">
+                <span class="clinical-icon">⚕️</span>
+                <p class="clinical-text">
+                  <strong>Relevância clínica:</strong>{" "}
+                  {structure.clinicalDetail}
+                </p>
+              </div>
               <a class="text-link" href={structure.href}>
                 {structure.linkLabel}
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -428,6 +482,7 @@ const structures = [
     margin: 1.4rem 0 0;
     color: var(--ink-soft);
     font-size: var(--text-lead);
+    line-height: 1.6;
   }
 
   .eye-stage {
@@ -438,130 +493,294 @@ const structures = [
     position: relative;
     aspect-ratio: 1 / 1;
     width: 100%;
-    max-width: 520px;
+    max-width: 540px;
     margin-inline: auto;
     border-radius: var(--radius-lg);
-    background:
-      radial-gradient(120% 120% at 30% 20%, #ffffff 0%, var(--paper-100) 62%),
-      var(--paper-100);
-    box-shadow: inset 0 0 0 1px var(--line-soft);
+    background: #020b14;
+    box-shadow:
+      0 12px 32px rgb(4 20 47 / 8%),
+      0 1px 3px rgb(4 20 47 / 5%),
+      inset 0 0 0 1px rgb(255 255 255 / 12%);
     overflow: hidden;
+    touch-action: pan-y;
+    user-select: none;
   }
 
-  .eye-canvas-holder canvas,
-  .eye-fallback {
+  /* Camada 1: Render 3D Fotorealista */
+  .eye-render-picture,
+  .eye-render-img {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    display: block;
+    transition:
+      transform var(--duration-slow) var(--ease-out-soft),
+      filter var(--duration-standard) var(--ease-standard);
   }
 
-  .eye-canvas-holder canvas {
-    opacity: 0;
-    transition: opacity var(--duration-slow) var(--ease-out-soft);
-    touch-action: pan-y;
-    cursor: grab;
-  }
-
-  .eye-stage[data-eye-ready="true"] canvas {
-    opacity: 1;
-  }
-
-  .eye-stage[data-eye-ready="true"] .eye-fallback {
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .eye-fallback {
-    padding: 8%;
-    transition: opacity var(--duration-slow) var(--ease-out-soft);
-  }
-
-  /* Realce no Fallback SVG */
-  .eye-stage[data-active-id="tear-film"] .svg-layer-tear-film circle {
-    stroke-width: 4.5;
-    opacity: 1;
-    stroke: #087f95;
-  }
-  .eye-stage[data-active-id="cornea"] .svg-layer-cornea circle:last-child {
-    stroke-width: 4.5;
-    stroke: #0b827f;
-  }
-  .eye-stage[data-active-id="conjunctiva"]
-    .svg-layer-conjunctiva
-    path:first-child {
-    fill-opacity: 0.28;
-    stroke-width: 2.5;
-  }
-  .eye-stage[data-active-id="lid-margin"] .svg-layer-lid-margin path {
-    stroke-width: 8;
-    stroke: #9a6430;
-  }
-  .eye-stage[data-active-id="meibomian"] .svg-layer-meibomian line {
-    stroke-width: 4.5;
-    stroke: #f59e0b;
-    opacity: 1;
-  }
-
-  .eye-hud {
+  /* Camada 2: Canvas de Shimmer e Especularidade Dinâmica */
+  .eye-shimmer-canvas {
     position: absolute;
-    top: 1rem;
-    left: 1rem;
-    right: 1rem;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    opacity: 0.85;
+    z-index: 2;
+  }
+
+  /* Camada 3: SVG Vetorial Anatômico de Realce */
+  .eye-vector-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .vector-structure-layer {
+    opacity: 0;
+    transition:
+      opacity var(--duration-standard) var(--ease-out-soft),
+      transform var(--duration-standard) var(--ease-out-soft);
+    transform-origin: center;
+  }
+
+  /* Realce das camadas conforme o estado ativo */
+  .eye-stage[data-active-id="tear-film"] .layer-tear-film,
+  .eye-stage[data-active-id="cornea"] .layer-cornea,
+  .eye-stage[data-active-id="conjunctiva"] .layer-conjunctiva,
+  .eye-stage[data-active-id="lid-margin"] .layer-lid-margin,
+  .eye-stage[data-active-id="meibomian"] .layer-meibomian {
+    opacity: 1;
+    transform: scale(1.01);
+  }
+
+  /* Camada 4: Marcadores Sonar */
+  .eye-pins-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 4;
+  }
+
+  .eye-sonar-pin {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+  }
+
+  .sonar-wave {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background-color: var(--pin-color, #087f95);
+    opacity: 0.4;
+    animation: sonar-pulse 2.8s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+  }
+
+  @keyframes sonar-pulse {
+    0% {
+      transform: scale(0.6);
+      opacity: 0.8;
+    }
+    70% {
+      transform: scale(1.8);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1.8);
+      opacity: 0;
+    }
+  }
+
+  .sonar-core {
+    position: relative;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--pin-color, #087f95);
+    border: 2.5px solid #ffffff;
+    box-shadow:
+      0 2px 8px rgb(0 0 0 / 30%),
+      0 0 12px var(--pin-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      transform var(--duration-fast) var(--ease-standard),
+      box-shadow var(--duration-fast) var(--ease-standard);
+  }
+
+  .sonar-num {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #ffffff;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .eye-sonar-pin:hover .sonar-core,
+  .eye-sonar-pin:focus-visible .sonar-core,
+  .eye-sonar-pin[data-active="true"] .sonar-core {
+    transform: scale(1.25);
+    box-shadow:
+      0 3px 12px rgb(0 0 0 / 40%),
+      0 0 20px var(--pin-color);
+  }
+
+  /* Tooltip Flutuante no Pin */
+  .sonar-tooltip {
+    position: absolute;
+    bottom: 115%;
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+    background: rgb(4 20 47 / 94%);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgb(255 255 255 / 15%);
+    color: #ffffff;
+    padding: 0.35rem 0.65rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.72rem;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--duration-fast) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-standard),
+      visibility var(--duration-fast);
+    box-shadow: 0 4px 14px rgb(0 0 0 / 25%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1rem;
+    z-index: 10;
+  }
+
+  .sonar-tooltip strong {
+    font-weight: 700;
+  }
+
+  .sonar-tooltip small {
+    color: var(--teal-100);
+    font-size: 0.65rem;
+  }
+
+  .eye-sonar-pin:hover .sonar-tooltip,
+  .eye-sonar-pin:focus-visible .sonar-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* HUD Superior no Palco */
+  .eye-stage-hud {
+    position: absolute;
+    top: 0.85rem;
+    left: 0.85rem;
+    right: 0.85rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     pointer-events: none;
-    z-index: 2;
+    z-index: 5;
+    gap: 0.5rem;
   }
 
-  .eye-hud-badge {
+  .hud-pill-badge {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.35rem 0.75rem;
-    border: 1px solid var(--line);
+    padding: 0.4rem 0.85rem;
+    border: 1px solid rgb(255 255 255 / 20%);
     border-radius: 999px;
-    background: rgb(255 255 255 / 92%);
-    backdrop-filter: blur(8px);
-    box-shadow: 0 2px 8px rgb(0 0 0 / 4%);
+    background: rgb(4 20 47 / 85%);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 20%);
   }
 
-  .eye-hud-dot {
-    width: 8px;
-    height: 8px;
+  .hud-dot {
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
     background-color: var(--teal-600);
+    box-shadow: 0 0 8px currentColor;
     transition: background-color var(--duration-fast) var(--ease-standard);
   }
 
-  .eye-hud-name {
+  .hud-name {
     font-size: var(--text-meta);
     font-weight: 700;
-    color: var(--navy-900);
-    letter-spacing: -0.01em;
+    color: #ffffff;
   }
 
-  .eye-hud-hint {
+  .hud-tag {
+    font-size: 0.72rem;
+    color: var(--teal-100);
+    opacity: 0.85;
+  }
+
+  .hud-biomarker {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
-    padding: 0.35rem 0.65rem;
+    gap: 0.4rem;
+    padding: 0.4rem 0.75rem;
     border-radius: 999px;
-    background: rgb(255 255 255 / 75%);
-    backdrop-filter: blur(6px);
+    background: rgb(255 255 255 / 92%);
+    backdrop-filter: blur(8px);
     font-size: 0.75rem;
-    color: var(--navy-600);
+    font-weight: 600;
+    color: var(--navy-800);
+    box-shadow: 0 2px 8px rgb(0 0 0 / 12%);
   }
 
-  @media (max-width: 480px) {
-    .eye-hud-hint {
+  @media (max-width: 580px) {
+    .hud-tag,
+    .hud-biomarker {
       display: none;
     }
   }
 
+  /* Rodapé do Palco */
+  .eye-stage-footer {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 0.85rem;
+    right: 0.85rem;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  .footer-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    background: rgb(4 20 47 / 75%);
+    backdrop-filter: blur(6px);
+    font-size: 0.73rem;
+    color: rgb(255 255 255 / 90%);
+  }
+
   .eye-stage figcaption {
-    max-width: 48ch;
+    max-width: 52ch;
     margin: 0.9rem auto 0;
     color: var(--ink-soft);
     font-size: var(--text-meta);
@@ -569,6 +788,7 @@ const structures = [
     line-height: 1.4;
   }
 
+  /* Lista de Estruturas (Botões) */
   .eye-structure-list {
     display: flex;
     flex-wrap: wrap;
@@ -581,9 +801,9 @@ const structures = [
   .eye-structure-list button {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    min-height: 44px;
-    padding: 0.5rem 0.95rem;
+    gap: 0.55rem;
+    min-height: 46px;
+    padding: 0.55rem 1rem;
     border: 1px solid var(--line);
     border-radius: 999px;
     background: var(--paper-0);
@@ -599,10 +819,10 @@ const structures = [
   }
 
   .eye-structure-dot {
-    width: 7px;
-    height: 7px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    opacity: 0.6;
+    opacity: 0.75;
     transition: transform var(--duration-fast) var(--ease-standard);
   }
 
@@ -612,16 +832,16 @@ const structures = [
     transform: translateY(-1px);
   }
 
-  .eye-structure-list button[aria-pressed="true"] {
+  .eye-structure-list button[aria-selected="true"] {
     border-color: var(--navy-800);
     background: var(--navy-800);
     color: #ffffff;
   }
 
-  .eye-structure-list button[aria-pressed="true"] .eye-structure-dot {
+  .eye-structure-list button[aria-selected="true"] .eye-structure-dot {
     opacity: 1;
     transform: scale(1.3);
-    box-shadow: 0 0 6px var(--structure-accent);
+    box-shadow: 0 0 8px var(--structure-accent);
   }
 
   .eye-structure-index {
@@ -630,23 +850,27 @@ const structures = [
     font-variant-numeric: tabular-nums;
   }
 
-  .eye-structure-list button[aria-pressed="true"] .eye-structure-index {
+  .eye-structure-list button[aria-selected="true"] .eye-structure-index {
     color: rgb(255 255 255 / 78%);
   }
 
+  /* Painel de Detalhes da Estrutura */
   .eye-structure-details article {
-    padding: 1.4rem;
+    padding: 1.6rem;
     border: 1px solid var(--line-soft);
-    border-left: 3px solid var(--structure-accent, var(--navy-800));
+    border-left: 4px solid var(--structure-accent, var(--navy-800));
     border-radius: var(--radius-md);
     background: var(--paper-50);
+    box-shadow: 0 4px 16px rgb(4 20 47 / 3%);
   }
 
-  .detail-badge-row {
+  .detail-header-row {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 0.6rem;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
   }
 
   .detail-tag {
@@ -657,9 +881,16 @@ const structures = [
     color: var(--structure-accent, var(--teal-700));
   }
 
-  .detail-number {
+  .detail-biomarker-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    background: var(--paper-0);
+    border: 1px solid var(--line);
     font-size: 0.75rem;
-    color: var(--ink-soft);
+    font-weight: 600;
+    color: var(--navy-800);
   }
 
   .eye-structure-details h3 {
@@ -673,12 +904,35 @@ const structures = [
     max-width: var(--measure);
     margin: 0 0 1.1rem;
     color: var(--ink-soft);
-    line-height: 1.6;
+    line-height: 1.65;
+  }
+
+  .detail-clinical-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.85rem 1rem;
+    margin-bottom: 1.2rem;
+    border-radius: var(--radius-sm);
+    background: var(--paper-100);
+    border: 1px solid var(--line-soft);
+  }
+
+  .clinical-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+
+  .clinical-text {
+    margin: 0 !important;
+    font-size: var(--text-small);
+    color: var(--navy-800);
+    line-height: 1.5;
   }
 
   @media (min-width: 900px) {
     .eye-explorer-grid {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.1fr 1fr;
       align-items: center;
     }
 
@@ -690,768 +944,221 @@ const structures = [
 </style>
 
 <script>
-  import type {
-    Mesh,
-    MeshBasicMaterial,
-    MeshPhysicalMaterial,
-    MeshStandardMaterial,
-  } from "three";
-
-  type Structure = {
+  type StructureData = {
     id: string;
     name: string;
-    position: [number, number, number];
-    color: number;
-    colorHex: string;
+    color: string;
+    tag: string;
+    biomarker: string;
   };
 
-  const anchors: Structure[] = [
-    {
+  const structuresData: Record<string, StructureData> = {
+    "tear-film": {
       id: "tear-film",
       name: "Filme lacrimal",
-      position: [0, 0.28, 1.15],
-      color: 0x087f95,
-      colorHex: "#087f95",
+      color: "#087f95",
+      tag: "Película & Meniscos",
+      biomarker: "NIBUT / Estabilidade lacrimal",
     },
-    {
+    cornea: {
       id: "cornea",
       name: "Córnea",
-      position: [0.26, -0.06, 1.12],
-      color: 0x0b827f,
-      colorHex: "#0b827f",
+      color: "#0b827f",
+      tag: "Cúpula Óptica Transparente",
+      biomarker: "Fluoresceína / Integridade epitelial",
     },
-    {
+    conjunctiva: {
       id: "conjunctiva",
       name: "Conjuntiva",
-      position: [-0.82, 0.18, 0.68],
-      color: 0x5c7395,
-      colorHex: "#5c7395",
+      color: "#5c7395",
+      tag: "Mucosa Bulbar & Fórnices",
+      biomarker: "Lissamina verde / Células caliciformes",
     },
-    {
+    "lid-margin": {
       id: "lid-margin",
       name: "Margem palpebral",
-      position: [-0.24, 0.64, 0.84],
-      color: 0xb07a3f,
-      colorHex: "#b07a3f",
+      color: "#b07a3f",
+      tag: "Borda Livre de Aposição",
+      biomarker: "Linha de Marx / Dinâmica do piscar",
     },
-    {
+    meibomian: {
       id: "meibomian",
       name: "Glândulas de Meibômio",
-      position: [0.32, -0.68, 0.78],
-      color: 0xd97706,
-      colorHex: "#d97706",
+      color: "#d97706",
+      tag: "Colunas Lipídicas Tarsais",
+      biomarker: "Meibografia infravermelha / Meiboscore",
     },
-  ];
+  };
 
   const initEyeExplorer = () => {
     const stage = document.querySelector<HTMLElement>("[data-eye-stage]");
+    const holder = document.querySelector<HTMLElement>("[data-eye-holder]");
+    const image = document.querySelector<HTMLElement>("[data-eye-img]");
     const canvas =
       document.querySelector<HTMLCanvasElement>("[data-eye-canvas]");
     const buttons = [
       ...document.querySelectorAll<HTMLButtonElement>("[data-eye-structure]"),
+    ];
+    const pins = [
+      ...document.querySelectorAll<HTMLButtonElement>("[data-pin-id]"),
     ];
     const details = [
       ...document.querySelectorAll<HTMLElement>("[data-eye-detail]"),
     ];
     const hudDot = document.querySelector<HTMLElement>("[data-eye-hud-dot]");
     const hudName = document.querySelector<HTMLElement>("[data-eye-hud-name]");
+    const hudTag = document.querySelector<HTMLElement>("[data-eye-hud-tag]");
+    const hudBiomarkerText = document.querySelector<HTMLElement>(
+      "[data-eye-hud-biomarker-text]",
+    );
 
-    if (
-      !stage ||
-      !canvas ||
-      buttons.length === 0 ||
-      stage.dataset.eyeInited === "true"
-    ) {
-      return;
-    }
+    if (!stage || !holder || buttons.length === 0) return;
+    if (stage.dataset.eyeInited === "true") return;
     stage.dataset.eyeInited = "true";
 
-    let activeId = anchors[0]?.id ?? "";
+    let activeId = "tear-film";
 
     const selectStructure = (id: string) => {
       activeId = id;
       stage.dataset.activeId = id;
 
-      const current = anchors.find((a) => a.id === id);
-      if (hudName && current) {
-        hudName.textContent = current.name;
-      }
-      if (hudDot && current) {
-        hudDot.style.backgroundColor = current.colorHex;
+      const data = structuresData[id];
+      if (data) {
+        if (hudName) hudName.textContent = data.name;
+        if (hudTag) hudTag.textContent = data.tag;
+        if (hudDot) hudDot.style.backgroundColor = data.color;
+        if (hudBiomarkerText) hudBiomarkerText.textContent = data.biomarker;
       }
 
-      buttons.forEach((button) => {
-        button.setAttribute(
-          "aria-pressed",
-          String(button.dataset.eyeStructure === id),
-        );
+      buttons.forEach((btn) => {
+        const isSelected = btn.dataset.eyeStructure === id;
+        btn.setAttribute("aria-selected", String(isSelected));
       });
-      details.forEach((detail) => {
-        detail.hidden = detail.dataset.eyeDetail !== id;
+
+      pins.forEach((pin) => {
+        const isPinActive = pin.dataset.pinId === id;
+        pin.dataset.active = String(isPinActive);
+      });
+
+      details.forEach((det) => {
+        det.hidden = det.dataset.eyeDetail !== id;
       });
     };
 
-    buttons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const id = button.dataset.eyeStructure;
-        if (!id) return;
-        selectStructure(id);
-        window.dispatchEvent(
-          new CustomEvent("olhossecos:eye-select", { detail: { id } }),
-        );
+    // Cliques nos Botões da Lista
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.eyeStructure;
+        if (id) selectStructure(id);
       });
     });
 
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    );
-
-    const isCapable = () => {
-      if (!stage || !canvas) return false;
-      const memory = (navigator as Navigator & { deviceMemory?: number })
-        .deviceMemory;
-      if (memory !== undefined && memory < 4) return false;
-
-      const connection = (
-        navigator as Navigator & {
-          connection?: { saveData?: boolean; effectiveType?: string };
-        }
-      ).connection;
-      if (connection?.saveData) return false;
-      if (
-        connection?.effectiveType &&
-        /(^|-)(slow-)?2g$/u.test(connection.effectiveType)
-      ) {
-        return false;
-      }
-      try {
-        const probe = document.createElement("canvas");
-        return Boolean(probe.getContext("webgl2") ?? probe.getContext("webgl"));
-      } catch {
-        return false;
-      }
-    };
-
-    const boot = async () => {
-      if (!stage || !canvas || !isCapable()) return;
-
-      const THREE = await import("three");
-
-      const renderer = new THREE.WebGLRenderer({
-        canvas,
-        antialias: true,
-        alpha: true,
-        powerPreference: "low-power",
+    // Cliques nos Pinos Sonar sobre o Modelo
+    pins.forEach((pin) => {
+      pin.addEventListener("click", () => {
+        const id = pin.dataset.pinId;
+        if (id) selectStructure(id);
       });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    });
 
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 40);
-      camera.position.set(0, 0, 5.2);
+    // Efeito Interativo de Shimmer e Parallax Suave (WebGL / Canvas)
+    if (canvas) {
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        let width = (canvas.width = holder.clientWidth);
+        let height = (canvas.height = holder.clientHeight);
 
-      const eye = new THREE.Group();
-      eye.rotation.set(0.08, -0.25, 0);
-      scene.add(eye);
+        const resizeCanvas = () => {
+          width = canvas.width = holder.clientWidth;
+          height = canvas.height = holder.clientHeight;
+        };
+        window.addEventListener("resize", resizeCanvas, { passive: true });
 
-      // 1. Esclera do globo ocular
-      const sclera = new THREE.Mesh(
-        new THREE.SphereGeometry(1.0, 64, 48),
-        new THREE.MeshStandardMaterial({
-          color: 0xf6f4ef,
-          roughness: 0.55,
-          metalness: 0.02,
-        }),
-      );
-      eye.add(sclera);
+        let pointerX = width * 0.48;
+        let pointerY = height * 0.45;
+        let currentX = pointerX;
+        let currentY = pointerY;
+        let isHovered = false;
+        let animFrame = 0;
 
-      // 2. Conjuntiva bulbar com manto e microvasos
-      const conjunctivaMat = new THREE.MeshStandardMaterial({
-        color: 0xe8eef5,
-        roughness: 0.45,
-        transparent: true,
-        opacity: 0.22,
-      });
-      const conjunctivaMesh = new THREE.Mesh(
-        new THREE.SphereGeometry(
-          1.012,
-          56,
-          40,
-          0,
-          Math.PI * 2,
-          0.55,
-          Math.PI - 0.55,
-        ),
-        conjunctivaMat,
-      );
-      conjunctivaMesh.rotation.x = Math.PI / 2;
-      eye.add(conjunctivaMesh);
+        const renderShimmer = () => {
+          ctx.clearRect(0, 0, width, height);
 
-      // Vasos conjuntivais
-      const vesselsGroup = new THREE.Group();
-      const vesselsMat = new THREE.MeshBasicMaterial({
-        color: 0xd88a82,
-        transparent: true,
-        opacity: 0.7,
-      });
+          // Interpolação suave do brilho
+          currentX += (pointerX - currentX) * 0.08;
+          currentY += (pointerY - currentY) * 0.08;
 
-      const addVesselArc = (
-        x: number,
-        y: number,
-        z: number,
-        rx: number,
-        ry: number,
-        rz: number,
-        scale: number,
-      ) => {
-        const vMesh = new THREE.Mesh(
-          new THREE.TorusGeometry(0.96 * scale, 0.007, 6, 40, Math.PI * 0.45),
-          vesselsMat,
-        );
-        vMesh.position.set(x, y, z);
-        vMesh.rotation.set(rx, ry, rz);
-        vesselsGroup.add(vMesh);
-      };
-
-      addVesselArc(-0.2, 0.1, 0.3, 0.4, 0.6, 1.2, 1.0);
-      addVesselArc(-0.1, -0.2, 0.3, -0.3, 0.8, 0.9, 0.95);
-      addVesselArc(0.2, 0.15, 0.3, 0.5, -0.5, -1.1, 1.0);
-      addVesselArc(0.15, -0.25, 0.3, -0.4, -0.7, -0.8, 0.95);
-      eye.add(vesselsGroup);
-
-      // 3. Íris, Limbo e Pupila
-      const limbusMat = new THREE.MeshBasicMaterial({
-        color: 0x052a36,
-        side: THREE.DoubleSide,
-      });
-      const limbusBorder = new THREE.Mesh(
-        new THREE.RingGeometry(0.48, 0.52, 64),
-        limbusMat,
-      );
-      limbusBorder.position.z = 0.94;
-      eye.add(limbusBorder);
-
-      const irisMesh = new THREE.Mesh(
-        new THREE.CircleGeometry(0.48, 64),
-        new THREE.MeshStandardMaterial({
-          color: 0x0e5d72,
-          roughness: 0.35,
-          metalness: 0.05,
-        }),
-      );
-      irisMesh.position.z = 0.945;
-      eye.add(irisMesh);
-
-      const irisDetail = new THREE.Mesh(
-        new THREE.RingGeometry(0.2, 0.44, 48),
-        new THREE.MeshBasicMaterial({
-          color: 0x147994,
-          transparent: true,
-          opacity: 0.45,
-          side: THREE.DoubleSide,
-        }),
-      );
-      irisDetail.position.z = 0.948;
-      eye.add(irisDetail);
-
-      const pupilMesh = new THREE.Mesh(
-        new THREE.CircleGeometry(0.18, 48),
-        new THREE.MeshBasicMaterial({ color: 0x03141d }),
-      );
-      pupilMesh.position.z = 0.95;
-      eye.add(pupilMesh);
-
-      // Brilho especular de reflexo
-      const gleam = new THREE.Mesh(
-        new THREE.CircleGeometry(0.045, 24),
-        new THREE.MeshBasicMaterial({
-          color: 0xffffff,
-          transparent: true,
-          opacity: 0.9,
-        }),
-      );
-      gleam.position.set(0.14, 0.16, 1.07);
-      eye.add(gleam);
-
-      // 4. Córnea transparente
-      const corneaMat = new THREE.MeshPhysicalMaterial({
-        color: 0xcfeaf1,
-        transparent: true,
-        opacity: 0.28,
-        roughness: 0.05,
-        clearcoat: 1.0,
-        side: THREE.DoubleSide,
-      });
-      const corneaMesh = new THREE.Mesh(
-        new THREE.SphereGeometry(1.06, 56, 40, 0, Math.PI * 2, 0, 0.52),
-        corneaMat,
-      );
-      corneaMesh.rotation.x = Math.PI / 2;
-      eye.add(corneaMesh);
-
-      // 5. Filme lacrimal e meniscos
-      const tearFilmMat = new THREE.MeshPhysicalMaterial({
-        color: 0x8fd8e4,
-        transparent: true,
-        opacity: 0.2,
-        roughness: 0.02,
-        clearcoat: 1.0,
-        side: THREE.DoubleSide,
-      });
-      const tearFilmMesh = new THREE.Mesh(
-        new THREE.SphereGeometry(1.105, 56, 40, 0, Math.PI * 2, 0, 0.56),
-        tearFilmMat,
-      );
-      tearFilmMesh.rotation.x = Math.PI / 2;
-      eye.add(tearFilmMesh);
-
-      // Meniscos lacrimais
-      const meniscusMat = new THREE.MeshBasicMaterial({
-        color: 0x2fb6c8,
-        transparent: true,
-        opacity: 0.45,
-      });
-      const upperMeniscus = new THREE.Mesh(
-        new THREE.TorusGeometry(0.53, 0.015, 10, 48, Math.PI * 0.7),
-        meniscusMat,
-      );
-      upperMeniscus.position.set(0, 0.44, 0.9);
-      upperMeniscus.rotation.z = Math.PI * 0.15;
-      eye.add(upperMeniscus);
-
-      const lowerMeniscus = new THREE.Mesh(
-        new THREE.TorusGeometry(0.53, 0.015, 10, 48, Math.PI * 0.7),
-        meniscusMat,
-      );
-      lowerMeniscus.position.set(0, -0.44, 0.9);
-      lowerMeniscus.rotation.z = Math.PI * 1.15;
-      eye.add(lowerMeniscus);
-
-      // 6. Margens palpebrais superior e inferior
-      const lidMarginMat = new THREE.MeshStandardMaterial({
-        color: 0xb07a3f,
-        roughness: 0.55,
-        metalness: 0.05,
-      });
-      const upperLid = new THREE.Mesh(
-        new THREE.TorusGeometry(0.88, 0.048, 16, 64, Math.PI * 0.84),
-        lidMarginMat,
-      );
-      upperLid.position.set(0, 0.18, 0.6);
-      upperLid.rotation.z = Math.PI * 0.08;
-      eye.add(upperLid);
-
-      const lowerLid = new THREE.Mesh(
-        new THREE.TorusGeometry(0.88, 0.048, 16, 64, Math.PI * 0.84),
-        lidMarginMat,
-      );
-      lowerLid.position.set(0, -0.18, 0.6);
-      lowerLid.rotation.z = Math.PI * 1.08;
-      eye.add(lowerLid);
-
-      // 7. Glândulas de Meibômio (colunas verticais tarsais)
-      const meibomianGroup = new THREE.Group();
-      const glandMat = new THREE.MeshStandardMaterial({
-        color: 0xb46b28,
-        roughness: 0.5,
-        metalness: 0.1,
-      });
-      const orificeMat = new THREE.MeshBasicMaterial({ color: 0x7c3d12 });
-
-      // Glândulas inferiores
-      for (let i = 0; i < 11; i += 1) {
-        const gland = new THREE.Mesh(
-          new THREE.CapsuleGeometry(0.02, 0.16, 4, 8),
-          glandMat,
-        );
-        const angle = Math.PI * (1.13 + i * 0.068);
-        gland.position.set(
-          Math.cos(angle) * 0.92,
-          Math.sin(angle) * 0.92,
-          0.44,
-        );
-        gland.rotation.z = angle + Math.PI / 2;
-        meibomianGroup.add(gland);
-
-        const orifice = new THREE.Mesh(
-          new THREE.SphereGeometry(0.018, 8, 8),
-          orificeMat,
-        );
-        orifice.position.set(
-          Math.cos(angle) * 0.86,
-          Math.sin(angle) * 0.86,
-          0.58,
-        );
-        meibomianGroup.add(orifice);
-      }
-
-      // Glândulas superiores
-      for (let i = 0; i < 11; i += 1) {
-        const gland = new THREE.Mesh(
-          new THREE.CapsuleGeometry(0.02, 0.18, 4, 8),
-          glandMat,
-        );
-        const angle = Math.PI * (0.13 + i * 0.068);
-        gland.position.set(
-          Math.cos(angle) * 0.92,
-          Math.sin(angle) * 0.92,
-          0.44,
-        );
-        gland.rotation.z = angle + Math.PI / 2;
-        meibomianGroup.add(gland);
-
-        const orifice = new THREE.Mesh(
-          new THREE.SphereGeometry(0.018, 8, 8),
-          orificeMat,
-        );
-        orifice.position.set(
-          Math.cos(angle) * 0.86,
-          Math.sin(angle) * 0.86,
-          0.58,
-        );
-        meibomianGroup.add(orifice);
-      }
-      eye.add(meibomianGroup);
-
-      // Iluminação
-      scene.add(new THREE.AmbientLight(0xffffff, 1.15));
-      const keyLight = new THREE.DirectionalLight(0xffffff, 2.5);
-      keyLight.position.set(2.4, 2.8, 3.2);
-      scene.add(keyLight);
-      const rimLight = new THREE.DirectionalLight(0x8fc9dd, 1.2);
-      rimLight.position.set(-3, -1.2, 0.8);
-      scene.add(rimLight);
-      const fillLight = new THREE.DirectionalLight(0xffe8d6, 0.6);
-      fillLight.position.set(0, -2.5, 2.0);
-      scene.add(fillLight);
-
-      // 8. Marcadores Hotspots com Anel Pulsante
-      const markerMeshes = new Map<string, { core: Mesh; ring: Mesh }>();
-      anchors.forEach((anchor) => {
-        const markerGroup = new THREE.Group();
-        markerGroup.position.set(...anchor.position);
-
-        const core = new THREE.Mesh(
-          new THREE.SphereGeometry(0.052, 16, 12),
-          new THREE.MeshBasicMaterial({
-            color: anchor.color,
-            transparent: true,
-            depthWrite: false,
-          }),
-        );
-        core.userData.structureId = anchor.id;
-        markerGroup.add(core);
-
-        const ring = new THREE.Mesh(
-          new THREE.RingGeometry(0.068, 0.088, 28),
-          new THREE.MeshBasicMaterial({
-            color: anchor.color,
-            transparent: true,
-            opacity: 0.6,
-            depthWrite: false,
-            side: THREE.DoubleSide,
-          }),
-        );
-        markerGroup.add(ring);
-
-        markerGroup.renderOrder = 4;
-        eye.add(markerGroup);
-        markerMeshes.set(anchor.id, { core, ring });
-      });
-
-      let needsRender = true;
-      let visible = false;
-      let frame = 0;
-      let drifting = !prefersReducedMotion.matches;
-      let idleTimer = 0;
-
-      const resize = () => {
-        const size = canvas.clientWidth || 1;
-        renderer.setSize(size, size, false);
-        camera.aspect = 1;
-        camera.updateProjectionMatrix();
-        needsRender = true;
-      };
-
-      const highlight = () => {
-        // Atualiza Marcadores
-        markerMeshes.forEach(({ core, ring }, id) => {
-          const isActive = id === activeId;
-          core.scale.setScalar(isActive ? 1.6 : 1.0);
-          (core.material as MeshBasicMaterial).opacity = isActive ? 1.0 : 0.6;
-          (ring.material as MeshBasicMaterial).opacity = isActive ? 0.9 : 0.35;
-          ring.scale.setScalar(isActive ? 1.4 : 1.0);
-        });
-
-        // 1. Filme lacrimal
-        const isTear = activeId === "tear-film";
-        (tearFilmMesh.material as MeshPhysicalMaterial).opacity = isTear
-          ? 0.68
-          : 0.2;
-        (tearFilmMesh.material as MeshPhysicalMaterial).color.setHex(
-          isTear ? 0x2fb6c8 : 0x8fd8e4,
-        );
-        (tearFilmMesh.material as MeshPhysicalMaterial).emissive.setHex(
-          isTear ? 0x117285 : 0x000000,
-        );
-        (tearFilmMesh.material as MeshPhysicalMaterial).emissiveIntensity =
-          isTear ? 0.7 : 0;
-        (meniscusMat as MeshBasicMaterial).opacity = isTear ? 0.95 : 0.45;
-        (meniscusMat as MeshBasicMaterial).color.setHex(
-          isTear ? 0x38d8ec : 0x2fb6c8,
-        );
-
-        // 2. Córnea
-        const isCornea = activeId === "cornea";
-        (corneaMesh.material as MeshPhysicalMaterial).opacity = isCornea
-          ? 0.65
-          : 0.28;
-        (corneaMesh.material as MeshPhysicalMaterial).color.setHex(
-          isCornea ? 0x0b827f : 0xcfeaf1,
-        );
-        (corneaMesh.material as MeshPhysicalMaterial).emissive.setHex(
-          isCornea ? 0x044b49 : 0x000000,
-        );
-        (corneaMesh.material as MeshPhysicalMaterial).emissiveIntensity =
-          isCornea ? 0.65 : 0;
-        (limbusMat as MeshBasicMaterial).color.setHex(
-          isCornea ? 0x18b8b4 : 0x052a36,
-        );
-
-        // 3. Conjuntiva
-        const isConj = activeId === "conjunctiva";
-        (conjunctivaMesh.material as MeshStandardMaterial).opacity = isConj
-          ? 0.58
-          : 0.22;
-        (conjunctivaMesh.material as MeshStandardMaterial).color.setHex(
-          isConj ? 0x5c7395 : 0xe8eef5,
-        );
-        (conjunctivaMesh.material as MeshStandardMaterial).emissive.setHex(
-          isConj ? 0x203554 : 0x000000,
-        );
-        (conjunctivaMesh.material as MeshStandardMaterial).emissiveIntensity =
-          isConj ? 0.6 : 0;
-        (vesselsMat as MeshBasicMaterial).color.setHex(
-          isConj ? 0xe84f44 : 0xd88a82,
-        );
-        (vesselsMat as MeshBasicMaterial).opacity = isConj ? 0.95 : 0.7;
-
-        // 4. Margem palpebral
-        const isLid = activeId === "lid-margin";
-        (lidMarginMat as MeshStandardMaterial).color.setHex(
-          isLid ? 0xd98c48 : 0xb07a3f,
-        );
-        (lidMarginMat as MeshStandardMaterial).emissive.setHex(
-          isLid ? 0x733b10 : 0x000000,
-        );
-        (lidMarginMat as MeshStandardMaterial).emissiveIntensity = isLid
-          ? 0.75
-          : 0;
-
-        // 5. Glândulas de Meibômio
-        const isMeib = activeId === "meibomian";
-        (glandMat as MeshStandardMaterial).color.setHex(
-          isMeib ? 0xfbbf24 : 0xb46b28,
-        );
-        (glandMat as MeshStandardMaterial).emissive.setHex(
-          isMeib ? 0xd97706 : 0x000000,
-        );
-        (glandMat as MeshStandardMaterial).emissiveIntensity = isMeib ? 0.9 : 0;
-        (orificeMat as MeshBasicMaterial).color.setHex(
-          isMeib ? 0xfde68a : 0x7c3d12,
-        );
-
-        needsRender = true;
-      };
-
-      // Rotação suave orientada pelo menor arco
-      let targetYaw = -0.25;
-      let targetPitch = 0.08;
-      const faceStructure = (id: string) => {
-        const anchor = anchors.find((item) => item.id === id);
-        if (!anchor) return;
-        const [x, y, z] = anchor.position;
-        const baseYaw = -Math.atan2(x, z) * 0.55;
-        const currentYaw = eye.rotation.y;
-        const diff =
-          ((((baseYaw - currentYaw + Math.PI) % (Math.PI * 2)) + Math.PI * 2) %
-            (Math.PI * 2)) -
-          Math.PI;
-        targetYaw = currentYaw + diff;
-        targetPitch = Math.max(
-          -0.28,
-          Math.min(0.28, Math.atan2(y, Math.hypot(x, z)) * 0.4),
-        );
-        needsRender = true;
-      };
-
-      const loop = () => {
-        frame = 0;
-        if (!visible) return;
-
-        if (drifting) {
-          targetYaw += 0.0016;
-        }
-
-        const yawDelta = targetYaw - eye.rotation.y;
-        const pitchDelta = targetPitch - eye.rotation.x;
-        if (Math.abs(yawDelta) > 0.0005 || Math.abs(pitchDelta) > 0.0005) {
-          eye.rotation.y += yawDelta * 0.08;
-          eye.rotation.x += pitchDelta * 0.08;
-          needsRender = true;
-        }
-
-        if (needsRender) {
-          renderer.render(scene, camera);
-          needsRender = false;
-        }
-
-        if (visible && (drifting || needsRender)) {
-          frame = requestAnimationFrame(loop);
-        }
-      };
-
-      const kick = () => {
-        needsRender = true;
-        if (!frame && visible) frame = requestAnimationFrame(loop);
-      };
-
-      let dragging = false;
-      let lastX = 0;
-      let lastY = 0;
-
-      const pauseDrift = () => {
-        drifting = false;
-        window.clearTimeout(idleTimer);
-        if (prefersReducedMotion.matches) return;
-        idleTimer = window.setTimeout(() => {
-          drifting = true;
-          kick();
-        }, 6000);
-      };
-
-      canvas.addEventListener("pointerdown", (event) => {
-        dragging = true;
-        lastX = event.clientX;
-        lastY = event.clientY;
-        targetYaw = eye.rotation.y;
-        targetPitch = eye.rotation.x;
-        canvas.setPointerCapture(event.pointerId);
-        pauseDrift();
-      });
-
-      canvas.addEventListener("pointermove", (event) => {
-        if (!dragging) return;
-        targetYaw += (event.clientX - lastX) * 0.006;
-        targetPitch = Math.max(
-          -0.6,
-          Math.min(0.6, targetPitch + (event.clientY - lastY) * 0.004),
-        );
-        lastX = event.clientX;
-        lastY = event.clientY;
-        kick();
-      });
-
-      const endDrag = (event: PointerEvent) => {
-        if (!dragging) return;
-        dragging = false;
-        canvas.releasePointerCapture?.(event.pointerId);
-      };
-      canvas.addEventListener("pointerup", endDrag);
-      canvas.addEventListener("pointercancel", endDrag);
-
-      canvas.addEventListener(
-        "wheel",
-        (event) => {
-          if (!event.ctrlKey && Math.abs(event.deltaY) < 24) return;
-          event.preventDefault();
-          camera.position.z = Math.max(
-            3.6,
-            Math.min(6.4, camera.position.z + event.deltaY * 0.004),
+          // Gradiente de especularidade óptica sobre o filme lacrimal
+          const gradient = ctx.createRadialGradient(
+            currentX,
+            currentY,
+            8,
+            currentX,
+            currentY,
+            width * 0.38,
           );
-          kick();
-        },
-        { passive: false },
-      );
 
-      const raycaster = new THREE.Raycaster();
-      const pointer = new THREE.Vector2();
+          const baseColor =
+            activeId === "tear-film"
+              ? "rgba(56, 216, 236, 0.45)"
+              : activeId === "cornea"
+                ? "rgba(20, 184, 166, 0.42)"
+                : activeId === "meibomian"
+                  ? "rgba(245, 158, 11, 0.45)"
+                  : "rgba(255, 255, 255, 0.35)";
 
-      const pickMarker = (event: PointerEvent | MouseEvent) => {
-        const rect = canvas.getBoundingClientRect();
-        pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-        pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-        raycaster.setFromCamera(pointer, camera);
-        const hitObjects = [...markerMeshes.values()].map((m) => m.core);
-        return raycaster.intersectObjects(hitObjects)[0];
-      };
+          gradient.addColorStop(0, "rgba(255, 255, 255, 0.75)");
+          gradient.addColorStop(0.2, baseColor);
+          gradient.addColorStop(0.6, "rgba(8, 127, 149, 0.08)");
+          gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
 
-      canvas.addEventListener("pointermove", (event) => {
-        if (dragging) return;
-        canvas.style.cursor = pickMarker(event) ? "pointer" : "grab";
-      });
+          ctx.fillStyle = gradient;
+          ctx.beginPath();
+          ctx.arc(width * 0.49, height * 0.495, width * 0.23, 0, Math.PI * 2);
+          ctx.fill();
 
-      canvas.addEventListener("click", (event) => {
-        const hit = pickMarker(event);
-        const id = hit?.object.userData.structureId as string | undefined;
-        if (!id) return;
-        selectStructure(id);
-        faceStructure(id);
-        highlight();
-        pauseDrift();
-        kick();
-      });
-
-      window.addEventListener("olhossecos:eye-select", (event) => {
-        const id = (event as CustomEvent<{ id: string }>).detail.id;
-        faceStructure(id);
-        highlight();
-        pauseDrift();
-        kick();
-      });
-
-      prefersReducedMotion.addEventListener("change", (event) => {
-        drifting = !event.matches;
-        kick();
-      });
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          visible = entries.some((entry) => entry.isIntersecting);
-          if (visible) kick();
-          else if (frame) {
-            cancelAnimationFrame(frame);
-            frame = 0;
+          if (isHovered || Math.abs(pointerX - currentX) > 0.5) {
+            animFrame = requestAnimationFrame(renderShimmer);
+          } else {
+            animFrame = 0;
           }
-        },
-        { rootMargin: "120px" },
-      );
-      observer.observe(stage);
+        };
 
-      new ResizeObserver(() => {
-        resize();
-        kick();
-      }).observe(canvas);
+        const handlePointerMove = (event: PointerEvent) => {
+          const rect = holder.getBoundingClientRect();
+          pointerX = event.clientX - rect.left;
+          pointerY = event.clientY - rect.top;
 
-      resize();
-      highlight();
-      faceStructure(activeId);
-      stage.dataset.eyeReady = "true";
-      kick();
-    };
+          // Parallax 3D sutil na imagem
+          if (image) {
+            const tiltX = (pointerY / rect.height - 0.5) * -4;
+            const tiltY = (pointerX / rect.width - 0.5) * 4;
+            image.style.transform = `scale(1.02) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+          }
 
-    if (stage && canvas) {
-      const loadObserver = new IntersectionObserver(
-        (entries) => {
-          if (!entries.some((entry) => entry.isIntersecting)) return;
-          loadObserver.disconnect();
-          void boot().catch(() => {
-            stage.dataset.eyeReady = "false";
-          });
-        },
-        { rootMargin: "300px" },
-      );
-      loadObserver.observe(stage);
+          isHovered = true;
+          if (!animFrame) animFrame = requestAnimationFrame(renderShimmer);
+        };
+
+        const handlePointerLeave = () => {
+          isHovered = false;
+          pointerX = width * 0.48;
+          pointerY = height * 0.45;
+          if (image) {
+            image.style.transform = "scale(1) rotateX(0deg) rotateY(0deg)";
+          }
+          if (!animFrame) animFrame = requestAnimationFrame(renderShimmer);
+        };
+
+        holder.addEventListener("pointermove", handlePointerMove);
+        holder.addEventListener("pointerleave", handlePointerLeave);
+
+        renderShimmer();
+      }
     }
+
+    // Inicialização da primeira estrutura
+    selectStructure(activeId);
   };
 
   initEyeExplorer();
