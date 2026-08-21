@@ -24,6 +24,8 @@ interface Props {
   dateModified?: string;
   /** Card OpenGraph próprio da seção; sem ele o Layout usa o genérico. */
   image?: string;
+  schemaType?: "WebPage" | "MedicalWebPage" | "CollectionPage" | "Article";
+  extraSchema?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const {
@@ -37,15 +39,18 @@ const {
   updated = "25 de julho de 2026",
   dateModified = "2026-07-25",
   image,
+  schemaType = "MedicalWebPage",
+  extraSchema,
 } = Astro.props;
 ---
 
 <Layout
   title={title}
   description={description}
-  schemaType="MedicalWebPage"
+  {schemaType}
   dateModified={dateModified}
   {image}
+  {extraSchema}
   breadcrumbs={[
     { name: "Início", url: "/" },
     { name: title, url: Astro.url.pathname },

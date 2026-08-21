@@ -47,7 +47,12 @@ const nav = [
       <p class="surface-descriptor">Revista de Olho Seco e Superfície Ocular</p>
       {
         home ? (
-          <h1 class="surface-wordmark">SUPERFÍCIE</h1>
+          <h1 class="surface-wordmark">
+            SUPERFÍCIE
+            <span class="sr-only">
+              Revista de Olho Seco e Superfície Ocular
+            </span>
+          </h1>
         ) : (
           <a class="surface-wordmark" href="/superficie">
             SUPERFÍCIE
@@ -195,6 +200,15 @@ const nav = [
 </script>
 
 <style>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
   .surface-header {
     background: var(--surface-paper);
   }

@@ -16,6 +16,10 @@ execFileSync("astro", ["check"], {
   cwd: repositoryDirectory,
   stdio: "inherit",
 });
+execFileSync(process.execPath, ["scripts/build-og-cards.mjs"], {
+  cwd: repositoryDirectory,
+  stdio: "inherit",
+});
 execFileSync("astro", ["build"], {
   cwd: repositoryDirectory,
   stdio: "inherit",

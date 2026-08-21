@@ -15,17 +15,6 @@ const breadcrumbs = [
 ];
 const authorSeoDescription =
   "Conheça Philipe Saraiva Cruz, médico oftalmologista e autor de obras sobre olho seco, superfície ocular e conjuntivocálase.";
-const siteUrl = new URL("/", Astro.site);
-const personSchema = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "@id": new URL(`/autor/${author.slug}#person`, siteUrl).href,
-  name: author.name,
-  jobTitle: author.role,
-  description: author.description,
-  url: new URL(`/autor/${author.slug}`, siteUrl).href,
-  sameAs: ["https://www.amazon.com/author/drphilipesaraiva"],
-};
 ---
 
 <Layout
@@ -35,12 +24,6 @@ const personSchema = {
   dateModified="2026-08-07"
   breadcrumbs={breadcrumbs}
 >
-  <script
-    is:inline
-    type="application/ld+json"
-    set:html={JSON.stringify(personSchema)}
-  />
-
   <header class="author-hero page-shell">
     <Breadcrumbs items={breadcrumbs} />
     <div class="author-heading">

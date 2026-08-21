@@ -37,7 +37,10 @@ export const homeJourneys: HomeJourney[] = [
         label: "Conjuntivocálase",
         href: "/guias/conjuntivocalase-olho-seco-mecanico",
       },
-      { label: "Perguntas frequentes", href: "/olho-seco#proximos-passos" },
+      {
+        label: "Perguntas frequentes",
+        href: "/olho-seco#perguntas-frequentes",
+      },
     ],
     cta: { label: "Explorar olho seco", href: "/olho-seco" },
   },

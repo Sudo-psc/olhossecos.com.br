@@ -155,4 +155,44 @@ export const portalPages: PortalSearchEntry[] = [
       "Lembretes ajustáveis para pausas, olhar para longe e perceber as piscadas durante o uso de telas.",
     tags: ["aplicativo", "widget", "telas", "pausas", "piscadas", "20-20-20"],
   },
+  {
+    href: "/profissionais",
+    category: "Profissional",
+    title: "Área para profissionais",
+    description:
+      "Diagnóstico multimodal, fenotipagem, imagem, tecnologias e evidências contemporâneas.",
+    tags: ["profissionais", "médicos", "oftalmologia", "nibut", "osmolaridade"],
+  },
+  {
+    href: "/guias",
+    category: "Guias",
+    title: "Guias para entender e viver com olho seco",
+    description:
+      "Leituras curtas sobre sintomas, rotina, tratamentos e decisões de cuidado.",
+    tags: ["guias", "biblioteca", "educação"],
+  },
+  {
+    href: "/livros",
+    category: "Livros",
+    title: "Livros sobre olho seco e superfície ocular",
+    description:
+      "Obras do autor sobre conjuntivocálase, custo do olho seco e superfície ocular.",
+    tags: ["livros", "autor", "conjuntivocálase"],
+  },
+  {
+    href: "/superficie",
+    category: "Revista",
+    title: "SUPERFÍCIE",
+    description:
+      "Revista de olho seco, córnea, diagnóstico, tecnologia e terapias da superfície ocular.",
+    tags: ["revista", "superfície", "evidência", "radar"],
+  },
+  {
+    href: "/newsletter",
+    category: "Newsletter",
+    title: "Newsletter editorial",
+    description:
+      "Receba guias, edições da SUPERFÍCIE e o RADAR Científico quando houver publicação nova.",
+    tags: ["newsletter", "e-mail", "atualizações"],
+  },
 ];

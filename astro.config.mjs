@@ -1,50 +1,10 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import node from "@astrojs/node";
-
-const revisedOnJuly26 = new Set([
-  "/",
-  "/app",
-  "/autocuidado",
-  "/causas",
-  "/diagnostico",
-  "/fontes",
-  "/glossario",
-  "/guias",
-  "/guias/epifora-olho-seco-vias-lacrimais",
-  "/guias/olho-seco-lentes-de-contato",
-  "/olho-seco",
-  "/sinais-de-alerta",
-  "/sintomas",
-  "/tratamentos",
-]);
-
-const revisedOnAugust5 = new Set(["/fontes", "/olho-seco"]);
-
-const revisedOnAugust7 = new Set([
-  "/",
-  "/livros",
-  "/livros/conjuntivocalase-diagnostico-fisiopatologia-abordagem-clinica",
-  "/livros/o-custo-invisivel-do-olho-seco",
-  "/superficie",
-  "/superficie/edicao-00",
-  "/autor/philipe-saraiva-cruz",
-  "/politica-editorial",
-  "/privacidade",
-  "/profissionais",
-]);
-
-const revisedOnAugust8 = new Set([
-  "/newsletter",
-  "/superficie",
-  "/superficie/parceiros",
-  "/privacidade",
-]);
-
-const revisedOnAugust15 = new Set([
-  "/superficie/edicoes",
-  "/superficie/artigos",
-]);
+import {
+  isIndexableSitemapPath,
+  lastmodForSitemapPath,
+} from "./src/lib/seo.ts";
 
 const pocRobotsHeader = "noindex, nofollow, noarchive";
 
@@ -88,30 +48,9 @@ export default defineConfig({
   }),
   integrations: [
     sitemap({
-      filter: (page) => {
-        const path = new URL(page).pathname.replace(/\/$/, "") || "/";
-        return !new Set([
-          "/blog",
-          "/videos",
-          "/exames",
-          "/newsletter/descadastrar",
-          "/superficie/lab/flipbook",
-          "/superficie/lab/edicao-00",
-        ]).has(path);
-      },
+      filter: (page) => isIndexableSitemapPath(page),
       serialize(item) {
-        const path = new URL(item.url).pathname.replace(/\/$/, "") || "/";
-        item.lastmod = revisedOnAugust15.has(path)
-          ? "2026-08-15"
-          : revisedOnAugust8.has(path)
-            ? "2026-08-08"
-            : revisedOnAugust7.has(path)
-              ? "2026-08-07"
-              : revisedOnAugust5.has(path)
-                ? "2026-08-05"
-                : revisedOnJuly26.has(path)
-                  ? "2026-07-26"
-                  : "2026-07-25";
+        item.lastmod = lastmodForSitemapPath(item.url);
         return item;
       },
     }),

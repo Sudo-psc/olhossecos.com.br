@@ -19,14 +19,6 @@ const personId = new URL("/autor/philipe-saraiva-cruz#person", siteUrl).href;
 const editorialSchema = {
   "@context": "https://schema.org",
   "@graph": [
-    {
-      "@type": "Person",
-      "@id": personId,
-      name: author.name,
-      jobTitle: author.role,
-      description: author.description,
-      url: new URL(`/autor/${author.slug}`, siteUrl).href,
-    },
     ...books.map((book) => ({
       "@type": "Book",
       "@id": new URL(`/livros/${book.slug}#book`, siteUrl).href,
@@ -56,7 +48,7 @@ const editorialSchema = {
 <Layout
   title={title}
   description={description}
-  image="/images/livros/og-livros.png"
+  image="/images/og/og-livros.png"
   imageAlt="Biblioteca editorial de Philipe Saraiva Cruz sobre olho seco e superfície ocular"
   schemaType="CollectionPage"
   datePublished="2026-08-07"

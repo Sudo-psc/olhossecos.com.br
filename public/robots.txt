@@ -2,5 +2,8 @@ User-agent: *
 Allow: /
 Disallow: /superficie/lab/
 Disallow: /superficie/issues/poc/
+Disallow: /superficie/issues/edicao-00/
+Disallow: /newsletter/confirmar
+Disallow: /newsletter/descadastrar
 
 Sitemap: https://olhossecos.com.br/sitemap-index.xml

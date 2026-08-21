@@ -2,6 +2,13 @@
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import AnalyticsCollector from "@/components/AnalyticsCollector.astro";
+import {
+  defaultOgImage,
+  organizationSchema,
+  physicianId,
+  physicianSchema,
+  siteName,
+} from "@/lib/seo";
 
 interface Props {
   title?: string;
@@ -16,12 +23,13 @@ interface Props {
   datePublished?: string;
   dateModified?: string;
   breadcrumbs?: { name: string; url: string }[];
+  extraSchema?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const {
   title = "Olho seco: sintomas, causas e cuidados",
   description = "Informação clara, independente e baseada em evidências sobre sintomas, causas, autocuidado e tratamentos do olho seco.",
-  image = "/og-image.png",
+  image = defaultOgImage,
   imageAlt = "Olho Seco — Portal do paciente",
   imageType = "image/png",
   imageWidth = 1200,
@@ -31,6 +39,7 @@ const {
   datePublished,
   dateModified = "2026-07-25",
   breadcrumbs,
+  extraSchema,
 } = Astro.props;
 
 const siteUrl = new URL("/", Astro.site);
@@ -53,27 +62,21 @@ const breadcrumbItems =
         { name: title, url: canonical.pathname },
       ]);
 
-const organization = {
-  "@type": "Organization",
-  "@id": `${siteUrl.href}#organization`,
-  name: "Olhos Secos",
-  url: siteUrl.href,
-  logo: {
-    "@type": "ImageObject",
-    url: new URL("/favicon.svg", siteUrl).href,
-  },
-};
+const organization = organizationSchema(siteUrl);
+const person = physicianSchema(siteUrl);
 
 const website = {
   "@type": "WebSite",
   "@id": `${siteUrl.href}#website`,
   url: siteUrl.href,
-  name: "Olhos Secos",
+  name: siteName,
   alternateName: "olhossecos.com.br",
   description,
   inLanguage: "pt-BR",
   publisher: { "@id": organization["@id"] },
 };
+
+const isMedical = schemaType === "MedicalWebPage" || schemaType === "Article";
 
 const page = {
   "@type": schemaType,
@@ -91,15 +94,17 @@ const page = {
       : undefined,
   datePublished,
   dateModified,
-  about:
-    schemaType === "MedicalWebPage" || schemaType === "Article"
-      ? {
-          "@type": "MedicalCondition",
-          name: "Doença do olho seco",
-          alternateName: "Olho seco",
-        }
-      : undefined,
-  author: schemaType === "Article" ? { "@id": organization["@id"] } : undefined,
+  lastReviewed: isMedical ? dateModified : undefined,
+  reviewedBy: isMedical ? { "@id": physicianId(siteUrl) } : undefined,
+  about: isMedical
+    ? {
+        "@type": "MedicalCondition",
+        name: "Doença do olho seco",
+        alternateName: "Olho seco",
+      }
+    : undefined,
+  author:
+    schemaType === "Article" ? { "@id": physicianId(siteUrl) } : undefined,
   publisher:
     schemaType === "Article" ? { "@id": organization["@id"] } : undefined,
 };
@@ -128,14 +133,22 @@ const breadcrumbSchema =
       }
     : undefined;
 
+const extras = Array.isArray(extraSchema)
+  ? extraSchema
+  : extraSchema
+    ? [extraSchema]
+    : [];
+
 const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
     organization,
+    person,
     website,
     imageObject,
     page,
     ...(breadcrumbSchema ? [breadcrumbSchema] : []),
+    ...extras,
   ],
 };
 ---
@@ -144,7 +157,7 @@ const structuredData = {
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#071D45" />
     <meta name="description" content={description} />
     <meta

@@ -82,7 +82,16 @@ try {
   if (!/href="\/newsletter"/u.test(homeHtml)) {
     throw new Error("homepage: link global para /newsletter ausente");
   }
-  await assertStatus("/superficie");
+  const superficieHtml = await assertPage("/superficie", "/superficie");
+  if (!superficieHtml.includes("Revista de Olho Seco e Superfície Ocular")) {
+    throw new Error("superficie: H1 sem o nome editorial completo");
+  }
+  if (
+    !superficieHtml.includes('"name":"Olhos Secos"') ||
+    !superficieHtml.includes("CRM-MG 69.870")
+  ) {
+    throw new Error("superficie: Organization/Physician canônicos ausentes");
+  }
   await assertPage("/superficie/edicoes", "/superficie/edicoes");
   await assertPage("/superficie/artigos", "/superficie/artigos");
   await assertStatus("/superficie/lab/flipbook", 404);
@@ -141,10 +150,39 @@ try {
     "/superficie/edicoes",
     "/superficie/artigos",
     "/newsletter",
+    "/superficie/artigos/irpl-versus-ipl-na-dgm",
   ]) {
     if (!sitemap.includes(`<loc>${productionOrigin}${path}</loc>`)) {
       throw new Error(`sitemap: ${path} ausente`);
     }
+  }
+  if (sitemap.includes("/newsletter/confirmar")) {
+    throw new Error("sitemap: /newsletter/confirmar não deveria ser indexada");
+  }
+  if (
+    !sitemap.includes(
+      `<loc>${productionOrigin}/superficie/artigos/irpl-versus-ipl-na-dgm</loc><lastmod>2026-08-17`,
+    )
+  ) {
+    throw new Error("sitemap: lastmod do artigo IRPL deveria ser 2026-08-17");
+  }
+
+  const notFoundHtml = await assertStatus("/pagina-inexistente-seo", 404).then(
+    (response) => response.text(),
+  );
+  if (!notFoundHtml.includes("Esta página não existe ou mudou de endereço")) {
+    throw new Error("404: meta description ausente");
+  }
+  if (!homeHtml.includes("width=device-width, initial-scale=1")) {
+    throw new Error("homepage: viewport sem initial-scale");
+  }
+
+  const pilarHtml = await assertPage("/olho-seco", "/olho-seco");
+  if (!pilarHtml.includes('"@type":"FAQPage"')) {
+    throw new Error("olho-seco: FAQPage ausente");
+  }
+  if (!pilarHtml.includes("CRM-MG 69.870")) {
+    throw new Error("olho-seco: credencial médica ausente no JSON-LD");
   }
 
   console.log("release routes: pass");

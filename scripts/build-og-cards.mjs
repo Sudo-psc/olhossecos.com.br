@@ -1,4 +1,4 @@
-// Gera os cards OpenGraph por seção a partir da marca em SVG.
+// Gera os cards OpenGraph por seção e os ícones da marca a partir do SVG.
 //
 // Composição vetorial em vez de imagem gerada: o texto sai nítido, o tamanho
 // é exatamente 1200x630 e o arquivo fica na casa das dezenas de KB. Texto
@@ -8,12 +8,14 @@
 // Uso: node scripts/build-og-cards.mjs
 
 import sharp from "sharp";
-import { readFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 
 const OUT = "public/images/og";
 const INK = "#071d45";
 const TEAL = "#087f95";
 const PAPER = "#ffffff";
+
+mkdirSync(OUT, { recursive: true });
 
 /** Escapa o que vai para dentro do SVG. */
 const esc = (s) =>
@@ -62,6 +64,14 @@ const cards = [
   ["guias", "Guias", "Leituras curtas para decidir com mais clareza"],
   ["profissionais", "Para profissionais", "Superfície ocular em profundidade"],
   ["newsletter", "Newsletter", "Conteúdo editorial no seu e-mail"],
+  ["olho-seco", "O que é olho seco?", "Filme lacrimal, tipos e mecanismos"],
+  ["app", "Dry Eye Widget", "Pausas e piscadas na rotina de telas"],
+  ["livros", "Livros", "Obras sobre olho seco e superfície ocular"],
+  [
+    "glossario",
+    "Glossário do olho seco",
+    "Termos técnicos em linguagem simples",
+  ],
 ];
 
 for (const [slug, titulo, subtitulo] of cards) {
@@ -94,3 +104,40 @@ for (const [slug, titulo, subtitulo] of cards) {
     `${(info.size / 1024).toFixed(1)} KB`,
   );
 }
+
+copyFileSync(`${OUT}/og-home.png`, "public/og-image.png");
+
+const markSvg = readFileSync("public/favicon.svg");
+for (const [file, size] of [
+  ["public/icon-192.png", 192],
+  ["public/icon-512.png", 512],
+  ["public/apple-touch-icon.png", 180],
+]) {
+  const info = await sharp(markSvg)
+    .resize(size, size)
+    .png({ compressionLevel: 9 })
+    .toFile(file);
+  console.log(
+    file.replace("public/", "").padEnd(30),
+    `${info.width}x${info.height}`,
+    `${(info.size / 1024).toFixed(1)} KB`,
+  );
+}
+
+const faviconPng = await sharp(markSvg).resize(48, 48).png().toBuffer();
+const icoHeader = Buffer.alloc(6);
+icoHeader.writeUInt16LE(0, 0);
+icoHeader.writeUInt16LE(1, 2);
+icoHeader.writeUInt16LE(1, 4);
+const icoEntry = Buffer.alloc(16);
+icoEntry.writeUInt8(48, 0);
+icoEntry.writeUInt8(48, 1);
+icoEntry.writeUInt16LE(1, 4);
+icoEntry.writeUInt16LE(32, 6);
+icoEntry.writeUInt32LE(faviconPng.length, 8);
+icoEntry.writeUInt32LE(22, 12);
+writeFileSync(
+  "public/favicon.ico",
+  Buffer.concat([icoHeader, icoEntry, faviconPng]),
+);
+console.log("favicon.ico".padEnd(30), "48x48");

@@ -2,6 +2,7 @@
 import SuperficieFooter from "@/components/superficie/SuperficieFooter.astro";
 import SuperficieHeader from "@/components/superficie/SuperficieHeader.astro";
 import AnalyticsCollector from "@/components/AnalyticsCollector.astro";
+import { organizationSchema, physicianSchema } from "@/lib/seo";
 import { magazineDescription } from "@/lib/superficie";
 
 interface Props {
@@ -47,7 +48,6 @@ const {
 const siteUrl = new URL("/", Astro.site);
 const canonical = new URL(Astro.url.pathname, siteUrl);
 const imageUrl = new URL(image, siteUrl);
-const portalOrganizationId = new URL("/#organization", siteUrl).href;
 const mediaOrganizationId = new URL("/superficie#organization", siteUrl).href;
 const periodicalId = new URL("/superficie#periodical", siteUrl).href;
 const websiteId = new URL("/superficie#website", siteUrl).href;
@@ -71,19 +71,18 @@ const page = {
       : undefined,
 };
 
+const portalOrganization = organizationSchema(siteUrl);
+const physician = physicianSchema(siteUrl);
+
 const baseGraph: Record<string, unknown>[] = [
-  {
-    "@type": "Organization",
-    "@id": portalOrganizationId,
-    name: "Olho Seco — Portal do paciente",
-    url: siteUrl.href,
-  },
+  portalOrganization,
+  physician,
   {
     "@type": "NewsMediaOrganization",
     "@id": mediaOrganizationId,
     name: "SUPERFÍCIE Media",
     url: new URL("/superficie", siteUrl).href,
-    isPartOf: { "@id": portalOrganizationId },
+    isPartOf: { "@id": portalOrganization["@id"] },
   },
   {
     "@type": "Periodical",

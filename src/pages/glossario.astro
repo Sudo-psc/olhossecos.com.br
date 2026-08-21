@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { definedTermSetSchema } from "@/lib/seo";
 
 const terms = [
   {
@@ -183,7 +184,13 @@ const terms = [
 <Layout
   title="Glossário do olho seco"
   description="Tradução em linguagem simples dos termos mais usados em conteúdos e avaliações sobre olho seco."
+  image="/images/og/og-glossario.png"
   dateModified="2026-07-26"
+  extraSchema={definedTermSetSchema(
+    "Glossário do olho seco",
+    new URL("/glossario", Astro.site).href,
+    terms,
+  )}
 >
   <header class="page-intro">
     <div class="page-shell">

@@ -1,4 +1,4 @@
-import { figures, type FigureAsset } from "@/lib/figures";
+import { figures, type FigureAsset } from "./figures.ts";
 
 export interface GuideSection {
   heading: string;
