@@ -121,3 +121,8 @@ tokens.json
 
 # Estado local do agente (worktrees efêmeras e permissões da máquina)
 .claude/
+.agent/
+.agents/
+.maestro/
+.maestro.md
+skills/

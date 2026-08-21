@@ -137,13 +137,13 @@ que as separa é cor, ritmo e densidade — não o tipo da manchete.
 
 `src/components/science/` reúne o vocabulário editorial de evidência:
 
-| Componente | Para quê |
-| --- | --- |
-| `ArticleSummary` | resumo de abertura: achado, implicação, limitações |
-| `EvidenceCard` + `EvidenceLevel` | resultado quantitativo com desenho, amostra, grau e ressalva |
-| `ScienceCallout` | mensagem-chave, implicação, limitação, controvérsia, diretriz, dado |
-| `MechanismScrolly` | círculo vicioso em seis etapas, ilustração fixa |
-| `EyeExplorer` | olho 3D com hotspots (Three.js sob demanda, fallback SVG) |
+| Componente                       | Para quê                                                            |
+| -------------------------------- | ------------------------------------------------------------------- |
+| `ArticleSummary`                 | resumo de abertura: achado, implicação, limitações                  |
+| `EvidenceCard` + `EvidenceLevel` | resultado quantitativo com desenho, amostra, grau e ressalva        |
+| `ScienceCallout`                 | mensagem-chave, implicação, limitação, controvérsia, diretriz, dado |
+| `MechanismScrolly`               | círculo vicioso em seis etapas, ilustração fixa                     |
+| `EyeExplorer`                    | olho 3D com hotspots (Three.js sob demanda, fallback SVG)           |
 
 `GuideSummary.limits` e `GuideEvidence.caveat` são campos obrigatórios da
 estrutura de propósito: número sem a limitação ao lado vira promessa.

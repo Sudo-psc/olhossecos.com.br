@@ -20,6 +20,7 @@ interface Props {
   datePublished?: string;
   dateModified?: string;
   breadcrumbs?: { name: string; url: string }[];
+  extraSchema?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
 const {
@@ -35,6 +36,7 @@ const {
   datePublished,
   dateModified = "2026-07-25",
   breadcrumbs,
+  extraSchema,
 } = Astro.props;
 
 const siteUrl = new URL("/", Astro.site);
@@ -145,6 +147,12 @@ const breadcrumbSchema =
       }
     : undefined;
 
+const extraSchemas = extraSchema
+  ? Array.isArray(extraSchema)
+    ? extraSchema
+    : [extraSchema]
+  : [];
+
 const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
@@ -156,6 +164,7 @@ const structuredData = {
     ...(schemaType === "Article" ? [person] : []),
     page,
     ...(breadcrumbSchema ? [breadcrumbSchema] : []),
+    ...extraSchemas,
   ],
 };
 ---

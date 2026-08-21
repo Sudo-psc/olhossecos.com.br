@@ -109,3 +109,12 @@ Do not use ByteRover or run `brv` commands for this project.
 O Notion guarda a estratégia editorial e comercial da SUPERFÍCIE — banco de
 pautas, roadmap de capas, gates comerciais. Consulte antes de decidir sobre
 conteúdo ou posicionamento da revista.
+
+## Maestro & Multi-Agent Coordination Protocol
+
+Este workspace utiliza o conjunto de habilidades do **Maestro** e o protocolo de coordenação de agentes:
+
+- **Contexto do Projeto:** `.maestro/context.md` e `.maestro.md`.
+- **Regras de Interação entre Agentes:** `.agent/rules/agent-interaction.md`.
+- **Comandos & Skills:** Localizados em `skills/` e `.agent/skills/` (`/diagnose`, `/fortify`, `/zero-defect`, `/refine`, `/compose`, `/streamline`, `/teach-maestro`, `/capture`, `/recap`).
+- **Padrão de Handoff:** Ao delegar tarefas para subagentes, use mensagens estruturadas com Objetivo, Contexto Essencial e Saída Esperada. Evite polling manual e valide tudo via `npm run check`.

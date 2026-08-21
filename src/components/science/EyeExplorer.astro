@@ -1,53 +1,71 @@
 ---
 /**
- * Olho interativo. O 3D aqui tem função: localizar no espaço as estruturas que
- * o texto do portal descreve em separado — filme lacrimal, córnea, conjuntiva,
- * margem palpebral e glândulas de Meibômio.
+ * Olho interativo com visualização anatômica de precisão da superfície ocular.
  *
- * Regras de carga: Three.js só é importado quando a seção entra na viewport, o
- * render roda sob demanda (nunca em loop contínuo), o DPR é limitado e a
- * rotação automática não existe quando o visitante pede menos movimento.
- * Antes disso — e se o WebGL falhar — fica a ilustração estática, e a lista de
- * estruturas é HTML de verdade: o conteúdo não depende do canvas.
+ * O modelo 3D e o fallback vetorial localizam e diferenciam claramente as 5
+ * estruturas-chave da homeostase ocular:
+ * 1. Filme lacrimal (película externa e meniscos)
+ * 2. Córnea (cúpula óptica transparente e anel limbar)
+ * 3. Conjuntiva (revestimento bulbar e microvasos epiesclerais)
+ * 4. Margem palpebral (borda livre de aposição e espalhamento)
+ * 5. Glândulas de Meibômio (colunas glandulares tarsais e orifícios marginais)
+ *
+ * A seleção de uma estrutura realça o elemento anatômico correspondente em 3D,
+ * gira o modelo pelo menor arco e atualiza o HUD e os detalhes editoriais.
  */
 const structures = [
   {
     id: "tear-film",
     name: "Filme lacrimal",
+    color: "#087f95",
+    colorRgb: "8, 127, 149",
+    tag: "Película & Meniscos",
     summary:
-      "Película que cobre a superfície exposta do olho. Sua estabilidade determina conforto e qualidade óptica; quando se rompe cedo demais entre uma piscada e outra, os sintomas aparecem.",
+      "Película fluida de 3 a 5 micrômetros que recobre a superfície ocular e forma meniscos nas margens palpebrais. Sua estabilidade e tensão superficial garantem o conforto e a qualidade da refração óptica.",
     href: "/guias/olho-seco-guia-essencial",
     linkLabel: "Como o filme lacrimal se organiza",
   },
   {
     id: "cornea",
     name: "Córnea",
+    color: "#0b827f",
+    colorRgb: "11, 130, 127",
+    tag: "Cúpula Transparente",
     summary:
-      "Superfície transparente e densamente inervada, responsável por boa parte do poder óptico do olho. É onde o dano epitelial e a alteração da sensibilidade se manifestam.",
+      "Lente biológica transparente e prolata, densamente inervada pelos ramos ciliares do trigêmeo. É o principal elemento refrativo do olho e onde o sofrimento celular e a perda epitelial se manifestam.",
     href: "/diagnostico",
     linkLabel: "O que o exame investiga",
   },
   {
     id: "conjunctiva",
     name: "Conjuntiva",
+    color: "#5c7395",
+    colorRgb: "92, 115, 149",
+    tag: "Mucosa Bulbar",
     summary:
-      "Membrana que reveste a esclera e a face interna das pálpebras. Participa da produção de mucina e concentra boa parte da resposta inflamatória da superfície.",
+      "Membrana mucosa vascularizada que recobre a esclera até o limbo e dobra-se nos fundos de saco. Abriga as células caliciformes produtoras de mucina e a rede vascular de defesa da superfície.",
     href: "/guias/conjuntivocalase-olho-seco-mecanico",
     linkLabel: "Quando a conjuntiva sobra e atrapalha",
   },
   {
     id: "lid-margin",
     name: "Margem palpebral",
+    color: "#b07a3f",
+    colorRgb: "176, 122, 63",
+    tag: "Borda de Aposição",
     summary:
-      "Linha onde as glândulas desembocam e por onde a piscada espalha o filme. Piscada incompleta e alterações da margem mudam a distribuição das lágrimas.",
+      "Borda livre de contato entre as pálpebras superior e inferior. A dinâmica da piscada e a integridade da linha mucocutânea distribuem o filme e renovam a película sobre a córnea.",
     href: "/guias/higiene-palpebral-com-seguranca",
     linkLabel: "Higiene palpebral com segurança",
   },
   {
     id: "meibomian",
     name: "Glândulas de Meibômio",
+    color: "#d97706",
+    colorRgb: "217, 119, 6",
+    tag: "Colunas Lipídicas",
     summary:
-      "Produzem a camada lipídica que retarda a evaporação. Sua disfunção é a via mais frequente do olho seco evaporativo.",
+      "Glândulas sebáceas dispostas verticalmente no interior das placas tarsais, com orifícios excretores na margem. Secretam o meibum, lipídio essencial que desacelera a evaporação da lágrima.",
     href: "/causas#evaporacao",
     linkLabel: "Evaporação como causa",
   },
@@ -62,57 +80,279 @@ const structures = [
         Onde cada estrutura entra na história
       </h2>
       <p>
-        Olho seco raramente é um problema de uma estrutura só. Gire o modelo ou
-        escolha uma estrutura para ver o papel de cada parte — e onde o portal
-        aprofunda o assunto.
+        O olho seco é uma disfunção multifatorial da unidade funcional da
+        superfície. Explore o modelo 3D ou selecione cada estrutura para
+        visualizar sua localização anatômica e função na homeostase.
       </p>
     </header>
 
-    <figure class="eye-stage" data-eye-stage>
+    <figure class="eye-stage" data-eye-stage data-active-id="tear-film">
       <div class="eye-canvas-holder">
         <canvas data-eye-canvas aria-hidden="true"></canvas>
+
+        <!-- HUD visual sobre o modelo -->
+        <div class="eye-hud" data-eye-hud aria-hidden="true">
+          <div class="eye-hud-badge">
+            <span class="eye-hud-dot" data-eye-hud-dot></span>
+            <span class="eye-hud-name" data-eye-hud-name>Filme lacrimal</span>
+          </div>
+          <span class="eye-hud-hint">
+            <svg
+              viewBox="0 0 24 24"
+              width="13"
+              height="13"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+              <path d="M21 3v6h-6"></path>
+            </svg>
+            Arraste para girar • Toque nos pontos
+          </span>
+        </div>
+
+        <!-- Fallback vetorial anatômico de alta definição -->
         <svg
           class="eye-fallback"
-          viewBox="0 0 320 320"
+          viewBox="0 0 400 400"
           role="img"
-          aria-label="Corte esquemático da superfície ocular mostrando filme lacrimal, córnea, conjuntiva e margem palpebral"
+          aria-label="Esquema anatômico detalhado da superfície ocular mostrando filme lacrimal, córnea, conjuntiva, margem palpebral e glândulas de Meibômio"
           data-eye-fallback
         >
           <defs>
-            <radialGradient id="eye-sclera" cx="42%" cy="38%" r="72%">
+            <radialGradient id="fb-sclera" cx="45%" cy="40%" r="65%">
               <stop offset="0%" stop-color="#ffffff"></stop>
-              <stop offset="72%" stop-color="#eef1f6"></stop>
-              <stop offset="100%" stop-color="#cfd8e4"></stop>
+              <stop offset="70%" stop-color="#f2f5f8"></stop>
+              <stop offset="100%" stop-color="#d4dee8"></stop>
             </radialGradient>
-            <radialGradient id="eye-iris" cx="45%" cy="40%" r="65%">
-              <stop offset="0%" stop-color="#1c6f80"></stop>
-              <stop offset="100%" stop-color="#05384a"></stop>
+            <radialGradient id="fb-iris" cx="40%" cy="38%" r="68%">
+              <stop offset="0%" stop-color="#147994"></stop>
+              <stop offset="55%" stop-color="#0c5a6d"></stop>
+              <stop offset="100%" stop-color="#042733"></stop>
+            </radialGradient>
+            <radialGradient id="fb-cornea" cx="35%" cy="35%" r="70%">
+              <stop offset="0%" stop-color="#d8f3f8" stop-opacity="0.65"></stop>
+              <stop offset="80%" stop-color="#93dbe9" stop-opacity="0.3"></stop>
+              <stop offset="100%" stop-color="#0b827f" stop-opacity="0.5"
+              ></stop>
             </radialGradient>
           </defs>
-          <circle cx="160" cy="160" r="120" fill="url(#eye-sclera)"></circle>
-          <circle cx="160" cy="160" r="120" fill="none" stroke="#b9c6d6"
-          ></circle>
-          <circle cx="160" cy="160" r="58" fill="url(#eye-iris)"></circle>
-          <circle cx="160" cy="160" r="22" fill="#03202b"></circle>
-          <circle cx="142" cy="140" r="10" fill="#ffffff" opacity="0.55"
-          ></circle>
-          <path
-            d="M52 128q108 -54 216 0"
+
+          <!-- Esclera do globo ocular -->
+          <circle
+            cx="200"
+            cy="200"
+            r="145"
+            fill="url(#fb-sclera)"
+            stroke="#b8c8d8"
+            stroke-width="1.5"></circle>
+
+          <!-- Conjuntiva bulbar com microvasos -->
+          <g
+            class="svg-layer svg-layer-conjunctiva"
+            data-svg-layer="conjunctiva"
+          >
+            <path
+              d="M75 130 Q 55 200 75 270 Q 130 300 200 300 Q 270 300 325 270 Q 345 200 325 130 Z"
+              fill="#5c7395"
+              fill-opacity="0.1"
+              stroke="#5c7395"
+              stroke-width="1.2"
+              stroke-dasharray="3 3"></path>
+            <!-- Vasos conjuntivais nasais e temporais -->
+            <path
+              d="M78 175 Q 110 180 135 168 M85 210 Q 115 205 138 218 M322 175 Q 290 180 265 168 M315 210 Q 285 205 262 218"
+              fill="none"
+              stroke="#d47068"
+              stroke-width="1.4"
+              opacity="0.7"></path>
+          </g>
+
+          <!-- Limbo e Íris -->
+          <circle
+            cx="200"
+            cy="200"
+            r="76"
             fill="none"
-            stroke="#0b827f"
-            stroke-width="2"
-            opacity="0.5"></path>
-          <path
-            d="M46 196q114 52 228 0"
-            fill="none"
-            stroke="#0b827f"
-            stroke-width="2"
-            opacity="0.35"></path>
+            stroke="#042733"
+            stroke-width="3"
+            opacity="0.85"></circle>
+          <circle cx="200" cy="200" r="74" fill="url(#fb-iris)"></circle>
+
+          <!-- Detalhe estriado da íris -->
+          <g stroke="#1db0cb" stroke-width="0.8" opacity="0.35">
+            <line x1="200" y1="128" x2="200" y2="162"></line>
+            <line x1="200" y1="238" x2="200" y2="272"></line>
+            <line x1="128" y1="200" x2="162" y2="200"></line>
+            <line x1="238" y1="200" x2="272" y2="200"></line>
+            <line x1="149" y1="149" x2="173" y2="173"></line>
+            <line x1="227" y1="227" x2="251" y2="251"></line>
+            <line x1="149" y1="251" x2="173" y2="227"></line>
+            <line x1="227" y1="173" x2="251" y2="149"></line>
+          </g>
+
+          <!-- Pupila -->
+          <circle cx="200" cy="200" r="28" fill="#031219"></circle>
+
+          <!-- Córnea (cúpula óptica anterior) -->
+          <g class="svg-layer svg-layer-cornea" data-svg-layer="cornea">
+            <circle cx="200" cy="200" r="75" fill="url(#fb-cornea)"></circle>
+            <circle
+              cx="200"
+              cy="200"
+              r="75"
+              fill="none"
+              stroke="#0b827f"
+              stroke-width="2.5"
+              stroke-opacity="0.8"></circle>
+          </g>
+
+          <!-- Filme lacrimal (película de superfície e meniscos) -->
+          <g class="svg-layer svg-layer-tear-film" data-svg-layer="tear-film">
+            <circle
+              cx="200"
+              cy="200"
+              r="82"
+              fill="none"
+              stroke="#2fb6c8"
+              stroke-width="2.5"
+              stroke-dasharray="8 4"
+              opacity="0.85"></circle>
+            <!-- Menisco superior e inferior -->
+            <path
+              d="M130 148 Q 200 128 270 148"
+              fill="none"
+              stroke="#2fb6c8"
+              stroke-width="3.5"
+              stroke-linecap="round"></path>
+            <path
+              d="M130 252 Q 200 272 270 252"
+              fill="none"
+              stroke="#2fb6c8"
+              stroke-width="3.5"
+              stroke-linecap="round"></path>
+          </g>
+
+          <!-- Brilho de reflexo corneano -->
+          <circle cx="178" cy="176" r="9" fill="#ffffff" opacity="0.8"></circle>
+          <circle cx="188" cy="186" r="3.5" fill="#ffffff" opacity="0.6"
+          ></circle>
+
+          <!-- Glândulas de Meibômio (colunas verticais tarsais) -->
+          <g
+            class="svg-layer svg-layer-meibomian"
+            data-svg-layer="meibomian"
+            stroke="#d97706"
+            stroke-linecap="round"
+          >
+            <!-- Glândulas superiores -->
+            <g stroke-width="2.8" opacity="0.8">
+              <line x1="150" y1="102" x2="150" y2="128"></line>
+              <line x1="162" y1="96" x2="162" y2="124"></line>
+              <line x1="174" y1="92" x2="174" y2="122"></line>
+              <line x1="187" y1="90" x2="187" y2="120"></line>
+              <line x1="200" y1="88" x2="200" y2="120"></line>
+              <line x1="213" y1="90" x2="213" y2="120"></line>
+              <line x1="226" y1="92" x2="226" y2="122"></line>
+              <line x1="238" y1="96" x2="238" y2="124"></line>
+              <line x1="250" y1="102" x2="250" y2="128"></line>
+            </g>
+            <!-- Glândulas inferiores -->
+            <g stroke-width="2.8" opacity="0.8">
+              <line x1="150" y1="272" x2="150" y2="298"></line>
+              <line x1="162" y1="276" x2="162" y2="304"></line>
+              <line x1="174" y1="278" x2="174" y2="308"></line>
+              <line x1="187" y1="280" x2="187" y2="310"></line>
+              <line x1="200" y1="280" x2="200" y2="312"></line>
+              <line x1="213" y1="280" x2="213" y2="310"></line>
+              <line x1="226" y1="278" x2="226" y2="308"></line>
+              <line x1="238" y1="276" x2="238" y2="304"></line>
+              <line x1="250" y1="272" x2="250" y2="298"></line>
+            </g>
+            <!-- Orifícios excretores nas margens -->
+            <g fill="#f59e0b" stroke="none">
+              <circle cx="150" cy="130" r="2"></circle>
+              <circle cx="174" cy="124" r="2"></circle>
+              <circle cx="200" cy="122" r="2"></circle>
+              <circle cx="226" cy="124" r="2"></circle>
+              <circle cx="250" cy="130" r="2"></circle>
+              <circle cx="150" cy="270" r="2"></circle>
+              <circle cx="174" cy="276" r="2"></circle>
+              <circle cx="200" cy="278" r="2"></circle>
+              <circle cx="226" cy="276" r="2"></circle>
+              <circle cx="250" cy="270" r="2"></circle>
+            </g>
+          </g>
+
+          <!-- Margens palpebrais superior e inferior -->
+          <g class="svg-layer svg-layer-lid-margin" data-svg-layer="lid-margin">
+            <path
+              d="M60 156 Q 200 96 340 156"
+              fill="none"
+              stroke="#b07a3f"
+              stroke-width="5.5"
+              stroke-linecap="round"></path>
+            <path
+              d="M60 244 Q 200 304 340 244"
+              fill="none"
+              stroke="#b07a3f"
+              stroke-width="5.5"
+              stroke-linecap="round"></path>
+          </g>
+
+          <!-- Marcadores e Pinos de Referência -->
+          <g
+            class="svg-pin"
+            data-svg-pin="tear-film"
+            transform="translate(200, 136)"
+          >
+            <circle r="9" fill="#087f95" opacity="0.25"></circle>
+            <circle r="5" fill="#087f95"></circle>
+            <circle r="2" fill="#ffffff"></circle>
+          </g>
+          <g
+            class="svg-pin"
+            data-svg-pin="cornea"
+            transform="translate(245, 185)"
+          >
+            <circle r="9" fill="#0b827f" opacity="0.25"></circle>
+            <circle r="5" fill="#0b827f"></circle>
+            <circle r="2" fill="#ffffff"></circle>
+          </g>
+          <g
+            class="svg-pin"
+            data-svg-pin="conjunctiva"
+            transform="translate(105, 195)"
+          >
+            <circle r="9" fill="#5c7395" opacity="0.25"></circle>
+            <circle r="5" fill="#5c7395"></circle>
+            <circle r="2" fill="#ffffff"></circle>
+          </g>
+          <g
+            class="svg-pin"
+            data-svg-pin="lid-margin"
+            transform="translate(170, 114)"
+          >
+            <circle r="9" fill="#b07a3f" opacity="0.25"></circle>
+            <circle r="5" fill="#b07a3f"></circle>
+            <circle r="2" fill="#ffffff"></circle>
+          </g>
+          <g
+            class="svg-pin"
+            data-svg-pin="meibomian"
+            transform="translate(225, 290)"
+          >
+            <circle r="9" fill="#d97706" opacity="0.25"></circle>
+            <circle r="5" fill="#d97706"></circle>
+            <circle r="2" fill="#ffffff"></circle>
+          </g>
         </svg>
       </div>
       <figcaption>
-        Representação esquemática, sem escala anatômica e não é uma fotografia
-        clínica.
+        Representação esquemática tridimensional da unidade da superfície ocular
+        com identificação topográfica dos eixos fisiológicos.
       </figcaption>
     </figure>
 
@@ -124,12 +364,19 @@ const structures = [
               <button
                 type="button"
                 data-eye-structure={structure.id}
+                data-color={structure.color}
+                style={`--structure-accent: ${structure.color};`}
                 aria-pressed={index === 0 ? "true" : "false"}
               >
                 <span class="eye-structure-index">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                {structure.name}
+                <span
+                  class="eye-structure-dot"
+                  style={`background-color: ${structure.color};`}
+                  aria-hidden="true"
+                />
+                <span class="eye-structure-label">{structure.name}</span>
               </button>
             </li>
           ))
@@ -141,8 +388,13 @@ const structures = [
           structures.map((structure, index) => (
             <article
               data-eye-detail={structure.id}
+              style={`--structure-accent: ${structure.color};`}
               hidden={index !== 0 ? true : undefined}
             >
+              <div class="detail-badge-row">
+                <span class="detail-tag">{structure.tag}</span>
+                <span class="detail-number">Estrutura 0{index + 1}</span>
+              </div>
               <h3>{structure.name}</h3>
               <p>{structure.summary}</p>
               <a class="text-link" href={structure.href}>
@@ -192,6 +444,7 @@ const structures = [
     background:
       radial-gradient(120% 120% at 30% 20%, #ffffff 0%, var(--paper-100) 62%),
       var(--paper-100);
+    box-shadow: inset 0 0 0 1px var(--line-soft);
     overflow: hidden;
   }
 
@@ -207,6 +460,7 @@ const structures = [
     opacity: 0;
     transition: opacity var(--duration-slow) var(--ease-out-soft);
     touch-action: pan-y;
+    cursor: grab;
   }
 
   .eye-stage[data-eye-ready="true"] canvas {
@@ -215,19 +469,104 @@ const structures = [
 
   .eye-stage[data-eye-ready="true"] .eye-fallback {
     opacity: 0;
+    pointer-events: none;
   }
 
   .eye-fallback {
-    padding: 12%;
+    padding: 8%;
     transition: opacity var(--duration-slow) var(--ease-out-soft);
   }
 
+  /* Realce no Fallback SVG */
+  .eye-stage[data-active-id="tear-film"] .svg-layer-tear-film circle {
+    stroke-width: 4.5;
+    opacity: 1;
+    stroke: #087f95;
+  }
+  .eye-stage[data-active-id="cornea"] .svg-layer-cornea circle:last-child {
+    stroke-width: 4.5;
+    stroke: #0b827f;
+  }
+  .eye-stage[data-active-id="conjunctiva"]
+    .svg-layer-conjunctiva
+    path:first-child {
+    fill-opacity: 0.28;
+    stroke-width: 2.5;
+  }
+  .eye-stage[data-active-id="lid-margin"] .svg-layer-lid-margin path {
+    stroke-width: 8;
+    stroke: #9a6430;
+  }
+  .eye-stage[data-active-id="meibomian"] .svg-layer-meibomian line {
+    stroke-width: 4.5;
+    stroke: #f59e0b;
+    opacity: 1;
+  }
+
+  .eye-hud {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .eye-hud-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgb(255 255 255 / 92%);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 8px rgb(0 0 0 / 4%);
+  }
+
+  .eye-hud-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--teal-600);
+    transition: background-color var(--duration-fast) var(--ease-standard);
+  }
+
+  .eye-hud-name {
+    font-size: var(--text-meta);
+    font-weight: 700;
+    color: var(--navy-900);
+    letter-spacing: -0.01em;
+  }
+
+  .eye-hud-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.65rem;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 75%);
+    backdrop-filter: blur(6px);
+    font-size: 0.75rem;
+    color: var(--navy-600);
+  }
+
+  @media (max-width: 480px) {
+    .eye-hud-hint {
+      display: none;
+    }
+  }
+
   .eye-stage figcaption {
-    max-width: 46ch;
+    max-width: 48ch;
     margin: 0.9rem auto 0;
     color: var(--ink-soft);
     font-size: var(--text-meta);
     text-align: center;
+    line-height: 1.4;
   }
 
   .eye-structure-list {
@@ -255,12 +594,22 @@ const structures = [
     transition:
       border-color var(--duration-fast) var(--ease-standard),
       color var(--duration-fast) var(--ease-standard),
-      background-color var(--duration-fast) var(--ease-standard);
+      background-color var(--duration-fast) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-standard);
+  }
+
+  .eye-structure-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    opacity: 0.6;
+    transition: transform var(--duration-fast) var(--ease-standard);
   }
 
   .eye-structure-list button:hover {
     border-color: var(--teal-600);
     color: var(--ink);
+    transform: translateY(-1px);
   }
 
   .eye-structure-list button[aria-pressed="true"] {
@@ -269,9 +618,12 @@ const structures = [
     color: #ffffff;
   }
 
-  /* O numerador é texto pequeno: opacidade sobre o branco derrubava o
-     contraste para 3,95:1. O tom mais claro da escala já dá a hierarquia sem
-     sair do 4,5:1. */
+  .eye-structure-list button[aria-pressed="true"] .eye-structure-dot {
+    opacity: 1;
+    transform: scale(1.3);
+    box-shadow: 0 0 6px var(--structure-accent);
+  }
+
   .eye-structure-index {
     color: var(--navy-400);
     font-size: var(--text-meta);
@@ -280,6 +632,34 @@ const structures = [
 
   .eye-structure-list button[aria-pressed="true"] .eye-structure-index {
     color: rgb(255 255 255 / 78%);
+  }
+
+  .eye-structure-details article {
+    padding: 1.4rem;
+    border: 1px solid var(--line-soft);
+    border-left: 3px solid var(--structure-accent, var(--navy-800));
+    border-radius: var(--radius-md);
+    background: var(--paper-50);
+  }
+
+  .detail-badge-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.6rem;
+  }
+
+  .detail-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--structure-accent, var(--teal-700));
+  }
+
+  .detail-number {
+    font-size: 0.75rem;
+    color: var(--ink-soft);
   }
 
   .eye-structure-details h3 {
@@ -293,6 +673,7 @@ const structures = [
     max-width: var(--measure);
     margin: 0 0 1.1rem;
     color: var(--ink-soft);
+    line-height: 1.6;
   }
 
   @media (min-width: 900px) {
@@ -309,24 +690,57 @@ const structures = [
 </style>
 
 <script>
-  import type { Mesh, MeshBasicMaterial } from "three";
+  import type {
+    Mesh,
+    MeshBasicMaterial,
+    MeshPhysicalMaterial,
+    MeshStandardMaterial,
+  } from "three";
 
   type Structure = {
     id: string;
+    name: string;
     position: [number, number, number];
     color: number;
+    colorHex: string;
   };
 
-  // Âncoras das estruturas no modelo. Ficam no cliente porque só existem em
-  // função da geometria — o texto de cada estrutura já está no HTML.
-  // Os pontos ficam num raio maior que o do filme lacrimal (1,09): dentro dele
-  // as cúpulas transparentes escondiam o marcador.
   const anchors: Structure[] = [
-    { id: "tear-film", position: [-0.34, 0.66, 0.94], color: 0x2fb6c8 },
-    { id: "cornea", position: [0.3, 0.16, 1.14], color: 0x0b827f },
-    { id: "conjunctiva", position: [-1.06, 0.12, 0.5], color: 0x5c7395 },
-    { id: "lid-margin", position: [0, -0.94, 0.72], color: 0xb07a3f },
-    { id: "meibomian", position: [0.54, -0.98, 0.48], color: 0x9a6430 },
+    {
+      id: "tear-film",
+      name: "Filme lacrimal",
+      position: [0, 0.28, 1.15],
+      color: 0x087f95,
+      colorHex: "#087f95",
+    },
+    {
+      id: "cornea",
+      name: "Córnea",
+      position: [0.26, -0.06, 1.12],
+      color: 0x0b827f,
+      colorHex: "#0b827f",
+    },
+    {
+      id: "conjunctiva",
+      name: "Conjuntiva",
+      position: [-0.82, 0.18, 0.68],
+      color: 0x5c7395,
+      colorHex: "#5c7395",
+    },
+    {
+      id: "lid-margin",
+      name: "Margem palpebral",
+      position: [-0.24, 0.64, 0.84],
+      color: 0xb07a3f,
+      colorHex: "#b07a3f",
+    },
+    {
+      id: "meibomian",
+      name: "Glândulas de Meibômio",
+      position: [0.32, -0.68, 0.78],
+      color: 0xd97706,
+      colorHex: "#d97706",
+    },
   ];
 
   const initEyeExplorer = () => {
@@ -339,6 +753,8 @@ const structures = [
     const details = [
       ...document.querySelectorAll<HTMLElement>("[data-eye-detail]"),
     ];
+    const hudDot = document.querySelector<HTMLElement>("[data-eye-hud-dot]");
+    const hudName = document.querySelector<HTMLElement>("[data-eye-hud-name]");
 
     if (
       !stage ||
@@ -354,6 +770,16 @@ const structures = [
 
     const selectStructure = (id: string) => {
       activeId = id;
+      stage.dataset.activeId = id;
+
+      const current = anchors.find((a) => a.id === id);
+      if (hudName && current) {
+        hudName.textContent = current.name;
+      }
+      if (hudDot && current) {
+        hudDot.style.backgroundColor = current.colorHex;
+      }
+
       buttons.forEach((button) => {
         button.setAttribute(
           "aria-pressed",
@@ -376,23 +802,16 @@ const structures = [
       });
     });
 
-    // A partir daqui é só o 3D. Sem WebGL, sem Three.js ou com pouca memória, a
-    // seção continua funcionando com a ilustração e a lista acima.
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     );
 
     const isCapable = () => {
       if (!stage || !canvas) return false;
-      // deviceMemory só existe em navegadores Chromium; onde não existe, seguimos
-      // adiante e o próprio teste de contexto WebGL decide.
       const memory = (navigator as Navigator & { deviceMemory?: number })
         .deviceMemory;
       if (memory !== undefined && memory < 4) return false;
 
-      // Three.js passa de 700 KB antes da compressão. Em modo de economia de
-      // dados ou em conexão lenta declarada, a ilustração estática é a resposta
-      // certa — ela já contém a mesma informação.
       const connection = (
         navigator as Navigator & {
           connection?: { saveData?: boolean; effectiveType?: string };
@@ -427,168 +846,316 @@ const structures = [
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
       const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 40);
-      camera.position.set(0, 0, 5.1);
+      const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 40);
+      camera.position.set(0, 0, 5.2);
 
       const eye = new THREE.Group();
       eye.rotation.set(0.08, -0.25, 0);
       scene.add(eye);
 
-      // Esclera. O leve tom quente evita o branco chapado, que sob luz frontal
-      // some contra o fundo claro da seção.
+      // 1. Esclera do globo ocular
       const sclera = new THREE.Mesh(
-        new THREE.SphereGeometry(1, 56, 40),
+        new THREE.SphereGeometry(1.0, 64, 48),
         new THREE.MeshStandardMaterial({
-          color: 0xf3f1ec,
-          roughness: 0.62,
-          metalness: 0,
+          color: 0xf6f4ef,
+          roughness: 0.55,
+          metalness: 0.02,
         }),
       );
       eye.add(sclera);
 
-      // Vasos discretos na esclera: dois anéis finos, o suficiente para o olho
-      // não parecer uma esfera de plástico.
-      const vessels = new THREE.Mesh(
-        new THREE.TorusGeometry(0.94, 0.006, 6, 60, Math.PI * 1.2),
-        new THREE.MeshBasicMaterial({ color: 0xd8a9a4 }),
+      // 2. Conjuntiva bulbar com manto e microvasos
+      const conjunctivaMat = new THREE.MeshStandardMaterial({
+        color: 0xe8eef5,
+        roughness: 0.45,
+        transparent: true,
+        opacity: 0.22,
+      });
+      const conjunctivaMesh = new THREE.Mesh(
+        new THREE.SphereGeometry(
+          1.012,
+          56,
+          40,
+          0,
+          Math.PI * 2,
+          0.55,
+          Math.PI - 0.55,
+        ),
+        conjunctivaMat,
       );
-      vessels.rotation.set(0.4, 0.3, 1.1);
-      eye.add(vessels);
+      conjunctivaMesh.rotation.x = Math.PI / 2;
+      eye.add(conjunctivaMesh);
 
-      // Íris e pupila ficam à frente da esfera (z > raio) e sob a cúpula da
-      // córnea: dentro dela a esclera as esconderia.
-      const iris = new THREE.Mesh(
-        new THREE.CircleGeometry(0.4, 56),
+      // Vasos conjuntivais
+      const vesselsGroup = new THREE.Group();
+      const vesselsMat = new THREE.MeshBasicMaterial({
+        color: 0xd88a82,
+        transparent: true,
+        opacity: 0.7,
+      });
+
+      const addVesselArc = (
+        x: number,
+        y: number,
+        z: number,
+        rx: number,
+        ry: number,
+        rz: number,
+        scale: number,
+      ) => {
+        const vMesh = new THREE.Mesh(
+          new THREE.TorusGeometry(0.96 * scale, 0.007, 6, 40, Math.PI * 0.45),
+          vesselsMat,
+        );
+        vMesh.position.set(x, y, z);
+        vMesh.rotation.set(rx, ry, rz);
+        vesselsGroup.add(vMesh);
+      };
+
+      addVesselArc(-0.2, 0.1, 0.3, 0.4, 0.6, 1.2, 1.0);
+      addVesselArc(-0.1, -0.2, 0.3, -0.3, 0.8, 0.9, 0.95);
+      addVesselArc(0.2, 0.15, 0.3, 0.5, -0.5, -1.1, 1.0);
+      addVesselArc(0.15, -0.25, 0.3, -0.4, -0.7, -0.8, 0.95);
+      eye.add(vesselsGroup);
+
+      // 3. Íris, Limbo e Pupila
+      const limbusMat = new THREE.MeshBasicMaterial({
+        color: 0x052a36,
+        side: THREE.DoubleSide,
+      });
+      const limbusBorder = new THREE.Mesh(
+        new THREE.RingGeometry(0.48, 0.52, 64),
+        limbusMat,
+      );
+      limbusBorder.position.z = 0.94;
+      eye.add(limbusBorder);
+
+      const irisMesh = new THREE.Mesh(
+        new THREE.CircleGeometry(0.48, 64),
         new THREE.MeshStandardMaterial({
-          color: 0x0f5f72,
+          color: 0x0e5d72,
           roughness: 0.35,
           metalness: 0.05,
         }),
       );
-      iris.position.z = 1.005;
-      eye.add(iris);
+      irisMesh.position.z = 0.945;
+      eye.add(irisMesh);
 
-      const irisRing = new THREE.Mesh(
-        new THREE.RingGeometry(0.38, 0.42, 56),
-        new THREE.MeshBasicMaterial({ color: 0x063343 }),
-      );
-      irisRing.position.z = 1.008;
-      eye.add(irisRing);
-
-      const pupil = new THREE.Mesh(
-        new THREE.CircleGeometry(0.16, 40),
-        new THREE.MeshBasicMaterial({ color: 0x041b24 }),
-      );
-      pupil.position.z = 1.012;
-      eye.add(pupil);
-
-      // Córnea: calota transparente sobre a íris. Sem transmission — o custo em
-      // GPU não se paga num objeto deste tamanho na tela.
-      const cornea = new THREE.Mesh(
-        new THREE.SphereGeometry(1.05, 48, 32, 0, Math.PI * 2, 0, 0.52),
-        new THREE.MeshPhysicalMaterial({
-          color: 0xcfeaf1,
+      const irisDetail = new THREE.Mesh(
+        new THREE.RingGeometry(0.2, 0.44, 48),
+        new THREE.MeshBasicMaterial({
+          color: 0x147994,
           transparent: true,
-          opacity: 0.26,
-          roughness: 0.06,
-          clearcoat: 1,
+          opacity: 0.45,
           side: THREE.DoubleSide,
         }),
       );
-      cornea.rotation.x = Math.PI / 2;
-      eye.add(cornea);
+      irisDetail.position.z = 0.948;
+      eye.add(irisDetail);
 
-      // Filme lacrimal: cúpula fina por cima da córnea, quase só um brilho.
-      const tearFilm = new THREE.Mesh(
-        new THREE.SphereGeometry(1.09, 40, 28, 0, Math.PI * 2, 0, 0.6),
-        new THREE.MeshPhysicalMaterial({
-          color: 0x8fd8e4,
+      const pupilMesh = new THREE.Mesh(
+        new THREE.CircleGeometry(0.18, 48),
+        new THREE.MeshBasicMaterial({ color: 0x03141d }),
+      );
+      pupilMesh.position.z = 0.95;
+      eye.add(pupilMesh);
+
+      // Brilho especular de reflexo
+      const gleam = new THREE.Mesh(
+        new THREE.CircleGeometry(0.045, 24),
+        new THREE.MeshBasicMaterial({
+          color: 0xffffff,
           transparent: true,
-          opacity: 0.12,
-          roughness: 0.02,
-          side: THREE.DoubleSide,
+          opacity: 0.9,
         }),
       );
-      tearFilm.rotation.x = Math.PI / 2;
-      eye.add(tearFilm);
+      gleam.position.set(0.14, 0.16, 1.07);
+      eye.add(gleam);
 
-      // Margens palpebrais: dois arcos deslocados para a frente, como as bordas
-      // que tocam a superfície.
-      const lidMaterial = new THREE.MeshStandardMaterial({
+      // 4. Córnea transparente
+      const corneaMat = new THREE.MeshPhysicalMaterial({
+        color: 0xcfeaf1,
+        transparent: true,
+        opacity: 0.28,
+        roughness: 0.05,
+        clearcoat: 1.0,
+        side: THREE.DoubleSide,
+      });
+      const corneaMesh = new THREE.Mesh(
+        new THREE.SphereGeometry(1.06, 56, 40, 0, Math.PI * 2, 0, 0.52),
+        corneaMat,
+      );
+      corneaMesh.rotation.x = Math.PI / 2;
+      eye.add(corneaMesh);
+
+      // 5. Filme lacrimal e meniscos
+      const tearFilmMat = new THREE.MeshPhysicalMaterial({
+        color: 0x8fd8e4,
+        transparent: true,
+        opacity: 0.2,
+        roughness: 0.02,
+        clearcoat: 1.0,
+        side: THREE.DoubleSide,
+      });
+      const tearFilmMesh = new THREE.Mesh(
+        new THREE.SphereGeometry(1.105, 56, 40, 0, Math.PI * 2, 0, 0.56),
+        tearFilmMat,
+      );
+      tearFilmMesh.rotation.x = Math.PI / 2;
+      eye.add(tearFilmMesh);
+
+      // Meniscos lacrimais
+      const meniscusMat = new THREE.MeshBasicMaterial({
+        color: 0x2fb6c8,
+        transparent: true,
+        opacity: 0.45,
+      });
+      const upperMeniscus = new THREE.Mesh(
+        new THREE.TorusGeometry(0.53, 0.015, 10, 48, Math.PI * 0.7),
+        meniscusMat,
+      );
+      upperMeniscus.position.set(0, 0.44, 0.9);
+      upperMeniscus.rotation.z = Math.PI * 0.15;
+      eye.add(upperMeniscus);
+
+      const lowerMeniscus = new THREE.Mesh(
+        new THREE.TorusGeometry(0.53, 0.015, 10, 48, Math.PI * 0.7),
+        meniscusMat,
+      );
+      lowerMeniscus.position.set(0, -0.44, 0.9);
+      lowerMeniscus.rotation.z = Math.PI * 1.15;
+      eye.add(lowerMeniscus);
+
+      // 6. Margens palpebrais superior e inferior
+      const lidMarginMat = new THREE.MeshStandardMaterial({
         color: 0xb07a3f,
         roughness: 0.55,
+        metalness: 0.05,
       });
       const upperLid = new THREE.Mesh(
-        new THREE.TorusGeometry(0.86, 0.045, 12, 56, Math.PI * 0.86),
-        lidMaterial,
+        new THREE.TorusGeometry(0.88, 0.048, 16, 64, Math.PI * 0.84),
+        lidMarginMat,
       );
-      upperLid.position.z = 0.5;
-      upperLid.rotation.z = Math.PI * 0.07;
+      upperLid.position.set(0, 0.18, 0.6);
+      upperLid.rotation.z = Math.PI * 0.08;
       eye.add(upperLid);
 
       const lowerLid = new THREE.Mesh(
-        new THREE.TorusGeometry(0.86, 0.045, 12, 56, Math.PI * 0.86),
-        lidMaterial,
+        new THREE.TorusGeometry(0.88, 0.048, 16, 64, Math.PI * 0.84),
+        lidMarginMat,
       );
-      lowerLid.position.z = 0.5;
-      lowerLid.rotation.z = Math.PI * 1.07;
+      lowerLid.position.set(0, -0.18, 0.6);
+      lowerLid.rotation.z = Math.PI * 1.08;
       eye.add(lowerLid);
 
-      // Glândulas de Meibômio: fileira curta atrás da margem inferior.
-      const glands = new THREE.Group();
-      const glandMaterial = new THREE.MeshStandardMaterial({
-        color: 0x9a6430,
-        roughness: 0.7,
+      // 7. Glândulas de Meibômio (colunas verticais tarsais)
+      const meibomianGroup = new THREE.Group();
+      const glandMat = new THREE.MeshStandardMaterial({
+        color: 0xb46b28,
+        roughness: 0.5,
+        metalness: 0.1,
       });
-      for (let index = 0; index < 11; index += 1) {
+      const orificeMat = new THREE.MeshBasicMaterial({ color: 0x7c3d12 });
+
+      // Glândulas inferiores
+      for (let i = 0; i < 11; i += 1) {
         const gland = new THREE.Mesh(
-          new THREE.CapsuleGeometry(0.02, 0.13, 4, 8),
-          glandMaterial,
+          new THREE.CapsuleGeometry(0.02, 0.16, 4, 8),
+          glandMat,
         );
-        const angle = Math.PI * (1.12 + index * 0.07);
-        gland.position.set(Math.cos(angle) * 0.9, Math.sin(angle) * 0.9, 0.42);
+        const angle = Math.PI * (1.13 + i * 0.068);
+        gland.position.set(
+          Math.cos(angle) * 0.92,
+          Math.sin(angle) * 0.92,
+          0.44,
+        );
         gland.rotation.z = angle + Math.PI / 2;
-        glands.add(gland);
+        meibomianGroup.add(gland);
+
+        const orifice = new THREE.Mesh(
+          new THREE.SphereGeometry(0.018, 8, 8),
+          orificeMat,
+        );
+        orifice.position.set(
+          Math.cos(angle) * 0.86,
+          Math.sin(angle) * 0.86,
+          0.58,
+        );
+        meibomianGroup.add(orifice);
       }
-      eye.add(glands);
 
-      // Conjuntiva: faixa lateral levemente destacada sobre a esclera.
-      const conjunctiva = new THREE.Mesh(
-        new THREE.SphereGeometry(1.005, 40, 28, Math.PI * 0.62, Math.PI * 0.5),
-        new THREE.MeshStandardMaterial({
-          color: 0xdfe7ef,
-          roughness: 0.5,
-          transparent: true,
-          opacity: 0.85,
-        }),
-      );
-      eye.add(conjunctiva);
+      // Glândulas superiores
+      for (let i = 0; i < 11; i += 1) {
+        const gland = new THREE.Mesh(
+          new THREE.CapsuleGeometry(0.02, 0.18, 4, 8),
+          glandMat,
+        );
+        const angle = Math.PI * (0.13 + i * 0.068);
+        gland.position.set(
+          Math.cos(angle) * 0.92,
+          Math.sin(angle) * 0.92,
+          0.44,
+        );
+        gland.rotation.z = angle + Math.PI / 2;
+        meibomianGroup.add(gland);
 
-      scene.add(new THREE.AmbientLight(0xffffff, 1.1));
-      const keyLight = new THREE.DirectionalLight(0xffffff, 2.4);
+        const orifice = new THREE.Mesh(
+          new THREE.SphereGeometry(0.018, 8, 8),
+          orificeMat,
+        );
+        orifice.position.set(
+          Math.cos(angle) * 0.86,
+          Math.sin(angle) * 0.86,
+          0.58,
+        );
+        meibomianGroup.add(orifice);
+      }
+      eye.add(meibomianGroup);
+
+      // Iluminação
+      scene.add(new THREE.AmbientLight(0xffffff, 1.15));
+      const keyLight = new THREE.DirectionalLight(0xffffff, 2.5);
       keyLight.position.set(2.4, 2.8, 3.2);
       scene.add(keyLight);
-      const rimLight = new THREE.DirectionalLight(0x8fc9dd, 1.1);
+      const rimLight = new THREE.DirectionalLight(0x8fc9dd, 1.2);
       rimLight.position.set(-3, -1.2, 0.8);
       scene.add(rimLight);
+      const fillLight = new THREE.DirectionalLight(0xffe8d6, 0.6);
+      fillLight.position.set(0, -2.5, 2.0);
+      scene.add(fillLight);
 
-      const markers = new Map<string, Mesh>();
+      // 8. Marcadores Hotspots com Anel Pulsante
+      const markerMeshes = new Map<string, { core: Mesh; ring: Mesh }>();
       anchors.forEach((anchor) => {
-        const marker = new THREE.Mesh(
-          new THREE.SphereGeometry(0.055, 16, 12),
+        const markerGroup = new THREE.Group();
+        markerGroup.position.set(...anchor.position);
+
+        const core = new THREE.Mesh(
+          new THREE.SphereGeometry(0.052, 16, 12),
           new THREE.MeshBasicMaterial({
             color: anchor.color,
             transparent: true,
-            // Sem depthWrite o marcador não é recortado pelas cúpulas
-            // transparentes que passam por cima dele.
             depthWrite: false,
           }),
         );
-        marker.position.set(...anchor.position);
-        marker.renderOrder = 3;
-        marker.userData.structureId = anchor.id;
-        markers.set(anchor.id, marker);
-        eye.add(marker);
+        core.userData.structureId = anchor.id;
+        markerGroup.add(core);
+
+        const ring = new THREE.Mesh(
+          new THREE.RingGeometry(0.068, 0.088, 28),
+          new THREE.MeshBasicMaterial({
+            color: anchor.color,
+            transparent: true,
+            opacity: 0.6,
+            depthWrite: false,
+            side: THREE.DoubleSide,
+          }),
+        );
+        markerGroup.add(ring);
+
+        markerGroup.renderOrder = 4;
+        eye.add(markerGroup);
+        markerMeshes.set(anchor.id, { core, ring });
       });
 
       let needsRender = true;
@@ -606,17 +1173,97 @@ const structures = [
       };
 
       const highlight = () => {
-        markers.forEach((marker, id) => {
-          const scale = id === activeId ? 1.7 : 1;
-          marker.scale.setScalar(scale);
-          (marker.material as MeshBasicMaterial).opacity =
-            id === activeId ? 1 : 0.55;
-          (marker.material as MeshBasicMaterial).transparent = true;
+        // Atualiza Marcadores
+        markerMeshes.forEach(({ core, ring }, id) => {
+          const isActive = id === activeId;
+          core.scale.setScalar(isActive ? 1.6 : 1.0);
+          (core.material as MeshBasicMaterial).opacity = isActive ? 1.0 : 0.6;
+          (ring.material as MeshBasicMaterial).opacity = isActive ? 0.9 : 0.35;
+          ring.scale.setScalar(isActive ? 1.4 : 1.0);
         });
+
+        // 1. Filme lacrimal
+        const isTear = activeId === "tear-film";
+        (tearFilmMesh.material as MeshPhysicalMaterial).opacity = isTear
+          ? 0.68
+          : 0.2;
+        (tearFilmMesh.material as MeshPhysicalMaterial).color.setHex(
+          isTear ? 0x2fb6c8 : 0x8fd8e4,
+        );
+        (tearFilmMesh.material as MeshPhysicalMaterial).emissive.setHex(
+          isTear ? 0x117285 : 0x000000,
+        );
+        (tearFilmMesh.material as MeshPhysicalMaterial).emissiveIntensity =
+          isTear ? 0.7 : 0;
+        (meniscusMat as MeshBasicMaterial).opacity = isTear ? 0.95 : 0.45;
+        (meniscusMat as MeshBasicMaterial).color.setHex(
+          isTear ? 0x38d8ec : 0x2fb6c8,
+        );
+
+        // 2. Córnea
+        const isCornea = activeId === "cornea";
+        (corneaMesh.material as MeshPhysicalMaterial).opacity = isCornea
+          ? 0.65
+          : 0.28;
+        (corneaMesh.material as MeshPhysicalMaterial).color.setHex(
+          isCornea ? 0x0b827f : 0xcfeaf1,
+        );
+        (corneaMesh.material as MeshPhysicalMaterial).emissive.setHex(
+          isCornea ? 0x044b49 : 0x000000,
+        );
+        (corneaMesh.material as MeshPhysicalMaterial).emissiveIntensity =
+          isCornea ? 0.65 : 0;
+        (limbusMat as MeshBasicMaterial).color.setHex(
+          isCornea ? 0x18b8b4 : 0x052a36,
+        );
+
+        // 3. Conjuntiva
+        const isConj = activeId === "conjunctiva";
+        (conjunctivaMesh.material as MeshStandardMaterial).opacity = isConj
+          ? 0.58
+          : 0.22;
+        (conjunctivaMesh.material as MeshStandardMaterial).color.setHex(
+          isConj ? 0x5c7395 : 0xe8eef5,
+        );
+        (conjunctivaMesh.material as MeshStandardMaterial).emissive.setHex(
+          isConj ? 0x203554 : 0x000000,
+        );
+        (conjunctivaMesh.material as MeshStandardMaterial).emissiveIntensity =
+          isConj ? 0.6 : 0;
+        (vesselsMat as MeshBasicMaterial).color.setHex(
+          isConj ? 0xe84f44 : 0xd88a82,
+        );
+        (vesselsMat as MeshBasicMaterial).opacity = isConj ? 0.95 : 0.7;
+
+        // 4. Margem palpebral
+        const isLid = activeId === "lid-margin";
+        (lidMarginMat as MeshStandardMaterial).color.setHex(
+          isLid ? 0xd98c48 : 0xb07a3f,
+        );
+        (lidMarginMat as MeshStandardMaterial).emissive.setHex(
+          isLid ? 0x733b10 : 0x000000,
+        );
+        (lidMarginMat as MeshStandardMaterial).emissiveIntensity = isLid
+          ? 0.75
+          : 0;
+
+        // 5. Glândulas de Meibômio
+        const isMeib = activeId === "meibomian";
+        (glandMat as MeshStandardMaterial).color.setHex(
+          isMeib ? 0xfbbf24 : 0xb46b28,
+        );
+        (glandMat as MeshStandardMaterial).emissive.setHex(
+          isMeib ? 0xd97706 : 0x000000,
+        );
+        (glandMat as MeshStandardMaterial).emissiveIntensity = isMeib ? 0.9 : 0;
+        (orificeMat as MeshBasicMaterial).color.setHex(
+          isMeib ? 0xfde68a : 0x7c3d12,
+        );
+
         needsRender = true;
       };
 
-      // Gira o modelo até a estrutura escolhida ficar de frente pelo menor arco
+      // Rotação suave orientada pelo menor arco
       let targetYaw = -0.25;
       let targetPitch = 0.08;
       const faceStructure = (id: string) => {
@@ -668,7 +1315,6 @@ const structures = [
         if (!frame && visible) frame = requestAnimationFrame(loop);
       };
 
-      // Arrasto: rotação manual com limites, para o modelo nunca ficar de costas.
       let dragging = false;
       let lastX = 0;
       let lastY = 0;
@@ -735,13 +1381,15 @@ const structures = [
         pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
         pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
         raycaster.setFromCamera(pointer, camera);
-        return raycaster.intersectObjects([...markers.values()])[0];
+        const hitObjects = [...markerMeshes.values()].map((m) => m.core);
+        return raycaster.intersectObjects(hitObjects)[0];
       };
 
       canvas.addEventListener("pointermove", (event) => {
         if (dragging) return;
         canvas.style.cursor = pickMarker(event) ? "pointer" : "grab";
       });
+
       canvas.addEventListener("click", (event) => {
         const hit = pickMarker(event);
         const id = hit?.object.userData.structureId as string | undefined;
@@ -791,7 +1439,6 @@ const structures = [
       kick();
     };
 
-    // Só busca o Three.js quando a seção se aproxima da viewport.
     if (stage && canvas) {
       const loadObserver = new IntersectionObserver(
         (entries) => {
