@@ -1,9 +1,12 @@
 ---
+import AuthorLogo from "@/components/AuthorLogo.astro";
 import BookCover from "@/components/BookCover.astro";
 import BookFeature from "@/components/BookFeature.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import IssueCover from "@/components/superficie/IssueCover.astro";
 import Layout from "@/layouts/Layout.astro";
 import { author, books } from "@/lib/books";
+import { founderIssue } from "@/lib/superficie";
 
 const title = "Livros sobre Olho Seco e Superfície Ocular";
 const description =
@@ -74,6 +77,7 @@ const editorialSchema = {
       <Breadcrumbs items={breadcrumbs} />
       <div class="hero-grid">
         <div class="hero-copy">
+          <span class="hero-kicker">Biblioteca Científica & Monográfica</span>
           <h1>Livros sobre Olho Seco e Superfície Ocular</h1>
           <p class="hero-subtitle">
             Ciência, clínica e inovação em olho seco e superfície ocular.
@@ -85,8 +89,13 @@ const editorialSchema = {
             interessados na evolução do cuidado ocular.
           </p>
           <div class="hero-signature">
-            <span>{author.name}</span>
-            <small>{author.role}</small>
+            <AuthorLogo size="sm" variant="seal" class="hero-signature-logo" />
+            <div class="hero-signature-text">
+              <span class="author-name">{author.name}</span>
+              <small class="author-role"
+                >{author.role} · {author.registration}</small
+              >
+            </div>
           </div>
         </div>
 
@@ -94,9 +103,30 @@ const editorialSchema = {
           class="hero-library"
           aria-label="Obras apresentadas nesta biblioteca"
         >
-          <BookCover book={books[0]} eager decorative class="hero-cover-one" />
-          <BookCover book={books[1]} eager decorative class="hero-cover-two" />
-          <span class="hero-rule" aria-hidden="true"></span>
+          <div class="hero-showcase">
+            <div class="hero-book-wrap book-left">
+              <span class="book-badge-tag">1ª Obra</span>
+              <BookCover
+                book={books[0]}
+                eager
+                decorative
+                class="hero-cover-one"
+              />
+            </div>
+            <div class="hero-book-wrap book-right">
+              <span class="book-badge-tag">2ª Obra</span>
+              <BookCover
+                book={books[1]}
+                eager
+                decorative
+                class="hero-cover-two"
+              />
+            </div>
+          </div>
+          <div class="hero-plinth" aria-hidden="true">
+            <span class="plinth-surface"></span>
+            <span class="plinth-accent"></span>
+          </div>
         </div>
       </div>
     </div>
@@ -105,7 +135,7 @@ const editorialSchema = {
   <section class="featured-books" aria-labelledby="featured-title">
     <div class="page-shell">
       <div class="section-intro">
-        <p>Biblioteca editorial</p>
+        <p class="section-label">Biblioteca editorial</p>
         <h2 id="featured-title">Obras em destaque</h2>
         <span
           >Publicações para leitura aprofundada, referência clínica e reflexão.</span
@@ -130,39 +160,85 @@ const editorialSchema = {
     </div>
   </section>
 
+  <!-- Ecossistema Editorial: Revista SUPERFÍCIE com Capa Real e Acesso Aberto -->
   <section class="ecosystem page-shell" aria-labelledby="superficie-title">
-    <div class="superficie-monogram" aria-hidden="true">
-      <span>S</span>
-      <i></i>
+    <div class="superficie-cover-card">
+      <div class="superficie-cover-frame">
+        <IssueCover
+          issue={founderIssue}
+          sizes="(max-width: 720px) 78vw, 360px"
+          class="superficie-real-cover"
+        />
+        <span class="superficie-cover-glow" aria-hidden="true"></span>
+      </div>
     </div>
     <div class="ecosystem-copy">
-      <p class="superficie-name">SUPERFÍCIE</p>
+      <div class="superficie-header-row">
+        <p class="superficie-name">SUPERFÍCIE</p>
+        <span class="superficie-status-badge">Publicação Ativa · Edição 00</span
+        >
+      </div>
       <h2 id="superficie-title">Revista de Olho Seco e Superfície Ocular</h2>
       <p class="superficie-tagline">Evidência que chega à prática.</p>
       <p>
-        Além dos livros de aprofundamento, o ecossistema olhossecos.com.br
-        prepara uma publicação periódica dedicada à atualização clínica,
-        científica e tecnológica da superfície ocular.
+        Além dos livros de aprofundamento monográfico, o ecossistema editorial
+        publica a revista <strong>SUPERFÍCIE</strong>: uma publicação periódica
+        com curadoria científica rigorosa dedicada à atualização diagnóstica,
+        terapêutica e tecnológica da superfície ocular.
       </p>
-      <span class="coming-soon" aria-label="SUPERFÍCIE: publicação em breve">
-        Em breve
-      </span>
-    </div>
-  </section>
-
-  <section id="sobre-o-autor" class="author-section">
-    <div class="page-shell author-grid">
-      <p class="author-initials" aria-hidden="true">PSC</p>
-      <div>
-        <p class="section-label">Autoria e curadoria</p>
-        <h2>Sobre o autor</h2>
-        <p>{author.description}</p>
-        <a class="editorial-link" href={`/autor/${author.slug}`}>
-          Conheça o autor
-          <svg viewBox="0 0 24 24" aria-hidden="true">
+      <div class="superficie-actions">
+        <a class="btn-superficie-reader" href="/superficie/edicao-00">
+          Abrir Edição 00 no Reader
+          <svg
+            viewBox="0 0 24 24"
+            width="16"
+            height="16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
             <path d="M4 12h16m-5-5 5 5-5 5"></path>
           </svg>
         </a>
+        <a class="btn-superficie-hub" href="/superficie">
+          Conhecer a Revista
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção do Autor com Monograma & Símbolo Oficial PSC -->
+  <section id="sobre-o-autor" class="author-section">
+    <div class="page-shell author-grid">
+      <div class="author-logo-card">
+        <AuthorLogo size="xl" variant="seal" class="author-main-logo" />
+        <span class="author-logo-label">Símbolo Oficial · PSC</span>
+      </div>
+      <div>
+        <p class="section-label">Autoria e curadoria</p>
+        <h2>{author.name}</h2>
+        <p class="author-role-detail">{author.role} · {author.registration}</p>
+        <p class="author-bio">{author.description}</p>
+        <div class="author-links-group">
+          <a class="editorial-link" href={`/autor/${author.slug}`}>
+            Perfil do autor
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 12h16m-5-5 5 5-5 5"></path>
+            </svg>
+          </a>
+          <a
+            class="editorial-link amazon-author-link"
+            href="https://www.amazon.com/author/drphilipesaraiva"
+            target="_blank"
+            rel="noopener noreferrer author"
+          >
+            Página na Amazon
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 17 17 7M8 7h9v9"></path>
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -370,13 +446,9 @@ const editorialSchema = {
   .books-hero {
     overflow: hidden;
     border-bottom: 1px solid var(--line);
-    background: linear-gradient(
-      90deg,
-      #ffffff 0%,
-      #ffffff 57%,
-      #f5f7f7 57%,
-      #f5f7f7 100%
-    );
+    background:
+      radial-gradient(100% 100% at 85% 20%, #f0f6f7 0%, transparent 60%),
+      linear-gradient(180deg, #ffffff 0%, #f7f9f9 100%);
   }
 
   .books-hero :global(.breadcrumbs) {
@@ -385,104 +457,172 @@ const editorialSchema = {
 
   .hero-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.03fr) minmax(430px, 0.97fr);
-    min-height: 650px;
+    grid-template-columns: minmax(0, 1.05fr) minmax(420px, 0.95fr);
+    min-height: 640px;
     align-items: center;
-    gap: clamp(3rem, 7vw, 8rem);
+    gap: clamp(3rem, 6vw, 7rem);
     padding-block: 2.5rem 4.5rem;
+  }
+
+  .hero-kicker {
+    display: inline-block;
+    color: #7b5a1f;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 0.9rem;
   }
 
   .hero-copy h1 {
     max-width: 760px;
     margin: 0;
     font-family: var(--serif);
-    font-size: clamp(3.4rem, 5.5vw, 6.1rem);
+    font-size: clamp(3rem, 5vw, 5.2rem);
     font-weight: 500;
-    letter-spacing: -0.055em;
-    line-height: 0.94;
+    letter-spacing: -0.05em;
+    line-height: 0.96;
+    color: var(--navy-900);
   }
 
   .hero-subtitle {
     max-width: 620px;
-    margin: 1.7rem 0 0;
+    margin: 1.4rem 0 0;
     color: var(--teal-dark);
     font-family: var(--serif);
-    font-size: clamp(1.35rem, 2vw, 1.75rem);
-    line-height: 1.32;
+    font-size: clamp(1.25rem, 1.8vw, 1.6rem);
+    line-height: 1.35;
   }
 
   .hero-intro {
     max-width: 690px;
-    margin: 1.4rem 0 0;
+    margin: 1.2rem 0 0;
     color: var(--ink-soft);
-    font-size: clamp(1rem, 1.2vw, 1.1rem);
+    font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+    line-height: 1.65;
   }
 
   .hero-signature {
-    display: grid;
-    width: fit-content;
-    margin-top: 2.2rem;
-    padding-top: 1rem;
-    border-top: 2px solid #b28a42;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding: 0.85rem 1.2rem;
+    border-radius: var(--radius-md);
+    background: #ffffff;
+    border: 1px solid var(--line);
+    box-shadow: 0 4px 14px rgb(4 20 47 / 4%);
   }
 
-  .hero-signature span {
+  .hero-signature-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .hero-signature-text .author-name {
     font-family: var(--serif);
-    font-size: 1.12rem;
+    font-size: 1.05rem;
     font-weight: 700;
+    color: var(--navy-900);
   }
 
-  .hero-signature small {
+  .hero-signature-text .author-role {
     color: var(--ink-soft);
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
 
+  /* Vitrine Visual 3D do Hero */
   .hero-library {
     position: relative;
     display: flex;
-    min-height: 500px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem 0;
+  }
+
+  .hero-showcase {
+    display: flex;
     align-items: flex-end;
     justify-content: center;
-    gap: 1.7rem;
-    padding: 2rem 0 0;
-    isolation: isolate;
+    gap: clamp(1rem, 2.5vw, 2.2rem);
+    width: 100%;
+    z-index: 2;
   }
 
-  .hero-library::after {
+  .hero-book-wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: min(46%, 245px);
+    transition: transform var(--duration-standard) var(--ease-standard);
+  }
+
+  .hero-book-wrap:hover {
+    transform: translateY(-8px) scale(1.02);
+  }
+
+  .book-badge-tag {
     position: absolute;
-    z-index: -1;
-    right: -30vw;
-    bottom: -4.5rem;
-    left: -5rem;
-    height: 170px;
-    border-top: 1px solid #dce1e3;
-    background: #f0f3f3;
-    content: "";
-    transform: skewY(-2deg);
+    top: -0.75rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: var(--navy-900);
+    color: #d4af37;
+    border: 1px solid #b28a42;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    z-index: 3;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
   }
 
-  .hero-library :global(.book-cover) {
-    width: min(42%, 252px);
+  .book-left {
+    transform: translateY(-1.2rem) rotate(-1.5deg);
+  }
+
+  .book-right {
+    transform: translateY(0.4rem) rotate(1.8deg);
+  }
+
+  .hero-book-wrap :global(.book-cover) {
+    width: 100%;
+    border-radius: var(--radius-sm);
     box-shadow:
-      0 30px 48px rgb(7 29 69 / 18%),
-      7px 7px 0 #dfe4e4;
+      0 24px 44px rgb(4 20 47 / 18%),
+      0 6px 16px rgb(4 20 47 / 10%),
+      inset 0 0 0 1px rgb(255 255 255 / 15%);
   }
 
-  .hero-library :global(.hero-cover-one) {
-    transform: translateY(-1.4rem) rotate(-1.5deg);
+  .hero-plinth {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    height: 24px;
+    margin-top: -12px;
+    z-index: 1;
   }
 
-  .hero-library :global(.hero-cover-two) {
-    transform: rotate(1.2deg);
+  .plinth-surface {
+    display: block;
+    width: 100%;
+    height: 12px;
+    border-radius: 50%;
+    background: radial-gradient(
+      ellipse at center,
+      rgb(4 20 47 / 20%) 0%,
+      transparent 72%
+    );
   }
 
-  .hero-rule {
-    position: absolute;
-    top: 2.4rem;
-    right: 1rem;
-    width: 100px;
-    height: 1px;
-    background: #b28a42;
+  .plinth-accent {
+    display: block;
+    width: 60%;
+    height: 2px;
+    margin: 4px auto 0;
+    background: linear-gradient(90deg, transparent, #b28a42, transparent);
   }
 
   .featured-books {
@@ -513,16 +653,17 @@ const editorialSchema = {
   .newsletter-section h2 {
     margin: 0;
     font-family: var(--serif);
-    font-size: clamp(2.4rem, 4vw, 4.5rem);
+    font-size: clamp(2.2rem, 3.8vw, 4.2rem);
     font-weight: 500;
     letter-spacing: -0.045em;
     line-height: 1;
+    color: var(--navy-900);
   }
 
   .section-intro > span {
     max-width: 380px;
     color: var(--ink-soft);
-    font-size: 0.93rem;
+    font-size: var(--text-meta);
   }
 
   .expansion {
@@ -543,7 +684,7 @@ const editorialSchema = {
   .expansion-mark {
     color: #0a6b7c;
     font-family: var(--serif);
-    font-size: clamp(9rem, 22vw, 20rem);
+    font-size: clamp(8rem, 20vw, 18rem);
     font-weight: 400;
     line-height: 0.5;
     opacity: 0.1;
@@ -554,62 +695,80 @@ const editorialSchema = {
     margin: 1.5rem 0 0;
     color: var(--ink-soft);
     font-size: clamp(1rem, 1.5vw, 1.15rem);
+    line-height: 1.6;
   }
 
+  /* Seção SUPERFÍCIE com Capa Real */
   .ecosystem {
     display: grid;
-    grid-template-columns: minmax(180px, 0.55fr) minmax(0, 1.45fr);
-    gap: clamp(3rem, 9vw, 10rem);
+    grid-template-columns: minmax(220px, 0.65fr) minmax(0, 1.35fr);
+    gap: clamp(3rem, 7vw, 8rem);
     align-items: center;
-    padding-block: clamp(5rem, 9vw, 8.5rem);
+    padding-block: clamp(5rem, 8vw, 8rem);
     border-bottom: 1px solid var(--line);
   }
 
-  .superficie-monogram {
+  .superficie-cover-card {
     position: relative;
-    display: grid;
-    width: min(100%, 260px);
-    aspect-ratio: 3 / 4;
-    place-items: center;
-    border: 1px solid #aabac4;
-    background: var(--ink);
-    color: white;
+    display: flex;
+    justify-content: center;
   }
 
-  .superficie-monogram span {
-    font-family: var(--serif);
-    font-size: clamp(6rem, 12vw, 11rem);
-    line-height: 1;
+  .superficie-cover-frame {
+    position: relative;
+    width: min(100%, 300px);
+    border-radius: var(--radius-sm);
+    box-shadow:
+      0 28px 60px rgb(4 20 47 / 22%),
+      0 8px 20px rgb(4 20 47 / 12%);
+    transition: transform var(--duration-standard) var(--ease-standard);
   }
 
-  .superficie-monogram i {
-    position: absolute;
-    right: 16%;
-    bottom: 15%;
-    left: 16%;
-    height: 1px;
-    background: #c69a4a;
+  .superficie-cover-frame:hover {
+    transform: translateY(-6px) scale(1.02);
+  }
+
+  .superficie-header-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 0.6rem;
   }
 
   .superficie-name {
     margin: 0;
     font-family: var(--serif);
-    font-size: clamp(2.3rem, 4vw, 4rem);
+    font-size: clamp(2rem, 3.5vw, 3.4rem);
     letter-spacing: 0.03em;
     line-height: 1;
+    color: var(--navy-900);
+  }
+
+  .superficie-status-badge {
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    background: var(--paper-100);
+    border: 1px solid #b28a42;
+    color: #7b5a1f;
+    font-size: 0.75rem;
+    font-weight: 750;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
 
   .ecosystem h2 {
     max-width: 720px;
-    margin: 0.7rem 0 0;
+    margin: 0.5rem 0 0;
     font-family: var(--serif);
-    font-size: clamp(1.5rem, 2.4vw, 2.3rem);
+    font-size: clamp(1.4rem, 2.2vw, 2.1rem);
     font-weight: 500;
-    line-height: 1.15;
+    line-height: 1.2;
+    color: var(--navy-800);
   }
 
   .superficie-tagline {
-    margin: 1rem 0 0;
+    margin: 0.85rem 0 0;
     color: var(--teal-dark);
     font-size: 1.05rem;
     font-weight: 750;
@@ -619,71 +778,140 @@ const editorialSchema = {
     max-width: 760px;
     margin: 1.2rem 0 0;
     color: var(--ink-soft);
+    line-height: 1.65;
   }
 
-  .coming-soon {
-    display: inline-block;
-    margin-top: 1.7rem;
-    padding-bottom: 0.25rem;
-    border-bottom: 1px solid #b28a42;
-    color: #7b5a1f;
-    font-size: 0.75rem;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+  .superficie-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
   }
 
+  .btn-superficie-reader {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.75rem 1.4rem;
+    border-radius: 999px;
+    background: var(--navy-900);
+    color: #ffffff;
+    font-size: var(--text-small);
+    font-weight: 700;
+    text-decoration: none;
+    transition:
+      background-color var(--duration-fast) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-standard);
+    box-shadow: 0 4px 14px rgb(4 20 47 / 15%);
+  }
+
+  .btn-superficie-reader:hover {
+    background: var(--teal-dark);
+    transform: translateY(-1px);
+  }
+
+  .btn-superficie-hub {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1.3rem;
+    border-radius: 999px;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--navy-800);
+    font-size: var(--text-small);
+    font-weight: 700;
+    text-decoration: none;
+    transition:
+      border-color var(--duration-fast) var(--ease-standard),
+      background-color var(--duration-fast) var(--ease-standard);
+  }
+
+  .btn-superficie-hub:hover {
+    border-color: var(--navy-800);
+    background: var(--paper-100);
+  }
+
+  /* Seção do Autor com Monograma PSC */
   .author-section {
-    padding-block: clamp(5rem, 9vw, 8.5rem);
+    padding-block: clamp(5rem, 8vw, 8rem);
+    background: #ffffff;
   }
 
   .author-grid {
     display: grid;
-    grid-template-columns: minmax(200px, 0.65fr) minmax(0, 1.35fr);
-    gap: clamp(3rem, 9vw, 10rem);
+    grid-template-columns: minmax(180px, 0.55fr) minmax(0, 1.45fr);
+    gap: clamp(3rem, 8vw, 8rem);
     align-items: center;
   }
 
-  .author-initials {
-    margin: 0;
-    color: transparent;
-    font-family: var(--serif);
-    font-size: clamp(5rem, 12vw, 10rem);
-    font-weight: 500;
-    letter-spacing: -0.08em;
-    line-height: 0.8;
-    -webkit-text-stroke: 1px #91a7b5;
+  .author-logo-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+  }
+
+  .author-logo-label {
+    font-size: 0.75rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #7b5a1f;
   }
 
   .author-section h2 {
-    margin-top: 0.8rem;
+    margin-top: 0.6rem;
   }
 
-  .author-section div > p:not(.section-label, .author-initials) {
+  .author-role-detail {
+    margin: 0.4rem 0 0;
+    color: var(--teal-dark);
+    font-weight: 700;
+    font-size: var(--text-small);
+  }
+
+  .author-bio {
     max-width: 790px;
-    margin: 1.5rem 0 0;
+    margin: 1.4rem 0 0;
     color: var(--ink-soft);
-    font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+    font-size: clamp(1rem, 1.3vw, 1.15rem);
+    line-height: 1.65;
+  }
+
+  .author-links-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.8rem;
+    margin-top: 1.8rem;
   }
 
   .editorial-link {
     display: inline-flex;
     align-items: center;
-    gap: 1rem;
-    margin-top: 1.8rem;
+    gap: 0.6rem;
     padding-bottom: 0.25rem;
     border-bottom: 1px solid currentColor;
     color: var(--teal-dark);
     font-weight: 750;
+    font-size: var(--text-small);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+
+  .editorial-link:hover {
+    color: var(--navy-900);
   }
 
   .editorial-link svg {
-    width: 20px;
+    width: 16px;
+    height: 16px;
     fill: none;
     stroke: currentColor;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke-width: 1.7;
+    stroke-width: 2;
   }
 
   .newsletter-section {
@@ -706,6 +934,7 @@ const editorialSchema = {
     max-width: 520px;
     margin: 1.4rem 0 0;
     color: var(--ink-soft);
+    line-height: 1.6;
   }
 
   form {
@@ -749,198 +978,96 @@ const editorialSchema = {
     border-radius: 0;
     background: transparent;
     color: var(--ink);
+    font-size: 1rem;
   }
 
   .field input:focus-visible {
+    outline: none;
     border-bottom-color: var(--teal-dark);
+    box-shadow: 0 1px 0 var(--teal-dark);
   }
 
   .honeypot {
-    position: absolute;
-    left: -10000px;
+    display: none;
   }
 
   .consent {
     display: grid;
-    grid-template-columns: 20px 1fr;
+    grid-template-columns: auto 1fr;
     gap: 0.8rem;
     align-items: start;
     margin-top: 1.6rem;
     color: var(--ink-soft);
-    font-size: 0.82rem;
-    line-height: 1.5;
+    font-size: 0.85rem;
+    cursor: pointer;
   }
 
   .consent input {
-    width: 18px;
-    height: 18px;
-    margin: 0.15rem 0 0;
+    margin-top: 0.2rem;
     accent-color: var(--teal-dark);
   }
 
   .consent a {
-    color: var(--teal-dark);
+    color: var(--ink);
     text-decoration: underline;
-    text-underline-offset: 2px;
   }
 
   .form-footer {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 1.3rem;
-    margin-top: 1.5rem;
+    gap: 1.5rem;
+    margin-top: 2rem;
   }
 
   .form-footer button {
-    min-height: 52px;
-    padding: 0.85rem 1.35rem;
-    border: 1px solid var(--ink);
-    border-radius: 0;
-    background: var(--ink);
+    padding: 0.95rem 1.8rem;
+    border: 0;
+    border-radius: 999px;
+    background: var(--teal-dark);
     color: white;
-    font-size: 0.76rem;
-    font-weight: 800;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    font-size: 0.95rem;
+    font-weight: 750;
     cursor: pointer;
+    transition: background-color var(--duration-fast) var(--ease-standard);
   }
 
   .form-footer button:hover {
-    background: var(--teal-dark);
+    background: var(--ink);
   }
 
   .form-footer button:disabled {
-    cursor: wait;
-    opacity: 0.65;
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 
   #newsletter-status {
     margin: 0;
-    color: var(--ink-soft);
-    font-size: 0.82rem;
+    font-size: 0.85rem;
+    font-weight: 600;
   }
 
-  @media (max-width: 1000px) {
-    .books-hero {
-      background: white;
-    }
-
-    .hero-grid {
-      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.72fr);
-      min-height: 580px;
+  @media (max-width: 900px) {
+    .hero-grid,
+    .ecosystem,
+    .author-grid,
+    .newsletter-grid,
+    .section-intro,
+    .expansion-grid {
+      grid-template-columns: 1fr;
       gap: 2.5rem;
     }
 
     .hero-library {
-      min-height: 430px;
-      margin-right: -2rem;
-      padding-right: 2rem;
-      background: #f5f7f7;
-    }
-
-    .section-intro {
-      grid-template-columns: 0.6fr 1.4fr;
-    }
-
-    .section-intro > span {
-      display: none;
-    }
-  }
-
-  @media (max-width: 720px) {
-    .books-hero :global(.breadcrumbs) {
-      padding-top: 0.8rem;
-    }
-
-    .hero-grid {
-      grid-template-columns: 1fr;
-      gap: 2.8rem;
-      padding-block: 1.4rem 0;
-    }
-
-    .hero-copy h1 {
-      font-size: clamp(2.85rem, 14vw, 4.3rem);
-    }
-
-    .hero-library {
-      min-height: 350px;
-      align-items: flex-start;
-      margin-inline: -1rem;
-      padding: 1.6rem 1.3rem 0;
-    }
-
-    .hero-library :global(.book-cover) {
-      width: min(43%, 195px);
-    }
-
-    .hero-library::after {
-      right: -1rem;
-      left: -1rem;
-    }
-
-    .section-intro {
-      grid-template-columns: 1fr;
-      gap: 0.8rem;
-      padding-bottom: 1.8rem;
-    }
-
-    .expansion-grid,
-    .ecosystem,
-    .author-grid,
-    .newsletter-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .expansion-grid {
-      gap: 0;
       min-height: auto;
     }
 
-    .expansion-mark {
-      height: 82px;
-      font-size: 9rem;
-    }
-
-    .ecosystem,
-    .author-grid,
-    .newsletter-grid {
-      gap: 2.5rem;
-    }
-
-    .superficie-monogram {
-      width: min(52vw, 210px);
-    }
-
-    .author-initials {
-      font-size: 6.5rem;
+    .section-intro {
+      padding-block: 3.5rem 1.5rem;
     }
 
     .field-grid {
       grid-template-columns: 1fr;
-    }
-
-    .field:last-child {
-      grid-column: auto;
-    }
-
-    .form-footer {
-      align-items: stretch;
-      flex-direction: column;
-    }
-
-    .form-footer button {
-      width: 100%;
-    }
-  }
-
-  @media (max-width: 360px) {
-    .hero-library {
-      min-height: 330px;
-      gap: 0.8rem;
-    }
-
-    .hero-library :global(.book-cover) {
-      width: min(45%, 155px);
     }
   }
 </style>

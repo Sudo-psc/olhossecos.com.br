@@ -1,0 +1,153 @@
+---
+/**
+ * Monograma & Símbolo Oficial do Autor Philipe Saraiva Cruz (PSC).
+ *
+ * Design tipográfico refinado com serifas cirúrgicas, arcos de curvatura
+ * óptica que remetem à córnea e à superfície ocular, acabamento em ouro nobre e navy.
+ */
+interface Props {
+  size?: "sm" | "md" | "lg" | "xl";
+  class?: string;
+  variant?: "seal" | "minimal" | "signature";
+}
+
+const { size = "md", class: className, variant = "seal" } = Astro.props;
+
+const dimensions = {
+  sm: { width: 44, height: 44 },
+  md: { width: 88, height: 88 },
+  lg: { width: 140, height: 140 },
+  xl: { width: 220, height: 220 },
+}[size];
+---
+
+<div
+  class:list={[
+    "author-psc-logo",
+    `logo-${size}`,
+    `variant-${variant}`,
+    className,
+  ]}
+>
+  <svg
+    viewBox="0 0 200 200"
+    width={dimensions.width}
+    height={dimensions.height}
+    role="img"
+    aria-label="Símbolo oficial Philipe Saraiva Cruz (PSC)"
+  >
+    <defs>
+      <!-- Gradiente Ouro Nobre Editorial -->
+      <linearGradient id="psc-gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#d4af37"></stop>
+        <stop offset="45%" stop-color="#b28a42"></stop>
+        <stop offset="100%" stop-color="#8c6828"></stop>
+      </linearGradient>
+
+      <!-- Gradiente Navy Profundo -->
+      <linearGradient id="psc-navy-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#0e2a47"></stop>
+        <stop offset="100%" stop-color="#041424"></stop>
+      </linearGradient>
+
+      <!-- Sombra Suave -->
+      <filter id="psc-shadow" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow
+          dx="0"
+          dy="4"
+          stdDeviation="6"
+          flood-color="#000000"
+          flood-opacity="0.18"></feDropShadow>
+      </filter>
+    </defs>
+
+    {
+      variant === "seal" && (
+        <g class="psc-seal-bg">
+          <circle
+            cx="100"
+            cy="100"
+            r="94"
+            fill="url(#psc-navy-grad)"
+            stroke="url(#psc-gold-grad)"
+            stroke-width="2.5"
+            filter="url(#psc-shadow)"
+          />
+          <circle
+            cx="100"
+            cy="100"
+            r="84"
+            fill="none"
+            stroke="#d4af37"
+            stroke-width="0.8"
+            stroke-dasharray="4 3"
+            opacity="0.75"
+          />
+          <path
+            d="M50 42 Q 100 24 150 42"
+            fill="none"
+            stroke="url(#psc-gold-grad)"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+          <path
+            d="M50 158 Q 100 176 150 158"
+            fill="none"
+            stroke="url(#psc-gold-grad)"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+        </g>
+      )
+    }
+
+    <!-- Monograma Entrelaçado: P - S - C -->
+    <g class="monogram-glyphs">
+      <!-- Letra 'P' -->
+      <path
+        d="M62 145 V55 H88 C104 55 114 65 114 78 C114 91 104 100 88 100 H74 V145 H62 Z M74 89 H86 C96 89 101 84 101 78 C101 71 96 66 86 66 H74 V89 Z"
+        fill={variant === "seal" ? "url(#psc-gold-grad)" : "#0e2a47"}></path>
+
+      <!-- Letra 'S' -->
+      <path
+        d="M135 68 C132 60 123 54 110 54 C94 54 84 64 84 76 C84 89 94 94 108 99 C125 104 138 111 138 126 C138 141 125 152 108 152 C91 152 79 143 76 132 L87 127 C89 135 97 141 108 141 C118 141 126 135 126 126 C126 116 117 110 102 105 C85 99 73 93 73 77 C73 63 85 52 100 52 C114 52 124 59 127 68 Z"
+        fill={variant === "seal" ? "#ffffff" : "#b28a42"}
+        opacity={variant === "seal" ? 0.95 : 1}></path>
+
+      <!-- Letra 'C' -->
+      <path
+        d="M148 72 L138 78 C134 68 126 62 115 62 C98 62 86 76 86 98 C86 120 98 134 115 134 C126 134 135 127 139 117 L149 123 C144 138 131 146 115 146 C91 146 74 126 74 98 C74 70 91 50 115 50 C131 50 143 59 148 72 Z"
+        fill={variant === "seal" ? "url(#psc-gold-grad)" : "#0e2a47"}
+        opacity={0.88}></path>
+    </g>
+
+    {
+      variant === "seal" && (
+        <g fill="#d4af37" opacity="0.9">
+          <polygon points="100,16 102,21 107,21 103,24 105,29 100,26 95,29 97,24 93,21 98,21" />
+          <polygon points="100,184 102,179 107,179 103,176 105,171 100,174 95,171 97,176 93,179 98,179" />
+        </g>
+      )
+    }
+  </svg>
+</div>
+
+<style>
+  .author-psc-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform var(--duration-standard) var(--ease-standard);
+  }
+
+  .author-psc-logo:hover {
+    transform: scale(1.04);
+  }
+
+  .author-psc-logo svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+</style>

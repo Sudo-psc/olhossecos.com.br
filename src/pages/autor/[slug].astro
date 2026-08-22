@@ -1,4 +1,5 @@
 ---
+import AuthorLogo from "@/components/AuthorLogo.astro";
 import BookCover from "@/components/BookCover.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import Layout from "@/layouts/Layout.astro";
@@ -45,7 +46,9 @@ const personSchema = {
   <header class="author-hero page-shell">
     <Breadcrumbs items={breadcrumbs} />
     <div class="author-heading">
-      <p class="initials" aria-hidden="true">PSC</p>
+      <div class="author-logo-holder">
+        <AuthorLogo size="xl" variant="seal" />
+      </div>
       <div>
         <p class="label">Autor</p>
         <h1>{author.name}</h1>
@@ -106,14 +109,11 @@ const personSchema = {
     min-height: 600px;
   }
 
-  .initials {
-    margin: 0;
-    color: transparent;
-    font-family: var(--serif);
-    font-size: clamp(7rem, 17vw, 15rem);
-    letter-spacing: -0.1em;
-    line-height: 0.8;
-    -webkit-text-stroke: 1px #91a7b5;
+  .author-logo-holder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
   }
 
   .label,
