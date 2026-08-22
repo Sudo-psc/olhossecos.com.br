@@ -99,25 +99,38 @@ const featuredBooks = books.slice(0, 2);
       <figure class="hero-visual" data-parallax>
         <p class="visual-label">Superfície ocular • Filme lacrimal</p>
         <div class="hero-frame">
-          <picture>
-            <source
-              type="image/avif"
-              srcset="/images/hero-filme-lacrimal-720.avif 720w, /images/hero-filme-lacrimal-1024.avif 1024w"
-              sizes="(max-width: 760px) calc(100vw - 2rem), (max-width: 1100px) 48vw, 640px"
-            />
-            <source
-              type="image/webp"
-              srcset="/images/hero-filme-lacrimal-720.webp 720w, /images/hero-filme-lacrimal-1024.webp 1024w"
-              sizes="(max-width: 760px) calc(100vw - 2rem), (max-width: 1100px) 48vw, 640px"
-            />
-            <img
-              src="/images/hero-filme-lacrimal.jpg"
-              alt="Composição editorial da superfície da córnea vista de perfil, com uma película lacrimal iridescente espalhada sobre a curva"
-              width="1024"
-              height="768"
-              fetchpriority="high"
-            />
-          </picture>
+          <video
+            class="hero-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            poster="/images/hero-filme-lacrimal-1024.webp"
+            aria-label="Animação dinâmica em loop da superfície ocular e estabilidade do filme lacrimal"
+          >
+            <source src="/videos/hero-ocular-surface.webm" type="video/webm" />
+            <source src="/videos/hero-ocular-surface.mp4" type="video/mp4" />
+            <picture>
+              <source
+                type="image/avif"
+                srcset="/images/hero-filme-lacrimal-720.avif 720w, /images/hero-filme-lacrimal-1024.avif 1024w"
+                sizes="(max-width: 760px) calc(100vw - 2rem), (max-width: 1100px) 48vw, 640px"
+              />
+              <source
+                type="image/webp"
+                srcset="/images/hero-filme-lacrimal-720.webp 720w, /images/hero-filme-lacrimal-1024.webp 1024w"
+                sizes="(max-width: 760px) calc(100vw - 2rem), (max-width: 1100px) 48vw, 640px"
+              />
+              <img
+                src="/images/hero-filme-lacrimal.jpg"
+                alt="Composição editorial da superfície da córnea vista de perfil, com uma película lacrimal iridescente espalhada sobre a curva"
+                width="1024"
+                height="768"
+                fetchpriority="high"
+              />
+            </picture>
+          </video>
           <!-- Interferência do filme lacrimal: duas faixas que derivam devagar
                sobre a imagem. É o único movimento contínuo do hero, e some
                inteiro em prefers-reduced-motion. -->
@@ -853,9 +866,12 @@ const featuredBooks = books.slice(0, 2);
     transform: translate3d(0, calc(var(--parallax-shift, 0px) * -1), 0);
   }
 
+  .hero-frame video,
   .hero-frame img {
     width: 100%;
     height: auto;
+    display: block;
+    object-fit: cover;
   }
 
   .hero-interference {
