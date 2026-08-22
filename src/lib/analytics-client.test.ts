@@ -71,25 +71,20 @@ test("aceita métricas seguras do reader e descarta conteúdo privado", () => {
   assert.deepEqual(
     getSafeAnalyticsDetail(
       {
-        event: "highlight_create",
-        issue_id: "superficie-poc",
-        page_number: 4,
-        progress_percent: 50,
-        color: "yellow",
+        event: "search",
         query_length: 9,
-        note_text: "não enviar",
-        selected_text: "não enviar",
+        result_count: 4,
+        source: "global_search",
+        query: "não enviar o termo",
       },
-      "/superficie/lab/flipbook",
+      "/olho-seco",
     ),
     {
-      event: "highlight_create",
-      page_path: "/superficie/lab/flipbook",
-      issue_id: "superficie-poc",
-      page_number: 4,
-      progress_percent: 50,
-      color: "yellow",
+      event: "search",
+      page_path: "/olho-seco",
       query_length: 9,
+      result_count: 4,
+      source: "global_search",
     },
   );
 });

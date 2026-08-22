@@ -1,5 +1,9 @@
 # Operação e deploy do olhossecos.com.br
 
+> Instruções antigas de Docker em `/opt/olhossecos` estão **abandonadas**.
+> O caminho vigente é o release atômico descrito abaixo e em `CLAUDE.md`
+> (`npm run ops:deploy`). Não há `/api/health`.
+
 ## Arquitetura operacional alvo
 
 - repositório de trabalho: `/root/olhossecos.com.br-site`;

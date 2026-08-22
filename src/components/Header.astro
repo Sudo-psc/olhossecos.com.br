@@ -42,7 +42,7 @@ const isActive = (href: string) => pathname.startsWith(href);
       <button
         type="button"
         class="header-search-btn"
-        aria-label="Buscar no site (Cmd+K)"
+        aria-label="Buscar no site"
         data-open-global-search
       >
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -60,7 +60,7 @@ const isActive = (href: string) => pathname.startsWith(href);
             stroke-linecap="round"></path>
         </svg>
         <span class="search-btn-label">Buscar</span>
-        <kbd>⌘K</kbd>
+        <kbd data-search-shortcut>Ctrl+K</kbd>
       </button>
       <a class="header-cta" href="/newsletter"> Newsletter </a>
     </div>
@@ -94,7 +94,7 @@ const isActive = (href: string) => pathname.startsWith(href);
             stroke-linecap="round"></path>
         </svg>
         <span>Buscar no portal...</span>
-        <kbd>⌘K</kbd>
+        <kbd data-search-shortcut>Ctrl+K</kbd>
       </button>
       {
         nav.map((item) => (
@@ -227,12 +227,45 @@ const isActive = (href: string) => pathname.startsWith(href);
 
   const button = document.querySelector<HTMLButtonElement>(".menu-button");
   const menu = document.querySelector<HTMLElement>("#mobile-menu");
+  const main = document.querySelector("main");
+  const footer = document.querySelector("footer");
+
+  const isApplePlatform = () =>
+    /Mac|iPhone|iPad|iPod/u.test(navigator.platform) ||
+    /Mac OS X/u.test(navigator.userAgent);
+
+  document
+    .querySelectorAll<HTMLElement>("[data-search-shortcut]")
+    .forEach((shortcut) => {
+      shortcut.textContent = isApplePlatform() ? "⌘K" : "Ctrl+K";
+    });
+  document
+    .querySelectorAll<HTMLButtonElement>("[data-open-global-search]")
+    .forEach((trigger) => {
+      const hint = isApplePlatform() ? "⌘K" : "Ctrl+K";
+      if (!trigger.getAttribute("aria-label")?.includes("Buscar")) return;
+      trigger.setAttribute("aria-label", `Buscar no site (${hint})`);
+    });
+
+  const menuFocusables = () => {
+    if (!menu) return [];
+    return [
+      button,
+      ...menu.querySelectorAll<HTMLElement>("a[href], button:not([disabled])"),
+    ].filter((element): element is HTMLElement => Boolean(element));
+  };
 
   const setMenuOpen = (open: boolean) => {
     if (!button || !menu) return;
     menu.hidden = !open;
     button.setAttribute("aria-expanded", String(open));
     button.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+    main?.toggleAttribute("aria-hidden", open);
+    footer?.toggleAttribute("aria-hidden", open);
+    if (open) {
+      const first = menu.querySelector<HTMLElement>("a, button");
+      first?.focus();
+    }
   };
 
   button?.addEventListener("click", () => {
@@ -241,8 +274,25 @@ const isActive = (href: string) => pathname.startsWith(href);
   });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key !== "Escape" || !menu || menu.hidden) return;
-    setMenuOpen(false);
-    button?.focus();
+    if (!menu || menu.hidden) return;
+
+    if (event.key === "Escape") {
+      setMenuOpen(false);
+      button?.focus();
+      return;
+    }
+
+    if (event.key !== "Tab") return;
+    const focusable = menuFocusables();
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last?.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first?.focus();
+    }
   });
 </script>

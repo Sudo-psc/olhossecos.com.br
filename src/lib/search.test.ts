@@ -22,8 +22,17 @@ test("getUnifiedSearchIndex agrega portal, guias, artigos da revista, livros e g
   assert.ok(types.has("portal"), "Deve conter paginas do portal");
   assert.ok(types.has("guia"), "Deve conter guias");
   assert.ok(types.has("artigo"), "Deve conter artigos da SUPERFÍCIE");
+  assert.ok(types.has("radar"), "Deve conter relatórios do RADAR");
   assert.ok(types.has("glossario"), "Deve conter termos do glossario");
   assert.ok(types.has("livro"), "Deve conter livros");
+});
+
+test("searchUnified encontra o RADAR Científico", () => {
+  const results = searchUnified("radar cientifico");
+  assert.ok(
+    results.some((item) => item.type === "radar"),
+    "Deve devolver ao menos um relatório do RADAR",
+  );
 });
 
 test("searchUnified encontra termos médicos com e sem acento", () => {

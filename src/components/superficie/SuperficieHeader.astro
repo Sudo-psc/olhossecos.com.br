@@ -36,7 +36,7 @@ const nav = [
         <button
           type="button"
           class="surface-search-btn"
-          aria-label="Buscar na SUPERFÍCIE e portal (Cmd+K)"
+          aria-label="Buscar na SUPERFÍCIE e portal"
           data-open-global-search
         >
           <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -54,7 +54,7 @@ const nav = [
               stroke-linecap="round"></path>
           </svg>
           <span>Buscar</span>
-          <kbd>⌘K</kbd>
+          <kbd data-search-shortcut>Ctrl+K</kbd>
         </button>
         <a class="portal-return" href="/"> Voltar ao portal </a>
       </div>
@@ -133,7 +133,7 @@ const nav = [
             stroke-linecap="round"></path>
         </svg>
         <span>Buscar na SUPERFÍCIE...</span>
-        <kbd>⌘K</kbd>
+        <kbd data-search-shortcut>Ctrl+K</kbd>
       </button>
       {
         nav.map((item) => (
@@ -229,6 +229,26 @@ const nav = [
   // quando o usuário fechar com Escape.
   let lastOpener: HTMLButtonElement | null = null;
 
+  const isApplePlatform = () =>
+    /Mac|iPhone|iPad|iPod/u.test(navigator.platform) ||
+    /Mac OS X/u.test(navigator.userAgent);
+
+  document
+    .querySelectorAll<HTMLElement>("[data-search-shortcut]")
+    .forEach((shortcut) => {
+      shortcut.textContent = isApplePlatform() ? "⌘K" : "Ctrl+K";
+    });
+
+  const surfaceFocusables = () => {
+    if (!mobileNav) return [];
+    return [
+      ...menuButtons,
+      ...mobileNav.querySelectorAll<HTMLElement>(
+        "a[href], button:not([disabled])",
+      ),
+    ];
+  };
+
   const setSurfaceMenu = (open: boolean, opener?: HTMLButtonElement) => {
     if (!mobileNav) return;
     mobileNav.hidden = !open;
@@ -236,7 +256,11 @@ const nav = [
       button.setAttribute("aria-expanded", String(open));
       button.textContent = open ? "Fechar" : "Menu";
     }
-    if (open) lastOpener = opener ?? lastOpener;
+    document.querySelector("main")?.toggleAttribute("aria-hidden", open);
+    if (open) {
+      lastOpener = opener ?? lastOpener;
+      mobileNav.querySelector<HTMLElement>("a, button")?.focus();
+    }
   };
 
   for (const button of menuButtons) {
@@ -251,9 +275,26 @@ const nav = [
   });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key !== "Escape" || !mobileNav || mobileNav.hidden) return;
-    setSurfaceMenu(false);
-    lastOpener?.focus();
+    if (!mobileNav || mobileNav.hidden) return;
+
+    if (event.key === "Escape") {
+      setSurfaceMenu(false);
+      lastOpener?.focus();
+      return;
+    }
+
+    if (event.key !== "Tab") return;
+    const focusable = surfaceFocusables();
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last?.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first?.focus();
+    }
   });
 
   if (stickyBar && masthead) {
