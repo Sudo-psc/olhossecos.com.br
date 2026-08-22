@@ -256,6 +256,8 @@ export class ReaderUi {
         const image = document.createElement("img");
         image.src = page.thumbnail;
         image.alt = "";
+        image.width = 180;
+        image.height = 255;
         image.loading = "lazy";
         image.addEventListener("error", () => image.remove(), { once: true });
         const label = document.createElement("span");
