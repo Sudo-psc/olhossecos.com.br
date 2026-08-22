@@ -1,6 +1,7 @@
 ---
 import ContentPage from "@/components/ContentPage.astro";
 import EducationalFigure from "@/components/EducationalFigure.astro";
+import GlossaryTooltip from "@/components/GlossaryTooltip.astro";
 import { figures } from "@/lib/figures";
 import { sourceLink, sources } from "@/lib/sources";
 ---
@@ -73,9 +74,14 @@ import { sourceLink, sources } from "@/lib/sources";
   <h2 id="testes">Testes que podem fazer parte da investigação</h2>
   <p>
     Dependendo do contexto, podem ser usados corantes para observar a
-    superfície, medição do tempo de ruptura do filme lacrimal, estimativas do
-    volume de lágrimas, avaliação de produção aquosa, imagens das glândulas
-    palpebrais, osmolaridade e marcadores inflamatórios.
+    superfície, medição do <GlossaryTooltip
+      term="tempo-de-ruptura"
+      label="tempo de ruptura do filme lacrimal"
+    />, estimativas do volume de lágrimas, avaliação de produção aquosa, imagens
+    das glândulas palpebrais, <GlossaryTooltip
+      term="osmolaridade-lacrimal"
+      label="osmolaridade"
+    /> e marcadores inflamatórios.
   </p>
   <p>
     Em linguagem simples, esses testes procuram responder perguntas diferentes:
@@ -87,10 +93,12 @@ import { sourceLink, sources } from "@/lib/sources";
     pergunta clínica, da técnica e da interpretação junto com os demais achados.
   </p>
   <p>
-    Quando há suspeita de conjuntivocálase, observar as pregas durante as
-    piscadas e em diferentes posições do olhar ajuda a avaliar se existe um
-    componente mecânico. A presença da prega, sozinha, não prova que ela seja a
-    causa dos sintomas.
+    Quando há suspeita de <GlossaryTooltip
+      term="conjuntivocalase"
+      label="conjuntivocálase"
+    />, observar as pregas durante as piscadas e em diferentes posições do olhar
+    ajuda a avaliar se existe um componente mecânico. A presença da prega,
+    sozinha, não prova que ela seja a causa dos sintomas.
   </p>
 
   <h2 id="vias-lacrimais">Quando a queixa é epífora</h2>
@@ -127,11 +135,11 @@ import { sourceLink, sources } from "@/lib/sources";
 
   <h3>Testes de drenagem respondem perguntas diferentes</h3>
   <p>
-    Um teste com fluoresceína pode observar quanto corante permanece no menisco
-    após alguns minutos. Sondagem e irrigação, realizadas por equipe habilitada,
-    ajudam a perceber resistência, refluxo e se o líquido alcança o nariz ou a
-    garganta. Esses achados podem localizar uma obstrução completa ou sugerir um
-    estreitamento, mas precisam ser interpretados com o exame.
+    Um teste com <GlossaryTooltip term="fluoresceina" label="fluoresceína" /> pode
+    observar quanto corante permanece no menisco após alguns minutos. Sondagem e irrigação,
+    realizadas por equipe habilitada, ajudam a perceber resistência, refluxo e se
+    o líquido alcança o nariz ou a garganta. Esses achados podem localizar uma obstrução
+    completa ou sugerir um estreitamento, mas precisam ser interpretados com o exame.
   </p>
   <p>
     Uma irrigação pérvia não garante que a drenagem funcione normalmente no dia
@@ -155,9 +163,14 @@ import { sourceLink, sources } from "@/lib/sources";
   <h2 id="imagem">Meibografia e AS-OCT: imagens complementares</h2>
   <p>
     Os dois exames produzem imagens sem tocar diretamente o olho, mas respondem
-    a perguntas diferentes. A meibografia observa a estrutura das glândulas das
-    pálpebras. O AS-OCT cria cortes do segmento anterior do olho e pode medir
-    estruturas relacionadas às lágrimas.
+    a perguntas diferentes. A <GlossaryTooltip
+      term="meibografia"
+      label="meibografia"
+    /> observa a estrutura das glândulas das pálpebras. O <GlossaryTooltip
+      term="as-oct"
+      label="AS-OCT"
+    /> cria cortes do segmento anterior do olho e pode medir estruturas relacionadas
+    às lágrimas.
   </p>
 
   <EducationalFigure figure={figures.diagnosticImagingEducation} />

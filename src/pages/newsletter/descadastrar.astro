@@ -64,7 +64,7 @@ const breadcrumbs = [
     if (status) status.textContent = "Este link de descadastro é inválido.";
     if (submit) submit.disabled = true;
   } else {
-    window.history.replaceState({}, "", "/newsletter/descadastrar");
+    window.history.replaceState({}, "", window.location.pathname);
   }
 
   form?.addEventListener("submit", async (event) => {

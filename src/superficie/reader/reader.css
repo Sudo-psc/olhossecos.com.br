@@ -226,6 +226,7 @@
   position: relative;
   display: block;
   width: min(100%, 1260px);
+  max-width: min(1260px, calc((100dvh - 11rem) * 1.414));
   min-height: min(72vh, 820px);
   touch-action: pan-y pinch-zoom;
   transition: max-width 220ms ease;

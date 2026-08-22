@@ -1,5 +1,10 @@
 # Security Policy
 
+> **Atenção:** trechos deste arquivo ainda citam `cdn.sanity.io`, Astro 5 e
+> o nome “Olho Seco Caratinga”. O CMS foi removido; a CSP de produção declara
+> `font-src 'self'` e não carrega fonte nem script de host externo. Para o
+> estado atual, use `CLAUDE.md` (cabeçalhos nginx) e `src/lib/typography.test.ts`.
+
 ## Overview
 
 This document outlines the security measures implemented in the Olhos Secos Caratinga website to protect against common web vulnerabilities.

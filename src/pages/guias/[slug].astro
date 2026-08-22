@@ -231,6 +231,7 @@ const breadcrumbs = [
     );
 
     let frame = 0;
+    const reportedGuideDepths = new Set<number>();
 
     const setCurrentSection = (section: HTMLElement) => {
       const target = `#${section.id}`;
@@ -260,6 +261,22 @@ const breadcrumbs = [
       );
       progressFill.style.transform = `scaleX(${value / 100})`;
       progress.setAttribute("aria-valuenow", String(Math.round(value)));
+
+      const percentage = Math.round(value);
+      [25, 50, 75, 100].forEach((depth) => {
+        if (percentage < depth || reportedGuideDepths.has(depth)) return;
+        reportedGuideDepths.add(depth);
+        window.dispatchEvent(
+          new CustomEvent("olhossecos:analytics", {
+            detail: {
+              event: "article_read_depth",
+              depth,
+              article_path: window.location.pathname,
+              source: "guide",
+            },
+          }),
+        );
+      });
     };
 
     const requestProgressUpdate = () => {

@@ -6,6 +6,23 @@ import { isIndexableSitemapPath } from "./src/lib/seo.ts";
 
 const pocRobotsHeader = "noindex, nofollow, noarchive";
 
+const configuredBasePath = process.env.SITE_BASE_PATH?.trim() || "";
+const basePath = configuredBasePath
+  ? `/${configuredBasePath.replace(/^\/+|\/+$/gu, "")}`
+  : "";
+const siteOrigin = "https://olhossecos.com.br";
+
+const logicalPath = (pathname) => {
+  const normalized = pathname.replace(/\/$/u, "") || "/";
+  if (
+    basePath &&
+    (normalized === basePath || normalized.startsWith(`${basePath}/`))
+  ) {
+    return normalized.slice(basePath.length) || "/";
+  }
+  return normalized;
+};
+
 const superficiePocHeaders = () => ({
   name: "superficie-poc-headers",
   configureServer(server) {
@@ -35,7 +52,8 @@ const superficiePocHeaders = () => ({
 });
 
 export default defineConfig({
-  site: "https://olhossecos.com.br",
+  site: siteOrigin,
+  base: basePath || undefined,
   output: "static",
   trailingSlash: "never",
   devToolbar: {
@@ -46,9 +64,10 @@ export default defineConfig({
   }),
   integrations: [
     sitemap({
-      filter: (page) => isIndexableSitemapPath(page),
+      filter: (page) =>
+        isIndexableSitemapPath(logicalPath(new URL(page).pathname)),
       serialize(item) {
-        item.lastmod = lastmodForPath(new URL(item.url).pathname);
+        item.lastmod = lastmodForPath(logicalPath(new URL(item.url).pathname));
         return item;
       },
     }),

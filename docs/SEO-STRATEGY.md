@@ -1,3 +1,12 @@
+# Documento legado — estratégia de SEO de uma fase anterior
+
+> **Não executar neste repositório.** O texto abaixo descreve um produto que
+> não existe mais: site institucional de clínica em Next.js, com LocalBusiness,
+> `/faq`, `/blog`, `/videos` e CTA de agendamento. O portal atual é editorial
+> (Astro 7, sem clínica, sem CMS). A implementação real está em
+> `src/layouts/Layout.astro`, `src/lib/seo.ts` e `src/lib/sitemap-lastmod.ts`.
+> Consulte `CLAUDE.md` e `AGENTS.md`.
+
 # Estratégia e Implementação de SEO para olhossecos.com.br
 
 ## Visão Geral

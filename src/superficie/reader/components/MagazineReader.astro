@@ -1,5 +1,6 @@
 ---
 import "../reader.css";
+import { normalizeBasePath, withBasePath } from "@/lib/site-path";
 import PageViewport from "./PageViewport.astro";
 import ReaderPanels from "./ReaderPanels.astro";
 import ReaderToolbar from "./ReaderToolbar.astro";
@@ -15,16 +16,18 @@ interface Props {
 
 const { manifestUrl, issueLabel, pageCount, pdfHref, coverSrc, coverAlt } =
   Astro.props;
+const basePath = normalizeBasePath(import.meta.env.BASE_URL);
 ---
 
 <div
   class="magazine-reader"
   data-magazine-reader
   data-manifest-url={manifestUrl}
+  data-base-path={basePath}
 >
   <header class="reader-header">
     <a
-      href="/superficie"
+      href={withBasePath("/superficie", basePath)}
       class="reader-brand"
       aria-label="Sair do laboratório e voltar para SUPERFÍCIE"
     >

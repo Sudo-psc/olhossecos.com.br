@@ -4,6 +4,7 @@ import Footer from "@/components/Footer.astro";
 import AnalyticsCollector from "@/components/AnalyticsCollector.astro";
 import GlobalSearchModal from "@/components/GlobalSearchModal.astro";
 import { author } from "@/lib/books";
+import { normalizeBasePath, withBasePath } from "@/lib/site-path";
 import "@/styles/fonts.css";
 import "@/styles/tokens.css";
 
@@ -39,12 +40,13 @@ const {
   extraSchema,
 } = Astro.props;
 
-const siteUrl = new URL("/", Astro.site);
+const basePath = normalizeBasePath(import.meta.env.BASE_URL);
+const siteUrl = new URL(basePath || "/", "https://olhossecos.com.br");
 const canonical = new URL(Astro.url.pathname, siteUrl);
-const imageUrl = new URL(image, siteUrl);
-const isHome = canonical.pathname === "/";
-const canonicalHref = isHome ? siteUrl.origin : canonical.href;
-const shouldNoindex = noindex;
+const imageUrl = new URL(withBasePath(image, basePath), siteUrl);
+const isHome = canonical.pathname.replace(/\/$/u, "") === (basePath || "");
+const canonicalHref = isHome ? `${siteUrl.origin}${basePath}` : canonical.href;
+const shouldNoindex = noindex || Boolean(basePath);
 const fullTitle = isHome
   ? title
   : title.toLocaleLowerCase("pt-BR").includes("olho seco")
@@ -55,7 +57,7 @@ const breadcrumbItems =
   (isHome
     ? []
     : [
-        { name: "Início", url: "/" },
+        { name: "Início", url: withBasePath("/", basePath) },
         { name: title, url: canonical.pathname },
       ]);
 
@@ -66,7 +68,7 @@ const organization = {
   url: siteUrl.href,
   logo: {
     "@type": "ImageObject",
-    url: new URL("/favicon.svg", siteUrl).href,
+    url: new URL(withBasePath("/favicon.svg", basePath), siteUrl).href,
   },
 };
 
@@ -76,11 +78,14 @@ const organization = {
 // leva CRM e RQE em identifier.
 const person = {
   "@type": "Person",
-  "@id": new URL(`/autor/${author.slug}#person`, siteUrl).href,
+  "@id": new URL(
+    withBasePath(`/autor/${author.slug}#person`, basePath),
+    siteUrl,
+  ).href,
   name: author.name,
   jobTitle: author.role,
   identifier: author.registration,
-  url: new URL(`/autor/${author.slug}`, siteUrl).href,
+  url: new URL(withBasePath(`/autor/${author.slug}`, basePath), siteUrl).href,
 };
 
 const website = {
@@ -110,6 +115,9 @@ const page = {
       : undefined,
   datePublished,
   dateModified,
+  lastReviewed: schemaType === "MedicalWebPage" ? dateModified : undefined,
+  reviewedBy:
+    schemaType === "MedicalWebPage" ? { "@id": person["@id"] } : undefined,
   about:
     schemaType === "MedicalWebPage" || schemaType === "Article"
       ? {
@@ -142,7 +150,7 @@ const breadcrumbSchema =
           "@type": "ListItem",
           position: index + 1,
           name: item.name,
-          item: new URL(item.url, siteUrl).href,
+          item: new URL(withBasePath(item.url, basePath), siteUrl).href,
         })),
       }
     : undefined;
@@ -161,7 +169,9 @@ const structuredData = {
     imageObject,
     // A Person só entra no grafo quando algo aponta para ela; nas páginas que
     // não são Article o nó seria órfão.
-    ...(schemaType === "Article" ? [person] : []),
+    ...(schemaType === "Article" || schemaType === "MedicalWebPage"
+      ? [person]
+      : []),
     page,
     ...(breadcrumbSchema ? [breadcrumbSchema] : []),
     ...extraSchemas,
@@ -183,13 +193,25 @@ const structuredData = {
         : "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"}
     />
     <link rel="canonical" href={canonicalHref} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="48x48" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/manifest.json" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href={withBasePath("/favicon.svg", basePath)}
+    />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href={withBasePath("/favicon.ico", basePath)}
+      sizes="48x48"
+    />
+    <link
+      rel="apple-touch-icon"
+      href={withBasePath("/apple-touch-icon.png", basePath)}
+    />
+    <link rel="manifest" href={withBasePath("/manifest.json", basePath)} />
     <link
       rel="preload"
-      href="/fonts/source-serif-4-subset.woff2"
+      href={withBasePath("/fonts/source-serif-4-subset.woff2", basePath)}
       as="font"
       type="font/woff2"
       crossorigin

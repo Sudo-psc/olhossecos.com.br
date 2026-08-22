@@ -1,4 +1,11 @@
-/** @type {import('tailwindcss').Config} */
+/**
+ * Resquício. O portal não usa Tailwind — nenhuma dependência, nenhuma classe.
+ * O estilo vive em CSS com escopo do Astro e em `src/styles/tokens.css`.
+ * Este arquivo permanece só para não quebrar scripts antigos que ainda o
+ * procuram; não edite como se fosse o sistema de design.
+ *
+ * @type {import('tailwindcss').Config}
+ */
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {

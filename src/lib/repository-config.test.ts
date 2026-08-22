@@ -12,6 +12,9 @@ test("CI valida o portal com Node 24 sem executar deploy destrutivo", () => {
   assert.match(workflow, /run:\s*npm run lint/);
   assert.match(workflow, /run:\s*npm run format:check/);
   assert.match(workflow, /run:\s*npm run build/);
+  assert.match(workflow, /- v2/);
+  assert.match(workflow, /SITE_BASE_PATH/);
+  assert.match(workflow, /github\.base_ref == 'v2'/);
   assert.match(workflow, /run:\s*npm audit --audit-level=high/);
   assert.doesNotMatch(workflow, /git reset --hard/);
   assert.doesNotMatch(workflow, /appleboy\/ssh-action/);

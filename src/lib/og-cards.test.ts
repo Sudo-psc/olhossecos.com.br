@@ -1,8 +1,26 @@
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
+import { readdir, readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { test } from "node:test";
 import { guides } from "./guides.ts";
 import { publishedArticles } from "./superficie.ts";
+
+const portalSectionCards = [
+  "home",
+  "sintomas",
+  "causas",
+  "diagnostico",
+  "tratamentos",
+  "autocuidado",
+  "sinais-de-alerta",
+  "guias",
+  "olho-seco",
+  "glossario",
+  "profissionais",
+  "newsletter",
+  "app",
+];
 
 /**
  * Os cards OpenGraph são gerados por scripts/build-og-cards.mjs, fora do
@@ -25,6 +43,49 @@ test("todo guia tem card OpenGraph próprio", () => {
   );
 });
 
+test("as seções do portal têm card OpenGraph próprio", () => {
+  const missing = portalSectionCards
+    .map((slug) => `public/images/og/og-${slug}.png`)
+    .filter((path) => !existsSync(path));
+
+  assert.deepEqual(
+    missing,
+    [],
+    `rode node scripts/build-og-cards.mjs:\n${missing.join("\n")}`,
+  );
+});
+
+test("toda página que pede card de seção aponta para um arquivo existente", async () => {
+  const collect = async (directory: string): Promise<string[]> => {
+    const entries = await readdir(directory, { withFileTypes: true });
+    const files = await Promise.all(
+      entries.map(async (entry) => {
+        const path = join(directory, entry.name);
+        if (entry.isDirectory()) return collect(path);
+        return entry.name.endsWith(".astro") ? [path] : [];
+      }),
+    );
+    return files.flat();
+  };
+
+  const missing: string[] = [];
+  for (const file of await collect("src/pages")) {
+    const source = await readFile(file, "utf8");
+    for (const match of source.matchAll(
+      /image=["'](\/images\/og\/og-[^"']+\.png)["']/gu,
+    )) {
+      const relative = `public${match[1]}`;
+      if (!existsSync(relative)) missing.push(`${file} → ${relative}`);
+    }
+  }
+
+  assert.deepEqual(
+    missing,
+    [],
+    `página pede card que o script ainda não gera:\n${missing.join("\n")}`,
+  );
+});
+
 test("todo artigo publicado tem card OpenGraph próprio", () => {
   const missing = publishedArticles
     .filter((article) => !article.ogImage)
@@ -38,36 +99,11 @@ test("todo artigo publicado tem card OpenGraph próprio", () => {
   );
 });
 
-/**
- * O force-push de redesign-editorial-2026 sobre master (21/08/2026) tirou
- * da árvore os cards que o PR #28 tinha gerado para /olho-seco, /glossario
- * e /app. As páginas continuaram apontando para os arquivos; o teste de
- * guias/artigos não os cobria. Sem isto, o preview de compartilhamento
- * cai no 404 e o Layout devolve um og:image morto.
- */
-test("as seções do portal que declaram card próprio têm o arquivo no disco", () => {
-  const portalCards = [
-    "public/images/og/og-home.png",
-    "public/images/og/og-sintomas.png",
-    "public/images/og/og-causas.png",
-    "public/images/og/og-diagnostico.png",
-    "public/images/og/og-tratamentos.png",
-    "public/images/og/og-autocuidado.png",
-    "public/images/og/og-sinais-de-alerta.png",
-    "public/images/og/og-guias.png",
-    "public/images/og/og-profissionais.png",
-    "public/images/og/og-newsletter.png",
-    "public/images/og/og-olho-seco.png",
-    "public/images/og/og-glossario.png",
-    "public/images/og/og-app.png",
+test("a vitrine de livros tem o card OpenGraph que a página declara", () => {
+  assert.equal(
+    existsSync("public/images/livros/og-livros.png"),
+    true,
     "public/images/livros/og-livros.png",
-  ];
-  const missing = portalCards.filter((path) => !existsSync(path));
-
-  assert.deepEqual(
-    missing,
-    [],
-    `rode node scripts/build-og-cards.mjs:\n${missing.join("\n")}`,
   );
 });
 

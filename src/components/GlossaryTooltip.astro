@@ -275,13 +275,16 @@ const tooltipId = termData ? `glossary-tip-${termData.slug}` : undefined;
 
   @media (max-width: 480px) {
     .glossary-tooltip-card {
-      left: 0;
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      left: 16px;
+      width: auto;
       transform: translateY(4px);
     }
 
     .glossary-tooltip-card::after {
-      left: 1.5rem;
-      transform: none;
+      display: none;
     }
 
     .glossary-term-container:hover .glossary-tooltip-card,
