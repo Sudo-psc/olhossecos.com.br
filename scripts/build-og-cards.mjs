@@ -70,6 +70,13 @@ const cards = [
   ["guias", "Guias", "Leituras curtas para decidir com mais clareza"],
   ["profissionais", "Para profissionais", "Superfície ocular em profundidade"],
   ["newsletter", "Newsletter", "Conteúdo editorial no seu e-mail"],
+  ["olho-seco", "O que é olho seco?", "Filme lacrimal, tipos e mecanismos"],
+  ["app", "Dry Eye Widget", "Pausas e piscadas na rotina de telas"],
+  [
+    "glossario",
+    "Glossário do olho seco",
+    "Termos técnicos em linguagem simples",
+  ],
 ];
 
 /** Card do portal: papel branco, navy e teal. */

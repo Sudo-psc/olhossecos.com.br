@@ -39,6 +39,39 @@ test("todo artigo publicado tem card OpenGraph próprio", () => {
 });
 
 /**
+ * O force-push de redesign-editorial-2026 sobre master (21/08/2026) tirou
+ * da árvore os cards que o PR #28 tinha gerado para /olho-seco, /glossario
+ * e /app. As páginas continuaram apontando para os arquivos; o teste de
+ * guias/artigos não os cobria. Sem isto, o preview de compartilhamento
+ * cai no 404 e o Layout devolve um og:image morto.
+ */
+test("as seções do portal que declaram card próprio têm o arquivo no disco", () => {
+  const portalCards = [
+    "public/images/og/og-home.png",
+    "public/images/og/og-sintomas.png",
+    "public/images/og/og-causas.png",
+    "public/images/og/og-diagnostico.png",
+    "public/images/og/og-tratamentos.png",
+    "public/images/og/og-autocuidado.png",
+    "public/images/og/og-sinais-de-alerta.png",
+    "public/images/og/og-guias.png",
+    "public/images/og/og-profissionais.png",
+    "public/images/og/og-newsletter.png",
+    "public/images/og/og-olho-seco.png",
+    "public/images/og/og-glossario.png",
+    "public/images/og/og-app.png",
+    "public/images/livros/og-livros.png",
+  ];
+  const missing = portalCards.filter((path) => !existsSync(path));
+
+  assert.deepEqual(
+    missing,
+    [],
+    `rode node scripts/build-og-cards.mjs:\n${missing.join("\n")}`,
+  );
+});
+
+/**
  * Dois artigos traziam foto de capa própria e os outros dez caíam no card
  * gerado. O resultado aparecia em dois lugares: na home da revista, onde dois
  * cards vinham com imagem e dez sem, e no preview de compartilhamento, onde os
