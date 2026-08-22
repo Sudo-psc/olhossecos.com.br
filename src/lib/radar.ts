@@ -328,7 +328,7 @@ const julho2026: RadarReport = {
   seo: {
     title: "RADAR Científico — Julho 2026 | SUPERFÍCIE",
     description:
-      "Curadoria de junho e julho de 2026: dor crônica da superfície ocular, defeito epitelial persistente no NHS, blefaroplastia e olho seco, e ivermectina na blefarite por Demodex.",
+      "Curadoria de junho e julho de 2026: dor crônica da superfície, defeito epitelial persistente, blefaroplastia e ivermectina no Demodex.",
   },
 };
 
