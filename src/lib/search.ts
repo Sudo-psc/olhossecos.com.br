@@ -1,6 +1,7 @@
 import { books } from "./books.ts";
 import { glossaryTerms } from "./glossary.ts";
 import { guides } from "./guides.ts";
+import { getRadarReportPath, radarReports } from "./radar.ts";
 import { publishedArticles } from "./superficie.ts";
 
 export interface PortalSearchEntry {
@@ -12,7 +13,7 @@ export interface PortalSearchEntry {
 }
 
 export type UnifiedSearchType =
-  "portal" | "guia" | "artigo" | "livro" | "glossario";
+  "portal" | "guia" | "artigo" | "radar" | "livro" | "glossario";
 
 export interface UnifiedSearchItem {
   type: UnifiedSearchType;
@@ -244,10 +245,26 @@ export const getUnifiedSearchIndex = (): UnifiedSearchItem[] => {
     tags: term.aliases || [],
   }));
 
+  const radarItems: UnifiedSearchItem[] = radarReports.map((report) => ({
+    type: "radar",
+    typeLabel: "RADAR",
+    title: report.title,
+    description: report.executiveSummary,
+    href: getRadarReportPath(report),
+    meta: `RADAR Científico • ${report.label}`,
+    tags: [
+      "radar",
+      "evidência",
+      report.label,
+      ...report.findings.map((finding) => finding.section),
+    ],
+  }));
+
   return [
     ...portalItems,
     ...guideItems,
     ...articleItems,
+    ...radarItems,
     ...glossaryItems,
     ...bookItems,
   ];

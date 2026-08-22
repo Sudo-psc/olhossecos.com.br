@@ -1,8 +1,25 @@
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
+import { readdir, readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { test } from "node:test";
 import { guides } from "./guides.ts";
 import { publishedArticles } from "./superficie.ts";
+
+const portalSectionCards = [
+  "home",
+  "sintomas",
+  "causas",
+  "diagnostico",
+  "tratamentos",
+  "autocuidado",
+  "sinais-de-alerta",
+  "guias",
+  "olho-seco",
+  "glossario",
+  "profissionais",
+  "newsletter",
+];
 
 /**
  * Os cards OpenGraph são gerados por scripts/build-og-cards.mjs, fora do
@@ -22,6 +39,49 @@ test("todo guia tem card OpenGraph próprio", () => {
     missing,
     [],
     `rode node scripts/build-og-cards.mjs:\n${missing.join("\n")}`,
+  );
+});
+
+test("as seções do portal têm card OpenGraph próprio", () => {
+  const missing = portalSectionCards
+    .map((slug) => `public/images/og/og-${slug}.png`)
+    .filter((path) => !existsSync(path));
+
+  assert.deepEqual(
+    missing,
+    [],
+    `rode node scripts/build-og-cards.mjs:\n${missing.join("\n")}`,
+  );
+});
+
+test("toda página que pede card de seção aponta para um arquivo existente", async () => {
+  const collect = async (directory: string): Promise<string[]> => {
+    const entries = await readdir(directory, { withFileTypes: true });
+    const files = await Promise.all(
+      entries.map(async (entry) => {
+        const path = join(directory, entry.name);
+        if (entry.isDirectory()) return collect(path);
+        return entry.name.endsWith(".astro") ? [path] : [];
+      }),
+    );
+    return files.flat();
+  };
+
+  const missing: string[] = [];
+  for (const file of await collect("src/pages")) {
+    const source = await readFile(file, "utf8");
+    for (const match of source.matchAll(
+      /image=["'](\/images\/og\/og-[^"']+\.png)["']/gu,
+    )) {
+      const relative = `public${match[1]}`;
+      if (!existsSync(relative)) missing.push(`${file} → ${relative}`);
+    }
+  }
+
+  assert.deepEqual(
+    missing,
+    [],
+    `página pede card que o script ainda não gera:\n${missing.join("\n")}`,
   );
 });
 

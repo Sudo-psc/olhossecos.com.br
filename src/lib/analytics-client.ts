@@ -17,6 +17,7 @@ const safePropertyNames = new Set([
   "page_number",
   "progress_percent",
   "query_length",
+  "result_count",
   "source",
   "store",
   "utm_campaign",

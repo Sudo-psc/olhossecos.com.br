@@ -63,6 +63,9 @@ const searchIndex = getUnifiedSearchIndex();
       <button type="button" class="filter-chip" data-filter="artigo"
         >SUPERFÍCIE</button
       >
+      <button type="button" class="filter-chip" data-filter="radar"
+        >RADAR</button
+      >
       <button type="button" class="filter-chip" data-filter="glossario"
         >Glossário</button
       >
@@ -169,6 +172,28 @@ const searchIndex = getUnifiedSearchIndex();
     let activeFilter = "all";
     let activeIndex = -1;
     let currentResults: SearchItem[] = [];
+    let searchAnalyticsTimer = 0;
+    let lastTrackedQuery = "";
+
+    const emitSearchAnalytics = (query: string, resultCount: number) => {
+      const trimmed = query.trim();
+      if (trimmed.length < 2) return;
+      window.clearTimeout(searchAnalyticsTimer);
+      searchAnalyticsTimer = window.setTimeout(() => {
+        const fingerprint = `${trimmed.length}:${resultCount}:${activeFilter}`;
+        if (fingerprint === lastTrackedQuery) return;
+        lastTrackedQuery = fingerprint;
+        const detail = {
+          event: "search",
+          query_length: trimmed.length,
+          result_count: resultCount,
+          source: "global_search",
+        };
+        window.dispatchEvent(
+          new CustomEvent("olhossecos:analytics", { detail }),
+        );
+      }, 450);
+    };
 
     const normalize = (val: string) =>
       val
@@ -327,8 +352,11 @@ const searchIndex = getUnifiedSearchIndex();
         resultsContainer.innerHTML = "";
         resultsContainer.hidden = true;
         if (emptyState) emptyState.hidden = false;
+        emitSearchAnalytics(query, 0);
         return;
       }
+
+      emitSearchAnalytics(query, currentResults.length);
 
       if (emptyState) emptyState.hidden = true;
       resultsContainer.hidden = false;
@@ -606,6 +634,11 @@ const searchIndex = getUnifiedSearchIndex();
   .badge-artigo {
     background: #001a33;
     color: #d9b665;
+  }
+
+  .badge-radar {
+    background: #0b827f;
+    color: #f7f4ed;
   }
 
   .badge-glossario {

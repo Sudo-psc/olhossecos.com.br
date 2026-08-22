@@ -11,7 +11,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "lint": "eslint \"src/**/*.{astro,js,ts}\"",
-    "test": "node --test src/lib/*.test.ts scripts/*.test.mjs src/superficie/reader/reader-core.test.ts src/superficie/reader/audio/*.test.ts src/superficie/reader/storage/*.test.ts",
+    "test": "node --experimental-strip-types --test src/lib/*.test.ts scripts/*.test.mjs src/superficie/reader/reader-core.test.ts src/superficie/reader/audio/*.test.ts src/superficie/reader/storage/*.test.ts",
     "test:reader": "node --test src/superficie/reader/reader-core.test.ts src/superficie/reader/audio/*.test.ts src/superficie/reader/storage/*.test.ts",
     "test:e2e:reader": "playwright test e2e/superficie-reader.spec.ts",
     "test:routes": "node scripts/verify-release-routes.mjs",
