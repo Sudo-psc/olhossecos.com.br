@@ -64,6 +64,17 @@ test("manifest validation accepts the reusable issue contract", () => {
   assert.equal(result.data?.pages[1]?.number, 2);
 });
 
+test("manifest validation accepts assets published below a base path", () => {
+  const prefixedManifest = JSON.parse(
+    JSON.stringify(validManifest).replaceAll(
+      '"/superficie/issues/',
+      '"/v2/superficie/issues/',
+    ),
+  );
+  const result = validateIssueManifest(prefixedManifest, "/v2");
+  assert.equal(result.success, true);
+});
+
 test("manifest validation rejects external assets and invalid references", () => {
   const unsafe = {
     ...validManifest,

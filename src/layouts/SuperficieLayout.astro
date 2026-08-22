@@ -4,6 +4,7 @@ import SuperficieHeader from "@/components/superficie/SuperficieHeader.astro";
 import AnalyticsCollector from "@/components/AnalyticsCollector.astro";
 import GlobalSearchModal from "@/components/GlobalSearchModal.astro";
 import { magazineDescription } from "@/lib/superficie";
+import { normalizeBasePath, withBasePath } from "@/lib/site-path";
 import "@/styles/fonts.css";
 
 interface Props {
@@ -46,13 +47,27 @@ const {
   extraSchema,
 } = Astro.props;
 
-const siteUrl = new URL("/", Astro.site);
+const basePath = normalizeBasePath(import.meta.env.BASE_URL);
+const siteUrl = new URL(basePath || "/", "https://olhossecos.com.br");
 const canonical = new URL(Astro.url.pathname, siteUrl);
-const imageUrl = new URL(image, siteUrl);
-const portalOrganizationId = new URL("/#organization", siteUrl).href;
-const mediaOrganizationId = new URL("/superficie#organization", siteUrl).href;
-const periodicalId = new URL("/superficie#periodical", siteUrl).href;
-const websiteId = new URL("/superficie#website", siteUrl).href;
+const imageUrl = new URL(withBasePath(image, basePath), siteUrl);
+const effectiveRobots = basePath ? "noindex,nofollow,noarchive" : robots;
+const portalOrganizationId = new URL(
+  withBasePath("/#organization", basePath),
+  siteUrl,
+).href;
+const mediaOrganizationId = new URL(
+  withBasePath("/superficie#organization", basePath),
+  siteUrl,
+).href;
+const periodicalId = new URL(
+  withBasePath("/superficie#periodical", basePath),
+  siteUrl,
+).href;
+const websiteId = new URL(
+  withBasePath("/superficie#website", basePath),
+  siteUrl,
+).href;
 
 const page = {
   "@type": schemaType,
@@ -84,7 +99,7 @@ const baseGraph: Record<string, unknown>[] = [
     "@type": "NewsMediaOrganization",
     "@id": mediaOrganizationId,
     name: "SUPERFÍCIE Media",
-    url: new URL("/superficie", siteUrl).href,
+    url: new URL(withBasePath("/superficie", basePath), siteUrl).href,
     isPartOf: { "@id": portalOrganizationId },
   },
   {
@@ -95,7 +110,7 @@ const baseGraph: Record<string, unknown>[] = [
     description: magazineDescription,
     inLanguage: "pt-BR",
     publisher: { "@id": mediaOrganizationId },
-    url: new URL("/superficie", siteUrl).href,
+    url: new URL(withBasePath("/superficie", basePath), siteUrl).href,
   },
   {
     "@type": "WebSite",
@@ -126,7 +141,7 @@ if (breadcrumbs.length > 0) {
       "@type": "ListItem",
       position: index + 1,
       name: item.name,
-      item: new URL(item.url, siteUrl).href,
+      item: new URL(withBasePath(item.url, basePath), siteUrl).href,
     })),
   });
 }
@@ -149,15 +164,27 @@ const structuredData = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#001a33" />
     <meta name="description" content={description} />
-    <meta name="robots" content={robots} />
+    <meta name="robots" content={effectiveRobots} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="48x48" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/manifest.json" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href={withBasePath("/favicon.svg", basePath)}
+    />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href={withBasePath("/favicon.ico", basePath)}
+      sizes="48x48"
+    />
+    <link
+      rel="apple-touch-icon"
+      href={withBasePath("/apple-touch-icon.png", basePath)}
+    />
+    <link rel="manifest" href={withBasePath("/manifest.json", basePath)} />
     <link
       rel="preload"
-      href="/fonts/source-serif-4-subset.woff2"
+      href={withBasePath("/fonts/source-serif-4-subset.woff2", basePath)}
       as="font"
       type="font/woff2"
       crossorigin

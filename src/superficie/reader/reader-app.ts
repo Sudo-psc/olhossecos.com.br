@@ -1,5 +1,6 @@
 import { SiteReaderAnalytics } from "./analytics/SiteReaderAnalytics.ts";
 import { PageAudioController } from "./audio/PageAudioController.ts";
+import { normalizeBasePath, withBasePath } from "../../lib/site-path.ts";
 import type { PageTurnAdapter } from "./engines/PageTurnAdapter.ts";
 import { SimplePageTurnAdapter } from "./engines/SimplePageTurnAdapter.ts";
 import { validateIssueManifest } from "./manifest.ts";
@@ -38,6 +39,7 @@ export async function initMagazineReader(root: HTMLElement): Promise<void> {
 
 class MagazineReaderController {
   private readonly root: HTMLElement;
+  private readonly basePath: string;
   private readonly ui: ReaderUi;
   private readonly analytics = new SiteReaderAnalytics();
   private audio = new PageAudioController([]);
@@ -64,6 +66,7 @@ class MagazineReaderController {
 
   constructor(root: HTMLElement) {
     this.root = root;
+    this.basePath = normalizeBasePath(root.dataset.basePath ?? "");
     this.ui = new ReaderUi(root);
     try {
       this.storage = new IndexedDbReaderStorage();
@@ -140,7 +143,10 @@ class MagazineReaderController {
     const response = await fetch(manifestUrl);
     if (!response.ok)
       throw new Error(`Manifest indisponível (${response.status}).`);
-    const validation = validateIssueManifest(await response.json());
+    const validation = validateIssueManifest(
+      await response.json(),
+      this.basePath,
+    );
     if (!validation.success) throw new Error(validation.errors.join(" "));
     return validation.data;
   }
@@ -299,7 +305,7 @@ class MagazineReaderController {
     if (action === "simple-reader") return void this.enableSimpleReader();
     if (action === "close") {
       if (window.history.length > 1) window.history.back();
-      else window.location.assign("/superficie");
+      else window.location.assign(withBasePath("/superficie", this.basePath));
     }
   }
 

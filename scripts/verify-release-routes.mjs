@@ -2,12 +2,16 @@ import { spawn } from "node:child_process";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { normalizeBasePath, withBasePath } from "./site-base-path.mjs";
 import { dataBackedPaths, lastmodForPath } from "../src/lib/sitemap-lastmod.ts";
 
 const host = "127.0.0.1";
 const port = process.env.ROUTE_TEST_PORT ?? "44321";
 const localOrigin = `http://${host}:${port}`;
 const productionOrigin = "https://olhossecos.com.br";
+const basePath = normalizeBasePath(process.env.SITE_BASE_PATH);
+const publicOrigin = `${productionOrigin}${basePath}`;
+const publicPath = (path) => withBasePath(path, basePath);
 const testDirectory = mkdtempSync(join(tmpdir(), "olhossecos-routes-"));
 const analyticsDatabasePath = join(testDirectory, "analytics.sqlite");
 
@@ -17,10 +21,10 @@ const server = spawn(process.execPath, ["dist/server/entry.mjs"], {
     HOST: host,
     PORT: port,
     NODE_ENV: "production",
-    NEWSLETTER_ALLOWED_ORIGIN: productionOrigin,
+    NEWSLETTER_ALLOWED_ORIGIN: publicOrigin,
     NEWSLETTER_TOKEN_SECRET:
       "segredo-de-teste-de-rotas-com-pelo-menos-32-caracteres",
-    ANALYTICS_ALLOWED_ORIGIN: productionOrigin,
+    ANALYTICS_ALLOWED_ORIGIN: publicOrigin,
     ANALYTICS_DATABASE_PATH: analyticsDatabasePath,
   },
   stdio: ["ignore", "pipe", "pipe"],
@@ -41,7 +45,7 @@ const waitForServer = async () => {
     }
 
     try {
-      const response = await fetch(`${localOrigin}/`);
+      const response = await fetch(`${localOrigin}${publicPath("/")}`);
       if (response.status === 200) return;
     } catch {
       // O processo ainda está iniciando.
@@ -54,7 +58,7 @@ const waitForServer = async () => {
 };
 
 const assertStatus = async (path, expectedStatus = 200) => {
-  const response = await fetch(`${localOrigin}${path}`);
+  const response = await fetch(`${localOrigin}${publicPath(path)}`);
   if (response.status !== expectedStatus) {
     throw new Error(
       `${path}: esperado HTTP ${expectedStatus}, recebido ${response.status}`,
@@ -70,7 +74,7 @@ const assertPage = async (path, canonicalPath) => {
   if (h1Count !== 1) {
     throw new Error(`${path}: esperado um H1, encontrados ${h1Count}`);
   }
-  const canonical = `<link rel="canonical" href="${productionOrigin}${canonicalPath}">`;
+  const canonical = `<link rel="canonical" href="${publicOrigin}${canonicalPath === "/" ? "" : canonicalPath}">`;
   if (!html.includes(canonical)) {
     throw new Error(`${path}: canonical ausente ou incorreto`);
   }
@@ -80,7 +84,7 @@ const assertPage = async (path, canonicalPath) => {
 try {
   await waitForServer();
   const homeHtml = await (await assertStatus("/")).text();
-  if (!/href="\/newsletter"/u.test(homeHtml)) {
+  if (!homeHtml.includes(`href="${publicPath("/newsletter")}"`)) {
     throw new Error("homepage: link global para /newsletter ausente");
   }
   await assertStatus("/superficie");
@@ -120,12 +124,12 @@ try {
   await assertPage("/newsletter/confirmar", "/newsletter/confirmar");
 
   const unsubscribeResponse = await fetch(
-    `${localOrigin}/api/newsletter-unsubscribe`,
+    `${localOrigin}${publicPath("/api/newsletter-unsubscribe")}`,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Origin: productionOrigin,
+        Origin: publicOrigin,
       },
       body: JSON.stringify({ token: "invalido" }),
     },
@@ -136,14 +140,17 @@ try {
     );
   }
 
-  const analyticsResponse = await fetch(`${localOrigin}/api/analytics`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Origin: productionOrigin,
+  const analyticsResponse = await fetch(
+    `${localOrigin}${publicPath("/api/analytics")}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Origin: publicOrigin,
+      },
+      body: JSON.stringify({ event: "page_view", page_path: "/newsletter" }),
     },
-    body: JSON.stringify({ event: "page_view", page_path: "/newsletter" }),
-  });
+  );
   if (analyticsResponse.status !== 202) {
     throw new Error(
       `/api/analytics: esperado HTTP 202, recebido ${analyticsResponse.status}`,
@@ -167,7 +174,9 @@ try {
     "/superficie/artigos",
     "/newsletter",
   ]) {
-    if (!sitemap.includes(`<loc>${productionOrigin}${path}</loc>`)) {
+    if (
+      !sitemap.includes(`<loc>${publicOrigin}${path === "/" ? "" : path}</loc>`)
+    ) {
       throw new Error(`sitemap: ${path} ausente`);
     }
   }
@@ -179,7 +188,15 @@ try {
   const emitted = new Map(
     [...sitemap.matchAll(/<loc>([^<]+)<\/loc><lastmod>([^<]{10})/gu)].map(
       (match) => [
-        new URL(match[1]).pathname.replace(/\/$/u, "") || "/",
+        (() => {
+          const pathname = new URL(match[1]).pathname;
+          const logicalPath =
+            basePath &&
+            (pathname === basePath || pathname.startsWith(`${basePath}/`))
+              ? pathname.slice(basePath.length) || "/"
+              : pathname;
+          return logicalPath.replace(/\/$/u, "") || "/";
+        })(),
         match[2],
       ],
     ),
