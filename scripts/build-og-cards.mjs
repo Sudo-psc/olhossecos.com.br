@@ -76,6 +76,7 @@ const cards = [
   ["glossario", "Glossário", "Termos da superfície ocular em linguagem clara"],
   ["profissionais", "Para profissionais", "Superfície ocular em profundidade"],
   ["newsletter", "Newsletter", "Conteúdo editorial no seu e-mail"],
+  ["app", "Dry Eye Widget", "Pausas e piscadas na rotina de telas"],
 ];
 
 /** Card do portal: papel branco, navy e teal. */

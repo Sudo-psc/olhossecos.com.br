@@ -2,6 +2,7 @@ import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import node from "@astrojs/node";
 import { lastmodForPath } from "./src/lib/sitemap-lastmod.ts";
+import { isIndexableSitemapPath } from "./src/lib/seo.ts";
 
 const pocRobotsHeader = "noindex, nofollow, noarchive";
 
@@ -63,18 +64,8 @@ export default defineConfig({
   }),
   integrations: [
     sitemap({
-      filter: (page) => {
-        const path = logicalPath(new URL(page).pathname);
-        return !new Set([
-          "/blog",
-          "/videos",
-          "/exames",
-          "/newsletter/confirmar",
-          "/newsletter/descadastrar",
-          "/superficie/lab/flipbook",
-          "/superficie/lab/edicao-00",
-        ]).has(path);
-      },
+      filter: (page) =>
+        isIndexableSitemapPath(logicalPath(new URL(page).pathname)),
       serialize(item) {
         item.lastmod = lastmodForPath(logicalPath(new URL(item.url).pathname));
         return item;
