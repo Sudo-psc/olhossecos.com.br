@@ -231,8 +231,7 @@ const isActive = (href: string) => pathname.startsWith(href);
   const footer = document.querySelector("footer");
 
   const isApplePlatform = () =>
-    /Mac|iPhone|iPad|iPod/u.test(navigator.platform) ||
-    /Mac OS X/u.test(navigator.userAgent);
+    /Mac OS X|iPhone|iPad|iPod/u.test(navigator.userAgent);
 
   document
     .querySelectorAll<HTMLElement>("[data-search-shortcut]")
