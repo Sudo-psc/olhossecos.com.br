@@ -17,18 +17,28 @@ const hasString = (record: Record<string, unknown>, key: string) =>
   record[key].length > 0 &&
   record[key].length <= 500;
 
-const issueAssetRoot = (value: unknown): string | null => {
+const stripBasePath = (value: string, basePath: string) => {
+  if (!basePath) return value;
+  if (value === basePath) return "/";
+  return value.startsWith(`${basePath}/`)
+    ? value.slice(basePath.length)
+    : value;
+};
+
+const issueAssetRoot = (value: unknown, basePath = ""): string | null => {
+  const logicalValue =
+    typeof value === "string" ? stripBasePath(value, basePath) : value;
   if (
-    typeof value !== "string" ||
-    value.length > 500 ||
-    !value.startsWith("/superficie/issues/") ||
-    /[\u0000-\u001f\u007f]/u.test(value)
+    typeof logicalValue !== "string" ||
+    logicalValue.length > 500 ||
+    !logicalValue.startsWith("/superficie/issues/") ||
+    /[\u0000-\u001f\u007f]/u.test(logicalValue)
   ) {
     return null;
   }
   let decoded: string;
   try {
-    decoded = decodeURIComponent(value);
+    decoded = decodeURIComponent(logicalValue);
   } catch {
     return null;
   }
@@ -38,7 +48,7 @@ const issueAssetRoot = (value: unknown): string | null => {
   ) {
     return null;
   }
-  const url = new URL(value, "https://reader.invalid");
+  const url = new URL(logicalValue, "https://reader.invalid");
   if (url.origin !== "https://reader.invalid" || url.search || url.hash) {
     return null;
   }
@@ -46,25 +56,25 @@ const issueAssetRoot = (value: unknown): string | null => {
   return match?.[1] ? `/superficie/issues/${match[1]}/` : null;
 };
 
-const isSafeIssueAsset = (value: unknown): value is string =>
-  issueAssetRoot(value) !== null;
+const isSafeIssueAsset = (value: unknown, basePath = ""): value is string =>
+  issueAssetRoot(value, basePath) !== null;
 
-const isPage = (value: unknown): value is MagazinePage => {
+const isPage = (value: unknown, basePath = ""): value is MagazinePage => {
   if (!isRecord(value) || !isRecord(value.image)) return false;
   return (
     Number.isInteger(value.number) &&
-    isSafeIssueAsset(value.image.small) &&
-    isSafeIssueAsset(value.image.medium) &&
-    isSafeIssueAsset(value.image.large) &&
-    isSafeIssueAsset(value.thumbnail) &&
-    isSafeIssueAsset(value.textLayer)
+    isSafeIssueAsset(value.image.small, basePath) &&
+    isSafeIssueAsset(value.image.medium, basePath) &&
+    isSafeIssueAsset(value.image.large, basePath) &&
+    isSafeIssueAsset(value.thumbnail, basePath) &&
+    isSafeIssueAsset(value.textLayer, basePath)
   );
 };
 
 const isTocEntry = (value: unknown): value is IssueTocEntry =>
   isRecord(value) && hasString(value, "title") && Number.isInteger(value.page);
 
-const isArticle = (value: unknown): value is IssueArticle =>
+const isArticle = (value: unknown, basePath = ""): value is IssueArticle =>
   isRecord(value) &&
   hasString(value, "id") &&
   hasString(value, "title") &&
@@ -72,9 +82,12 @@ const isArticle = (value: unknown): value is IssueArticle =>
   value.pages.length > 0 &&
   value.pages.length <= 500 &&
   value.pages.every(Number.isInteger) &&
-  (value.htmlPath === undefined || isSafeIssueAsset(value.htmlPath));
+  (value.htmlPath === undefined || isSafeIssueAsset(value.htmlPath, basePath));
 
-export const validateIssueManifest = (value: unknown): ValidationResult => {
+export const validateIssueManifest = (
+  value: unknown,
+  basePath = "",
+): ValidationResult => {
   const errors: string[] = [];
   if (!isRecord(value)) {
     return {
@@ -95,27 +108,33 @@ export const validateIssueManifest = (value: unknown): ValidationResult => {
   ) {
     errors.push("pageCount deve ser um inteiro entre 1 e 500.");
   }
-  if (!Array.isArray(value.pages) || !value.pages.every(isPage)) {
+  if (
+    !Array.isArray(value.pages) ||
+    !value.pages.every((page) => isPage(page, basePath))
+  ) {
     errors.push("pages contém uma página inválida.");
   }
   if (!Array.isArray(value.toc) || !value.toc.every(isTocEntry)) {
     errors.push("toc contém uma entrada inválida.");
   }
-  if (!Array.isArray(value.articles) || !value.articles.every(isArticle)) {
+  if (
+    !Array.isArray(value.articles) ||
+    !value.articles.every((article) => isArticle(article, basePath))
+  ) {
     errors.push("articles contém uma entrada inválida.");
   }
   if (
     !Array.isArray(value.audioSources) ||
     value.audioSources.length < 2 ||
     value.audioSources.length > 3 ||
-    !value.audioSources.every(isSafeIssueAsset)
+    !value.audioSources.every((source) => isSafeIssueAsset(source, basePath))
   ) {
     errors.push("audioSources deve conter entre duas e três URLs.");
   }
-  if (!isSafeIssueAsset(value.searchIndex)) {
+  if (!isSafeIssueAsset(value.searchIndex, basePath)) {
     errors.push("searchIndex deve apontar para um asset local da edição.");
   }
-  if (!isSafeIssueAsset(value.pdfFallback)) {
+  if (!isSafeIssueAsset(value.pdfFallback, basePath)) {
     errors.push("pdfFallback deve apontar para um asset local da edição.");
   }
 
@@ -144,7 +163,9 @@ export const validateIssueManifest = (value: unknown): ValidationResult => {
         )
       : []),
   ];
-  const assetRoots = assetValues.map(issueAssetRoot).filter(Boolean);
+  const assetRoots = assetValues
+    .map((asset) => issueAssetRoot(asset, basePath))
+    .filter(Boolean);
   if (new Set(assetRoots).size > 1) {
     errors.push(
       "Todos os assets devem pertencer ao diretório da mesma edição.",
@@ -161,7 +182,7 @@ export const validateIssueManifest = (value: unknown): ValidationResult => {
 
   if (Array.isArray(value.pages)) {
     value.pages.forEach((page, index) => {
-      if (isPage(page) && page.number !== index + 1) {
+      if (isPage(page, basePath) && page.number !== index + 1) {
         errors.push("pages devem usar numeração sequencial iniciada em 1.");
       }
     });
@@ -180,7 +201,9 @@ export const validateIssueManifest = (value: unknown): ValidationResult => {
     errors.push("toc contém referência fora do intervalo da edição.");
   }
   if (Array.isArray(value.articles)) {
-    const validArticles = value.articles.filter(isArticle);
+    const validArticles = value.articles.filter((article) =>
+      isArticle(article, basePath),
+    );
     const articleIds = validArticles.map((article) => article.id);
     const invalidReferences = validArticles.some((article) =>
       article.pages.some((page) => page < 1 || page > pageCount),
@@ -196,7 +219,7 @@ export const validateIssueManifest = (value: unknown): ValidationResult => {
       Array.isArray(value.pages) &&
       value.pages.some(
         (page) =>
-          isPage(page) &&
+          isPage(page, basePath) &&
           typeof page.articleId === "string" &&
           !articleIds.includes(page.articleId),
       )

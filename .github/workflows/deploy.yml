@@ -4,11 +4,15 @@ on:
   push:
     branches:
       - master
+      - v2
   pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
+
+env:
+  SITE_BASE_PATH: ${{ (github.ref_name == 'v2' || github.base_ref == 'v2') && '/v2' || '' }}
 
 concurrency:
   group: ci-${{ github.ref }}

@@ -1,8 +1,14 @@
 ---
 const endpoint = import.meta.env.PUBLIC_ANALYTICS_ENDPOINT || "/api/analytics";
+const rawBasePath = import.meta.env.BASE_URL.replace(/^\/+|\/+$/gu, "");
+const basePath = rawBasePath ? `/${rawBasePath}` : "";
 ---
 
-<span data-analytics-collector data-endpoint={endpoint} hidden></span>
+<span
+  data-analytics-collector
+  data-endpoint={endpoint}
+  data-base-path={basePath}
+  hidden></span>
 
 <script>
   import {
@@ -21,13 +27,21 @@ const endpoint = import.meta.env.PUBLIC_ANALYTICS_ENDPOINT || "/api/analytics";
     "[data-analytics-collector]",
   );
   const endpoint = marker?.dataset.endpoint;
+  const basePath = marker?.dataset.basePath || "";
+  const logicalPath = (path: string) =>
+    basePath && (path === basePath || path.startsWith(`${basePath}/`))
+      ? path.slice(basePath.length) || "/"
+      : path;
 
   if (endpoint && !analyticsWindow.olhosSecosAnalyticsReady) {
     analyticsWindow.olhosSecosAnalyticsReady = true;
     const recentEvents = new Map<string, number>();
 
     const send = (detail: Record<string, unknown>) => {
-      const payload = getSafeAnalyticsDetail(detail, window.location.pathname);
+      const payload = getSafeAnalyticsDetail(
+        detail,
+        logicalPath(window.location.pathname),
+      );
       if (!payload) return;
 
       const now = Date.now();
@@ -74,7 +88,9 @@ const endpoint = import.meta.env.PUBLIC_ANALYTICS_ENDPOINT || "/api/analytics";
       if (detail) send(detail);
     });
 
-    send({ event: getInitialAnalyticsEvent(window.location.pathname) });
+    send({
+      event: getInitialAnalyticsEvent(logicalPath(window.location.pathname)),
+    });
 
     document.addEventListener(
       "click",
@@ -95,8 +111,8 @@ const endpoint = import.meta.env.PUBLIC_ANALYTICS_ENDPOINT || "/api/analytics";
         }
 
         if (
-          destination.pathname === "/app" &&
-          window.location.pathname !== "/app"
+          logicalPath(destination.pathname) === "/app" &&
+          logicalPath(window.location.pathname) !== "/app"
         ) {
           send({
             event: "app_click",

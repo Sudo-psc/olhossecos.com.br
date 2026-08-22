@@ -2,6 +2,7 @@ import { execFileSync } from "node:child_process";
 import { rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { rewriteClientBase } from "./site-base-path.mjs";
 
 const repositoryDirectory = dirname(dirname(fileURLToPath(import.meta.url)));
 const git = (argumentsList) =>
@@ -47,6 +48,11 @@ for (const leftover of leftovers) {
     force: true,
   });
 }
+
+await rewriteClientBase(
+  join(repositoryDirectory, "dist", "client"),
+  process.env.SITE_BASE_PATH,
+);
 
 writeFileSync(
   join(repositoryDirectory, "dist", "BUILD_METADATA.json"),

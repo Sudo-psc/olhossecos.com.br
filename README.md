@@ -88,6 +88,9 @@ o Gate F; publicação exige candidato identificado por commit, backup, QA,
 release anterior para rollback e autorização explícita. Consulte
 `docs/VPS-DEPLOY.md`.
 
+O fluxo de pré-produção da branch `v2`, publicada sob `/v2` antes da promoção
+para `master`, está em `docs/V2-WORKFLOW.md`.
+
 ## Segurança
 
 - Nunca versione `.env`, tokens, credenciais, bancos, listas da newsletter ou contatos de parceiros.
