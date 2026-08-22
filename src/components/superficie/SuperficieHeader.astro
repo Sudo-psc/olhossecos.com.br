@@ -365,6 +365,10 @@ const nav = [
     border-color: var(--surface-teal, #0b827f);
   }
 
+  .surface-search-btn:active {
+    background: #e8f1f4;
+  }
+
   .surface-mobile-search-btn {
     display: flex;
     align-items: center;
@@ -380,12 +384,24 @@ const nav = [
     font-size: 0.84rem;
     font-weight: 750;
     cursor: pointer;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease;
   }
 
   .surface-mobile-search-btn svg {
     width: 17px;
     height: 17px;
     color: var(--surface-gold-light, #d9b665);
+  }
+
+  .surface-mobile-search-btn:hover {
+    background: rgb(217 182 101 / 22%);
+    border-color: var(--surface-gold-light, #d9b665);
+  }
+
+  .surface-mobile-search-btn:active {
+    background: rgb(217 182 101 / 30%);
   }
 
   .sticky-actions {
@@ -415,6 +431,10 @@ const nav = [
 
   .sticky-search-btn:hover {
     background: rgb(217 182 101 / 15%);
+  }
+
+  .sticky-search-btn:active {
+    background: rgb(217 182 101 / 24%);
   }
 
   .portal-brand,

@@ -159,6 +159,10 @@ const isActive = (href: string) => pathname.startsWith(href);
     color: var(--ink, #071d45);
   }
 
+  .header-search-btn:active {
+    background: #d5eaef;
+  }
+
   .mobile-search-btn {
     display: flex;
     align-items: center;
@@ -174,6 +178,18 @@ const isActive = (href: string) => pathname.startsWith(href);
     font-size: 0.9rem;
     font-weight: 650;
     cursor: pointer;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease;
+  }
+
+  .mobile-search-btn:hover {
+    background: #e2f1f5;
+    border-color: var(--teal-dark, #00657a);
+  }
+
+  .mobile-search-btn:active {
+    background: #d5eaef;
   }
 
   .mobile-search-btn svg {
