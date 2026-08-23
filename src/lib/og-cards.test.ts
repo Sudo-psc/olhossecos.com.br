@@ -19,6 +19,7 @@ const portalSectionCards = [
   "glossario",
   "profissionais",
   "newsletter",
+  "app",
 ];
 
 /**
@@ -95,6 +96,14 @@ test("todo artigo publicado tem card OpenGraph próprio", () => {
     missing,
     [],
     `rode node scripts/build-og-cards.mjs:\n${missing.join("\n")}`,
+  );
+});
+
+test("a vitrine de livros tem o card OpenGraph que a página declara", () => {
+  assert.equal(
+    existsSync("public/images/livros/og-livros.png"),
+    true,
+    "public/images/livros/og-livros.png",
   );
 });
 
