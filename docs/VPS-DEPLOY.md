@@ -167,6 +167,7 @@ Verificar pelo menos:
 - analytics: origem cruzada 403 e evento sintético autorizado 202;
 - newsletter: GET 405, origem cruzada 403, cadastro sintético, descadastro e
   supressão;
+- integridade do SQLite da newsletter (ver seção adiante);
 - `/superficie/parceiros` e seu endpoint;
 - sitemap, robots e canonicalização;
 - H1, title, description, JSON-LD e Open Graph;
@@ -176,9 +177,173 @@ Verificar pelo menos:
 
 Remova registros sintéticos dos bancos depois do QA.
 
+## Integridade do SQLite da newsletter
+
+O banco em `/var/lib/olhossecos/newsletter.sqlite` **não** faz parte do artefato `dist`. Rollback do site não reverte o SQLite automaticamente. Validar integridade no Gate F e nunca copiar e-mails, nomes ou outros PII para logs públicos, chat ou Notion.
+
+Expectativas operacionais:
+
+- diretório `/var/lib/olhossecos` com modo `0700` e proprietário adequado (`www-data`);
+- arquivo `.sqlite` com modo `0600`;
+- tabela `newsletter_subscribers` e índice `newsletter_subscribers_status_idx`;
+- `status` apenas em `active` ou `unsubscribed`;
+- `email` único com `COLLATE NOCASE`;
+- `consent_version` preenchido (ex.: `privacy-2026-08-07`).
+
+### Baseline (antes da troca, se o arquivo já existir)
+
+```bash
+DB=/var/lib/olhossecos/newsletter.sqlite
+
+ls -la /var/lib/olhossecos/
+stat -c '%a %U:%G %n' /var/lib/olhossecos "$DB" 2>/dev/null || echo "DB ainda não existe"
+
+if [ -f "$DB" ]; then
+  sqlite3 "$DB" "SELECT COUNT(*) AS total FROM newsletter_subscribers;"
+  sqlite3 "$DB" "SELECT status, COUNT(*) FROM newsletter_subscribers GROUP BY status;"
+fi
+```
+
+Registrar apenas contagens agregadas no handoff.
+
+### Checagem estrutural (pós-restart)
+
+```bash
+DB=/var/lib/olhossecos/newsletter.sqlite
+
+sqlite3 "$DB" "PRAGMA integrity_check;"   # esperado: ok
+sqlite3 "$DB" "PRAGMA quick_check;"       # esperado: ok
+sqlite3 "$DB" "PRAGMA journal_mode;"      # esperado: wal (após uso pelo app)
+sqlite3 "$DB" ".tables"
+sqlite3 "$DB" "SELECT name, type FROM sqlite_master WHERE type IN ('table','index') ORDER BY type, name;"
+```
+
+### Consistência de dados (sem PII)
+
+```bash
+DB=/var/lib/olhossecos/newsletter.sqlite
+
+sqlite3 "$DB" <<'SQL'
+SELECT COUNT(*) AS total FROM newsletter_subscribers;
+SELECT status, COUNT(*) AS n FROM newsletter_subscribers GROUP BY status;
+SELECT consent_version, COUNT(*) AS n FROM newsletter_subscribers GROUP BY consent_version;
+SELECT source, COUNT(*) AS n FROM newsletter_subscribers GROUP BY source;
+SQL
+
+# Violações — devem retornar 0
+sqlite3 "$DB" <<'SQL'
+SELECT COUNT(*) AS bad_status
+FROM newsletter_subscribers
+WHERE status NOT IN ('active', 'unsubscribed');
+
+SELECT COUNT(*) AS empty_email
+FROM newsletter_subscribers
+WHERE email IS NULL OR trim(email) = '';
+
+SELECT COUNT(*) AS short_name
+FROM newsletter_subscribers
+WHERE name IS NULL OR length(trim(name)) < 2;
+
+SELECT COUNT(*) AS missing_consent
+FROM newsletter_subscribers
+WHERE consent_version IS NULL OR trim(consent_version) = '';
+
+SELECT COUNT(*) AS dup_email FROM (
+  SELECT lower(email) AS e
+  FROM newsletter_subscribers
+  GROUP BY lower(email)
+  HAVING COUNT(*) > 1
+);
+SQL
+```
+
+### Ciclo sintético (prova de escrita e limpeza)
+
+```bash
+DB=/var/lib/olhossecos/newsletter.sqlite
+MARKER="gatef-$(date -u +%Y%m%dT%H%M%SZ)@example.invalid"
+
+BEFORE=$(sqlite3 "$DB" "SELECT COUNT(*) FROM newsletter_subscribers;")
+echo "before=$BEFORE"
+
+curl -sS -o /tmp/newsletter-gatef.json -w "%{http_code}\n" \
+  -X POST "https://olhossecos.com.br/api/newsletter" \
+  -H "Content-Type: application/json" \
+  -H "Origin: https://olhossecos.com.br" \
+  -H "Sec-Fetch-Site: same-origin" \
+  --data "{\"name\":\"Gate F Test\",\"email\":\"$MARKER\",\"profession\":\"QA\",\"consent\":\"accepted\"}"
+# esperado: 201
+
+sqlite3 "$DB" "SELECT id, status, consent_version, source FROM newsletter_subscribers WHERE email = lower('$MARKER');"
+
+sqlite3 "$DB" "DELETE FROM newsletter_subscribers WHERE email = lower('$MARKER');"
+sqlite3 "$DB" "PRAGMA wal_checkpoint(TRUNCATE);"
+
+AFTER=$(sqlite3 "$DB" "SELECT COUNT(*) FROM newsletter_subscribers;")
+echo "after=$AFTER"
+test "$BEFORE" = "$AFTER" && echo "count restored OK" || echo "COUNT MISMATCH"
+
+sqlite3 "$DB" "PRAGMA integrity_check;"
+```
+
+Complementares HTTP do endpoint:
+
+```bash
+curl -sS -o /dev/null -w "%{http_code}\n" https://olhossecos.com.br/api/newsletter
+# esperado: 405
+
+curl -sS -o /dev/null -w "%{http_code}\n" \
+  -X POST "https://olhossecos.com.br/api/newsletter" \
+  -H "Content-Type: application/json" \
+  -H "Origin: https://evil.example" \
+  --data '{"name":"x","email":"x@example.invalid","consent":"accepted"}'
+# esperado: 403
+```
+
+### Critérios de falha (bloqueantes)
+
+| Sintoma                                          | Ação                                                       |
+| ------------------------------------------------ | ---------------------------------------------------------- |
+| `integrity_check` ≠ `ok`                         | Abortar Gate F; não seguir com o release                   |
+| Tabela ou índice ausentes após o app subir       | Verificar `NEWSLETTER_DATABASE_PATH` e permissões          |
+| Contagem final ≠ baseline após o ciclo sintético | Investigar path do DB e o `DELETE`                         |
+| POST retorna 503 com DB íntegro                  | Regressão de app/permissão — considerar rollback do `dist` |
+| PII em log/journal/handoff                       | Redigir; não registrar e-mails ou nomes                    |
+
+### Bloco rápido (copiar e colar)
+
+```bash
+DB=/var/lib/olhossecos/newsletter.sqlite
+
+echo "=== permissões ==="
+stat -c '%a %U:%G %n' /var/lib/olhossecos "$DB"
+
+echo "=== integrity ==="
+sqlite3 "$DB" "PRAGMA integrity_check;"
+sqlite3 "$DB" "PRAGMA quick_check;"
+sqlite3 "$DB" "PRAGMA journal_mode;"
+
+echo "=== schema ==="
+sqlite3 "$DB" "SELECT name FROM sqlite_master WHERE type IN ('table','index') ORDER BY 1;"
+
+echo "=== agregados (sem PII) ==="
+sqlite3 "$DB" "SELECT COUNT(*) AS total FROM newsletter_subscribers;"
+sqlite3 "$DB" "SELECT status, COUNT(*) FROM newsletter_subscribers GROUP BY status;"
+
+echo "=== violações (0 esperado) ==="
+sqlite3 "$DB" "SELECT COUNT(*) AS bad_status FROM newsletter_subscribers WHERE status NOT IN ('active','unsubscribed');"
+sqlite3 "$DB" "SELECT COUNT(*) AS dup_email FROM (SELECT lower(email) e FROM newsletter_subscribers GROUP BY 1 HAVING COUNT(*)>1);"
+```
+
+Depois execute o ciclo sintético, remova o marcador e repita `PRAGMA integrity_check;`. No handoff registre somente contagens, resultado `ok` e o timestamp.
+
 ## Rollback
 
 Rollback restaura atomicamente o alvo anterior de `current`, reinicia o serviço
 e repete as verificações essenciais. Nunca apague o release com falha antes de
 preservar evidências. Configurações de Nginx e systemd ficam fora do repositório;
 qualquer mudança nelas exige backup próprio e validação independente.
+
+O rollback do site **não** restaura o SQLite da newsletter: o banco vive fora do
+artefato e não volta com o symlink. Se o ciclo sintético tiver sido executado,
+confirme a remoção do marcador e a integridade do banco em separado.
