@@ -101,46 +101,34 @@ const featuredBooks = books.slice(0, 2);
         <p class="visual-label">Superfície ocular • Filme lacrimal</p>
         <div class="hero-frame">
           {
-            /* Sem autoplay e sem src no HTML: com autoplay o browser baixa o
-              arquivo inteiro no primeiro paint, e eram 471 KB — 80% do peso da
-              home no desktop, 88% no mobile — disputando banda com o que a
-              página precisa para renderizar. As fontes ficam em data-src e o
-              script decide, com o mesmo critério que o EyeExplorer já usa para
-              o Three.js: perto da viewport, fora de saveData, fora de 2G e
-              respeitando quem pediu menos movimento. O poster é a imagem que
-              já servia de hero, então a primeira pintura não muda. */
+            /* Imagem, não vídeo. O clipe custava 471 KB para decorar, e o
+              primeiro quadro dele é um olho fotorrealista e avermelhado, que
+              lê como fotografia clínica — a divulgação ao lado diz
+              "representação esquemática, não é registro clínico", e as duas
+              coisas não podiam conviver na mesma figura. Esta é a composição
+              esquemática para a qual a divulgação foi escrita, e é o que a
+              página precisa: 7,5 KB em avif. */
           }
-          <video
-            class="hero-video"
-            muted
-            loop
-            playsinline
-            preload="none"
-            poster="/images/hero-video-poster-720.webp"
-            data-video-webm="/videos/hero-ocular-surface.webm"
-            data-video-mp4="/videos/hero-ocular-surface.mp4"
-            aria-label="Animação em loop da superfície ocular e da estabilidade do filme lacrimal"
-          >
-            <picture>
-              <source
-                type="image/avif"
-                srcset="/images/hero-filme-lacrimal-720.avif 720w, /images/hero-filme-lacrimal-1024.avif 1024w"
-                sizes="(max-width: 760px) calc(100vw - 2rem), (max-width: 1100px) 48vw, 640px"
-              />
-              <source
-                type="image/webp"
-                srcset="/images/hero-filme-lacrimal-720.webp 720w, /images/hero-filme-lacrimal-1024.webp 1024w"
-                sizes="(max-width: 760px) calc(100vw - 2rem), (max-width: 1100px) 48vw, 640px"
-              />
-              <img
-                src="/images/hero-filme-lacrimal.jpg"
-                alt="Composição editorial da superfície da córnea vista de perfil, com uma película lacrimal iridescente espalhada sobre a curva"
-                width="1024"
-                height="768"
-                fetchpriority="high"
-              />
-            </picture>
-          </video>
+          <picture>
+            <source
+              type="image/avif"
+              srcset="/images/hero-filme-lacrimal-720.avif 720w, /images/hero-filme-lacrimal-1024.avif 1024w"
+              sizes="(max-width: 760px) calc(100vw - 2rem), (max-width: 1100px) 48vw, 640px"
+            />
+            <source
+              type="image/webp"
+              srcset="/images/hero-filme-lacrimal-720.webp 720w, /images/hero-filme-lacrimal-1024.webp 1024w"
+              sizes="(max-width: 760px) calc(100vw - 2rem), (max-width: 1100px) 48vw, 640px"
+            />
+            <img
+              class="hero-still"
+              src="/images/hero-filme-lacrimal.jpg"
+              alt="Composição editorial da superfície da córnea vista de perfil, com uma película lacrimal iridescente espalhada sobre a curva"
+              width="1024"
+              height="768"
+              fetchpriority="high"
+            />
+          </picture>
           <!-- Interferência do filme lacrimal: duas faixas que derivam devagar
                sobre a imagem. É o único movimento contínuo do hero, e some
                inteiro em prefers-reduced-motion. -->
@@ -731,64 +719,6 @@ const featuredBooks = books.slice(0, 2);
   // esconder o <video>, cujo <picture> interno é o fallback de quem não tem
   // suporte a vídeo. A media query é observada: quem muda a preferência do
   // sistema com a página aberta é atendido na hora.
-  const heroVideo = document.querySelector<HTMLVideoElement>(".hero-video");
-  if (heroVideo) {
-    const stillness = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const connection = (
-      navigator as Navigator & {
-        connection?: { saveData?: boolean; effectiveType?: string };
-      }
-    ).connection;
-    const cheapEnough =
-      !connection?.saveData &&
-      !["slow-2g", "2g"].includes(connection?.effectiveType ?? "");
-
-    let attached = false;
-    const attach = () => {
-      if (attached) return;
-      attached = true;
-      for (const [type, attribute] of [
-        ["video/webm", "videoWebm"],
-        ["video/mp4", "videoMp4"],
-      ] as const) {
-        const src = heroVideo.dataset[attribute];
-        if (!src) continue;
-        const source = document.createElement("source");
-        source.src = src;
-        source.type = type;
-        heroVideo.appendChild(source);
-      }
-      heroVideo.load();
-      void heroVideo.play().catch(() => {
-        // Reprodução recusada pelo navegador: fica o poster, que é o mesmo
-        // quadro que o vídeo mostraria parado.
-      });
-    };
-
-    const decide = () => {
-      if (stillness.matches || !cheapEnough) {
-        heroVideo.pause();
-        return;
-      }
-      if (attached) {
-        void heroVideo.play().catch(() => {});
-        return;
-      }
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (!entries.some((entry) => entry.isIntersecting)) return;
-          observer.disconnect();
-          attach();
-        },
-        { rootMargin: "200px" },
-      );
-      observer.observe(heroVideo);
-    };
-
-    decide();
-    stillness.addEventListener("change", decide);
-  }
-
   // Parallax do hero: deslocamento de poucos pixels, só no desktop e só quando
   // o visitante não pediu menos movimento. Nada além do hero se move.
   const parallax = document.querySelector<HTMLElement>("[data-parallax]");
@@ -938,21 +868,13 @@ const featuredBooks = books.slice(0, 2);
     text-transform: uppercase;
   }
 
-  /* O <video> não declarava dimensão nenhuma. Até os metadados chegarem o
-     browser usava o 300x150 padrão e então saltava para a caixa quadrada real,
-     empurrando a legenda abaixo — 0,155 de CLS no desktop, acima do limite de
-     0,1. O arquivo é 1200x1200; reservar a proporção mata o deslocamento sem
-     mudar o resultado final.
-
-     O poster é o primeiro quadro do próprio vídeo, em 1:1 como a caixa: quem
-     pediu menos movimento vê exatamente o quadro que o vídeo mostraria
-     parado, sem corte e sem barra. object-fit fica como rede. */
-  .hero-video {
+  /* width/height no <img> já reservam a caixa; o aspect-ratio explícito
+     mantém a reserva mesmo se o srcset servir outra largura. */
+  .hero-still {
     display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
+    aspect-ratio: 1024 / 768;
   }
 
   .hero-frame {
