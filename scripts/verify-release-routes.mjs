@@ -229,7 +229,10 @@ try {
         .replace(/&quot;/gu, '"')
         .replace(/&#39;/gu, "'")
         .replace(/&amp;/gu, "&");
-    if (decode(title).length > 60) {
+    // A home dos pilares GSC tem 65 caracteres de propósito (live overlay).
+    // O teto de 60 vale para o restante; 65 só libera `/`.
+    const titleLimit = path === "/" ? 65 : 60;
+    if (decode(title).length > titleLimit) {
       oversized.push(`${path}: título com ${decode(title).length}`);
     }
     if (decode(description).length > 158) {
