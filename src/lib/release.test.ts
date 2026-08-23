@@ -24,6 +24,38 @@ after(() => {
   rmSync(testDirectory, { recursive: true, force: true });
 });
 
+test("recusa publicar build de preview gerado com SITE_BASE_PATH", () => {
+  // Um dist gerado com a variável no ambiente traz canonical, sitemap e todo
+  // link interno sob o prefixo — URLs que dão 404 no domínio real. Passava por
+  // aqui sem resistência: a árvore estava limpa e o SHA conferia.
+  const source = mkdtempSync(join(testDirectory, "preview-"));
+  const dist = join(source, "dist");
+  mkdirSync(dist, { recursive: true });
+  const sha = "b".repeat(40);
+
+  writeFileSync(
+    join(dist, "BUILD_METADATA.json"),
+    JSON.stringify({ commitSha: sha, sourceClean: true, basePath: "/v2" }),
+  );
+  assert.throws(
+    () => assertBuildMatchesCommit(source, sha),
+    /SITE_BASE_PATH|preview/iu,
+  );
+
+  writeFileSync(
+    join(dist, "BUILD_METADATA.json"),
+    JSON.stringify({ commitSha: sha, sourceClean: true, basePath: "" }),
+  );
+  assert.doesNotThrow(() => assertBuildMatchesCommit(source, sha));
+
+  // Manifesto antigo, sem o campo, continua válido: o campo nasceu depois.
+  writeFileSync(
+    join(dist, "BUILD_METADATA.json"),
+    JSON.stringify({ commitSha: sha, sourceClean: true }),
+  );
+  assert.doesNotThrow(() => assertBuildMatchesCommit(source, sha));
+});
+
 test("bloqueia ativação quando ainda não existe release para rollback", () => {
   const releaseRoot = join(testDirectory, "without-current");
   mkdirSync(join(releaseRoot, "releases"), { recursive: true });

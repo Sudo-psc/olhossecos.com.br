@@ -81,8 +81,37 @@ const assertPage = async (path, canonicalPath) => {
   return html;
 };
 
+// Rotas que o servidor realmente entrega, para confrontar com o sitemap.
+const rotasConhecidas = new Set();
+const mapearRotas = async (directory, prefix = "") => {
+  const { readdir } = await import("node:fs/promises");
+  for (const entry of await readdir(directory, { withFileTypes: true })) {
+    if (entry.isDirectory()) {
+      await mapearRotas(join(directory, entry.name), `${prefix}/${entry.name}`);
+    } else if (entry.name === "index.html") {
+      rotasConhecidas.add(prefix || "/");
+    }
+  }
+};
+
 try {
+  await mapearRotas("dist/client");
   await waitForServer();
+
+  // Primeira checagem de todas: um dist gerado com SITE_BASE_PATH falha em
+  // várias asserções adiante, mas com mensagens que apontam para o sintoma
+  // errado ("link para /newsletter ausente") em vez da causa. Confrontar o
+  // canonical da raiz com a origem de produção nomeia o problema de imediato.
+  const raizHtml = await (await assertStatus("/")).text();
+  const raizCanonical = raizHtml.match(
+    /<link rel="canonical" href="([^"]+)">/u,
+  )?.[1];
+  if (raizCanonical && raizCanonical.replace(/\/$/u, "") !== productionOrigin) {
+    throw new Error(
+      `canonical da raiz é ${raizCanonical}, esperado ${productionOrigin}. ` +
+        `Build gerado com SITE_BASE_PATH? Regere com "env -u SITE_BASE_PATH npm run build".`,
+    );
+  }
   const homeHtml = await (await assertStatus("/")).text();
   if (!homeHtml.includes(`href="${publicPath("/newsletter")}"`)) {
     throw new Error("homepage: link global para /newsletter ausente");
@@ -159,6 +188,25 @@ try {
 
   const sitemapResponse = await assertStatus("/sitemap-0.xml");
   const sitemap = await sitemapResponse.text();
+
+  // Última rede contra um build de preview: mede o que é servido, não o que o
+  // manifesto declara. Um dist gerado com SITE_BASE_PATH traz canonical e
+  // <loc> sob o prefixo, e todos eles dão 404 no domínio real.
+  const prefixados = [
+    ...new Set(
+      [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/gu)]
+        .map((match) => new URL(match[1]).pathname)
+        .filter(
+          (pathname) =>
+            !rotasConhecidas.has(pathname.replace(/\/$/u, "") || "/"),
+        ),
+    ),
+  ];
+  if (prefixados.length > 0) {
+    throw new Error(
+      `sitemap aponta para caminhos que o site não serve — build com SITE_BASE_PATH?\n${prefixados.slice(0, 5).join("\n")}`,
+    );
+  }
   const homeCanonical = homeHtml.match(
     /<link rel="canonical" href="([^"]+)">/u,
   )?.[1];

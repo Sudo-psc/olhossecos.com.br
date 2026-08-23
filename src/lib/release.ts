@@ -19,11 +19,16 @@ export const assertBuildMatchesCommit = (
   expectedSha: string,
 ) => {
   const metadataPath = join(sourceDirectory, "dist", "BUILD_METADATA.json");
-  let metadata: { commitSha?: unknown; sourceClean?: unknown };
+  let metadata: {
+    commitSha?: unknown;
+    sourceClean?: unknown;
+    basePath?: unknown;
+  };
   try {
     metadata = JSON.parse(readFileSync(metadataPath, "utf8")) as {
       commitSha?: unknown;
       sourceClean?: unknown;
+      basePath?: unknown;
     };
   } catch {
     throw new Error(
@@ -34,6 +39,19 @@ export const assertBuildMatchesCommit = (
   if (metadata.commitSha !== expectedSha || metadata.sourceClean !== true) {
     throw new Error(
       `Manifesto do build não comprova o SHA ${expectedSha} em uma árvore limpa.`,
+    );
+  }
+
+  // SITE_BASE_PATH exportado no shell produz um dist em que canonical, sitemap
+  // e todo link interno apontam para o prefixo. Serve para preview; publicado
+  // no domínio real, é um site cujas URLs canônicas dão 404 — e o restante das
+  // salvaguardas não vê problema nenhum, porque a árvore está limpa e o SHA
+  // confere. O manifesto de um build de preview declara o prefixo; sem essa
+  // recusa, nada distingue os dois.
+  if (typeof metadata.basePath === "string" && metadata.basePath !== "") {
+    throw new Error(
+      `O build foi gerado com SITE_BASE_PATH=${metadata.basePath} e serve apenas para preview: ` +
+        `canonical e sitemap apontam para esse prefixo. Regere com "env -u SITE_BASE_PATH npm run build".`,
     );
   }
 };

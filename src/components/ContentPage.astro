@@ -178,7 +178,12 @@ const {
     color: var(--teal-dark);
   }
 
+  /* Atalho para os sinais de alerta: é a afordância mais sensível da página,
+     e media a 150x22 no mobile. O texto de 0.84rem já dava a altura de linha,
+     faltava a caixa — min-height leva o alvo aos 24px que o Lighthouse cobra
+     sem mexer na tipografia. */
   .safety-shortcut {
+    min-height: 24px;
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;

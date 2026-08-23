@@ -2,7 +2,7 @@ import { execFileSync } from "node:child_process";
 import { rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { rewriteClientBase } from "./site-base-path.mjs";
+import { normalizeBasePath, rewriteClientBase } from "./site-base-path.mjs";
 
 const repositoryDirectory = dirname(dirname(fileURLToPath(import.meta.url)));
 const git = (argumentsList) =>
@@ -49,13 +49,25 @@ for (const leftover of leftovers) {
   });
 }
 
-await rewriteClientBase(
-  join(repositoryDirectory, "dist", "client"),
-  process.env.SITE_BASE_PATH,
-);
+// SITE_BASE_PATH reescreve link, canonical e sitemap para servir o site sob um
+// prefixo. É recurso de preview, e o build o lia do ambiente sem deixar rastro:
+// bastava a variável estar exportada no shell para sair um dist em que todo
+// canonical apontava para /v2/… — URLs que dão 404 no domínio real. Árvore
+// limpa, portão verde, ops:deploy aceitando. Registrar o valor no manifesto é
+// o que permite ao deploy recusar depois.
+const basePath = normalizeBasePath(process.env.SITE_BASE_PATH ?? "");
+
+await rewriteClientBase(join(repositoryDirectory, "dist", "client"), basePath);
+
+if (basePath) {
+  console.warn(
+    `[build] SITE_BASE_PATH=${basePath}: build de preview, não publicável. ` +
+      `Rode com "env -u SITE_BASE_PATH npm run build" para gerar produção.`,
+  );
+}
 
 writeFileSync(
   join(repositoryDirectory, "dist", "BUILD_METADATA.json"),
-  `${JSON.stringify({ commitSha, sourceClean, generatedBy: "npm run build" }, null, 2)}\n`,
+  `${JSON.stringify({ commitSha, sourceClean, basePath, generatedBy: "npm run build" }, null, 2)}\n`,
   { mode: 0o644 },
 );
