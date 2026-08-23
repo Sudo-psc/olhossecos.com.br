@@ -1,0 +1,11 @@
+---
+import NewsletterSignupForm from "@/components/NewsletterSignupForm.astro";
+
+interface Props {
+  endpoint?: string;
+}
+
+const { endpoint = "/api/newsletter" } = Astro.props;
+---
+
+<NewsletterSignupForm {endpoint} source="superficie" variant="superficie" />

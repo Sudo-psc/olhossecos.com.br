@@ -4,6 +4,9 @@ interface Props {
 }
 
 const { class: className = "" } = Astro.props;
+
+// Header e rodapé montam o mark na mesma página; IDs de gradiente não podem colidir.
+const uid = `em-${crypto.randomUUID().slice(0, 8)}`;
 ---
 
 <svg
@@ -13,17 +16,53 @@ const { class: className = "" } = Astro.props;
   xmlns="http://www.w3.org/2000/svg"
   aria-hidden="true"
 >
+  <defs>
+    <radialGradient id={`${uid}-iris`} cx="34%" cy="28%" r="72%">
+      <stop offset="0%" stop-color="#9ae3ec"></stop>
+      <stop offset="18%" stop-color="#3dc4d4"></stop>
+      <stop offset="48%" stop-color="#0b93a8"></stop>
+      <stop offset="78%" stop-color="#087f95"></stop>
+      <stop offset="100%" stop-color="#034650"></stop>
+    </radialGradient>
+    <radialGradient id={`${uid}-pupil`} cx="38%" cy="32%" r="70%">
+      <stop offset="0%" stop-color="#1a3d66"></stop>
+      <stop offset="100%" stop-color="#071d45"></stop>
+    </radialGradient>
+    <linearGradient id={`${uid}-tear`} x1="30%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"></stop>
+      <stop offset="38%" stop-color="#dff6f9"></stop>
+      <stop offset="100%" stop-color="#4db4c6"></stop>
+    </linearGradient>
+  </defs>
+
   <path
     d="M3.5 22.5C10.7 10.8 20.1 5 31.8 5c11.6 0 21.2 5.8 28.7 17.5C53 34.2 43.4 40 31.8 40 20.1 40 10.7 34.2 3.5 22.5Z"
+    fill="currentColor"
+    fill-opacity="0.08"
     stroke="currentColor"
     stroke-width="2.7"
     stroke-linejoin="round"></path>
-  <circle cx="31.8" cy="22.5" r="10.5" fill="#0D8197"></circle>
-  <circle cx="31.8" cy="22.5" r="4.4" fill="currentColor"></circle>
-  <circle cx="35.2" cy="18.8" r="2" fill="white"></circle>
+
+  <circle cx="31.8" cy="22.5" r="11.1" fill={`url(#${uid}-iris)`}></circle>
+  <circle
+    cx="31.8"
+    cy="22.5"
+    r="11.1"
+    fill="none"
+    stroke="#04515e"
+    stroke-width="1"
+    opacity="0.35"></circle>
+  <circle cx="31.8" cy="22.5" r="4.55" fill={`url(#${uid}-pupil)`}></circle>
+
+  <ellipse cx="27.8" cy="18.4" rx="3.35" ry="2.25" fill="#fff" opacity="0.92"
+  ></ellipse>
+  <circle cx="35.7" cy="26.1" r="1.05" fill="#fff" opacity="0.28"></circle>
+
   <path
     d="M50.5 34.5c0 4.6-3.4 8.5-7.5 8.5s-7.5-3.9-7.5-8.5c0-3.7 4.8-9.2 7.5-12.2 2.7 3 7.5 8.5 7.5 12.2Z"
-    fill="white"
-    stroke="#0D8197"
-    stroke-width="2.2"></path>
+    fill={`url(#${uid}-tear)`}
+    stroke="#087f95"
+    stroke-width="1.8"></path>
+  <ellipse cx="44.15" cy="33.05" rx="1.75" ry="2.45" fill="#fff" opacity="0.88"
+  ></ellipse>
 </svg>

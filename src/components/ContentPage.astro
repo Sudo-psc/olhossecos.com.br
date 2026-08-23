@@ -1,6 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import { selectRelatedHubGuides } from "@/lib/related-hub-guides";
 
 interface PageLink {
   label: string;
@@ -22,6 +23,16 @@ interface Props {
   sourcesVerified?: string;
   updated?: string;
   dateModified?: string;
+  /** Card OpenGraph próprio da seção; sem ele o Layout usa o genérico. */
+  image?: string;
+  /**
+   * O componente serve tanto conteúdo clínico quanto páginas institucionais.
+   * MedicalWebPage arrasta consigo `about: MedicalCondition`, então declarar
+   * privacidade ou política editorial como conteúdo médico afirmava ao
+   * rastreador que aquelas páginas tratam da doença do olho seco.
+   */
+  schemaType?: "MedicalWebPage" | "WebPage";
+  extraSchema?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
 const {
@@ -34,14 +45,21 @@ const {
   sourcesVerified = "25 de julho de 2026",
   updated = "25 de julho de 2026",
   dateModified = "2026-07-25",
+  image,
+  schemaType = "MedicalWebPage",
+  extraSchema,
 } = Astro.props;
+
+const relatedGuides = selectRelatedHubGuides(Astro.url.pathname);
 ---
 
 <Layout
   title={title}
   description={description}
-  schemaType="MedicalWebPage"
+  {schemaType}
   dateModified={dateModified}
+  {image}
+  {extraSchema}
   breadcrumbs={[
     { name: "Início", url: "/" },
     { name: title, url: Astro.url.pathname },
@@ -114,6 +132,30 @@ const {
           </section>
         )
       }
+      {
+        relatedGuides.length > 0 && (
+          <section
+            class="related-hub-guides"
+            aria-labelledby="related-hub-guides-title"
+          >
+            <h2 id="related-hub-guides-title">Leia também</h2>
+            <p>
+              Leituras mais longas sobre o mesmo assunto, com limites da
+              evidência ao lado de cada número.
+            </p>
+            <ul>
+              {relatedGuides.map((guide) => (
+                <li>
+                  <a href={`/guias/${guide.slug}`}>
+                    <span>{guide.category}</span>
+                    <strong>{guide.title}</strong>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
       <footer class="content-meta">
         <p>Última revisão editorial: {updated}</p>
         <a href="/fontes">Como usamos e apresentamos as fontes</a>
@@ -163,7 +205,12 @@ const {
     color: var(--teal-dark);
   }
 
+  /* Atalho para os sinais de alerta: é a afordância mais sensível da página,
+     e media a 150x22 no mobile. O texto de 0.84rem já dava a altura de linha,
+     faltava a caixa — min-height leva o alvo aos 24px que o Lighthouse cobra
+     sem mexer na tipografia. */
   .safety-shortcut {
+    min-height: 24px;
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
@@ -189,8 +236,8 @@ const {
     margin-top: 5rem;
     padding-top: 1.4rem;
     border-top: 1px solid var(--line);
-    color: #64748a;
-    font-size: 0.74rem;
+    color: #5a6b80;
+    font-size: 0.75rem;
   }
 
   .content-meta p {
@@ -218,8 +265,8 @@ const {
   .page-sources small {
     display: block;
     margin-top: 1.4rem;
-    color: #64748a;
-    font-size: 0.74rem;
+    color: #5a6b80;
+    font-size: 0.75rem;
   }
 
   .content-summary {
@@ -240,6 +287,59 @@ const {
 
   .content-summary li + li {
     margin-top: 0.55rem;
+  }
+
+  .related-hub-guides {
+    margin-top: 4.5rem;
+  }
+
+  .related-hub-guides h2 {
+    margin: 0 0 0.6rem;
+  }
+
+  .related-hub-guides > p {
+    margin: 0 0 1.4rem;
+    color: var(--ink-soft);
+  }
+
+  .related-hub-guides ul {
+    display: grid;
+    gap: 0.8rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .related-hub-guides a {
+    display: grid;
+    gap: 0.25rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--line);
+    text-decoration: none;
+  }
+
+  .related-hub-guides li:last-child a {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .related-hub-guides span {
+    color: var(--teal-dark);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .related-hub-guides strong {
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 650;
+    line-height: 1.3;
+  }
+
+  .related-hub-guides a:hover strong {
+    color: var(--teal-dark);
   }
 
   @media (max-width: 850px) {

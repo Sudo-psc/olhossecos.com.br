@@ -1,0 +1,296 @@
+---
+import { getGlossaryTerm } from "@/lib/glossary";
+
+interface Props {
+  term: string;
+  label?: string;
+  class?: string;
+}
+
+const { term, label, class: className = "" } = Astro.props;
+const termData = getGlossaryTerm(term);
+const displayText = label || (termData ? termData.term : term);
+const tooltipId = termData ? `glossary-tip-${termData.slug}` : undefined;
+---
+
+{
+  termData ? (
+    <span class:list={["glossary-term-container", className]}>
+      <button
+        type="button"
+        class="glossary-term-trigger"
+        aria-describedby={tooltipId}
+        aria-expanded="false"
+      >
+        <span class="term-text">{displayText}</span>
+        <span class="term-indicator" aria-hidden="true">
+          ?
+        </span>
+      </button>
+      <span id={tooltipId} class="glossary-tooltip-card" role="tooltip">
+        <span class="tooltip-header">
+          {termData.category && (
+            <span class="tooltip-category">{termData.category}</span>
+          )}
+          <strong class="tooltip-title">{termData.term}</strong>
+        </span>
+        <span class="tooltip-body">{termData.shortDefinition}</span>
+        <a class="tooltip-link" href={`/glossario#${termData.slug}`}>
+          Ver no glossário <span>→</span>
+        </a>
+      </span>
+    </span>
+  ) : (
+    <span>{displayText}</span>
+  )
+}
+
+<script>
+  // Gerenciador acessível para popovers do glossário (abertura por toque/clique e hover)
+  const initGlossaryTooltips = () => {
+    const containers = document.querySelectorAll<HTMLElement>(
+      ".glossary-term-container",
+    );
+
+    containers.forEach((container) => {
+      const trigger = container.querySelector<HTMLButtonElement>(
+        ".glossary-term-trigger",
+      );
+      const tooltip = container.querySelector<HTMLElement>(
+        ".glossary-tooltip-card",
+      );
+      if (!trigger || !tooltip) return;
+
+      const toggleTooltip = (open?: boolean) => {
+        const isOpen =
+          open !== undefined ? open : container.classList.contains("is-active");
+        const nextState = !isOpen;
+
+        // Fecha outros tooltips abertos
+        if (nextState) {
+          document
+            .querySelectorAll(".glossary-term-container.is-active")
+            .forEach((other) => {
+              if (other !== container) {
+                other.classList.remove("is-active");
+                other
+                  .querySelector(".glossary-term-trigger")
+                  ?.setAttribute("aria-expanded", "false");
+              }
+            });
+        }
+
+        container.classList.toggle("is-active", nextState);
+        trigger.setAttribute("aria-expanded", String(nextState));
+      };
+
+      trigger.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleTooltip();
+      });
+
+      // Fecha com Escape
+      trigger.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && container.classList.contains("is-active")) {
+          e.stopPropagation();
+          toggleTooltip(false);
+          trigger.focus();
+        }
+      });
+    });
+
+    document.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement | null;
+      if (!target?.closest(".glossary-term-container")) {
+        document
+          .querySelectorAll(".glossary-term-container.is-active")
+          .forEach((container) => {
+            container.classList.remove("is-active");
+            container
+              .querySelector(".glossary-term-trigger")
+              ?.setAttribute("aria-expanded", "false");
+          });
+      }
+    });
+  };
+
+  initGlossaryTooltips();
+  document.addEventListener("astro:page-load", initGlossaryTooltips);
+</script>
+
+<style>
+  .glossary-term-container {
+    position: relative;
+    display: inline;
+  }
+
+  .glossary-term-trigger {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.2rem;
+    padding: 0 0.15rem;
+    margin: 0;
+    border: 0;
+    border-bottom: 1.5px dashed var(--teal, #087f95);
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    cursor: help;
+    text-align: left;
+    border-radius: 2px;
+    transition:
+      background-color 150ms ease,
+      color 150ms ease;
+  }
+
+  .glossary-term-trigger:hover {
+    background-color: var(--mist, #eff8fb);
+    color: var(--teal-dark, #00657a);
+  }
+
+  .glossary-term-trigger:focus-visible {
+    outline: 2px solid var(--teal, #087f95);
+    outline-offset: 2px;
+  }
+
+  .term-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--teal-dark, #00657a);
+    background: var(--aqua, #dff3f7);
+    border-radius: 50%;
+    transform: translateY(-0.15em);
+    line-height: 1;
+  }
+
+  .glossary-tooltip-card {
+    position: absolute;
+    z-index: 60;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    width: min(300px, 85vw);
+    padding: 0.9rem 1rem;
+    background: #ffffff;
+    color: var(--ink, #071d45);
+    border: 1px solid var(--line, #c8d7e2);
+    border-top: 3px solid var(--teal, #087f95);
+    border-radius: 6px;
+    box-shadow: 0 12px 32px rgb(7 29 69 / 16%);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease,
+      visibility 180ms;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-family: var(--sans, ui-sans-serif, system-ui, sans-serif);
+    font-size: 0.85rem;
+    line-height: 1.45;
+    text-align: left;
+    white-space: normal;
+  }
+
+  .glossary-tooltip-card::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: #ffffff transparent transparent transparent;
+  }
+
+  .glossary-term-container:hover .glossary-tooltip-card,
+  .glossary-term-container:focus-within .glossary-tooltip-card,
+  .glossary-term-container.is-active .glossary-tooltip-card {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .tooltip-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .tooltip-category {
+    color: var(--teal-dark, #00657a);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .tooltip-title {
+    color: var(--ink, #071d45);
+    font-size: 0.95rem;
+    font-weight: 750;
+    line-height: 1.2;
+  }
+
+  .tooltip-body {
+    color: var(--ink-soft, #263d61);
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+
+  .tooltip-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.3rem;
+    color: var(--teal-dark, #00657a);
+    font-size: 0.76rem;
+    font-weight: 750;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    width: fit-content;
+  }
+
+  .tooltip-link:hover {
+    color: var(--ink, #071d45);
+  }
+
+  .tooltip-link span {
+    transition: transform 150ms ease;
+  }
+
+  .tooltip-link:hover span {
+    transform: translateX(2px);
+  }
+
+  @media (max-width: 480px) {
+    .glossary-tooltip-card {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      left: 16px;
+      width: auto;
+      transform: translateY(4px);
+    }
+
+    .glossary-tooltip-card::after {
+      display: none;
+    }
+
+    .glossary-term-container:hover .glossary-tooltip-card,
+    .glossary-term-container:focus-within .glossary-tooltip-card,
+    .glossary-term-container.is-active .glossary-tooltip-card {
+      transform: translateY(0);
+    }
+  }
+</style>

@@ -1,0 +1,44 @@
+---
+export const prerender = true;
+
+import { readFileSync } from "node:fs";
+import path from "node:path";
+import SuperficieReaderLayout from "../../../layouts/SuperficieReaderLayout.astro";
+import MagazineReader from "../../../superficie/reader/components/MagazineReader.astro";
+
+const issue = JSON.parse(
+  readFileSync(
+    path.join(
+      process.cwd(),
+      "public/superficie/issues/edicao-00/manifest.json",
+    ),
+    "utf8",
+  ),
+) as {
+  number: string;
+  title: string;
+  pageCount: number;
+  pdfFallback: string;
+  pages: Array<{
+    image: { medium: string };
+    alt?: string;
+  }>;
+};
+
+const cover = issue.pages[0];
+---
+
+<SuperficieReaderLayout
+  title="SUPERFÍCIE Edição 00 — Laboratório"
+  description="Caderno de laboratório, não indexado, da Edição 00 da SUPERFÍCIE."
+>
+  <link slot="head" rel="preload" as="image" href={cover?.image.medium} />
+  <MagazineReader
+    manifestUrl="/superficie/issues/edicao-00/manifest.json"
+    issueLabel={`${issue.number} · ${issue.title}`}
+    pageCount={issue.pageCount}
+    pdfHref={issue.pdfFallback}
+    coverSrc={cover?.image.medium}
+    coverAlt={cover?.alt ?? "Capa da Edição 00"}
+  />
+</SuperficieReaderLayout>

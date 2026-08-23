@@ -35,6 +35,7 @@ pnpm seed:posts
 ```
 
 **Isso criará:**
+
 - ✅ 1 autor médico (Dr. Philipe Saraiva Cruz)
 - ✅ 5 categorias temáticas
 - ✅ 6 artigos completos sobre olho seco
@@ -51,6 +52,7 @@ Abra: [http://localhost:3000/studio](http://localhost:3000/studio)
 ### 4. Publique os Documentos
 
 No Sanity Studio:
+
 1. Vá em **Post** no menu lateral
 2. Abra cada post importado
 3. Clique em **Publish** (canto superior direito)
@@ -89,6 +91,7 @@ Os 6 artigos incluem SEO otimizado e compliance médico:
 6. **Lentes de Contato e Olho Seco** - Uso seguro e cuidados
 
 Cada artigo contém:
+
 - ✅ Título SEO otimizado
 - ✅ Meta description única
 - ✅ Estrutura de headings (H2, H3)
@@ -113,6 +116,7 @@ Cada artigo contém:
 ### Criar Mais Conteúdo
 
 **No Sanity Studio:**
+
 1. Clique em **+ Create** no menu
 2. Selecione **Post**
 3. Preencha os campos (todos os grupos são importantes!)
@@ -135,15 +139,19 @@ Edite `scripts/seed-data.ts` e adicione novos posts ao array.
 ## 🔧 Solução de Problemas
 
 ### Erro: "SANITY_API_WRITE_TOKEN not defined"
+
 ✅ Certifique-se de ter criado `.env.local` com o token correto
 
 ### Erro: "Unauthorized"
+
 ✅ Verifique se o token tem permissões de **Editor** ou **Administrator**
 
 ### Posts não aparecem no site
+
 ✅ Publique os posts no Sanity Studio (eles são criados como rascunhos)
 
 ### Webhook não funciona
+
 ✅ Verifique se a URL está correta e acessível
 ✅ Confira se o secret no Sanity é igual ao `.env.local`
 
@@ -152,6 +160,7 @@ Edite `scripts/seed-data.ts` e adicione novos posts ao array.
 ## 📚 Documentação Completa
 
 Para informações detalhadas sobre schemas, queries GROQ, e arquitetura:
+
 - [SANITY_INTEGRATION.md](./SANITY_INTEGRATION.md)
 - [Documentação oficial do Sanity](https://www.sanity.io/docs)
 

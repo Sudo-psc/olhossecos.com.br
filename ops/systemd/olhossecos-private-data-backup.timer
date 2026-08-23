@@ -1,0 +1,11 @@
+[Unit]
+Description=Agenda backup diário dos bancos privados do olhossecos.com.br
+
+[Timer]
+OnCalendar=*-*-* 03:17:00 UTC
+RandomizedDelaySec=20m
+Persistent=true
+Unit=olhossecos-private-data-backup.service
+
+[Install]
+WantedBy=timers.target

@@ -3,28 +3,54 @@ import ContentPage from "@/components/ContentPage.astro";
 ---
 
 <ContentPage
+  schemaType="WebPage"
   title="Privacidade"
   description="Informações sobre newsletter, busca local, registros técnicos e links externos no Olho Seco — Portal do paciente."
   intro="O conteúdo do portal pode ser acessado sem cadastro. O fornecimento de dados ocorre somente se você optar por assinar as comunicações editoriais."
   links={[
     { label: "Newsletter", href: "#newsletter" },
+    { label: "Parcerias", href: "#parcerias" },
     { label: "Busca e filtros", href: "#busca" },
+    { label: "Métricas editoriais", href: "#metricas" },
     { label: "Registros técnicos", href: "#registros" },
     { label: "Links externos", href: "#externos" },
   ]}
 >
   <h2 id="newsletter">Newsletter editorial</h2>
   <p>
-    Ao assinar as comunicações editoriais, você fornece nome, e-mail e, se
-    desejar, profissão. Esses dados são usados somente para enviar atualizações
-    sobre livros, edições da SUPERFÍCIE e conteúdos selecionados do portal, com
+    Ao assinar as comunicações editoriais, você fornece inicialmente o e-mail.
+    Em formulários específicos, nome e profissão também podem ser solicitados.
+    Depois do cadastro mínimo, a identificação como médico, residente/fellow,
+    pesquisador, outro profissional, indústria ou parceiro, paciente ou outro
+    perfil é opcional. Esses dados são usados para enviar e selecionar
+    atualizações sobre conteúdos do portal, livros e edições da SUPERFÍCIE, com
     base no consentimento manifestado no formulário.
+  </p>
+
+  <h2 id="parcerias">Solicitações de parceria e mídia kit</h2>
+  <p>
+    Organizações que solicitam o mídia kit ou iniciam uma conversa de parceria
+    fornecem nome, organização, e-mail profissional, área de interesse e,
+    opcionalmente, uma breve mensagem. Esses dados são usados exclusivamente
+    para avaliar e responder à solicitação comercial ou educacional.
+  </p>
+  <p>
+    Não informe dados de pacientes, informações clínicas ou outros dados
+    sensíveis. O envio do formulário não cria obrigação de contratação,
+    publicação ou compartilhamento do mídia kit e não concede acesso à base de
+    leitores da SUPERFÍCIE.
   </p>
   <p>
     Os cadastros são mantidos em armazenamento privado no servidor enquanto a
     assinatura estiver ativa. Não informe dados de saúde no formulário. Você
     poderá retirar o consentimento pelo mecanismo de descadastro incluído nas
-    comunicações editoriais; após o pedido, o endereço deixa de receber envios.
+    comunicações editoriais. O link abre uma página de confirmação e o pedido
+    somente é efetivado após a ação do titular, evitando descadastros causados
+    por robôs que verificam links. Após o pedido, o endereço deixa de receber
+    envios e permanece apenas na lista de supressão enquanto necessário para
+    impedir uma inclusão acidental em novas campanhas. Um novo pedido para
+    voltar a receber envios não reativa o endereço automaticamente: ele exige um
+    token de confirmação enviado ao próprio e-mail.
   </p>
 
   <h2 id="busca">Busca e filtros</h2>
@@ -40,6 +66,21 @@ import ContentPage from "@/components/ContentPage.astro";
     Como em qualquer site, o provedor de hospedagem pode registrar informações
     técnicas essenciais, como endereço IP, horário, rota acessada e agente do
     navegador, para segurança, diagnóstico de falhas e entrega do conteúdo.
+  </p>
+
+  <h2 id="metricas">Métricas editoriais</h2>
+  <p>
+    O portal registra métricas próprias e agregáveis para compreender páginas
+    acessadas e interações editoriais, como abertura de livros, cliques de saída
+    e conclusão do cadastro na newsletter. Esse recurso não utiliza cookies, não
+    cria identificador persistente e não armazena endereço IP, agente do
+    navegador, e-mail ou texto digitado nos formulários. Somente o nome do
+    evento, o caminho da página e propriedades editoriais previamente
+    autorizadas são persistidos; valores que se parecem semanticamente com
+    e-mail, telefone, documentos ou parâmetros pessoais são descartados também
+    quando chegam em propriedades de campanha. Os eventos individuais são
+    mantidos por até 180 dias e os relatórios operacionais usam contagens
+    agregadas.
   </p>
 
   <h2 id="externos">Links externos</h2>

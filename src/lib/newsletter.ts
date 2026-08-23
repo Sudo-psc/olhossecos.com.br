@@ -1,4 +1,11 @@
-import { randomUUID } from "node:crypto";
+import {
+  createHash,
+  createHmac,
+  randomBytes,
+  randomUUID,
+  timingSafeEqual,
+} from "node:crypto";
+import { spawn } from "node:child_process";
 import { chmodSync, mkdirSync } from "node:fs";
 import { dirname } from "node:path";
 import { DatabaseSync } from "node:sqlite";
@@ -6,7 +13,8 @@ import { DatabaseSync } from "node:sqlite";
 const MAX_BODY_BYTES = 8_192;
 const RATE_LIMIT_MAX_REQUESTS = 5;
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1_000;
-const CONSENT_VERSION = "privacy-2026-08-07";
+const CONFIRMATION_TOKEN_TTL_MS = 24 * 60 * 60 * 1_000;
+const CONSENT_VERSION = "privacy-2026-08-08";
 const DEFAULT_DATABASE_PATH = "/var/lib/olhossecos/newsletter.sqlite";
 const DEFAULT_PRODUCTION_ORIGIN = "https://olhossecos.com.br";
 
@@ -16,11 +24,29 @@ type RateLimitEntry = {
 };
 
 type NewsletterPayload = {
+  stage?: unknown;
   name?: unknown;
   email?: unknown;
   profession?: unknown;
+  audienceRole?: unknown;
+  profileToken?: unknown;
   company?: unknown;
   consent?: unknown;
+  source?: unknown;
+  utmSource?: unknown;
+  utmMedium?: unknown;
+  utmCampaign?: unknown;
+  utmContent?: unknown;
+  utmTerm?: unknown;
+  confirmationToken?: unknown;
+};
+
+type NewsletterSource = "livros" | "superficie" | "newsletter";
+
+export type NewsletterConfirmationEmail = {
+  email: string;
+  token: string;
+  confirmationUrl: string;
 };
 
 export type NewsletterHandlerOptions = {
@@ -29,10 +55,36 @@ export type NewsletterHandlerOptions = {
   databasePath?: string;
   now?: () => Date;
   rateLimit?: boolean;
+  sendConfirmationEmail?: (
+    message: NewsletterConfirmationEmail,
+  ) => Promise<void>;
+};
+
+export type NewsletterUnsubscribeHandlerOptions = {
+  allowedOrigin?: string;
+  clientKey?: string;
+  databasePath?: string;
+  now?: () => Date;
+  rateLimit?: boolean;
+  tokenSecret?: string;
 };
 
 const rateLimits = new Map<string, RateLimitEntry>();
 const databases = new Map<string, DatabaseSync>();
+const audienceRoles = new Set([
+  "medico",
+  "residente-fellow",
+  "pesquisador",
+  "outro-profissional",
+  "industria-parceiro",
+  "paciente",
+  "outro",
+]);
+const newsletterSources = new Set<NewsletterSource>([
+  "livros",
+  "superficie",
+  "newsletter",
+]);
 
 const jsonResponse = (
   body: Record<string, unknown>,
@@ -57,6 +109,63 @@ const normalizeText = (value: unknown) =>
 const isValidEmail = (email: string) =>
   email.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/u.test(email);
 
+const createProfileToken = () => {
+  const token = randomBytes(32).toString("base64url");
+  return {
+    token,
+    hash: createHash("sha256").update(token).digest("hex"),
+  };
+};
+
+const ensureNewsletterColumns = (database: DatabaseSync) => {
+  const existing = new Set(
+    (
+      database
+        .prepare("PRAGMA table_info(newsletter_subscribers)")
+        .all() as Array<{
+        name: string;
+      }>
+    ).map(({ name }) => name),
+  );
+  const additions = [
+    ["audience_role", "TEXT"],
+    ["profile_token_hash", "TEXT"],
+    ["profile_token_expires_at", "TEXT"],
+    ["utm_source", "TEXT"],
+    ["utm_medium", "TEXT"],
+    ["utm_campaign", "TEXT"],
+    ["utm_content", "TEXT"],
+    ["utm_term", "TEXT"],
+    ["unsubscribe_key", "TEXT"],
+    ["unsubscribed_at", "TEXT"],
+    ["confirmation_token_hash", "TEXT"],
+    ["confirmation_token_expires_at", "TEXT"],
+  ] as const;
+
+  for (const [name, definition] of additions) {
+    if (!existing.has(name)) {
+      database.exec(
+        `ALTER TABLE newsletter_subscribers ADD COLUMN ${name} ${definition}`,
+      );
+    }
+  }
+
+  const missingKeys = database
+    .prepare(
+      `SELECT id FROM newsletter_subscribers
+       WHERE unsubscribe_key IS NULL OR unsubscribe_key = ''`,
+    )
+    .all() as Array<{ id: string }>;
+  const assignKey = database.prepare(
+    "UPDATE newsletter_subscribers SET unsubscribe_key = ? WHERE id = ?",
+  );
+  for (const row of missingKeys) assignKey.run(randomUUID(), row.id);
+  database.exec(`
+    CREATE UNIQUE INDEX IF NOT EXISTS newsletter_subscribers_unsubscribe_key_idx
+      ON newsletter_subscribers (unsubscribe_key);
+  `);
+};
+
 const getDatabase = (databasePath: string) => {
   const cached = databases.get(databasePath);
   if (cached) return cached;
@@ -74,11 +183,23 @@ const getDatabase = (databasePath: string) => {
       email TEXT NOT NULL UNIQUE COLLATE NOCASE,
       name TEXT NOT NULL,
       profession TEXT,
+      audience_role TEXT,
       status TEXT NOT NULL DEFAULT 'active'
         CHECK (status IN ('active', 'unsubscribed')),
       source TEXT NOT NULL,
       consent_version TEXT NOT NULL,
       consented_at TEXT NOT NULL,
+      profile_token_hash TEXT,
+      profile_token_expires_at TEXT,
+      utm_source TEXT,
+      utm_medium TEXT,
+      utm_campaign TEXT,
+      utm_content TEXT,
+      utm_term TEXT,
+      unsubscribe_key TEXT UNIQUE,
+      unsubscribed_at TEXT,
+      confirmation_token_hash TEXT,
+      confirmation_token_expires_at TEXT,
       created_at TEXT NOT NULL,
       updated_at TEXT NOT NULL
     );
@@ -86,21 +207,64 @@ const getDatabase = (databasePath: string) => {
     CREATE INDEX IF NOT EXISTS newsletter_subscribers_status_idx
       ON newsletter_subscribers (status, created_at);
   `);
+  ensureNewsletterColumns(database);
 
   databases.set(databasePath, database);
   return database;
 };
 
+type SubscriberSaveResult =
+  { status: "active" } | { status: "confirmation_required"; token: string };
+
 const saveSubscriber = (
-  payload: { name: string; email: string; profession: string },
+  payload: {
+    name: string;
+    email: string;
+    profession: string;
+    source: NewsletterSource;
+    profileTokenHash: string | null;
+    profileTokenExpiresAt: string | null;
+    utmSource: string;
+    utmMedium: string;
+    utmCampaign: string;
+    utmContent: string;
+    utmTerm: string;
+  },
   databasePath: string,
   now: Date,
-) => {
+): SubscriberSaveResult => {
   const database = getDatabase(databasePath);
   const timestamp = now.toISOString();
 
   database.exec("BEGIN IMMEDIATE");
   try {
+    const existing = database
+      .prepare(
+        "SELECT status FROM newsletter_subscribers WHERE email = ? COLLATE NOCASE",
+      )
+      .get(payload.email) as { status: string } | undefined;
+
+    if (existing?.status === "unsubscribed") {
+      const token = randomBytes(32).toString("base64url");
+      database
+        .prepare(
+          `UPDATE newsletter_subscribers
+           SET confirmation_token_hash = ?,
+               confirmation_token_expires_at = ?,
+               updated_at = ?
+           WHERE email = ? COLLATE NOCASE
+             AND status = 'unsubscribed'`,
+        )
+        .run(
+          createHash("sha256").update(token).digest("hex"),
+          new Date(now.getTime() + CONFIRMATION_TOKEN_TTL_MS).toISOString(),
+          timestamp,
+          payload.email,
+        );
+      database.exec("COMMIT");
+      return { status: "confirmation_required", token };
+    }
+
     database
       .prepare(
         `INSERT INTO newsletter_subscribers (
@@ -108,20 +272,45 @@ const saveSubscriber = (
           email,
           name,
           profession,
+          audience_role,
           status,
           source,
           consent_version,
           consented_at,
+          profile_token_hash,
+          profile_token_expires_at,
+          utm_source,
+          utm_medium,
+          utm_campaign,
+          utm_content,
+          utm_term,
+          unsubscribe_key,
+          unsubscribed_at,
+          confirmation_token_hash,
+          confirmation_token_expires_at,
           created_at,
           updated_at
-        ) VALUES (?, ?, ?, ?, 'active', 'livros', ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, NULL, 'active', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL, ?, ?)
         ON CONFLICT(email) DO UPDATE SET
-          name = excluded.name,
+          name = CASE
+            WHEN excluded.name <> '' THEN excluded.name
+            ELSE newsletter_subscribers.name
+          END,
           profession = excluded.profession,
           status = 'active',
+          unsubscribed_at = NULL,
           source = excluded.source,
           consent_version = excluded.consent_version,
           consented_at = excluded.consented_at,
+          profile_token_hash = excluded.profile_token_hash,
+          profile_token_expires_at = excluded.profile_token_expires_at,
+          utm_source = COALESCE(excluded.utm_source, newsletter_subscribers.utm_source),
+          utm_medium = COALESCE(excluded.utm_medium, newsletter_subscribers.utm_medium),
+          utm_campaign = COALESCE(excluded.utm_campaign, newsletter_subscribers.utm_campaign),
+          utm_content = COALESCE(excluded.utm_content, newsletter_subscribers.utm_content),
+          utm_term = COALESCE(excluded.utm_term, newsletter_subscribers.utm_term),
+          confirmation_token_hash = NULL,
+          confirmation_token_expires_at = NULL,
           updated_at = excluded.updated_at`,
       )
       .run(
@@ -129,16 +318,276 @@ const saveSubscriber = (
         payload.email,
         payload.name,
         payload.profession || null,
+        payload.source,
         CONSENT_VERSION,
         timestamp,
+        payload.profileTokenHash,
+        payload.profileTokenExpiresAt,
+        payload.utmSource || null,
+        payload.utmMedium || null,
+        payload.utmCampaign || null,
+        payload.utmContent || null,
+        payload.utmTerm || null,
+        randomUUID(),
         timestamp,
         timestamp,
       );
     database.exec("COMMIT");
+    return { status: "active" };
   } catch (error) {
     database.exec("ROLLBACK");
     throw error;
   }
+};
+
+export const createNewsletterUnsubscribeToken = (
+  unsubscribeKey: string,
+  secret: string,
+) => {
+  const signature = createHmac("sha256", secret)
+    .update(unsubscribeKey)
+    .digest("base64url");
+  return `${unsubscribeKey}.${signature}`;
+};
+
+const sendNewsletterConfirmationEmail = async ({
+  email,
+  confirmationUrl,
+}: NewsletterConfirmationEmail) => {
+  const sendmailPath = process.env.NEWSLETTER_CONFIRMATION_SENDMAIL;
+  if (!sendmailPath) {
+    throw new Error("NEWSLETTER_CONFIRMATION_SENDMAIL não configurado.");
+  }
+
+  const child = spawn(sendmailPath, ["-t", "-oi"], {
+    stdio: ["pipe", "ignore", "pipe"],
+  });
+  const message = [
+    `To: ${email}`,
+    "Subject: Confirme seu retorno à newsletter do olhossecos.com.br",
+    "Content-Type: text/plain; charset=UTF-8",
+    "",
+    "Recebemos um pedido para voltar a receber os envios editoriais do olhossecos.com.br.",
+    "",
+    `Confirme pelo link: ${confirmationUrl}`,
+    "",
+    "Se você não fez este pedido, ignore esta mensagem.",
+    "",
+  ].join("\r\n");
+  child.stdin?.end(message);
+
+  await new Promise<void>((resolve, reject) => {
+    const timeout = setTimeout(() => {
+      child.kill("SIGTERM");
+      reject(new Error("O envio do e-mail de confirmação expirou."));
+    }, 10_000);
+    child.once("error", (error) => {
+      clearTimeout(timeout);
+      reject(error);
+    });
+    child.once("close", (code) => {
+      clearTimeout(timeout);
+      if (code === 0) resolve();
+      else reject(new Error(`sendmail encerrou com código ${code ?? "nulo"}.`));
+    });
+  });
+};
+
+const confirmNewsletterSubscription = (
+  token: string,
+  databasePath: string,
+  now: Date,
+) => {
+  const database = getDatabase(databasePath);
+  const tokenHash = createHash("sha256").update(token).digest("hex");
+  const timestamp = now.toISOString();
+  const result = database
+    .prepare(
+      `UPDATE newsletter_subscribers
+       SET status = 'active',
+           consent_version = ?,
+           consented_at = ?,
+           unsubscribed_at = NULL,
+           confirmation_token_hash = NULL,
+           confirmation_token_expires_at = NULL,
+           updated_at = ?
+       WHERE status = 'unsubscribed'
+         AND confirmation_token_hash = ?
+         AND confirmation_token_expires_at > ?`,
+    )
+    .run(CONSENT_VERSION, timestamp, timestamp, tokenHash, timestamp);
+  return result.changes === 1;
+};
+
+const clearNewsletterConfirmation = (
+  email: string,
+  token: string,
+  databasePath: string,
+  now: Date,
+) => {
+  const database = getDatabase(databasePath);
+  database
+    .prepare(
+      `UPDATE newsletter_subscribers
+       SET confirmation_token_hash = NULL,
+           confirmation_token_expires_at = NULL,
+           updated_at = ?
+       WHERE email = ? COLLATE NOCASE
+         AND confirmation_token_hash = ?`,
+    )
+    .run(
+      now.toISOString(),
+      email,
+      createHash("sha256").update(token).digest("hex"),
+    );
+};
+
+const verifyNewsletterUnsubscribeToken = (token: string, secret: string) => {
+  const separator = token.lastIndexOf(".");
+  if (separator <= 0) return null;
+  const unsubscribeKey = token.slice(0, separator);
+  const providedSignature = token.slice(separator + 1);
+  if (!/^[0-9a-f-]{36}$/iu.test(unsubscribeKey)) return null;
+
+  const expectedSignature = createHmac("sha256", secret)
+    .update(unsubscribeKey)
+    .digest("base64url");
+  const provided = Buffer.from(providedSignature);
+  const expected = Buffer.from(expectedSignature);
+  if (provided.length !== expected.length) return null;
+  return timingSafeEqual(provided, expected) ? unsubscribeKey : null;
+};
+
+export const handleNewsletterUnsubscribeRequest = async (
+  request: Request,
+  options: NewsletterUnsubscribeHandlerOptions = {},
+) => {
+  if (request.method !== "POST") {
+    return jsonResponse({ message: "Método não permitido." }, 405, {
+      Allow: "POST",
+    });
+  }
+
+  if (
+    !(request.headers.get("content-type") ?? "")
+      .toLowerCase()
+      .startsWith("application/json")
+  ) {
+    return jsonResponse({ message: "Formato de envio inválido." }, 415);
+  }
+
+  const allowedOrigin =
+    options.allowedOrigin ??
+    process.env.NEWSLETTER_ALLOWED_ORIGIN ??
+    (process.env.NODE_ENV === "production"
+      ? DEFAULT_PRODUCTION_ORIGIN
+      : new URL(request.url).origin);
+  const requestOrigin = request.headers.get("origin");
+  const fetchSite = request.headers.get("sec-fetch-site");
+  if (
+    (requestOrigin && requestOrigin !== allowedOrigin) ||
+    (fetchSite && !["same-origin", "none"].includes(fetchSite))
+  ) {
+    return jsonResponse({ message: "Origem não permitida." }, 403);
+  }
+
+  const now = options.now?.() ?? new Date();
+  if (options.rateLimit !== false && options.clientKey) {
+    const limit = consumeRateLimit(options.clientKey, now.getTime());
+    if (!limit.allowed) {
+      return jsonResponse(
+        { message: "Muitas tentativas. Aguarde alguns minutos." },
+        429,
+        { "Retry-After": String(limit.retryAfter) },
+      );
+    }
+  }
+
+  const tokenSecret =
+    options.tokenSecret ?? process.env.NEWSLETTER_TOKEN_SECRET ?? "";
+  if (tokenSecret.length < 32) {
+    return jsonResponse({ message: "Descadastro indisponível." }, 503);
+  }
+
+  let token = "";
+  try {
+    const body = (await readJsonBody(request)) as NewsletterPayload & {
+      token?: unknown;
+    };
+    token = normalizeText(body.token);
+  } catch (error) {
+    if (error instanceof RangeError) {
+      return jsonResponse({ message: "Envio muito grande." }, 413);
+    }
+    return jsonResponse({ message: "Dados inválidos." }, 400);
+  }
+
+  const unsubscribeKey = verifyNewsletterUnsubscribeToken(token, tokenSecret);
+  if (!unsubscribeKey) {
+    return jsonResponse({ message: "Link inválido ou expirado." }, 403);
+  }
+
+  const databasePath =
+    options.databasePath ??
+    process.env.NEWSLETTER_DATABASE_PATH ??
+    DEFAULT_DATABASE_PATH;
+  try {
+    const database = getDatabase(databasePath);
+    const result = database
+      .prepare(
+        `UPDATE newsletter_subscribers
+         SET status = 'unsubscribed',
+             unsubscribed_at = COALESCE(unsubscribed_at, ?),
+             profile_token_hash = NULL,
+             profile_token_expires_at = NULL,
+             confirmation_token_hash = NULL,
+             confirmation_token_expires_at = NULL,
+             updated_at = ?
+         WHERE unsubscribe_key = ?`,
+      )
+      .run(now.toISOString(), now.toISOString(), unsubscribeKey);
+    if (result.changes !== 1) {
+      return jsonResponse({ message: "Link inválido ou expirado." }, 403);
+    }
+  } catch {
+    return jsonResponse({ message: "Não foi possível concluir agora." }, 503);
+  }
+
+  return jsonResponse(
+    { message: "Descadastro concluído. Você não receberá novos envios." },
+    200,
+  );
+};
+
+const saveSubscriberProfile = (
+  payload: { email: string; audienceRole: string; profileToken: string },
+  databasePath: string,
+  now: Date,
+) => {
+  const database = getDatabase(databasePath);
+  const tokenHash = createHash("sha256")
+    .update(payload.profileToken)
+    .digest("hex");
+  const result = database
+    .prepare(
+      `UPDATE newsletter_subscribers
+       SET audience_role = ?,
+           profile_token_hash = NULL,
+           profile_token_expires_at = NULL,
+           updated_at = ?
+       WHERE email = ? COLLATE NOCASE
+         AND profile_token_hash = ?
+         AND profile_token_expires_at > ?`,
+    )
+    .run(
+      payload.audienceRole,
+      now.toISOString(),
+      payload.email,
+      tokenHash,
+      now.toISOString(),
+    );
+
+  return result.changes === 1;
 };
 
 const consumeRateLimit = (key: string, now: number) => {
@@ -168,12 +617,33 @@ const readJsonBody = async (request: Request) => {
     throw new RangeError("payload_too_large");
   }
 
-  const body = await request.text();
-  if (new TextEncoder().encode(body).byteLength > MAX_BODY_BYTES) {
-    throw new RangeError("payload_too_large");
+  const reader = request.body?.getReader();
+  if (!reader) return JSON.parse("") as NewsletterPayload;
+
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    totalBytes += value.byteLength;
+    if (totalBytes > MAX_BODY_BYTES) {
+      try {
+        await reader.cancel("payload_too_large");
+      } catch {
+        // O limite continua válido mesmo se o cliente fechar o stream antes.
+      }
+      throw new RangeError("payload_too_large");
+    }
+    chunks.push(value);
   }
 
-  return JSON.parse(body) as NewsletterPayload;
+  const bytes = new Uint8Array(totalBytes);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return JSON.parse(new TextDecoder().decode(bytes)) as NewsletterPayload;
 };
 
 export const handleNewsletterRequest = async (
@@ -233,16 +703,100 @@ export const handleNewsletterRequest = async (
     return jsonResponse({ message: "Cadastro recebido." }, 202);
   }
 
+  const databasePath =
+    options.databasePath ??
+    process.env.NEWSLETTER_DATABASE_PATH ??
+    DEFAULT_DATABASE_PATH;
+  const stage = normalizeText(payload.stage);
+
+  if (stage === "confirm") {
+    const confirmationToken = normalizeText(payload.confirmationToken);
+    if (confirmationToken.length < 32 || confirmationToken.length > 128) {
+      return jsonResponse({ message: "Token de confirmação inválido." }, 422);
+    }
+
+    try {
+      const confirmed = confirmNewsletterSubscription(
+        confirmationToken,
+        databasePath,
+        now,
+      );
+      return confirmed
+        ? jsonResponse(
+            {
+              message: "Cadastro confirmado. Você voltou a receber os envios.",
+            },
+            200,
+          )
+        : jsonResponse(
+            { message: "Token de confirmação inválido ou expirado." },
+            403,
+          );
+    } catch {
+      return jsonResponse(
+        { message: "Não foi possível concluir agora. Tente novamente." },
+        503,
+      );
+    }
+  }
+
+  if (stage === "profile") {
+    const email = normalizeText(payload.email).toLowerCase();
+    const audienceRole = normalizeText(payload.audienceRole);
+    const profileToken = normalizeText(payload.profileToken);
+
+    if (
+      !isValidEmail(email) ||
+      !audienceRoles.has(audienceRole) ||
+      profileToken.length < 32 ||
+      profileToken.length > 128
+    ) {
+      return jsonResponse({ message: "Dados de perfil inválidos." }, 422);
+    }
+
+    try {
+      const updated = saveSubscriberProfile(
+        { email, audienceRole, profileToken },
+        databasePath,
+        now,
+      );
+      return updated
+        ? jsonResponse({ message: "Preferência registrada." }, 200)
+        : jsonResponse(
+            { message: "Link de perfil inválido ou expirado." },
+            403,
+          );
+    } catch {
+      return jsonResponse(
+        { message: "Não foi possível concluir agora. Tente novamente." },
+        503,
+      );
+    }
+  }
+
   const name = normalizeText(payload.name);
   const email = normalizeText(payload.email).toLowerCase();
   const profession = normalizeText(payload.profession);
+  const requestedSource = normalizeText(payload.source) as NewsletterSource;
+  const source: NewsletterSource = newsletterSources.has(requestedSource)
+    ? requestedSource
+    : "livros";
+  const usesProgressiveProfile = source !== "livros";
+  const utmSource = normalizeText(payload.utmSource);
+  const utmMedium = normalizeText(payload.utmMedium);
+  const utmCampaign = normalizeText(payload.utmCampaign);
+  const utmContent = normalizeText(payload.utmContent);
+  const utmTerm = normalizeText(payload.utmTerm);
   const consent = payload.consent === "accepted" || payload.consent === true;
 
   if (
-    name.length < 2 ||
+    (!usesProgressiveProfile && name.length < 2) ||
     name.length > 120 ||
     !isValidEmail(email) ||
     profession.length > 120 ||
+    [utmSource, utmMedium, utmCampaign, utmContent, utmTerm].some(
+      (value) => value.length > 200,
+    ) ||
     !consent
   ) {
     return jsonResponse(
@@ -251,12 +805,28 @@ export const handleNewsletterRequest = async (
     );
   }
 
+  const profileToken = usesProgressiveProfile ? createProfileToken() : null;
+  const profileTokenExpiresAt = profileToken
+    ? new Date(now.getTime() + 24 * 60 * 60 * 1_000).toISOString()
+    : null;
+
+  let saveResult: SubscriberSaveResult;
   try {
-    saveSubscriber(
-      { name, email, profession },
-      options.databasePath ??
-        process.env.NEWSLETTER_DATABASE_PATH ??
-        DEFAULT_DATABASE_PATH,
+    saveResult = saveSubscriber(
+      {
+        name,
+        email,
+        profession,
+        source,
+        profileTokenHash: profileToken?.hash ?? null,
+        profileTokenExpiresAt,
+        utmSource,
+        utmMedium,
+        utmCampaign,
+        utmContent,
+        utmTerm,
+      },
+      databasePath,
       now,
     );
   } catch {
@@ -266,7 +836,39 @@ export const handleNewsletterRequest = async (
     );
   }
 
-  return jsonResponse({ message: "Cadastro realizado. Obrigado." }, 201);
+  if (saveResult.status === "confirmation_required") {
+    const confirmationUrl = new URL("/newsletter/confirmar", allowedOrigin);
+    confirmationUrl.searchParams.set("token", saveResult.token);
+    const sendConfirmationEmail =
+      options.sendConfirmationEmail ?? sendNewsletterConfirmationEmail;
+    try {
+      await sendConfirmationEmail({
+        email,
+        token: saveResult.token,
+        confirmationUrl: confirmationUrl.href,
+      });
+    } catch {
+      clearNewsletterConfirmation(email, saveResult.token, databasePath, now);
+      return jsonResponse(
+        { message: "Não foi possível enviar a confirmação agora." },
+        503,
+      );
+    }
+    return jsonResponse(
+      {
+        message: "Enviamos um link de confirmação para o endereço informado.",
+      },
+      202,
+    );
+  }
+
+  return jsonResponse(
+    {
+      message: "Cadastro realizado. Obrigado.",
+      ...(profileToken ? { profileToken: profileToken.token } : {}),
+    },
+    201,
+  );
 };
 
 export const closeNewsletterDatabases = () => {

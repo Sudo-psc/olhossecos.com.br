@@ -1,0 +1,181 @@
+---
+import EvidenceLevel from "./EvidenceLevel.astro";
+
+/**
+ * Bloco de evidência: transforma um resultado quantitativo em componente
+ * reutilizável sem perder o que sustenta o número — desenho do estudo, tamanho
+ * amostral e a referência aberta.
+ *
+ * `caveat` é obrigatório no uso editorial quando o efeito é curto, pequeno ou
+ * de certeza baixa. Número sozinho, sem a limitação ao lado, é exatamente o
+ * tipo de leitura que o portal não faz.
+ */
+interface Props {
+  design: string;
+  effect: string;
+  outcome: string;
+  stats?: string[];
+  level?: 1 | 2 | 3 | 4 | 5;
+  levelLabel?: string;
+  caveat?: string;
+  reference?: { label: string; url: string };
+}
+
+const {
+  design,
+  effect,
+  outcome,
+  stats = [],
+  level,
+  levelLabel,
+  caveat,
+  reference,
+} = Astro.props;
+---
+
+<aside class="evidence" aria-label={`Evidência: ${design}`}>
+  <p class="evidence-kicker">Evidência</p>
+  <p class="evidence-design">{design}</p>
+
+  <p class="evidence-effect">
+    <strong>{effect}</strong>
+    <span>{outcome}</span>
+  </p>
+
+  {
+    stats.length > 0 && (
+      <ul class="evidence-stats">
+        {stats.map((stat) => (
+          <li>{stat}</li>
+        ))}
+      </ul>
+    )
+  }
+
+  {level && <EvidenceLevel level={level} label={levelLabel} />}
+
+  {caveat && <p class="evidence-caveat">{caveat}</p>}
+
+  {
+    reference && (
+      <a
+        class="evidence-reference"
+        href={reference.url}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Ver referência
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 12h16m-5-5 5 5-5 5" />
+        </svg>
+      </a>
+    )
+  }
+</aside>
+
+<style>
+  .evidence {
+    display: grid;
+    gap: 0.7rem;
+    margin-block: var(--space-block);
+    padding: 1.6rem 1.7rem;
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--teal-600);
+    border-radius: var(--radius-sm);
+    background: var(--paper-0);
+    color: var(--ink);
+  }
+
+  .evidence-kicker {
+    margin: 0;
+    color: var(--copper-700);
+    font-size: var(--text-meta);
+    font-weight: 800;
+    letter-spacing: var(--tracking-kicker);
+    text-transform: uppercase;
+  }
+
+  .evidence-design {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: var(--text-h3);
+    line-height: 1.2;
+  }
+
+  .evidence-effect {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.2rem 0.8rem;
+    margin: 0.2rem 0 0;
+  }
+
+  .evidence-effect strong {
+    font-family: var(--serif);
+    font-size: clamp(2.25rem, 1.6rem + 2vw, 3rem);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    line-height: 1;
+    /* Tabular garante que dois blocos de evidência lado a lado alinhem os
+       dígitos em vez de dançar conforme o número. */
+    font-variant-numeric: tabular-nums;
+  }
+
+  .evidence-effect span {
+    color: var(--ink-soft);
+    font-size: var(--text-small);
+  }
+
+  .evidence-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1.1rem;
+    margin: 0;
+    padding: 0;
+    color: var(--ink-soft);
+    font-size: var(--text-meta);
+    list-style: none;
+  }
+
+  .evidence-stats li + li {
+    position: relative;
+    padding-left: 1.1rem;
+  }
+
+  .evidence-stats li + li::before {
+    position: absolute;
+    left: 0.35rem;
+    content: "·";
+  }
+
+  .evidence-caveat {
+    margin: 0;
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--line-soft);
+    color: var(--ink-soft);
+    font-size: var(--text-small);
+  }
+
+  .evidence-reference {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: fit-content;
+    color: var(--teal-700);
+    font-size: var(--text-small);
+    font-weight: 700;
+    border-bottom: 1px solid currentColor;
+  }
+
+  .evidence-reference svg {
+    width: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    transition: transform var(--duration-base) var(--ease-out-soft);
+  }
+
+  .evidence-reference:hover svg {
+    transform: translateX(4px);
+  }
+</style>

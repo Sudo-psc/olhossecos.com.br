@@ -1,27 +1,21 @@
 ---
-import ArticleCard from "@/components/superficie/ArticleCard.astro";
+import ArticleCitationModal from "@/components/superficie/ArticleCitationModal.astro";
+import { formatLongDate } from "@/lib/dates";
 import {
   calculateArticleReadingTime,
   type MagazineArticle,
 } from "@/lib/superficie";
+import type { RelatedContent } from "@/lib/related-content";
 
 interface Props {
   article: MagazineArticle;
-  related: MagazineArticle[];
+  related: RelatedContent[];
 }
 
 const { article, related } = Astro.props;
 const readingTime = calculateArticleReadingTime(article);
 const isPreview = article.status !== "published";
-const dateFormatter = new Intl.DateTimeFormat("pt-BR", {
-  day: "2-digit",
-  month: "long",
-  year: "numeric",
-  timeZone: "UTC",
-});
-
-const formatDate = (date?: string) =>
-  date ? dateFormatter.format(new Date(`${date}T00:00:00Z`)) : undefined;
+const formatDate = formatLongDate;
 ---
 
 <article class="magazine-article">
@@ -34,7 +28,7 @@ const formatDate = (date?: string) =>
     >
       <a href="/superficie">SUPERFÍCIE</a>
       <span aria-hidden="true">/</span>
-      <a href="/superficie#destaque">Artigos</a>
+      <a href="/superficie/artigos">Artigos</a>
       <span aria-hidden="true">/</span>
       <span>{article.category}</span>
     </div>
@@ -52,6 +46,7 @@ const formatDate = (date?: string) =>
           )
         }
         <p class="category">{article.category}</p>
+        <p class="review-seal">{article.reviewSeal}</p>
         <h1>{article.title}</h1>
         {article.subtitle && <p class="subtitle">{article.subtitle}</p>}
         <p class="excerpt">{article.excerpt}</p>
@@ -94,7 +89,11 @@ const formatDate = (date?: string) =>
           article.publishedAt && (
             <div>
               <dt>Publicado em</dt>
-              <dd>{formatDate(article.publishedAt)}</dd>
+              <dd>
+                <time datetime={article.publishedAt}>
+                  {formatDate(article.publishedAt)}
+                </time>
+              </dd>
             </div>
           )
         }
@@ -102,29 +101,23 @@ const formatDate = (date?: string) =>
           article.modifiedAt && (
             <div>
               <dt>Atualizado em</dt>
-              <dd>{formatDate(article.modifiedAt)}</dd>
+              <dd>
+                <time datetime={article.modifiedAt}>
+                  {formatDate(article.modifiedAt)}
+                </time>
+              </dd>
             </div>
           )
         }
+        <div class="article-fact-citation">
+          <dt>Citação</dt>
+          <dd>
+            <ArticleCitationModal {article} />
+          </dd>
+        </div>
       </dl>
     </div>
   </header>
-
-  {
-    article.featuredImage && (
-      <figure class="surface-shell featured-image">
-        <img
-          src={article.featuredImage.src}
-          alt={article.featuredImage.alt}
-          width={article.featuredImage.width}
-          height={article.featuredImage.height}
-          loading="eager"
-          fetchpriority="high"
-          decoding="async"
-        />
-      </figure>
-    )
-  }
 
   <div class="surface-shell article-grid">
     <aside class="article-toc" aria-label="Nesta matéria">
@@ -164,9 +157,41 @@ const formatDate = (date?: string) =>
               <span>{String(index + 1).padStart(2, "0")}</span>
               <h2>{section.title}</h2>
             </div>
+            {section.figure && (
+              <figure
+                class="article-inline-figure"
+                style={`--figure-ratio: ${section.figure.width} / ${section.figure.height}`}
+              >
+                <picture>
+                  {section.figure.avif && (
+                    <source type="image/avif" srcset={section.figure.avif} />
+                  )}
+                  {section.figure.webp && (
+                    <source type="image/webp" srcset={section.figure.webp} />
+                  )}
+                  <img
+                    src={section.figure.src}
+                    alt={section.figure.alt}
+                    width={section.figure.width}
+                    height={section.figure.height}
+                    loading="eager"
+                    fetchpriority="high"
+                    decoding="async"
+                  />
+                </picture>
+                <figcaption>
+                  <p>{section.figure.caption}</p>
+                </figcaption>
+              </figure>
+            )}
             {section.paragraphs.map((paragraph) => (
               <p>{paragraph}</p>
             ))}
+            {section.callout && (
+              <aside class="article-callout" role="note">
+                <p>{section.callout}</p>
+              </aside>
+            )}
             {section.bullets && (
               <ul>
                 {section.bullets.map((item) => (
@@ -181,15 +206,30 @@ const formatDate = (date?: string) =>
       {
         article.references.length > 0 && (
           <section id="referencias" class="references-section">
-            <p class="section-kicker">Fontes</p>
-            <h2>Referências</h2>
-            <ol>
+            <div class="references-header">
+              <div>
+                <p class="section-kicker">Fontes</p>
+                <h2>Referências</h2>
+              </div>
+              <ArticleCitationModal {article} />
+            </div>
+            {/* A citação fica em texto corrido e só o identificador é
+                acionável. Envolver a citação inteira num link produzia
+                blocos de três linhas sublinhadas — ruído visual em 25
+                entradas — e devolvia a referência completa como "texto do
+                link" na navegação por leitor de tela. */}
+            <ol class="reference-list">
               {article.references.map((reference) => (
                 <li>
-                  <a href={reference.url} rel="noreferrer">
-                    {reference.label}
+                  <cite>{reference.label}</cite>
+                  <a
+                    class="reference-link"
+                    href={reference.url}
+                    rel="noreferrer"
+                  >
+                    {reference.doi ? `DOI ${reference.doi}` : "Ver fonte"}
+                    <span class="sr-only"> — {reference.label}</span>
                   </a>
-                  {reference.doi && <span>DOI: {reference.doi}</span>}
                 </li>
               ))}
             </ol>
@@ -200,7 +240,16 @@ const formatDate = (date?: string) =>
       <section id="disclosures" class="disclosure-section">
         <p class="section-kicker">Transparência</p>
         <h2>Conflitos de interesse / disclosures</h2>
-        <p>{article.disclosure}</p>
+        <dl class="disclosure-list">
+          {
+            article.disclosures.map(({ label, text }) => (
+              <>
+                <dt>{label}</dt>
+                <dd>{text}</dd>
+              </>
+            ))
+          }
+        </dl>
         {
           article.sponsored && article.sponsor && (
             <p>
@@ -217,14 +266,25 @@ const formatDate = (date?: string) =>
       <section class="related-section" aria-labelledby="related-title">
         <div class="surface-shell">
           <header>
-            <p>Curadoria semântica</p>
-            <h2 id="related-title">Leia também</h2>
+            <p>Próximas leituras</p>
+            <h2 id="related-title">Conteúdos relacionados</h2>
           </header>
-          <div class="related-grid">
+          <ul class="related-grid">
             {related.map((item) => (
-              <ArticleCard article={item} compact />
+              <li>
+                <a class="related-card" href={item.href}>
+                  <span class="related-label">{item.label}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                  <span class="related-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M5 19 19 5m-10 0h10v10" />
+                    </svg>
+                  </span>
+                </a>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
     )
@@ -341,10 +401,18 @@ const formatDate = (date?: string) =>
     align-items: center;
     gap: 0.65rem;
     color: var(--surface-muted-on-dark);
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     font-weight: 750;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+  }
+
+  /* O texto em caixa alta a 0.68rem gera altura de ~18px. O alvo precisa dos
+     24px da WCAG 2.5.8 sem que a linha do breadcrumb engorde. */
+  .article-breadcrumb a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
   }
 
   .article-hero-grid {
@@ -358,23 +426,34 @@ const formatDate = (date?: string) =>
   .preview-label,
   .sponsor-label,
   .category,
+  .review-seal,
   .section-kicker,
   .article-toc > p,
   .related-section header > p,
   .article-newsletter > div > div:first-child > p {
     margin: 0 0 0.9rem;
     color: var(--surface-gold-light);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.16em;
     text-transform: uppercase;
   }
 
   .preview-label,
-  .sponsor-label {
+  .sponsor-label,
+  .review-seal {
     display: inline-block;
     padding: 0.45rem 0.65rem;
     border: 1px solid currentColor;
+  }
+
+  /* O selo informa o processo editorial executado, não é distintivo de
+     prestígio — daí o tom neutro, distinto do ouro da marca. Precisa do
+     token para fundo escuro: --surface-copy é texto de papel claro e sobre
+     o navy do hero fica em 1,54:1, ou seja, ilegível. */
+  .review-seal {
+    color: var(--surface-muted-on-dark);
+    letter-spacing: 0.1em;
   }
 
   .article-heading h1 {
@@ -415,7 +494,7 @@ const formatDate = (date?: string) =>
 
   .article-facts dt {
     color: var(--surface-gold-light);
-    font-size: 0.64rem;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -425,16 +504,6 @@ const formatDate = (date?: string) =>
     margin: 0.2rem 0 0;
     color: var(--surface-muted-on-dark);
     font-size: 0.86rem;
-  }
-
-  .featured-image {
-    margin-top: clamp(-3rem, -5vw, -5rem);
-  }
-
-  .featured-image img {
-    width: 100%;
-    max-height: 680px;
-    object-fit: cover;
   }
 
   .article-grid {
@@ -518,6 +587,7 @@ const formatDate = (date?: string) =>
 
   .article-section > p:not(.section-kicker),
   .article-section li,
+  .disclosure-list dd,
   .disclosure-section > p:not(.section-kicker) {
     color: var(--surface-copy);
     font-family: var(--surface-serif);
@@ -525,9 +595,133 @@ const formatDate = (date?: string) =>
     line-height: 1.75;
   }
 
+  .disclosure-list {
+    margin: 0;
+  }
+
+  .disclosure-list dt {
+    margin-bottom: 0.3rem;
+    color: var(--surface-ink);
+    font-family: var(--surface-sans);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .disclosure-list dd {
+    margin: 0;
+    max-width: 68ch;
+  }
+
+  .disclosure-list dd + dt {
+    margin-top: 1.6rem;
+    padding-top: 1.6rem;
+    border-top: 1px solid var(--surface-line);
+  }
+
+  .section-title + .article-inline-figure {
+    margin: 0.85rem 0 1.75rem;
+  }
+
+  .article-inline-figure {
+    margin: 2rem 0 2.5rem;
+  }
+
+  /* A caixa reserva a razão da figura encomendada antes do decode. */
+  .article-inline-figure picture {
+    display: block;
+    overflow: hidden;
+    aspect-ratio: var(--figure-ratio);
+    background: var(--surface-white);
+    border: 1px solid var(--surface-line);
+  }
+
+  .article-inline-figure img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .article-inline-figure figcaption p {
+    margin: 0.75rem 0 0;
+    max-width: 68ch;
+    color: var(--surface-muted);
+    font-family: var(--surface-sans);
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+
+  .article-callout {
+    margin: 1.6rem 0 0;
+    padding: 1rem 1.2rem;
+    max-width: 68ch;
+    background: color-mix(
+      in srgb,
+      var(--surface-gold) 18%,
+      var(--surface-white)
+    );
+    border: 1px solid var(--surface-gold);
+    border-left-width: 4px;
+  }
+
+  .article-callout p {
+    margin: 0;
+    color: var(--surface-ink, #1b1b1b);
+    font-family: var(--surface-sans);
+    font-size: 0.95rem;
+    font-weight: 650;
+    line-height: 1.55;
+  }
+
   .article-section ul {
     margin-block: 1.5rem;
     padding-left: 1.4rem;
+  }
+
+  /* A lista da seção prática é um roteiro de conduta, e a de limitações é um
+     inventário de lacunas. Com o mesmo marcador redondo as duas se lêem como
+     o mesmo tipo de conteúdo — o que, num texto que insiste na diferença
+     entre o que fazer e o que ainda não se sabe, apaga justamente a
+     distinção que o artigo defende. */
+  .article-section.practice ul {
+    margin-block: 1.8rem;
+    padding-left: 0;
+    list-style: none;
+    counter-reset: conduta;
+  }
+
+  .article-section.practice li {
+    position: relative;
+    counter-increment: conduta;
+    padding: 0.2rem 0 0.2rem 3rem;
+  }
+
+  .article-section.practice li + li {
+    margin-top: 1rem;
+  }
+
+  .article-section.practice li::before {
+    content: counter(conduta);
+    position: absolute;
+    top: 0.5rem;
+    left: 0;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--surface-teal);
+    border-radius: 50%;
+    color: var(--surface-teal-dark);
+    font-family: var(--surface-sans);
+    font-size: 0.82rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+  }
+
+  .article-section.limitations li::marker {
+    color: var(--surface-gold);
   }
 
   .article-section.evidence,
@@ -547,25 +741,91 @@ const formatDate = (date?: string) =>
     border-top: 1px solid var(--surface-line);
   }
 
-  .references-section ol {
-    padding-left: 1.5rem;
+  .references-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin-bottom: 1.5rem;
   }
 
-  .references-section li {
-    padding-block: 0.8rem;
+  .references-header h2 {
+    margin-bottom: 0;
+  }
+
+  .article-fact-citation dd {
+    margin-top: 0.45rem;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* Numeração desenhada à mão: o marcador nativo do <ol> alinha à direita e
+     descola do texto quando a citação passa de uma linha. */
+  .reference-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: referencia;
+  }
+
+  .reference-list li {
+    position: relative;
+    counter-increment: referencia;
+    padding: 1.15rem 0 1.15rem 3rem;
     color: var(--surface-copy);
   }
 
-  .references-section a {
-    color: var(--surface-teal-dark);
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
+  .reference-list li + li {
+    border-top: 1px solid var(--surface-line);
   }
 
-  .references-section span {
+  .reference-list li::before {
+    content: counter(referencia);
+    position: absolute;
+    top: 1.15rem;
+    left: 0;
+    min-width: 2rem;
+    color: var(--surface-gold);
+    font-size: 0.82rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .reference-list cite {
     display: block;
-    color: var(--surface-muted);
+    max-width: 62ch;
+    font-size: 0.94rem;
+    font-style: normal;
+    line-height: 1.55;
+  }
+
+  .reference-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    margin-top: 0.45rem;
+    color: var(--surface-teal-dark);
+    font-family: var(--surface-sans);
     font-size: 0.76rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+    word-break: break-all;
+  }
+
+  .reference-link:hover {
+    color: var(--surface-teal);
   }
 
   .related-section {
@@ -581,8 +841,77 @@ const formatDate = (date?: string) =>
 
   .related-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: clamp(1.5rem, 4vw, 3.5rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .related-grid li {
+    min-width: 0;
+  }
+
+  .related-card {
+    display: flex;
+    min-height: 100%;
+    flex-direction: column;
+    padding: 1.35rem 0 0;
+    border-top: 2px solid var(--surface-teal);
+    color: var(--surface-copy);
+    transition:
+      border-color 220ms ease,
+      color 220ms ease;
+  }
+
+  .related-card:hover,
+  .related-card:focus-visible {
+    border-color: var(--surface-gold);
+  }
+
+  .related-label {
+    color: var(--surface-teal-dark);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    line-height: 1.35;
+    text-transform: uppercase;
+  }
+
+  .related-card h3 {
+    margin: 0.8rem 0 0.65rem;
+    font-family: var(--surface-serif);
+    font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+  }
+
+  .related-card p {
+    margin: 0;
+    color: var(--surface-muted);
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+
+  .related-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    margin-top: auto;
+    padding-top: 1.25rem;
+    color: var(--surface-teal-dark);
+  }
+
+  .related-arrow svg {
+    width: 1.1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.5;
   }
 
   .article-newsletter {

@@ -1,3 +1,5 @@
+import { responsibleDoctor } from "./doctor.ts";
+
 export interface BookSeo {
   title: string;
   description: string;
@@ -41,8 +43,9 @@ export interface Book {
 }
 
 export const author = {
-  name: "Philipe Saraiva Cruz",
-  role: "Médico Oftalmologista",
+  name: responsibleDoctor.name,
+  role: responsibleDoctor.role,
+  registration: responsibleDoctor.registration,
   slug: "philipe-saraiva-cruz",
   description:
     "Philipe Saraiva Cruz é médico oftalmologista e autor de obras dedicadas à superfície ocular, doença do olho seco e conjuntivocálase. Sua produção editorial integra evidência científica, prática clínica, diagnóstico por imagem, tecnologia e inovação em saúde ocular.",
@@ -111,7 +114,7 @@ export const books: Book[] = [
       },
     ],
     seo: {
-      title: "Conjuntivocálase: Diagnóstico e Abordagem Clínica",
+      title: "Conjuntivocálase e olho seco: diagnóstico e abordagem",
       description:
         "Conheça a obra de Philipe Saraiva Cruz sobre conjuntivocálase, fisiopatologia, diagnóstico diferencial, olho seco e abordagem clínica.",
     },
@@ -152,7 +155,7 @@ export const books: Book[] = [
     language: "Português",
     isbn: "978-65-02-22313-0",
     numberOfPages: 191,
-    edition: "Edição digital v2.14",
+    edition: "Edição digital v2.21",
     year: 2026,
     purchaseLinks: [
       {

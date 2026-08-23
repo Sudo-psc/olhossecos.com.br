@@ -1,6 +1,7 @@
 ---
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import Layout from "@/layouts/Layout.astro";
+import { responsibleDoctor } from "@/lib/doctor";
 
 const breadcrumbs = [
   { name: "Início", url: "/" },
@@ -31,7 +32,8 @@ const softwareSchema = {
   license: "https://opensource.org/license/mit",
   author: {
     "@type": "Person",
-    name: "Dr. Philipe Saraiva Cruz",
+    name: `Dr. ${responsibleDoctor.name}`,
+    identifier: responsibleDoctor.registration,
   },
 };
 ---
@@ -397,7 +399,7 @@ const softwareSchema = {
     border-radius: 999px;
     background: var(--aqua);
     color: var(--teal-dark);
-    font-size: 0.74rem;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -444,7 +446,7 @@ const softwareSchema = {
   .mac-button small {
     display: block;
     opacity: 0.82;
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     line-height: 1.2;
   }
 
@@ -460,7 +462,7 @@ const softwareSchema = {
     padding: 0.28rem 0.48rem;
     border: 1px solid rgb(255 255 255 / 42%);
     border-radius: 4px;
-    font-size: 0.64rem;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.04em;
     text-transform: uppercase;

@@ -2,7 +2,10 @@
 import Layout from "@/layouts/Layout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import EducationalFigure from "@/components/EducationalFigure.astro";
-import { guides, type Guide } from "@/lib/guides";
+import ArticleSummary from "@/components/science/ArticleSummary.astro";
+import EvidenceCard from "@/components/science/EvidenceCard.astro";
+import { guides, selectRelatedGuides, type Guide } from "@/lib/guides";
+import { author } from "@/lib/books";
 
 export function getStaticPaths() {
   return guides.map((guide) => ({
@@ -16,9 +19,7 @@ interface Props {
 }
 
 const { guide } = Astro.props;
-const relatedGuides = guides
-  .filter((candidate) => candidate.slug !== guide.slug)
-  .slice(0, 3);
+const relatedGuides = selectRelatedGuides(guide);
 const breadcrumbs = [
   { name: "Início", url: "/" },
   { name: "Guias", url: "/guias" },
@@ -27,8 +28,10 @@ const breadcrumbs = [
 ---
 
 <Layout
-  title={guide.title}
+  title={guide.seoTitle ?? guide.title}
   description={guide.description}
+  image={`/images/og/guias/${guide.slug}.png`}
+  imageAlt={`${guide.title} — guia do portal Olho Seco`}
   schemaType="Article"
   datePublished={guide.datePublished ?? "2026-07-25"}
   dateModified={guide.dateModified ?? "2026-07-25"}
@@ -52,9 +55,22 @@ const breadcrumbs = [
           <Breadcrumbs items={breadcrumbs} />
           <p>{guide.category}</p>
           <h1 class="article-title">{guide.title}</h1>
+          <div class="article-byline">
+            <p>
+              Por <a href={`/autor/${author.slug}`}>{author.name}</a>
+              <span>{author.registration}</span>
+            </p>
+          </div>
           <div class="article-meta">
             <span>{guide.readingTime} de leitura</span>
             <span>Revisado em {guide.updated}</span>
+            <button type="button" class="article-share" data-share-guide>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 16V4m0 0L8 8m4-4 4 4"></path>
+                <path d="M5 14v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5"></path>
+              </svg>
+              <span>Compartilhar</span>
+            </button>
           </div>
         </div>
         <aside>
@@ -97,6 +113,15 @@ const breadcrumbs = [
 
       <div class="prose article-prose">
         {
+          guide.summary && (
+            <ArticleSummary
+              finding={guide.summary.finding}
+              implication={guide.summary.implication}
+              limits={guide.summary.limits}
+            />
+          )
+        }
+        {
           guide.sections.map((section, index) => (
             <section id={`secao-${index + 1}`}>
               <h2 tabindex="-1">{section.heading}</h2>
@@ -104,6 +129,18 @@ const breadcrumbs = [
                 <p>{paragraph}</p>
               ))}
               {section.figure && <EducationalFigure figure={section.figure} />}
+              {section.evidence && (
+                <EvidenceCard
+                  design={section.evidence.design}
+                  effect={section.evidence.effect}
+                  outcome={section.evidence.outcome}
+                  stats={section.evidence.stats}
+                  level={section.evidence.level}
+                  levelLabel={section.evidence.levelLabel}
+                  caveat={section.evidence.caveat}
+                  reference={section.evidence.reference}
+                />
+              )}
               {section.bullets && (
                 <ul>
                   {section.bullets.map((bullet) => (
@@ -194,6 +231,7 @@ const breadcrumbs = [
     );
 
     let frame = 0;
+    const reportedGuideDepths = new Set<number>();
 
     const setCurrentSection = (section: HTMLElement) => {
       const target = `#${section.id}`;
@@ -223,6 +261,22 @@ const breadcrumbs = [
       );
       progressFill.style.transform = `scaleX(${value / 100})`;
       progress.setAttribute("aria-valuenow", String(Math.round(value)));
+
+      const percentage = Math.round(value);
+      [25, 50, 75, 100].forEach((depth) => {
+        if (percentage < depth || reportedGuideDepths.has(depth)) return;
+        reportedGuideDepths.add(depth);
+        window.dispatchEvent(
+          new CustomEvent("olhossecos:analytics", {
+            detail: {
+              event: "article_read_depth",
+              depth,
+              article_path: window.location.pathname,
+              source: "guide",
+            },
+          }),
+        );
+      });
     };
 
     const requestProgressUpdate = () => {
@@ -256,6 +310,45 @@ const breadcrumbs = [
             ?.focus({ preventScroll: true });
         }, 100);
       });
+    });
+
+    // Compartilhar: usa a folha nativa quando existe e cai para a área de
+    // transferência quando não. O botão só aparece com JavaScript ativo.
+    const shareButton =
+      document.querySelector<HTMLButtonElement>("[data-share-guide]");
+
+    const emitShare = (method: string) => {
+      window.dispatchEvent(
+        new CustomEvent("olhossecos:analytics", {
+          detail: { event: "share", source: method },
+        }),
+      );
+    };
+
+    shareButton?.addEventListener("click", async () => {
+      const url = window.location.href;
+      const title = document.title;
+
+      if (navigator.share) {
+        try {
+          await navigator.share({ title, url });
+          emitShare("native");
+        } catch {
+          // cancelar a folha nativa não é erro e não vira evento
+        }
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(url);
+        shareButton.dataset.state = "copied";
+        shareButton.setAttribute("aria-live", "polite");
+        const label = shareButton.querySelector("span");
+        if (label) label.textContent = "Link copiado";
+        emitShare("clipboard");
+      } catch {
+        shareButton.hidden = true;
+      }
     });
 
     window.addEventListener("scroll", requestProgressUpdate, { passive: true });
@@ -311,14 +404,72 @@ const breadcrumbs = [
     line-height: 0.98;
   }
 
+  .article-byline {
+    margin-top: 1.4rem;
+  }
+
+  .article-byline p {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.7rem;
+    align-items: baseline;
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: var(--text-small);
+  }
+
+  .article-byline a {
+    color: var(--ink);
+    font-weight: 700;
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .article-byline span {
+    color: var(--ink-soft);
+    font-size: var(--text-meta);
+    letter-spacing: 0.04em;
+  }
+
   .article-meta {
     display: flex;
-    gap: 1.5rem;
     flex-wrap: wrap;
-    gap: 0.45rem 1rem;
+    align-items: center;
+    gap: 0.45rem 1.2rem;
     margin-top: 0.85rem;
-    color: #64748a;
-    font-size: 0.74rem;
+    color: var(--ink-soft);
+    font-size: var(--text-meta);
+  }
+
+  .article-share {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 36px;
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink-soft);
+    font-size: var(--text-meta);
+    font-weight: 650;
+    cursor: pointer;
+    transition:
+      border-color var(--duration-fast) var(--ease-standard),
+      color var(--duration-fast) var(--ease-standard);
+  }
+
+  .article-share:hover {
+    border-color: var(--teal-600);
+    color: var(--ink);
+  }
+
+  .article-share svg {
+    width: 15px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   .article-header aside {
@@ -352,7 +503,7 @@ const breadcrumbs = [
     margin: 0;
     padding: 0.8rem 0;
     color: var(--teal-dark);
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -402,8 +553,8 @@ const breadcrumbs = [
   }
 
   .guide-sources small {
-    color: #64748a;
-    font-size: 0.72rem;
+    color: #5a6b80;
+    font-size: 0.75rem;
   }
 
   .guide-footer {
@@ -437,7 +588,7 @@ const breadcrumbs = [
 
   .related-guides span {
     color: var(--teal-dark);
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -451,7 +602,7 @@ const breadcrumbs = [
   }
 
   .guide-footer p {
-    color: #64748a;
+    color: #5a6b80;
     font-size: 0.78rem;
   }
 
@@ -492,7 +643,7 @@ const breadcrumbs = [
 
     .article-header-grid > div > p {
       margin-bottom: 0.4rem;
-      font-size: 0.66rem;
+      font-size: 0.75rem;
     }
 
     .article-title {
@@ -502,7 +653,7 @@ const breadcrumbs = [
 
     .article-meta {
       margin-top: 0.55rem;
-      font-size: 0.65rem;
+      font-size: 0.75rem;
     }
 
     .article-header aside {
@@ -541,7 +692,7 @@ const breadcrumbs = [
       gap: 0.65rem;
       padding: 0.65rem 0.75rem;
       color: var(--teal-dark);
-      font-size: 0.68rem;
+      font-size: 0.75rem;
       font-weight: 850;
       letter-spacing: 0.08em;
       list-style: none;

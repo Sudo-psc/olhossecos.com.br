@@ -1,0 +1,844 @@
+---
+import SuperficieLayout from "@/layouts/SuperficieLayout.astro";
+import {
+  groupFindingsBySection,
+  radarReports,
+  getRadarReportPath,
+  type RadarReport,
+} from "@/lib/radar";
+import { responsibleDoctor } from "@/lib/doctor";
+
+export const getStaticPaths = () =>
+  radarReports.map((report) => ({
+    params: { slug: report.slug },
+    props: { report },
+  }));
+
+interface Props {
+  report: RadarReport;
+}
+
+const { report } = Astro.props;
+const path = getRadarReportPath(report);
+
+const slugifySection = (value: string) =>
+  value
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/gu, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/gu, "-")
+    .replace(/(^-|-$)/gu, "");
+
+const sections = groupFindingsBySection(report).map((group) => ({
+  ...group,
+  id: `secao-${slugifySection(group.section)}`,
+}));
+
+const publishedLabel = new Date(
+  `${report.publishedAt}T12:00:00Z`,
+).toLocaleDateString("pt-BR", {
+  day: "2-digit",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
+const reportSchema = {
+  "@type": "Report",
+  "@id": new URL(`${path}#report`, Astro.site).href,
+  name: `RADAR Científico — ${report.label}`,
+  headline: report.title,
+  abstract: report.executiveSummary,
+  datePublished: report.publishedAt,
+  inLanguage: "pt-BR",
+  url: new URL(path, Astro.site).href,
+  isPartOf: { "@id": new URL("/superficie#periodical", Astro.site).href },
+  author: {
+    "@type": "Person",
+    name: responsibleDoctor.name,
+    identifier: responsibleDoctor.registration,
+  },
+  citation: report.findings.map((finding) => ({
+    "@type": "CreativeWork",
+    name: finding.title,
+    url: finding.url,
+    publisher: { "@type": "Organization", name: finding.source },
+  })),
+};
+---
+
+<SuperficieLayout
+  title={report.seo.title}
+  description={report.seo.description}
+  compactHeader
+  ogType="article"
+  datePublished={report.publishedAt}
+  dateModified={report.publishedAt}
+  authorName={responsibleDoctor.name}
+  breadcrumbs={[
+    { name: "SUPERFÍCIE", url: "/superficie" },
+    { name: "RADAR Científico", url: "/superficie/radar" },
+    { name: report.label, url: path },
+  ]}
+  extraSchema={reportSchema}
+>
+  <article>
+    <header class="report-hero">
+      <div class="surface-shell breadcrumb" aria-label="Navegação estrutural">
+        <a href="/superficie">SUPERFÍCIE</a>
+        <span aria-hidden="true">/</span>
+        <a href="/superficie/radar">RADAR Científico</a>
+        <span aria-hidden="true">/</span>
+        <span>{report.label}</span>
+      </div>
+
+      <div class="surface-shell hero-grid">
+        <div class="hero-index" aria-hidden="true">
+          <span>Ciclo</span>
+          <strong>{report.label.split(" ")[0]}</strong>
+          <small>{report.label.split(" ")[1]}</small>
+        </div>
+        <div class="hero-copy">
+          <p class="eyebrow gold">RADAR Científico</p>
+          <h1>{report.title}</h1>
+          <p class="lead">{report.executiveSummary}</p>
+          <dl class="hero-meta">
+            <div>
+              <dt>Janela</dt>
+              <dd>{report.period}</dd>
+            </div>
+            <div>
+              <dt>Publicado em</dt>
+              <dd>
+                <time datetime={report.publishedAt}>{publishedLabel}</time>
+              </dd>
+            </div>
+            <div>
+              <dt>Referências</dt>
+              <dd>{report.findings.length} com fonte verificável</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </header>
+
+    <section
+      class="section highlights-section"
+      aria-labelledby="highlights-title"
+    >
+      <div class="surface-shell">
+        <header class="section-heading">
+          <div>
+            <p class="eyebrow ink">O que mudou neste ciclo</p>
+            <h2 id="highlights-title">Destaques</h2>
+          </div>
+        </header>
+        <ol class="highlights">
+          {
+            report.highlights.map((highlight, index) => (
+              <li>
+                <span aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3>{highlight.title}</h3>
+                  <p>
+                    <strong>Por que importa:</strong> {highlight.whyItMatters}
+                  </p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    <section class="section findings-section" aria-labelledby="findings-title">
+      <div class="surface-shell">
+        <header class="section-heading">
+          <div>
+            <p class="eyebrow ink">Achados por seção editorial</p>
+            <h2 id="findings-title">A leitura completa</h2>
+          </div>
+          <p>
+            Cada entrada traz fonte original, nível de evidência e o que ela
+            muda — ou não muda — na prática.
+          </p>
+        </header>
+
+        <div class="findings-layout">
+          <div class="findings-main">
+            {
+              sections.map(({ section, findings, id }) => (
+                <div class="finding-group" id={id}>
+                  <h3 class="group-title">{section}</h3>
+                  {findings.map((finding) => (
+                    <article class="finding">
+                      <p class="finding-level">{finding.evidenceLevel}</p>
+                      <h4>{finding.title}</h4>
+                      <p class="finding-source">
+                        {finding.source} · {finding.date}
+                      </p>
+                      <p>{finding.summary}</p>
+                      <p class="finding-why">
+                        <strong>Por que importa para a prática:</strong>{" "}
+                        {finding.whyItMatters}
+                      </p>
+                      <div class="finding-links">
+                        <a
+                          class="finding-link"
+                          href={finding.url}
+                          rel="noopener noreferrer nofollow"
+                          target="_blank"
+                          data-analytics-event="radar_source_click"
+                          data-analytics-label={finding.url}
+                        >
+                          Abrir a fonte original
+                          <span class="sr-only"> ({finding.title})</span>
+                        </a>
+                        {finding.doi && (
+                          <a
+                            class="finding-doi"
+                            href={`https://doi.org/${finding.doi}`}
+                            rel="noopener noreferrer nofollow"
+                            target="_blank"
+                            data-analytics-event="radar_doi_click"
+                            data-analytics-label={finding.doi}
+                          >
+                            DOI {finding.doi}
+                            <span class="sr-only"> ({finding.title})</span>
+                          </a>
+                        )}
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              ))
+            }
+          </div>
+
+          <aside class="findings-toc" aria-labelledby="toc-title">
+            <p class="toc-title" id="toc-title">Neste ciclo</p>
+            <nav aria-labelledby="toc-title">
+              <ol>
+                {
+                  sections.map(({ section, findings, id }) => (
+                    <li>
+                      <a href={`#${id}`} data-toc-link={id}>
+                        <span>{section}</span>
+                        <small>
+                          {findings.length}{" "}
+                          {findings.length === 1 ? "referência" : "referências"}
+                        </small>
+                      </a>
+                    </li>
+                  ))
+                }
+              </ol>
+            </nav>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    {
+      report.industry.length > 0 && (
+        <section
+          class="section industry-section"
+          aria-labelledby="industry-title"
+        >
+          <div class="surface-shell">
+            <header class="section-heading">
+              <div>
+                <p class="eyebrow gold">Indústria e regulação</p>
+                <h2 id="industry-title">
+                  Fatos regulatórios, sem leitura de mercado
+                </h2>
+              </div>
+            </header>
+            <ul class="industry-list">
+              {report.industry.map((item) => (
+                <li>
+                  <p class="industry-label">{item.label}</p>
+                  <h3>{item.title}</h3>
+                  <p class="industry-note">{item.note}</p>
+                  <a
+                    href={item.url}
+                    rel="noopener noreferrer nofollow"
+                    target="_blank"
+                    data-analytics-event="radar_source_click"
+                    data-analytics-label={item.url}
+                  >
+                    Abrir a fonte original
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )
+    }
+
+    <section class="section note-section" aria-labelledby="note-title">
+      <div class="surface-shell note-grid">
+        <div>
+          <p class="eyebrow ink">Transparência</p>
+          <h2 id="note-title">Como este relatório foi montado</h2>
+        </div>
+        <div>
+          <p>{report.transparencyNote}</p>
+          <p class="note-editor">
+            Curadoria e revisão editorial: Dr. {responsibleDoctor.name} —{" "}
+            {responsibleDoctor.registration}.
+          </p>
+          <a class="text-link" href="/superficie/radar"
+            >Ver todos os ciclos do RADAR</a
+          >
+        </div>
+      </div>
+    </section>
+  </article>
+</SuperficieLayout>
+
+<script>
+  // Marca no índice a seção em leitura. rootMargin recorta a viewport para
+  // uma faixa estreita perto do topo, então "atual" é a seção que o leitor
+  // está de fato encarando — e não qualquer uma que esteja visível.
+  const links = new Map<string, HTMLAnchorElement>();
+  for (const link of document.querySelectorAll<HTMLAnchorElement>(
+    "[data-toc-link]",
+  )) {
+    const id = link.dataset.tocLink;
+    if (id) links.set(id, link);
+  }
+
+  const groups = [...links.keys()]
+    .map((id) => document.getElementById(id))
+    .filter((node): node is HTMLElement => Boolean(node));
+
+  if (groups.length > 0) {
+    const visible = new Set<string>();
+
+    const paint = () => {
+      // Entre várias seções na faixa, vence a primeira na ordem do documento.
+      const current = groups.find((group) => visible.has(group.id))?.id;
+      for (const [id, link] of links) {
+        link.classList.toggle("is-current", id === current);
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) visible.add(entry.target.id);
+          else visible.delete(entry.target.id);
+        }
+        paint();
+      },
+      { rootMargin: "-20% 0px -70% 0px" },
+    );
+
+    for (const group of groups) observer.observe(group);
+  }
+</script>
+
+<style>
+  .eyebrow {
+    margin: 0 0 0.9rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    line-height: 1.35;
+    text-transform: uppercase;
+  }
+
+  .eyebrow.ink {
+    color: var(--surface-teal-dark);
+  }
+
+  .eyebrow.gold {
+    color: var(--surface-gold-light);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  p {
+    margin-top: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--surface-serif);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .section {
+    padding-block: clamp(3.5rem, 7vw, 6.5rem);
+  }
+
+  .report-hero {
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+    background: var(--surface-navy);
+    color: var(--surface-paper);
+  }
+
+  .breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-block: 1.1rem;
+    border-bottom: 1px solid rgb(255 255 255 / 14%);
+    color: var(--surface-muted-on-dark);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* Sem padding próprio o link fica com 19px de altura, abaixo dos 24px que
+     a WCAG 2.5.8 pede para alvo de toque. O inline-flex mantém a linha do
+     breadcrumb intacta. */
+  .breadcrumb a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding-block: 0.15rem;
+  }
+
+  .breadcrumb a:hover,
+  .breadcrumb a:focus-visible {
+    color: var(--surface-gold-light);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 90px minmax(0, 1fr);
+    gap: clamp(1.5rem, 4vw, 4rem);
+    padding-top: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .hero-index {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-right: 1rem;
+    border-right: 1px solid rgb(217 182 101 / 60%);
+    text-transform: uppercase;
+  }
+
+  .hero-index span,
+  .hero-index small {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+  }
+
+  .hero-index strong {
+    margin-block: 0.6rem;
+    color: var(--surface-gold-light);
+    font-family: var(--surface-serif);
+    font-size: 1.9rem;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .hero-copy h1 {
+    max-width: 20ch;
+    margin-bottom: 1.4rem;
+    font-size: clamp(2.4rem, 5.2vw, 4.6rem);
+  }
+
+  .lead {
+    max-width: 62ch;
+    color: #d5dfe5;
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 3rem;
+    margin: 2.2rem 0 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgb(255 255 255 / 16%);
+  }
+
+  .hero-meta dt {
+    color: var(--surface-gold-light);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .hero-meta dd {
+    margin: 0.35rem 0 0;
+    font-size: 0.92rem;
+  }
+
+  .section-heading {
+    display: grid;
+    grid-template-columns: 1fr minmax(280px, 460px);
+    gap: 3rem;
+    align-items: end;
+    margin-bottom: clamp(2rem, 4vw, 3.5rem);
+    padding-bottom: 1.4rem;
+    border-bottom: 1px solid var(--surface-line);
+  }
+
+  .section-heading h2 {
+    margin-bottom: 0;
+    font-size: clamp(2rem, 4vw, 3.4rem);
+  }
+
+  .section-heading > p {
+    margin-bottom: 0;
+    color: var(--surface-muted);
+  }
+
+  .highlights-section {
+    background: var(--surface-white);
+  }
+
+  .highlights {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .highlights li {
+    display: grid;
+    grid-template-columns: 3.2rem minmax(0, 1fr);
+    gap: 1rem;
+    padding-block: 1.6rem;
+    border-top: 1px solid var(--surface-line);
+  }
+
+  .highlights li:first-child {
+    border-top: 0;
+  }
+
+  .highlights span {
+    color: var(--surface-gold);
+    font-family: var(--surface-serif);
+    font-size: 1.7rem;
+    line-height: 1;
+  }
+
+  .highlights h3 {
+    margin-bottom: 0.6rem;
+    font-size: clamp(1.25rem, 2vw, 1.7rem);
+  }
+
+  .highlights p {
+    max-width: 74ch;
+    margin: 0;
+    color: var(--surface-copy);
+  }
+
+  /* O relatório tem ~8 telas de altura e seis seções. Sem um índice, a única
+     forma de achar uma seção é rolar procurando. A coluna da direita já
+     estava vazia nesta faixa de largura. */
+  .findings-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(200px, 250px);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: start;
+  }
+
+  .findings-toc {
+    position: sticky;
+    top: 5.5rem;
+    padding: 1.4rem 1.5rem;
+    border: 1px solid var(--surface-line);
+    border-radius: var(--surface-radius-md);
+    background: var(--surface-white);
+  }
+
+  .toc-title {
+    margin-bottom: 1rem;
+    color: var(--surface-muted);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .findings-toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .findings-toc a {
+    display: block;
+    padding: 0.6rem 0 0.6rem 0.85rem;
+    border-left: 2px solid var(--surface-line);
+    color: var(--surface-copy);
+    transition:
+      border-color 220ms ease,
+      color 220ms ease;
+  }
+
+  .findings-toc a:hover,
+  .findings-toc a:focus-visible {
+    border-left-color: var(--surface-teal);
+    color: var(--surface-teal-dark);
+  }
+
+  .findings-toc a.is-current {
+    border-left-color: var(--surface-gold);
+    color: var(--surface-navy);
+    font-weight: 700;
+  }
+
+  .findings-toc span {
+    display: block;
+    font-size: 0.82rem;
+    line-height: 1.3;
+  }
+
+  .findings-toc small {
+    color: var(--surface-muted);
+    font-size: 0.75rem;
+  }
+
+  /* Compensa a barra fixa de leitura ao pular por âncora. */
+  .finding-group {
+    scroll-margin-top: 5rem;
+  }
+
+  .group-title {
+    margin-bottom: 1.2rem;
+    color: var(--surface-teal-dark);
+    font-family: var(--surface-sans);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .finding-group + .finding-group {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .finding {
+    padding: clamp(1.4rem, 3vw, 2.2rem);
+    border-top: 4px solid var(--surface-teal);
+    border-radius: var(--surface-radius-md);
+    background: var(--surface-white);
+  }
+
+  .finding + .finding {
+    margin-top: 1rem;
+  }
+
+  .finding-level {
+    display: inline-block;
+    margin-bottom: 0.9rem;
+    padding: 0.35rem 0.6rem;
+    border: 1px solid var(--surface-line);
+    border-radius: 999px;
+    color: var(--surface-muted);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .finding h4 {
+    max-width: 60ch;
+    margin-bottom: 0.5rem;
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+  }
+
+  .finding-source {
+    margin-bottom: 1.1rem;
+    color: var(--surface-muted);
+    font-size: 0.82rem;
+  }
+
+  .finding p {
+    max-width: 74ch;
+    color: var(--surface-copy);
+  }
+
+  .finding-why {
+    padding-left: 1rem;
+    border-left: 2px solid var(--surface-gold);
+    border-start-start-radius: var(--surface-radius-sm);
+    border-end-start-radius: var(--surface-radius-sm);
+  }
+
+  .finding-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1.75rem;
+  }
+
+  .finding-doi {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    color: var(--surface-muted);
+    font-size: 0.76rem;
+    font-variant-numeric: tabular-nums;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .finding-doi:hover,
+  .finding-doi:focus-visible {
+    color: var(--surface-teal-dark);
+  }
+
+  .finding-link,
+  .industry-list a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    border-bottom: 1px solid currentColor;
+    color: var(--surface-teal-dark);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .industry-section {
+    background: var(--surface-navy);
+    color: var(--surface-paper);
+  }
+
+  .industry-section .section-heading {
+    border-bottom-color: rgb(255 255 255 / 18%);
+  }
+
+  .industry-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .industry-list li {
+    padding-block: 1.5rem;
+    border-top: 1px solid rgb(255 255 255 / 18%);
+  }
+
+  .industry-label {
+    color: var(--surface-gold-light);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .industry-list h3 {
+    margin-bottom: 0.6rem;
+    font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+  }
+
+  .industry-note {
+    max-width: 74ch;
+    color: var(--surface-muted-on-dark);
+  }
+
+  .industry-list a {
+    color: var(--surface-gold-light);
+  }
+
+  .note-section {
+    background: var(--surface-white);
+    border-top: 1px solid var(--surface-line);
+  }
+
+  .note-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: start;
+  }
+
+  .note-grid h2 {
+    font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+  }
+
+  .note-grid p {
+    max-width: 68ch;
+    color: var(--surface-copy);
+  }
+
+  .note-editor {
+    padding-top: 1rem;
+    border-top: 1px solid var(--surface-line);
+    color: var(--surface-muted);
+    font-size: 0.84rem;
+  }
+
+  .text-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    border-bottom: 1px solid currentColor;
+    color: var(--surface-teal-dark);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 1000px) {
+    /* Abaixo desta largura não sobra coluna para o índice sem espremer o
+       texto; o documento volta a ser uma coluna só. */
+    .findings-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .findings-toc {
+      display: none;
+    }
+  }
+
+  @media (max-width: 800px) {
+    .hero-grid,
+    .section-heading,
+    .note-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .hero-index {
+      flex-direction: row;
+      align-items: baseline;
+      gap: 0.6rem;
+      padding: 0 0 0.8rem;
+      border-right: 0;
+      border-bottom: 1px solid rgb(217 182 101 / 60%);
+    }
+
+    .hero-index strong {
+      margin: 0;
+    }
+
+    .highlights li {
+      grid-template-columns: 2.4rem minmax(0, 1fr);
+      gap: 0.75rem;
+    }
+  }
+</style>

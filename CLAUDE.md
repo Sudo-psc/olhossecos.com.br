@@ -1,183 +1,277 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Orientação para o Claude Code (claude.ai/code) trabalhando neste repositório.
 
-## Project Overview
+## Visão geral
 
-**Olhos Secos Caratinga** (Dry Eye Clinic) website built with Astro 5 and Sanity CMS. Marketing/lead-generation site for Saraiva Vision clinic in Caratinga, MG, Brazil, specializing in dry eye treatment. Features informational pages, blog content, interactive tools (quiz, symptom test, calculator), video library, and lead-capture API endpoints.
+**olhossecos.com.br** é um portal editorial sobre olho seco e superfície ocular,
+da Saraiva Vision (Caratinga/MG). Não é um site institucional de clínica: o
+conteúdo é a entrega. São quatro frentes no mesmo repositório:
 
-**Business Context:**
-- Medical clinic: Saraiva Vision (CNPJ: 53.864.119/0001-79)
-- Physician: Dr. Philipe Saraiva Cruz (CRM-MG 69.870)
-- Location: Caratinga, Minas Gerais, Brazil
-- Specialty: Dry eye treatment and ocular surface disorders
+| Frente                 | Rotas                                                                                                          | O que é                                                                           |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| **Portal do paciente** | `/`, `/sintomas`, `/causas`, `/diagnostico`, `/tratamentos`, `/autocuidado`, `/sinais-de-alerta`, `/glossario` | Conteúdo explicativo para pacientes                                               |
+| **Guias**              | `/guias`, `/guias/[slug]`                                                                                      | 13 leituras curtas e aprofundadas, com referências                                |
+| **SUPERFÍCIE**         | `/superficie/**`                                                                                               | Revista para profissionais: edição fundadora, RADAR Científico, área de parceiros |
+| **Livros e app**       | `/livros/**`, `/app`                                                                                           | Obras do autor e o Dry Eye Widget                                                 |
 
-## Technology Stack
+**Responsável técnico:** Dr. Philipe Saraiva Cruz — CRM-MG 69.870 · RQE 71.903.
 
-- **Framework**: Astro 5 with **hybrid rendering** — static pages + on-demand SSR via `@astrojs/node` (standalone mode)
-- **CMS**: Sanity.io (headless CMS for dynamic blog content)
-- **Styling**: Tailwind CSS 3.4
-- **Language**: TypeScript
-- **Package Manager**: npm (use `npm` commands; ignore the stale `pnpm-lock.yaml`)
-- **Deploy**: systemd Node server on this VPS (see Deployment section — the Docker/GitHub Actions docs in the repo are stale)
+## Stack
 
-Note: `package.json` description mentions "WordPress Headless CMS" — this is stale; the actual CMS is Sanity.
+- **Astro 7** (`^7.1.3`) com `output: "static"` + adapter `@astrojs/node` standalone
+- **TypeScript**, CSS puro com custom properties
+- **SQLite** (`node:sqlite`) para os dados capturados pelos endpoints
+- **npm** — ignore o `pnpm-lock.yaml` obsoleto
 
-## Development Commands
+**Não há CMS.** Todo o conteúdo editorial vive em módulos TypeScript tipados sob
+`src/lib/`. Sanity foi removido; se encontrar menção a ele em qualquer doc, está
+desatualizada.
+
+**Não há Tailwind.** `tailwind.config.mjs` sobrou de uma fase anterior e não é
+usado por nada — nenhuma dependência, nenhuma classe. O estilo é CSS com escopo
+do Astro e custom properties, com a camada de tokens em `src/styles/tokens.css`
+(cor, tipografia, espaço, movimento, vidro, elevação). Os nomes antigos
+(`--ink`, `--teal`, `--paper`) continuam como apelidos dos tokens novos.
+
+**Uma fonte web, servida por nós.** `src/styles/fonts.css` declara a Source
+Serif 4 (subset latino, 400–700, 29 KB) em `/fonts` — só para manchetes. O corpo
+segue na pilha do sistema. A CSP declara `font-src 'self'`: fonte de host
+externo funciona no dev e falha calada em produção, e `src/lib/typography.test.ts`
+tranca essa porta.
+
+## Comandos
 
 ```bash
-npm run dev        # Dev server at http://localhost:4321
-npm run build      # astro check (type checking) + production build
-npm run preview    # Preview production build locally
-npm run format     # Prettier (with prettier-plugin-astro)
-npm run lint       # CAVEAT: eslint is NOT in devDependencies and there is no
-                   # eslint config in the repo — this script currently fails.
-                   # Use `npm run build` (astro check) for validation instead.
+npm run dev          # servidor local em http://localhost:4321
+npm run check        # PORTÃO COMPLETO: test + lint + format:check + build + test:routes
+npm run build        # scripts/build-release.mjs → astro check + build + BUILD_METADATA.json
+npm test             # suíte node:test (o número cresce; não fixe aqui)
+npm run lint         # ESLint 9 (funciona; docs antigas dizem o contrário)
+npm run format       # Prettier + prettier-plugin-astro
+npm run test:routes  # verifica que as rotas do release respondem
 ```
 
-There are no automated tests configured (`TESTING.md` documents manual/security testing procedures).
+Antes de pedir revisão ou publicar, rode `npm run check` — ele encadeia tudo.
 
-## Architecture
+## Modelo de conteúdo
 
-### Rendering Model (important)
+Cada frente tem um módulo em `src/lib/` que exporta dados tipados. As páginas
+apenas renderizam.
 
-`astro.config.mjs` sets `output: 'static'` **with the Node adapter** (`@astrojs/node`, standalone). This means:
+| Módulo                               | Exporta                                               | Consumido por             |
+| ------------------------------------ | ----------------------------------------------------- | ------------------------- |
+| `guides.ts`                          | `guides: Guide[]`, `getGuide()`                       | `/guias`, `/guias/[slug]` |
+| `superficie.ts`                      | `founderIssue`, `publishedArticles`, tipos da revista | `/superficie/**`          |
+| `radar.ts`                           | `radarReports: RadarReport[]`                         | `/superficie/radar/**`    |
+| `books.ts`                           | catálogo de livros                                    | `/livros/**`              |
+| `figures.ts`                         | `figures` — todo o acervo de imagens educativas       | qualquer página           |
+| `sources.ts`, `home.ts`, `search.ts` | fontes, blocos da home, busca                         | portal                    |
 
-- Most pages are pre-rendered at build time (static HTML).
-- Routes with `export const prerender = false` are server-rendered at request time:
-  - `src/pages/api/contact.ts` — contact form endpoint
-  - `src/pages/api/test-result.ts` — symptom test lead capture
-  - `src/pages/blog/[slug].astro` — dynamic blog posts fetched from Sanity (SSR, not SSG)
-- Build output (`dist/`) contains both `client/` (static assets) and `server/` (Node entry). Production runs as a Node server, **not** a purely static host.
-- `src/middleware.ts` adds OWASP security headers (X-Frame-Options, CSP-related, Permissions-Policy, etc.) to all responses — runs on the Node server.
+Para publicar conteúdo novo, edite o módulo — não crie HTML solto na página.
 
-### Lead Capture Flow
+### Referências: verifique antes de citar
 
-API endpoints validate input (Brazilian phone format, email) then fan out notifications via services in `src/lib/services/`:
+Este é um site médico. Toda referência nova deve ser conferida no Crossref ou no
+PubMed **antes** de entrar no código — autor e título precisam bater. Isso já
+evitou pelo menos um erro real: uma busca por um estudo do 20-20-20 devolveu
+como primeiro resultado uma _carta ao editor_ sobre o artigo, não o artigo.
 
-- **`email.ts`** — SendPulse (primary) with automatic fallback to Resend. Generates clinic-notification and patient-confirmation emails.
-- **`whatsapp.ts`** — Evolution API for WhatsApp messages (clinic + patient), with optional n8n webhook integration. Clinic phone defaults to `5533998601427`.
+Onde a evidência for curta, fraca ou de efeito transitório, **o texto deve dizer
+isso**. Não omita limitação para deixar a recomendação mais atraente.
 
-### Key Files
+## Rotas SSR e dados
 
-**`src/lib/config.ts`** — Central configuration: site metadata, business info (address, phone, hours), doctor credentials, navigation, and Schema.org structured-data helpers (`getClinicStructuredData()`, `getDoctorStructuredData()`, `getBreadcrumbStructuredData()`, `getFAQStructuredData()`, `getArticleStructuredData()`).
-
-**`src/lib/sanity.ts`** — Sanity client (project ID `qum5qhgj`, dataset `production`, CDN enabled, apiVersion `2024-01-01`), `urlFor()` image URL builder, and `SanityPost` types. Fetch content with `client.fetch()` + GROQ queries.
-
-**`src/layouts/Layout.astro`** — Base layout: SEO meta tags (OpenGraph/Twitter), per-page structured data (LocalBusiness, Physician, WebPage, WebSite, BreadcrumbList), font loading, global CSS variables and utility classes, Header/Footer.
-
-### Page Structure
+Quase tudo é pré-renderizado. Só quatro rotas têm `export const prerender = false`:
 
 ```
-src/pages/
-├── index.astro                  # Homepage
-├── olho-seco.astro              # Dry eye information
-├── tratamentos.astro            # Treatments listing
-├── tratamentos/                 # Individual treatments (luz-pulsada-irpl,
-│                                #   higiene-palpebral, medicamentos, lentes-esclerais)
-├── blog/
-│   ├── index.astro              # Blog listing
-│   ├── [slug].astro             # Sanity-backed posts (SSR, prerender=false)
-│   └── *.astro                  # ~12 static blog posts (SEO content)
-├── videos/                      # Video library
-├── exames.astro                 # Diagnostic exams
-├── contato.astro                # Contact page
-├── testerapido.astro            # Quick symptom test (posts to /api/test-result)
-├── quiz.astro                   # Interactive quiz
-├── calculadora-olho-seco.astro  # Dry eye calculator
-├── irpl-olho-seco-caratinga.astro  # IRPL landing page (ads)
-├── widget.astro                 # Featured page for the Dry Eye Widget (see below)
-└── api/                         # SSR endpoints (contact, test-result)
+src/pages/api/analytics.ts             → analytics.sqlite
+src/pages/api/newsletter.ts            → newsletter.sqlite
+src/pages/api/newsletter-unsubscribe.ts
+src/pages/api/superficie-parceiros.ts  → superficie-partner-inquiries.sqlite
 ```
 
-**Dry Eye Widget**: open-source desktop app (20-20-20 rule, Flutter, MIT, macOS/Windows) by Dr. Philipe Saraiva Cruz. Featured at `/widget`; the app's own landing lives at `olhossecos.com.br/app/` (separate codebase, served by nginx on the VPS) and source at `github.com/Sudo-psc/dry-eye-widget`. URLs centralized in `SITE_CONFIG.widget` (src/lib/config.ts).
+Em produção os bancos ficam em `/var/lib/olhossecos/`, pertencendo a `www-data`.
 
-Conversion-focused components: `WhatsAppFloat.astro` (floating WhatsApp button), `ExitIntentPopup.astro`.
+> **Armadilha já vivida:** um servidor de dev rodando como root abriu o
+> `analytics.sqlite` e passou os arquivos para root. O serviço, que roda como
+> `www-data`, perdeu a escrita e **todo evento passou a falhar com 503 por
+> três dias**. Se o analytics parar de gravar, confira o dono dos arquivos antes
+> de procurar bug no código.
 
-### Styling System ("Premium Editorial Clínico")
+### Analytics: a allowlist morde
 
-Design tokens live in `:root` in Layout.astro (colors, radii, shadows, gradients). Core palette:
+`src/lib/analytics.ts` mantém `canonicalEvents` — um conjunto fechado de nomes de
+evento. Qualquer `data-analytics-event` que não esteja lá é rejeitado com **422 e
+descartado em silêncio**. A página não quebra e nada aparece no console.
+
+**Ao adicionar um evento novo na marcação, adicione o nome em `canonicalEvents`
+no mesmo commit.** Já aconteceu de uma seção inteira ficar sem medição por isso.
+
+O laboratório do Reader (`/superficie/lab/**`) escreve no mesmo banco de
+produção. Uma execução da suíte E2E injeta milhares de eventos de teste — leve
+isso em conta antes de extrair qualquer número.
+
+## Dois sistemas de design
+
+O portal e a SUPERFÍCIE são visualmente distintos **de propósito**. Não misture
+os tokens.
+
+**Portal** — `src/layouts/Layout.astro`:
 
 ```css
---primary: #10314F        /* Deep navy ink — headings and buttons */
---primary-dark: #0B2239   /* Near-ink navy for hover/dark backgrounds */
---primary-light: #0F766E  /* The single accent: deep teal (links, details) */
---accent-ink: #0F766E     /* Semantic alias for the teal accent */
---secondary: #57616C      /* Slate gray for secondary text */
---accent: #EEF2F1         /* Soft neutral background with a teal hint */
---text-main: #2B3440      /* Dark slate for body text */
---bg-body: #F7F6F3        /* Warm paper-like off-white */
---bg-alt: #ffffff         /* White for cards */
---border: #E7E5E0         /* Stone hairline */
+--ink: #071d45; /* navy dos títulos */
+--ink-soft: #263d61;
+--teal: #087f95; /* cor de marca, única */
+--teal-dark: #00657a;
 ```
 
-No neon/cyan colors — the palette is deliberately sober (navy + one teal accent on warm paper). Prefer the CSS variables over hardcoded hex; `tailwind.config.mjs` also exposes `brand` colors matching the navy.
+**SUPERFÍCIE** — `src/layouts/SuperficieLayout.astro`: navy `#001a33`, papel
+`#f7f4ed`, teal `#0b827f`, ouro `#d9b665`, serifa para títulos. Também define
+`--surface-radius-sm/md/lg`, `--surface-lift-*` e `--surface-shadow-lg`.
 
-**Typography**: self-hosted fonts in `public/fonts/fonts.css` — **Fraunces** (serif) for headings, **Inter** for body, Outfit available only for UI labels via `.font-ui`.
+A escala (tipografia, espaço, movimento) é compartilhada pelas duas frentes; o
+que as separa é cor, ritmo e densidade — não o tipo da manchete.
 
-**`src/styles/article.css`** — editorial typography for blog article bodies (`.article-body`), imported by `blog/[slug].astro` and the static blog posts. Its selectors use `:not([class])` so Tailwind utilities applied inside articles are not overridden — keep that convention when extending it.
+### Componentes científicos
 
-Utility patterns from Layout.astro: `.container`, `.section-padding`, `.btn-premium` (+ `-primary`/`-secondary`/`-dark` variants). Components use PascalCase filenames; pages use lowercase/kebab-case. Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`, `ci:`) are used in history.
+`src/components/science/` reúne o vocabulário editorial de evidência:
 
-### Image Handling
+| Componente                       | Para quê                                                            |
+| -------------------------------- | ------------------------------------------------------------------- |
+| `ArticleSummary`                 | resumo de abertura: achado, implicação, limitações                  |
+| `EvidenceCard` + `EvidenceLevel` | resultado quantitativo com desenho, amostra, grau e ressalva        |
+| `ScienceCallout`                 | mensagem-chave, implicação, limitação, controvérsia, diretriz, dado |
+| `MechanismScrolly`               | círculo vicioso em seis etapas, ilustração fixa                     |
+| `EyeExplorer`                    | olho 3D com hotspots (Three.js sob demanda, fallback SVG)           |
 
-Remote images restricted to `cdn.sanity.io`, `olhossecos.com.br`, `olhossecos.com` (astro.config.mjs). Sanity images via `urlFor(image).width(800).url()`. Local images in `/public/`.
+`GuideSummary.limits` e `GuideEvidence.caveat` são campos obrigatórios da
+estrutura de propósito: número sem a limitação ao lado vira promessa.
 
-## Environment Variables
+### Regras que não são óbvias
 
-See `.env.example` for the base set. Full list used by the codebase:
+**Elevação no hover usa `filter`, não `box-shadow`.** O anel de foco de dois
+tons já ocupa o `box-shadow`; usar a mesma propriedade nas duas faz uma esconder
+a outra quando hover e foco coincidem.
+
+**O anel de foco não fixa `border-radius`.** `outline` e `box-shadow` já seguem o
+raio do elemento; fixar um valor faria o canto pular no momento do foco.
+
+**O 3D não pode ser condição para o conteúdo.** `EyeExplorer` só busca o
+Three.js quando a seção se aproxima da viewport, e não busca em WebGL ausente,
+`deviceMemory < 4`, `saveData` ou 2G. A lista de estruturas é HTML com botões
+que funcionam por teclado; o canvas é enfeite informativo, não a informação.
+
+**Cuidado ao mover CSS com escopo para global.** O escopo do Astro adiciona um
+atributo ao seletor, o que aumenta a especificidade. Regras que funcionavam
+dentro de uma página podem perder para resets antigos ao virarem globais — foi o
+que aconteceu com `.superficie-document a { color: inherit }` sobrepondo a cor
+dos botões.
+
+## Imagens
+
+Todo o acervo é declarado em `src/lib/figures.ts` e renderizado por
+`EducationalFigure.astro`. O padrão de cada figura:
+
+```
+nome.jpg              fallback, 1200px de largura
+nome-760.avif/webp    e nome-1200.avif/webp
+alt                   descritivo, não decorativo
+caption               ensina algo — não repete o texto ao lado
+disclosure            obrigatório quando gerada por IA
+```
+
+Há duas redações de divulgação, e a diferença importa:
+
+- **esquemática** — "representação esquemática, sem escala anatômica e não é uma
+  fotografia clínica"
+- **com pessoas** — "cena ilustrativa com pessoas fictícias, não é fotografia de
+  paciente real nem registro clínico"
+
+Uma figura precisa ilustrar **o que a seção afirma**. Já foi descartada uma
+imagem tecnicamente boa que mostrava olho fechado × olho aberto numa seção sobre
+piscada completa × incompleta — o modelo leu "incompleta" como "aberta". Confira
+o conceito, não só a estética.
+
+### Marca, ícones e OpenGraph
+
+A marca é **vetorial** (`public/favicon.svg` e `src/components/EyeMark.astro`),
+em `#087f95`. Não gere logo nem favicon com IA: sairia raster, divergente do SVG
+e impossível de manter.
+
+Derivados são gerados a partir do SVG. Se a marca mudar, regenere:
 
 ```bash
-# Sanity (build-time, public)
-PUBLIC_SANITY_PROJECT_ID=qum5qhgj
-PUBLIC_SANITY_DATASET=production
-
-# Email service (runtime, server-only)
-SENDPULSE_CLIENT_ID=          # Primary provider
-SENDPULSE_CLIENT_SECRET=
-SENDPULSE_FROM_EMAIL=         # default: noreply@olhossecos.com.br
-SENDPULSE_FROM_NAME=
-RESEND_API_KEY=               # Fallback provider
-RESEND_FROM_EMAIL=
-
-# WhatsApp (runtime, server-only)
-EVOLUTION_API_URL=
-EVOLUTION_API_KEY=
-EVOLUTION_INSTANCE_NAME=      # default: saraivavision
-N8N_WHATSAPP_WEBHOOK_URL=     # optional
-CLINIC_WHATSAPP=              # default: 5533998601427
+# ícones: icon-192.png, icon-512.png, apple-touch-icon.png, favicon.ico
+# cards OpenGraph por seção (texto em vetor, ~15 KB cada)
+node scripts/build-og-cards.mjs
 ```
 
-## Deployment (actual production setup — June 2026)
+Ao mudar o título de uma página que tem card próprio, rode o script de novo.
 
-This repo lives ON the production VPS at `/root/olhossecos.com.br-site` (the VPS IP is the DNS target of olhossecos.com.br). Production topology:
+## Deploy
 
-- **Node server**: systemd unit `olhossecos-astro.service` runs `node dist/server/entry.mjs` on `127.0.0.1:4321` (enabled at boot). Deploy = `npm run build && systemctl restart olhossecos-astro`.
-- **Nginx** (`/etc/nginx/sites-available/olhossecos.com.br`): proxies `/` to the Node server; serves the Dry Eye Widget landing statically from `/var/www/olhossecos/app/` at `/app/` (separate codebase). `/sitemap.xml` is aliased to the app's legacy sitemap; the clinic site's sitemap is `/sitemap-index.xml`.
-- **Security headers**: prerendered pages do NOT go through `src/middleware.ts` (it only runs on SSR routes), so nginx adds the basic headers on the proxied location; the middleware's CSP applies only to SSR routes.
-- **Stale docs**: `.github/workflows/deploy.yml` and `docs/VPS-DEPLOY.md` describe a Docker deploy to `/opt/olhossecos` that is NOT in use — do not follow them; `crontab.txt` references an `/api/health` endpoint that does not exist.
-- Other docs: `docs/SANITY_INTEGRATION.md`, `docs/SEO-STRATEGY.md`, `SECURITY.md`, `TESTING.md`.
+> As instruções antigas de `npm run build && systemctl restart` estão **erradas**.
+> O serviço não roda do repositório.
 
-## Medical and Legal Compliance
+Releases são atômicos, identificados por SHA:
 
-**CFM Compliance** (Brazilian medical advertising regulations):
-- Use `titleFormal` from config for structured data/legal contexts: "Médico pós-graduado em oftalmologia com área de atuação em oftalmologia clínica geral, procedimentos minimamente invasivos e olho seco"
-- Use `title` for user-facing UI; always display CRM-MG 69.870
-- No promises of guaranteed results in copy
+```bash
+npm run check                      # portão completo
+npm run build                      # carimba dist/BUILD_METADATA.json com o commit
+npm run ops:deploy -- --source /root/olhossecos.com.br-site --sha $(git rev-parse HEAD)
+```
 
-**LGPD** (Brazilian data protection):
-- Contact/lead forms collect `consentimento` and must link to the privacy policy (`/privacidade`)
-- API endpoints handle personal data (name, phone, email) — never log or expose it
+O `ops:deploy` copia o build para `/var/www/olhossecos/releases/<sha>`, instala
+dependências de produção, sobe um candidato numa porta separada, faz smoke test
+em `/`, `/newsletter`, `/superficie` e `/app`, troca o symlink `current` e
+reinicia o serviço — com rollback se algo falhar. A árvore precisa estar limpa e
+o build precisa corresponder ao commit.
 
-The repo ships a project skill, `skills/saraiva-vision-compliance-review`, for reviewing diffs/pages/copy against CFM compliance and Saraiva Vision visual identity — use it when asked to review changes to this site.
+- serviço systemd: `olhossecos-astro` em `127.0.0.1:4321`, usuário `www-data`
+- nginx: `/etc/nginx/sites-available/olhossecos.com.br`
+- headers de segurança: `snippets/olhossecos-security-headers.conf`, incluído por
+  `location /` **e** pelo bloco do laboratório
 
-## Key Business Information
+> `add_header` não é herdado entre blocos `location` irmãos. Um bloco novo que
+> sirva HTML precisa incluir o snippet, senão perde CSP, HSTS e X-Frame-Options.
 
-- **Name**: Saraiva Vision Clínica Especializada em Olho Seco
-- **Address**: Rua Catarina Maria Passos, 97, Bairro Santa Zita (Amor e Saúde), Caratinga/MG, CEP 35300-299
-- **Phone/WhatsApp**: (33) 99860-1427 | **Email**: contato@saraivavision.com.br
-- **Hours**: Mon–Fri 08:00–18:00, Sat 08:00–12:00
-- **Featured treatments**: E-Eye IRPL (flagship), higiene palpebral, medicamentos, lentes esclerais
-- **Target conditions**: Síndrome do Olho Seco, Disfunção das Glândulas de Meibomius, Blefarites, Superfície Ocular
+## Conformidade
 
-All site-wide business constants live in `src/lib/config.ts` — update there, not in individual pages.
+**CFM.** Toda página que nomeia o médico deve exibir **CRM-MG 69.870 · RQE
+71.903**. Nada de promessa de resultado, superlativo ou comparação com outros
+serviços. Ao descrever tratamento, diga o que ele pretende e o que ainda é
+incerto.
+
+**LGPD.** Os formulários coletam consentimento explícito e linkam
+`/privacidade`. Os endpoints lidam com dado pessoal: nunca registre em log nem
+exponha e-mail, telefone ou nome.
+
+**Independência editorial.** A SUPERFÍCIE separa conteúdo editorial de
+publicidade. Parceria comercial não determina pauta nem conclusão clínica. Rótulo
+de publicidade e disclosure são obrigatórios onde houver patrocínio.
+
+O repositório traz a skill `skills/saraiva-vision-compliance-review` para revisar
+diffs e textos contra esses critérios.
+
+## Arquivos desatualizados no repositório
+
+Não siga estes; descrevem um mundo que não existe mais:
+
+- `.github/workflows/deploy.yml` e `docs/VPS-DEPLOY.md` — deploy Docker em
+  `/opt/olhossecos`, abandonado
+- `crontab.txt` — referencia `/api/health`, que não existe
+- `tailwind.config.mjs` — Tailwind não é usado
+- `docs/SANITY_INTEGRATION.md` — o CMS foi removido
+- `pnpm-lock.yaml` — o gerenciador é npm
+
+Redirects 301 preservam URLs antigas: `/blog` → `/guias`, `/exames` →
+`/diagnostico`. São páginas sem conteúdo — não adicione imagem nem texto nelas.
+
+## Convenções
+
+- Commits em **Conventional Commits** (`feat:`, `fix:`, `chore:`, `docs:`, `ci:`),
+  com corpo em português explicando **por que**, não só o quê
+- Componentes em PascalCase; páginas em minúsculas com hífen
+- Constantes do negócio ficam em `src/lib/` — não repita endereço, telefone ou
+  credencial dentro das páginas

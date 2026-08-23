@@ -1,5 +1,6 @@
 ---
 import EyeMark from "./EyeMark.astro";
+import { responsibleDoctor } from "@/lib/doctor";
 
 const year = new Date().getFullYear();
 ---
@@ -7,7 +8,7 @@ const year = new Date().getFullYear();
 <footer class="site-footer">
   <div class="page-shell footer-main">
     <div class="footer-brand">
-      <a href="/" class="brand brand-inverse" aria-label="Página inicial">
+      <a href="/" class="brand brand-inverse">
         <EyeMark class="brand-mark" />
         <span>
           <strong>Olho Seco</strong>
@@ -40,13 +41,14 @@ const year = new Date().getFullYear();
           href="https://apos-olhoseco.com.br"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="APOS — Associação Brasileira de Portadores de Olho Seco (abre em nova aba)"
         >
           APOS — associação de pacientes
+          <span class="visually-hidden"> (abre em nova aba)</span>
         </a>
       </div>
       <div>
         <h2>Sobre o portal</h2>
+        <a href="/newsletter">Newsletter</a>
         <a href="/fontes">Fontes</a>
         <a href="/politica-editorial">Política editorial</a>
         <a href="/glossario">Glossário</a>
@@ -61,8 +63,17 @@ const year = new Date().getFullYear();
     </div>
   </div>
 
+  <div class="page-shell footer-imprint">
+    <p>
+      <span>Responsável técnico</span>
+      <strong>Dr. {responsibleDoctor.name}</strong>
+      <em>{responsibleDoctor.registration}</em>
+    </p>
+  </div>
+
   <div class="page-shell footer-bottom">
     <p>Conteúdo editorial independente, sem publicidade de terceiros.</p>
+    <p>Feito com ❤️ pela equipe do Dr. {responsibleDoctor.name}.</p>
     <p>© {year} Olho Seco — Portal do paciente</p>
   </div>
 </footer>

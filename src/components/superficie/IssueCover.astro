@@ -5,21 +5,33 @@ interface Props {
   issue: MagazineIssue;
   eager?: boolean;
   class?: string;
+  /**
+   * Largura de exibição prevista, no formato do atributo sizes. Cada página
+   * mostra a capa num tamanho diferente (307px no hero da home, 451px na
+   * página da edição), então um valor fixo no componente erra em uma das
+   * duas e faz o navegador escolher o arquivo errado do srcset.
+   */
+  sizes?: string;
 }
 
-const { issue, eager = false, class: className } = Astro.props;
+const {
+  issue,
+  eager = false,
+  class: className,
+  sizes = "(max-width: 720px) 78vw, 320px",
+} = Astro.props;
 ---
 
-<picture class:list={["issue-cover", className]}>
+<picture class:list={["issue-cover", className]} data-tilt="true">
   <source
     type="image/avif"
-    srcset={`${issue.cover.avif600} 600w, ${issue.cover.avif1054} 1054w`}
-    sizes="(max-width: 720px) 78vw, 440px"
+    srcset={`${issue.cover.avif600} 600w, ${issue.cover.avifLarge} ${issue.cover.largeWidth}w`}
+    {sizes}
   />
   <source
     type="image/webp"
-    srcset={`${issue.cover.webp600} 600w, ${issue.cover.webp1054} 1054w`}
-    sizes="(max-width: 720px) 78vw, 440px"
+    srcset={`${issue.cover.webp600} 600w, ${issue.cover.webpLarge} ${issue.cover.largeWidth}w`}
+    {sizes}
   />
   <img
     src={issue.cover.fallback}

@@ -1,6 +1,11 @@
 ---
 import SuperficieFooter from "@/components/superficie/SuperficieFooter.astro";
 import SuperficieHeader from "@/components/superficie/SuperficieHeader.astro";
+import AnalyticsCollector from "@/components/AnalyticsCollector.astro";
+import GlobalSearchModal from "@/components/GlobalSearchModal.astro";
+import { magazineDescription } from "@/lib/superficie";
+import { normalizeBasePath, withBasePath } from "@/lib/site-path";
+import "@/styles/fonts.css";
 
 interface Props {
   title: string;
@@ -8,6 +13,9 @@ interface Props {
   home?: boolean;
   image?: string;
   imageAlt?: string;
+  imageType?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   schemaType?: "WebPage" | "CollectionPage";
   datePublished?: string;
   dateModified?: string;
@@ -23,11 +31,14 @@ const {
   title,
   description,
   home = false,
-  image = "/images/superficie/og-superficie.png",
+  image = "/images/superficie/og-superficie.jpg",
   imageAlt = "SUPERFÍCIE — Revista de Olho Seco e Superfície Ocular",
+  imageType = "image/jpeg",
+  imageWidth = 1200,
+  imageHeight = 630,
   schemaType = "WebPage",
   datePublished = "2026-08-07",
-  dateModified = "2026-08-07",
+  dateModified = "2026-08-08",
   robots = "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
   ogType = "website",
   authorName,
@@ -36,11 +47,27 @@ const {
   extraSchema,
 } = Astro.props;
 
-const siteUrl = new URL("/", Astro.site);
+const basePath = normalizeBasePath(import.meta.env.BASE_URL);
+const siteUrl = new URL(basePath || "/", "https://olhossecos.com.br");
 const canonical = new URL(Astro.url.pathname, siteUrl);
-const imageUrl = new URL(image, siteUrl);
-const publisherId = new URL("/#organization", siteUrl).href;
-const periodicalId = new URL("/superficie#periodical", siteUrl).href;
+const imageUrl = new URL(withBasePath(image, basePath), siteUrl);
+const effectiveRobots = basePath ? "noindex,nofollow,noarchive" : robots;
+const portalOrganizationId = new URL(
+  withBasePath("/#organization", basePath),
+  siteUrl,
+).href;
+const mediaOrganizationId = new URL(
+  withBasePath("/superficie#organization", basePath),
+  siteUrl,
+).href;
+const periodicalId = new URL(
+  withBasePath("/superficie#periodical", basePath),
+  siteUrl,
+).href;
+const websiteId = new URL(
+  withBasePath("/superficie#website", basePath),
+  siteUrl,
+).href;
 
 const page = {
   "@type": schemaType,
@@ -52,8 +79,8 @@ const page = {
   inLanguage: "pt-BR",
   datePublished,
   dateModified,
-  isPartOf: { "@id": new URL("/#website", siteUrl).href },
-  publisher: { "@id": publisherId },
+  isPartOf: { "@id": periodicalId },
+  publisher: { "@id": mediaOrganizationId },
   primaryImageOfPage: { "@id": `${imageUrl.href}#primaryimage` },
   breadcrumb:
     breadcrumbs.length > 0
@@ -64,27 +91,43 @@ const page = {
 const baseGraph: Record<string, unknown>[] = [
   {
     "@type": "Organization",
-    "@id": publisherId,
+    "@id": portalOrganizationId,
     name: "Olho Seco — Portal do paciente",
     url: siteUrl.href,
+  },
+  {
+    "@type": "NewsMediaOrganization",
+    "@id": mediaOrganizationId,
+    name: "SUPERFÍCIE Media",
+    url: new URL(withBasePath("/superficie", basePath), siteUrl).href,
+    isPartOf: { "@id": portalOrganizationId },
   },
   {
     "@type": "Periodical",
     "@id": periodicalId,
     name: "SUPERFÍCIE",
     alternateName: "Revista de Olho Seco e Superfície Ocular",
-    description,
+    description: magazineDescription,
     inLanguage: "pt-BR",
-    publisher: { "@id": publisherId },
+    publisher: { "@id": mediaOrganizationId },
+    url: new URL(withBasePath("/superficie", basePath), siteUrl).href,
+  },
+  {
+    "@type": "WebSite",
+    "@id": websiteId,
+    name: "SUPERFÍCIE",
     url: new URL("/superficie", siteUrl).href,
+    inLanguage: "pt-BR",
+    publisher: { "@id": mediaOrganizationId },
+    isPartOf: { "@id": periodicalId },
   },
   {
     "@type": "ImageObject",
     "@id": `${imageUrl.href}#primaryimage`,
     url: imageUrl.href,
     contentUrl: imageUrl.href,
-    width: 1200,
-    height: 630,
+    width: imageWidth,
+    height: imageHeight,
     caption: imageAlt,
   },
   page,
@@ -98,7 +141,7 @@ if (breadcrumbs.length > 0) {
       "@type": "ListItem",
       position: index + 1,
       name: item.name,
-      item: new URL(item.url, siteUrl).href,
+      item: new URL(withBasePath(item.url, basePath), siteUrl).href,
     })),
   });
 }
@@ -118,13 +161,34 @@ const structuredData = {
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#001a33" />
     <meta name="description" content={description} />
-    <meta name="robots" content={robots} />
+    <meta name="robots" content={effectiveRobots} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="manifest" href="/manifest.json" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href={withBasePath("/favicon.svg", basePath)}
+    />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href={withBasePath("/favicon.ico", basePath)}
+      sizes="48x48"
+    />
+    <link
+      rel="apple-touch-icon"
+      href={withBasePath("/apple-touch-icon.png", basePath)}
+    />
+    <link rel="manifest" href={withBasePath("/manifest.json", basePath)} />
+    <link
+      rel="preload"
+      href={withBasePath("/fonts/source-serif-4-subset.woff2", basePath)}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <meta property="og:type" content={ogType} />
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:site_name" content="SUPERFÍCIE" />
@@ -133,9 +197,9 @@ const structuredData = {
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={imageUrl} />
     <meta property="og:image:secure_url" content={imageUrl} />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content={imageType} />
+    <meta property="og:image:width" content={String(imageWidth)} />
+    <meta property="og:image:height" content={String(imageHeight)} />
     <meta property="og:image:alt" content={imageAlt} />
     {
       ogType === "article" && (
@@ -161,6 +225,7 @@ const structuredData = {
     />
   </head>
   <body class="superficie-document">
+    <AnalyticsCollector />
     <a class="surface-skip-link" href="#conteudo-superficie">
       Pular para o conteúdo
     </a>
@@ -169,8 +234,56 @@ const structuredData = {
       <slot />
     </main>
     <SuperficieFooter />
+    <GlobalSearchModal />
   </body>
 </html>
+
+<script>
+  // Inclinação 3D + brilho especular para qualquer elemento data-tilt.
+  // Só ativa com mouse de precisão e sem prefers-reduced-motion — em touch
+  // as variáveis CSS ficam nos valores neutros definidos no estilo global,
+  // então o elemento permanece estático sem nenhum ramo extra de fallback.
+  const canTilt =
+    window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (canTilt) {
+    const maxTiltDeg = 6;
+    const elements = document.querySelectorAll<HTMLElement>("[data-tilt]");
+
+    elements.forEach((el) => {
+      let frame = 0;
+
+      const update = (clientX: number, clientY: number) => {
+        const rect = el.getBoundingClientRect();
+        const px = (clientX - rect.left) / rect.width;
+        const py = (clientY - rect.top) / rect.height;
+        const rotateX = (0.5 - py) * maxTiltDeg * 2;
+        const rotateY = (px - 0.5) * maxTiltDeg * 2;
+        el.style.setProperty("--tilt-x", `${rotateX.toFixed(2)}deg`);
+        el.style.setProperty("--tilt-y", `${rotateY.toFixed(2)}deg`);
+        el.style.setProperty("--glow-x", `${(px * 100).toFixed(1)}%`);
+        el.style.setProperty("--glow-y", `${(py * 100).toFixed(1)}%`);
+      };
+
+      el.addEventListener("pointermove", (event) => {
+        if (event.pointerType !== "mouse") return;
+        el.classList.add("is-tilting");
+        if (frame) return;
+        frame = requestAnimationFrame(() => {
+          update(event.clientX, event.clientY);
+          frame = 0;
+        });
+      });
+
+      el.addEventListener("pointerleave", () => {
+        el.classList.remove("is-tilting");
+        el.style.setProperty("--tilt-x", "0deg");
+        el.style.setProperty("--tilt-y", "0deg");
+      });
+    });
+  }
+</script>
 
 <style is:global>
   :root {
@@ -180,18 +293,55 @@ const structuredData = {
     --surface-white: #fffdf8;
     --surface-ink: #09223c;
     --surface-copy: #263c50;
-    --surface-muted: #65798a;
+    --surface-muted: #5b7081;
     --surface-muted-on-dark: #b9c5ce;
     --surface-teal: #0b827f;
     --surface-teal-dark: #066765;
     --surface-gold: #b98a36;
     --surface-gold-light: #d9b665;
     --surface-line: #d8d3c7;
+    /* Mesma serifada do portal, servida do próprio domínio. As duas frentes
+       seguem visualmente distintas pela cor, pela escala e pelo ritmo — não
+       por terem tipos diferentes na manchete. */
     --surface-serif:
-      "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      "Source Serif 4 Var", "Iowan Old Style", "Palatino Linotype", Palatino,
+      Georgia, serif;
+    /* O corpo continua na pilha do sistema: nenhuma requisição de fonte para o
+       texto de leitura. */
     --surface-sans:
-      Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-      "Segoe UI", sans-serif;
+      ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
+
+    /* Movimento e profundidade. drop-shadow (não box-shadow) para que a
+       elevação no hover nunca dispute com o anel de foco de dois tons, que
+       usa box-shadow — as duas camadas ficam em propriedades diferentes e
+       sempre coexistem sem um sobrescrever o outro. */
+    --surface-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --surface-lift-sm: drop-shadow(0 10px 18px rgb(4 12 22 / 22%))
+      drop-shadow(0 3px 6px rgb(4 12 22 / 16%));
+    --surface-lift-md: drop-shadow(0 22px 38px rgb(4 12 22 / 30%))
+      drop-shadow(0 6px 14px rgb(4 12 22 / 20%));
+    --surface-lift-gold: drop-shadow(0 16px 30px rgb(185 138 54 / 42%))
+      drop-shadow(0 4px 10px rgb(4 12 22 / 24%));
+    /* box-shadow, não filter: reservado a contêineres que não recebem foco
+       (painel do menu móvel, chip de vidro do hero). Em elementos focáveis
+       o box-shadow é do anel de foco de dois tons — usar aqui criaria
+       disputa entre as duas camadas quando hover e foco coincidem. */
+    --surface-shadow-lg:
+      0 30px 60px -18px rgb(4 12 22 / 45%), 0 10px 24px -8px rgb(4 12 22 / 28%);
+
+    /* Vidro fosco: só onde há conteúdo variado por trás para desfocar
+       (fotos, seções sobrepostas). Sempre com fallback opaco via @supports. */
+    --surface-glass-navy: rgb(0 22 43 / 78%);
+    --surface-glass-border: rgb(255 255 255 / 16%);
+
+    /* Arredondamento suave. Escala contida: a identidade é de publicação
+       impressa, então o raio amacia a aresta sem virar linguagem de app.
+       sm = controles (botões, campos, selos), md = cards e painéis,
+       lg = superfícies grandes (formulários, grades de card). */
+    --surface-radius-sm: 6px;
+    --surface-radius-md: 10px;
+    --surface-radius-lg: 16px;
   }
 
   * {
@@ -229,10 +379,19 @@ const structuredData = {
     font: inherit;
   }
 
+  /* Anel de foco de dois tons. O ouro sozinho ficava em 1.77:1 sobre o papel,
+     abaixo dos 3:1 exigidos pela WCAG 2.2 SC 1.4.11. O anel interno navy
+     resolve os fundos claros (15.99:1 sobre o papel) e o externo dourado
+     resolve os escuros (9.06:1 sobre o navy), então o indicador permanece
+     visível em qualquer seção da revista. */
+  /* Sem border-radius aqui: outline e box-shadow já acompanham o raio
+     próprio do elemento focado. Fixar um valor nesta regra sobrescreveria
+     o raio real de botões e cards no exato momento do foco, fazendo o
+     canto "pular" ao navegar por teclado. */
   .superficie-document :focus-visible {
     outline: 3px solid var(--surface-gold-light);
-    outline-offset: 4px;
-    border-radius: 2px;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 3px var(--surface-navy);
   }
 
   .superficie-document ::selection {
@@ -264,6 +423,179 @@ const structuredData = {
     .surface-shell {
       width: min(100% - 2rem, 1340px);
     }
+  }
+
+  /* ==========================================================
+     Sistema de botões — antes duplicado com três convenções de
+     classe diferentes (button-primary/button-outline-light,
+     button.primary/button.quiet, button/button.quiet) e três cores
+     de "primário" (ouro em duas páginas, teal em outra) nascidas de
+     copiar-e-colar entre páginas. Uma definição única aqui resolve
+     as duas coisas: consistência visual E menos CSS duplicado.
+     ========================================================== */
+  /* .superficie-document prefixado no seletor de cor: .superficie-document
+     a { color: inherit } (especificidade 0,1,1) tem prioridade maior que
+     uma única classe (0,1,0) — nas páginas antes o .button ficava dentro
+     de <style> com escopo do Astro, que soma um atributo de escopo à
+     especificidade; centralizado aqui como estilo global, essa vantagem
+     desaparece e o texto do botão herdava a cor do fundo em vez da cor
+     pretendida. */
+  .superficie-document .button {
+    color: var(--surface-paper);
+  }
+
+  .button {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.78rem 1.35rem;
+    border: 1px solid var(--surface-gold-light);
+    border-radius: var(--surface-radius-sm);
+    background: transparent;
+    font-family: var(--surface-sans);
+    font-size: 0.77rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+      filter 380ms var(--surface-ease),
+      transform 380ms var(--surface-ease),
+      background-color 220ms ease,
+      border-color 220ms ease,
+      color 220ms ease;
+  }
+
+  /* Brilho diagonal que varre o botão no hover — sutil (16% de branco no
+     pico) para nunca comprometer a leitura do rótulo em maiúsculas. */
+  .button::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(
+      115deg,
+      transparent 24%,
+      rgb(255 255 255 / 16%) 48%,
+      transparent 70%
+    );
+    transform: translateX(-130%);
+    transition: transform 640ms var(--surface-ease);
+    pointer-events: none;
+  }
+
+  .button:hover::before {
+    transform: translateX(130%);
+  }
+
+  .button:hover {
+    filter: var(--surface-lift-sm);
+    transform: translateY(-3px);
+  }
+
+  .button:active {
+    filter: none;
+    transform: translateY(-1px);
+    transition-duration: 120ms;
+  }
+
+  .button-primary {
+    border-color: var(--surface-gold-light);
+    background: var(--surface-gold-light);
+  }
+
+  .superficie-document .button-primary {
+    color: var(--surface-navy);
+  }
+
+  .button-primary:hover {
+    background: color-mix(in srgb, var(--surface-gold-light) 85%, white 15%);
+    filter: var(--surface-lift-gold);
+  }
+
+  .button-quiet {
+    background: transparent;
+  }
+
+  .button-quiet:hover {
+    background: rgb(217 182 101 / 14%);
+  }
+
+  .button-outline-light {
+    border-color: rgb(255 255 255 / 45%);
+    background: transparent;
+  }
+
+  .button-outline-light:hover {
+    border-color: var(--surface-paper);
+    background: rgb(255 255 255 / 8%);
+  }
+
+  @media (max-width: 520px) {
+    .button {
+      width: 100%;
+    }
+  }
+
+  /* ==========================================================
+     Inclinação 3D sob o cursor + brilho especular. Aplicado via
+     atributo data-tilt (ver script mais abaixo) a superfícies de
+     destaque — capas, cards de artigo, cards do RADAR. O ângulo é
+     contido (6°) e as variáveis partem neutras, então qualquer
+     elemento com data-tilt permanece estático até o JS assumir; em
+     touch e prefers-reduced-motion o script nunca assume, e o
+     bloco de redução de movimento abaixo zera a transição.
+     ========================================================== */
+  [data-tilt] {
+    --tilt-x: 0deg;
+    --tilt-y: 0deg;
+    /* Vazia, não "none": "none" não é uma <transform-function> válida
+       dentro de uma lista — "transform: perspective(...) none rotateX(...)"
+       é uma declaração inválida inteira, e o navegador a descarta por
+       completo (volta a transform:none), quebrando o tilt em qualquer
+       elemento que não redefina --tilt-base localmente. Vazia, var()
+       simplesmente não contribui nenhum token nesse ponto da lista. */
+    --tilt-base: ;
+    --glow-x: 50%;
+    --glow-y: 50%;
+    transform: perspective(1000px) var(--tilt-base) rotateX(var(--tilt-x))
+      rotateY(var(--tilt-y));
+    transition: transform 500ms var(--surface-ease);
+  }
+
+  [data-tilt].is-tilting {
+    transition: transform 60ms linear;
+  }
+
+  .tilt-glow {
+    position: relative;
+  }
+
+  .tilt-glow::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    background: radial-gradient(
+      circle at var(--glow-x) var(--glow-y),
+      rgb(255 255 255 / 24%),
+      transparent 45%
+    );
+    opacity: 0;
+    transition: opacity 320ms ease;
+    pointer-events: none;
+    mix-blend-mode: soft-light;
+  }
+
+  .tilt-glow:hover::after,
+  .tilt-glow.is-tilting::after {
+    opacity: 1;
   }
 
   @media (prefers-reduced-motion: reduce) {

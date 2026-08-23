@@ -1,4 +1,5 @@
 ---
+import AuthorLogo from "@/components/AuthorLogo.astro";
 import BookCover from "@/components/BookCover.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import Layout from "@/layouts/Layout.astro";
@@ -22,6 +23,7 @@ const personSchema = {
   "@id": new URL(`/autor/${author.slug}#person`, siteUrl).href,
   name: author.name,
   jobTitle: author.role,
+  identifier: author.registration,
   description: author.description,
   url: new URL(`/autor/${author.slug}`, siteUrl).href,
   sameAs: ["https://www.amazon.com/author/drphilipesaraiva"],
@@ -29,7 +31,7 @@ const personSchema = {
 ---
 
 <Layout
-  title={`${author.name} — autor e médico oftalmologista`}
+  title={`${author.name} — oftalmologista e autor`}
   description={authorSeoDescription}
   datePublished="2026-08-07"
   dateModified="2026-08-07"
@@ -44,11 +46,14 @@ const personSchema = {
   <header class="author-hero page-shell">
     <Breadcrumbs items={breadcrumbs} />
     <div class="author-heading">
-      <p class="initials" aria-hidden="true">PSC</p>
+      <div class="author-logo-holder">
+        <AuthorLogo size="xl" variant="seal" />
+      </div>
       <div>
         <p class="label">Autor</p>
         <h1>{author.name}</h1>
         <p class="role">{author.role}</p>
+        <p class="registration">{author.registration}</p>
         <p class="bio">{author.description}</p>
         <a
           class="author-link"
@@ -104,21 +109,18 @@ const personSchema = {
     min-height: 600px;
   }
 
-  .initials {
-    margin: 0;
-    color: transparent;
-    font-family: var(--serif);
-    font-size: clamp(7rem, 17vw, 15rem);
-    letter-spacing: -0.1em;
-    line-height: 0.8;
-    -webkit-text-stroke: 1px #91a7b5;
+  .author-logo-holder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
   }
 
   .label,
   .author-book-list article > div > p {
     margin: 0;
     color: #7b5a1f;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.13em;
     text-transform: uppercase;
@@ -138,6 +140,13 @@ const personSchema = {
     color: var(--teal-dark);
     font-family: var(--serif);
     font-size: 1.4rem;
+  }
+
+  .registration {
+    margin: 0.35rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    letter-spacing: 0.01em;
   }
 
   .bio {

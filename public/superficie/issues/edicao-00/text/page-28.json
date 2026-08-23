@@ -1,0 +1,50 @@
+{
+  "page": 28,
+  "blocks": [
+    {
+      "id": "page-28-eyebrow",
+      "text": "ATUALIZAÇÃO CLÍNICA",
+      "x": 0.1,
+      "y": 0.065,
+      "width": 0.8,
+      "height": 0.035,
+      "role": "label"
+    },
+    {
+      "id": "page-28-title",
+      "text": "Re-medir quando o K repetir",
+      "x": 0.1,
+      "y": 0.10391001606855918,
+      "width": 0.8,
+      "height": 0.07138725227637922,
+      "role": "heading"
+    },
+    {
+      "id": "page-28-paragraph-1",
+      "text": "O risco biométrico não é o questionário. Hiperosmolaridade associou-se a mais variabilidade de K e mais troca de poder de LIO. Agrupar por olho seco autorrelatado não separou os grupos.",
+      "x": 0.1,
+      "y": 0.20850562399571504,
+      "width": 0.8,
+      "height": 0.07927155865024103,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-28-paragraph-2",
+      "text": "LIO premium multiplica o custo do erro. Duas semanas de lágrima não têm âncora de acurácia de LIO nesta lista. Não é vitrine de aparelho.",
+      "x": 0.1,
+      "y": 0.2995607927155865,
+      "width": 0.8,
+      "height": 0.059989287627209426,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-28-number",
+      "text": "28",
+      "x": 0.84,
+      "y": 0.93,
+      "width": 0.06,
+      "height": 0.025,
+      "role": "page-number"
+    }
+  ]
+}

@@ -118,3 +118,11 @@ tokens.json
 
 .kluster
 .astro/
+
+# Estado local do agente (worktrees efêmeras e permissões da máquina)
+.claude/
+.agent/
+.agents/
+.maestro/
+.maestro.md
+skills/

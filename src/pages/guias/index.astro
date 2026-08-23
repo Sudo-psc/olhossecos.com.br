@@ -8,10 +8,11 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
 ---
 
 <Layout
+  image="/images/og/og-guias.png"
   title="Guias para entender e viver com olho seco"
   description="Biblioteca independente de guias sobre sintomas, rotina, tratamentos e decisões de cuidado no olho seco."
   schemaType="CollectionPage"
-  dateModified="2026-07-26"
+  dateModified="2026-08-10"
   breadcrumbs={[
     { name: "Início", url: "/" },
     { name: "Guias", url: "/guias" },
@@ -332,7 +333,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
   }
 
   .guide-search button span {
-    font-size: 0.74rem;
+    font-size: 0.75rem;
     font-weight: 800;
   }
 
@@ -387,7 +388,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
     border: 1px solid var(--line);
     border-radius: var(--control-radius);
     color: var(--teal-dark);
-    font-size: 0.74rem;
+    font-size: 0.75rem;
     font-weight: 800;
     list-style: none;
   }
@@ -472,7 +473,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
   #search-status {
     min-width: max-content;
     margin: 0.55rem 0 0;
-    color: #64748a;
+    color: #5a6b80;
     font-size: 0.76rem;
   }
 
@@ -513,7 +514,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
 
   .portal-results a > span {
     color: var(--teal-dark);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -578,7 +579,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
   .guide-list p {
     margin: 0 0 0.7rem;
     color: var(--teal-dark);
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -602,8 +603,12 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
     font-size: 0.9rem;
   }
 
+  .guide-list a > div {
+    min-width: 0;
+  }
+
   .guide-list small {
-    color: #66778e;
+    color: #62738a;
     font-size: 0.75rem;
     white-space: nowrap;
   }

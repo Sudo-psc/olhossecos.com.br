@@ -1,0 +1,86 @@
+{
+  "page": 16,
+  "blocks": [
+    {
+      "id": "page-16-eyebrow",
+      "text": "MÉTODOS & MÉTRICAS",
+      "x": 0.1,
+      "y": 0.065,
+      "width": 0.8,
+      "height": 0.035,
+      "role": "label"
+    },
+    {
+      "id": "page-16-title",
+      "text": "Cinco perguntas. Uma caixa de custo.",
+      "x": 0.1,
+      "y": 0.10391001606855918,
+      "width": 0.8,
+      "height": 0.07138725227637922,
+      "role": "heading"
+    },
+    {
+      "id": "page-16-paragraph-1",
+      "text": "NIBUT: o filme é estável? Preferir não invasivo. Não converter FBUT em NIBUT nem o inverso. Corte operacional DEWS III: menor que 10 segundos.",
+      "x": 0.1,
+      "y": 0.20850562399571504,
+      "width": 0.8,
+      "height": 0.059989287627209426,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-16-paragraph-2",
+      "text": "Osmolaridade: há estresse hiperosmolar? ≥ 308 ou Δ > 8 é marcador DEWS III, não gravidade. Uma leitura isolada no cinza 300–320 não decide.",
+      "x": 0.1,
+      "y": 0.2802785216925549,
+      "width": 0.8,
+      "height": 0.059989287627209426,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-16-paragraph-3",
+      "text": "Colorações: onde o epitélio falhou? Fluoresceína, córnea. Lisamina, conjuntiva e margem. Não somar escalas.",
+      "x": 0.1,
+      "y": 0.3520514193893947,
+      "width": 0.8,
+      "height": 0.059989287627209426,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-16-paragraph-4",
+      "text": "Interferometria: a camada lipídica é fina ou pobre? Não diagnostica DGM.",
+      "x": 0.1,
+      "y": 0.4238243170862346,
+      "width": 0.8,
+      "height": 0.040707016604177824,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-16-paragraph-5",
+      "text": "MMP-9: há bandeira de inflamação agora? Não define fenótipo. Não exclui DED se negativo.",
+      "x": 0.1,
+      "y": 0.47631494376004285,
+      "width": 0.8,
+      "height": 0.040707016604177824,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-16-paragraph-6",
+      "text": "O custo só se justifica se a decisão muda. Não se justifica como screening universal nem como “confirma DED”.",
+      "x": 0.1,
+      "y": 0.5288055704338511,
+      "width": 0.8,
+      "height": 0.059989287627209426,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-16-number",
+      "text": "16",
+      "x": 0.84,
+      "y": 0.93,
+      "width": 0.06,
+      "height": 0.025,
+      "role": "page-number"
+    }
+  ]
+}

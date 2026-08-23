@@ -1,8 +1,17 @@
 import assert from "node:assert/strict";
+import { existsSync, readFileSync } from "node:fs";
+import path from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
 import * as superficie from "./superficie.ts";
 import type { MagazineArticle } from "./superficie.ts";
+
+const read = (filePath: string) => readFileSync(filePath, "utf8");
+const repoRoot = path.resolve(
+  fileURLToPath(new URL(".", import.meta.url)),
+  "../..",
+);
 
 const article = (overrides: Partial<MagazineArticle> = {}): MagazineArticle =>
   ({
@@ -37,10 +46,14 @@ const article = (overrides: Partial<MagazineArticle> = {}): MagazineArticle =>
     ],
     category: "Clínica",
     author: { name: "Autoria confirmada" },
+    reviewSeal: "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
     status: "published",
     publishedAt: "2026-08-07",
     references: [{ label: "Referência primária", url: "https://example.org" }],
-    disclosure: "Nenhum conflito declarado.",
+    disclosures: [
+      { label: "Financiamento", text: "Sem financiamento externo." },
+      { label: "Conflitos de interesse", text: "Nenhum conflito declarado." },
+    ],
     sponsored: false,
     tags: ["DGM", "meibografia"],
     seo: {
@@ -131,14 +144,41 @@ test("validação impede publicar artigo sem disclosure, data ou referência", (
       : () => [];
 
   const errors = validateMagazineArticle(
-    article({ disclosure: "", publishedAt: undefined, references: [] }),
+    article({ disclosures: [], publishedAt: undefined, references: [] }),
   );
 
   assert.deepEqual(errors, [
     "Artigos publicados exigem data de publicação.",
     "Artigos publicados exigem ao menos uma referência.",
-    "O campo de conflitos de interesse / disclosures é obrigatório.",
+    "Declarações obrigatórias ausentes: Financiamento, Conflitos de interesse.",
   ]);
+});
+
+test("selo que afirma revisão exige revisor nomeado", () => {
+  const validateMagazineArticle =
+    typeof api.validateMagazineArticle === "function"
+      ? (api.validateMagazineArticle as (value: MagazineArticle) => string[])
+      : () => [];
+
+  // Sem esta trava o rótulo declara ao leitor um processo que não ocorreu.
+  assert.deepEqual(
+    validateMagazineArticle(
+      article({ reviewSeal: "REVISÃO CIENTÍFICA EDITORIAL" }),
+    ),
+    [
+      'O selo "REVISÃO CIENTÍFICA EDITORIAL" exige revisor nomeado. Sem revisor, use "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES".',
+    ],
+  );
+
+  assert.deepEqual(
+    validateMagazineArticle(
+      article({
+        reviewSeal: "REVISÃO CIENTÍFICA EDITORIAL",
+        reviewer: { name: "Revisora nomeada" },
+      }),
+    ),
+    [],
+  );
 });
 
 test("validação exige identificação explícita do patrocinador", () => {
@@ -163,6 +203,692 @@ test("validação exige as quatro perguntas editoriais em artigos publicados", (
 
   assert.deepEqual(validateMagazineArticle(withoutLimitations), [
     "Artigos publicados exigem as seções: por que importa, evidência, aplicação prática e limitações.",
+  ]);
+});
+
+test("Tecnologia em foco liga os seis temas do hub a artigos já publicados", () => {
+  assert.deepEqual(
+    superficie.technologyTopics.map(({ label, href }) => [label, href]),
+    [
+      ["Meibografia", "/superficie/artigos/alem-do-meiboscore"],
+      ["Interferometria", "/superficie/artigos/cinco-testes-cinco-perguntas"],
+      ["Osmolaridade", "/superficie/artigos/cinco-testes-cinco-perguntas"],
+      ["Biomarcadores", "/superficie/artigos/cinco-testes-cinco-perguntas"],
+      [
+        "Tecnologias baseadas em energia",
+        "/superficie/artigos/tres-meses-nao-sao-doze",
+      ],
+      [
+        "Inteligência artificial",
+        "/superficie/artigos/ia-na-superficie-ocular",
+      ],
+    ],
+  );
+});
+
+test("descrição estável da revista não muda por página", () => {
+  assert.equal(
+    superficie.magazineDescription,
+    "SUPERFÍCIE é uma revista dedicada a olho seco, córnea, diagnóstico, tecnologia, terapias e inovação em superfície ocular.",
+  );
+  assert.deepEqual(
+    superficie.publishedIssues.map(({ slug }) => slug),
+    ["edicao-00"],
+  );
+});
+
+test("template de artigo da revista não injeta capa nem fundo no layout", () => {
+  const template = read("src/components/superficie/MagazineArticlePage.astro");
+  const route = read("src/pages/superficie/artigos/[slug].astro");
+
+  assert.match(route, /MagazineArticlePage/);
+  assert.match(template, /<h1>\{article\.title\}<\/h1>/);
+  assert.match(template, /article\.excerpt/);
+  assert.match(template, /class="article-facts"/);
+  assert.doesNotMatch(template, /article\.featuredImage/);
+  assert.doesNotMatch(template, /article\.heroBackground/);
+  assert.doesNotMatch(template, /class="featured-image"/);
+  assert.doesNotMatch(template, /class="hero-image"/);
+  assert.doesNotMatch(route, /class="featured-image"/);
+  assert.doesNotMatch(route, /class="hero-image"/);
+});
+
+test("matéria DGM entra na listagem sem capa própria", () => {
+  const [article] = superficie.publishedArticles;
+  assert.equal(article.slug, "biologia-molecular-da-dgm");
+  assert.equal(article.featuredImage, undefined);
+  assert.equal(article.heroBackground, undefined);
+  assert.equal(article.ogImage, undefined);
+  assert.equal(article.references.length, 27);
+  assert.equal(
+    article.references.some(({ doi }) => doi === "10.1016/j.jtos.2024.04.005"),
+    true,
+  );
+  assert.equal(
+    article.references.some(({ doi }) => doi === "10.1016/j.jtos.2024.09.006"),
+    false,
+  );
+  assert.match(
+    article.references.find(({ doi }) => doi === "10.1016/j.jtos.2024.04.005")
+      ?.label ?? "",
+    /Zhu X, Xu M, Millar SE/,
+  );
+});
+
+test("matéria TFOS DEWS III publica as quatro seções e o selo de checagem editorial", () => {
+  const article = superficie.publishedArticles.find(
+    ({ slug }) => slug === "tfos-dews-iii-na-pratica",
+  );
+
+  assert.ok(
+    article,
+    "slug tfos-dews-iii-na-pratica deve estar em publishedArticles",
+  );
+  assert.equal(
+    superficie.publishedArticles[0].slug,
+    "biologia-molecular-da-dgm",
+  );
+  assert.equal(article.status, "published");
+  assert.equal(
+    article.reviewSeal,
+    "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  );
+  assert.equal(article.reviewer, undefined);
+  assert.deepEqual(
+    superficie.founderIssue.articles.map(({ slug }) => slug),
+    superficie.publishedArticles.map(({ slug }) => slug),
+  );
+
+  const kinds = new Set(article.content.map(({ kind }) => kind));
+  for (const kind of [
+    "why-it-matters",
+    "evidence",
+    "practice",
+    "limitations",
+  ] as const) {
+    assert.ok(kinds.has(kind), `falta a seção ${kind}`);
+  }
+
+  assert.deepEqual(superficie.validateMagazineArticle(article), []);
+});
+
+test("matéria TFOS DEWS III cita os DOIs adicionais da prova resolvidos no Crossref", () => {
+  const article = superficie.publishedArticles.find(
+    ({ slug }) => slug === "tfos-dews-iii-na-pratica",
+  );
+  assert.ok(article);
+  const dois = new Set(
+    article.references.map(({ doi }) => doi).filter(Boolean),
+  );
+
+  for (const doi of [
+    "10.1016/j.jtos.2017.05.006",
+    "10.1097/opx.0000000000002184",
+    "10.1016/j.clinsp.2025.100578",
+    "10.1038/s41598-018-20273-9",
+    "10.5935/0004-2749.202200100",
+    "10.1016/j.jtos.2023.04.004",
+    "10.1016/j.jtos.2023.04.007",
+    "10.1016/j.jtos.2023.08.009",
+  ]) {
+    assert.ok(dois.has(doi), `falta o DOI ${doi}`);
+  }
+
+  const prigol = article.references.find(
+    ({ doi }) => doi === "10.1590/s0004-27492012000100005",
+  );
+  assert.ok(prigol?.label.includes("língua portuguesa"));
+  assert.ok(!prigol?.label.includes("Translation and validation"));
+
+  const marculino = article.references.find(
+    ({ doi }) => doi === "10.5935/0004-2749.202200100",
+  );
+  assert.ok(marculino?.label.includes("2022;85(6):549-557"));
+
+  const craigLifestyle = article.references.find(
+    ({ doi }) => doi === "10.1016/j.jtos.2023.08.009",
+  );
+  assert.ok(
+    craigLifestyle?.label.includes(
+      "A Lifestyle Epidemic — Ocular Surface Disease",
+    ),
+  );
+});
+
+test("matéria TFOS DEWS III inclui o mapa dos nove drivers só no corpo", () => {
+  const article = superficie.publishedArticles.find(
+    ({ slug }) => slug === "tfos-dews-iii-na-pratica",
+  );
+  assert.ok(article);
+
+  const section = article.content.find(({ id }) => id === "nove-drivers");
+  assert.ok(section?.figure);
+  assert.equal(
+    section.figure.src,
+    "/images/superficie/artigos/tfos-dews-iii-na-pratica/mapa-nove-drivers.png",
+  );
+  assert.equal(
+    section.figure.caption,
+    "O mapa dos nove drivers. Três territórios etiológicos — TFOS DEWS III.",
+  );
+  assert.equal(
+    section.figure.alt,
+    "Mapa dos nove drivers da TFOS DEWS III: filme lacrimal (lipídico, aquoso, mucina/glicocálix), pálpebras (piscar e fechamento, margem palpebral) e superfície ocular (anatomia, disfunção neural, dano celular, inflamação).",
+  );
+  assert.ok(
+    existsSync(
+      path.join(repoRoot, "public", section.figure.src.replace(/^\//, "")),
+    ),
+    "o PNG do mapa dos nove drivers precisa estar versionado com o artigo",
+  );
+
+  const otherFigures = article.content.filter(
+    ({ id, figure }) => id !== "nove-drivers" && figure,
+  );
+  assert.deepEqual(otherFigures, []);
+
+  for (const other of superficie.publishedArticles.filter(
+    ({ slug }) => slug !== "tfos-dews-iii-na-pratica",
+  )) {
+    assert.ok(
+      other.content.every(({ figure }) => !figure),
+      `${other.slug} não deve receber a figura do TFOS`,
+    );
+  }
+
+  const markup = readFileSync(
+    path.join(repoRoot, "src/components/superficie/MagazineArticlePage.astro"),
+    "utf8",
+  );
+  assert.match(markup, /loading="eager"/u);
+  assert.match(markup, /fetchpriority="high"/u);
+  assert.match(
+    markup,
+    /--figure-ratio: \$\{section\.figure\.width\} \/ \$\{section\.figure\.height\}/u,
+  );
+  assert.equal(section.figure.width, 1680);
+  assert.equal(section.figure.height, 980);
+  assert.match(
+    markup,
+    /class="section-title"[\s\S]*section\.figure[\s\S]*section\.paragraphs/u,
+  );
+  assert.doesNotMatch(
+    markup,
+    /class="article-inline-figure"[\s\S]*loading="lazy"/u,
+  );
+});
+
+test("matéria de fenotipagem integrada publica as quatro seções sem capa nem figura clínica", () => {
+  const article = superficie.publishedArticles.find(
+    ({ slug }) => slug === "quando-sintomas-e-sinais-nao-batem",
+  );
+
+  assert.ok(
+    article,
+    "slug quando-sintomas-e-sinais-nao-batem deve estar em publishedArticles",
+  );
+  assert.deepEqual(
+    superficie.publishedArticles.map(({ slug }) => slug),
+    [
+      "biologia-molecular-da-dgm",
+      "tfos-dews-iii-na-pratica",
+      "quando-sintomas-e-sinais-nao-batem",
+      "tres-meses-nao-sao-doze",
+      "alem-do-meiboscore",
+      "cinco-testes-cinco-perguntas",
+      "a-prega-o-atrito-e-o-piscar",
+      "ia-na-superficie-ocular",
+      "anti-demodex",
+      "terapias-dirigidas-por-mecanismo",
+      "prehab-ocular",
+      "anatomia-dry-eye-center",
+    ],
+  );
+  assert.equal(article.status, "published");
+  assert.equal(article.category, "Diagnóstico");
+  assert.equal(
+    article.reviewSeal,
+    "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  );
+  assert.equal(article.reviewer, undefined);
+  assert.equal(article.featuredImage, undefined);
+  assert.equal(article.heroBackground, undefined);
+  assert.equal(article.ogImage, undefined);
+  assert.equal(
+    article.seo.canonical,
+    "/superficie/artigos/quando-sintomas-e-sinais-nao-batem",
+  );
+  assert.deepEqual(
+    superficie.founderIssue.articles.map(({ slug }) => slug),
+    superficie.publishedArticles.map(({ slug }) => slug),
+  );
+
+  const byId = Object.fromEntries(
+    article.content.map((section) => [section.id, section]),
+  );
+  assert.equal(byId["por-que-importa"]?.kind, "why-it-matters");
+  assert.equal(byId.evidencia?.kind, "evidence");
+  assert.equal(byId.pratica?.kind, "practice");
+  assert.equal(byId.limitacoes?.kind, "limitations");
+  assert.equal(byId.pratica?.bullets?.length, 8);
+  assert.deepEqual(superficie.validateMagazineArticle(article), []);
+
+  const text = [
+    ...article.content.flatMap((section) => section.paragraphs),
+    ...(byId.pratica?.bullets ?? []),
+  ].join(" ");
+  assert.match(text, /soma bruta dos 6 itens \(escala 0–24\)/);
+  assert.match(text, /não no índice 0–100 do OSDI-12/);
+  assert.match(text, /associou-se a pior saúde percebida/);
+  assert.match(
+    text,
+    /Não há ensaio randomizado que teste fenotipagem integrada contra escalada por gravidade/,
+  );
+  assert.equal(article.references.length, 14);
+  assert.equal(
+    article.references.some(({ doi }) => doi === "10.1016/j.ajo.2026.04.007"),
+    false,
+  );
+  assert.match(
+    text,
+    /Mejía-Salgado e colaboradores, 2026\) não foi confirmado no PubMed/,
+  );
+  assert.equal(
+    article.references.some(({ label }) => /Mej[ií]a-Salgado/u.test(label)),
+    false,
+  );
+});
+
+test("matéria de tecnologias publica as quatro seções sem capa nem figura clínica", () => {
+  const article = superficie.publishedArticles.find(
+    ({ slug }) => slug === "tres-meses-nao-sao-doze",
+  );
+
+  assert.ok(
+    article,
+    "slug tres-meses-nao-sao-doze deve estar em publishedArticles",
+  );
+  assert.deepEqual(
+    superficie.publishedArticles.map(({ slug }) => slug),
+    [
+      "biologia-molecular-da-dgm",
+      "tfos-dews-iii-na-pratica",
+      "quando-sintomas-e-sinais-nao-batem",
+      "tres-meses-nao-sao-doze",
+      "alem-do-meiboscore",
+      "cinco-testes-cinco-perguntas",
+      "a-prega-o-atrito-e-o-piscar",
+      "ia-na-superficie-ocular",
+      "anti-demodex",
+      "terapias-dirigidas-por-mecanismo",
+      "prehab-ocular",
+      "anatomia-dry-eye-center",
+    ],
+  );
+  assert.equal(article.status, "published");
+  assert.equal(article.category, "Tecnologia");
+  assert.equal(
+    article.reviewSeal,
+    "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  );
+  assert.equal(article.reviewer, undefined);
+  assert.equal(article.featuredImage, undefined);
+  assert.equal(article.heroBackground, undefined);
+  assert.equal(article.ogImage, undefined);
+  assert.equal(article.publishedAt, "2026-08-15");
+  assert.equal(article.modifiedAt, "2026-08-17");
+  assert.equal(
+    article.seo.canonical,
+    "/superficie/artigos/tres-meses-nao-sao-doze",
+  );
+  assert.match(article.excerpt, /P-score não é ranking de compra/);
+  assert.equal(
+    article.excerpt.includes(
+      "O consultório está sendo vendido um ranking de aparelhos",
+    ),
+    false,
+  );
+  assert.deepEqual(
+    superficie.founderIssue.articles.map(({ slug }) => slug),
+    superficie.publishedArticles.map(({ slug }) => slug),
+  );
+
+  const byId = Object.fromEntries(
+    article.content.map((section) => [section.id, section]),
+  );
+  assert.equal(byId["por-que-importa"]?.kind, "why-it-matters");
+  assert.equal(byId["o-que-o-ranking-realmente-significa"]?.kind, "body");
+  assert.equal(byId.evidencia?.kind, "evidence");
+  assert.equal(byId.pratica?.kind, "practice");
+  assert.equal(byId.limitacoes?.kind, "limitations");
+  assert.equal(article.content.length, 5);
+  assert.equal(byId.pratica?.bullets, undefined);
+  assert.deepEqual(superficie.validateMagazineArticle(article), []);
+
+  const text = [
+    ...article.content.flatMap((section) => section.paragraphs),
+    ...(byId.pratica?.bullets ?? []),
+  ].join(" ");
+
+  assert.match(text, /47 ensaios randomizados, 3\.581 participantes/);
+  assert.match(text, /2 a 4 meses/);
+  assert.match(text, /P-score não é ranking de compra/);
+  assert.match(text, /Três meses não são doze/);
+  assert.match(text, /estas seis perguntas/);
+  assert.match(text, /Qual foi o horizonte do estudo/);
+  assert.match(text, /mediana até o retratamento ficou em torno de oito meses/);
+  assert.match(text, /aproximadamente 16 pontos no OSDI/);
+  assert.match(text, /cerca de 7 pontos/);
+  assert.match(text, /E-Eye\/IRPL com M22\/Lumenis ou Toyos/);
+  assert.match(text, /Xue e colaboradores \(2020\)/);
+  assert.match(text, /Wu e colaboradores \(2020\)/);
+  assert.match(text, /Jiang e colaboradores \(2022\)/);
+  assert.match(text, /Cong e colaboradores \(2025\)/);
+  assert.match(text, /Chen e colaboradores \(2025\)/);
+  assert.equal(text.includes("Park et al"), false);
+  assert.equal(text.includes("Consensus"), false);
+  assert.equal(text.includes("Elicit"), false);
+  assert.match(text, /17 de agosto de 2026/);
+  assert.equal(article.references.length, 15);
+  assert.equal(
+    article.references.every(
+      ({ url, doi }) => url === `https://doi.org/${doi}`,
+    ),
+    true,
+  );
+  assert.equal(
+    article.references.some(
+      ({ doi }) => doi === "10.1002/14651858.CD015448.pub2",
+    ),
+    true,
+  );
+  assert.equal(
+    article.references.some(({ label }) =>
+      /Holland|OLYMPIA|Park et al/u.test(label),
+    ),
+    false,
+  );
+  assert.equal(
+    article.references.some(({ doi }) => doi === "10.1016/j.jtos.2020.01.003"),
+    true,
+  );
+  assert.equal(
+    article.references.some(({ doi }) => doi === "10.1007/s10792-020-01337-0"),
+    true,
+  );
+  assert.equal(
+    article.references.some(({ doi }) => doi === "10.1007/s40123-022-00556-1"),
+    true,
+  );
+  assert.equal(
+    article.references.some(({ doi }) => doi === "10.1007/s10103-025-04545-1"),
+    true,
+  );
+  assert.equal(
+    article.references.some(({ doi }) => doi === "10.1177/25158414251338775"),
+    true,
+  );
+});
+const assertSealedArticle = (
+  slug: string,
+  expected: {
+    category: string;
+    references: number;
+    practiceBullets: number;
+    locks: RegExp[];
+    forbiddenDois?: string[];
+    forbiddenLabels?: RegExp[];
+  },
+) => {
+  const article = superficie.publishedArticles.find(
+    ({ slug: value }) => value === slug,
+  );
+
+  assert.ok(article, `slug ${slug} deve estar em publishedArticles`);
+  assert.equal(
+    superficie.publishedArticles[0].slug,
+    "biologia-molecular-da-dgm",
+  );
+  assert.equal(article.status, "published");
+  assert.equal(article.category, expected.category);
+  assert.equal(
+    article.reviewSeal,
+    "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  );
+  assert.equal(article.reviewer, undefined);
+  assert.equal(article.featuredImage, undefined);
+  assert.equal(article.heroBackground, undefined);
+  assert.equal(article.ogImage, undefined);
+  assert.equal(article.sponsored, false);
+  assert.equal(article.issue, "edicao-00");
+  assert.equal(article.publishedAt, "2026-08-15");
+  assert.equal(article.modifiedAt, "2026-08-15");
+  assert.equal(article.seo.canonical, `/superficie/artigos/${slug}`);
+  assert.deepEqual(
+    superficie.founderIssue.articles.map(({ slug }) => slug),
+    superficie.publishedArticles.map(({ slug }) => slug),
+  );
+
+  const byId = Object.fromEntries(
+    article.content.map((section) => [section.id, section]),
+  );
+  assert.equal(byId["por-que-importa"]?.kind, "why-it-matters");
+  assert.equal(byId.evidencia?.kind, "evidence");
+  assert.equal(byId.pratica?.kind, "practice");
+  assert.equal(byId.limitacoes?.kind, "limitations");
+  if (expected.practiceBullets === 0) {
+    assert.equal(byId.pratica?.bullets, undefined);
+  } else {
+    assert.equal(byId.pratica?.bullets?.length, expected.practiceBullets);
+  }
+  assert.deepEqual(superficie.validateMagazineArticle(article), []);
+
+  const text = [
+    ...article.content.flatMap((section) => [
+      ...section.paragraphs,
+      ...(section.bullets ?? []),
+    ]),
+  ].join(" ");
+  for (const lock of expected.locks) {
+    assert.match(text, lock);
+  }
+
+  assert.equal(article.references.length, expected.references);
+  for (const doi of expected.forbiddenDois ?? []) {
+    assert.equal(
+      article.references.some((reference) => reference.doi === doi),
+      false,
+    );
+  }
+  for (const label of expected.forbiddenLabels ?? []) {
+    assert.equal(
+      article.references.some((reference) => label.test(reference.label)),
+      false,
+    );
+  }
+};
+
+test("matéria Além do meiboscore publica as quatro seções e as travas do rascunho selado", () => {
+  assertSealedArticle("alem-do-meiboscore", {
+    category: "Diagnóstico",
+    references: 15,
+    practiceBullets: 0,
+    locks: [
+      /O meiboscore virou atalho de consultório/,
+      /soma bruta dos 6 itens, escala 0–24/,
+      /não o índice 0–100 do OSDI-12/,
+      /Arita 0–3 por pálpebra ou Pult 0–4/,
+      /C-stat em torno de 0,63/,
+      /n = 15/,
+      /corpo do workshop não foi recuperado/,
+      /R = 0,428/,
+    ],
+  });
+});
+
+test("matéria Cinco testes, cinco perguntas publica as quatro seções e as travas do rascunho selado", () => {
+  assertSealedArticle("cinco-testes-cinco-perguntas", {
+    category: "Diagnóstico",
+    references: 14,
+    practiceBullets: 0,
+    locks: [
+      /O consultório ainda trata tempo de ruptura/,
+      /soma bruta dos 6 itens \(escala 0–24\)/,
+      /Interferometria e MMP-9 não entram no critério diagnóstico/,
+      /308 do DEWS III é o limiar sensível de Lemp/,
+      /85% versus 86%/,
+      /≤ 8 s numa plataforma, ≤ 14 s na outra/,
+      /n = 33/,
+    ],
+    forbiddenLabels: [/NEI/],
+  });
+});
+
+test("matéria A prega, o atrito e o piscar publica as quatro seções e as travas do rascunho selado", () => {
+  assertSealedArticle("a-prega-o-atrito-e-o-piscar", {
+    category: "Clínica",
+    references: 14,
+    practiceBullets: 0,
+    locks: [
+      /O consultório ainda escala o paciente/,
+      /6,8% na primeira década, 90,2%/,
+      /76% dos sintomáticos/,
+      /versus 12% dos assintomáticos/,
+      /88,2% sem DED e 78,0% com DED/,
+      /n = 20/,
+      /indica CPAP como terapia de olho seco/,
+      /Snap-back/,
+    ],
+    forbiddenDois: ["10.1097/ICO.0b013e3181ba0cb2"],
+    forbiddenLabels: [/Höh/, /Hirotani/, /Korb DR, Herman JP, Blackie CA/],
+  });
+});
+
+test("matéria IA na superfície ocular publica as quatro seções e o selo de checagem editorial", () => {
+  const article = superficie.publishedArticles.find(
+    ({ slug }) => slug === "ia-na-superficie-ocular",
+  );
+
+  assert.ok(
+    article,
+    "slug ia-na-superficie-ocular deve estar em publishedArticles",
+  );
+  assert.equal(article.status, "published");
+  assert.equal(article.publishedAt, "2026-08-17");
+  assert.equal(
+    article.reviewSeal,
+    "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  );
+  assert.equal(article.reviewer, undefined);
+  assert.equal(article.featuredImage, undefined);
+  assert.equal(article.heroBackground, undefined);
+  assert.equal(article.ogImage, undefined);
+  assert.equal(
+    article.seo.canonical,
+    "/superficie/artigos/ia-na-superficie-ocular",
+  );
+
+  const kinds = new Set(article.content.map(({ kind }) => kind));
+  for (const kind of [
+    "why-it-matters",
+    "evidence",
+    "practice",
+    "limitations",
+  ] as const) {
+    assert.ok(kinds.has(kind), `falta a seção ${kind}`);
+  }
+
+  assert.equal(article.modifiedAt, "2026-08-17");
+  assert.equal(article.issue, "edicao-00");
+  assert.equal(article.sponsored, false);
+  assert.equal(article.references.length, 12);
+  assert.deepEqual(superficie.validateMagazineArticle(article), []);
+
+  const text = article.content
+    .flatMap((section) => section.paragraphs)
+    .join(" ");
+  assert.match(text, /73,01%/);
+  assert.match(text, /59,17%/);
+  assert.match(text, /síntese sem DOI próprio/);
+  assert.match(text, /não tratada aqui como artigo publicado/);
+  assert.match(text, /fora da lista de referências/);
+  assert.equal(text.includes("1.600 imagens"), false);
+  assert.equal(text.includes("TearNET"), false);
+  assert.equal(
+    article.references.some(({ doi }) => doi === "10.1016/j.jtos.2022.06.006"),
+    true,
+  );
+});
+
+const assertSealedEditionArticle = (
+  slug: string,
+  referenceCount: number,
+  keyDois: string[],
+) => {
+  const article = superficie.publishedArticles.find(
+    (item) => item.slug === slug,
+  );
+
+  assert.ok(article, `slug ${slug} deve estar em publishedArticles`);
+  assert.equal(article.status, "published");
+  assert.equal(article.publishedAt, "2026-08-17");
+  assert.equal(
+    article.reviewSeal,
+    "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  );
+  assert.equal(article.reviewer, undefined);
+  assert.equal(article.featuredImage, undefined);
+  assert.equal(article.heroBackground, undefined);
+  assert.equal(article.ogImage, undefined);
+  assert.equal(article.seo.canonical, `/superficie/artigos/${slug}`);
+  assert.equal(article.references.length, referenceCount);
+
+  const kinds = new Set(article.content.map(({ kind }) => kind));
+  for (const kind of [
+    "why-it-matters",
+    "evidence",
+    "practice",
+    "limitations",
+  ] as const) {
+    assert.ok(kinds.has(kind), `falta a seção ${kind}`);
+  }
+
+  const dois = new Set(
+    article.references.map(({ doi }) => doi).filter(Boolean),
+  );
+  for (const doi of keyDois) {
+    assert.ok(dois.has(doi), `falta o DOI ${doi}`);
+  }
+
+  assert.deepEqual(superficie.validateMagazineArticle(article), []);
+};
+
+test("matéria Anti-Demodex publica as quatro seções e o selo de checagem editorial", () => {
+  assert.equal(
+    superficie.publishedArticles[0].slug,
+    "biologia-molecular-da-dgm",
+  );
+  assertSealedEditionArticle("anti-demodex", 14, ["10.1167/iovs.05-0275"]);
+});
+
+test("matéria terapias dirigidas publica as quatro seções e o selo de checagem editorial", () => {
+  assertSealedEditionArticle("terapias-dirigidas-por-mecanismo", 14, [
+    "10.1002/14651858.CD010051.pub3",
+  ]);
+});
+
+test("matéria prehab ocular publica as quatro seções e o selo de checagem editorial", () => {
+  assertSealedEditionArticle("prehab-ocular", 14, [
+    "10.1016/j.jcrs.2019.03.023",
+  ]);
+});
+
+test("matéria anatomia do Dry Eye Center publica as quatro seções e o selo de checagem editorial", () => {
+  assertSealedEditionArticle("anatomia-dry-eye-center", 17, [
+    "10.1097/ICO.0b013e3181f7f363",
+    "10.1038/s41598-018-20273-9",
+    "10.1016/j.clinsp.2025.100578",
+    "10.5935/0004-2749.202200100",
   ]);
 });
 

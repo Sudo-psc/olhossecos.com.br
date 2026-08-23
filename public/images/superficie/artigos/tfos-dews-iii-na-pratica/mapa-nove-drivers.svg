@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="980" viewBox="0 0 1680 980" role="img">
+  <rect width="100%" height="100%" fill="#f6f3ec"/>
+  <text x="840" y="86" text-anchor="middle" fill="#2a3136" font-family="Inter, ui-sans-serif, sans-serif" font-size="42" font-weight="750">O mapa dos nove drivers</text>
+  <text x="840" y="136" text-anchor="middle" fill="#5c636a" font-family="Inter, ui-sans-serif, sans-serif" font-size="22" font-weight="500">Três territórios etiológicos — TFOS DEWS III</text>
+  
+  <g>
+    <rect x="48" y="196" width="496" height="708" rx="18" fill="#fbfaf6" stroke="#ddd7cb"/>
+    <g transform="translate(276 228)"><g fill="none" stroke="#2a3136" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6.5c0 0-11 15-11 22.2a11 11 0 0 0 22 0C31 21.5 20 6.5 20 6.5z"/><circle cx="16.8" cy="24.2" r="3.1"/><circle cx="23.4" cy="26.6" r="2.5"/></g></g>
+    <text x="296" y="310" text-anchor="middle" fill="#2a3136" font-family="Inter, ui-sans-serif, sans-serif" font-size="20" font-weight="750" letter-spacing="1.6">FILME LACRIMAL</text>
+    <line x1="96" y1="336" x2="496" y2="336" stroke="#ddd7cb"/>
+    
+  <g transform="translate(96 384)">
+    <circle cx="28" cy="22" r="22" fill="#d06a2b14" stroke="#d06a2b33"/>
+    <g transform="translate(8 2)"><g fill="#d06a2b" stroke="#d06a2b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 8c0 0-9 12-9 18a9 9 0 0 0 18 0c0-6-9-18-9-18z"/></g></g>
+    <text x="64" y="28" fill="#2a3136" font-family="Inter, ui-sans-serif, sans-serif" font-size="22" font-weight="600">Lipídico</text>
+  </g>
+  <g transform="translate(96 496)">
+    <circle cx="28" cy="22" r="22" fill="#0b827f14" stroke="#0b827f33"/>
+    <g transform="translate(8 2)"><g fill="#0b827f" stroke="#0b827f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 8c0 0-9 12-9 18a9 9 0 0 0 18 0c0-6-9-18-9-18z"/></g></g>
+    <text x="64" y="28" fill="#2a3136" font-family="Inter, ui-sans-serif, sans-serif" font-size="22" font-weight="600">Aquoso</text>
+  </g>
+  <g transform="translate(96 608)">
+    <circle cx="28" cy="22" r="22" fill="#3d434814" stroke="#3d434833"/>
+    <g transform="translate(8 2)"><g fill="none" stroke="#3d4348" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="16" r="4.2"/><circle cx="28" cy="12" r="3.4"/><circle cx="26" cy="28" r="3.8"/><path d="M17.6 17.6 25.2 13.4M17.2 19.2 23.4 26.2M28 15.4 26.6 24.4"/></g></g>
+    <text x="64" y="28" fill="#2a3136" font-family="Inter, ui-sans-serif, sans-serif" font-size="22" font-weight="600">Mucina / glicocálix</text>
+  </g>
+  </g>
+  
+  <g>
+    <rect x="592" y="196" width="496" height="708" rx="18" fill="#fbfaf6" stroke="#ddd7cb"/>
+    <g transform="translate(820 228)"><g fill="none" stroke="#2a3136" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22c4.5-5 9.5-7.5 12-7.5S27.5 17 32 22"/><path d="M11 26.5 9 31M16 27.5 15 32.5M20 28 20 33.5M24 27.5 25 32.5M29 26.5 31 31"/></g></g>
+    <text x="840" y="310" text-anchor="middle" fill="#2a3136" font-family="Inter, ui-sans-serif, sans-serif" font-size="20" font-weight="750" letter-spacing="1.6">PÁLPEBRAS</text>
+    <line x1="640" y1="336" x2="1040" y2="336" stroke="#ddd7cb"/>
+    
+  <g transform="translate(640 384)">
+    <circle cx="28" cy="22" r="22" fill="#0b827f14" stroke="#0b827f33"/>
+    <g transform="translate(8 2)"><g fill="none" stroke="#0b827f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14c3.2-2.4 6.6-3.6 10-3.6S26.8 11.6 30 14"/><path d="M8 21c4.8-6.2 9.6-8.6 12-8.6s7.2 2.4 12 8.6c-4.8 6.2-9.6 8.6-12 8.6S12.8 27.2 8 21z"/><circle cx="20" cy="21" r="3.6"/><path d="M10 28c3.2 2.2 6.6 3.2 10 3.2s6.8-1 10-3.2"/></g></g>
+    <text x="64" y="28" fill="#2a3136" font-family="Inter, ui-sans-serif, sans-serif" font-size="22" font-weight="600">Piscar e fechamento</text>
+  </g>
+  <g transform="translate(640 516)">
+    <circle cx="28" cy="22" r="22" fill="#d06a2b14" stroke="#d06a2b33"/>
+    <g transform="translate(8 2)"><g fill="none" stroke="#d06a2b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 24c5-8 10.4-11.5 13-11.5S28 16 33 24"/><path d="M9 18.5 7 13.5M14 16 13 10.5M20 15 20 9.5M26 16 27 10.5M31 18.5 33 13.5"/><path d="M10 26c3.4 2.6 6.8 3.8 10 3.8s6.6-1.2 10-3.8"/></g></g>
+    <text x="64" y="28" fill="#2a3136" font-family="Inter, ui-sans-serif, sans-serif" font-size="22" font-weight="600">Margem palpebral</text>
+  </g>
+  </g>
+  
+  <g>
+    <rect x="1136" y="196" width="496" height="708" rx="18" fill="#fbfaf6" stroke="#ddd7cb"/>
+    <g transform="translate(1364 228)"><g fill="none" stroke="#2a3136" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20c5.2-7 10.8-10 14-10s8.8 3 14 10c-5.2 7-10.8 10-14 10S11.2 27 6 20z"/><circle cx="20" cy="20" r="4.4"/></g></g>
+    <text x="1384" y="310" text-anchor="middle" fill="#2a3136" font-family="Inter, ui-sans-serif, sans-serif" font-size="20" font-weight="750" letter-spacing="1.6">SUPERFÍCIE OCULAR</text>
+    <line x1="1184" y1="336" x2="1584" y2="336" stroke="#ddd7cb"/>
+    
+  <g transform="translate(1184 384)">
+    <circle cx="28" cy="22" r="22" fill="#0b827f14" stroke="#0b827f33"/>
+    <g transform="translate(8 2)"><g fill="none" stroke="#0b827f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="20" cy="21" r="11"/><path d="M20 10c3.2 0 6.4 1.6 8.6 4.2"/><path d="M13 18.5h14"/><path d="M15 21.5c1.6 3.4 3.4 5 5 5s3.4-1.6 5-5"/><circle cx="20" cy="20" r="2.2"/></g></g>
+    <text x="64" y="28" fill="#2a3136" font-family="Inter, ui-sans-serif, sans-serif" font-size="22" font-weight="600">Anatomia</text>
+  </g>
+  <g transform="translate(1184 476)">
+    <circle cx="28" cy="22" r="22" fill="#d06a2b14" stroke="#d06a2b33"/>
+    <g transform="translate(8 2)"><g fill="none" stroke="#d06a2b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 15.5c0-4 3-6.5 7-6.5 2.2 0 3.6 0.8 4.8 2 1.4-0.8 3.2-0.6 4.4 0.8 1.4 1.5 1.4 3.6 0.4 5.2 1.6 0.8 2.4 2.6 1.8 4.4-0.6 2-2.6 3.2-4.6 3.1H15.6c-2.4 0-4.4-1.8-4.6-4.2-0.1-1.8 0.8-3.4 2-4.2z"/><path d="M20 9.4v21.2M13.6 18.2c2.2 0.6 3.8 0.4 6.4-0.6M20 22.4c2.6 1.2 4.6 1.4 7.2 0.4"/></g></g>
+    <text x="64" y="28" fill="#2a3136" font-family="Inter, ui-sans-serif, sans-serif" font-size="22" font-weight="600">Disfunção neural</text>
+  </g>
+  <g transform="translate(1184 568)">
+    <circle cx="28" cy="22" r="22" fill="#3d434814" stroke="#3d434833"/>
+    <g transform="translate(8 2)"><g fill="none" stroke="#3d4348" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 14c2.4-3.4 7-4.6 10.6-3.2 3.2 1.2 5.8 2 6.6 5.4 0.8 3.4-0.6 6.2-2.2 8.6-1.8 2.6-5.2 4.4-8.8 3.8-3.4-0.6-6.6-2.8-7.2-6.4-0.5-2.8 0.2-5.6 1-8.2z"/><circle cx="19" cy="20" r="2.4"/><circle cx="24.5" cy="17.5" r="1.5"/><circle cx="17.5" cy="25" r="1.3"/></g></g>
+    <text x="64" y="28" fill="#2a3136" font-family="Inter, ui-sans-serif, sans-serif" font-size="22" font-weight="600">Dano celular</text>
+  </g>
+  <g transform="translate(1184 660)">
+    <circle cx="28" cy="22" r="22" fill="#d06a2b14" stroke="#d06a2b33"/>
+    <g transform="translate(8 2)"><g fill="none" stroke="#d06a2b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 23c5-7.2 10.4-10.4 13-10.4S28 15.8 33 23c-5 7.2-10.4 10.4-13 10.4S12 30.2 7 23z"/><path d="M20 16.2c1.6 2.2 1.4 3.6 0.2 4.6 1.8 0.2 3 1.6 3 3.4 0 2.4-1.8 4-4.2 4s-4.2-1.6-4.2-4c0-2.6 2.2-4.8 5.2-8z"/></g></g>
+    <text x="64" y="28" fill="#2a3136" font-family="Inter, ui-sans-serif, sans-serif" font-size="22" font-weight="600">Inflamação</text>
+  </g>
+  </g>
+</svg>

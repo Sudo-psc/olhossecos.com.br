@@ -1,0 +1,13 @@
+---
+export const prerender = import.meta.env.DEV;
+
+import SuperficieReaderLayout from "../../../layouts/SuperficieReaderLayout.astro";
+import MagazineReader from "../../../superficie/reader/components/MagazineReader.astro";
+---
+
+<SuperficieReaderLayout
+  title="SUPERFÍCIE Reader Prototype — Laboratório"
+  description="Protótipo interno e não indexado do leitor digital SUPERFÍCIE."
+>
+  <MagazineReader manifestUrl="/superficie/issues/poc/manifest.json" />
+</SuperficieReaderLayout>

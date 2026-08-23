@@ -8,6 +8,7 @@ export interface EditorialSource {
 
 const verified = "25 de julho de 2026";
 const verifiedToday = "26 de julho de 2026";
+const verifiedCurrent = "10 de agosto de 2026";
 
 export const sources = {
   dews3Executive: {
@@ -74,6 +75,142 @@ export const sources = {
       "Orientações em linguagem simples sobre sintomas, autocuidado e sinais que pedem ajuda rápida.",
     verified,
   },
+  aaoEyeDrops: {
+    name: "American Academy of Ophthalmology — Eye Drops",
+    type: "Material educativo para pacientes",
+    url: "https://store.aao.org/media/resources/051183/051183-Eye-Drops-rf1.pdf",
+    description:
+      "Explicação para pacientes sobre classes de colírios, efeitos adversos, técnica de aplicação e cuidados de segurança.",
+    verified: verifiedCurrent,
+  },
+  aaoDryEye: {
+    name: "American Academy of Ophthalmology — Dry Eye",
+    type: "Material educativo para pacientes",
+    url: "https://store.aao.org/media/resources/051180/051180-dry-eye-rf1.pdf",
+    description:
+      "Material para pacientes sobre camadas da lágrima, lágrimas artificiais, conservantes, pomadas e tratamento do olho seco.",
+    verified: verifiedCurrent,
+  },
+  guysDryEyeTreatment: {
+    name: "Guy’s and St Thomas’ NHS — Dry eye syndrome: treatment",
+    type: "Serviço público de saúde",
+    url: "https://www.guysandstthomas.nhs.uk/health-information/dry-eye-syndrome/treatment",
+    description:
+      "Orientações para pacientes sobre gotas, géis, pomadas, conservantes, armazenamento e efeitos indesejados.",
+    verified: verifiedCurrent,
+  },
+  ministryOcularDiseases: {
+    name: "Ministério da Saúde — Doenças oculares",
+    type: "Órgão público de saúde",
+    url: "https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/d/doencas-oculares/doencas-oculares/",
+    description:
+      "Orientações gerais sobre sintomas oculares, uso de colírios lubrificantes e riscos da automedicação.",
+    verified: verifiedCurrent,
+  },
+  neiDryEyeCauses: {
+    name: "National Eye Institute — Causes of Dry Eye",
+    type: "Instituição pública de pesquisa e educação",
+    url: "https://www.nei.nih.gov/eye-health-information/eye-conditions-and-diseases/dry-eye/causes-dry-eye",
+    description:
+      "Informações para pacientes sobre cirurgia a laser, medicamentos, condições de saúde e outros fatores associados ao olho seco.",
+    verified: verifiedCurrent,
+  },
+  neiRefractiveSurgery: {
+    name: "National Eye Institute — Surgery for Refractive Errors",
+    type: "Instituição pública de pesquisa e educação",
+    url: "https://www.nei.nih.gov/eye-health-information/eye-conditions-and-diseases/refractive-errors/surgery-refractive-errors",
+    description:
+      "Material para pacientes sobre LASIK, efeitos adversos, recuperação, acompanhamento e outras cirurgias refrativas.",
+    verified: verifiedCurrent,
+  },
+  postCataractDryEyeMetaAnalysis: {
+    name: "Ta et al. — Dry eye post-cataract surgery",
+    type: "Revisão sistemática e metanálise",
+    url: "https://pubmed.ncbi.nlm.nih.gov/39806338/",
+    description:
+      "Síntese de estudos sobre alterações do olho seco após cirurgia de catarata e sua evolução no período pós-operatório.",
+    verified: verifiedCurrent,
+  },
+  cataractAftercare: {
+    name: "Guy’s and St Thomas’ NHS — After cataract surgery",
+    type: "Serviço público de saúde",
+    url: "https://www.guysandstthomas.nhs.uk/health-information/cataract-surgery/after-cataract-surgery",
+    description:
+      "Orientações para pacientes sobre sintomas esperados, colírios, cuidados e sinais de alerta após cirurgia de catarata.",
+    verified: verifiedCurrent,
+  },
+  dryEyePsychiatricMetaAnalysis: {
+    name: "Basilious et al. — Dry eye disease and psychiatric disorders",
+    type: "Revisão sistemática e metanálise",
+    url: "https://pubmed.ncbi.nlm.nih.gov/34935549/",
+    description:
+      "Síntese da prevalência de depressão e ansiedade em pessoas com doença do olho seco e da associação entre sintomas oculares e escores psicológicos.",
+    verified: verifiedCurrent,
+  },
+  dryEyeDepressionUmbrellaReview: {
+    name: "Dry eye disease and depression — umbrella review",
+    type: "Revisão de revisões sistemáticas e metanálises",
+    url: "https://pubmed.ncbi.nlm.nih.gov/36466469/",
+    description:
+      "Revisão de metanálises que confirma uma associação entre olho seco e depressão, mas ressalta que ainda faltam evidências para estabelecer o mecanismo e a causalidade.",
+    verified: verifiedCurrent,
+  },
+  depressionAntidepressantsDryEye: {
+    name: "Rakofsky et al. — Depression, antidepressants and dry eye disease",
+    type: "Revisão sistemática",
+    url: "https://pubmed.ncbi.nlm.nih.gov/33779578/",
+    description:
+      "Revisão que avalia separadamente a associação da depressão e do uso de antidepressivos com sintomas de olho seco.",
+    verified: verifiedCurrent,
+  },
+  osaDryEyeMetaAnalysis: {
+    name: "Lin et al. — Obstructive sleep apnea, CPAP and dry eye disease",
+    type: "Revisão sistemática e metanálise",
+    url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC11629664/",
+    description:
+      "Revisão de 11 estudos sobre apneia obstrutiva do sono e olho seco e síntese narrativa de três estudos sobre o efeito do CPAP na superfície ocular.",
+    verified: verifiedCurrent,
+  },
+  osaOcularSurfaceMetaAnalysis: {
+    name: "Sun et al. — Ocular surface outcomes in obstructive sleep apnea",
+    type: "Revisão sistemática e metanálise",
+    url: "https://pubmed.ncbi.nlm.nih.gov/37215172/",
+    description:
+      "Metanálise de estudos sobre olho seco, estabilidade lacrimal, coloração da córnea, glândulas de Meibomius e gravidade da apneia.",
+    verified: verifiedCurrent,
+  },
+  osaSleepQualityDryEye: {
+    name: "Pu et al. — Sleep quality and dry eye in obstructive sleep apnea",
+    type: "Estudo caso-controle",
+    url: "https://pubmed.ncbi.nlm.nih.gov/36388897/",
+    description:
+      "Estudo com polissonografia e avaliação da superfície ocular que relacionou pior qualidade do sono a parâmetros mais desfavoráveis de olho seco em pessoas com apneia.",
+    verified: verifiedCurrent,
+  },
+  osaDepressionMetaAnalysis: {
+    name: "Edwards et al. — Obstructive sleep apnea and depression",
+    type: "Revisão sistemática e metanálise",
+    url: "https://pubmed.ncbi.nlm.nih.gov/33158487/",
+    description:
+      "Síntese de estudos observacionais sobre a associação entre apneia obstrutiva do sono e depressão, separando evidência transversal e longitudinal.",
+    verified: verifiedCurrent,
+  },
+  cpapDepressiveSymptomsMetaAnalysis: {
+    name: "Povitz et al. — Treatment of obstructive sleep apnea and depressive symptoms",
+    type: "Revisão sistemática e metanálise de ensaios clínicos",
+    url: "https://pubmed.ncbi.nlm.nih.gov/25423175/",
+    description:
+      "Metanálise de ensaios sobre CPAP e aparelhos de avanço mandibular para sintomas depressivos em pessoas com apneia do sono.",
+    verified: verifiedCurrent,
+  },
+  nhlbiSleepApneaSymptoms: {
+    name: "National Heart, Lung, and Blood Institute — Sleep apnea symptoms",
+    type: "Instituição pública de saúde",
+    url: "https://www.nhlbi.nih.gov/health/sleep-apnea/symptoms",
+    description:
+      "Sinais e sintomas que podem justificar uma conversa sobre apneia do sono, incluindo pausas respiratórias, ronco, engasgos e sonolência diurna.",
+    verified: verifiedCurrent,
+  },
   nhsWateringEyes: {
     name: "NHS — Watering eyes",
     type: "Serviço público de saúde",
@@ -91,15 +228,15 @@ export const sources = {
     verified: verifiedToday,
   },
   epiphoraEtiology: {
-    name: "Lee e Baek — causas de épifora",
+    name: "Lee e Baek — causas de epífora",
     type: "Estudo clínico retrospectivo",
     url: "https://pubmed.ncbi.nlm.nih.gov/34237206/",
     description:
-      "Estudo que ilustra a natureza multifatorial da épifora, incluindo lacrimejamento reflexo associado ao olho seco e alterações das vias lacrimais.",
+      "Estudo que ilustra a natureza multifatorial da epífora, incluindo lacrimejamento reflexo associado ao olho seco e alterações das vias lacrimais.",
     verified: verifiedToday,
   },
   functionalEpiphora: {
-    name: "Usmani et al. — épifora funcional",
+    name: "Usmani et al. — epífora funcional",
     type: "Estudo clínico retrospectivo",
     url: "https://pubmed.ncbi.nlm.nih.gov/36952153/",
     description:
@@ -173,6 +310,23 @@ export const primarySources: EditorialSource[] = [
   sources.dews3Digest,
   sources.nei,
   sources.nhs,
+  sources.aaoEyeDrops,
+  sources.aaoDryEye,
+  sources.guysDryEyeTreatment,
+  sources.ministryOcularDiseases,
+  sources.neiDryEyeCauses,
+  sources.neiRefractiveSurgery,
+  sources.postCataractDryEyeMetaAnalysis,
+  sources.cataractAftercare,
+  sources.dryEyePsychiatricMetaAnalysis,
+  sources.dryEyeDepressionUmbrellaReview,
+  sources.depressionAntidepressantsDryEye,
+  sources.osaDryEyeMetaAnalysis,
+  sources.osaOcularSurfaceMetaAnalysis,
+  sources.osaSleepQualityDryEye,
+  sources.osaDepressionMetaAnalysis,
+  sources.cpapDepressiveSymptomsMetaAnalysis,
+  sources.nhlbiSleepApneaSymptoms,
   sources.nhsWateringEyes,
   sources.wateryEyeAssessment,
   sources.epiphoraEtiology,

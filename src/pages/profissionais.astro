@@ -1,54 +1,82 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import EducationalFigure from "@/components/EducationalFigure.astro";
+import { figures } from "@/lib/figures";
+import {
+  getMagazineArticlePath,
+  publishedArticles,
+  sortPublishedArticlesByDate,
+} from "@/lib/superficie";
+import { getRadarReportPath, latestRadarReport } from "@/lib/radar";
+
+const latestRadar = latestRadarReport();
 
 const topics = [
   {
     id: "diagnostico",
     title: "Diagnóstico multimodal",
     text: "Integração entre história clínica, sinais da superfície ocular, estabilidade lacrimal, colorações, imagem e contexto do paciente.",
+    href: "/superficie/artigos/cinco-testes-cinco-perguntas",
+    linkLabel: "Cinco testes, cinco perguntas",
   },
   {
     id: "fenotipagem",
     title: "Fenotipagem",
     text: "Organização dos mecanismos predominantes para apoiar raciocínio clínico, comunicação e acompanhamento.",
+    href: "/superficie/artigos/quando-sintomas-e-sinais-nao-batem",
+    linkLabel: "Quando sintomas e sinais não batem",
   },
   {
     id: "nibut",
     title: "NIBUT",
     text: "Tempo não invasivo de ruptura do filme lacrimal interpretado junto a sintomas, ambiente e outros achados.",
+    href: "/superficie/artigos/cinco-testes-cinco-perguntas",
+    linkLabel: "Como ler o NIBUT no conjunto",
   },
   {
     id: "interferometria",
     title: "Interferometria",
     text: "Avaliação da camada lipídica como parte de uma leitura multimodal da superfície ocular.",
+    href: "/superficie/artigos/alem-do-meiboscore",
+    linkLabel: "Além do meiboscore",
   },
   {
     id: "osmolaridade",
     title: "Osmolaridade",
     text: "Biomarcador que precisa ser contextualizado e não deve ser tratado como diagnóstico isolado.",
+    href: "/superficie/artigos/cinco-testes-cinco-perguntas",
+    linkLabel: "O que a osmolaridade responde — e o que não",
   },
   {
     id: "evidencias",
     title: "Evidências",
-    text: "Análises e atualizações serão publicadas com autoria, data, fontes verificáveis e revisão editorial.",
+    text: "Curadoria mensal com fonte verificável, resumo e por que o achado importa para a prática.",
+    href: "/superficie/radar",
+    linkLabel: "RADAR Científico",
   },
 ];
+
+const latestArticles = sortPublishedArticlesByDate(publishedArticles).slice(
+  0,
+  5,
+);
 ---
 
 <Layout
-  title="Profissionais | Superfície ocular em profundidade"
+  image="/images/og/og-profissionais.png"
+  title="Área para profissionais de saúde ocular"
   description="Conteúdo técnico para profissionais sobre diagnóstico multimodal, imagem, fenotipagem, tecnologias, terapias e evidências em superfície ocular."
   schemaType="CollectionPage"
-  dateModified="2026-08-07"
+  dateModified="2026-08-21"
 >
   <header class="professional-hero">
     <div class="page-shell">
       <p class="eyebrow">Para profissionais de saúde</p>
       <h1 class="page-title">Superfície ocular em profundidade</h1>
       <p>
-        Um espaço técnico em desenvolvimento para reunir diagnóstico, imagem,
-        fenotipagem, terapias e evidências contemporâneas, com separação clara
-        do conteúdo destinado a pacientes.
+        Hub técnico para profissionais de saúde ocular: diagnóstico multimodal,
+        imagem, fenotipagem, terapias e evidências contemporâneas, com separação
+        clara do conteúdo destinado a pacientes.
       </p>
       <a class="button-primary" href="/superficie">Conheça a SUPERFÍCIE</a>
     </div>
@@ -58,6 +86,8 @@ const topics = [
     class="page-shell professional-topics"
     aria-labelledby="topics-title"
   >
+    <EducationalFigure figure={figures.slitLampAssessment} />
+
     <h2 id="topics-title">Eixos editoriais</h2>
     <div class="topic-list">
       {
@@ -67,11 +97,65 @@ const topics = [
             <div>
               <h3>{topic.title}</h3>
               <p>{topic.text}</p>
+              <a class="text-link" href={topic.href}>
+                {topic.linkLabel}
+              </a>
             </div>
           </article>
         ))
       }
     </div>
+  </section>
+
+  {
+    latestRadar && (
+      <section
+        class="page-shell professional-radar"
+        aria-labelledby="professional-radar-title"
+      >
+        <p class="eyebrow">RADAR Científico</p>
+        <h2 id="professional-radar-title">{latestRadar.label}</h2>
+        <p>{latestRadar.executiveSummary}</p>
+        <a class="text-link" href={getRadarReportPath(latestRadar)}>
+          Ler o ciclo {latestRadar.label}
+        </a>
+      </section>
+    )
+  }
+
+  <section
+    class="page-shell professional-articles"
+    aria-labelledby="professional-articles-title"
+  >
+    <header>
+      <p class="eyebrow">Da revista</p>
+      <h2 id="professional-articles-title">Leituras recentes da SUPERFÍCIE</h2>
+      <p>
+        As matérias mais recentes ficam a um passo dos eixos técnicos do portal,
+        com referências, limitações e contexto editorial.
+      </p>
+    </header>
+    <ul class="professional-article-list">
+      {
+        latestArticles.map((article) => (
+          <li>
+            <a href={getMagazineArticlePath(article)}>
+              <span>{article.category}</span>
+              <strong>{article.title}</strong>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 12h16m-5-5 5 5-5 5" />
+              </svg>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <a class="text-link" href="/superficie/artigos">
+      Ver todos os artigos
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 12h16m-5-5 5 5-5 5"></path>
+      </svg>
+    </a>
   </section>
 </Layout>
 
@@ -131,10 +215,105 @@ const topics = [
     color: var(--ink-soft);
   }
 
+  .topic-list .text-link {
+    display: inline-block;
+    margin-top: 0.85rem;
+  }
+
+  .professional-radar {
+    padding-block: 0 clamp(4rem, 8vw, 7rem);
+  }
+
+  .professional-radar h2 {
+    margin: 0.4rem 0 1rem;
+    font-family: var(--serif);
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    line-height: 1.05;
+  }
+
+  .professional-radar > p:not(.eyebrow) {
+    max-width: 760px;
+    margin: 0 0 1.4rem;
+    color: var(--ink-soft);
+  }
+
+  .professional-articles {
+    padding-block: 0 clamp(4rem, 8vw, 7rem);
+  }
+
+  .professional-articles header {
+    max-width: 760px;
+    margin-bottom: 2rem;
+  }
+
+  .professional-articles h2 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(2.3rem, 4vw, 4rem);
+    line-height: 1;
+  }
+
+  .professional-articles header > p:last-child {
+    margin: 1rem 0 0;
+    color: var(--ink-soft);
+  }
+
+  .professional-article-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 0 0 2rem;
+    padding: 0;
+    border-top: 1px solid var(--line);
+    list-style: none;
+  }
+
+  .professional-article-list li {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .professional-article-list a {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.5rem 1rem;
+    align-items: center;
+    min-height: 112px;
+    padding: 1.25rem 1rem 1.25rem 0;
+  }
+
+  .professional-article-list span {
+    grid-column: 1 / -1;
+    color: var(--teal-dark);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .professional-article-list strong {
+    font-family: var(--serif);
+    font-size: clamp(1.25rem, 2vw, 1.7rem);
+    font-weight: 400;
+    line-height: 1.1;
+  }
+
+  .professional-article-list svg,
+  .professional-articles > .text-link svg {
+    width: 1.2rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.5;
+  }
+
   @media (max-width: 720px) {
     .topic-list article {
       grid-template-columns: 2.5rem minmax(0, 1fr);
       gap: 0.75rem;
+    }
+
+    .professional-article-list {
+      grid-template-columns: 1fr;
     }
   }
 </style>

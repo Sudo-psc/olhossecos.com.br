@@ -1,26 +1,55 @@
 ---
 import ContentPage from "@/components/ContentPage.astro";
 import EducationalFigure from "@/components/EducationalFigure.astro";
+import TearFilmCycle from "@/components/TearFilmCycle.astro";
+import GlossaryTooltip from "@/components/GlossaryTooltip.astro";
 import { figures } from "@/lib/figures";
+import { faqPageSchema } from "@/lib/seo";
 import { sourceLink, sources } from "@/lib/sources";
+
+const faqItems = [
+  {
+    question: "O que é olho seco?",
+    answer:
+      "Olho seco é uma doença multifatorial e sintomática em que o filme lacrimal e/ou a superfície ocular perdem estabilidade e proteção. Quantidade e qualidade das lágrimas, inflamação, pálpebras e percepção nervosa podem participar.",
+  },
+  {
+    question: "Olho seco significa só produzir pouca lágrima?",
+    answer:
+      "Não. Evaporação e instabilidade do filme lacrimal também são frequentes. Duas pessoas com sintomas parecidos podem ter mecanismos diferentes, e mais de um mecanismo pode coexistir.",
+  },
+  {
+    question: "O que sinto e o que aparece no exame sempre coincidem?",
+    answer:
+      "Não necessariamente. A intensidade dos sintomas e a dos sinais observados no exame nem sempre caminham juntas. Isso não invalida o que a pessoa sente; indica que percepção nervosa, ambiente e outras condições também entram na avaliação.",
+  },
+  {
+    question: "Quando o desconforto ocular pede avaliação rápida?",
+    answer:
+      "Dor intensa, trauma, contato com produto químico ou mudança súbita da visão não devem ser tratados como simples olho seco. Nesses casos, busque orientação profissional sem esperar.",
+  },
+];
 ---
 
 <ContentPage
-  title="O que é olho seco?"
+  title="O que é olho seco? Tipos, filme lacrimal e causas"
   description="Entenda o que é a doença do olho seco, como o filme lacrimal protege os olhos e por que existem diferentes tipos e causas."
+  image="/images/og/og-olho-seco.png"
+  extraSchema={faqPageSchema(faqItems)}
   intro="Olho seco é uma doença multifatorial e sintomática em que o filme lacrimal e/ou a superfície ocular perdem estabilidade e proteção. Quantidade e qualidade das lágrimas, inflamação, pálpebras e percepção nervosa podem participar."
   summary={[
     "Olho seco não significa apenas produzir pouca lágrima: evaporação e instabilidade também são frequentes.",
     "Sintomas parecidos podem ter mecanismos diferentes, e mais de um mecanismo pode coexistir.",
     "O que você sente e o que aparece no exame nem sempre têm a mesma intensidade — ambos importam.",
   ]}
-  updated="5 de agosto de 2026"
-  dateModified="2026-08-05"
+  updated="21 de agosto de 2026"
+  dateModified="2026-08-21"
   links={[
     { label: "O filme lacrimal", href: "#filme-lacrimal" },
     { label: "Por que é multifatorial", href: "#multifatorial" },
     { label: "Tipos mais comuns", href: "#tipos" },
     { label: "Sintomas e sinais", href: "#sintomas-e-sinais" },
+    { label: "Perguntas frequentes", href: "#perguntas-frequentes" },
     { label: "Próximos passos", href: "#proximos-passos" },
   ]}
   sources={[
@@ -49,8 +78,10 @@ import { sourceLink, sources } from "@/lib/sources";
   <p>
     Uma forma didática de entender o filme lacrimal é pensar em três componentes
     que cooperam: uma porção lipídica, associada principalmente às glândulas das
-    pálpebras; uma porção aquosa, rica em água e proteínas; e mucinas, que
-    ajudam as lágrimas a aderirem e se distribuírem pela superfície do olho.
+    pálpebras; uma porção aquosa, rica em água e proteínas; e <GlossaryTooltip
+      term="mucinas"
+    />, que ajudam as lágrimas a aderirem e se distribuírem pela superfície do
+    olho.
   </p>
   <ul>
     <li>
@@ -67,6 +98,8 @@ import { sourceLink, sources } from "@/lib/sources";
     Essa divisão é útil para aprender, mas o filme lacrimal real é dinâmico:
     suas partes se misturam e mudam a cada piscada.
   </p>
+
+  <TearFilmCycle />
 
   <EducationalFigure figure={figures.tearFilmLayersEducation} />
 
@@ -86,14 +119,22 @@ import { sourceLink, sources } from "@/lib/sources";
   <h2 id="tipos">Tipos mais comuns</h2>
   <h3>Predomínio evaporativo</h3>
   <p>
-    As lágrimas evaporam rápido demais. Alterações das glândulas de Meibomius,
-    responsáveis por parte dos lipídios do filme lacrimal, são uma causa
-    frequente.
+    As lágrimas evaporam rápido demais. Alterações das <GlossaryTooltip
+      term="glandulas-de-meibomius"
+      label="glândulas de Meibomius"
+    />, responsáveis por parte dos lipídios do filme lacrimal, são uma causa
+    frequente (<GlossaryTooltip
+      term="evaporativo"
+      label="olho seco evaporativo"
+    />).
   </p>
   <h3>Predomínio aquodeficiente</h3>
   <p>
-    Há produção insuficiente da porção aquosa das lágrimas. Pode ocorrer de
-    forma isolada ou associada a condições como a doença de Sjögren.
+    Há produção insuficiente da porção aquosa das lágrimas (<GlossaryTooltip
+      term="aquodeficiente"
+      label="olho seco aquodeficiente"
+    />). Pode ocorrer de forma isolada ou associada a condições como a doença de
+    Sjögren.
   </p>
   <h3>Forma mista</h3>
   <p>
@@ -115,6 +156,16 @@ import { sourceLink, sources } from "@/lib/sources";
     mesma forma, alterações observadas no exame podem existir mesmo quando o
     desconforto ainda é discreto.
   </p>
+
+  <h2 id="perguntas-frequentes">Perguntas frequentes</h2>
+  {
+    faqItems.map((item) => (
+      <div>
+        <h3>{item.question}</h3>
+        <p>{item.answer}</p>
+      </div>
+    ))
+  }
 
   <h2 id="proximos-passos">Por onde continuar</h2>
   <p>

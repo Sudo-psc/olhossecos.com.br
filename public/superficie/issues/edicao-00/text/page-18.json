@@ -1,0 +1,59 @@
+{
+  "page": 18,
+  "blocks": [
+    {
+      "id": "page-18-eyebrow",
+      "text": "ATUALIZAÇÃO CLÍNICA",
+      "x": 0.1,
+      "y": 0.065,
+      "width": 0.8,
+      "height": 0.035,
+      "role": "label"
+    },
+    {
+      "id": "page-18-title",
+      "text": "Três sinais que o consultório mistura",
+      "x": 0.1,
+      "y": 0.10391001606855918,
+      "width": 0.8,
+      "height": 0.07138725227637922,
+      "role": "heading"
+    },
+    {
+      "id": "page-18-paragraph-1",
+      "text": "LWE — epiteliopatia do lid wiper — marca atrito quando o filme é “normal”. LIPCOF — pregas lid-paralelas — prediz sintoma e não é CCh. CCh é redundância em volume que invade o menisco, com sítio e dinâmica. Distinguir os três na lâmpada é o gesto.",
+      "x": 0.1,
+      "y": 0.20850562399571504,
+      "width": 0.8,
+      "height": 0.11783610069630424,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-18-paragraph-2",
+      "text": "CCh mimetiza e coexiste. Irritação ou epífora com prega óbvia e filme já tratado é CCh sintomática, não “DED refratária”. Não escalar imunomodulador por causa da CCh.",
+      "x": 0.1,
+      "y": 0.3381253347616497,
+      "width": 0.8,
+      "height": 0.07927155865024103,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-18-paragraph-3",
+      "text": "Médico primeiro. Lubrificante viscoso pode reduzir grau de prega e sintoma o bastante para adiar cirurgia. Cirurgia quando o sintoma e a topografia batem e o médico falhou.",
+      "x": 0.1,
+      "y": 0.42918050348152115,
+      "width": 0.8,
+      "height": 0.07927155865024103,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-18-number",
+      "text": "18",
+      "x": 0.84,
+      "y": 0.93,
+      "width": 0.06,
+      "height": 0.025,
+      "role": "page-number"
+    }
+  ]
+}

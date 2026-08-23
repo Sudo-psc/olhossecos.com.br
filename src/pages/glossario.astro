@@ -1,189 +1,21 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { glossaryTerms } from "@/lib/glossary";
+import { definedTermSetSchema } from "@/lib/seo";
 
-const terms = [
-  {
-    term: "AS-OCT (OCT do segmento anterior)",
-    definition:
-      "Exame de imagem sem contato que cria cortes do segmento anterior do olho. No olho seco, pode medir o menisco lacrimal e documentar relações anatômicas, mas não confirma o diagnóstico sozinho e não é o mesmo exame que o OCT de retina.",
-  },
-  {
-    term: "Aquodeficiente",
-    definition:
-      "Forma de olho seco em que a produção da porção aquosa das lágrimas é insuficiente.",
-  },
-  {
-    term: "Blefarite",
-    definition:
-      "Inflamação das bordas das pálpebras, que pode envolver cílios, pele e glândulas.",
-  },
-  {
-    term: "Canalículos lacrimais",
-    definition:
-      "Pequenos canais que recebem as lágrimas pelos pontos lacrimais e as conduzem em direção ao saco lacrimal.",
-  },
-  {
-    term: "Conjuntiva",
-    definition:
-      "Membrana transparente que recobre a parte branca do olho e a face interna das pálpebras.",
-  },
-  {
-    term: "Conjuntivocálase",
-    definition:
-      "Pregas frouxas e redundantes da conjuntiva. Podem não causar sintomas ou, dependendo da localização, interferir no caminho das lágrimas e aumentar o atrito durante as piscadas.",
-  },
-  {
-    term: "Conservante",
-    definition:
-      "Substância que reduz a contaminação de frascos multidose. Alguns tipos podem irritar uma superfície ocular sensível, especialmente com uso frequente.",
-  },
-  {
-    term: "Córnea",
-    definition:
-      "Camada transparente na parte da frente do olho. Participa da focalização da luz e precisa de uma superfície lacrimal regular.",
-  },
-  {
-    term: "Dacriocintilografia (cintilografia lacrimal)",
-    definition:
-      "Exame que acompanha o trânsito de uma pequena quantidade de marcador radioativo pelas vias lacrimais. Pode ajudar a identificar atraso funcional em situações selecionadas.",
-  },
-  {
-    term: "Dacriocistografia",
-    definition:
-      "Exame de imagem com contraste usado para mapear a anatomia das vias lacrimais e localizar estreitamentos ou obstruções em casos selecionados.",
-  },
-  {
-    term: "Disfunção das glândulas de Meibomius",
-    definition:
-      "Alteração na produção ou liberação dos lipídios das glândulas das pálpebras, frequentemente associada ao olho seco evaporativo.",
-  },
-  {
-    term: "Ducto nasolacrimal",
-    definition:
-      "Trecho da via de drenagem que leva as lágrimas do saco lacrimal para o interior do nariz.",
-  },
-  {
-    term: "Épifora",
-    definition:
-      "Lacrimejamento anormal, especialmente quando as lágrimas se acumulam ou transbordam. Pode ocorrer por produção reflexa aumentada, falha de distribuição ou redução da drenagem; o termo não define a causa.",
-  },
-  {
-    term: "Evaporativo",
-    definition:
-      "Forma de olho seco em que as lágrimas evaporam rápido demais, muitas vezes por instabilidade da camada lipídica.",
-  },
-  {
-    term: "Filme lacrimal",
-    definition:
-      "Película dinâmica de lágrimas que lubrifica, nutre, protege e ajuda a manter a visão nítida.",
-  },
-  {
-    term: "Fluoresceína",
-    definition:
-      "Corante usado em avaliações da superfície ocular e da estabilidade do filme lacrimal.",
-  },
-  {
-    term: "Glândulas de Meibomius",
-    definition:
-      "Glândulas localizadas nas pálpebras que produzem lipídios importantes para reduzir a evaporação das lágrimas.",
-  },
-  {
-    term: "Hiperosmolaridade",
-    definition:
-      "Aumento da concentração de partículas nas lágrimas, associado à perda de equilíbrio da superfície ocular.",
-  },
-  {
-    term: "Inflamação da superfície ocular",
-    definition:
-      "Resposta biológica que pode contribuir para irritação, instabilidade das lágrimas e alterações da córnea ou conjuntiva.",
-  },
-  {
-    term: "Irrigação das vias lacrimais",
-    definition:
-      "Teste realizado com líquido estéril para avaliar a passagem e possíveis refluxos no sistema de drenagem. Uma via pérvia no teste não exclui todo atraso funcional.",
-  },
-  {
-    term: "Lágrimas artificiais",
-    definition:
-      "Formulações lubrificantes usadas para aumentar umidade e conforto. Variam em composição, viscosidade e conservação.",
-  },
-  {
-    term: "Luz intensa pulsada (IPL)",
-    definition:
-      "Procedimento que aplica pulsos de luz na pele ao redor das pálpebras, com proteção ocular. É estudado principalmente no olho seco evaporativo associado à disfunção das glândulas de Meibomius; indicação e resposta não são definidas pela meibografia isoladamente.",
-  },
-  {
-    term: "Meibografia",
-    definition:
-      "Imagem, geralmente feita com luz infravermelha, que ajuda a observar a estrutura das glândulas de Meibomius. Não mede toda a função glandular e deve ser interpretada junto com sintomas, secreção, pálpebras e estabilidade das lágrimas.",
-  },
-  {
-    term: "Mucinas",
-    definition:
-      "Moléculas que contribuem para a distribuição e aderência do filme lacrimal à superfície do olho.",
-  },
-  {
-    term: "Neurossensorial",
-    definition:
-      "Relativo aos nervos e ao processamento das sensações. Alterações neurossensoriais podem influenciar dor, desconforto e resposta às lágrimas.",
-  },
-  {
-    term: "Olho seco mecânico",
-    definition:
-      "Expressão descritiva para sintomas em que atrito, piscadas ou alterações anatômicas da superfície ocular participam do problema. Não é apresentada no portal como um diagnóstico isolado.",
-  },
-  {
-    term: "Osmolaridade lacrimal",
-    definition:
-      "Medida da concentração de partículas nas lágrimas. É uma peça da investigação, não um diagnóstico isolado.",
-  },
-  {
-    term: "Piscar incompleto",
-    definition:
-      "Piscada em que as pálpebras não se encontram totalmente, reduzindo a redistribuição das lágrimas.",
-  },
-  {
-    term: "Plugue lacrimal",
-    definition:
-      "Pequeno dispositivo colocado no ponto lacrimal para reduzir a drenagem e manter as lágrimas por mais tempo. Não é adequado para todos os mecanismos.",
-  },
-  {
-    term: "Ponto lacrimal",
-    definition:
-      "Pequena abertura próxima ao canto interno das pálpebras por onde as lágrimas começam a drenar.",
-  },
-  {
-    term: "Saco lacrimal",
-    definition:
-      "Estrutura junto ao canto interno do olho que recebe as lágrimas dos canalículos antes de encaminhá-las ao ducto nasolacrimal.",
-  },
-  {
-    term: "Superfície ocular",
-    definition:
-      "Conjunto que inclui córnea, conjuntiva, filme lacrimal e estruturas relacionadas das pálpebras.",
-  },
-  {
-    term: "Teste de Schirmer",
-    definition:
-      "Teste com uma pequena tira de papel usado para estimar a produção aquosa de lágrimas. O resultado precisa ser interpretado com o restante da avaliação.",
-  },
-  {
-    term: "Teste de desaparecimento da fluoresceína",
-    definition:
-      "Observação de quanto corante permanece no menisco lacrimal após um intervalo. Ajuda a verificar o escoamento, mas não localiza sozinho todas as causas de atraso.",
-  },
-  {
-    term: "Tempo de ruptura do filme lacrimal",
-    definition:
-      "Tempo até surgirem falhas na película de lágrimas após uma piscada; ajuda a avaliar estabilidade.",
-  },
-];
+const terms = glossaryTerms;
 ---
 
 <Layout
   title="Glossário do olho seco"
   description="Tradução em linguagem simples dos termos mais usados em conteúdos e avaliações sobre olho seco."
+  image="/images/og/og-glossario.png"
   dateModified="2026-07-26"
+  extraSchema={definedTermSetSchema(
+    "Glossário do olho seco",
+    new URL("/glossario", Astro.site).href,
+    terms,
+  )}
 >
   <header class="page-intro">
     <div class="page-shell">
@@ -207,7 +39,10 @@ const terms = [
     <div class="page-shell glossary-list">
       {
         terms.map((item) => (
-          <article data-term={`${item.term} ${item.definition}`.toLowerCase()}>
+          <article
+            id={item.slug}
+            data-term={`${item.term} ${item.definition} ${item.aliases?.join(" ") ?? ""}`.toLowerCase()}
+          >
             <h2>{item.term}</h2>
             <p>{item.definition}</p>
           </article>
@@ -287,6 +122,7 @@ const terms = [
 
   .glossary-list article {
     break-inside: avoid;
+    scroll-margin-top: 6rem;
     padding: 1.8rem 0;
     border-top: 1px solid var(--line);
   }

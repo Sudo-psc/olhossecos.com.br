@@ -1,0 +1,381 @@
+---
+interface Props {
+  endpoint?: string;
+}
+
+const { endpoint = "/api/superficie-parceiros" } = Astro.props;
+---
+
+<form
+  id="superficie-partner-form"
+  class="partner-form"
+  method="post"
+  action={endpoint}
+  data-endpoint={endpoint}
+  novalidate
+>
+  <div class="field-grid">
+    <div class="field">
+      <label for="partner-organization">Organização</label>
+      <input
+        id="partner-organization"
+        name="organization"
+        type="text"
+        autocomplete="organization"
+        required
+      />
+    </div>
+    <div class="field">
+      <label for="partner-name">Nome</label>
+      <input
+        id="partner-name"
+        name="name"
+        type="text"
+        autocomplete="name"
+        required
+      />
+    </div>
+    <div class="field">
+      <label for="partner-email">E-mail profissional</label>
+      <input
+        id="partner-email"
+        name="email"
+        type="email"
+        inputmode="email"
+        autocomplete="email"
+        required
+      />
+    </div>
+    <div class="field">
+      <label for="partner-interest">Interesse principal</label>
+      <select id="partner-interest" name="interest" required>
+        <option value="media-kit">Receber o mídia kit</option>
+        <option value="parceria-educacional">Parceria educacional</option>
+        <option value="publicidade">Publicidade identificada</option>
+        <option value="projeto-especial">Projeto especial</option>
+        <option value="outro">Outro</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="partner-message">
+      Contexto do projeto <span>(opcional)</span>
+    </label>
+    <textarea
+      id="partner-message"
+      name="message"
+      rows="5"
+      maxlength="1200"
+      placeholder="Conte brevemente o objetivo, o público ou o formato de interesse."
+    ></textarea>
+  </div>
+
+  <div class="honeypot" aria-hidden="true">
+    <label for="partner-website">Website</label>
+    <input
+      id="partner-website"
+      name="website"
+      type="text"
+      tabindex="-1"
+      autocomplete="off"
+    />
+  </div>
+
+  <label class="consent" for="partner-consent">
+    <input
+      id="partner-consent"
+      name="consent"
+      type="checkbox"
+      value="accepted"
+      required
+    />
+    <span>
+      Concordo com o uso dos dados para responder a esta solicitação, conforme a <a
+        href="/privacidade">Política de Privacidade</a
+      >.
+    </span>
+  </label>
+
+  <div class="form-footer">
+    <button type="submit">Enviar solicitação</button>
+    <p id="partner-form-status" role="status" aria-live="polite"></p>
+  </div>
+</form>
+
+<script>
+  const partnerForm = document.querySelector<HTMLFormElement>(
+    "#superficie-partner-form",
+  );
+  const partnerStatus = document.querySelector<HTMLElement>(
+    "#partner-form-status",
+  );
+  const campaignKeys = [
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_content",
+    "utm_term",
+  ] as const;
+  const campaignPayloadKeys = {
+    utm_source: "utmSource",
+    utm_medium: "utmMedium",
+    utm_campaign: "utmCampaign",
+    utm_content: "utmContent",
+    utm_term: "utmTerm",
+  } as const;
+
+  const trackPartnerEvent = (
+    event: string,
+    properties: Record<string, string> = {},
+  ) => {
+    const analyticsWindow = window as Window & {
+      dataLayer?: Array<Record<string, unknown>>;
+    };
+    const detail = {
+      event,
+      page_path: window.location.pathname,
+      ...properties,
+    };
+    analyticsWindow.dataLayer = analyticsWindow.dataLayer ?? [];
+    analyticsWindow.dataLayer.push(detail);
+    window.dispatchEvent(new CustomEvent("olhossecos:analytics", { detail }));
+  };
+
+  partnerForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!partnerForm.reportValidity()) return;
+
+    const endpoint = partnerForm.dataset.endpoint;
+    if (!endpoint) return;
+    const submit = partnerForm.querySelector<HTMLButtonElement>(
+      "button[type='submit']",
+    );
+    const payload = Object.fromEntries(new FormData(partnerForm)) as Record<
+      string,
+      string
+    >;
+    const params = new URLSearchParams(window.location.search);
+    campaignKeys.forEach((key) => {
+      const value = params.get(key);
+      if (value) payload[campaignPayloadKeys[key]] = value;
+    });
+    const interest = payload.interest ?? "";
+
+    partnerForm.setAttribute("aria-busy", "true");
+    if (submit) submit.disabled = true;
+    if (partnerStatus) partnerStatus.textContent = "Enviando…";
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const result = (await response.json().catch(() => null)) as {
+        message?: string;
+      } | null;
+      if (!response.ok) {
+        throw new Error(result?.message ?? "partner_request_failed");
+      }
+
+      partnerForm.reset();
+      if (partnerStatus) {
+        partnerStatus.textContent =
+          result?.message ?? "Solicitação recebida. Obrigado.";
+      }
+      trackPartnerEvent("partner_lead_submit", { interest });
+    } catch (error) {
+      if (partnerStatus) {
+        partnerStatus.textContent =
+          error instanceof Error && error.message !== "partner_request_failed"
+            ? error.message
+            : "Não foi possível concluir agora. Tente novamente mais tarde.";
+      }
+    } finally {
+      partnerForm.removeAttribute("aria-busy");
+      if (submit) submit.disabled = false;
+    }
+  });
+</script>
+
+<style>
+  .partner-form {
+    padding: clamp(1.5rem, 4vw, 3.5rem);
+    border-radius: var(--surface-radius-lg);
+    background: var(--surface-white);
+    color: var(--surface-ink);
+    box-shadow: 0 24px 70px rgb(0 19 38 / 14%);
+  }
+
+  .field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .field {
+    margin-bottom: 1.25rem;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  label span {
+    color: var(--surface-muted);
+    font-weight: 600;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    border: 1px solid var(--surface-line);
+    border-radius: var(--surface-radius-sm);
+    background: var(--surface-paper);
+    color: var(--surface-ink);
+    font: inherit;
+  }
+
+  input,
+  select {
+    min-height: 50px;
+    padding: 0.7rem 0.85rem;
+  }
+
+  textarea {
+    min-height: 140px;
+    padding: 0.85rem;
+    resize: vertical;
+  }
+
+  /* Anel de dois tons, igual ao de SuperficieLayout.astro: este bloco
+     compila com um seletor com escopo (Astro), que tem especificidade maior
+     que a regra global e por isso a sobrescrevia — com um único tom de
+     ouro, 1.91:1 sobre o fundo branco do formulário, abaixo dos 3:1 do
+     WCAG 2.2 SC 1.4.11. */
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  button:focus-visible,
+  a:focus-visible {
+    outline: 3px solid var(--surface-gold-light);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 3px var(--surface-navy);
+  }
+
+  .consent {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+    color: var(--surface-copy);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.55;
+    text-transform: none;
+  }
+
+  .consent input {
+    width: 1.1rem;
+    height: 1.1rem;
+    min-height: auto;
+    margin-top: 0.2rem;
+    padding: 0;
+    flex: none;
+    accent-color: var(--surface-teal-dark);
+  }
+
+  /* Só no toque: 1.1rem dá 17,6px, abaixo dos 24px da WCAG 2.5.8. No
+     desktop o controle segue discreto, com o ponteiro fino dando a precisão. */
+  @media (pointer: coarse) {
+    .consent input {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  .consent a {
+    color: var(--surface-teal-dark);
+    text-decoration: underline;
+    text-underline-offset: 0.16em;
+  }
+
+  .form-footer {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .form-footer button {
+    min-height: 48px;
+    padding-inline: 1.35rem;
+    border: 1px solid var(--surface-teal);
+    border-radius: var(--surface-radius-sm);
+    background: var(--surface-teal);
+    color: white;
+    cursor: pointer;
+    font-family: var(--surface-sans);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition:
+      background-color 220ms ease,
+      filter 380ms ease,
+      transform 380ms ease;
+  }
+
+  /* filter, não box-shadow — reserva do anel de foco de dois tons. */
+  .form-footer button:not(:disabled):hover {
+    background: var(--surface-teal-dark);
+    filter: var(--surface-lift-sm);
+    transform: translateY(-2px);
+  }
+
+  .form-footer button:not(:disabled):active {
+    filter: none;
+    transform: translateY(0);
+  }
+
+  .form-footer button:disabled {
+    cursor: wait;
+    opacity: 0.65;
+  }
+
+  #partner-form-status {
+    min-height: 1.5rem;
+    margin: 0;
+    color: var(--surface-teal-dark);
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  .honeypot {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  @media (max-width: 680px) {
+    .field-grid,
+    .form-footer {
+      grid-template-columns: 1fr;
+    }
+
+    .form-footer button {
+      width: 100%;
+    }
+  }
+</style>

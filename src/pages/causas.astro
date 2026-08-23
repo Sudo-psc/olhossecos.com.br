@@ -1,9 +1,13 @@
 ---
 import ContentPage from "@/components/ContentPage.astro";
+import GlossaryTooltip from "@/components/GlossaryTooltip.astro";
 import { sourceLink, sources } from "@/lib/sources";
+import EducationalFigure from "@/components/EducationalFigure.astro";
+import { figures } from "@/lib/figures";
 ---
 
 <ContentPage
+  image="/images/og/og-causas.png"
   title="Causas e fatores associados"
   description="Entenda por que o olho seco costuma ter mais de uma causa e quais fatores ambientais, oculares e sistêmicos podem participar."
   intro="Olho seco raramente depende de um único fator. Ambiente, hábitos, pálpebras, produção de lágrimas, medicamentos e condições do organismo podem se somar."
@@ -37,12 +41,17 @@ import { sourceLink, sources } from "@/lib/sources";
     peso de cada uma muda ao longo do tempo.
   </p>
 
+  <EducationalFigure figure={figures.dryEyeFactors} />
+
   <h2 id="evaporacao">Quando as lágrimas evaporam rápido</h2>
   <p>
-    As glândulas de Meibomius, localizadas nas pálpebras, liberam lipídios que
-    ajudam a frear a evaporação. Quando essas glândulas não funcionam bem, o
-    filme lacrimal pode perder estabilidade. Inflamação das bordas palpebrais,
-    rosácea e piscar incompleto podem participar desse processo.
+    As <GlossaryTooltip
+      term="glandulas-de-meibomius"
+      label="glândulas de Meibomius"
+    />, localizadas nas pálpebras, liberam lipídios que ajudam a frear a
+    evaporação. Quando essas glândulas não funcionam bem, o filme lacrimal pode
+    perder estabilidade. Inflamação das bordas palpebrais, rosácea e piscar
+    incompleto podem participar desse processo.
   </p>
 
   <h2 id="producao">Quando há baixa produção aquosa</h2>
@@ -57,16 +66,19 @@ import { sourceLink, sources } from "@/lib/sources";
 
   <h2 id="mecanico">Quando atrito e anatomia interferem</h2>
   <p>
-    A conjuntivocálase forma pregas frouxas na membrana que recobre a parte
-    branca do olho. Muitas pessoas não têm sintomas, mas algumas pregas ocupam o
-    menisco lacrimal, dificultam o caminho das lágrimas ou aumentam o atrito
-    durante as piscadas. Isso pode contribuir para ardor, sensação de areia,
-    visão oscilante e até lacrimejamento.
+    A <GlossaryTooltip term="conjuntivocalase" label="conjuntivocálase" /> forma pregas
+    frouxas na membrana que recobre a parte branca do olho. Muitas pessoas não têm
+    sintomas, mas algumas pregas ocupam o menisco lacrimal, dificultam o caminho das
+    lágrimas ou aumentam o atrito durante as piscadas. Isso pode contribuir para ardor,
+    sensação de areia, visão oscilante e até lacrimejamento.
   </p>
   <p>
     “Olho seco mecânico” é uma forma descritiva de falar desse componente; não
     deve ser usado como diagnóstico isolado. Ele pode coexistir com baixa
-    produção de lágrimas, disfunção das glândulas de Meibomius e inflamação.
+    produção de lágrimas, <GlossaryTooltip
+      term="dgm"
+      label="disfunção das glândulas de Meibomius"
+    /> e inflamação.
   </p>
   <p>
     <a class="text-link" href="/guias/conjuntivocalase-olho-seco-mecanico">

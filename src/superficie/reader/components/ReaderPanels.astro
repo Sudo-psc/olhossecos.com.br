@@ -1,0 +1,189 @@
+<div class="reader-panels" data-reader-panels>
+  <aside
+    id="reader-panel-toc"
+    class="reader-panel"
+    data-panel="toc"
+    aria-labelledby="toc-title"
+    hidden
+  >
+    <header>
+      <div><p>Explorar</p><h2 id="toc-title">Sumário</h2></div><button
+        type="button"
+        data-close-panel
+        aria-label="Fechar sumário">×</button
+      >
+    </header>
+    <nav aria-label="Sumário da edição"><ol data-toc-list></ol></nav>
+  </aside>
+
+  <aside
+    id="reader-panel-thumbnails"
+    class="reader-panel reader-panel--wide"
+    data-panel="thumbnails"
+    aria-labelledby="thumbnails-title"
+    hidden
+  >
+    <header>
+      <div>
+        <p>Visão geral</p><h2 id="thumbnails-title">Miniaturas</h2>
+      </div><button
+        type="button"
+        data-close-panel
+        aria-label="Fechar miniaturas">×</button
+      >
+    </header>
+    <ol class="thumbnail-grid" data-thumbnail-list></ol>
+  </aside>
+
+  <aside
+    id="reader-panel-search"
+    class="reader-panel"
+    data-panel="search"
+    aria-labelledby="search-title"
+    hidden
+  >
+    <header>
+      <div><p>Na edição</p><h2 id="search-title">Busca</h2></div><button
+        type="button"
+        data-close-panel
+        aria-label="Fechar busca">×</button
+      >
+    </header>
+    <form data-search-form role="search">
+      <label for="reader-search">Pesquisar texto real</label>
+      <div class="search-field">
+        <input
+          id="reader-search"
+          name="query"
+          type="search"
+          autocomplete="off"
+          placeholder="Ex.: camada de texto"
+        /><button type="submit">Buscar</button>
+      </div>
+    </form>
+    <p class="panel-status" data-search-status>
+      O índice será carregado ao abrir a busca.
+    </p>
+    <ol class="search-results" data-search-results></ol>
+  </aside>
+
+  <aside
+    id="reader-panel-highlights"
+    class="reader-panel"
+    data-panel="highlights"
+    aria-labelledby="highlights-title"
+    hidden
+  >
+    <header>
+      <div>
+        <p>Sua leitura</p><h2 id="highlights-title">Destaques</h2>
+      </div><button type="button" data-close-panel aria-label="Fechar destaques"
+        >×</button
+      >
+    </header>
+    <p class="panel-hint">
+      Selecione texto sobre uma página e escolha uma cor.
+    </p>
+    <ol class="saved-list" data-highlight-list></ol>
+  </aside>
+
+  <aside
+    id="reader-panel-notes"
+    class="reader-panel"
+    data-panel="notes"
+    aria-labelledby="notes-title"
+    hidden
+  >
+    <header>
+      <div><p>Sua leitura</p><h2 id="notes-title">Notas</h2></div><button
+        type="button"
+        data-close-panel
+        aria-label="Fechar notas">×</button
+      >
+    </header>
+    <form data-note-form>
+      <label for="reader-note">Nota para a página atual</label>
+      <textarea
+        id="reader-note"
+        maxlength="600"
+        rows="4"
+        placeholder="Escreva uma nota breve…"></textarea>
+      <button type="submit">Salvar nota</button>
+    </form>
+    <ol class="saved-list" data-note-list></ol>
+  </aside>
+
+  <aside
+    id="reader-panel-settings"
+    class="reader-panel"
+    data-panel="settings"
+    aria-labelledby="settings-title"
+    hidden
+  >
+    <header>
+      <div>
+        <p>Exibição</p><h2 id="settings-title">Zoom e movimento</h2>
+      </div><button
+        type="button"
+        data-close-panel
+        aria-label="Fechar configurações">×</button
+      >
+    </header>
+    <fieldset class="zoom-options">
+      <legend>Zoom</legend>
+      <button type="button" data-zoom="fit-page">Fit Page</button>
+      <button type="button" data-zoom="fit-width">Fit Width</button>
+      <button type="button" data-zoom="100">100%</button>
+      <button type="button" data-zoom="125">125%</button>
+      <button type="button" data-zoom="150">150%</button>
+      <button type="button" data-zoom="200">200%</button>
+    </fieldset>
+    <label class="setting-toggle"
+      ><input type="checkbox" data-reduced-motion />
+      <span>Reduzir animações</span></label
+    >
+    <p class="panel-hint">
+      O ajuste manual complementa a preferência do sistema.
+    </p>
+  </aside>
+
+  <aside
+    id="reader-panel-bookmarks"
+    class="reader-panel"
+    data-panel="bookmarks"
+    aria-labelledby="bookmarks-title"
+    hidden
+  >
+    <header>
+      <div>
+        <p>Sua leitura</p><h2 id="bookmarks-title">Meus marcadores</h2>
+      </div><button
+        type="button"
+        data-close-panel
+        aria-label="Fechar marcadores">×</button
+      >
+    </header>
+    <ol class="saved-list" data-bookmark-list></ol>
+  </aside>
+
+  <section
+    id="reader-panel-text"
+    class="reader-panel reader-panel--text"
+    data-panel="text"
+    aria-labelledby="text-title"
+    hidden
+  >
+    <header>
+      <div>
+        <p>Artigo HTML acessível</p><h2 id="text-title">Modo texto</h2>
+      </div><button
+        type="button"
+        data-close-panel
+        aria-label="Fechar modo texto">×</button
+      >
+    </header>
+    <div class="text-mode-content" data-text-mode-content>
+      <p>Carregando o artigo de demonstração…</p>
+    </div>
+  </section>
+</div>

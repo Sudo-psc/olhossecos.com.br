@@ -1,5 +1,6 @@
 ---
 import EyeMark from "@/components/EyeMark.astro";
+import { isSurfaceNavCurrent } from "@/lib/superficie-nav";
 
 interface Props {
   home?: boolean;
@@ -7,37 +8,65 @@ interface Props {
 }
 
 const { home = false, compact = false } = Astro.props;
+const currentPath = Astro.url.pathname;
 
 const nav = [
-  { label: "Edições", href: "/superficie#edicoes" },
-  { label: "Artigos", href: "/superficie#destaque" },
+  { label: "Edições", href: "/superficie/edicoes" },
+  { label: "Artigos", href: "/superficie/artigos" },
   { label: "Entrevistas", href: "/superficie#entrevistas" },
-  { label: "Evidências", href: "/superficie#evidencias" },
+  { label: "Radar", href: "/superficie/radar" },
   { label: "Tecnologia", href: "/superficie#tecnologia" },
-  { label: "Parceiros", href: "/superficie#parceiros" },
+  { label: "Parceiros", href: "/superficie/parceiros" },
   { label: "Newsletter", href: "/superficie#newsletter" },
 ];
 ---
 
 <header class:list={["surface-header", { compact }]}>
-  <div class="surface-utility surface-shell">
-    <a
-      class="portal-brand"
-      href="/"
-      aria-label="Olho Seco — Portal do paciente"
-    >
-      <EyeMark class="portal-mark" />
-      <span><strong>Olho Seco</strong> — Portal do paciente</span>
-    </a>
-    <a class="portal-return" href="/"> Voltar ao portal Olhos Secos </a>
-    <button
-      class="surface-menu-button"
-      type="button"
-      aria-expanded="false"
-      aria-controls="surface-mobile-nav"
-    >
-      Menu
-    </button>
+  <div class="surface-utility">
+    <div class="surface-shell surface-utility-inner">
+      <a
+        class="portal-brand"
+        href="/"
+        aria-label="Olho Seco — Portal do paciente"
+      >
+        <EyeMark class="portal-mark" />
+        <span><strong>Olho Seco</strong> — Portal do paciente</span>
+      </a>
+      <div class="surface-utility-actions">
+        <button
+          type="button"
+          class="surface-search-btn"
+          aria-label="Buscar na SUPERFÍCIE e portal"
+          data-open-global-search
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle
+              cx="10.8"
+              cy="10.8"
+              r="6.7"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"></circle>
+            <path
+              d="m16 16 4.5 4.5"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"></path>
+          </svg>
+          <span>Buscar</span>
+          <kbd data-search-shortcut>Ctrl+K</kbd>
+        </button>
+        <a class="portal-return" href="/"> Voltar ao portal </a>
+      </div>
+      <button
+        class="surface-menu-button"
+        type="button"
+        aria-expanded="false"
+        aria-controls="surface-mobile-nav"
+      >
+        Menu
+      </button>
+    </div>
   </div>
 
   <div class="surface-masthead">
@@ -45,7 +74,13 @@ const nav = [
       <p class="surface-descriptor">Revista de Olho Seco e Superfície Ocular</p>
       {
         home ? (
-          <h1 class="surface-wordmark">SUPERFÍCIE</h1>
+          <h1 class="surface-wordmark">
+            SUPERFÍCIE
+            <span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">
+              {" "}
+              — Revista de Olho Seco e Superfície Ocular
+            </span>
+          </h1>
         ) : (
           <a class="surface-wordmark" href="/superficie">
             SUPERFÍCIE
@@ -55,7 +90,18 @@ const nav = [
       <span class="surface-rule" aria-hidden="true"><i></i></span>
       <p class="surface-tagline">Evidência que chega à prática.</p>
       <nav class="surface-nav" aria-label="Navegação da SUPERFÍCIE">
-        {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+        {
+          nav.map((item) => (
+            <a
+              href={item.href}
+              aria-current={
+                isSurfaceNavCurrent(item.href, currentPath) ? "page" : undefined
+              }
+            >
+              {item.label}
+            </a>
+          ))
+        }
       </nav>
     </div>
   </div>
@@ -67,38 +113,232 @@ const nav = [
     hidden
   >
     <div class="surface-shell">
-      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      <button
+        type="button"
+        class="surface-mobile-search-btn"
+        data-open-global-search
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle
+            cx="10.8"
+            cy="10.8"
+            r="6.7"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"></circle>
+          <path
+            d="m16 16 4.5 4.5"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"></path>
+        </svg>
+        <span>Buscar na SUPERFÍCIE...</span>
+        <kbd data-search-shortcut>Ctrl+K</kbd>
+      </button>
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={
+              isSurfaceNavCurrent(item.href, currentPath) ? "page" : undefined
+            }
+          >
+            {item.label}
+          </a>
+        ))
+      }
     </div>
   </nav>
 </header>
 
-<script>
-  const menuButton = document.querySelector<HTMLButtonElement>(
-    ".surface-menu-button",
-  );
-  const mobileNav = document.querySelector<HTMLElement>("#surface-mobile-nav");
+{
+  /*
+  Barra fina que assume quando o cabeçalho editorial sai de vista. O masthead
+  tem 455px na home e some por completo ao rolar; em telas abaixo de 800px a
+  navegação nem existe depois disso. Fora do <header> para não herdar seu
+  contexto de empilhamento.
+*/
+}
+<div class="surface-sticky-bar" data-sticky-bar aria-hidden="true">
+  <div class="surface-shell sticky-inner">
+    <a class="sticky-wordmark" href="/superficie" tabindex="-1">SUPERFÍCIE</a>
+    <nav class="sticky-nav" aria-label="Navegação fixa da SUPERFÍCIE">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            tabindex="-1"
+            aria-current={
+              isSurfaceNavCurrent(item.href, currentPath) ? "page" : undefined
+            }
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+    <div class="sticky-actions">
+      <button
+        class="sticky-search-btn"
+        type="button"
+        tabindex="-1"
+        aria-label="Buscar na SUPERFÍCIE"
+        data-open-global-search
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle
+            cx="10.8"
+            cy="10.8"
+            r="6.7"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"></circle>
+          <path
+            d="m16 16 4.5 4.5"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"></path>
+        </svg>
+      </button>
+      <button
+        class="sticky-menu-button surface-menu-button"
+        type="button"
+        tabindex="-1"
+        aria-expanded="false"
+        aria-controls="surface-mobile-nav"
+      >
+        Menu
+      </button>
+    </div>
+  </div>
+  <div class="sticky-progress" data-reading-progress></div>
+</div>
 
-  const setSurfaceMenu = (open: boolean) => {
-    if (!menuButton || !mobileNav) return;
-    mobileNav.hidden = !open;
-    menuButton.setAttribute("aria-expanded", String(open));
-    menuButton.textContent = open ? "Fechar" : "Menu";
+<script>
+  const menuButtons = [
+    ...document.querySelectorAll<HTMLButtonElement>(".surface-menu-button"),
+  ];
+  const mobileNav = document.querySelector<HTMLElement>("#surface-mobile-nav");
+  const stickyBar = document.querySelector<HTMLElement>("[data-sticky-bar]");
+  const masthead = document.querySelector<HTMLElement>(".surface-masthead");
+  const progress = document.querySelector<HTMLElement>(
+    "[data-reading-progress]",
+  );
+
+  // Guarda qual botão abriu o menu, para devolver o foco ao lugar certo
+  // quando o usuário fechar com Escape.
+  let lastOpener: HTMLButtonElement | null = null;
+
+  const isApplePlatform = () =>
+    /Mac OS X|iPhone|iPad|iPod/u.test(navigator.userAgent);
+
+  document
+    .querySelectorAll<HTMLElement>("[data-search-shortcut]")
+    .forEach((shortcut) => {
+      shortcut.textContent = isApplePlatform() ? "⌘K" : "Ctrl+K";
+    });
+
+  const surfaceFocusables = () => {
+    if (!mobileNav) return [];
+    return [
+      ...menuButtons,
+      ...mobileNav.querySelectorAll<HTMLElement>(
+        "a[href], button:not([disabled])",
+      ),
+    ];
   };
 
-  menuButton?.addEventListener("click", () => {
+  const setSurfaceMenu = (open: boolean, opener?: HTMLButtonElement) => {
     if (!mobileNav) return;
-    setSurfaceMenu(mobileNav.hidden);
-  });
+    mobileNav.hidden = !open;
+    for (const button of menuButtons) {
+      button.setAttribute("aria-expanded", String(open));
+      button.textContent = open ? "Fechar" : "Menu";
+    }
+    document.querySelector("main")?.toggleAttribute("aria-hidden", open);
+    if (open) {
+      lastOpener = opener ?? lastOpener;
+      mobileNav.querySelector<HTMLElement>("a, button")?.focus();
+    }
+  };
+
+  for (const button of menuButtons) {
+    button.addEventListener("click", () => {
+      if (!mobileNav) return;
+      setSurfaceMenu(mobileNav.hidden, button);
+    });
+  }
 
   mobileNav?.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => setSurfaceMenu(false));
   });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key !== "Escape" || !mobileNav || mobileNav.hidden) return;
-    setSurfaceMenu(false);
-    menuButton?.focus();
+    if (!mobileNav || mobileNav.hidden) return;
+
+    if (event.key === "Escape") {
+      setSurfaceMenu(false);
+      lastOpener?.focus();
+      return;
+    }
+
+    if (event.key !== "Tab") return;
+    const focusable = surfaceFocusables();
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last?.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first?.focus();
+    }
   });
+
+  if (stickyBar && masthead) {
+    // A barra fixa duplica links que já existem no cabeçalho. Enquanto está
+    // oculta ela sai da ordem de tabulação (tabindex -1 + aria-hidden) para
+    // não criar um segundo conjunto de paradas de teclado invisíveis; ao
+    // aparecer, assume o papel de navegação e devolve os links ao foco.
+    const setBarActive = (active: boolean) => {
+      stickyBar.classList.toggle("is-visible", active);
+      stickyBar.setAttribute("aria-hidden", String(!active));
+      for (const node of stickyBar.querySelectorAll<HTMLElement>("a, button")) {
+        if (active) node.removeAttribute("tabindex");
+        else node.setAttribute("tabindex", "-1");
+      }
+      // Com a barra no ar o menu móvel passa a flutuar abaixo dela.
+      mobileNav?.classList.toggle("is-below-sticky", active);
+    };
+
+    new IntersectionObserver(([entry]) => setBarActive(!entry.isIntersecting), {
+      rootMargin: "0px",
+    }).observe(masthead);
+  }
+
+  if (progress) {
+    let frame = 0;
+    const updateProgress = () => {
+      frame = 0;
+      const scrollable =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const ratio = scrollable > 0 ? window.scrollY / scrollable : 0;
+      progress.style.setProperty(
+        "--read-progress",
+        String(Math.min(1, Math.max(0, ratio))),
+      );
+    };
+    addEventListener(
+      "scroll",
+      () => {
+        if (!frame) frame = requestAnimationFrame(updateProgress);
+      },
+      { passive: true },
+    );
+    addEventListener("resize", updateProgress, { passive: true });
+    updateProgress();
+  }
 </script>
 
 <style>
@@ -107,14 +347,114 @@ const nav = [
   }
 
   .surface-utility {
+    border-bottom: 1px solid var(--surface-line);
+    color: var(--surface-navy);
+    font-size: 0.86rem;
+  }
+
+  .surface-utility-inner {
     min-height: 58px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
-    border-bottom: 1px solid var(--surface-line);
-    color: var(--surface-navy);
-    font-size: 0.86rem;
+  }
+
+  .surface-utility-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .surface-search-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.75rem;
+    border: 1px solid var(--surface-line, #d8d3c7);
+    border-radius: var(--surface-radius-sm, 6px);
+    background: #ffffff;
+    color: var(--surface-navy, #001a33);
+    font-size: 0.78rem;
+    font-weight: 750;
+    cursor: pointer;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease;
+  }
+
+  .surface-search-btn svg {
+    width: 15px;
+    height: 15px;
+    color: var(--surface-teal, #0b827f);
+  }
+
+  .surface-search-btn kbd,
+  .surface-mobile-search-btn kbd {
+    padding: 0.15rem 0.35rem;
+    border: 1px solid #c8d7e2;
+    border-radius: 3px;
+    background: #f0f4f8;
+    font-family: ui-monospace, monospace;
+    font-size: 0.75rem;
+    color: var(--surface-muted, #5b7081);
+  }
+
+  .surface-search-btn:hover {
+    background: #f4f8fa;
+    border-color: var(--surface-teal, #0b827f);
+  }
+
+  .surface-mobile-search-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.8rem;
+    border: 1px solid var(--surface-gold, #b98a36);
+    border-radius: var(--surface-radius-sm, 6px);
+    background: rgb(217 182 101 / 14%);
+    color: var(--surface-paper, #f7f4ed);
+    font-size: 0.84rem;
+    font-weight: 750;
+    cursor: pointer;
+  }
+
+  .surface-mobile-search-btn svg {
+    width: 17px;
+    height: 17px;
+    color: var(--surface-gold-light, #d9b665);
+  }
+
+  .sticky-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .sticky-search-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--surface-gold, #b98a36);
+    border-radius: var(--surface-radius-sm, 6px);
+    background: transparent;
+    color: var(--surface-paper, #f7f4ed);
+    cursor: pointer;
+    transition: background-color 150ms ease;
+  }
+
+  .sticky-search-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .sticky-search-btn:hover {
+    background: rgb(217 182 101 / 15%);
   }
 
   .portal-brand,
@@ -141,12 +481,26 @@ const nav = [
     min-height: 44px;
     padding: 0.55rem 1rem;
     border: 1px solid var(--surface-gold);
+    border-radius: var(--surface-radius-sm);
     background: transparent;
     color: var(--surface-paper);
     font-size: 0.78rem;
     font-weight: 750;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    transition:
+      background-color 200ms ease,
+      border-color 200ms ease,
+      transform 200ms var(--surface-ease);
+  }
+
+  .surface-menu-button:hover {
+    border-color: var(--surface-gold-light);
+    background: rgb(217 182 101 / 12%);
+  }
+
+  .surface-menu-button:active {
+    transform: scale(0.97);
   }
 
   .surface-masthead {
@@ -155,14 +509,14 @@ const nav = [
   }
 
   .masthead-inner {
-    padding-block: clamp(2rem, 4.8vw, 4.5rem) 1.55rem;
+    padding-block: clamp(1.5rem, 3vw, 2.75rem) 1.35rem;
     text-align: center;
   }
 
   .surface-descriptor {
     margin: 0 0 0.75rem;
     color: var(--surface-gold-light);
-    font-size: clamp(0.68rem, 1vw, 0.8rem);
+    font-size: clamp(0.75rem, 1vw, 0.8rem);
     font-weight: 700;
     letter-spacing: 0.3em;
     text-transform: uppercase;
@@ -173,7 +527,7 @@ const nav = [
     margin: 0;
     color: var(--surface-paper);
     font-family: var(--surface-serif);
-    font-size: clamp(3.5rem, 9.4vw, 8.8rem);
+    font-size: clamp(3rem, 7.8vw, 7rem);
     font-weight: 400;
     letter-spacing: 0.18em;
     line-height: 0.92;
@@ -186,7 +540,7 @@ const nav = [
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 1.8rem auto 1rem;
+    margin: 1.2rem auto 0.8rem;
     background: var(--surface-gold);
   }
 
@@ -230,10 +584,12 @@ const nav = [
     display: flex;
     justify-content: center;
     gap: clamp(1rem, 2.8vw, 2.75rem);
-    margin-top: 2.15rem;
+    margin-top: 1.5rem;
   }
 
   .surface-nav a {
+    position: relative;
+    padding-bottom: 0.2rem;
     color: var(--surface-paper);
     font-size: 0.76rem;
     font-weight: 700;
@@ -241,9 +597,135 @@ const nav = [
     text-transform: uppercase;
   }
 
+  .surface-nav a::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background: var(--surface-gold-light);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 320ms var(--surface-ease);
+  }
+
   .surface-nav a:hover,
   .surface-nav a:focus-visible {
     color: var(--surface-gold-light);
+  }
+
+  .surface-nav a:hover::after,
+  .surface-nav a:focus-visible::after,
+  .surface-nav a[aria-current="page"]::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .surface-nav a[aria-current="page"] {
+    color: var(--surface-gold-light);
+  }
+
+  .sticky-nav a[aria-current="page"] {
+    color: var(--surface-gold-light);
+  }
+
+  .sticky-nav a[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background: var(--surface-gold-light);
+  }
+
+  /* Vidro fosco: o menu flutua sobre o conteúdo da página que já rolou por
+     trás dele, então o desfoque tem o que desfocar — uso legítimo, ao
+     contrário de um painel sobre fundo liso. Fallback opaco via @supports
+     para navegadores sem backdrop-filter. */
+  /* ==========================================================
+     Barra fixa de leitura
+     ========================================================== */
+  .surface-sticky-bar {
+    position: fixed;
+    z-index: 40;
+    top: 0;
+    right: 0;
+    left: 0;
+    background: var(--surface-navy);
+    border-bottom: 1px solid var(--surface-glass-border);
+    box-shadow: var(--surface-shadow-lg);
+    transform: translateY(-100%);
+    visibility: hidden;
+    transition:
+      transform 340ms var(--surface-ease),
+      visibility 340ms;
+  }
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .surface-sticky-bar {
+      background: var(--surface-glass-navy);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
+      backdrop-filter: blur(20px) saturate(160%);
+    }
+  }
+
+  .surface-sticky-bar.is-visible {
+    transform: translateY(0);
+    visibility: visible;
+  }
+
+  .sticky-inner {
+    min-height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(1rem, 3vw, 2.5rem);
+  }
+
+  .sticky-wordmark {
+    flex: none;
+    color: var(--surface-paper);
+    font-family: var(--surface-serif);
+    font-size: 1.35rem;
+    letter-spacing: 0.14em;
+  }
+
+  .sticky-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: clamp(0.85rem, 2vw, 2rem);
+  }
+
+  .sticky-nav a {
+    position: relative;
+    padding-block: 0.35rem;
+    color: var(--surface-muted-on-dark);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 200ms ease;
+  }
+
+  .sticky-nav a:hover,
+  .sticky-nav a:focus-visible {
+    color: var(--surface-gold-light);
+  }
+
+  .sticky-menu-button {
+    color: var(--surface-paper);
+  }
+
+  /* Progresso de leitura: escala em vez de largura, para animar só no
+     compositor e não disparar layout a cada quadro de rolagem. */
+  .sticky-progress {
+    height: 2px;
+    background: var(--surface-gold-light);
+    transform: scaleX(var(--read-progress, 0));
+    transform-origin: left;
   }
 
   .surface-mobile-nav {
@@ -253,8 +735,26 @@ const nav = [
     left: 0;
     background: var(--surface-navy);
     color: var(--surface-paper);
-    border-top: 1px solid rgb(255 255 255 / 15%);
-    box-shadow: 0 24px 40px rgb(0 10 24 / 30%);
+    border-top: 1px solid var(--surface-glass-border);
+    border-end-start-radius: var(--surface-radius-lg);
+    border-end-end-radius: var(--surface-radius-lg);
+    box-shadow: var(--surface-shadow-lg);
+  }
+
+  /* Aberto pela barra fixa: o menu precisa acompanhá-la no topo da viewport,
+     em vez de ficar ancorado ao cabeçalho que já saiu de vista. */
+  .surface-mobile-nav.is-below-sticky {
+    position: fixed;
+    z-index: 39;
+    top: 59px;
+  }
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .surface-mobile-nav {
+      background: var(--surface-glass-navy);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
+      backdrop-filter: blur(20px) saturate(160%);
+    }
   }
 
   .surface-mobile-nav .surface-shell {
@@ -266,19 +766,50 @@ const nav = [
     min-height: 48px;
     display: flex;
     align-items: center;
+    padding-inline: 0.6rem;
+    margin-inline: -0.6rem;
     border-bottom: 1px solid rgb(255 255 255 / 13%);
+    color: var(--surface-paper);
     font-size: 0.84rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    transition:
+      background-color 200ms ease,
+      color 200ms ease,
+      padding-left 200ms var(--surface-ease);
   }
 
-  @media (max-width: 760px) {
+  .surface-mobile-nav a:hover,
+  .surface-mobile-nav a:focus-visible,
+  .surface-mobile-nav a[aria-current="page"] {
+    padding-left: 1rem;
+    border-radius: var(--surface-radius-sm);
+    background: rgb(217 182 101 / 12%);
+    color: var(--surface-gold-light);
+  }
+
+  @media (max-width: 800px) {
+    /* Mesma regra da navegação do cabeçalho: abaixo de 800px os links dão
+       lugar ao botão Menu, que aqui vem junto da barra fixa. */
+    .sticky-nav {
+      display: none;
+    }
+
+    .sticky-menu-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     .surface-utility {
-      min-height: 62px;
       background: var(--surface-navy);
       color: var(--surface-paper);
       border-color: rgb(255 255 255 / 13%);
+    }
+
+    .surface-utility-inner {
+      min-height: 62px;
     }
 
     :global(.portal-mark) {
@@ -350,6 +881,14 @@ const nav = [
   }
 
   @media (max-width: 430px) {
+    .surface-utility-inner {
+      gap: 0.75rem;
+    }
+
+    .portal-brand {
+      min-width: 0;
+    }
+
     .portal-return {
       max-width: 112px;
       line-height: 1.15;

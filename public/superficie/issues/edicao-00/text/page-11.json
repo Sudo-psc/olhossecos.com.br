@@ -1,0 +1,50 @@
+{
+  "page": 11,
+  "blocks": [
+    {
+      "id": "page-11-eyebrow",
+      "text": "ATUALIZAÇÃO CLÍNICA",
+      "x": 0.1,
+      "y": 0.065,
+      "width": 0.8,
+      "height": 0.035,
+      "role": "label"
+    },
+    {
+      "id": "page-11-title",
+      "text": "A discordância é um achado, não um exame inconsistente",
+      "x": 0.1,
+      "y": 0.10391001606855918,
+      "width": 0.8,
+      "height": 0.10493840385645421,
+      "role": "heading"
+    },
+    {
+      "id": "page-11-paragraph-1",
+      "text": "Na prática, é tentador tratar a discordância entre sintomas e sinais como falha do exame. Essa reação pressupõe que sintomas e sinais deveriam convergir. Não deveriam.",
+      "x": 0.1,
+      "y": 0.24205677557579006,
+      "width": 0.8,
+      "height": 0.07927155865024103,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-11-paragraph-2",
+      "text": "A implicação clínica atual é hierarquizar o driver da visita — o que explica a discordância de hoje — em vez de tratar todos os eixos de uma vez.",
+      "x": 0.1,
+      "y": 0.33311194429566154,
+      "width": 0.8,
+      "height": 0.059989287627209426,
+      "role": "paragraph"
+    },
+    {
+      "id": "page-11-number",
+      "text": "11",
+      "x": 0.84,
+      "y": 0.93,
+      "width": 0.06,
+      "height": 0.025,
+      "role": "page-number"
+    }
+  ]
+}

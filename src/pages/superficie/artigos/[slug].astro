@@ -4,11 +4,12 @@ import SuperficieLayout from "@/layouts/SuperficieLayout.astro";
 import {
   getMagazineArticlePath,
   publishedArticles,
-  selectRelatedArticles,
   validateMagazineArticle,
   type MagazineArticle,
 } from "@/lib/superficie";
+import { selectRelatedContent } from "@/lib/related-content";
 import { articleTemplatePreview } from "@/lib/superficie-preview";
+import { responsibleDoctor } from "@/lib/doctor";
 
 export function getStaticPaths() {
   const invalid = publishedArticles.flatMap((article) =>
@@ -37,12 +38,23 @@ interface Props {
 
 const { article } = Astro.props;
 const isPublished = article.status === "published";
-const related = selectRelatedArticles(article, publishedArticles);
+const related = selectRelatedContent(article);
 const canonicalPath = getMagazineArticlePath(article);
 const articleUrl = new URL(canonicalPath, Astro.site).href;
 const authorUrl = article.author.slug
   ? new URL(`/autor/${article.author.slug}`, Astro.site).href
   : undefined;
+const personId = article.author.slug
+  ? new URL(`/autor/${article.author.slug}#person`, Astro.site).href
+  : undefined;
+const ogImage = article.ogImage;
+// Sem capa própria, cada artigo usa o card gerado por
+// scripts/build-og-cards.mjs. O genérico da revista dizia apenas que o link
+// vinha da SUPERFÍCIE, nunca qual texto estava sendo compartilhado.
+const articleImage =
+  ogImage?.src ?? `/images/og/superficie/${article.slug}.png`;
+const articleImageType =
+  ogImage?.type ?? (ogImage ? "image/jpeg" : "image/png");
 
 const articleSchema = isPublished
   ? {
@@ -56,18 +68,24 @@ const articleSchema = isPublished
       isAccessibleForFree: true,
       articleSection: article.category,
       keywords: article.tags.join(", "),
+      image: new URL(articleImage, Astro.site).href,
       author: {
         "@type": "Person",
         name: article.author.name,
+        ...(personId ? { "@id": personId } : {}),
         ...(authorUrl ? { url: authorUrl } : {}),
+        // Registro no schema pelo mesmo motivo que ele está no rodapé: em
+        // conteúdo médico, quem assina precisa ser verificável.
+        ...(article.author.name === responsibleDoctor.name
+          ? { identifier: responsibleDoctor.registration }
+          : {}),
       },
-      publisher: { "@id": new URL("/#organization", Astro.site).href },
+      publisher: {
+        "@id": new URL("/superficie#organization", Astro.site).href,
+      },
       isPartOf: { "@id": new URL("/superficie#periodical", Astro.site).href },
       mainEntityOfPage: { "@id": `${articleUrl}#webpage` },
       citation: article.references.map((reference) => reference.url),
-      ...(article.featuredImage
-        ? { image: new URL(article.featuredImage.src, Astro.site).href }
-        : {}),
       ...(article.sponsored && article.sponsor
         ? {
             sponsor: {
@@ -83,8 +101,11 @@ const articleSchema = isPublished
 <SuperficieLayout
   title={article.seo.title}
   description={article.seo.description}
-  image={article.featuredImage?.src}
-  imageAlt={article.featuredImage?.alt}
+  image={articleImage}
+  imageAlt={ogImage?.alt ?? `${article.title} — SUPERFÍCIE`}
+  imageType={articleImageType}
+  imageWidth={ogImage?.width ?? 1200}
+  imageHeight={ogImage?.height ?? 630}
   datePublished={article.publishedAt}
   dateModified={article.modifiedAt ?? article.publishedAt}
   robots={isPublished ? undefined : "noindex,nofollow,noarchive"}
@@ -93,7 +114,7 @@ const articleSchema = isPublished
   compactHeader
   breadcrumbs={[
     { name: "SUPERFÍCIE", url: "/superficie" },
-    { name: "Artigos", url: "/superficie#destaque" },
+    { name: "Artigos", url: "/superficie/artigos" },
     { name: article.title, url: canonicalPath },
   ]}
   extraSchema={articleSchema}

@@ -21,8 +21,9 @@ const applySecurityHeaders = (response: Response) => {
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",
-    "upgrade-insecure-requests",
   ];
+
+  if (import.meta.env.PROD) cspDirectives.push("upgrade-insecure-requests");
 
   response.headers.set("Content-Security-Policy", cspDirectives.join("; "));
 
@@ -37,6 +38,45 @@ const applySecurityHeaders = (response: Response) => {
   return response;
 };
 
-export const onRequest = defineMiddleware(async (_context, next) => {
-  return applySecurityHeaders(await next());
+const isEdicao00Lab = (pathname: string) =>
+  pathname === "/superficie/lab/edicao-00" ||
+  pathname.startsWith("/superficie/lab/edicao-00/");
+
+const isEdicao00Assets = (pathname: string) =>
+  pathname === "/superficie/issues/edicao-00" ||
+  pathname.startsWith("/superficie/issues/edicao-00/");
+
+const isBlockedLabOrPoc = (pathname: string) => {
+  if (isEdicao00Lab(pathname) || isEdicao00Assets(pathname)) return false;
+  return (
+    pathname === "/superficie/lab" ||
+    pathname.startsWith("/superficie/lab/") ||
+    pathname === "/superficie/issues/poc" ||
+    pathname.startsWith("/superficie/issues/poc/")
+  );
+};
+
+const isLabOrPoc = (pathname: string) =>
+  isBlockedLabOrPoc(pathname) ||
+  isEdicao00Lab(pathname) ||
+  isEdicao00Assets(pathname);
+
+export const onRequest = defineMiddleware(async (context, next) => {
+  if (import.meta.env.PROD && isBlockedLabOrPoc(context.url.pathname)) {
+    return applySecurityHeaders(
+      new Response("Not Found", {
+        status: 404,
+        headers: {
+          "Content-Type": "text/plain; charset=utf-8",
+          "X-Robots-Tag": "noindex, nofollow, noarchive",
+        },
+      }),
+    );
+  }
+
+  const response = applySecurityHeaders(await next());
+  if (isLabOrPoc(context.url.pathname)) {
+    response.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
+  }
+  return response;
 });

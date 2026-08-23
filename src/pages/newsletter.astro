@@ -1,0 +1,331 @@
+---
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import NewsletterSignupForm from "@/components/NewsletterSignupForm.astro";
+import Layout from "@/layouts/Layout.astro";
+import EducationalFigure from "@/components/EducationalFigure.astro";
+import { figures } from "@/lib/figures";
+
+const breadcrumbs = [
+  { name: "Início", url: "/" },
+  { name: "Newsletter", url: "/newsletter" },
+];
+const endpoint =
+  import.meta.env.PUBLIC_NEWSLETTER_ENDPOINT || "/api/newsletter";
+---
+
+<Layout
+  image="/images/og/og-newsletter.png"
+  title="Newsletter sobre Olho Seco e Superfície Ocular | Olhos Secos"
+  description="Receba conteúdos selecionados sobre olho seco, saúde ocular, novas publicações, livros e atualizações da revista SUPERFÍCIE."
+  schemaType="WebPage"
+  datePublished="2026-08-08"
+  dateModified="2026-08-08"
+  breadcrumbs={breadcrumbs}
+>
+  <header class="newsletter-hero">
+    <div class="page-shell">
+      <Breadcrumbs items={breadcrumbs} />
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <h1>Acompanhe a evolução do cuidado ocular.</h1>
+          <p>
+            Uma correspondência editorial do olhossecos.com.br com conteúdos
+            selecionados para diferentes jornadas de cuidado e prática
+            profissional.
+          </p>
+        </div>
+        <div class="form-frame">
+          <NewsletterSignupForm
+            {endpoint}
+            source="newsletter"
+            variant="portal"
+          />
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="audiences page-shell" aria-labelledby="audiences-title">
+    <EducationalFigure figure={figures.curatedReading} />
+
+    <h2 id="audiences-title">Conteúdo para diferentes jornadas.</h2>
+    <div class="audience-grid">
+      <article>
+        <h3>Para pacientes</h3>
+        <p>
+          Informação compreensível sobre sintomas, investigação, autocuidado
+          responsável, tratamentos e quando procurar avaliação.
+        </p>
+      </article>
+      <article>
+        <h3>Para profissionais</h3>
+        <p>
+          Novas edições da SUPERFÍCIE, evidências, diagnóstico multimodal,
+          tecnologias e publicações editoriais.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="ecosystem" aria-labelledby="ecosystem-title">
+    <div class="page-shell ecosystem-grid">
+      <h2 id="ecosystem-title">Do portal para a sua caixa de entrada.</h2>
+      <nav aria-label="Ecossistema editorial">
+        <a href="/guias">Guias e conteúdos educativos</a>
+        <a href="/superficie">SUPERFÍCIE</a>
+        <a href="/livros">Livros</a>
+        <a href="/app">Dry Eye Widget</a>
+      </nav>
+    </div>
+  </section>
+
+  <aside class="trust page-shell" aria-labelledby="trust-title">
+    <div>
+      <h2 id="trust-title">Uma relação editorial transparente.</h2>
+      <p>
+        Consentimento explícito, dados mínimos e nenhuma lista nominal
+        compartilhada com anunciantes sem base legal e consentimento específico.
+      </p>
+    </div>
+    <p class="trust-links">
+      <a href="/privacidade">Privacidade</a>
+      <span aria-hidden="true">·</span>
+      <a href="/politica-editorial">Política editorial</a>
+    </p>
+  </aside>
+</Layout>
+
+<style>
+  .newsletter-hero {
+    padding: clamp(2rem, 5vw, 4.5rem) 0 clamp(3.5rem, 8vw, 7rem);
+    border-bottom: 1px solid var(--line);
+    background: var(--mist);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
+    align-items: start;
+    gap: clamp(2rem, 6vw, 6.5rem);
+  }
+
+  .hero-copy,
+  .form-frame,
+  .audience-grid > article,
+  .ecosystem-grid > * {
+    min-width: 0;
+  }
+
+  .hero-copy {
+    padding-top: clamp(1rem, 4vw, 3.25rem);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+  }
+
+  h1 {
+    max-width: 12ch;
+    margin: 0;
+    font-size: clamp(2.75rem, 6.4vw, 5.7rem);
+    line-height: 0.98;
+  }
+
+  .hero-copy p {
+    max-width: 56ch;
+    margin: clamp(1.5rem, 3vw, 2.5rem) 0 0;
+    color: var(--ink-soft);
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+    line-height: 1.7;
+  }
+
+  .form-frame {
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--teal);
+    background: var(--paper);
+  }
+
+  .audiences {
+    padding-block: clamp(4rem, 9vw, 8rem);
+  }
+
+  .audiences > h2,
+  .ecosystem h2,
+  .trust h2 {
+    margin: 0;
+    font-size: clamp(2.2rem, 4.5vw, 4rem);
+    line-height: 1.05;
+  }
+
+  .audiences > h2 {
+    max-width: 13ch;
+  }
+
+  .audience-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: clamp(2.5rem, 5vw, 4.5rem);
+    border-top: 1px solid var(--line);
+  }
+
+  .audience-grid article {
+    padding: clamp(1.75rem, 4vw, 3.5rem) clamp(1rem, 4vw, 4rem) 0 0;
+  }
+
+  .audience-grid article + article {
+    padding-right: 0;
+    padding-left: clamp(1rem, 4vw, 4rem);
+    border-left: 1px solid var(--line);
+  }
+
+  .audience-grid h3 {
+    margin: 0;
+    color: var(--teal-dark);
+    font-size: clamp(1.7rem, 3vw, 2.5rem);
+  }
+
+  .audience-grid p {
+    max-width: 48ch;
+    margin: 1rem 0 0;
+    color: var(--ink-soft);
+  }
+
+  .ecosystem {
+    padding-block: clamp(4rem, 8vw, 7rem);
+    background: var(--ink);
+    color: white;
+  }
+
+  .ecosystem-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
+    gap: clamp(3rem, 8vw, 8rem);
+  }
+
+  .ecosystem h2 {
+    max-width: 11ch;
+  }
+
+  .ecosystem nav {
+    border-top: 1px solid rgb(255 255 255 / 28%);
+  }
+
+  .ecosystem a {
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgb(255 255 255 / 28%);
+    color: rgb(255 255 255 / 86%);
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    font-weight: 650;
+    transition:
+      color 160ms ease,
+      padding-left 160ms ease;
+  }
+
+  .ecosystem a:hover {
+    padding-left: 0.35rem;
+    color: white;
+  }
+
+  .trust {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: clamp(2rem, 7vw, 7rem);
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+
+  .trust > div {
+    max-width: 760px;
+  }
+
+  .trust h2 {
+    max-width: 15ch;
+  }
+
+  .trust p {
+    margin: 1.25rem 0 0;
+    color: var(--ink-soft);
+  }
+
+  .trust-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    white-space: nowrap;
+  }
+
+  .trust-links a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    color: var(--teal-dark);
+    font-weight: 750;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+  }
+
+  @media (max-width: 900px) {
+    .hero-grid,
+    .ecosystem-grid,
+    .trust {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-copy {
+      padding-top: 0.5rem;
+    }
+
+    .form-frame {
+      width: min(100%, 680px);
+    }
+
+    .ecosystem h2 {
+      max-width: 15ch;
+    }
+
+    .trust {
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .newsletter-hero {
+      padding-top: 1.5rem;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 13vw, 3.75rem);
+    }
+
+    .audience-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .audience-grid article,
+    .audience-grid article + article {
+      padding: 1.75rem 0;
+      border-left: 0;
+    }
+
+    .audience-grid article + article {
+      border-top: 1px solid var(--line);
+    }
+
+    .trust-links {
+      white-space: normal;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ecosystem a {
+      transition: none;
+    }
+  }
+</style>
