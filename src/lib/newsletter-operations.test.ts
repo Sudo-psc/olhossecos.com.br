@@ -96,25 +96,37 @@ test("exporta somente assinantes ativos com URL opaca de descadastro", () => {
   assert.doesNotMatch(recipients[0]?.unsubscribeUrl ?? "", /ativa%40|example/u);
 });
 
-test("gera snapshot consistente e verificável do SQLite", async () => {
-  const databasePath = join(testDirectory, "source.sqlite");
-  const backupPath = join(testDirectory, "backup", "source.sqlite");
-  rmSync(databasePath, { force: true });
-  rmSync(join(testDirectory, "backup"), { recursive: true, force: true });
-  createNewsletterDatabase(databasePath);
+const nodeMajor = Number.parseInt(
+  process.versions.node.split(".")[0] ?? "0",
+  10,
+);
 
-  const result = await backupSqliteDatabase(databasePath, backupPath);
+test(
+  "gera snapshot consistente e verificável do SQLite",
+  {
+    skip:
+      nodeMajor < 24 ? "backup() do node:sqlite só existe no Node 24+" : false,
+  },
+  async () => {
+    const databasePath = join(testDirectory, "source.sqlite");
+    const backupPath = join(testDirectory, "backup", "source.sqlite");
+    rmSync(databasePath, { force: true });
+    rmSync(join(testDirectory, "backup"), { recursive: true, force: true });
+    createNewsletterDatabase(databasePath);
 
-  assert.equal(existsSync(backupPath), true);
-  assert.equal(result.integrity, "ok");
-  assert.equal(verifySqliteDatabase(backupPath), "ok");
-  const backup = new DatabaseSync(backupPath, { readOnly: true });
-  const count = backup
-    .prepare("SELECT COUNT(*) AS total FROM newsletter_subscribers")
-    .get() as { total: number };
-  backup.close();
-  assert.equal(count.total, 2);
-});
+    const result = await backupSqliteDatabase(databasePath, backupPath);
+
+    assert.equal(existsSync(backupPath), true);
+    assert.equal(result.integrity, "ok");
+    assert.equal(verifySqliteDatabase(backupPath), "ok");
+    const backup = new DatabaseSync(backupPath, { readOnly: true });
+    const count = backup
+      .prepare("SELECT COUNT(*) AS total FROM newsletter_subscribers")
+      .get() as { total: number };
+    backup.close();
+    assert.equal(count.total, 2);
+  },
+);
 
 test("não segue symlink durante a criação exclusiva de uma exportação", () => {
   const targetPath = join(testDirectory, "export-target.txt");

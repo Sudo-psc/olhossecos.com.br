@@ -229,8 +229,111 @@ const agosto2026: RadarReport = {
   },
 };
 
+const julho2026: RadarReport = {
+  slug: "julho-2026",
+  label: "Julho 2026",
+  title:
+    "Dor crônica da superfície, defeito epitelial e o custo de não separar mecanismos",
+  period: "Varredura de junho e julho de 2026",
+  publishedAt: "2026-07-12",
+  executiveSummary:
+    "O ciclo anterior ao de agosto organizou três frentes que o consultório já encontra sem nomeá-las: a dor crônica da superfície que se comporta como condição nociplástica, o defeito epitelial persistente como problema de recurso e não só de colírio, e o olho seco que aparece depois de cirurgia palpebral estética. Em todos os casos, o texto precisa dizer o tamanho da evidência — revisão narrativa, série retrospectiva, associação observacional — para não transformar hipótese em conduta.",
+  highlights: [
+    {
+      title:
+        "Dor crônica da superfície cabe no vocabulário das dores sobrepostas",
+      whyItMatters:
+        "Ajuda a ler a dissociação entre sintoma e sinal sem reduzir o relato a “olho seco que não fecha”.",
+    },
+    {
+      title:
+        "Defeito epitelial persistente consome tempo e visita no sistema público",
+      whyItMatters:
+        "Mostra o custo de protocolos longos e a necessidade de comparar alternativas com n pequeno e desenho retrospectivo à vista.",
+    },
+    {
+      title:
+        "Blefaroplastia de incisão completa se associa a DGM e piscada incompleta no curto prazo",
+      whyItMatters:
+        "Orienta a conversa perioperatória: o procedimento estético pode alterar o filme lacrimal por semanas, sem provar dano permanente.",
+    },
+    {
+      title:
+        "Ivermectina na blefarite por Demodex ainda não tem regime padronizado",
+      whyItMatters:
+        "Organiza o que os relatos mostram — queda de densidade e de cilindros — e o que falta: protocolo, prazo e comparação com lotilaner.",
+    },
+  ],
+  findings: [
+    {
+      title:
+        "Chronic Ocular Surface Pain: A Missing Member of the Chronic Overlapping Pain Conditions?",
+      source: "Drugs",
+      date: "10/06/2026",
+      url: "https://doi.org/10.1007/s40265-026-02343-9",
+      doi: "10.1007/s40265-026-02343-9",
+      summary:
+        "Revisão narrativa de Chang, Hattenhauer, Saccaro, Mamatkazina, Felix, De Lott e Galor sobre dor crônica da superfície ocular (mais de três meses) no quadro das dez condições de dor crônica sobrepostas. Argumenta que um subconjunto compartilha predominância feminina, agrupamento com outras dores nociplásticas e persistência após anestesia tópica.",
+      whyItMatters:
+        "Oferece vocabulário para a dissociação sintoma–sinal sem transformar a revisão em critério diagnóstico novo. A proposta de “11ª condição” é hipótese de enquadramento, não classificação adotada.",
+      evidenceLevel: "Revisão narrativa",
+      section: "Fenotipagem da doença do olho seco",
+    },
+    {
+      title:
+        "Management of ocular surface disease involving inflammation and persistent epithelial defects utilising various treatment modalities in the UK National Health Service (NHS)",
+      source: "Eye",
+      date: "04/06/2026",
+      url: "https://doi.org/10.1038/s41433-026-04314-6",
+      doi: "10.1038/s41433-026-04314-6",
+      summary:
+        "Série retrospectiva de 30 pessoas com defeito epitelial persistente em dois centros do NHS. O manejo convencional fechou o defeito em 57%, com duração média de 176 ± 188 dias e cerca de 10 consultas ambulatoriais por caso. Tarsorrafia (83%) e membrana amniótica (34%) foram frequentes. A comparação com matriz amniótica sem sutura veio de dados agrupados de estudos anteriores nos mesmos centros, não de randomização.",
+      whyItMatters:
+        "Mostra o peso operacional do PED. Os números de custo e de cura da alternativa não vêm do mesmo ensaio; n = 30 e desenho retrospectivo limitam qualquer generalização.",
+      evidenceLevel: "Série retrospectiva / n = 30",
+      section: "Tecnologias diagnósticas e terapêuticas",
+    },
+    {
+      title:
+        "The Impact of Full-Incision Double-Eyelid Blepharoplasty on Dry Eye: Association with Short-Term Meibomian Gland Dysfunction and Increased Incomplete Blinking",
+      source: "Aesthetic Plastic Surgery",
+      date: "12/06/2026",
+      url: "https://doi.org/10.1007/s00266-026-06052-2",
+      doi: "10.1007/s00266-026-06052-2",
+      summary:
+        "Estudo observacional de Pan e Chen associando blefaroplastia de incisão completa para pálpebra dupla a disfunção das glândulas de Meibômio e aumento de piscadas incompletas no período curto após a cirurgia.",
+      whyItMatters:
+        "Útil para a conversa perioperatória e para não atribuir automaticamente o desconforto pós-operatório a “olho seco de sempre”. Associação de curto prazo, não prova de dano estrutural permanente.",
+      evidenceLevel: "Observacional / associação de curto prazo",
+      section: "Superfície ocular perioperatória",
+    },
+    {
+      title:
+        "Ivermectin in the Management of Demodex-associated Blepharitis: A Comprehensive Literature Review",
+      source: "Eye & Contact Lens",
+      date: "01/07/2026",
+      url: "https://doi.org/10.1097/icl.0000000000001299",
+      doi: "10.1097/icl.0000000000001299",
+      summary:
+        "Revisão narrativa de Buzzi, Sponga, Angheben, Carnicci, Giansanti e Mencucci sobre ivermectina tópica e oral na blefarite associada a Demodex. Sintetiza ensaios, séries e relatos até novembro de 2025: em geral houve queda da densidade do ácaro, dos cilindros e de alguns sintomas, com eventos adversos pouco frequentes e leves. Os próprios autores pedem regimes padronizados e acompanhamento longo.",
+      whyItMatters:
+        "Organiza o que já existe sem promover um protocolo. Não substitui o lote aprovado para Demodex nem define dose, duração ou critério de cura.",
+      evidenceLevel: "Revisão narrativa",
+      section: "Farmacologia e pipeline",
+    },
+  ],
+  industry: [],
+  transparencyNote:
+    "Este RADAR priorizou itens com DOI conferido no Crossref e resumo público. Nenhuma entrada é publicada sem fonte original. Onde o desenho for revisão narrativa ou série pequena, o nível de evidência diz isso no próprio card.",
+  seo: {
+    title: "RADAR Científico — Julho 2026 | SUPERFÍCIE",
+    description:
+      "Curadoria de junho e julho de 2026: dor crônica da superfície, defeito epitelial persistente, blefaroplastia e ivermectina no Demodex.",
+  },
+};
+
 /** Relatórios publicados, do mais recente para o mais antigo. */
-export const radarReports: RadarReport[] = [agosto2026];
+export const radarReports: RadarReport[] = [agosto2026, julho2026];
 
 export const latestRadarReport = (): RadarReport | undefined => radarReports[0];
 

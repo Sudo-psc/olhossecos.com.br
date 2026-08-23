@@ -11,7 +11,7 @@ conteúdo é a entrega. São quatro frentes no mesmo repositório:
 | Frente                 | Rotas                                                                                                          | O que é                                                                           |
 | ---------------------- | -------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
 | **Portal do paciente** | `/`, `/sintomas`, `/causas`, `/diagnostico`, `/tratamentos`, `/autocuidado`, `/sinais-de-alerta`, `/glossario` | Conteúdo explicativo para pacientes                                               |
-| **Guias**              | `/guias`, `/guias/[slug]`                                                                                      | 12 leituras curtas e aprofundadas, com referências                                |
+| **Guias**              | `/guias`, `/guias/[slug]`                                                                                      | 13 leituras curtas e aprofundadas, com referências                                |
 | **SUPERFÍCIE**         | `/superficie/**`                                                                                               | Revista para profissionais: edição fundadora, RADAR Científico, área de parceiros |
 | **Livros e app**       | `/livros/**`, `/app`                                                                                           | Obras do autor e o Dry Eye Widget                                                 |
 

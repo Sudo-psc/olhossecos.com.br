@@ -115,6 +115,9 @@ const page = {
       : undefined,
   datePublished,
   dateModified,
+  lastReviewed: schemaType === "MedicalWebPage" ? dateModified : undefined,
+  reviewedBy:
+    schemaType === "MedicalWebPage" ? { "@id": person["@id"] } : undefined,
   about:
     schemaType === "MedicalWebPage" || schemaType === "Article"
       ? {
@@ -166,7 +169,9 @@ const structuredData = {
     imageObject,
     // A Person só entra no grafo quando algo aponta para ela; nas páginas que
     // não são Article o nó seria órfão.
-    ...(schemaType === "Article" ? [person] : []),
+    ...(schemaType === "Article" || schemaType === "MedicalWebPage"
+      ? [person]
+      : []),
     page,
     ...(breadcrumbSchema ? [breadcrumbSchema] : []),
     ...extraSchemas,

@@ -8,8 +8,16 @@ import {
   writeFileSync,
 } from "node:fs";
 import { dirname } from "node:path";
-import { backup, DatabaseSync } from "node:sqlite";
+import { DatabaseSync } from "node:sqlite";
 import { createNewsletterUnsubscribeToken } from "./newsletter.ts";
+
+const loadSqliteBackup = async () => {
+  const sqlite = await import("node:sqlite");
+  if (typeof sqlite.backup !== "function") {
+    throw new Error("backup() do node:sqlite exige Node.js 24 ou superior");
+  }
+  return sqlite.backup;
+};
 
 export type NewsletterCampaignRecipient = {
   email: string;
@@ -107,6 +115,7 @@ export const backupSqliteDatabase = async (
   mkdirSync(dirname(destinationPath), { recursive: true, mode: 0o700 });
   const database = new DatabaseSync(databasePath);
   try {
+    const backup = await loadSqliteBackup();
     await backup(database, destinationPath);
   } finally {
     database.close();

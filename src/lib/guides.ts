@@ -128,6 +128,22 @@ export const guides: Guide[] = [
           "Entram na lista ainda condições que muita gente não associa aos olhos: rosácea, doenças da tireoide, depressão, apneia do sono, enxaqueca, artrite, alergia e asma.",
         ],
         note: "Fator de risco não é causa nem destino. Ter vários não significa que você terá a doença, e não ter nenhum não a descarta. Serve para orientar o que investigar.",
+        evidence: {
+          design: "Revisão sistemática e metanálise",
+          effect: "48 estudos",
+          outcome:
+            "fatores associados à síndrome do olho seco em ~493 mil pessoas",
+          stats: ["idade e sexo feminino entre os mais consistentes"],
+          level: 2,
+          levelLabel: "Moderado",
+          caveat:
+            "Metanálise de estudos observacionais: associação, não prova de causa individual.",
+          reference: {
+            label:
+              "Qian e Wei. Identified risk factors for dry eye syndrome, 2022",
+            url: "https://doi.org/10.1371/journal.pone.0271267",
+          },
+        },
       },
       {
         heading: "Como isso aparece no Brasil",
@@ -136,6 +152,24 @@ export const guides: Guide[] = [
           "Uma revisão sistemática de 16 estudos sul-americanos encontrou prevalência média de sintomas em torno de 39%, com variação grande entre populações e métodos.",
         ],
         note: "São estudos de sintomas relatados, não de diagnóstico confirmado em consulta — por isso os números costumam ser mais altos do que a prevalência clínica.",
+        evidence: {
+          design: "Inquérito transversal com 2.140 universitários brasileiros",
+          effect: "34,4%",
+          outcome: "escore OSDI acima do ponto de corte de sintomas",
+          stats: [
+            "idade média 23,4 anos",
+            "sinais clínicos leves apesar dos sintomas",
+          ],
+          level: 3,
+          levelLabel: "Baixo a moderado",
+          caveat:
+            "Amostra jovem e universitária; o número descreve sintomas relatados, não diagnóstico clínico confirmado.",
+          reference: {
+            label:
+              "Yang et al. Prevalence and associated risk factors among Brazilian undergraduate students, 2021",
+            url: "https://doi.org/10.1371/journal.pone.0259399",
+          },
+        },
       },
       {
         heading: "Como participar das decisões",

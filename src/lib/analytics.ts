@@ -104,6 +104,7 @@ const allowedProperties = new Set([
   "page_number",
   "progress_percent",
   "query_length",
+  "result_count",
   "source",
   "store",
   "utm_campaign",
@@ -281,6 +282,15 @@ export const handleAnalyticsRequest = async (
   const pagePath = normalizePagePath(payload.page_path);
   if (!canonicalEvents.has(eventName) || !pagePath) {
     return jsonResponse({ message: "Evento inválido." }, 422);
+  }
+
+  // O laboratório do Reader injeta milhares de eventos de teste. Aceitar
+  // sem gravar no banco de produção evita contaminar o relatório editorial.
+  if (
+    pagePath === "/superficie/lab" ||
+    pagePath.startsWith("/superficie/lab/")
+  ) {
+    return jsonResponse({ message: "Evento recebido." }, 202);
   }
 
   const databasePath =

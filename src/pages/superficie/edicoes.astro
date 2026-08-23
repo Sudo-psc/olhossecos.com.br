@@ -7,7 +7,11 @@ import {
   publishedIssues,
 } from "@/lib/superficie";
 
-const title = "Edições da SUPERFÍCIE | Revista de Olho Seco";
+// Título na forma que o Google já exibe para esta rota — por isso os 63
+// caracteres, que o verify-release-routes libera aqui e em /superficie/artigos.
+// A description continua lendo founderIssue.number: número escrito à mão foi
+// justamente o que fez três páginas da revista discordarem da home.
+const title = "Edições | SUPERFÍCIE — Revista de Olho Seco e Superfície Ocular";
 const description = `Edição Fundadora nº ${founderIssue.number} da SUPERFÍCIE: A nova era da superfície ocular — do sintoma ao fenótipo, diagnóstico multimodal e terapias dirigidas por mecanismo.`;
 
 const collectionSchema = {

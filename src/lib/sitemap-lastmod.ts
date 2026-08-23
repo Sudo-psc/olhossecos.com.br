@@ -41,10 +41,10 @@ const staticPages: Record<string, string> = {
     "2026-08-07",
   "/livros/o-custo-invisivel-do-olho-seco": "2026-08-07",
   "/newsletter": "2026-08-08",
-  "/olho-seco": "2026-08-05",
+  "/olho-seco": "2026-08-21",
   "/politica-editorial": "2026-08-07",
   "/privacidade": "2026-08-08",
-  "/profissionais": "2026-08-07",
+  "/profissionais": "2026-08-21",
   "/sinais-de-alerta": "2026-07-26",
   "/sintomas": "2026-07-26",
   "/superficie": "2026-08-08",
@@ -52,7 +52,7 @@ const staticPages: Record<string, string> = {
   "/superficie/edicao-00": "2026-08-07",
   "/superficie/edicoes": "2026-08-15",
   "/superficie/parceiros": "2026-08-08",
-  "/superficie/radar": "2026-08-09",
+  "/superficie/radar": "2026-08-22",
   "/tratamentos": "2026-07-26",
 };
 

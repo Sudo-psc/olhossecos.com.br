@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtempSync, rmSync } from "node:fs";
+import { existsSync, mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { after, beforeEach, test } from "node:test";
@@ -131,7 +131,7 @@ test("persiste eventos seguros do reader sem texto selecionado ou notas", async 
   const response = await handleAnalyticsRequest(
     request({
       event: "highlight_create",
-      page_path: "/superficie/lab/flipbook",
+      page_path: "/superficie/edicao-00",
       issue_id: "superficie-poc",
       page_number: 4,
       progress_percent: 50,
@@ -157,6 +157,24 @@ test("persiste eventos seguros do reader sem texto selecionado ou notas", async 
     progress_percent: 50,
   });
   assert.doesNotMatch(row.properties_json, /conteúdo privado|nota privada/u);
+});
+
+test("eventos do laboratório do Reader não entram no banco de produção", async () => {
+  const response = await handleAnalyticsRequest(
+    request({
+      event: "page_view",
+      page_path: "/superficie/lab/edicao-00",
+    }),
+    { allowedOrigin, databasePath, rateLimit: false },
+  );
+
+  assert.equal(response.status, 202);
+  closeAnalyticsDatabases();
+  assert.equal(
+    existsSync(databasePath),
+    false,
+    "o laboratório não deveria criar analytics.sqlite de produção",
+  );
 });
 
 test("recusa eventos desconhecidos e origem cruzada", async () => {

@@ -277,7 +277,16 @@ try {
         .replace(/&quot;/gu, '"')
         .replace(/&#39;/gu, "'")
         .replace(/&amp;/gu, "&");
-    if (decode(title).length > 60) {
+    // Títulos GSC do overlay: home 65, artigos/edições 63. O teto de 60
+    // permanece nas outras rotas.
+    const titleLimit = new Set([
+      "/",
+      "/superficie/artigos",
+      "/superficie/edicoes",
+    ]).has(path)
+      ? 65
+      : 60;
+    if (decode(title).length > titleLimit) {
       oversized.push(`${path}: título com ${decode(title).length}`);
     }
     if (decode(description).length > 158) {
