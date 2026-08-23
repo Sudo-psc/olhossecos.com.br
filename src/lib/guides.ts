@@ -214,7 +214,7 @@ export const guides: Guide[] = [
     category: "Vida diária",
     title: "Telas, piscadas e desconforto",
     description:
-      "Como atenção prolongada, posição da tela e ambiente podem mexer com o filme lacrimal.",
+      "Como o uso prolongado de telas, a redução das piscadas e o ambiente desestabilizam o filme lacrimal — e o que a regra 20-20-20 faz e não faz.",
     summary: {
       finding:
         "Ler reduz a frequência de piscadas em qualquer suporte, mas o aumento de piscadas incompletas apareceu só nos formatos eletrônicos. Exercícios de piscada reduziram a proporção de piscadas incompletas de 54% para 34% em quatro semanas.",
