@@ -14,7 +14,7 @@
     "test": "node --experimental-strip-types --test src/lib/*.test.ts scripts/*.test.mjs src/superficie/reader/reader-core.test.ts src/superficie/reader/audio/*.test.ts src/superficie/reader/storage/*.test.ts",
     "test:reader": "node --test src/superficie/reader/reader-core.test.ts src/superficie/reader/audio/*.test.ts src/superficie/reader/storage/*.test.ts",
     "test:e2e:reader": "playwright test e2e/superficie-reader.spec.ts",
-    "test:routes": "node scripts/verify-release-routes.mjs",
+    "test:routes": "node --experimental-strip-types scripts/verify-release-routes.mjs",
     "test:newsletter": "node --test src/lib/newsletter.test.ts",
     "test:partners": "node --test src/lib/partner-inquiries.test.ts",
     "test:gate5": "node --test src/lib/newsletter.test.ts src/lib/partner-inquiries.test.ts",
