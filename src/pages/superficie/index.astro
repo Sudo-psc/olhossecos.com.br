@@ -6,7 +6,9 @@ import SuperficieLayout from "@/layouts/SuperficieLayout.astro";
 import { getRadarReportPath, latestRadarReport } from "@/lib/radar";
 import {
   evidenceFields,
+  editorialPolicyPath,
   founderIssue,
+  getIssuePublicStatus,
   publishedArticles,
   sortPublishedArticlesByDate,
   technologyTopics,
@@ -36,6 +38,7 @@ const featuredArticles = sortPublishedArticlesByDate(publishedArticles).slice(
   0,
   6,
 );
+const issueStatus = getIssuePublicStatus(founderIssue);
 const newsletterEndpoint =
   import.meta.env.PUBLIC_NEWSLETTER_ENDPOINT || "/api/newsletter";
 ---
@@ -45,7 +48,7 @@ const newsletterEndpoint =
   {description}
   home
   schemaType="CollectionPage"
-  dateModified="2026-08-17"
+  dateModified="2026-08-23"
   breadcrumbs={[{ name: "SUPERFÍCIE", url: "/superficie" }]}
 >
   <section class="hero" aria-labelledby="hero-title">
@@ -72,10 +75,13 @@ const newsletterEndpoint =
     </picture>
     <div class="hero-wash" aria-hidden="true"></div>
     <div class="surface-shell hero-grid">
-      <div class="hero-index" aria-label="Edição em produção">
+      <div
+        class="hero-index"
+        aria-label={`Edição 00 · ${issueStatus.shortLabel}`}
+      >
         <span>Edição</span>
         <strong>00</strong>
-        <small>Em produção</small>
+        <small>{issueStatus.shortLabel}</small>
       </div>
 
       <div class="hero-copy">
@@ -92,7 +98,7 @@ const newsletterEndpoint =
             class="button button-primary"
             href="/superficie/edicao-00"
             data-analytics-event="issue_click"
-            data-analytics-label="hero_edicao_00">Acompanhar o lançamento</a
+            data-analytics-label="hero_edicao_00">{issueStatus.heroCta}</a
           >
           <a class="button button-quiet" href="#newsletter"
             >Receber próximas edições</a
@@ -130,8 +136,8 @@ const newsletterEndpoint =
         </p>
         <div class="status-line">
           <span class="status-dot" aria-hidden="true"></span>
-          <strong>Em produção</strong>
-          <span>Previsão editorial: {founderIssue.plannedPublication}</span>
+          <strong>{issueStatus.label}</strong>
+          <span>{issueStatus.detail}</span>
         </div>
         <a
           class="text-link"
@@ -388,7 +394,8 @@ const newsletterEndpoint =
           a publicação, mas não determinam conclusões clínicas ou científicas.
         </p>
         <p class="policy-state">
-          A política editorial completa será publicada antes da primeira edição.
+          A <a href={editorialPolicyPath}>política editorial</a> declara o mesmo critério:
+          parceria não determina pauta nem conclusão clínica.
         </p>
       </div>
       <div
@@ -1071,6 +1078,12 @@ const newsletterEndpoint =
     margin: 1.5rem 0 0;
     color: var(--surface-muted);
     font-size: 0.82rem;
+  }
+
+  .policy-state a {
+    color: var(--surface-teal);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
   }
 
   .newsletter-grid {

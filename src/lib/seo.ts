@@ -30,6 +30,7 @@ const sitemapExcludedExact = new Set([
   "/newsletter/descadastrar",
   "/newsletter/confirmar",
   "/404",
+  "/search-index.json",
 ]);
 
 const sitemapExcludedPrefixes = ["/superficie/lab", "/superficie/issues"];

@@ -585,7 +585,15 @@ const structures = [
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .eye-sonar-pin:focus {
     outline: none;
+  }
+
+  .eye-sonar-pin:focus-visible {
+    outline: 3px solid var(--teal-600, #087f95);
+    outline-offset: 3px;
   }
 
   .sonar-wave {

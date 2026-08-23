@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import {
   normalizeSearchText,
   getUnifiedSearchIndex,
@@ -59,4 +60,15 @@ test("searchUnified encontra termos médicos com e sem acento", () => {
 
   const empty = searchUnified("");
   assert.deepEqual(empty, []);
+});
+
+test("a busca global não embute o índice no HTML de cada página", () => {
+  const modal = readFileSync("src/components/GlobalSearchModal.astro", "utf8");
+  const endpoint = readFileSync("src/pages/search-index.json.ts", "utf8");
+
+  assert.doesNotMatch(modal, /getUnifiedSearchIndex/u);
+  assert.doesNotMatch(modal, /id="global-search-data"/u);
+  assert.match(modal, /data-search-index-url/u);
+  assert.match(endpoint, /getUnifiedSearchIndex/u);
+  assert.match(endpoint, /prerender = true/u);
 });

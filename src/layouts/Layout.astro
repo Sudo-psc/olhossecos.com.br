@@ -447,6 +447,7 @@ const structuredData = {
   }
 
   .desktop-nav a:hover::after,
+  .desktop-nav a:focus-visible::after,
   .desktop-nav a[aria-current="page"]::after {
     transform: scaleX(1);
   }
@@ -467,6 +468,11 @@ const structuredData = {
 
   .header-cta:hover {
     background: var(--ink);
+    color: white;
+  }
+
+  .header-cta:active {
+    background: var(--navy-900);
     color: white;
   }
 
@@ -540,6 +546,17 @@ const structuredData = {
   .button-primary:hover {
     background: var(--ink);
     transform: translateY(-2px);
+  }
+
+  .button-primary:active {
+    background: var(--navy-900);
+    transform: translateY(0);
+  }
+
+  .button-primary:disabled {
+    cursor: wait;
+    opacity: 0.65;
+    transform: none;
   }
 
   .eyebrow {
@@ -814,6 +831,20 @@ const structuredData = {
       background: transparent;
       color: var(--ink);
       cursor: pointer;
+      border-radius: var(--control-radius);
+      transition:
+        color 150ms ease,
+        background-color 150ms ease;
+    }
+
+    .menu-button:hover {
+      color: var(--teal-dark);
+      background: var(--mist);
+    }
+
+    .menu-button:active {
+      color: var(--ink);
+      background: var(--teal-100);
     }
 
     .menu-button span {
@@ -875,6 +906,11 @@ const structuredData = {
       padding-block: 0.7rem;
       border-bottom: 1px solid #e8eef2;
       font-weight: 650;
+    }
+
+    .mobile-nav a:hover,
+    .mobile-nav a:focus-visible {
+      color: var(--teal-dark);
     }
 
     .mobile-nav a[aria-current="page"] {

@@ -237,6 +237,19 @@ test("descrição estável da revista não muda por página", () => {
   );
 });
 
+test("status público da edição 00 descreve artigos no ar sem anunciar circulação", () => {
+  const status = superficie.getIssuePublicStatus(superficie.founderIssue);
+
+  assert.equal(superficie.founderIssue.status, "in_production");
+  assert.ok(superficie.founderIssue.articles.length >= 12);
+  assert.equal(status.shortLabel, "Artigos no ar");
+  assert.equal(status.label, "Artigos no ar");
+  assert.match(status.detail, /novembro de 2026/);
+  assert.doesNotMatch(status.detail, /^Em produção$/u);
+  assert.equal(status.heroCta, "Ler a Edição Fundadora");
+  assert.equal(superficie.editorialPolicyPath, "/politica-editorial");
+});
+
 test("template de artigo da revista não injeta capa nem fundo no layout", () => {
   const template = read("src/components/superficie/MagazineArticlePage.astro");
   const route = read("src/pages/superficie/artigos/[slug].astro");
