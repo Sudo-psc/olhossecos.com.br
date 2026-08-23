@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { formatLongDate } from "@/lib/dates";
 import IssueCover from "@/components/superficie/IssueCover.astro";
 import EyeExplorer from "@/components/science/EyeExplorer.astro";
 import MechanismScrolly from "@/components/science/MechanismScrolly.astro";
@@ -151,9 +152,9 @@ const featuredBooks = books.slice(0, 2);
             qualidade óptica da superfície ocular.
           </p>
           <small>
-            Ilustração original do portal · Imagem gerada com IA para fins
-            editoriais; representação esquemática, sem escala anatômica e não é
-            uma fotografia clínica.
+            Ilustração original do portal · Vídeo e imagem gerados com IA para
+            fins editoriais; representação esquemática, sem escala anatômica e
+            não é registro clínico.
           </small>
         </figcaption>
       </figure>
@@ -238,7 +239,15 @@ const featuredBooks = books.slice(0, 2);
               </div>
               <div>
                 <dt>Publicado</dt>
-                <dd>{leadArticle.publishedAt ?? "Edição em produção"}</dd>
+                <dd>
+                  {leadArticle.publishedAt ? (
+                    <time datetime={leadArticle.publishedAt}>
+                      {formatLongDate(leadArticle.publishedAt)}
+                    </time>
+                  ) : (
+                    "Edição em produção"
+                  )}
+                </dd>
               </div>
               <div>
                 <dt>Revisão</dt>
@@ -706,6 +715,31 @@ const featuredBooks = books.slice(0, 2);
         });
       });
     });
+
+  // O vídeo do hero é autoplay em loop e era o único movimento da página que
+  // ignorava prefers-reduced-motion — o parallax abaixo e a interferência em
+  // SVG já respeitavam. Pausar no primeiro quadro deixa o poster no lugar, sem
+  // esconder o <video>, cujo <picture> interno é o fallback de quem não tem
+  // suporte a vídeo. A media query é observada: quem muda a preferência do
+  // sistema com a página aberta é atendido na hora.
+  const heroVideo = document.querySelector<HTMLVideoElement>(".hero-video");
+  if (heroVideo) {
+    const stillness = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const applyStillness = () => {
+      if (stillness.matches) {
+        heroVideo.pause();
+        heroVideo.currentTime = 0;
+        heroVideo.removeAttribute("autoplay");
+      } else {
+        void heroVideo.play().catch(() => {
+          // Autoplay bloqueado pelo navegador: o poster permanece, e é o
+          // mesmo quadro que o vídeo mostraria parado.
+        });
+      }
+    };
+    applyStillness();
+    stillness.addEventListener("change", applyStillness);
+  }
 
   // Parallax do hero: deslocamento de poucos pixels, só no desktop e só quando
   // o visitante não pediu menos movimento. Nada além do hero se move.

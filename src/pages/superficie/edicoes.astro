@@ -8,8 +8,7 @@ import {
 } from "@/lib/superficie";
 
 const title = "Edições da SUPERFÍCIE | Revista de Olho Seco";
-const description =
-  "Edição Fundadora nº 0 da SUPERFÍCIE: A nova era da superfície ocular — do sintoma ao fenótipo, diagnóstico multimodal e terapias dirigidas por mecanismo.";
+const description = `Edição Fundadora nº ${founderIssue.number} da SUPERFÍCIE: A nova era da superfície ocular — do sintoma ao fenótipo, diagnóstico multimodal e terapias dirigidas por mecanismo.`;
 
 const collectionSchema = {
   "@type": "ItemList",
@@ -37,7 +36,7 @@ const collectionSchema = {
 >
   <section class="archive-hero" aria-labelledby="edicoes-title">
     <div class="surface-shell">
-      <p class="eyebrow gold">Edição Fundadora • Nº 0</p>
+      <p class="eyebrow gold">Edição Fundadora • Nº {founderIssue.number}</p>
       <h1 id="edicoes-title">Edições</h1>
     </div>
   </section>
@@ -51,7 +50,7 @@ const collectionSchema = {
         />
       </div>
       <div class="issue-intro">
-        <p class="eyebrow ink">Edição Fundadora • Nº 0</p>
+        <p class="eyebrow ink">Edição Fundadora • Nº {founderIssue.number}</p>
         <h2 id="issue-title">{founderIssue.title}</h2>
         <p class="issue-subtitle">{founderIssue.subtitle}</p>
         <p>

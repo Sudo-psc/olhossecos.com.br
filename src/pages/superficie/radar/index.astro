@@ -1,5 +1,6 @@
 ---
 import SuperficieLayout from "@/layouts/SuperficieLayout.astro";
+import { formatLongDate } from "@/lib/dates";
 import {
   getRadarReportPath,
   radarCriteria,
@@ -11,13 +12,7 @@ const title = "RADAR Científico | SUPERFÍCIE";
 const description =
   "Curadoria mensal de evidências em olho seco: literatura, sociedades, indústria e regulação, com fonte verificável e leitura para a prática.";
 
-const formatDate = (iso: string) =>
-  new Date(`${iso}T12:00:00Z`).toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-    timeZone: "UTC",
-  });
+const formatDate = formatLongDate;
 
 const collectionSchema = {
   "@type": "ItemList",

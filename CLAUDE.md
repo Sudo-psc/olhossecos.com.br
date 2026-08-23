@@ -46,7 +46,7 @@ tranca essa porta.
 npm run dev          # servidor local em http://localhost:4321
 npm run check        # PORTÃO COMPLETO: test + lint + format:check + build + test:routes
 npm run build        # scripts/build-release.mjs → astro check + build + BUILD_METADATA.json
-npm test             # 67 testes com node:test
+npm test             # suíte node:test (o número cresce; não fixe aqui)
 npm run lint         # ESLint 9 (funciona; docs antigas dizem o contrário)
 npm run format       # Prettier + prettier-plugin-astro
 npm run test:routes  # verifica que as rotas do release respondem

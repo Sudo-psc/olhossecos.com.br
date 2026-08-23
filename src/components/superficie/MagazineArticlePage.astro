@@ -1,5 +1,6 @@
 ---
 import ArticleCitationModal from "@/components/superficie/ArticleCitationModal.astro";
+import { formatLongDate } from "@/lib/dates";
 import {
   calculateArticleReadingTime,
   type MagazineArticle,
@@ -14,15 +15,7 @@ interface Props {
 const { article, related } = Astro.props;
 const readingTime = calculateArticleReadingTime(article);
 const isPreview = article.status !== "published";
-const dateFormatter = new Intl.DateTimeFormat("pt-BR", {
-  day: "2-digit",
-  month: "long",
-  year: "numeric",
-  timeZone: "UTC",
-});
-
-const formatDate = (date?: string) =>
-  date ? dateFormatter.format(new Date(`${date}T00:00:00Z`)) : undefined;
+const formatDate = formatLongDate;
 ---
 
 <article class="magazine-article">

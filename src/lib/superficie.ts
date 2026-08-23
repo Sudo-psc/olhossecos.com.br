@@ -3033,7 +3033,7 @@ export const founderIssue: MagazineIssue = {
     webp600: "/images/superficie/capa-edicao-00-600.webp",
     webpLarge: "/images/superficie/capa-edicao-00-1024.webp",
     fallback: "/images/superficie/capa-edicao-00.jpg",
-    alt: "Capa da Edição Fundadora nº 0 da revista SUPERFÍCIE: A nova era da superfície ocular — do sintoma ao fenótipo, diagnóstico multimodal e terapias dirigidas por mecanismo",
+    alt: "Capa da Edição Fundadora nº 00 da revista SUPERFÍCIE: A nova era da superfície ocular — do sintoma ao fenótipo, diagnóstico multimodal e terapias dirigidas por mecanismo",
     largeWidth: 1024,
     width: 1024,
     height: 1536,
@@ -3067,7 +3067,7 @@ export const founderIssue: MagazineIssue = {
   articles: publishedArticles.filter(({ issue }) => issue === "edicao-00"),
   sponsors: [],
   seo: {
-    title: "Edição Fundadora nº 0 | SUPERFÍCIE",
+    title: "Edição Fundadora nº 00 | SUPERFÍCIE",
     description:
       "Conheça a Edição Fundadora da SUPERFÍCIE, dedicada ao diagnóstico multimodal e às terapias dirigidas por mecanismo na superfície ocular.",
     canonical: "/superficie/edicao-00",
