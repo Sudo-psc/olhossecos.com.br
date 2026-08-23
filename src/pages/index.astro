@@ -890,6 +890,22 @@ const featuredBooks = books.slice(0, 2);
     text-transform: uppercase;
   }
 
+  /* O <video> não declarava dimensão nenhuma. Até os metadados chegarem o
+     browser usava o 300x150 padrão e então saltava para a caixa quadrada real,
+     empurrando a legenda abaixo — 0,155 de CLS no desktop, acima do limite de
+     0,1. O arquivo é 1200x1200; reservar a proporção mata o deslocamento sem
+     mudar o resultado final.
+
+     object-fit: cover porque o poster é 4:3 e a caixa é 1:1: sem isso o quadro
+     de quem pediu menos movimento apareceria com barras. */
+  .hero-video {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
   .hero-frame {
     position: relative;
     overflow: hidden;

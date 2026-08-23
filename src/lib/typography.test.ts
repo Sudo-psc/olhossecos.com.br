@@ -63,7 +63,13 @@ test("nenhum texto é declarado abaixo de 12px", async () => {
   const tiny: string[] = [];
   for (const path of await collectStyleSources("src")) {
     const source = await readFile(path, "utf8");
-    for (const match of source.matchAll(/font-size:\s*([\d.]+)(rem|em|px)/gu)) {
+    // clamp() precisa ser lido pelo primeiro argumento: é o piso, o tamanho
+    // que a viewport estreita entrega. A versão anterior só casava valores
+    // literais, e três declarações passaram por baixo — a menor com piso de
+    // 0.42rem, 6,7px, num rótulo do reader.
+    for (const match of source.matchAll(
+      /font-size:\s*(?:clamp\(\s*)?([\d.]+)(rem|em|px)/gu,
+    )) {
       const value = Number(match[1]);
       const px = match[2] === "px" ? value : value * 16;
       if (px < 12) tiny.push(`${path}: ${match[0]} = ${px.toFixed(1)}px`);
