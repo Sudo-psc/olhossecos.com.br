@@ -30,33 +30,41 @@ const { figure, sizes = "(max-width: 850px) calc(100vw - 2.5rem), 780px" } =
   </picture>
   <figcaption>
     <p>{figure.caption}</p>
-    <small>
-      {
-        figure.credit.url ? (
-          <a href={figure.credit.url} target="_blank" rel="noopener noreferrer">
-            {figure.credit.label}
-          </a>
-        ) : (
-          <span>{figure.credit.label}</span>
-        )
-      }
-      {
-        figure.license && (
-          <>
-            {" · "}
-            <a
-              href={figure.license.url}
-              target="_blank"
-              rel="noopener noreferrer license"
-            >
-              {figure.license.label}
-            </a>
-          </>
-        )
-      }
-      {figure.modification && <> · {figure.modification}</>}
-      {figure.disclosure && <> · {figure.disclosure}</>}
-    </small>
+    {
+      (figure.credit ||
+        figure.license ||
+        figure.modification ||
+        figure.disclosure) && (
+        <small>
+          {figure.credit &&
+            (figure.credit.url ? (
+              <a
+                href={figure.credit.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {figure.credit.label}
+              </a>
+            ) : (
+              <span>{figure.credit.label}</span>
+            ))}
+          {figure.license && (
+            <>
+              {" · "}
+              <a
+                href={figure.license.url}
+                target="_blank"
+                rel="noopener noreferrer license"
+              >
+                {figure.license.label}
+              </a>
+            </>
+          )}
+          {figure.modification && <> · {figure.modification}</>}
+          {figure.disclosure && <> · {figure.disclosure}</>}
+        </small>
+      )
+    }
   </figcaption>
 </figure>
 
