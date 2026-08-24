@@ -105,20 +105,36 @@ Em execução: DPR limitado a 2, render sob demanda (nunca loop contínuo), loop
 cancelado quando a seção sai da viewport, deriva automática desligada em
 `prefers-reduced-motion` e suspensa por 6 s após interação.
 
-Custo medido: `three.module.js` = 707 KB sem compressão, fora do caminho
-inicial. Confirmar na infraestrutura que o nginx serve `.js` com brotli/gzip.
+> **Atualização (24/08/2026):** o explorador foi reescrito em SVG com pinos de
+> sonar e não usa mais WebGL. `three` e `@types/three` saíram do `package.json`
+> — nenhum `import("three")` restava em `src/`, e o `ops:deploy` vinha baixando
+> a biblioteca a cada release. O nginx serve os assets com brotli, confirmado
+> em produção (`content-encoding: br`).
 
 ## 7. Medições
 
-Medido em `astro preview`, desktop 1440×900:
+Lighthouse contra **produção** (JSON neste diretório):
 
-| Métrica                  | Valor         |
-| ------------------------ | ------------- |
-| LCP                      | 288 ms        |
-| CLS                      | 0             |
-| Requisições até `load`   | 12            |
-| Fonte                    | 28,4 KB       |
-| Three.js antes do scroll | não carregado |
+| Execução      | Perf | A11y | Práticas | SEO | LCP   | CLS |
+| ------------- | ---- | ---- | -------- | --- | ----- | --- |
+| Home, desktop | 100  | 100  | 100      | 100 | 0,4 s | 0   |
+| Home, mobile  | 99   | 100  | 100      | 100 | 1,3 s | 0   |
+| Guia, mobile  | 99   | 100  | 100      | 100 | 1,4 s | 0   |
+
+A primeira medição em produção deu **87** no mobile, com LCP de 2,9 s. Não era
+rede: 84 KB em treze requisições, tudo entregue até 465 ms, com brotli ativo. O
+custo estava na main thread — 2,0 s de styleLayout e 0,6 s de pintura antes do
+primeiro quadro, gastos com os filtros SVG do olho e do corte esquemático, que
+o navegador pintava mesmo muito abaixo da dobra. `content-visibility: auto`
+nessas duas seções resolveu: styleLayout caiu para 0,8 s e o LCP para 1,3 s.
+
+Estender a propriedade às seções de texto derrubava um pouco mais o
+styleLayout, mas enquanto a seção fica pulada seus filhos não têm layout — e o
+axe passava a acusar alvos de toque sobrepostos que não existem na tela. Ficou
+só nas duas ilustradas.
+
+Os 100 em boas práticas confirmam o que o preview não mostrava: o 403 do
+`/api/analytics` era artefato da medição local, não defeito.
 
 Contraste (WCAG 2.2 AA) dos pares usados em texto: cobre escuro 6,68:1 sobre
 papel, teal escuro 6,68:1 sobre branco, ouro 8,52:1 sobre navy, alerta 5,84:1
