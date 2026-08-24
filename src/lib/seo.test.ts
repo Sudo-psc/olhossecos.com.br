@@ -42,7 +42,16 @@ test("lastmod dos artigos publicados usa a data editorial, não o fallback de ju
 test("hubs editoriais herdam a data do conteúdo mais recente", () => {
   assert.equal(lastmodForSitemapPath("/superficie"), "2026-08-17");
   assert.equal(lastmodForSitemapPath("/superficie/artigos"), "2026-08-17");
-  assert.equal(lastmodForSitemapPath("/"), "2026-08-17");
+  assert.equal(lastmodForSitemapPath("/profissional"), "2026-08-24");
+  assert.equal(lastmodForSitemapPath("/paciente"), "2026-08-24");
+});
+
+/**
+ * A raiz virou pré-página: não lista mais guia nem artigo, então publicar um
+ * conteúdo novo não é motivo para anunciá-la como modificada.
+ */
+test("a pré-página não herda data de conteúdo", () => {
+  assert.equal(lastmodForSitemapPath("/"), "2026-08-24");
 });
 
 test("Organization e médico compartilham o mesmo @id canônico do portal", () => {

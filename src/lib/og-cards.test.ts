@@ -17,7 +17,8 @@ const portalSectionCards = [
   "guias",
   "olho-seco",
   "glossario",
-  "profissionais",
+  "paciente",
+  "profissional",
   "newsletter",
   "app",
 ];

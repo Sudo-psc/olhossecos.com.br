@@ -1,18 +1,25 @@
 ---
 import EyeMark from "./EyeMark.astro";
 import { responsibleDoctor } from "@/lib/doctor";
+import { portalFor, portals } from "@/lib/portals";
 
 const year = new Date().getFullYear();
+const portal = portalFor(Astro.url.pathname);
+// Na pré-página o rodapé não repete os dois menus inteiros — seria a mesma
+// escolha oferecida duas vezes na mesma tela. Fica só a coluna institucional,
+// que é a última de qualquer um dos portais.
+const columns =
+  portal?.footerColumns ?? portals.paciente.footerColumns.slice(-1);
 ---
 
 <footer class="site-footer">
   <div class="page-shell footer-main">
     <div class="footer-brand">
-      <a href="/" class="brand brand-inverse">
+      <a href={portal?.home ?? "/"} class="brand brand-inverse">
         <EyeMark class="brand-mark" />
         <span>
-          <strong>Olho Seco</strong>
-          <small>Portal do paciente</small>
+          <strong>{portal?.brandTitle ?? "Olhos Secos"}</strong>
+          <small>{portal?.brandSubtitle ?? "Ciência e informação"}</small>
         </span>
       </a>
       <p>
@@ -22,38 +29,26 @@ const year = new Date().getFullYear();
     </div>
 
     <div class="footer-links">
-      <div>
-        <h2>Entenda</h2>
-        <a href="/olho-seco">O que é olho seco</a>
-        <a href="/sintomas">Sintomas</a>
-        <a href="/causas">Causas</a>
-        <a href="/diagnostico">Como é investigado</a>
-        <a href="/livros">Livros</a>
-      </div>
-      <div>
-        <h2>Cuide-se</h2>
-        <a href="/autocuidado">Autocuidado</a>
-        <a href="/tratamentos">Tratamentos</a>
-        <a href="/sinais-de-alerta">Sinais de alerta</a>
-        <a href="/guias">Guias</a>
-        <a href="/app">Dry Eye Widget</a>
-        <a
-          href="https://apos-olhoseco.com.br"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          APOS — associação de pacientes
-          <span class="visually-hidden"> (abre em nova aba)</span>
-        </a>
-      </div>
-      <div>
-        <h2>Sobre o portal</h2>
-        <a href="/newsletter">Newsletter</a>
-        <a href="/fontes">Fontes</a>
-        <a href="/politica-editorial">Política editorial</a>
-        <a href="/glossario">Glossário</a>
-        <a href="/privacidade">Privacidade</a>
-      </div>
+      {
+        columns.map((column) => (
+          <div>
+            <h2>{column.title}</h2>
+            {column.links.map((link) => (
+              <a href={link.href}>{link.label}</a>
+            ))}
+            {column.title === "Cuide-se" && (
+              <a
+                href="https://apos-olhoseco.com.br"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                APOS — associação de pacientes
+                <span class="visually-hidden"> (abre em nova aba)</span>
+              </a>
+            )}
+          </div>
+        ))
+      }
     </div>
 
     <div class="footer-art" aria-hidden="true">
@@ -74,6 +69,8 @@ const year = new Date().getFullYear();
   <div class="page-shell footer-bottom">
     <p>Conteúdo editorial independente, sem publicidade de terceiros.</p>
     <p>Feito com ❤️ pela equipe do Dr. {responsibleDoctor.name}.</p>
-    <p>© {year} Olho Seco — Portal do paciente</p>
+    <p>
+      © {year} Olhos Secos{portal ? ` — ${portal.brandSubtitle}` : ""}
+    </p>
   </div>
 </footer>

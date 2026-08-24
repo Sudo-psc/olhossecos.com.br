@@ -167,12 +167,20 @@ export const portalPages: PortalSearchEntry[] = [
     tags: ["referências", "evidências", "TFOS", "DEWS III", "revisão"],
   },
   {
-    href: "/profissionais",
+    href: "/profissional",
     category: "Profissional",
-    title: "Área para profissionais",
+    title: "Portal profissional",
     description:
       "Diagnóstico multimodal, fenotipagem, imagem, tecnologias e evidências contemporâneas.",
     tags: ["profissionais", "médicos", "oftalmologia", "nibut", "osmolaridade"],
+  },
+  {
+    href: "/paciente",
+    category: "Portal",
+    title: "Portal do paciente",
+    description:
+      "Ponto de partida para entender sintomas, causas, diagnóstico, tratamentos e autocuidado.",
+    tags: ["paciente", "início", "sintomas", "tratamento", "autocuidado"],
   },
   {
     href: "/app",

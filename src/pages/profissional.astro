@@ -1,0 +1,612 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import IssueCover from "@/components/superficie/IssueCover.astro";
+import NewsletterSignupForm from "@/components/NewsletterSignupForm.astro";
+import { formatLongDate } from "@/lib/dates";
+import { professionalTracks } from "@/lib/home";
+import { getRadarReportPath, latestRadarReport } from "@/lib/radar";
+import { books } from "@/lib/books";
+import {
+  calculateArticleReadingTime,
+  founderIssue,
+  getMagazineArticlePath,
+  publishedArticles,
+  sortPublishedArticlesByDate,
+} from "@/lib/superficie";
+
+/**
+ * Home do portal profissional. Substitui a antiga `/profissionais`, que
+ * apresentava eixos editoriais sem mostrar nada do que já está publicado: a
+ * revista, o RADAR e os artigos ficavam a dois cliques de distância.
+ *
+ * A matéria de capa é escolhida por slug, não pela ordem do array — capa é
+ * decisão editorial e não deve mudar sozinha quando um artigo novo entrar.
+ */
+const latestArticles = sortPublishedArticlesByDate(publishedArticles);
+const leadArticle =
+  latestArticles.find(({ slug }) => slug === "tfos-dews-iii-na-pratica") ??
+  latestArticles[0];
+const recentArticles = latestArticles
+  .filter(({ slug }) => slug !== leadArticle?.slug)
+  .slice(0, 4);
+
+const latestRadar = latestRadarReport();
+---
+
+<Layout
+  image="/images/og/og-profissional.png"
+  title="Superfície ocular: portal profissional"
+  description="Diagnóstico multimodal, fenotipagem, imagem, terapias por mecanismo e curadoria de evidência em superfície ocular, na revista SUPERFÍCIE e no RADAR."
+  schemaType="CollectionPage"
+  dateModified="2026-08-24"
+>
+  <section class="pro-hero" aria-labelledby="pro-title">
+    <div class="page-shell">
+      <p class="eyebrow">Portal profissional</p>
+      <h1 id="pro-title">Superfície ocular, com a limitação declarada</h1>
+      <p class="pro-lead">
+        Conteúdo técnico para quem investiga e trata: desenho de estudo,
+        amostra, grau de evidência e ressalva aparecem junto do número — e não
+        depois dele.
+      </p>
+      <div class="pro-actions">
+        <a
+          class="button-primary"
+          href="/superficie"
+          data-analytics-event="magazine_entry"
+        >
+          Entrar na SUPERFÍCIE
+        </a>
+        <a class="text-link" href="/superficie/radar">
+          Ver o RADAR Científico
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 12h16m-5-5 5 5-5 5"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {
+    leadArticle && (
+      <section class="lead-story" aria-labelledby="lead-story-title">
+        <div class="page-shell lead-grid">
+          <div class="lead-copy">
+            <p class="card-kicker">Em destaque · {leadArticle.category}</p>
+            <h2 id="lead-story-title">
+              <a href={getMagazineArticlePath(leadArticle)}>
+                {leadArticle.title}
+              </a>
+            </h2>
+            {leadArticle.subtitle && (
+              <p class="lead-standfirst">{leadArticle.subtitle}</p>
+            )}
+            <p class="lead-meta">
+              <span>Por {leadArticle.author.name}</span>
+              <span>{calculateArticleReadingTime(leadArticle)} min</span>
+              {leadArticle.publishedAt && (
+                <time datetime={leadArticle.publishedAt}>
+                  {formatLongDate(leadArticle.publishedAt)}
+                </time>
+              )}
+            </p>
+            <a class="text-link" href={getMagazineArticlePath(leadArticle)}>
+              Ler a matéria
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 12h16m-5-5 5 5-5 5" />
+              </svg>
+            </a>
+          </div>
+
+          <aside class="lead-issue" aria-label="Edição fundadora">
+            <div class="issue-thumb">
+              <IssueCover
+                issue={founderIssue}
+                sizes="(max-width: 720px) 40vw, 200px"
+              />
+            </div>
+            <div>
+              <p class="card-kicker">
+                Edição fundadora nº {founderIssue.number}
+              </p>
+              <h3>{founderIssue.title}</h3>
+              <p>{founderIssue.subtitle}</p>
+              <a class="text-link" href="/superficie/edicao-00">
+                Abrir a edição
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 12h16m-5-5 5 5-5 5" />
+                </svg>
+              </a>
+            </div>
+          </aside>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="tracks" id="eixos" aria-labelledby="tracks-title">
+    <div class="page-shell">
+      <h2 id="tracks-title" class="section-heading">Eixos editoriais</h2>
+      <div class="track-grid">
+        {
+          professionalTracks.map((track, index) => (
+            <article id={track.id}>
+              <span class="track-index">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <h3>{track.title}</h3>
+              <p>{track.text}</p>
+              <a class="text-link" href={track.href}>
+                {track.label}
+              </a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {
+    recentArticles.length > 0 && (
+      <section class="recent" aria-labelledby="recent-title">
+        <div class="page-shell">
+          <header class="section-intro">
+            <p class="eyebrow">Da revista</p>
+            <h2 id="recent-title" class="section-heading">
+              Publicado recentemente
+            </h2>
+          </header>
+          <ul class="recent-list">
+            {recentArticles.map((article) => (
+              <li>
+                <p class="card-kicker">{article.category}</p>
+                <h3>
+                  <a href={getMagazineArticlePath(article)}>{article.title}</a>
+                </h3>
+                <p class="card-meta">
+                  <span>{calculateArticleReadingTime(article)} min</span>
+                  {article.publishedAt && (
+                    <time datetime={article.publishedAt}>
+                      {formatLongDate(article.publishedAt)}
+                    </time>
+                  )}
+                </p>
+              </li>
+            ))}
+          </ul>
+          <a class="text-link" href="/superficie/artigos">
+            Ver todos os artigos
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 12h16m-5-5 5 5-5 5" />
+            </svg>
+          </a>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    latestRadar && (
+      <section class="radar" aria-labelledby="radar-title">
+        <div class="page-shell radar-inner">
+          <div>
+            <p class="eyebrow">RADAR Científico</p>
+            <h2 id="radar-title" class="section-heading">
+              Ciclo {latestRadar.label}
+            </h2>
+            <p>{latestRadar.executiveSummary}</p>
+            <a
+              class="button-primary"
+              href={getRadarReportPath(latestRadar)}
+              data-analytics-event="radar_report_click"
+            >
+              Ler o ciclo
+            </a>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="books" aria-labelledby="books-title">
+    <div class="page-shell">
+      <header class="section-intro">
+        <p class="eyebrow">Obras do autor</p>
+        <h2 id="books-title" class="section-heading">Livros</h2>
+      </header>
+      <ul class="book-list">
+        {
+          books.slice(0, 2).map((book) => (
+            <li>
+              <h3>
+                <a href={`/livros/${book.slug}`}>{book.title}</a>
+              </h3>
+              <p>{book.subtitle}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="pro-newsletter" aria-labelledby="pro-newsletter-title">
+    <div class="page-shell newsletter-inner">
+      <div>
+        <p class="eyebrow">Newsletter</p>
+        <h2 id="pro-newsletter-title" class="section-heading">
+          Edições e RADAR no seu e-mail
+        </h2>
+        <p>
+          Novas edições da SUPERFÍCIE e cada ciclo do RADAR Científico. Sem
+          frequência fixa.
+        </p>
+        <p class="partner-note">
+          Interesse comercial ou institucional:
+          <a class="text-link" href="/superficie/parceiros">área de parceiros</a
+          >
+          . Parceria não determina pauta nem conclusão clínica.
+        </p>
+      </div>
+      <NewsletterSignupForm source="newsletter" variant="portal" />
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // Os atributos `data-analytics-event` da página só viram evento com este
+  // binder: o coletor global cuida de page_view e de saída externa, não de
+  // clique interno rotulado.
+  document
+    .querySelectorAll<HTMLElement>("[data-analytics-event]")
+    .forEach((element) => {
+      element.addEventListener("click", () => {
+        const event = element.dataset.analyticsEvent;
+        if (!event) return;
+        window.dispatchEvent(
+          new CustomEvent("olhossecos:analytics", {
+            detail: {
+              event,
+              link_url: element.getAttribute("href") ?? "",
+              placement: "portal_profissional",
+            },
+          }),
+        );
+      });
+    });
+</script>
+
+<style>
+  .pro-hero {
+    padding: clamp(2.5rem, 1.8rem + 3.5vw, 4.5rem) 0
+      clamp(2rem, 1.4rem + 2vw, 3rem);
+  }
+
+  .pro-hero h1 {
+    margin: 0.6rem 0 0;
+    max-width: 19ch;
+    font-family: var(--serif);
+    font-size: var(--text-h1);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-tight);
+    text-wrap: balance;
+  }
+
+  .pro-lead {
+    margin: 1.1rem 0 0;
+    max-width: var(--measure-narrow);
+    color: var(--ink-soft);
+    font-size: var(--text-lead);
+  }
+
+  .pro-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.5rem;
+    margin-top: 1.75rem;
+  }
+
+  .lead-story {
+    padding: var(--space-block) 0;
+    border-top: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+    background: var(--paper-100);
+  }
+
+  .lead-grid {
+    display: grid;
+    gap: clamp(1.5rem, 1.1rem + 1.8vw, 2.75rem);
+    align-items: start;
+  }
+
+  @media (min-width: 940px) {
+    .lead-grid {
+      grid-template-columns: 1.15fr 0.85fr;
+    }
+  }
+
+  .lead-copy h2 {
+    margin: 0.6rem 0 0;
+    font-family: var(--serif);
+    font-size: var(--text-h2);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-tight);
+    text-wrap: balance;
+  }
+
+  .lead-copy h2 a:hover,
+  .recent-list h3 a:hover,
+  .book-list h3 a:hover,
+  .lead-issue h3 a:hover {
+    color: var(--teal-dark);
+  }
+
+  .lead-standfirst {
+    margin: 0.9rem 0 0;
+    max-width: var(--measure-narrow);
+    color: var(--ink-soft);
+    font-size: var(--text-lead);
+  }
+
+  .lead-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+    margin: 1rem 0 1.25rem;
+    color: var(--navy-400);
+    font-size: var(--text-meta);
+  }
+
+  .lead-issue {
+    display: grid;
+    gap: 1.25rem;
+    padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--paper);
+  }
+
+  @media (min-width: 560px) {
+    .lead-issue {
+      grid-template-columns: 160px 1fr;
+    }
+  }
+
+  .issue-thumb {
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-card);
+  }
+
+  .lead-issue h3 {
+    margin: 0.5rem 0 0.5rem;
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: var(--leading-snug);
+  }
+
+  .lead-issue p {
+    margin: 0 0 1rem;
+    color: var(--ink-soft);
+    font-size: var(--text-small);
+  }
+
+  .card-kicker {
+    margin: 0;
+    color: var(--teal-dark);
+    font-size: var(--text-meta);
+    font-weight: 750;
+    letter-spacing: var(--tracking-kicker);
+    text-transform: uppercase;
+  }
+
+  .card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+    margin: 0.6rem 0 0;
+    color: var(--navy-400);
+    font-size: var(--text-meta);
+  }
+
+  .tracks {
+    padding: var(--space-block) 0;
+  }
+
+  .track-grid {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.75rem;
+  }
+
+  @media (min-width: 700px) {
+    .track-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1050px) {
+    .track-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .track-grid article {
+    display: grid;
+    align-content: start;
+    gap: 0.5rem;
+    padding: 1.4rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--paper);
+  }
+
+  .track-index {
+    color: var(--copper-600);
+    font-family: var(--mono);
+    font-size: var(--text-meta);
+  }
+
+  .track-grid h3 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .track-grid p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: var(--text-small);
+  }
+
+  .recent {
+    padding: var(--space-block) 0;
+    background: var(--paper-100);
+  }
+
+  .section-intro {
+    margin-bottom: 1.75rem;
+  }
+
+  .recent-list {
+    display: grid;
+    gap: 1rem;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 800px) {
+    .recent-list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .recent-list li {
+    padding: 1.25rem 1.4rem;
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-sm);
+    background: var(--paper);
+  }
+
+  .recent-list h3 {
+    margin: 0.4rem 0 0;
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: var(--leading-snug);
+  }
+
+  .radar {
+    padding: var(--space-block) 0;
+  }
+
+  .radar-inner {
+    padding: clamp(1.75rem, 1.2rem + 2vw, 3rem);
+    border-radius: var(--radius-lg);
+    background: var(--ink);
+    color: white;
+  }
+
+  .radar-inner .eyebrow {
+    color: var(--copper-100);
+  }
+
+  .radar-inner p {
+    margin: 0.75rem 0 1.5rem;
+    max-width: var(--measure);
+    color: rgb(255 255 255 / 80%);
+  }
+
+  .radar-inner .button-primary {
+    background: white;
+    border-color: white;
+    color: var(--ink);
+  }
+
+  .radar-inner .button-primary:hover {
+    background: var(--aqua);
+    border-color: var(--aqua);
+  }
+
+  .books {
+    padding: var(--space-block) 0;
+  }
+
+  .book-list {
+    display: grid;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 800px) {
+    .book-list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .book-list li {
+    padding: 1.4rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--paper);
+  }
+
+  .book-list h3 {
+    margin: 0 0 0.5rem;
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: var(--leading-snug);
+  }
+
+  .book-list p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: var(--text-small);
+  }
+
+  .pro-newsletter {
+    padding: var(--space-block) 0 var(--space-section);
+  }
+
+  .newsletter-inner {
+    display: grid;
+    gap: 1.75rem;
+    align-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .newsletter-inner {
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+  }
+
+  .newsletter-inner > div > p {
+    margin: 0.75rem 0 0;
+    max-width: var(--measure-narrow);
+    color: var(--ink-soft);
+  }
+
+  .partner-note {
+    font-size: var(--text-small);
+  }
+
+  .text-link svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>

@@ -27,6 +27,7 @@ const sitemapExcludedExact = new Set([
   "/blog",
   "/videos",
   "/exames",
+  "/profissionais",
   "/newsletter/descadastrar",
   "/newsletter/confirmar",
   "/404",
@@ -37,7 +38,7 @@ const sitemapExcludedPrefixes = ["/superficie/lab", "/superficie/issues"];
 
 /** lastmod mínimo conhecido das páginas estáticas do portal e da revista. */
 const pageLastmods: Record<string, string> = {
-  "/": "2026-08-07",
+  "/": "2026-08-24",
   "/app": "2026-07-26",
   "/autocuidado": "2026-07-26",
   "/autor/philipe-saraiva-cruz": "2026-08-07",
@@ -49,9 +50,10 @@ const pageLastmods: Record<string, string> = {
   "/livros": "2026-08-07",
   "/newsletter": "2026-08-08",
   "/olho-seco": "2026-08-21",
+  "/paciente": "2026-08-24",
   "/politica-editorial": "2026-08-07",
   "/privacidade": "2026-08-08",
-  "/profissionais": "2026-08-21",
+  "/profissional": "2026-08-24",
   "/sinais-de-alerta": "2026-07-26",
   "/sintomas": "2026-07-26",
   "/superficie": "2026-08-08",
@@ -130,7 +132,11 @@ const contentLastmods = (): Map<string, string> => {
   remember("/superficie/edicao-00", latestArticle);
   remember("/superficie/radar", latestRadar);
   remember("/guias", latestGuide);
-  remember("/", laterDay(latestArticle, latestGuide, latestRadar));
+  // A raiz deixou de herdar data de conteúdo: virou pré-página e não lista
+  // mais nem guia nem artigo. Quem herda agora é a home de cada portal, que é
+  // onde a publicação nova de fato aparece.
+  remember("/paciente", latestGuide);
+  remember("/profissional", laterDay(latestArticle, latestRadar));
 
   return lastmods;
 };

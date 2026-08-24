@@ -1,58 +1,52 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { formatLongDate } from "@/lib/dates";
-import IssueCover from "@/components/superficie/IssueCover.astro";
-import EyeExplorer from "@/components/science/EyeExplorer.astro";
-import MechanismScrolly from "@/components/science/MechanismScrolly.astro";
-import NewsletterSignupForm from "@/components/NewsletterSignupForm.astro";
-import { essentialContents, homeJourneys, superficieTopics } from "@/lib/home";
-import {
-  calculateArticleReadingTime,
-  founderIssue,
-  getMagazineArticlePath,
-  publishedArticles,
-  sortPublishedArticlesByDate,
-} from "@/lib/superficie";
-import { guides } from "@/lib/guides";
-import { author, books } from "@/lib/books";
+import { portals } from "@/lib/portals";
 
 const homeTitle =
-  "Olho seco: sintomas, diagnóstico e tratamento | Superfície ocular";
+  "Olho seco: sintomas, tratamento e ciência da superfície ocular";
 const homeDescription =
-  "Informação sobre sintomas, diagnóstico e tratamento do olho seco, além de conteúdo profissional, livros, tecnologia e a revista SUPERFÍCIE.";
+  "Portal sobre olho seco e superfície ocular. Escolha entre o conteúdo explicativo para pacientes e o material técnico para profissionais de saúde.";
 
-// A grande matéria é escolhida por slug, não pela ordem do array: a capa da
-// home é decisão editorial e não deve mudar sozinha quando um artigo novo
-// entrar na lista.
-const latestArticles = sortPublishedArticlesByDate(publishedArticles);
-const leadArticle =
-  latestArticles.find(({ slug }) => slug === "tfos-dews-iii-na-pratica") ??
-  latestArticles[0];
-const recentArticles = latestArticles
-  .filter(({ slug }) => slug !== leadArticle?.slug)
-  .slice(0, 6);
-
-const featuredGuide =
-  guides.find(({ slug }) => slug === "olho-seco-guia-essencial") ?? guides[0];
-
-// "Em 5 minutos": os guias mais curtos, lidos do próprio campo de tempo de
-// leitura em vez de uma lista paralela que envelheceria sozinha.
-const parseMinutes = (readingTime: string) =>
-  Number.parseInt(readingTime, 10) || 99;
-const quickGuides = guides
-  .filter((guide) => guide.slug !== featuredGuide?.slug)
-  .sort((a, b) => parseMinutes(a.readingTime) - parseMinutes(b.readingTime))
-  .slice(0, 4);
-
-const editorialGuides = guides
-  .filter(
-    (guide) =>
-      guide.slug !== featuredGuide?.slug &&
-      !quickGuides.some((quick) => quick.slug === guide.slug),
-  )
-  .slice(0, 5);
-
-const featuredBooks = books.slice(0, 2);
+/**
+ * A raiz virou porta, não vitrine: ela só separa os dois públicos e sai da
+ * frente. O que mantém a página indexável é o texto de abertura e os links
+ * reais dos dois lados — um par de botões sozinho não diria ao buscador nem
+ * ao leitor do que o site trata.
+ */
+const paths = [
+  {
+    id: "paciente",
+    index: "01",
+    audience: "Para quem sente",
+    title: "Entender o que acontece nos meus olhos",
+    text: "Ardência, sensação de areia, visão que oscila, olho que lacrimeja justamente por estar ressecado. O que cada sintoma sugere, como a investigação é feita e o que o tratamento pretende — sem promessa de cura.",
+    highlights: [
+      "Sintomas, causas e sinais de alerta",
+      "Como o diagnóstico é construído",
+      "Tratamentos e autocuidado no dia a dia",
+      "Guias de leitura curta, com fontes",
+    ],
+    cta: "Entrar no portal do paciente",
+    href: portals.paciente.home,
+    event: "patient_path_click",
+  },
+  {
+    id: "profissional",
+    index: "02",
+    audience: "Para quem trata",
+    title: "Acompanhar a evolução da superfície ocular",
+    text: "Diagnóstico multimodal, fenotipagem, imagem, terapias dirigidas por mecanismo e leitura crítica da evidência — com o grau e a limitação de cada achado declarados ao lado do número.",
+    highlights: [
+      "SUPERFÍCIE, a revista da superfície ocular",
+      "RADAR Científico, curadoria de evidência",
+      "Artigos com desenho, amostra e ressalva",
+      "Livros do autor e área de parceiros",
+    ],
+    cta: "Entrar no portal profissional",
+    href: portals.profissional.home,
+    event: "professional_path_click",
+  },
+];
 ---
 
 <Layout
@@ -60,506 +54,47 @@ const featuredBooks = books.slice(0, 2);
   title={homeTitle}
   description={homeDescription}
   imageAlt="Olhos Secos — ciência e informação sobre superfície ocular"
-  dateModified="2026-08-19"
+  dateModified="2026-08-24"
 >
-  <!-- ------------------------------------------------------------- hero -->
-  <section class="home-hero" aria-labelledby="home-title">
-    <div class="page-shell hero-grid">
-      <div class="hero-copy">
-        <p class="hero-eyebrow">Olho seco • Superfície ocular • Ciência</p>
-        <h1 id="home-title">
-          Entenda o olho seco. Acompanhe a evolução da superfície ocular.
-        </h1>
-        <p class="hero-lead">
-          Informação baseada em evidências para quem convive com sintomas de
-          olho seco e para profissionais que acompanham a evolução do
-          diagnóstico, da tecnologia e do tratamento da superfície ocular.
-        </p>
-        <div class="hero-actions">
-          <a
-            class="hero-button hero-button-primary"
-            href="/olho-seco"
-            data-home-event="patient_path_click"
-          >
-            Tenho sintomas de olho seco
-          </a>
-          <a
-            class="hero-button hero-button-secondary"
-            href="/profissionais"
-            data-home-event="professional_path_click"
-          >
-            Sou profissional de saúde
-          </a>
-        </div>
-        <p class="ecosystem-line">
-          <span>Livros</span><span>Revista</span><span>Evidências</span><span
-            >Tecnologia</span
-          >
-        </p>
-      </div>
+  <section class="gateway" aria-labelledby="gateway-title">
+    <div class="page-shell">
+      <p class="eyebrow">Olho seco • Superfície ocular</p>
+      <h1 id="gateway-title">Duas leituras da mesma doença. Escolha a sua.</h1>
+      <p class="gateway-lead">
+        O olho seco é explicado de um jeito para quem convive com os sintomas e
+        de outro para quem investiga e trata. Em vez de misturar os dois num
+        único site, aqui eles são portais separados — com o mesmo rigor e as
+        mesmas fontes.
+      </p>
 
-      <figure class="hero-visual" data-parallax>
-        <p class="visual-label">Superfície ocular • Filme lacrimal</p>
-        <div class="hero-frame">
-          {
-            /* Imagem, não vídeo. O clipe custava 471 KB para decorar, e o
-              primeiro quadro dele é um olho fotorrealista e avermelhado, que
-              lê como fotografia clínica — a divulgação ao lado diz
-              "representação esquemática, não é registro clínico", e as duas
-              coisas não podiam conviver na mesma figura. Esta é a composição
-              esquemática para a qual a divulgação foi escrita, e é o que a
-              página precisa: 7,5 KB em avif. */
-          }
-          <picture>
-            <source
-              type="image/avif"
-              srcset="/images/hero-filme-lacrimal-720.avif 720w, /images/hero-filme-lacrimal-1024.avif 1024w"
-              sizes="(max-width: 760px) calc(100vw - 2rem), (max-width: 1100px) 48vw, 640px"
-            />
-            <source
-              type="image/webp"
-              srcset="/images/hero-filme-lacrimal-720.webp 720w, /images/hero-filme-lacrimal-1024.webp 1024w"
-              sizes="(max-width: 760px) calc(100vw - 2rem), (max-width: 1100px) 48vw, 640px"
-            />
-            <img
-              class="hero-still"
-              src="/images/hero-filme-lacrimal.jpg"
-              alt="Composição editorial da superfície da córnea vista de perfil, com uma película lacrimal iridescente espalhada sobre a curva"
-              width="1024"
-              height="768"
-              fetchpriority="high"
-            />
-          </picture>
-          <!-- Interferência do filme lacrimal: duas faixas que derivam devagar
-               sobre a imagem. É o único movimento contínuo do hero, e some
-               inteiro em prefers-reduced-motion. -->
-          <svg
-            class="hero-interference"
-            viewBox="0 0 600 450"
-            aria-hidden="true"
-          >
-            <path d="M-40 150 q150 -46 300 0 t300 0"></path>
-            <path d="M-40 250 q150 46 300 0 t300 0"></path>
-            <path d="M-40 340 q150 -34 300 0 t300 0"></path>
-          </svg>
-        </div>
-        <figcaption class="science-index">
-          <span>03</span>
-          <p>
-            Camadas interdependentes contribuem para estabilidade, proteção e
-            qualidade óptica da superfície ocular.
-          </p>
-          <small>
-            Ilustração original do portal · Vídeo e imagem gerados com IA para
-            fins editoriais; representação esquemática, sem escala anatômica e
-            não é registro clínico.
-          </small>
-        </figcaption>
-      </figure>
-    </div>
-  </section>
+      <p class="gateway-resume" data-resume hidden>
+        <span>Na última visita você escolheu</span>
+        <a data-resume-link href={portals.paciente.home}>o portal do paciente</a
+        >
+      </p>
 
-  <!-- ------------------------------------------------------- duas jornadas -->
-  <nav class="audience-rail" aria-label="Escolha sua jornada">
-    <a
-      href="/olho-seco"
-      data-home-event="patient_path_click"
-      data-home-placement="audience_rail"
-    >
-      <span class="audience-index">01</span>
-      <span class="audience-label">Para pacientes</span>
-      <strong>Entender sintomas, causas e possibilidades de cuidado</strong>
-      <small>Explorar olho seco →</small>
-    </a>
-    <a
-      href="/profissionais"
-      data-home-event="professional_path_click"
-      data-home-placement="audience_rail"
-    >
-      <span class="audience-index">02</span>
-      <span class="audience-label">Para profissionais</span>
-      <strong>Diagnóstico, imagem, tecnologia e evidência clínica</strong>
-      <small>Acessar área profissional →</small>
-    </a>
-  </nav>
-
-  <!-- ---------------------------------------------------- a grande matéria -->
-  {
-    leadArticle && (
-      <section class="lead-story" aria-labelledby="lead-story-title">
-        <div class="page-shell lead-grid">
-          <div class="lead-copy">
-            <p class="lead-kicker">
-              <span>Em destaque</span>
-              <span>{leadArticle.category}</span>
-            </p>
-            <h2 id="lead-story-title">
-              <a
-                href={getMagazineArticlePath(leadArticle)}
-                data-home-event="article_click"
-                data-home-content={leadArticle.slug}
-              >
-                {leadArticle.title}
-              </a>
-            </h2>
-            {leadArticle.subtitle && (
-              <p class="lead-standfirst">{leadArticle.subtitle}</p>
-            )}
-            <p class="lead-excerpt">{leadArticle.excerpt}</p>
-            <p class="lead-meta">
-              <span>Por {leadArticle.author.name}</span>
-              <span>
-                {calculateArticleReadingTime(leadArticle)} min de leitura
-              </span>
-              <span>SUPERFÍCIE</span>
-            </p>
-            <a
-              class="text-link"
-              href={getMagazineArticlePath(leadArticle)}
-              data-home-event="article_click"
-              data-home-content={leadArticle.slug}
-            >
-              Ler a matéria
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M4 12h16m-5-5 5 5-5 5" />
-              </svg>
-            </a>
-          </div>
-
-          {/* Nenhum artigo da edição fundadora tem imagem de capa própria. Em vez
-              de deixar a coluna vazia — ou inventar uma ilustração —, ela recebe
-              a ficha da matéria, que é informação editorial de verdade. */}
-          <aside class="lead-sheet" aria-label="Ficha da matéria">
-            <dl>
-              <div>
-                <dt>Edição</dt>
-                <dd>Fundadora nº {founderIssue.number}</dd>
-              </div>
-              <div>
-                <dt>Publicado</dt>
-                <dd>
-                  {leadArticle.publishedAt ? (
-                    <time datetime={leadArticle.publishedAt}>
-                      {formatLongDate(leadArticle.publishedAt)}
-                    </time>
-                  ) : (
-                    "Edição em produção"
-                  )}
-                </dd>
-              </div>
-              <div>
-                <dt>Revisão</dt>
-                <dd>{leadArticle.reviewSeal}</dd>
-              </div>
-            </dl>
-            {leadArticle.tags.length > 0 && (
-              <ul class="lead-tags">
-                {leadArticle.tags.slice(0, 6).map((tag) => (
-                  <li>{tag}</li>
+      <div class="gateway-grid">
+        {
+          paths.map((path) => (
+            <article class="gateway-card" data-path={path.id}>
+              <p class="gateway-kicker">
+                <span class="gateway-index">{path.index}</span>
+                {path.audience}
+              </p>
+              <h2>{path.title}</h2>
+              <p class="gateway-text">{path.text}</p>
+              <ul class="gateway-highlights">
+                {path.highlights.map((item) => (
+                  <li>{item}</li>
                 ))}
               </ul>
-            )}
-          </aside>
-        </div>
-      </section>
-    )
-  }
-
-  <!-- --------------------------------------------- destaques editoriais -->
-  <section class="editorial" aria-labelledby="editorial-title">
-    <div class="page-shell">
-      <header class="section-intro">
-        <p class="eyebrow">Guias do portal</p>
-        <h2 id="editorial-title" class="section-heading">
-          Comece por onde a dúvida está
-        </h2>
-      </header>
-
-      <div class="editorial-grid">
-        {
-          featuredGuide && (
-            <article class="editorial-feature">
-              <p class="card-kicker">{featuredGuide.category}</p>
-              <h3>
-                <a
-                  href={`/guias/${featuredGuide.slug}`}
-                  data-home-event="article_click"
-                  data-home-content={featuredGuide.slug}
-                >
-                  {featuredGuide.title}
-                </a>
-              </h3>
-              <p>{featuredGuide.description}</p>
-              <p class="card-meta">
-                <span>{featuredGuide.readingTime} de leitura</span>
-                <span>Revisado em {featuredGuide.updated}</span>
-              </p>
-            </article>
-          )
-        }
-
-        <ol class="editorial-list">
-          {
-            editorialGuides.map((guide, index) => (
-              <li>
-                <span class="list-index">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <div>
-                  <p class="card-kicker">{guide.category}</p>
-                  <h3>
-                    <a
-                      href={`/guias/${guide.slug}`}
-                      data-home-event="article_click"
-                      data-home-content={guide.slug}
-                    >
-                      {guide.title}
-                    </a>
-                  </h3>
-                  <p class="card-meta">{guide.readingTime} de leitura</p>
-                </div>
-              </li>
-            ))
-          }
-        </ol>
-      </div>
-
-      <a class="text-link section-footer-link" href="/guias">
-        Ver os doze guias
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M4 12h16m-5-5 5 5-5 5"></path>
-        </svg>
-      </a>
-    </div>
-  </section>
-
-  <!-- --------------------------------------------------------- SUPERFÍCIE -->
-  <section class="surface-feature" aria-labelledby="surface-title">
-    <div class="page-shell surface-grid">
-      <div class="surface-copy">
-        <p class="surface-signature">Olho Seco • Córnea • Tecnologia</p>
-        <h2 id="surface-title">SUPERFÍCIE</h2>
-        <p class="surface-descriptor">
-          Revista de Olho Seco e Superfície Ocular
-        </p>
-        <h3>Evidência que chega à prática.</h3>
-        <p class="surface-intro">
-          Uma publicação periódica dedicada à atualização clínica, científica e
-          tecnológica da superfície ocular, reunindo análise, evidências,
-          especialistas, diagnóstico, terapias e inovação.
-        </p>
-        <ul class="surface-topics">
-          {superficieTopics.slice(0, 6).map((topic) => <li>{topic}</li>)}
-        </ul>
-        <div class="surface-actions">
-          <a
-            class="button-primary"
-            href="/superficie"
-            data-home-event="superficie_click"
-          >
-            Conheça a SUPERFÍCIE
-          </a>
-          <a
-            class="text-link"
-            href="/superficie/edicao-00"
-            data-home-event="superficie_issue_click"
-          >
-            Ver a Edição Fundadora
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M4 12h16m-5-5 5 5-5 5"></path>
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <article class="founding-issue">
-        <div class="issue-cover-thumb">
-          <IssueCover
-            issue={founderIssue}
-            sizes="(max-width: 720px) 45vw, 240px"
-          />
-        </div>
-        <div class="issue-content">
-          <p class="issue-status">
-            Edição Fundadora nº {founderIssue.number} • {
-              founderIssue.articles.length
-            } artigos publicados
-          </p>
-          <h3>{founderIssue.title}</h3>
-          <p>{founderIssue.subtitle}</p>
-          <a
-            href="/superficie/edicao-00"
-            class="text-link"
-            data-home-event="superficie_issue_click"
-          >
-            Abrir a edição
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M4 12h16m-5-5 5 5-5 5"></path>
-            </svg>
-          </a>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- ------------------------------------------------------ em 5 minutos -->
-  <section class="quick-reads" aria-labelledby="quick-reads-title">
-    <div class="page-shell">
-      <header class="section-intro compact">
-        <p class="eyebrow">Em cinco minutos</p>
-        <h2 id="quick-reads-title" class="section-heading">
-          Leituras curtas, sem perder o rigor
-        </h2>
-      </header>
-
-      <ul class="quick-grid">
-        {
-          quickGuides.map((guide) => (
-            <li>
-              <p class="card-kicker">{guide.readingTime}</p>
-              <h3>
-                <a
-                  href={`/guias/${guide.slug}`}
-                  data-home-event="article_click"
-                  data-home-content={guide.slug}
-                >
-                  {guide.title}
-                </a>
-              </h3>
-              <p>{guide.description}</p>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
-
-  <!-- ------------------------------------------------- artigos recentes -->
-  <section class="recent-articles" aria-labelledby="recent-articles-title">
-    <div class="page-shell">
-      <header class="section-intro compact">
-        <p class="eyebrow">Da revista</p>
-        <h2 id="recent-articles-title" class="section-heading">
-          Artigos recentes da SUPERFÍCIE
-        </h2>
-      </header>
-
-      <ul class="recent-grid">
-        {
-          recentArticles.map((article) => (
-            <li>
-              <p class="card-meta">
-                <span>{article.category}</span>
-                <span>{calculateArticleReadingTime(article)} min</span>
-              </p>
-              <h3>
-                <a
-                  href={getMagazineArticlePath(article)}
-                  data-home-event="article_click"
-                  data-home-content={article.slug}
-                >
-                  {article.title}
-                </a>
-              </h3>
-              <p>{article.excerpt}</p>
-            </li>
-          ))
-        }
-      </ul>
-
-      <a class="text-link section-footer-link" href="/superficie/artigos">
-        Ver todos os artigos
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M4 12h16m-5-5 5 5-5 5"></path>
-        </svg>
-      </a>
-    </div>
-  </section>
-
-  <!-- --------------------------------------------- dossiê visual e 3D -->
-  <MechanismScrolly />
-  <EyeExplorer />
-
-  <!-- --------------------------------------------------------- essenciais -->
-  <section class="essentials" aria-labelledby="essentials-title">
-    <div class="page-shell">
-      <header class="section-intro compact">
-        <p class="eyebrow">Conteúdos essenciais</p>
-        <h2 id="essentials-title" class="section-heading">
-          As perguntas que abrem o assunto
-        </h2>
-      </header>
-
-      <ul class="essential-grid">
-        {
-          essentialContents.map((content, index) => (
-            <li>
-              <span class="list-index">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <h3>
-                <a
-                  href={content.href}
-                  data-home-event="article_click"
-                  data-home-content={content.label}
-                >
-                  {content.label}
-                </a>
-              </h3>
-              <p>{content.description}</p>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
-
-  <!-- -------------------------------------------------------- as jornadas -->
-  <section class="journeys" aria-labelledby="journeys-title">
-    <div class="page-shell">
-      <header class="section-intro">
-        <p class="eyebrow">Duas jornadas, um mesmo rigor editorial</p>
-        <h2 id="journeys-title" class="section-heading">
-          Informação certa para cada momento
-        </h2>
-        <p>
-          Olho seco pode representar desde sintomas ocasionais associados ao
-          ambiente e às telas até uma doença complexa da superfície ocular.
-          Escolha o caminho mais adequado ao que você procura.
-        </p>
-      </header>
-
-      <div class="journey-grid">
-        {
-          homeJourneys.map((journey, index) => (
-            <article class:list={["journey", `journey-${journey.audience}`]}>
-              <header>
-                <span class="journey-number">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <p class="card-kicker">{journey.eyebrow}</p>
-                <h3>{journey.title}</h3>
-              </header>
-              <p class="journey-description">{journey.description}</p>
-              <nav aria-label={`Tópicos: ${journey.title}`}>
-                {journey.links.map((link) => (
-                  <a href={link.href}>
-                    {link.label}
-                    <span aria-hidden="true">↗</span>
-                  </a>
-                ))}
-              </nav>
               <a
-                class="text-link"
-                href={journey.cta.href}
-                data-home-event={
-                  journey.audience === "patient"
-                    ? "patient_path_click"
-                    : "professional_path_click"
-                }
-                data-home-placement="journeys"
+                class="gateway-cta"
+                href={path.href}
+                data-portal-choice={path.id}
+                data-analytics-event={path.event}
               >
-                {journey.cta.label}
+                {path.cta}
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M4 12h16m-5-5 5 5-5 5" />
                 </svg>
@@ -568,111 +103,18 @@ const featuredBooks = books.slice(0, 2);
           ))
         }
       </div>
-    </div>
-  </section>
 
-  <!-- ------------------------------------------------------------- livros -->
-  <section class="books" aria-labelledby="books-title">
-    <div class="page-shell">
-      <header class="section-intro compact">
-        <p class="eyebrow">Obras do autor</p>
-        <h2 id="books-title" class="section-heading">Livros</h2>
-      </header>
-
-      <ul class="book-grid">
-        {
-          featuredBooks.map((book) => (
-            <li>
-              <p class="card-kicker">{book.badge}</p>
-              <h3>
-                <a
-                  href={`/livros/${book.slug}`}
-                  data-home-event="book_click"
-                  data-home-content={book.slug}
-                >
-                  {book.title}
-                </a>
-              </h3>
-              <p>{book.subtitle}</p>
-              <p class="card-meta">{book.status}</p>
-            </li>
-          ))
-        }
-      </ul>
-
-      <a class="text-link section-footer-link" href="/livros">
-        Ver o catálogo
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M4 12h16m-5-5 5 5-5 5"></path>
-        </svg>
-      </a>
-    </div>
-  </section>
-
-  <!-- ------------------------------------------------ responsável editorial -->
-  <section class="editorial-board" aria-labelledby="board-title">
-    <div class="page-shell board-grid">
-      <div>
-        <p class="eyebrow">Quem assina</p>
-        <h2 id="board-title" class="section-heading">
-          Responsabilidade editorial
-        </h2>
-        <p class="board-lead">{author.description}</p>
-        <p class="board-credential">
-          <strong>{author.name}</strong>
-          <span>{author.role}</span>
-          <em>{author.registration}</em>
-        </p>
-        <a class="text-link" href={`/autor/${author.slug}`}>
-          Sobre o autor
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4 12h16m-5-5 5 5-5 5"></path>
-          </svg>
-        </a>
+      <div class="gateway-shortcuts">
+        <p>Sabe o que procura?</p>
+        <ul>
+          <li><a href="/olho-seco">O que é olho seco</a></li>
+          <li><a href="/sinais-de-alerta">Sinais de alerta</a></li>
+          <li><a href="/superficie">Revista SUPERFÍCIE</a></li>
+          <li><a href="/glossario">Glossário</a></li>
+          <li><a href="/fontes">Fontes</a></li>
+          <li><a href="/newsletter">Newsletter</a></li>
+        </ul>
       </div>
-
-      <ul class="board-principles">
-        <li>
-          <h3>Evidência declarada</h3>
-          <p>
-            Cada afirmação clínica aponta para a fonte que a sustenta, e o texto
-            diz quando a evidência é curta, fraca ou de efeito transitório.
-          </p>
-        </li>
-        <li>
-          <h3>Sem promessa de resultado</h3>
-          <p>
-            Ao descrever um tratamento, o portal diz o que ele pretende e o que
-            ainda é incerto. Não há superlativo nem comparação com outros
-            serviços.
-          </p>
-        </li>
-        <li>
-          <h3>Publicidade separada do conteúdo</h3>
-          <p>
-            Na SUPERFÍCIE, parceria comercial não determina pauta nem conclusão
-            clínica; rótulo e disclosure são obrigatórios onde houver
-            patrocínio.
-          </p>
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- --------------------------------------------------------- newsletter -->
-  <section class="home-newsletter" aria-labelledby="home-newsletter-title">
-    <div class="page-shell newsletter-grid">
-      <div>
-        <p class="eyebrow">Newsletter</p>
-        <h2 id="home-newsletter-title" class="section-heading">
-          Receba o que for publicado
-        </h2>
-        <p>
-          Guias novos, edições da SUPERFÍCIE e o RADAR Científico. Sem
-          frequência fixa: só quando há o que dizer.
-        </p>
-      </div>
-      <NewsletterSignupForm source="newsletter" variant="portal" />
     </div>
   </section>
 </Layout>
@@ -684,11 +126,15 @@ const featuredBooks = books.slice(0, 2);
     }
   }
 
-  const emitHomeEvent = (
-    eventName: string,
-    details: Record<string, string> = {},
-  ) => {
-    const payload = { event: eventName, ...details };
+  const STORAGE_KEY = "olhossecos:portal";
+
+  const labels: Record<string, { label: string; href: string }> = {
+    paciente: { label: "o portal do paciente", href: "/paciente" },
+    profissional: { label: "o portal profissional", href: "/profissional" },
+  };
+
+  const emit = (event: string, details: Record<string, string> = {}) => {
+    const payload = { event, ...details };
     window.dataLayer = window.dataLayer ?? [];
     window.dataLayer.push(payload);
     window.dispatchEvent(
@@ -696,368 +142,60 @@ const featuredBooks = books.slice(0, 2);
     );
   };
 
-  emitHomeEvent("home_view", { page_path: window.location.pathname });
+  // A escolha é lembrada, nunca aplicada sozinha: um redirect automático
+  // roubaria da pessoa a única decisão que esta página existe para oferecer,
+  // e quebraria quem chega por link compartilhado querendo o outro lado.
+  const readChoice = () => {
+    try {
+      return window.localStorage.getItem(STORAGE_KEY);
+    } catch {
+      return null;
+    }
+  };
+
+  const previous = readChoice();
+  const known = previous ? labels[previous] : undefined;
+  const resume = document.querySelector<HTMLElement>("[data-resume]");
+  const resumeLink =
+    document.querySelector<HTMLAnchorElement>("[data-resume-link]");
+
+  if (known && resume && resumeLink) {
+    resumeLink.textContent = known.label;
+    resumeLink.href = known.href;
+    resume.hidden = false;
+    document
+      .querySelector(`[data-path="${previous}"]`)
+      ?.setAttribute("data-remembered", "true");
+  }
 
   document
-    .querySelectorAll<HTMLElement>("[data-home-event]")
-    .forEach((item) => {
-      item.addEventListener("click", () => {
-        const eventName = item.dataset.homeEvent;
-        if (!eventName) return;
-
-        emitHomeEvent(eventName, {
-          link_url: item.getAttribute("href") ?? "",
-          link_text: item.textContent?.trim() ?? "",
-          placement: item.dataset.homePlacement ?? "",
-          content_title: item.dataset.homeContent ?? "",
+    .querySelectorAll<HTMLAnchorElement>("[data-portal-choice]")
+    .forEach((link) => {
+      link.addEventListener("click", () => {
+        const choice = link.dataset.portalChoice;
+        if (!choice) return;
+        try {
+          window.localStorage.setItem(STORAGE_KEY, choice);
+        } catch {
+          // Navegação privada e armazenamento bloqueado: a escolha só não é
+          // lembrada. Nada mais na página depende disso.
+        }
+        emit(link.dataset.analyticsEvent ?? "patient_path_click", {
+          placement: "gateway",
+          link_url: link.getAttribute("href") ?? "",
         });
       });
     });
-
-  // Parallax do hero: deslocamento de poucos pixels, só no desktop e só quando
-  // o visitante não pediu menos movimento. Nada além do hero se move.
-  const parallax = document.querySelector<HTMLElement>("[data-parallax]");
-  const canMove =
-    window.matchMedia("(min-width: 900px)").matches &&
-    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (parallax && canMove) {
-    let ticking = 0;
-    const update = () => {
-      ticking = 0;
-      const offset = Math.min(window.scrollY, 600) * 0.06;
-      parallax.style.setProperty("--parallax-shift", `${offset.toFixed(2)}px`);
-    };
-    window.addEventListener(
-      "scroll",
-      () => {
-        if (ticking) return;
-        ticking = requestAnimationFrame(update);
-      },
-      { passive: true },
-    );
-    update();
-  }
 </script>
 
 <style>
-  /* Abaixo da dobra o navegador não precisa calcular estilo, layout e pintura
-     antes que a seção chegue perto da tela. Numa home editorial longa isso é o
-     grosso do trabalho de main thread: a medição em produção mostrou 2,0 s de
-     styleLayout e 0,6 s de pintura antes do primeiro quadro.
-
-     Aplicado só nas duas seções ilustradas: são elas que carregam os filtros
-     SVG e o desenho pesado. Estendê-lo às seções de texto derrubava o restante
-     do styleLayout, mas colapsava a geometria dos links enquanto a seção estava
-     pulada — e o axe passava a acusar alvos de toque sobrepostos que não
-     existem na tela.
-
-     O contain-intrinsic-size é a altura reservada enquanto a seção está pulada.
-     Sem ele a barra de rolagem salta e o CLS volta. */
-  .mechanism,
-  .eye-explorer {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 900px;
-  }
-  /* ------------------------------------------------------------------ hero */
-  .home-hero {
-    padding-block: clamp(2.5rem, 5vw, 5rem) var(--space-section);
-    background:
-      radial-gradient(
-        120% 90% at 78% 6%,
-        rgb(8 127 149 / 8%) 0%,
-        transparent 62%
-      ),
-      var(--paper-50);
+  .gateway {
+    padding: clamp(3rem, 2rem + 5vw, 6rem) 0 var(--space-section);
   }
 
-  .hero-grid {
-    display: grid;
-    gap: clamp(2.5rem, 5vw, 4.5rem);
-  }
-
-  .hero-eyebrow {
-    margin: 0 0 1.4rem;
-    color: var(--copper-700);
-    font-size: var(--text-meta);
-    font-weight: 800;
-    letter-spacing: var(--tracking-kicker);
-    text-transform: uppercase;
-  }
-
-  .hero-copy h1 {
-    max-width: 15ch;
-    margin: 0;
-    font-family: var(--serif);
-    font-size: var(--text-display);
-    font-weight: 600;
-    letter-spacing: var(--tracking-tight);
-    line-height: var(--leading-tight);
-    text-wrap: balance;
-  }
-
-  .hero-lead {
-    max-width: var(--measure-narrow);
-    margin: 1.8rem 0 0;
-    color: var(--ink-soft);
-    font-size: var(--text-lead);
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.85rem;
-    margin-top: 2.2rem;
-  }
-
-  .hero-button {
-    display: inline-flex;
-    min-height: 52px;
-    align-items: center;
-    justify-content: center;
-    padding: 0.85rem 1.45rem;
-    border: 1px solid var(--navy-800);
-    border-radius: var(--radius-sm);
-    font-size: var(--text-small);
-    font-weight: 700;
-    transition:
-      background-color var(--duration-base) var(--ease-out-soft),
-      color var(--duration-base) var(--ease-out-soft),
-      transform var(--duration-base) var(--ease-out-soft);
-  }
-
-  .hero-button-primary {
-    background: var(--navy-800);
-    color: #ffffff;
-  }
-
-  .hero-button-secondary {
-    background: transparent;
-    color: var(--ink);
-  }
-
-  .hero-button:hover {
-    transform: translateY(-2px);
-  }
-
-  .hero-button-secondary:hover {
-    background: var(--navy-800);
-    color: #ffffff;
-  }
-
-  .ecosystem-line {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 1.6rem;
-    margin: 2.6rem 0 0;
-    color: var(--ink-soft);
-    font-size: var(--text-meta);
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .ecosystem-line span {
-    position: relative;
-  }
-
-  .ecosystem-line span + span::before {
-    position: absolute;
-    left: -0.85rem;
-    color: var(--copper-700);
-    content: "·";
-  }
-
-  .hero-visual {
-    margin: 0;
-  }
-
-  .visual-label {
-    margin: 0 0 0.9rem;
-    color: var(--ink-soft);
-    font-size: var(--text-meta);
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  /* width/height no <img> já reservam a caixa; o aspect-ratio explícito
-     mantém a reserva mesmo se o srcset servir outra largura. */
-  .hero-still {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1024 / 768;
-  }
-
-  .hero-frame {
-    position: relative;
-    overflow: hidden;
-    border-radius: var(--radius-lg);
-    background: var(--paper-100);
-    /* O deslocamento vem de uma custom property escrita pelo script; sem JS o
-       valor é zero e a imagem simplesmente não se move. */
-    transform: translate3d(0, calc(var(--parallax-shift, 0px) * -1), 0);
-  }
-
-  .hero-frame img {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: cover;
-  }
-
-  .hero-interference {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    fill: none;
-    stroke: rgb(8 127 149 / 24%);
-    stroke-width: 1.4;
-    mix-blend-mode: multiply;
-    pointer-events: none;
-  }
-
-  .hero-interference path {
-    animation: interference-drift 18s var(--ease-standard) infinite alternate;
-  }
-
-  .hero-interference path:nth-child(2) {
-    animation-duration: 24s;
-    animation-delay: -6s;
-  }
-
-  .hero-interference path:nth-child(3) {
-    animation-duration: 30s;
-    animation-delay: -12s;
-  }
-
-  @keyframes interference-drift {
-    from {
-      transform: translate3d(-2%, 0, 0);
-    }
-
-    to {
-      transform: translate3d(2%, 1.2%, 0);
-    }
-  }
-
-  .science-index {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 0 1.1rem;
-    align-items: start;
-    margin: 1.4rem 0 0;
-    padding-top: 1.2rem;
-    border-top: 1px solid var(--line);
-  }
-
-  /* O figcaption é grade de duas colunas; a divulgação atravessa as duas em
-     vez de virar um terceiro item na coluna do número. */
-  .science-index small {
-    grid-column: 1 / -1;
-    margin-top: 0.8rem;
-    color: var(--ink-soft);
-    font-size: 0.75rem;
-    line-height: 1.5;
-    opacity: 0.85;
-  }
-
-  .science-index span {
-    font-family: var(--serif);
-    font-size: 2.4rem;
-    line-height: 1;
-    color: var(--copper-500);
-  }
-
-  .science-index p {
-    max-width: 44ch;
-    margin: 0;
-    color: var(--ink-soft);
-    font-size: var(--text-small);
-  }
-
-  /* -------------------------------------------------------- trilho público */
-  .audience-rail {
-    display: grid;
-    border-block: 1px solid var(--line);
-    background: var(--paper-0);
-  }
-
-  .audience-rail a {
-    display: grid;
-    gap: 0.45rem;
-    padding: clamp(1.8rem, 3vw, 2.6rem) clamp(1.2rem, 4vw, 3rem);
-    transition: background-color var(--duration-base) var(--ease-standard);
-  }
-
-  .audience-rail a:hover {
-    background: var(--paper-100);
-  }
-
-  .audience-index {
-    color: var(--copper-700);
-    font-family: var(--serif);
-    font-size: 1.3rem;
-  }
-
-  .audience-label {
-    color: var(--teal-700);
-    font-size: var(--text-meta);
-    font-weight: 800;
-    letter-spacing: var(--tracking-kicker);
-    text-transform: uppercase;
-  }
-
-  .audience-rail strong {
-    max-width: 30ch;
-    font-family: var(--serif);
-    font-size: var(--text-h3);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-  }
-
-  .audience-rail small {
-    color: var(--ink-soft);
-    font-size: var(--text-small);
-    font-weight: 650;
-  }
-
-  /* ---------------------------------------------------------- grande matéria */
-  .lead-story {
-    padding-block: var(--space-section);
-    background: var(--paper-0);
-  }
-
-  .lead-grid {
-    display: grid;
-    gap: clamp(2rem, 4vw, 3.5rem);
-  }
-
-  .lead-kicker {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 1.2rem;
-    margin: 0 0 1.5rem;
-    font-size: var(--text-meta);
-    font-weight: 800;
-    letter-spacing: var(--tracking-kicker);
-    text-transform: uppercase;
-  }
-
-  .lead-kicker span:first-child {
-    color: var(--copper-700);
-  }
-
-  .lead-kicker span + span {
-    color: var(--teal-700);
-  }
-
-  .lead-copy h2 {
-    max-width: 18ch;
-    margin: 0;
+  .gateway h1 {
+    margin: 0.6rem 0 0;
+    max-width: 20ch;
     font-family: var(--serif);
     font-size: var(--text-h1);
     font-weight: 600;
@@ -1066,685 +204,223 @@ const featuredBooks = books.slice(0, 2);
     text-wrap: balance;
   }
 
-  .lead-copy h2 a {
-    background-image: linear-gradient(currentColor, currentColor);
-    background-repeat: no-repeat;
-    background-position: 0 100%;
-    background-size: 0% 1px;
-    transition: background-size var(--duration-slow) var(--ease-out-soft);
-  }
-
-  .lead-copy h2 a:hover {
-    background-size: 100% 1px;
-  }
-
-  .lead-standfirst {
-    max-width: var(--measure-narrow);
-    margin: 1.3rem 0 0;
-    color: var(--ink-soft);
-    font-family: var(--serif);
-    font-size: var(--text-lead);
-  }
-
-  .lead-excerpt {
-    max-width: var(--measure);
-    margin: 1.2rem 0 0;
-    color: var(--ink-soft);
-  }
-
-  .lead-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 1.4rem;
-    margin: 1.6rem 0;
-    color: var(--ink-soft);
-    font-size: var(--text-meta);
-  }
-
-  .lead-meta span + span::before {
-    margin-right: 1.4rem;
-    color: var(--line-strong);
-    content: "·";
-  }
-
-  .lead-sheet {
-    padding: clamp(1.4rem, 3vw, 2rem);
-    border: 1px solid var(--line);
-    border-top: 3px solid var(--copper-500);
-    border-radius: var(--radius-md);
-    background: var(--paper-50);
-  }
-
-  .lead-sheet dl {
-    display: grid;
-    gap: 1.1rem;
-    margin: 0;
-  }
-
-  .lead-sheet dt {
-    margin-bottom: 0.25rem;
-    color: var(--ink-soft);
-    font-size: var(--text-meta);
-    font-weight: 800;
-    letter-spacing: var(--tracking-kicker);
-    text-transform: uppercase;
-  }
-
-  .lead-sheet dd {
-    margin: 0;
-    font-family: var(--serif);
-    font-size: 1.05rem;
-    line-height: 1.35;
-  }
-
-  .lead-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.45rem;
-    margin: 1.5rem 0 0;
-    padding: 1.3rem 0 0;
-    border-top: 1px solid var(--line);
-    list-style: none;
-  }
-
-  .lead-tags li {
-    padding: 0.28rem 0.7rem;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    color: var(--ink-soft);
-    font-size: var(--text-meta);
-  }
-
-  /* ---------------------------------------------------------- seções gerais */
-  .section-intro {
-    max-width: 44rem;
-    margin-bottom: clamp(2.2rem, 4vw, 3.5rem);
-  }
-
-  .section-intro p:last-child:not(.eyebrow) {
-    max-width: var(--measure);
-    margin: 1.3rem 0 0;
-    color: var(--ink-soft);
-    font-size: var(--text-lead);
-  }
-
-  .section-footer-link {
-    margin-top: clamp(2rem, 3vw, 3rem);
-  }
-
-  .card-kicker {
-    margin: 0 0 0.6rem;
-    color: var(--teal-700);
-    font-size: var(--text-meta);
-    font-weight: 800;
-    letter-spacing: var(--tracking-kicker);
-    text-transform: uppercase;
-  }
-
-  .card-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.3rem 1.1rem;
-    margin: 0.8rem 0 0;
-    color: var(--ink-soft);
-    font-size: var(--text-meta);
-  }
-
-  .list-index {
-    color: var(--copper-700);
-    font-family: var(--serif);
-    font-size: 1.15rem;
-    font-variant-numeric: tabular-nums;
-  }
-
-  /* ------------------------------------------------------------- editorial */
-  .editorial {
-    padding-block: var(--space-section);
-    border-top: 1px solid var(--line-soft);
-    background: var(--paper-50);
-  }
-
-  .editorial-grid {
-    display: grid;
-    gap: clamp(2rem, 4vw, 3.5rem);
-  }
-
-  .editorial-feature {
-    padding: clamp(1.6rem, 3vw, 2.4rem);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-md);
-    background: var(--paper-0);
-    box-shadow: var(--shadow-hairline);
-    transition: filter var(--duration-base) var(--ease-out-soft);
-  }
-
-  .editorial-feature:hover {
-    filter: var(--lift-hover);
-  }
-
-  .editorial-feature h3 {
-    max-width: 20ch;
-    margin: 0;
-    font-family: var(--serif);
-    font-size: var(--text-h2);
-    font-weight: 600;
-    letter-spacing: var(--tracking-tight);
-    line-height: 1.1;
-  }
-
-  .editorial-feature > p {
-    max-width: var(--measure);
+  .gateway-lead {
     margin: 1.1rem 0 0;
+    max-width: var(--measure-narrow);
     color: var(--ink-soft);
+    font-size: var(--text-lead);
   }
 
-  .editorial-list {
-    display: grid;
-    gap: 1.6rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .editorial-list li {
-    display: grid;
-    grid-template-columns: 2.4rem 1fr;
-    gap: 0.6rem;
-    padding-bottom: 1.6rem;
-    border-bottom: 1px solid var(--line-soft);
-  }
-
-  .editorial-list li:last-child {
-    padding-bottom: 0;
-    border-bottom: 0;
-  }
-
-  .editorial-list h3 {
-    max-width: 34ch;
-    margin: 0;
-    font-family: var(--serif);
-    font-size: var(--text-h3);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    line-height: 1.22;
-  }
-
-  .editorial-list a,
-  .editorial-feature h3 a,
-  .quick-grid a,
-  .recent-grid a,
-  .essential-grid a,
-  .book-grid a {
-    display: inline;
-    background-image: linear-gradient(currentColor, currentColor);
-    background-repeat: no-repeat;
-    background-position: 0 100%;
-    background-size: 0% 1px;
-    transition: background-size var(--duration-base) var(--ease-out-soft);
-  }
-
-  .editorial-list a:hover,
-  .editorial-feature h3 a:hover,
-  .quick-grid a:hover,
-  .recent-grid a:hover,
-  .essential-grid a:hover,
-  .book-grid a:hover {
-    background-size: 100% 1px;
-  }
-
-  /* ------------------------------------------------------------ SUPERFÍCIE */
-  .surface-feature {
-    padding-block: var(--space-section);
-    background: var(--navy-800);
-    color: #ffffff;
-  }
-
-  .surface-grid {
-    display: grid;
-    gap: clamp(2.5rem, 5vw, 4rem);
-    align-items: center;
-  }
-
-  .surface-signature {
-    margin: 0 0 1.2rem;
-    color: #d9b665;
-    font-size: var(--text-meta);
-    font-weight: 800;
-    letter-spacing: var(--tracking-kicker);
-    text-transform: uppercase;
-  }
-
-  .surface-copy h2 {
-    margin: 0;
-    font-family: var(--serif);
-    font-size: clamp(2.6rem, 1.6rem + 4vw, 4.6rem);
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    line-height: 1;
-  }
-
-  .surface-descriptor {
-    margin: 0.8rem 0 0;
-    color: rgb(255 255 255 / 72%);
-    font-size: var(--text-small);
-    letter-spacing: 0.04em;
-  }
-
-  .surface-copy h3 {
-    margin: 2rem 0 0;
-    font-family: var(--serif);
-    font-size: var(--text-h3);
-    font-weight: 600;
-  }
-
-  .surface-intro {
-    max-width: var(--measure);
-    margin: 1rem 0 0;
-    color: rgb(255 255 255 / 80%);
-  }
-
-  .surface-topics {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin: 1.8rem 0 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .surface-topics li {
-    padding: 0.35rem 0.8rem;
-    border: 1px solid rgb(255 255 255 / 28%);
-    border-radius: 999px;
-    color: rgb(255 255 255 / 82%);
-    font-size: var(--text-meta);
-  }
-
-  .surface-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.2rem 1.8rem;
-    align-items: center;
-    margin-top: 2.2rem;
-  }
-
-  .surface-actions .button-primary {
-    border-color: #d9b665;
-    background: #d9b665;
-    color: var(--navy-900);
-  }
-
-  .surface-actions .button-primary:hover {
-    background: #e8cf95;
-    border-color: #e8cf95;
-    color: var(--navy-900);
-  }
-
-  .surface-actions .text-link {
-    color: #ffffff;
-  }
-
-  .founding-issue {
-    display: grid;
-    gap: 1.6rem;
-    padding: clamp(1.4rem, 3vw, 2rem);
-    border: 1px solid rgb(255 255 255 / 22%);
-    border-radius: var(--radius-md);
-    background: rgb(255 255 255 / 6%);
-  }
-
-  .issue-cover-thumb {
-    max-width: 220px;
-  }
-
-  .issue-status {
-    margin: 0 0 0.8rem;
-    color: #d9b665;
-    font-size: var(--text-meta);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .issue-content h3 {
-    margin: 0 0 0.6rem;
-    font-family: var(--serif);
-    font-size: var(--text-h3);
-    font-weight: 600;
-  }
-
-  .issue-content p {
-    margin: 0 0 1.2rem;
-    color: rgb(255 255 255 / 78%);
-    font-size: var(--text-small);
-  }
-
-  .issue-content .text-link {
-    color: #ffffff;
-  }
-
-  /* ----------------------------------------------- listas de leitura curta */
-  .quick-reads,
-  .recent-articles,
-  .essentials,
-  .books {
-    padding-block: var(--space-section);
-    border-top: 1px solid var(--line-soft);
-    background: var(--paper-0);
-  }
-
-  .recent-articles,
-  .books {
-    background: var(--paper-50);
-  }
-
-  .quick-grid,
-  .recent-grid,
-  .essential-grid,
-  .book-grid {
-    display: grid;
-    gap: clamp(1.8rem, 3vw, 2.6rem);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .quick-grid li,
-  .recent-grid li,
-  .book-grid li {
-    padding-top: 1.4rem;
-    border-top: 1px solid var(--line);
-  }
-
-  .quick-grid h3,
-  .recent-grid h3,
-  .book-grid h3,
-  .essential-grid h3 {
-    max-width: 26ch;
-    margin: 0;
-    font-family: var(--serif);
-    font-size: var(--text-h3);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    line-height: 1.22;
-  }
-
-  .quick-grid p,
-  .recent-grid p,
-  .book-grid p,
-  .essential-grid p {
-    max-width: 42ch;
-    margin: 0.8rem 0 0;
-    color: var(--ink-soft);
-    font-size: var(--text-small);
-  }
-
-  .recent-grid .card-meta {
-    margin: 0 0 0.7rem;
-    color: var(--teal-700);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .essential-grid li {
-    display: grid;
-    grid-template-columns: 2.4rem 1fr;
-    gap: 0.3rem 0.6rem;
-    align-items: baseline;
-  }
-
-  .essential-grid .list-index {
-    grid-row: span 2;
-  }
-
-  /* --------------------------------------------------------------- jornadas */
-  .journeys {
-    padding-block: var(--space-section);
-    border-top: 1px solid var(--line-soft);
-    background: var(--paper-100);
-  }
-
-  .journey-grid {
-    display: grid;
-    gap: clamp(2rem, 4vw, 3rem);
-  }
-
-  .journey {
-    display: grid;
-    align-content: start;
-    gap: 1.2rem;
-    padding: clamp(1.6rem, 3vw, 2.4rem);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-md);
-    background: var(--paper-0);
-  }
-
-  .journey-professional {
-    border-top: 3px solid var(--navy-700);
-  }
-
-  .journey-patient {
-    border-top: 3px solid var(--teal-600);
-  }
-
-  .journey header {
-    display: grid;
-    gap: 0.4rem;
-  }
-
-  .journey-number {
-    color: var(--copper-700);
-    font-family: var(--serif);
-    font-size: 1.3rem;
-  }
-
-  .journey h3 {
-    margin: 0;
-    font-family: var(--serif);
-    font-size: var(--text-h3);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
-
-  .journey-description {
-    max-width: var(--measure);
-    margin: 0;
-    color: var(--ink-soft);
-    font-size: var(--text-small);
-  }
-
-  .journey nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .journey nav a {
+  .gateway-resume {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
-    min-height: 40px;
-    padding: 0.4rem 0.85rem;
+    gap: 0.4rem;
+    margin: 1.5rem 0 0;
+    padding: 0.5rem 0.9rem;
     border: 1px solid var(--line);
     border-radius: 999px;
-    color: var(--ink-soft);
-    font-size: var(--text-meta);
-    font-weight: 650;
-    transition:
-      border-color var(--duration-fast) var(--ease-standard),
-      color var(--duration-fast) var(--ease-standard);
+    background: var(--mist);
+    font-size: var(--text-small);
   }
 
-  .journey nav a:hover {
-    border-color: var(--teal-600);
+  .gateway-resume span {
+    color: var(--ink-soft);
+  }
+
+  .gateway-resume a {
+    color: var(--teal-dark);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .gateway-resume a:hover {
     color: var(--ink);
   }
 
-  .journey nav span {
-    color: var(--copper-700);
-  }
-
-  /* ------------------------------------------------------ conselho e autor */
-  .editorial-board {
-    padding-block: var(--space-section);
-    border-top: 1px solid var(--line-soft);
-    background: var(--paper-0);
-  }
-
-  .board-grid {
+  .gateway-grid {
     display: grid;
-    gap: clamp(2.5rem, 5vw, 4rem);
+    gap: clamp(1rem, 0.6rem + 1.6vw, 1.75rem);
+    margin-top: clamp(2rem, 1.4rem + 2vw, 3.25rem);
   }
 
-  .board-lead {
-    max-width: var(--measure);
-    margin: 1.4rem 0 0;
+  @media (min-width: 900px) {
+    .gateway-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .gateway-card {
+    display: flex;
+    flex-direction: column;
+    padding: clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--paper);
+    box-shadow: var(--shadow-card);
+    /* A elevação usa filter porque o anel de foco de dois tons já ocupa o
+       box-shadow — na mesma propriedade uma esconderia a outra. */
+    transition:
+      filter var(--duration-base) var(--ease-out-soft),
+      border-color var(--duration-base) var(--ease-out-soft),
+      transform var(--duration-base) var(--ease-out-soft);
+  }
+
+  .gateway-card:hover,
+  .gateway-card:focus-within {
+    filter: var(--lift-hover);
+    border-color: var(--teal);
+    transform: translateY(-2px);
+  }
+
+  .gateway-card[data-remembered] {
+    border-color: var(--teal);
+    background: linear-gradient(180deg, var(--mist), var(--paper) 46%);
+  }
+
+  .gateway-kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0;
     color: var(--ink-soft);
+    font-size: var(--text-meta);
+    font-weight: 750;
+    letter-spacing: var(--tracking-kicker);
+    text-transform: uppercase;
   }
 
-  .board-credential {
-    display: grid;
-    gap: 0.2rem;
-    margin: 1.8rem 0;
-    padding-left: 1.1rem;
-    border-left: 3px solid var(--copper-500);
+  .gateway-index {
+    color: var(--teal-dark);
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    letter-spacing: 0;
   }
 
-  .board-credential strong {
+  .gateway-card h2 {
+    margin: 0.9rem 0 0;
     font-family: var(--serif);
     font-size: var(--text-h3);
     font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-snug);
+    text-wrap: balance;
   }
 
-  .board-credential span,
-  .board-credential em {
+  .gateway-text {
+    margin: 0.8rem 0 0;
+    color: var(--ink-soft);
+  }
+
+  .gateway-highlights {
+    margin: 1.25rem 0 0;
+    padding: 1.15rem 0 0;
+    border-top: 1px solid var(--line-soft);
+    list-style: none;
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .gateway-highlights li {
+    position: relative;
+    padding-left: 1.4rem;
+    font-size: var(--text-small);
+  }
+
+  .gateway-highlights li::before {
+    position: absolute;
+    top: 0.55em;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--teal);
+    content: "";
+  }
+
+  .gateway-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 48px;
+    margin-top: auto;
+    padding: 0.85rem 1.4rem;
+    border-radius: var(--control-radius);
+    background: var(--ink);
+    color: white;
+    font-weight: 700;
+    /* margin-top:auto encosta o botão no rodapé do cartão; este afastamento
+       garante o respiro quando os dois textos têm alturas diferentes. */
+    margin-block-start: 1.75rem;
+    transition: background var(--duration-fast) var(--ease-standard);
+  }
+
+  .gateway-cta svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .gateway-cta:hover {
+    background: var(--teal-dark);
+  }
+
+  .gateway-cta:active {
+    background: var(--navy-900);
+  }
+
+  .gateway-shortcuts {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 1.25rem;
+    margin-top: clamp(2rem, 1.4rem + 2vw, 3rem);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .gateway-shortcuts p {
+    margin: 0;
     color: var(--ink-soft);
     font-size: var(--text-small);
-    font-style: normal;
+    font-weight: 700;
   }
 
-  .board-principles {
-    display: grid;
-    gap: 1.8rem;
+  .gateway-shortcuts ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  .board-principles li {
-    padding-top: 1.2rem;
-    border-top: 1px solid var(--line);
-  }
-
-  .board-principles h3 {
-    margin: 0 0 0.5rem;
-    font-family: var(--serif);
-    font-size: var(--text-h3);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
-
-  .board-principles p {
-    max-width: 46ch;
-    margin: 0;
-    color: var(--ink-soft);
+  .gateway-shortcuts a {
+    color: var(--teal-dark);
     font-size: var(--text-small);
+    font-weight: 650;
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 4px;
   }
 
-  /* ------------------------------------------------------------ newsletter */
-  .home-newsletter {
-    padding-block: var(--space-section);
-    background: var(--paper-100);
-  }
-
-  .newsletter-grid {
-    display: grid;
-    gap: clamp(2rem, 4vw, 3.5rem);
-    align-items: start;
-  }
-
-  .newsletter-grid > div p {
-    max-width: var(--measure);
-    margin: 1.3rem 0 0;
-    color: var(--ink-soft);
-    font-size: var(--text-lead);
-  }
-
-  /* -------------------------------------------------------------- desktop */
-  @media (min-width: 760px) {
-    .audience-rail {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .audience-rail a + a {
-      border-left: 1px solid var(--line);
-    }
-
-    .quick-grid,
-    .recent-grid,
-    .essential-grid,
-    .book-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      column-gap: clamp(2rem, 4vw, 3.5rem);
-    }
-  }
-
-  @media (min-width: 1000px) {
-    .hero-grid {
-      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-      align-items: center;
-    }
-
-    /* Composição assimétrica: a matéria principal ocupa a coluna larga e a
-       imagem entra deslocada, sem o bloco simétrico de card. */
-    .lead-grid {
-      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-      align-items: center;
-    }
-
-    .editorial-grid {
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-      align-items: start;
-    }
-
-    .surface-grid {
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-    }
-
-    .founding-issue {
-      grid-template-columns: 200px 1fr;
-      align-items: center;
-    }
-
-    .recent-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .essential-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .journey-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .board-grid,
-    .newsletter-grid {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    }
+  .gateway-shortcuts a:hover {
+    color: var(--ink);
+    text-decoration-color: currentColor;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero-frame {
-      transform: none;
+    .gateway-card {
+      transition: none;
     }
 
-    .hero-interference path {
-      animation: none;
-    }
-
-    .hero-button:hover {
+    .gateway-card:hover,
+    .gateway-card:focus-within {
       transform: none;
     }
   }
