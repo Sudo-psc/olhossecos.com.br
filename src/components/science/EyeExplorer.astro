@@ -340,6 +340,7 @@ const structures = [
                 data-pin-id={s.id}
                 style={`top: ${s.top}; left: ${s.left}; --pin-color: ${s.color};`}
                 aria-label={`Visualizar ${s.name}`}
+                aria-pressed={index === 0 ? "true" : "false"}
               >
                 <span class="sonar-wave" aria-hidden="true" />
                 <span class="sonar-core">
@@ -415,7 +416,12 @@ const structures = [
 
     <!-- Lista de Navegação e Artigos Explicativos -->
     <div class="eye-structures">
-      <ul class="eye-structure-list" data-eye-list role="tablist">
+      <ul
+        class="eye-structure-list"
+        data-eye-list
+        role="tablist"
+        aria-label="Estruturas da superfície ocular"
+      >
         {
           structures.map((structure, index) => (
             <li role="presentation">
@@ -428,6 +434,7 @@ const structures = [
                 aria-selected={index === 0 ? "true" : "false"}
                 aria-controls={`detail-${structure.id}`}
                 id={`tab-${structure.id}`}
+                tabindex={index === 0 ? "0" : "-1"}
               >
                 <span class="eye-structure-index">
                   {String(index + 1).padStart(2, "0")}
@@ -1060,11 +1067,13 @@ const structures = [
       buttons.forEach((btn) => {
         const isSelected = btn.dataset.eyeStructure === id;
         btn.setAttribute("aria-selected", String(isSelected));
+        btn.tabIndex = isSelected ? 0 : -1;
       });
 
       pins.forEach((pin) => {
         const isPinActive = pin.dataset.pinId === id;
         pin.dataset.active = String(isPinActive);
+        pin.setAttribute("aria-pressed", String(isPinActive));
       });
 
       details.forEach((det) => {
@@ -1077,6 +1086,28 @@ const structures = [
       btn.addEventListener("click", () => {
         const id = btn.dataset.eyeStructure;
         if (id) selectStructure(id);
+      });
+
+      btn.addEventListener("keydown", (event) => {
+        const currentIndex = buttons.indexOf(btn);
+        let nextIndex: number | undefined;
+
+        if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+          nextIndex = (currentIndex + 1) % buttons.length;
+        } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+          nextIndex = (currentIndex - 1 + buttons.length) % buttons.length;
+        } else if (event.key === "Home") {
+          nextIndex = 0;
+        } else if (event.key === "End") {
+          nextIndex = buttons.length - 1;
+        }
+
+        if (nextIndex === undefined) return;
+        event.preventDefault();
+        const nextButton = buttons[nextIndex];
+        const id = nextButton.dataset.eyeStructure;
+        if (id) selectStructure(id);
+        nextButton.focus();
       });
     });
 
