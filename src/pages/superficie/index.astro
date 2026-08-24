@@ -34,6 +34,23 @@ const perioperativeTopics = [
   "Superfície ocular no pós-operatório",
 ];
 
+/**
+ * O que cada frente já entregou. A nota dizia "conteúdos em desenvolvimento
+ * editorial" nas duas colunas enquanto três matérias sobre esses eixos
+ * estavam no ar logo acima, na grade de destaques — a mesma página se
+ * contradizia em duas rolagens.
+ */
+const practicePublished = {
+  therapy: [
+    {
+      slug: "terapias-dirigidas-por-mecanismo",
+      title: "O mecanismo da visita, não o degrau",
+    },
+    { slug: "anti-demodex", title: "Quando a higiene não basta" },
+  ],
+  perioperative: [{ slug: "prehab-ocular", title: "Tratar antes de medir" }],
+};
+
 const featuredArticles = sortPublishedArticlesByDate(publishedArticles).slice(
   0,
   6,
@@ -156,7 +173,7 @@ const newsletterEndpoint =
       </div>
 
       <div class="topics-panel">
-        <p class="topics-label">Temas em desenvolvimento editorial</p>
+        <p class="topics-label">Eixos desta edição</p>
         <ol class="topics-list">
           {
             founderIssue.topics.map((topic, index) => (
@@ -170,7 +187,7 @@ const newsletterEndpoint =
       </div>
 
       <details class="topics-mobile">
-        <summary>Ver temas em desenvolvimento editorial</summary>
+        <summary>Ver os eixos desta edição</summary>
         <ol>
           {founderIssue.topics.map((topic) => <li>{topic}</li>)}
         </ol>
@@ -341,7 +358,23 @@ const newsletterEndpoint =
           <ul>
             {therapyTopics.map((topic) => <li>{topic}</li>)}
           </ul>
-          <p class="practice-note">Conteúdos em desenvolvimento editorial.</p>
+          <p class="practice-note">
+            Já no ar:{" "}
+            {
+              practicePublished.therapy.map((item, index) => (
+                <>
+                  {index > 0 && " · "}
+                  <a
+                    href={`/superficie/artigos/${item.slug}`}
+                    data-analytics-event="article_click"
+                    data-analytics-label={item.slug}
+                  >
+                    {item.title}
+                  </a>
+                </>
+              ))
+            }
+          </p>
         </article>
         <article>
           <p class="eyebrow ink">Superfície ocular perioperatória</p>
@@ -349,7 +382,23 @@ const newsletterEndpoint =
           <ul>
             {perioperativeTopics.map((topic) => <li>{topic}</li>)}
           </ul>
-          <p class="practice-note">Conteúdos em desenvolvimento editorial.</p>
+          <p class="practice-note">
+            Já no ar:{" "}
+            {
+              practicePublished.perioperative.map((item, index) => (
+                <>
+                  {index > 0 && " · "}
+                  <a
+                    href={`/superficie/artigos/${item.slug}`}
+                    data-analytics-event="article_click"
+                    data-analytics-label={item.slug}
+                  >
+                    {item.title}
+                  </a>
+                </>
+              ))
+            }
+          </p>
         </article>
       </div>
     </div>
@@ -1080,6 +1129,7 @@ const newsletterEndpoint =
     font-size: 0.82rem;
   }
 
+  .practice-note a,
   .policy-state a {
     color: var(--surface-teal);
     text-decoration: underline;

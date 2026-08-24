@@ -12,7 +12,7 @@
     },
     {
       "id": "page-3-title",
-      "text": "Duas leituras, edição ainda em produção",
+      "text": "Duas leituras da mesma edição",
       "x": 0.1,
       "y": 0.10391001606855918,
       "width": 0.8,
@@ -30,7 +30,7 @@
     },
     {
       "id": "page-3-paragraph-1",
-      "text": "Este caderno de laboratório reúne as matérias já no ar da SUPERFÍCIE — a biologia molecular da DGM e o TFOS DEWS III na prática — e os recortes das dez matérias seladas da edição 0.",
+      "text": "As doze matérias da Edição Fundadora estão no ar em /superficie/artigos/. Estas páginas são o recorte impresso de cada uma delas — a leitura de revista, não uma segunda versão do texto.",
       "x": 0.1,
       "y": 0.242785216925549,
       "width": 0.8,
@@ -39,7 +39,7 @@
     },
     {
       "id": "page-3-paragraph-2",
-      "text": "A Edição Fundadora nº 0 continua em produção. O que você vê aqui é um objeto de revista para o reader — não é o editorial fundador ainda não escrito, e não substitui as páginas HTML.",
+      "text": "A Edição Fundadora nº 00 fecha em novembro de 2026. O que você vê aqui é o objeto de revista que alimenta o reader; não é o editorial fundador, que será publicado com o fechamento.",
       "x": 0.1,
       "y": 0.33384038564542046,
       "width": 0.8,
@@ -48,7 +48,7 @@
     },
     {
       "id": "page-3-paragraph-3",
-      "text": "O texto canônico de cada matéria permanece em /superficie/artigos/. Referências, disclosures e o selo editorial estão lá. Nestas páginas impressas há só o recorte que cabe no papel.",
+      "text": "O texto canônico de cada matéria permanece em /superficie/artigos/. Referências, disclosures e o selo editorial estão lá. Nestas páginas há só o recorte que cabe no papel.",
       "x": 0.1,
       "y": 0.4248955543652919,
       "width": 0.8,

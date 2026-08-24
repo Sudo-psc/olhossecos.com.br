@@ -1,6 +1,6 @@
 /**
  * Marca o item de navegação da SUPERFÍCIE. Links só com hash
- * (`/superficie#entrevistas`) não podem vencer em `/superficie/artigos/*`
+ * (`/superficie#tecnologia`) não podem vencer em `/superficie/artigos/*`
  * só porque compartilham o prefixo `/superficie`.
  */
 export const isSurfaceNavCurrent = (

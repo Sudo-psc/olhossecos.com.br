@@ -100,12 +100,13 @@ const issueSchema = {
     <div class="surface-shell split-grid">
       <div>
         <p class="eyebrow ink">Editorial</p>
-        <h2 id="editorial-title">Uma edição em construção.</h2>
+        <h2 id="editorial-title">As matérias saem antes do editorial.</h2>
       </div>
       <div class="editorial-copy">
         <p class="lead">
-          O editorial da Edição Fundadora será publicado junto com a edição,
-          após o fechamento de pauta e a revisão final.
+          {
+            `As ${orderedArticles.length} matérias da Edição Fundadora já estão no ar — cada uma publicada assim que ficou pronta, com referências e disclosures. O editorial de abertura sai com o fechamento da edição impressa, em ${founderIssue.plannedPublication}.`
+          }
         </p>
         <p>
           A proposta editorial parte de uma pergunta central: como transformar a
@@ -113,8 +114,8 @@ const issueSchema = {
           precisas, transparentes e aplicáveis à prática clínica?
         </p>
         <p class="state-note">
-          Conteúdo em desenvolvimento — este texto não substitui o editorial
-          definitivo.
+          Esta seção descreve a proposta da edição. Não é o editorial
+          definitivo, que ainda não foi escrito.
         </p>
       </div>
     </div>
