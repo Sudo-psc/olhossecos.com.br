@@ -336,7 +336,7 @@ const agosto2026: RadarReport = {
   seo: {
     title: "RADAR Científico — Agosto 2026 | SUPERFÍCIE",
     description:
-      "Curadoria de evidências em olho seco e superfície ocular: TFOS DEWS III, desfechos em DGM, eixo intestino–superfície, luz pulsada, TRPM8, lifitegrast fase 3, LLLT adjunto ao IPL, superfície no glaucoma (GITS), imunoterapia e vitamina oral.",
+      "Curadoria de evidências em olho seco: TFOS DEWS III, DGM, intestino–superfície, IPL, TRPM8, lifitegrast, LLLT, GITS, imunoterapia e vitamina oral.",
   },
 };
 
