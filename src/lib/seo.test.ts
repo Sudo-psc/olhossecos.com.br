@@ -21,6 +21,7 @@ test("o sitemap omite redirects, páginas noindex e o laboratório da revista", 
   assert.equal(isIndexableSitemapPath("/superficie/issues/edicao-00"), false);
   assert.equal(isIndexableSitemapPath("/superficie/artigos"), true);
   assert.equal(isIndexableSitemapPath("/newsletter"), true);
+  assert.equal(isIndexableSitemapPath("/search-index.json"), false);
 });
 
 test("lastmod dos artigos publicados usa a data editorial, não o fallback de julho", () => {

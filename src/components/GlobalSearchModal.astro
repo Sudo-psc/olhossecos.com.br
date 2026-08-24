@@ -1,7 +1,5 @@
 ---
-import { getUnifiedSearchIndex } from "@/lib/search";
-
-const searchIndex = getUnifiedSearchIndex();
+const searchIndexUrl = `${import.meta.env.BASE_URL.replace(/\/$/u, "")}/search-index.json`;
 ---
 
 <dialog
@@ -9,6 +7,7 @@ const searchIndex = getUnifiedSearchIndex();
   class="global-search-dialog"
   aria-modal="true"
   aria-labelledby="global-search-label"
+  data-search-index-url={searchIndexUrl}
 >
   <div class="search-dialog-card">
     <div class="search-input-wrap">
@@ -120,17 +119,10 @@ const searchIndex = getUnifiedSearchIndex();
         <span><kbd>↵</kbd> selecionar</span>
         <span><kbd>ESC</kbd> fechar</span>
       </div>
-      <span class="index-count">{searchIndex.length} itens indexados</span>
+      <span class="index-count" data-search-index-count></span>
     </footer>
   </div>
 </dialog>
-
-<script
-  is:inline
-  id="global-search-data"
-  type="application/json"
-  set:html={JSON.stringify(searchIndex)}
-/>
 
 <script>
   interface SearchItem {
@@ -156,18 +148,18 @@ const searchIndex = getUnifiedSearchIndex();
       "global-search-suggestions",
     );
     const emptyState = document.getElementById("global-search-empty");
+    const indexCount = document.querySelector<HTMLElement>(
+      "[data-search-index-count]",
+    );
     const filterButtons =
       document.querySelectorAll<HTMLButtonElement>(".filter-chip");
-    const dataScript = document.getElementById("global-search-data");
 
-    if (!dialog || !input || !resultsContainer || !dataScript) return;
+    if (!dialog || !input || !resultsContainer) return;
+    if (dialog.dataset.searchBound === "true") return;
+    dialog.dataset.searchBound = "true";
 
     let searchItems: SearchItem[] = [];
-    try {
-      searchItems = JSON.parse(dataScript.textContent || "[]");
-    } catch {
-      searchItems = [];
-    }
+    let indexPromise: Promise<void> | null = null;
 
     let activeFilter = "all";
     let activeIndex = -1;
@@ -202,6 +194,38 @@ const searchIndex = getUnifiedSearchIndex();
         .toLowerCase()
         .trim();
 
+    const setIndexCount = (label: string) => {
+      if (indexCount) indexCount.textContent = label;
+    };
+
+    const loadIndex = () => {
+      if (indexPromise) return indexPromise;
+      const url = dialog.dataset.searchIndexUrl;
+      if (!url) {
+        setIndexCount("índice indisponível");
+        indexPromise = Promise.resolve();
+        return indexPromise;
+      }
+
+      setIndexCount("carregando índice…");
+      indexPromise = fetch(url)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+          return response.json() as Promise<SearchItem[]>;
+        })
+        .then((data) => {
+          searchItems = Array.isArray(data) ? data : [];
+          setIndexCount(`${searchItems.length} itens indexados`);
+        })
+        .catch(() => {
+          searchItems = [];
+          setIndexCount("índice indisponível");
+        });
+      return indexPromise;
+    };
+
     const openSearch = () => {
       dialog.showModal();
       document.body.style.overflow = "hidden";
@@ -212,6 +236,9 @@ const searchIndex = getUnifiedSearchIndex();
       );
       renderResults("");
       setTimeout(() => input.focus(), 50);
+      void loadIndex().then(() => {
+        if (dialog.open) renderResults(input.value);
+      });
     };
 
     const closeSearch = () => {
@@ -507,6 +534,10 @@ const searchIndex = getUnifiedSearchIndex();
     color: #087f95;
   }
 
+  .search-input-wrap:focus-within {
+    box-shadow: inset 0 -2px 0 #087f95;
+  }
+
   .search-input-wrap input {
     border: 0;
     outline: 0;
@@ -526,10 +557,25 @@ const searchIndex = getUnifiedSearchIndex();
   }
 
   .search-close-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    min-height: 36px;
     border: 0;
+    border-radius: 6px;
     background: transparent;
     padding: 0;
     cursor: pointer;
+    transition: background-color 150ms ease;
+  }
+
+  .search-close-btn:hover {
+    background: #eef3f6;
+  }
+
+  .search-close-btn:active {
+    background: #e2e9ef;
   }
 
   .search-close-btn kbd,
@@ -572,6 +618,10 @@ const searchIndex = getUnifiedSearchIndex();
   .filter-chip:hover {
     border-color: #087f95;
     color: #087f95;
+  }
+
+  .filter-chip:active {
+    background: #e8f4f7;
   }
 
   .filter-chip.active {
@@ -717,6 +767,10 @@ const searchIndex = getUnifiedSearchIndex();
     background: #eef6f8;
     border-color: #087f95;
     color: #00657a;
+  }
+
+  .suggestions-tags button:active {
+    background: #e2eef1;
   }
 
   .search-empty {

@@ -283,6 +283,10 @@ const modalId = `citation-modal-${article.slug}`;
     transform: translateY(-1px);
   }
 
+  .citation-open-btn:active {
+    transform: translateY(0);
+  }
+
   .citation-open-btn:focus-visible {
     outline: 2px solid var(--surface-gold-light, #f0dfa8);
     outline-offset: 3px;
@@ -356,6 +360,10 @@ const modalId = `citation-modal-${article.slug}`;
 
   .citation-close-btn:hover {
     background: #eef3f6;
+  }
+
+  .citation-close-btn:active {
+    background: #e2e9ef;
   }
 
   .citation-close-btn svg {
@@ -470,6 +478,10 @@ const modalId = `citation-modal-${article.slug}`;
     background: var(--surface-navy-deep, #001427);
     border-color: var(--surface-navy-deep, #001427);
     transform: translateY(-1px);
+  }
+
+  .citation-copy-btn:active {
+    transform: translateY(0);
   }
 
   .citation-copy-btn.copied {

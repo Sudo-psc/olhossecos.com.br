@@ -116,6 +116,22 @@ try {
   if (!homeHtml.includes(`href="${publicPath("/newsletter")}"`)) {
     throw new Error("homepage: link global para /newsletter ausente");
   }
+  if (homeHtml.includes('id="global-search-data"')) {
+    throw new Error(
+      "homepage: o índice da busca voltou a ir no HTML; deve ficar em /search-index.json",
+    );
+  }
+  const searchIndexResponse = await assertStatus("/search-index.json");
+  const searchIndexType = searchIndexResponse.headers.get("content-type") ?? "";
+  if (!searchIndexType.includes("application/json")) {
+    throw new Error(
+      `/search-index.json: content-type ${searchIndexType || "ausente"}`,
+    );
+  }
+  const searchIndex = await searchIndexResponse.json();
+  if (!Array.isArray(searchIndex) || searchIndex.length < 40) {
+    throw new Error("/search-index.json: índice inválido ou curto demais");
+  }
   await assertStatus("/superficie");
   await assertPage("/superficie/edicoes", "/superficie/edicoes");
   await assertPage("/superficie/artigos", "/superficie/artigos");

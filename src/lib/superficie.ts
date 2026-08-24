@@ -3021,6 +3021,63 @@ export const magazineDescription =
 export const getMagazineIssuePath = (issue: MagazineIssue) =>
   `/superficie/${issue.slug}`;
 
+/**
+ * Texto público da edição. O status de máquina (`in_production`) continua
+ * correto — a edição impressa não fechou. O que não pode é a UI falar
+ * “em produção” / “acompanhar o lançamento” ao lado de doze artigos já no ar,
+ * nem prometer política editorial futura quando `/politica-editorial` existe.
+ *
+ * “Artigos no ar” ≠ “revista em circulação”: o hold comercial (não anunciar
+ * lançamento) permanece; isto só descreve o que a página já entrega.
+ */
+export interface MagazineIssuePublicStatus {
+  shortLabel: string;
+  label: string;
+  detail: string;
+  heroCta: string;
+  newsletterCta: string;
+}
+
+export const getIssuePublicStatus = (
+  issue: MagazineIssue,
+): MagazineIssuePublicStatus => {
+  const publishedCount = issue.articles.filter(
+    ({ status }) => status === "published",
+  ).length;
+
+  if (publishedCount > 0 && issue.status !== "published") {
+    return {
+      shortLabel: "Artigos no ar",
+      label: "Artigos no ar",
+      detail: `Edição impressa em produção · previsão ${issue.plannedPublication}`,
+      heroCta: "Ler a Edição Fundadora",
+      newsletterCta: "Receber a edição impressa",
+    };
+  }
+
+  if (issue.status === "published") {
+    return {
+      shortLabel: "Publicada",
+      label: "Publicada",
+      detail: issue.publicationDate
+        ? `Publicada em ${issue.publicationDate}`
+        : "Edição publicada",
+      heroCta: "Abrir a edição",
+      newsletterCta: "Receber próximas edições",
+    };
+  }
+
+  return {
+    shortLabel: "Em produção",
+    label: "Em produção",
+    detail: `Previsão editorial: ${issue.plannedPublication}`,
+    heroCta: "Acompanhar a edição",
+    newsletterCta: "Receber quando for publicada",
+  };
+};
+
+export const editorialPolicyPath = "/politica-editorial";
+
 export const founderIssue: MagazineIssue = {
   number: "00",
   slug: "edicao-00",

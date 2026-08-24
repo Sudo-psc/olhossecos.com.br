@@ -2,11 +2,16 @@
 import ArticleCard from "@/components/superficie/ArticleCard.astro";
 import IssueCover from "@/components/superficie/IssueCover.astro";
 import SuperficieLayout from "@/layouts/SuperficieLayout.astro";
-import { founderIssue, sortPublishedArticlesByDate } from "@/lib/superficie";
+import {
+  founderIssue,
+  getIssuePublicStatus,
+  sortPublishedArticlesByDate,
+} from "@/lib/superficie";
 
 const title = founderIssue.seo.title;
 const description = founderIssue.seo.description;
 const orderedArticles = sortPublishedArticlesByDate(founderIssue.articles);
+const issueStatus = getIssuePublicStatus(founderIssue);
 
 const issueSchema = {
   "@type": "PublicationIssue",
@@ -65,12 +70,12 @@ const issueSchema = {
         <div class="status">
           <span aria-hidden="true"></span>
           <div>
-            <strong>Em produção</strong>
-            <small>Previsão editorial: {founderIssue.plannedPublication}</small>
+            <strong>{issueStatus.label}</strong>
+            <small>{issueStatus.detail}</small>
           </div>
         </div>
         <a class="button button-primary" href="/superficie#newsletter"
-          >Receber quando for publicada</a
+          >{issueStatus.newsletterCta}</a
         >
       </div>
     </div>
@@ -123,12 +128,14 @@ const issueSchema = {
     <div class="surface-shell">
       <header class="section-heading">
         <div>
-          <p class="eyebrow gold">Sumário preliminar</p>
-          <h2 id="summary-title">Temas em desenvolvimento editorial</h2>
+          <p class="eyebrow gold">Eixos da edição</p>
+          <h2 id="summary-title">O que esta edição cobre</h2>
         </div>
         <p>
-          Os temas abaixo orientam a pauta, mas não representam matérias ou
-          autorias confirmadas.
+          Os artigos no ar percorrem estes eixos. A edição impressa fecha em{
+            " "
+          }
+          {founderIssue.plannedPublication}.
         </p>
       </header>
 
@@ -138,7 +145,6 @@ const issueSchema = {
             <li>
               <span>{String(index + 1).padStart(2, "0")}</span>
               <strong>{topic}</strong>
-              <small>Em desenvolvimento</small>
             </li>
           ))
         }

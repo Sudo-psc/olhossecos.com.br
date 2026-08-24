@@ -3,6 +3,7 @@ import IssueCover from "@/components/superficie/IssueCover.astro";
 import SuperficieLayout from "@/layouts/SuperficieLayout.astro";
 import {
   founderIssue,
+  getIssuePublicStatus,
   getMagazineIssuePath,
   publishedIssues,
 } from "@/lib/superficie";
@@ -13,6 +14,8 @@ import {
 // justamente o que fez três páginas da revista discordarem da home.
 const title = "Edições | SUPERFÍCIE — Revista de Olho Seco e Superfície Ocular";
 const description = `Edição Fundadora nº ${founderIssue.number} da SUPERFÍCIE: A nova era da superfície ocular — do sintoma ao fenótipo, diagnóstico multimodal e terapias dirigidas por mecanismo.`;
+
+const issueStatus = getIssuePublicStatus(founderIssue);
 
 const collectionSchema = {
   "@type": "ItemList",
@@ -65,8 +68,8 @@ const collectionSchema = {
         </p>
         <div class="status-line">
           <span class="status-dot" aria-hidden="true"></span>
-          <strong>Em produção</strong>
-          <span>Previsão editorial: {founderIssue.plannedPublication}</span>
+          <strong>{issueStatus.label}</strong>
+          <span>{issueStatus.detail}</span>
         </div>
         <a
           class="text-link"
