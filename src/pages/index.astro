@@ -741,6 +741,24 @@ const featuredBooks = books.slice(0, 2);
 </script>
 
 <style>
+  /* Abaixo da dobra o navegador não precisa calcular estilo, layout e pintura
+     antes que a seção chegue perto da tela. Numa home editorial longa isso é o
+     grosso do trabalho de main thread: a medição em produção mostrou 2,0 s de
+     styleLayout e 0,6 s de pintura antes do primeiro quadro.
+
+     Aplicado só nas duas seções ilustradas: são elas que carregam os filtros
+     SVG e o desenho pesado. Estendê-lo às seções de texto derrubava o restante
+     do styleLayout, mas colapsava a geometria dos links enquanto a seção estava
+     pulada — e o axe passava a acusar alvos de toque sobrepostos que não
+     existem na tela.
+
+     O contain-intrinsic-size é a altura reservada enquanto a seção está pulada.
+     Sem ele a barra de rolagem salta e o CLS volta. */
+  .mechanism,
+  .eye-explorer {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 900px;
+  }
   /* ------------------------------------------------------------------ hero */
   .home-hero {
     padding-block: clamp(2.5rem, 5vw, 5rem) var(--space-section);

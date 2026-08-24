@@ -10,6 +10,9 @@ const structures = [
     id: "tear-film",
     name: "Filme lacrimal",
     color: "#087f95",
+    // Tom escuro do mesmo acento, para o texto do rótulo: o claro fica em
+    // 4,49:1 sobre o papel quente — 0,01 abaixo do mínimo de AA.
+    textColor: "#00657a",
     colorRgb: "8, 127, 149",
     tag: "Película & Meniscos",
     biomarker: "NIBUT / Estabilidade lacrimal",
@@ -26,6 +29,9 @@ const structures = [
     id: "cornea",
     name: "Córnea",
     color: "#0b827f",
+    // Tom escuro do mesmo acento, para o texto do rótulo: o claro fica em
+    // 4,49:1 sobre o papel quente — 0,01 abaixo do mínimo de AA.
+    textColor: "#066765",
     colorRgb: "11, 130, 127",
     tag: "Cúpula Óptica Transparente",
     biomarker: "Fluoresceína / Integridade epitelial",
@@ -42,6 +48,9 @@ const structures = [
     id: "conjunctiva",
     name: "Conjuntiva",
     color: "#5c7395",
+    // Tom escuro do mesmo acento, para o texto do rótulo: o claro fica em
+    // 4,49:1 sobre o papel quente — 0,01 abaixo do mínimo de AA.
+    textColor: "#465a78",
     colorRgb: "92, 115, 149",
     tag: "Mucosa Bulbar & Fórnices",
     biomarker: "Lissamina verde / Células caliciformes",
@@ -58,6 +67,9 @@ const structures = [
     id: "lid-margin",
     name: "Margem palpebral",
     color: "#b07a3f",
+    // Tom escuro do mesmo acento, para o texto do rótulo: o claro fica em
+    // 4,49:1 sobre o papel quente — 0,01 abaixo do mínimo de AA.
+    textColor: "#7d4f22",
     colorRgb: "176, 122, 63",
     tag: "Borda Livre de Aposição",
     biomarker: "Linha de Marx / Dinâmica do piscar",
@@ -74,6 +86,9 @@ const structures = [
     id: "meibomian",
     name: "Glândulas de Meibômio",
     color: "#d97706",
+    // Tom escuro do mesmo acento, para o texto do rótulo: o claro fica em
+    // 4,49:1 sobre o papel quente — 0,01 abaixo do mínimo de AA.
+    textColor: "#8a5a08",
     colorRgb: "217, 119, 6",
     tag: "Colunas Lipídicas Tarsais",
     biomarker: "Meibografia infravermelha / Meiboscore",
@@ -437,7 +452,7 @@ const structures = [
               role="tabpanel"
               aria-labelledby={`tab-${structure.id}`}
               data-eye-detail={structure.id}
-              style={`--structure-accent: ${structure.color};`}
+              style={`--structure-accent: ${structure.color}; --structure-accent-text: ${structure.textColor};`}
               hidden={index !== 0 ? true : undefined}
             >
               <div class="detail-header-row">
@@ -890,7 +905,7 @@ const structures = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--structure-accent, var(--teal-700));
+    color: var(--structure-accent-text, var(--teal-700));
   }
 
   .detail-biomarker-pill {
