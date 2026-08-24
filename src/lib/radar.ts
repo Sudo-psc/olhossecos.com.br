@@ -327,8 +327,8 @@ const agosto2026: RadarReport = {
     {
       title: "ZEISS CLINIC 360: 510(k) K260694",
       label: "Regulação / 510(k)",
-      url: "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K260694",
-      note: "Clearance em 17/07/2026 para software de gestão de imagem oftálmica (NFJ, classe II). Não é evidência de desfecho clínico. Incorporação local depende de fluxo, custo e se o consultório já vive no ecossistema ZEISS.",
+      url: "https://www.zeiss.com/meditec-ag/en/media-news/press-releases/2026/zeiss-clinic-360.html",
+      note: "A nota oficial da ZEISS anuncia o 510(k) K260694, com clearance em 17/07/2026, para software de gestão de imagem oftálmica. Não é evidência de desfecho clínico. Incorporação local depende de fluxo, custo e se o consultório já vive no ecossistema ZEISS.",
     },
   ],
   transparencyNote:
