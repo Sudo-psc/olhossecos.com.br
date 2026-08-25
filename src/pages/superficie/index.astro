@@ -1095,7 +1095,9 @@ const newsletterEndpoint =
 
   .practice-note a,
   .policy-state a {
-    color: var(--surface-teal);
+    /* --surface-teal é a cor de marca (fio, borda) e dá 4,24:1 sobre papel —
+       reprova até no AA para texto corrido. Link usa a variante de texto. */
+    color: var(--surface-teal-dark);
     text-decoration: underline;
     text-underline-offset: 0.15em;
   }

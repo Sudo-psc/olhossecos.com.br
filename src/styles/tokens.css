@@ -18,7 +18,7 @@
   --navy-800: #071d45;
   --navy-700: #12305e;
   --navy-600: #263d61;
-  --navy-400: #5c7395;
+  --navy-400: #405168;
   --navy-300: #8fa3bd;
 
   --paper-0: #ffffff;
@@ -26,19 +26,21 @@
   --paper-100: #f5f2ec;
   --paper-200: #ece8df;
 
-  --teal-700: #00657a;
+  --teal-700: #00576a;
   --teal-600: #087f95;
   --teal-100: #dff3f7;
   --teal-50: #eff8fb;
 
-  /* Cobre editorial: entra em kicker, numeração de matéria e fio de destaque.
-     Nunca em texto corrido pequeno — o contraste sobre papel fica no limite. */
-  --copper-700: #7d4f22;
+  /* Cobre editorial. A escala tem dois papéis distintos, e trocar um pelo
+     outro quebra contraste: --copper-600 e --copper-500 são decorativos (fio,
+     borda, fundo) e não têm exigência de contraste; --copper-700 é o único
+     aprovado para texto, com 7:1 sobre todo fundo claro do portal. */
+  --copper-700: #6f461e;
   --copper-600: #9a6430;
   --copper-500: #b07a3f;
   --copper-100: #f3e8dc;
 
-  --alert-600: #a93c32;
+  --alert-600: #8b3129;
   --alert-500: #e95f4f;
   --alert-50: #fff6f3;
 

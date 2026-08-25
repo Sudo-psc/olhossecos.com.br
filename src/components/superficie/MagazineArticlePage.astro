@@ -574,7 +574,7 @@ const formatDate = formatLongDate;
 
   .section-title > span {
     padding-top: 0.35rem;
-    color: var(--surface-gold);
+    color: var(--surface-gold-text);
     font-family: var(--surface-serif);
     font-size: 1.5rem;
     line-height: 1;
@@ -721,7 +721,7 @@ const formatDate = formatLongDate;
   }
 
   .article-section.limitations li::marker {
-    color: var(--surface-gold);
+    color: var(--surface-gold-text);
   }
 
   .article-section.evidence,
@@ -793,7 +793,7 @@ const formatDate = formatLongDate;
     top: 1.15rem;
     left: 0;
     min-width: 2rem;
-    color: var(--surface-gold);
+    color: var(--surface-gold-text);
     font-size: 0.82rem;
     font-variant-numeric: tabular-nums;
     font-weight: 700;
@@ -824,8 +824,12 @@ const formatDate = formatLongDate;
     word-break: break-all;
   }
 
-  .reference-link:hover {
-    color: var(--surface-teal);
+  /* O hover escurece, não clareia: --surface-teal dá 4,24:1 e derrubava o
+     link abaixo do AA justamente no estado em que o usuário está mirando.
+     --surface-navy é o mesmo hover que os text-link da revista já usam. */
+  .reference-link:hover,
+  .reference-link:focus-visible {
+    color: var(--surface-navy);
   }
 
   .related-section {
