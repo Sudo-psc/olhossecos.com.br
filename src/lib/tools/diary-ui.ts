@@ -51,7 +51,10 @@ const renderRows = (root: HTMLElement) => {
     intensity.step = "1";
     intensity.inputMode = "numeric";
     intensity.name = `intensity-${entry.date}`;
-    intensity.setAttribute("aria-label", `Intensidade em ${entry.date}, de 0 a 10`);
+    intensity.setAttribute(
+      "aria-label",
+      `Intensidade em ${entry.date}, de 0 a 10`,
+    );
     if (entry.intensity !== null) intensity.value = String(entry.intensity);
     intensityCell.append(intensity);
 
@@ -82,7 +85,8 @@ const renderRows = (root: HTMLElement) => {
         intensity: value,
         note: note.value,
       });
-      if (live) live.textContent = `Registro de ${entry.date} guardado neste navegador.`;
+      if (live)
+        live.textContent = `Registro de ${entry.date} guardado neste navegador.`;
     };
     intensity.addEventListener("change", persist);
     note.addEventListener("change", persist);
@@ -118,6 +122,7 @@ export const mountDiary = (root: HTMLElement) => {
       clearDiary(localStorage);
       renderRows(root);
       const live = root.querySelector<HTMLElement>("[data-diary-live]");
-      if (live) live.textContent = "Todos os registros deste navegador foram apagados.";
+      if (live)
+        live.textContent = "Todos os registros deste navegador foram apagados.";
     });
 };

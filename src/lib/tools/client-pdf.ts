@@ -113,8 +113,7 @@ const contentStream = (lines: PdfLine[]): string => {
   return commands.join("\n");
 };
 
-const encodePdf = (body: string): Uint8Array =>
-  new TextEncoder().encode(body);
+const encodePdf = (body: string): Uint8Array => new TextEncoder().encode(body);
 
 export const buildPdf = (pages: PdfLine[][]): Uint8Array => {
   if (pages.length === 0) {

@@ -100,7 +100,9 @@ export const entriesInWindow = (
   today: Date = new Date(),
 ): Array<DiaryEntry | { date: string; intensity: null; note: "" }> => {
   const byDate = new Map(entries.map((entry) => [entry.date, entry]));
-  return diaryWindow(today).map((date) => byDate.get(date) ?? { date, intensity: null, note: "" });
+  return diaryWindow(today).map(
+    (date) => byDate.get(date) ?? { date, intensity: null, note: "" },
+  );
 };
 
 export const diaryToCsv = (entries: DiaryEntry[]): string => {
@@ -120,7 +122,12 @@ export const buildDiaryPdf = (
 ): Uint8Array => {
   const windowEntries = entriesInWindow(entries, today);
   const lines: PdfLine[] = [
-    { text: "Olhos Secos — diário de sintomas (14 dias)", size: 14, bold: true, gapAfter: 12 },
+    {
+      text: "Olhos Secos — diário de sintomas (14 dias)",
+      size: 14,
+      bold: true,
+      gapAfter: 12,
+    },
     {
       text: "Registro feito neste navegador. Sem servidor, sem cadastro, sem envio de dados.",
       size: 9,
@@ -131,7 +138,12 @@ export const buildDiaryPdf = (
       size: 8,
       gapAfter: 12,
     },
-    { text: "Data          Intensidade (0-10)    Nota", size: 9, bold: true, gapAfter: 8 },
+    {
+      text: "Data          Intensidade (0-10)    Nota",
+      size: 9,
+      bold: true,
+      gapAfter: 8,
+    },
   ];
 
   for (const entry of windowEntries) {

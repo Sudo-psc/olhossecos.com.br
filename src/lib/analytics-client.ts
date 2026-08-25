@@ -47,10 +47,7 @@ export const getInitialAnalyticsEvent = (pathname: string) => {
   if (/^\/superficie\/edicao-[^/]+$/u.test(pathname)) {
     return "magazine_issue_view";
   }
-  if (
-    pathname === "/ferramentas/deq-5" ||
-    pathname === "/ferramentas/diario"
-  ) {
+  if (pathname === "/ferramentas/deq-5" || pathname === "/ferramentas/diario") {
     return "tool_open";
   }
   return "page_view";

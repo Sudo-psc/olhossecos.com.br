@@ -230,9 +230,7 @@ export const validateMagazineArticle = (article: MagazineArticle) => {
   }
 
   if (article.doi && !/^10\.\d{4,9}\/\S+$/u.test(article.doi)) {
-    errors.push(
-      "DOI inválido: use o identificador nu (10.xxxx/...), sem URL.",
-    );
+    errors.push("DOI inválido: use o identificador nu (10.xxxx/...), sem URL.");
   }
 
   return errors;

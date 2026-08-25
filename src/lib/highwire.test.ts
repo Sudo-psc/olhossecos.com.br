@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { highwireTagsForArticle, SUPERFICIE_JOURNAL_TITLE } from "./highwire.ts";
+import {
+  highwireTagsForArticle,
+  SUPERFICIE_JOURNAL_TITLE,
+} from "./highwire.ts";
 import { publishedArticles } from "./superficie.ts";
 
 test("todo artigo publicado emite as metas Highwire que o Scholar lê", () => {

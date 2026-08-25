@@ -71,7 +71,9 @@ test("o escore DEQ-5 só fecha com os cinco itens preenchidos", () => {
   assert.equal(scoreDeq5(answers), 11);
 });
 
-const complete = (values: [number, number, number, number, number]): Deq5Answers => ({
+const complete = (
+  values: [number, number, number, number, number],
+): Deq5Answers => ({
   "discomfort-frequency": values[0],
   "discomfort-intensity": values[1],
   "dryness-frequency": values[2],
@@ -101,7 +103,10 @@ test("o resultado leva faixa, limitação e o artigo sobre sintoma e sinal", () 
 });
 
 test("o PDF do DEQ-5 cabe em uma página, cita a fonte e não pede identificador", () => {
-  const pdf = buildDeq5ReportPdf(complete([2, 3, 2, 3, 1]), new Date("2026-08-25T12:00:00Z"));
+  const pdf = buildDeq5ReportPdf(
+    complete([2, 3, 2, 3, 1]),
+    new Date("2026-08-25T12:00:00Z"),
+  );
   assert.equal(pdfPageCount(pdf), 1);
   assert.equal(pdf[0], 0x25); // %
   assert.equal(pdf[1], 0x50); // P

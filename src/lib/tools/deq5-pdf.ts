@@ -30,8 +30,17 @@ export const buildDeq5ReportLines = (
   const date = todayIsoDate(now);
 
   const lines: PdfLine[] = [
-    { text: "Olhos Secos — DEQ-5 para levar à consulta", size: 14, bold: true, gapAfter: 14 },
-    { text: "Instrumento: 5-Item Dry Eye Questionnaire (DEQ-5)", size: 10, bold: true },
+    {
+      text: "Olhos Secos — DEQ-5 para levar à consulta",
+      size: 14,
+      bold: true,
+      gapAfter: 14,
+    },
+    {
+      text: "Instrumento: 5-Item Dry Eye Questionnaire (DEQ-5)",
+      size: 10,
+      bold: true,
+    },
     { text: `Fonte: ${deq5Citation}`, size: 8, gapAfter: 8 },
     { text: `Data do preenchimento: ${date}`, size: 10 },
     {

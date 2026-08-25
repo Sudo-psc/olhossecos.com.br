@@ -1,9 +1,5 @@
 import { DEQ5_PDF_FILENAME, buildDeq5ReportPdf } from "./deq5-pdf.ts";
-import {
-  emptyDeq5Answers,
-  isCompleteDeq5,
-  type Deq5Answers,
-} from "./deq5.ts";
+import { emptyDeq5Answers, isCompleteDeq5, type Deq5Answers } from "./deq5.ts";
 import { deq5Items } from "./deq5.ts";
 import { downloadPdf } from "./client-pdf.ts";
 import { interpretDeq5 } from "./result-engine.ts";

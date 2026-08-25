@@ -80,9 +80,18 @@ test("citações incluem o DOI quando o frontmatter o traz", () => {
     ...sampleArticle,
     doi: "10.5281/zenodo.9999999",
   };
-  assert.match(generateAbntCitation(withDoi), /DOI: https:\/\/doi.org\/10.5281\/zenodo.9999999/u);
-  assert.match(generateVancouverCitation(withDoi), /doi: 10.5281\/zenodo.9999999/u);
-  assert.match(generateBibtexCitation(withDoi), /doi = \{10.5281\/zenodo.9999999\}/u);
+  assert.match(
+    generateAbntCitation(withDoi),
+    /DOI: https:\/\/doi.org\/10.5281\/zenodo.9999999/u,
+  );
+  assert.match(
+    generateVancouverCitation(withDoi),
+    /doi: 10.5281\/zenodo.9999999/u,
+  );
+  assert.match(
+    generateBibtexCitation(withDoi),
+    /doi = \{10.5281\/zenodo.9999999\}/u,
+  );
   assert.match(generateRisCitation(withDoi), /DO  - 10.5281\/zenodo.9999999/u);
 });
 

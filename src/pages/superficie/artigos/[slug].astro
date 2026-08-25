@@ -71,9 +71,7 @@ const articleSchema = isPublished
       articleSection: article.category,
       keywords: article.tags.join(", "),
       image: new URL(articleImage, Astro.site).href,
-      identifier: article.doi
-        ? `https://doi.org/${article.doi}`
-        : undefined,
+      identifier: article.doi ? `https://doi.org/${article.doi}` : undefined,
       author: {
         "@type": "Person",
         name: article.author.name,
