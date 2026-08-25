@@ -41,9 +41,9 @@ test("lastmod dos artigos publicados usa a data editorial, não o fallback de ju
 });
 
 test("hubs editoriais herdam a data do conteúdo mais recente", () => {
-  assert.equal(lastmodForSitemapPath("/superficie"), "2026-08-17");
-  assert.equal(lastmodForSitemapPath("/superficie/artigos"), "2026-08-17");
-  assert.equal(lastmodForSitemapPath("/"), "2026-08-17");
+  assert.equal(lastmodForSitemapPath("/superficie"), "2026-08-25");
+  assert.equal(lastmodForSitemapPath("/superficie/artigos"), "2026-08-25");
+  assert.equal(lastmodForSitemapPath("/"), "2026-08-25");
 });
 
 test("Organization e médico compartilham o mesmo @id canônico do portal", () => {

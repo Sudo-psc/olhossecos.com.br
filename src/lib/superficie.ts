@@ -1,3 +1,5 @@
+import { figures, type FigureCredit, type FigureLicense } from "./figures.ts";
+
 export const magazineCategories = [
   "Clínica",
   "Diagnóstico",
@@ -34,6 +36,9 @@ export interface MagazineArticleFigure {
   height: number;
   avif?: string;
   webp?: string;
+  credit?: FigureCredit;
+  license?: FigureLicense;
+  modification?: string;
 }
 
 export interface MagazineArticleSection {
@@ -1317,7 +1322,7 @@ const alemDoMeiboscore: MagazineArticle = {
   status: "published",
   issue: "edicao-00",
   publishedAt: "2026-08-15",
-  modifiedAt: "2026-08-15",
+  modifiedAt: "2026-08-25",
   content: [
     {
       id: "por-que-importa",
@@ -1335,8 +1340,8 @@ const alemDoMeiboscore: MagazineArticle = {
       kind: "body",
       paragraphs: [
         "Este artigo é uma revisão narrativa. Não constitui diretriz nacional nem prescrição individual.",
-        "As referências foram conferidas no Crossref em 15 de agosto de 2026. Autor e título precisaram bater com o registro persistente antes de entrar na lista. Quinze de quinze DOIs resolvidos.",
-        "Data de corte da busca: 15 de agosto de 2026.",
+        "As referências foram conferidas no Crossref em 15 de agosto de 2026. Hwang e colaboradores (2013) foi conferido de novo em 25 de agosto de 2026, no Crossref e no PubMed, quando as figuras CC BY 4.0 do artigo passaram a ilustrar esta matéria. Autor e título precisaram bater com o registro persistente. Dezesseis de dezesseis DOIs resolvidos.",
+        "Data de corte da busca: 15 de agosto de 2026. Inclusão pontual de Hwang et al. (2013) em 25 de agosto de 2026.",
       ],
     },
     {
@@ -1360,6 +1365,28 @@ const alemDoMeiboscore: MagazineArticle = {
       ],
     },
     {
+      id: "oct-3d",
+      title: "O OCT 3D mostra ácino. Não vira ouro.",
+      kind: "evidence",
+      figure: {
+        src: figures.meibographyMildMgdHwang2013.src,
+        alt: figures.meibographyMildMgdHwang2013.alt,
+        caption:
+          "Caso com meiboscore 0 ou 1: o volume (A) mostra ácinos pequenos e mal delimitados; a foto infravermelha (B) só sugere o mesmo no retângulo de 5 × 2 mm. Série de 9 pessoas, aparelho de laboratório — não é atlas de consultório.",
+        width: figures.meibographyMildMgdHwang2013.width,
+        height: figures.meibographyMildMgdHwang2013.height,
+        avif: "/images/educacao/meibografia-dgm-leve-acinos-hwang-2013-591.avif",
+        webp: "/images/educacao/meibografia-dgm-leve-acinos-hwang-2013-591.webp",
+        credit: figures.meibographyMildMgdHwang2013.credit,
+        license: figures.meibographyMildMgdHwang2013.license,
+        modification: figures.meibographyMildMgdHwang2013.modification,
+      },
+      paragraphs: [
+        "Hwang e colaboradores (2013) reconstruíram volumes de FD-OCT em 5 × 2 mm da pálpebra superior evertida: 2 voluntários e 7 pacientes com DGM. Nos dois voluntários, ácinos esféricos ligados a um ducto central ficaram mais nítidos do que na foto infravermelha. Em um caso com meiboscore 0 ou 1, o volume mostrou ácinos pequenos e mal delimitados. Em outro, com meiboscore 3, volume e infravermelho concordaram na perda quase completa.",
+        "O aparelho era de laboratório. O campo é menor que a pálpebra. O n é 9. O próprio artigo diz que a técnica só serve junto da meibografia infravermelha: a perda glandular é irregular, e o retângulo do OCT pode cair em zona enganosa. Não é atlas de consultório. Não fecha DGM. Não substitui expressão.",
+      ],
+    },
+    {
       id: "pratica",
       title: "Prática",
       kind: "practice",
@@ -1380,6 +1407,7 @@ const alemDoMeiboscore: MagazineArticle = {
         "Esta matéria ensina método. Não vende desfecho. Não há ensaio randomizado que teste laudo padronizado contra meiboscore isolado.",
         "Arita 2008 e 2009 são cohorts japonesas de um grupo. Normas etárias e de lente não foram revalidadas no Brasil. Não há nomograma brasileiro nesta lista. Pult 2012 é n = 20; Dogan 2018 é n = 30; Swiderska 2024 é n = 15: pilotos, não normas. Powell 2012 é só mulheres pós-menopausa; o acordo é foto versus tempo real, não dois clínicos no mesmo exame ao vivo.",
         "Wang e colaboradores (2025) usam critério DEWS II de doença do olho seco, não DEWS III. O C-stat da meibografia é só cerca de 0,63. O corte Youden (porcentagem maior que 20% ou meiboscale maior que 1) não se adota como corte brasileiro de DGM. O corpo do Tomlinson 2011 não foi recuperado: o PMC devolveu só front matter. Não se inventam frases do workshop. Wolffsohn e colaboradores (2025): claims de meibografia extraídas só do abstract. Não se afirma cut-off de imagem DEWS III.",
+        "Hwang e colaboradores (2013) é série descritiva de 9 pessoas, FD-OCT de bancada, campo 5 × 2 mm e dois examinadores para eversão. Não há grupo-controle formal nem aparelho comercial. A figura ilustra o limite do meiboscore; não valida OCT 3D como exame de rotina.",
         "Perda de contraste como grau, laterality sistemática em olho sem doença unilateral e nomograma etário brasileiro não têm fonte âncora nesta lista. Não há protocolo de aquisição brasileiro validado (eversão, iluminação, qual pálpebra, pré versus pós-expressão) com concordância interobservador em consultório real. Wang e colaboradores (2025) e Swiderska e colaboradores (2024) declaram financiamento de Johnson & Johnson Vision; o caveat de conflito cabe nesta frase, sem transformar o achado em ataque.",
       ],
     },
@@ -1475,6 +1503,12 @@ const alemDoMeiboscore: MagazineArticle = {
       url: "https://doi.org/10.1080/08164622.2023.2251994",
       doi: "10.1080/08164622.2023.2251994",
     },
+    {
+      label:
+        "Hwang HS, Shin JG, Lee BH, et al. In Vivo 3D Meibography of the Human Eyelid Using Real Time Imaging Fourier-Domain OCT. PLoS ONE. 2013;8(6):e67143.",
+      url: "https://doi.org/10.1371/journal.pone.0067143",
+      doi: "10.1371/journal.pone.0067143",
+    },
   ],
   disclosures: [
     { label: "Financiamento", text: "Sem financiamento externo." },
@@ -1492,7 +1526,7 @@ const alemDoMeiboscore: MagazineArticle = {
     },
     {
       label: "Aprovação ética",
-      text: "Não se aplica: revisão narrativa sem dados individuais ou imagens identificáveis.",
+      text: "Revisão narrativa. As figuras clínicas reproduzidas são de Hwang et al. (2013), sob CC BY 4.0; o estudo original declara aprovação do IRB e consentimento escrito. Mostram pálpebra evertida e glândulas, sem identificação facial.",
     },
   ],
   sponsored: false,
