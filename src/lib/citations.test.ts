@@ -74,6 +74,16 @@ test("generateBibtexCitation gera bloco BibTeX integro", () => {
   );
 });
 
+test("citações incluem o DOI quando o frontmatter o traz", () => {
+  const withDoi = {
+    ...sampleArticle,
+    doi: "10.5281/zenodo.9999999",
+  };
+  assert.match(generateAbntCitation(withDoi), /DOI: https:\/\/doi.org\/10.5281\/zenodo.9999999/u);
+  assert.match(generateVancouverCitation(withDoi), /doi: 10.5281\/zenodo.9999999/u);
+  assert.match(generateBibtexCitation(withDoi), /doi = \{10.5281\/zenodo.9999999\}/u);
+});
+
 test("generateAllCitations devolve os 3 formatos para todos os artigos publicados", () => {
   for (const article of publishedArticles) {
     const citations = generateAllCitations(article);

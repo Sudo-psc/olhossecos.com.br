@@ -115,8 +115,9 @@ export const generateAbntCitation = (
   const accessYear = accessDate.getFullYear();
 
   const url = getArticleUrl(article);
+  const doi = article.doi ? ` DOI: https://doi.org/${article.doi}.` : "";
 
-  return `${author}. ${article.title}. SUPERFÍCIE — Revista de Olho Seco e Superfície Ocular, Caratinga/MG, ed. ${issueNum}, ${day} ${month} ${year}. Disponível em: <${url}>. Acesso em: ${accessDay} ${accessMonth} ${accessYear}.`;
+  return `${author}. ${article.title}. SUPERFÍCIE — Revista de Olho Seco e Superfície Ocular, Caratinga/MG, ed. ${issueNum}, ${day} ${month} ${year}.${doi} Disponível em: <${url}>. Acesso em: ${accessDay} ${accessMonth} ${accessYear}.`;
 };
 
 /**
@@ -133,7 +134,8 @@ export const generateVancouverCitation = (article: MagazineArticle): string => {
   const year = pubDate.getUTCFullYear();
   const url = getArticleUrl(article);
 
-  return `${author}. ${article.title}. SUPERFÍCIE. ${year} ${month} ${day};${issueNum}. Available from: ${url}`;
+  const doi = article.doi ? ` doi: ${article.doi}` : "";
+  return `${author}. ${article.title}. SUPERFÍCIE. ${year} ${month} ${day};${issueNum}.${doi} Available from: ${url}`;
 };
 
 /**
@@ -152,13 +154,14 @@ export const generateBibtexCitation = (article: MagazineArticle): string => {
   const citeKey = `${lastName}${year}_${article.slug.replace(/-/g, "_")}`;
   const url = getArticleUrl(article);
 
+  const doiLine = article.doi ? `\n  doi = {${article.doi}},` : "";
   return `@article{${citeKey},
   author = {${clean}},
   title = {${article.title}},
   journal = {SUPERFÍCIE --- Revista de Olho Seco e Superfície Ocular},
   year = {${year}},
   month = {${month}},
-  number = {${issueNum}},
+  number = {${issueNum}},${doiLine}
   url = {${url}}
 }`;
 };
