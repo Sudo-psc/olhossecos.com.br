@@ -10,6 +10,7 @@ import {
 import { selectRelatedContent } from "@/lib/related-content";
 import { articleTemplatePreview } from "@/lib/superficie-preview";
 import { responsibleDoctor } from "@/lib/doctor";
+import { highwireTagsForArticle } from "@/lib/highwire";
 
 export function getStaticPaths() {
   const invalid = publishedArticles.flatMap((article) =>
@@ -118,6 +119,7 @@ const articleSchema = isPublished
     { name: article.title, url: canonicalPath },
   ]}
   extraSchema={articleSchema}
+  highwire={isPublished ? highwireTagsForArticle(article) : []}
 >
   <MagazineArticlePage {article} {related} />
 
