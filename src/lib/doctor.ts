@@ -19,4 +19,13 @@ export const responsibleDoctor = {
   rqe,
   /** Redação canônica exibida ao lado do nome. */
   registration: `${crm} · ${rqe}`,
+  /** Identificadores públicos já documentados. */
+  orcid: "https://orcid.org/0000-0002-4073-8371",
+  lattes: "https://lattes.cnpq.br/7365253786880035",
+  /** Perfil público; slug confirmado como saraiva, não sarava. */
+  linkedin: "https://www.linkedin.com/in/dr-philipe-saraiva",
 } as const;
+
+/** Os artigos assinam "Dr. Philipe…"; o registro canônico omite o tratamento. */
+export const isResponsibleDoctorName = (name: string) =>
+  name.replace(/^dr\.?\s+/iu, "").trim() === responsibleDoctor.name;

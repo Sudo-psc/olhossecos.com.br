@@ -4,6 +4,11 @@ import Footer from "@/components/Footer.astro";
 import AnalyticsCollector from "@/components/AnalyticsCollector.astro";
 import GlobalSearchModal from "@/components/GlobalSearchModal.astro";
 import { author } from "@/lib/books";
+import {
+  physician,
+  physicianCredentials,
+  portalMedicalConditions,
+} from "@/lib/seo";
 import { normalizeBasePath, withBasePath } from "@/lib/site-path";
 import { themeBootScript } from "@/lib/theme";
 import { alternateFeedsForPath } from "@/lib/feeds";
@@ -89,6 +94,8 @@ const person = {
   jobTitle: author.role,
   identifier: author.registration,
   url: new URL(withBasePath(`/autor/${author.slug}`, basePath), siteUrl).href,
+  sameAs: [...physician.sameAs],
+  hasCredential: [...physicianCredentials],
 };
 
 const website = {
@@ -123,11 +130,7 @@ const page = {
     schemaType === "MedicalWebPage" ? { "@id": person["@id"] } : undefined,
   about:
     schemaType === "MedicalWebPage" || schemaType === "Article"
-      ? {
-          "@type": "MedicalCondition",
-          name: "Doença do olho seco",
-          alternateName: "Olho seco",
-        }
+      ? [...portalMedicalConditions]
       : undefined,
   author: schemaType === "Article" ? { "@id": person["@id"] } : undefined,
   publisher:

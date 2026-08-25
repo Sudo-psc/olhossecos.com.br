@@ -43,6 +43,10 @@ test("o resto do conteúdo fica no portal do paciente", () => {
     "/guias/olho-seco-guia-essencial",
     "/newsletter",
     "/glossario",
+    "/ferramentas",
+    "/ferramentas/deq-5",
+    "/ferramentas/diario",
+    "/politica-de-correcao",
   ]) {
     assert.equal(resolvePortal(path), "paciente", path);
   }

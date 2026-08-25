@@ -122,11 +122,32 @@ const modalId = `citation-modal-${article.slug}`;
         >
           <pre
             class="citation-code"
-            data-citation-text><code>{citations.bibtex}</code></pre>
+            data-citation-text
+            data-citation-file="bibtex"
+            data-filename={`${article.slug}.bib`}><code>{citations.bibtex}</code></pre>
         </div>
       </div>
 
+      <pre
+        hidden
+        data-citation-file="ris"
+        data-filename={`${article.slug}.ris`}>{citations.ris}</pre>
+
       <footer class="citation-dialog-footer">
+        <button
+          type="button"
+          class="citation-file-btn"
+          data-download-citation="bibtex"
+        >
+          Baixar BibTeX
+        </button>
+        <button
+          type="button"
+          class="citation-file-btn"
+          data-download-citation="ris"
+        >
+          Baixar RIS
+        </button>
         <button type="button" class="citation-copy-btn" data-copy-citation>
           <svg class="copy-icon" viewBox="0 0 24 24" aria-hidden="true">
             <rect
@@ -174,6 +195,22 @@ const modalId = `citation-modal-${article.slug}`;
         const copyBtn = dialog.querySelector<HTMLButtonElement>(
           "[data-copy-citation]",
         );
+        const downloadButtons = dialog.querySelectorAll<HTMLButtonElement>(
+          "[data-download-citation]",
+        );
+
+        const downloadTextFile = (filename: string, text: string) => {
+          const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = filename;
+          link.rel = "noopener";
+          document.body.append(link);
+          link.click();
+          link.remove();
+          URL.revokeObjectURL(url);
+        };
 
         const openModal = () => {
           dialog.showModal();
@@ -212,6 +249,20 @@ const modalId = `citation-modal-${article.slug}`;
               panel.hidden = !isTarget;
               panel.classList.toggle("active", isTarget);
             });
+          });
+        });
+
+        downloadButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const format = button.dataset.downloadCitation;
+            const file = dialog.querySelector<HTMLElement>(
+              `[data-citation-file="${format}"]`,
+            );
+            if (!file) return;
+            downloadTextFile(
+              file.dataset.filename ?? `citacao.${format}`,
+              file.textContent?.trim() ?? "",
+            );
           });
         });
 
@@ -454,10 +505,31 @@ const modalId = `citation-modal-${article.slug}`;
 
   .citation-dialog-footer {
     display: flex;
+    flex-wrap: wrap;
     justify-content: flex-end;
+    gap: 0.6rem;
     padding: 1rem 1.8rem 1.5rem;
     background: #fbfbf9;
     border-top: 1px solid var(--surface-line, #e2e9ef);
+  }
+
+  .citation-file-btn {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.75rem 1.1rem;
+    border: 1px solid var(--surface-teal-dark, #0b827f);
+    border-radius: var(--surface-radius-sm, 4px);
+    background: transparent;
+    color: var(--surface-teal-dark, #0b827f);
+    font-family: var(--surface-sans, ui-sans-serif, system-ui, sans-serif);
+    font-size: 0.85rem;
+    font-weight: 750;
+    cursor: pointer;
+  }
+
+  .citation-file-btn:hover {
+    background: rgb(11 130 127 / 10%);
   }
 
   .citation-copy-btn {

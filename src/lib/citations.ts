@@ -115,8 +115,9 @@ export const generateAbntCitation = (
   const accessYear = accessDate.getFullYear();
 
   const url = getArticleUrl(article);
+  const doi = article.doi ? ` DOI: https://doi.org/${article.doi}.` : "";
 
-  return `${author}. ${article.title}. SUPERFÍCIE — Revista de Olho Seco e Superfície Ocular, Caratinga/MG, ed. ${issueNum}, ${day} ${month} ${year}. Disponível em: <${url}>. Acesso em: ${accessDay} ${accessMonth} ${accessYear}.`;
+  return `${author}. ${article.title}. SUPERFÍCIE — Revista de Olho Seco e Superfície Ocular, Caratinga/MG, ed. ${issueNum}, ${day} ${month} ${year}.${doi} Disponível em: <${url}>. Acesso em: ${accessDay} ${accessMonth} ${accessYear}.`;
 };
 
 /**
@@ -133,7 +134,8 @@ export const generateVancouverCitation = (article: MagazineArticle): string => {
   const year = pubDate.getUTCFullYear();
   const url = getArticleUrl(article);
 
-  return `${author}. ${article.title}. SUPERFÍCIE. ${year} ${month} ${day};${issueNum}. Available from: ${url}`;
+  const doi = article.doi ? ` doi: ${article.doi}` : "";
+  return `${author}. ${article.title}. SUPERFÍCIE. ${year} ${month} ${day};${issueNum}.${doi} Available from: ${url}`;
 };
 
 /**
@@ -152,24 +154,56 @@ export const generateBibtexCitation = (article: MagazineArticle): string => {
   const citeKey = `${lastName}${year}_${article.slug.replace(/-/g, "_")}`;
   const url = getArticleUrl(article);
 
+  const doiLine = article.doi ? `\n  doi = {${article.doi}},` : "";
   return `@article{${citeKey},
   author = {${clean}},
   title = {${article.title}},
   journal = {SUPERFÍCIE --- Revista de Olho Seco e Superfície Ocular},
   year = {${year}},
   month = {${month}},
-  number = {${issueNum}},
+  number = {${issueNum}},${doiLine}
   url = {${url}}
 }`;
+};
+
+/**
+ * RIS gerado no cliente. Sem rede: o arquivo é um Blob local.
+ */
+export const generateRisCitation = (article: MagazineArticle): string => {
+  const clean = cleanAuthorName(article.author.name);
+  const parts = clean.split(/\s+/u).filter(Boolean);
+  const lastName = parts.at(-1) ?? clean;
+  const given = parts.slice(0, -1).join(" ");
+  const pubDate = article.publishedAt
+    ? new Date(`${article.publishedAt}T00:00:00Z`)
+    : new Date();
+  const year = pubDate.getUTCFullYear();
+  const month = String(pubDate.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(pubDate.getUTCDate()).padStart(2, "0");
+  const issueNum = extractIssueNumber(article.issue);
+  const lines = [
+    "TY  - JOUR",
+    `T1  - ${article.title}`,
+    `AU  - ${lastName}, ${given}`.trim(),
+    "JO  - SUPERFÍCIE — Revista de Olho Seco e Superfície Ocular",
+    `PY  - ${year}`,
+    `DA  - ${year}/${month}/${day}`,
+    `IS  - ${issueNum}`,
+    `UR  - ${getArticleUrl(article)}`,
+  ];
+  if (article.doi) lines.push(`DO  - ${article.doi}`);
+  lines.push("ER  - ");
+  return lines.join("\r\n");
 };
 
 export const generateAllCitations = (
   article: MagazineArticle,
   accessDate?: Date,
-): { abnt: string; vancouver: string; bibtex: string } => {
+): { abnt: string; vancouver: string; bibtex: string; ris: string } => {
   return {
     abnt: generateAbntCitation(article, accessDate),
     vancouver: generateVancouverCitation(article),
     bibtex: generateBibtexCitation(article),
+    ris: generateRisCitation(article),
   };
 };
