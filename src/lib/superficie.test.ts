@@ -755,6 +755,22 @@ test("matéria Além do meiboscore publica as quatro seções e as travas do ras
     oct?.figure?.src,
     "/images/educacao/meibografia-dgm-leve-acinos-hwang-2013.jpg",
   );
+  assert.equal(
+    oct?.figure?.credit?.url,
+    "https://doi.org/10.1371/journal.pone.0067143",
+  );
+  assert.equal(oct?.figure?.license?.label, "CC BY 4.0");
+  assert.equal(
+    oct?.figure?.license?.url,
+    "https://creativecommons.org/licenses/by/4.0/",
+  );
+  assert.match(oct?.figure?.modification ?? "", /Sem recorte/u);
+
+  const magazineMarkup = read(
+    path.join(repoRoot, "src/components/superficie/MagazineArticlePage.astro"),
+  );
+  assert.match(magazineMarkup, /section\.figure\.credit\.url/u);
+  assert.match(magazineMarkup, /rel="noopener noreferrer license"/u);
 });
 
 test("matéria Cinco testes, cinco perguntas publica as quatro seções e as travas do rascunho selado", () => {
