@@ -404,7 +404,12 @@ test("matéria TFOS DEWS III inclui o mapa dos nove drivers só no corpo", () =>
     ({ slug }) => slug !== "tfos-dews-iii-na-pratica",
   )) {
     assert.ok(
-      other.content.every(({ figure }) => !figure),
+      other.content.every(
+        ({ figure }) =>
+          !figure ||
+          figure.src !==
+            "/images/superficie/artigos/tfos-dews-iii-na-pratica/mapa-nove-drivers.png",
+      ),
       `${other.slug} não deve receber a figura do TFOS`,
     );
   }
