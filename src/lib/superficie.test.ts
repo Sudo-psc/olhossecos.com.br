@@ -929,10 +929,11 @@ test("matéria olho-seco-oct-rnfl publica as quatro seções e as quatro placas"
   assert.equal(article.sponsored, false);
   assert.equal(article.seo.canonical, "/superficie/artigos/olho-seco-oct-rnfl");
   assert.deepEqual(superficie.validateMagazineArticle(article), []);
+  const technologyHrefs: readonly string[] = superficie.technologyTopics.map(
+    ({ href }) => href,
+  );
   assert.equal(
-    superficie.technologyTopics.some(
-      ({ href }) => href === "/superficie/artigos/olho-seco-oct-rnfl",
-    ),
+    technologyHrefs.includes("/superficie/artigos/olho-seco-oct-rnfl"),
     false,
   );
 
