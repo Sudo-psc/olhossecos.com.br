@@ -58,6 +58,9 @@ test("o cálculo de contraste bate com os pares canônicos do WCAG", () => {
   assert.equal(ratio("#767676", "#ffffff"), 4.54);
 });
 
+const AA_NORMAL = 4.5;
+const AA_LARGE = 3;
+
 test("todo token de texto do portal tem 7:1 no pior fundo claro", async () => {
   const tokens = await readFile("src/styles/tokens.css", "utf8");
   const t = (name: string) => readToken(tokens, name);
@@ -97,6 +100,31 @@ test("todo token de texto do portal tem 7:1 no pior fundo claro", async () => {
   );
 });
 
+test("o dourado de texto do portal tem 4,5:1 no pior fundo claro real", async () => {
+  const tokens = await readFile("src/styles/tokens.css", "utf8");
+  const t = (name: string) => readToken(tokens, name);
+  const ouro = t("--gold-text");
+
+  // --paper-200 existe na escala mas não é fundo de texto; o pior fundo
+  // real é --teal-100 (4,62:1). WCAG 1.4.3 texto normal.
+  const fundos = [
+    t("--paper-0"),
+    t("--paper-50"),
+    t("--paper-100"),
+    t("--teal-50"),
+    t("--teal-100"),
+  ];
+
+  const falhas: string[] = [];
+  for (const fundo of fundos) {
+    const r = ratio(ouro, fundo);
+    if (r < AA_NORMAL)
+      falhas.push(`--gold-text (${ouro}) sobre ${fundo}: ${r}:1`);
+  }
+
+  assert.deepEqual(falhas, [], falhas.join("\n"));
+});
+
 test("todo token de texto da SUPERFÍCIE tem 7:1 no pior fundo claro", async () => {
   const layout = await readFile("src/layouts/SuperficieLayout.astro", "utf8");
   const t = (name: string) => readToken(layout, name);
@@ -121,6 +149,35 @@ test("todo token de texto da SUPERFÍCIE tem 7:1 no pior fundo claro", async () 
   }
 
   assert.deepEqual(falhas, [], falhas.join("\n"));
+});
+
+test("o dourado de texto AA da SUPERFÍCIE passa 4,5:1 no papel", async () => {
+  const layout = await readFile("src/layouts/SuperficieLayout.astro", "utf8");
+  const t = (name: string) => readToken(layout, name);
+  const ouro = t("--gold-text");
+
+  for (const fundo of ["--surface-white", "--surface-paper"]) {
+    const r = ratio(ouro, t(fundo));
+    assert.ok(
+      r >= AA_NORMAL,
+      `--gold-text sobre ${fundo}: ${r}:1 — WCAG 1.4.3 exige 4,5:1`,
+    );
+  }
+});
+
+test("o ouro claro só vale como texto sobre o navy", async () => {
+  const layout = await readFile("src/layouts/SuperficieLayout.astro", "utf8");
+  const t = (name: string) => readToken(layout, name);
+  const claro = t("--surface-gold-light");
+
+  assert.ok(
+    ratio(claro, t("--surface-navy")) >= AA_NORMAL,
+    `ouro claro no navy abaixo de 4,5:1`,
+  );
+  assert.ok(
+    ratio(claro, t("--surface-paper")) < AA_LARGE,
+    `ouro claro no papel passou a ter contraste de texto — não use como color: sobre fundo claro`,
+  );
 });
 
 test("o texto sobre o navy da SUPERFÍCIE também tem 7:1", async () => {
@@ -148,6 +205,39 @@ test("o texto sobre o navy da SUPERFÍCIE também tem 7:1", async () => {
  * a ser cor de texto. `--surface-gold` sobre papel dá 2,83:1, e foi exatamente
  * assim — como `color:` — que a falha de AA entrou no site.
  */
+test("o anel de foco tem 3:1 nos dois temas e está declarado em 2px", async () => {
+  const portal = await readFile("src/styles/tokens.css", "utf8");
+  const superficie = await readFile(
+    "src/layouts/SuperficieLayout.astro",
+    "utf8",
+  );
+  const portalLayout = await readFile("src/layouts/Layout.astro", "utf8");
+  const tPortal = (name: string) => readToken(portal, name);
+  const tSurface = (name: string) => readToken(superficie, name);
+
+  assert.match(portal, /--focus-ring-width:\s*2px/);
+  assert.match(portal, /--focus-ring-offset:\s*2px/);
+  assert.match(superficie, /--focus-ring-width:\s*2px/);
+  assert.match(superficie, /--focus-ring-offset:\s*2px/);
+  assert.match(portalLayout, /outline: var\(--focus-ring-width\)/);
+  assert.match(superficie, /outline: var\(--focus-ring-width\)/);
+
+  // WCAG 2.4.13 / 1.4.11: indicador de foco ≥ 3:1 contra o fundo adjacente.
+  assert.ok(
+    ratio(tPortal("--focus-ring"), tPortal("--paper-0")) >= AA_LARGE,
+    `focus portal no branco: ${ratio(tPortal("--focus-ring"), tPortal("--paper-0"))}:1`,
+  );
+  assert.ok(
+    ratio(tSurface("--focus-ring-contrast"), tSurface("--surface-paper")) >=
+      AA_LARGE,
+    `anel navy no papel da revista abaixo de 3:1`,
+  );
+  assert.ok(
+    ratio(tSurface("--focus-ring"), tSurface("--surface-navy")) >= AA_LARGE,
+    `anel ouro no navy da revista abaixo de 3:1`,
+  );
+});
+
 test("token de marca nunca é cor de texto", async () => {
   const arquivos = [
     "src/components/superficie/MagazineArticlePage.astro",

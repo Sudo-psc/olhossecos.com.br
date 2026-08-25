@@ -1,4 +1,5 @@
 import { defineMiddleware } from "astro:middleware";
+import { discoveryContentTypes } from "./lib/discovery";
 import { normalizeBasePath, withBasePath } from "./lib/site-path";
 
 const basePath = normalizeBasePath(import.meta.env.BASE_URL);
@@ -99,5 +100,14 @@ export const onRequest = defineMiddleware(async (context, next) => {
   if (isLabOrPoc(context.url.pathname)) {
     response.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
   }
+
+  const rawPath = context.url.pathname.replace(/\/$/u, "") || "/";
+  const logicalPath =
+    basePath && (rawPath === basePath || rawPath.startsWith(`${basePath}/`))
+      ? rawPath.slice(basePath.length) || "/"
+      : rawPath;
+  const discoveryType = discoveryContentTypes[logicalPath];
+  if (discoveryType) response.headers.set("Content-Type", discoveryType);
+
   return response;
 });

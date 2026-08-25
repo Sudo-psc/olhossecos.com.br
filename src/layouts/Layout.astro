@@ -5,8 +5,11 @@ import AnalyticsCollector from "@/components/AnalyticsCollector.astro";
 import GlobalSearchModal from "@/components/GlobalSearchModal.astro";
 import { author } from "@/lib/books";
 import { normalizeBasePath, withBasePath } from "@/lib/site-path";
+import { themeBootScript } from "@/lib/theme";
+import { alternateFeedsForPath } from "@/lib/feeds";
 import "@/styles/fonts.css";
 import "@/styles/tokens.css";
+import "@/styles/touch-targets.css";
 
 interface Props {
   title?: string;
@@ -155,6 +158,8 @@ const breadcrumbSchema =
       }
     : undefined;
 
+const alternateFeeds = alternateFeedsForPath(Astro.url.pathname);
+
 const extraSchemas = extraSchema
   ? Array.isArray(extraSchema)
     ? extraSchema
@@ -184,6 +189,7 @@ const structuredData = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
+    <script is:inline set:html={themeBootScript} />
     <meta name="theme-color" content="#071D45" />
     <meta name="description" content={description} />
     <meta
@@ -208,7 +214,20 @@ const structuredData = {
       rel="apple-touch-icon"
       href={withBasePath("/apple-touch-icon.png", basePath)}
     />
-    <link rel="manifest" href={withBasePath("/manifest.json", basePath)} />
+    <link
+      rel="manifest"
+      href={withBasePath("/manifest.webmanifest", basePath)}
+    />
+    {
+      alternateFeeds.map((feed) => (
+        <link
+          rel="alternate"
+          type={feed.type}
+          title={feed.title}
+          href={withBasePath(feed.href, basePath)}
+        />
+      ))
+    }
     <link
       rel="preload"
       href={withBasePath("/fonts/source-serif-4-subset.woff2", basePath)}
@@ -260,6 +279,7 @@ const structuredData = {
   html {
     scroll-behavior: smooth;
     color-scheme: light;
+    overflow-x: clip;
   }
 
   :target,
@@ -269,6 +289,7 @@ const structuredData = {
 
   body {
     margin: 0;
+    overflow-x: clip;
     background: var(--paper-50);
     color: var(--ink);
     font-family: var(--sans);
@@ -299,10 +320,16 @@ const structuredData = {
     -webkit-tap-highlight-color: transparent;
   }
 
-  :focus-visible {
-    outline: 3px solid var(--teal-600);
-    outline-offset: 3px;
-    box-shadow: 0 0 0 6px rgb(8 127 149 / 18%);
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  summary:focus-visible,
+  [tabindex]:focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+    box-shadow: 0 0 0 2px rgb(8 127 149 / 18%);
   }
 
   ::selection {
@@ -338,6 +365,7 @@ const structuredData = {
   }
 
   .page-shell {
+    min-width: 0;
     width: min(100% - 4rem, 1340px);
     margin-inline: auto;
   }
@@ -349,6 +377,8 @@ const structuredData = {
     position: sticky;
     z-index: 50;
     top: 0;
+    min-width: 0;
+    overflow-x: clip;
     background: var(--glass-bg);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
@@ -381,9 +411,10 @@ const structuredData = {
   }
 
   .header-inner {
+    min-width: 0;
     min-height: var(--header-height);
     display: grid;
-    grid-template-columns: 220px 1fr auto;
+    grid-template-columns: minmax(0, 220px) minmax(0, 1fr) auto;
     align-items: center;
     gap: 2rem;
   }
@@ -392,7 +423,8 @@ const structuredData = {
     display: inline-flex;
     align-items: center;
     gap: 0.7rem;
-    width: max-content;
+    min-width: 0;
+    max-width: 100%;
   }
 
   .brand-mark {
@@ -414,7 +446,7 @@ const structuredData = {
   .brand small {
     margin-top: 0.35rem;
     color: var(--ink-soft);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 750;
     letter-spacing: 0.09em;
     text-transform: uppercase;
@@ -455,7 +487,7 @@ const structuredData = {
   .header-cta {
     display: inline-flex;
     align-items: center;
-    min-height: 42px;
+    min-height: 44px;
     justify-content: center;
     padding: 0.55rem 1rem;
     border: 1px solid var(--ink);
@@ -716,7 +748,7 @@ const structuredData = {
 
   .footer-links a {
     color: rgb(255 255 255 / 72%);
-    font-size: 0.86rem;
+    font-size: 0.875rem;
   }
 
   .footer-links a:hover {
@@ -775,7 +807,7 @@ const structuredData = {
 
   .footer-imprint span {
     color: #78d7e5;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -789,7 +821,7 @@ const structuredData = {
 
   .footer-imprint em {
     color: rgb(255 255 255 / 82%);
-    font-size: 0.84rem;
+    font-size: 0.875rem;
     font-style: normal;
   }
 
@@ -800,7 +832,7 @@ const structuredData = {
     padding-block: 1.25rem 2rem;
     border-top: 1px solid rgb(255 255 255 / 25%);
     color: rgb(255 255 255 / 60%);
-    font-size: 0.76rem;
+    font-size: 0.875rem;
   }
 
   .footer-bottom p {
@@ -957,7 +989,7 @@ const structuredData = {
 
     .brand small {
       margin-top: 0.25rem;
-      font-size: 0.75rem;
+      font-size: 0.875rem;
     }
 
     .footer-links {

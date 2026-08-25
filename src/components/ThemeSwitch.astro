@@ -1,0 +1,132 @@
+---
+/**
+ * Switch compacto claro/escuro. Sem rótulos: o trio Claro/Escuro/Sistema
+ * estourava o header em 390px (três alvos 44×44). Clique alterna as duas
+ * paletas e grava em localStorage. Sem stamp, o documento fica sem
+ * [data-theme] e o sistema manda — o botão só reflete o estado efetivo.
+ */
+---
+
+<button
+  type="button"
+  class="theme-switch"
+  aria-label="Alternar tema claro ou escuro"
+  aria-pressed="false"
+>
+  <span class="theme-switch-thumb" aria-hidden="true"></span>
+</button>
+
+<script>
+  import { themeStorageKey } from "@/lib/theme";
+
+  const switches = () =>
+    document.querySelectorAll<HTMLButtonElement>(".theme-switch");
+
+  const readStored = (): "light" | "dark" | null => {
+    try {
+      const stored = localStorage.getItem(themeStorageKey);
+      if (stored === "light" || stored === "dark") return stored;
+    } catch {
+      // Storage bloqueado: segue o sistema, sem carimbo.
+    }
+    return null;
+  };
+
+  const prefersDark = () =>
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  const effectiveDark = () => {
+    const stored = readStored();
+    if (stored === "dark") return true;
+    if (stored === "light") return false;
+    return prefersDark();
+  };
+
+  const applyChoice = (choice: "light" | "dark") => {
+    document.documentElement.setAttribute("data-theme", choice);
+    try {
+      localStorage.setItem(themeStorageKey, choice);
+    } catch {
+      // Preferência só desta sessão se o storage recusar.
+    }
+
+    const dark = choice === "dark";
+    document
+      .querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')
+      .forEach((meta) => {
+        meta.setAttribute("content", dark ? "#04142f" : "#071D45");
+      });
+    for (const button of switches()) {
+      button.setAttribute("aria-pressed", String(dark));
+    }
+  };
+
+  const syncPressed = () => {
+    const dark = effectiveDark();
+    for (const button of switches()) {
+      button.setAttribute("aria-pressed", String(dark));
+    }
+    if (!readStored()) {
+      document.documentElement.removeAttribute("data-theme");
+    }
+    document
+      .querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')
+      .forEach((meta) => {
+        meta.setAttribute("content", dark ? "#04142f" : "#071D45");
+      });
+  };
+
+  for (const button of switches()) {
+    button.addEventListener("click", () => {
+      applyChoice(effectiveDark() ? "light" : "dark");
+    });
+  }
+
+  syncPressed();
+
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", () => {
+      if (!readStored()) syncPressed();
+    });
+</script>
+
+<style>
+  .theme-switch {
+    position: relative;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 24px;
+    min-width: 44px;
+    min-height: 24px;
+    padding: 0;
+    border: 1px solid var(--line-strong, var(--surface-line, #b8c7d6));
+    border-radius: 999px;
+    background: var(--line, var(--surface-line, #d3dbe4));
+    cursor: pointer;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease;
+  }
+
+  .theme-switch-thumb {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--paper-0, var(--surface-white, #fff));
+    box-shadow: 0 1px 2px rgb(7 29 69 / 18%);
+    transition: transform 160ms ease;
+  }
+
+  .theme-switch[aria-pressed="true"] {
+    border-color: var(--teal-dark, var(--surface-teal-dark, #00576a));
+    background: var(--teal, var(--surface-teal, #087f95));
+  }
+
+  .theme-switch[aria-pressed="true"] .theme-switch-thumb {
+    transform: translateX(20px);
+  }
+</style>

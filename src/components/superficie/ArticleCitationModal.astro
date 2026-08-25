@@ -256,12 +256,15 @@ const modalId = `citation-modal-${article.slug}`;
     align-items: center;
     gap: 0.55rem;
     padding: 0.55rem 0.95rem;
-    border: 1px solid var(--surface-gold, #d9b665);
+    border: 1px solid var(--surface-gold, #b98a36);
     border-radius: var(--surface-radius-sm, 4px);
-    background: transparent;
-    color: var(--surface-gold-light, #f0dfa8);
+    /* Fundo navy explícito: o botão vive no hero escuro, mas o fundo
+       computado era transparente e ferramentas de contraste mediam o
+       dourado contra o papel (1,76:1) em vez do navy (9,05:1). */
+    background: var(--surface-navy, #001a33);
+    color: var(--surface-gold-light, #d9b665);
     font-family: var(--surface-sans, ui-sans-serif, system-ui, sans-serif);
-    font-size: 0.78rem;
+    font-size: 0.875rem;
     font-weight: 750;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -288,8 +291,9 @@ const modalId = `citation-modal-${article.slug}`;
   }
 
   .citation-open-btn:focus-visible {
-    outline: 2px solid var(--surface-gold-light, #f0dfa8);
-    outline-offset: 3px;
+    outline: var(--focus-ring-width, 2px) solid
+      var(--focus-ring, var(--surface-gold-light));
+    outline-offset: var(--focus-ring-offset, 2px);
   }
 
   .citation-dialog {
@@ -329,7 +333,7 @@ const modalId = `citation-modal-${article.slug}`;
   .citation-kicker {
     margin: 0 0 0.35rem;
     color: var(--surface-teal-dark, #0b827f);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -386,7 +390,7 @@ const modalId = `citation-modal-${article.slug}`;
     background: transparent;
     color: var(--surface-muted, #556877);
     font-family: var(--surface-sans, ui-sans-serif, system-ui, sans-serif);
-    font-size: 0.82rem;
+    font-size: 0.875rem;
     font-weight: 750;
     cursor: pointer;
     transition:
@@ -442,7 +446,7 @@ const modalId = `citation-modal-${article.slug}`;
     color: #f7f4ed;
     font-family:
       ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.84rem;
+    font-size: 0.875rem;
     line-height: 1.5;
     overflow-x: auto;
     user-select: all;
@@ -466,7 +470,7 @@ const modalId = `citation-modal-${article.slug}`;
     background: var(--surface-teal-dark, #0b827f);
     color: #ffffff;
     font-family: var(--surface-sans, ui-sans-serif, system-ui, sans-serif);
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     font-weight: 750;
     cursor: pointer;
     transition:

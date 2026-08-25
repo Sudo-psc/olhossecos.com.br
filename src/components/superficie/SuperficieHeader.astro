@@ -1,5 +1,6 @@
 ---
 import EyeMark from "@/components/EyeMark.astro";
+import ThemeSwitch from "@/components/ThemeSwitch.astro";
 import { isSurfaceNavCurrent } from "@/lib/superficie-nav";
 
 interface Props {
@@ -35,6 +36,7 @@ const nav = [
         <span><strong>Olhos Secos</strong> — Portal profissional</span>
       </a>
       <div class="surface-utility-actions">
+        <ThemeSwitch />
         <button
           type="button"
           class="surface-search-btn"
@@ -115,6 +117,7 @@ const nav = [
     hidden
   >
     <div class="surface-shell">
+      <ThemeSwitch />
       <button
         type="button"
         class="surface-mobile-search-btn"
@@ -345,16 +348,19 @@ const nav = [
 
 <style>
   .surface-header {
+    min-width: 0;
+    overflow-x: clip;
     background: var(--surface-paper);
   }
 
   .surface-utility {
     border-bottom: 1px solid var(--surface-line);
     color: var(--surface-navy);
-    font-size: 0.86rem;
+    font-size: 0.875rem;
   }
 
   .surface-utility-inner {
+    min-width: 0;
     min-height: 58px;
     display: flex;
     align-items: center;
@@ -365,6 +371,7 @@ const nav = [
   .surface-utility-actions {
     display: flex;
     align-items: center;
+    min-width: 0;
     gap: 1.25rem;
   }
 
@@ -377,7 +384,7 @@ const nav = [
     border-radius: var(--surface-radius-sm, 6px);
     background: #ffffff;
     color: var(--surface-navy, #001a33);
-    font-size: 0.78rem;
+    font-size: 0.875rem;
     font-weight: 750;
     cursor: pointer;
     transition:
@@ -398,7 +405,7 @@ const nav = [
     border-radius: 3px;
     background: #f0f4f8;
     font-family: ui-monospace, monospace;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     color: var(--surface-muted, #5b7081);
   }
 
@@ -423,7 +430,7 @@ const nav = [
     border-radius: var(--surface-radius-sm, 6px);
     background: rgb(217 182 101 / 14%);
     color: var(--surface-paper, #f7f4ed);
-    font-size: 0.84rem;
+    font-size: 0.875rem;
     font-weight: 750;
     cursor: pointer;
     transition:
@@ -456,8 +463,8 @@ const nav = [
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 38px;
-    height: 38px;
+    width: 44px;
+    height: 44px;
     border: 1px solid var(--surface-gold, #b98a36);
     border-radius: var(--surface-radius-sm, 6px);
     background: transparent;
@@ -483,6 +490,7 @@ const nav = [
   .portal-return {
     display: inline-flex;
     align-items: center;
+    min-width: 0;
     gap: 0.6rem;
   }
 
@@ -506,7 +514,7 @@ const nav = [
     border-radius: var(--surface-radius-sm);
     background: transparent;
     color: var(--surface-paper);
-    font-size: 0.78rem;
+    font-size: 0.875rem;
     font-weight: 750;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -538,7 +546,7 @@ const nav = [
   .surface-descriptor {
     margin: 0 0 0.75rem;
     color: var(--surface-gold-light);
-    font-size: clamp(0.75rem, 1vw, 0.8rem);
+    font-size: 0.875rem;
     font-weight: 700;
     letter-spacing: 0.3em;
     text-transform: uppercase;
@@ -613,7 +621,7 @@ const nav = [
     position: relative;
     padding-bottom: 0.2rem;
     color: var(--surface-paper);
-    font-size: 0.76rem;
+    font-size: 0.875rem;
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -725,7 +733,7 @@ const nav = [
     position: relative;
     padding-block: 0.35rem;
     color: var(--surface-muted-on-dark);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -784,6 +792,11 @@ const nav = [
     padding-block: 0.75rem 1.25rem;
   }
 
+  .surface-mobile-nav :global(.theme-switch) {
+    margin-bottom: 0.8rem;
+    justify-self: start;
+  }
+
   .surface-mobile-nav a {
     min-height: 48px;
     display: flex;
@@ -792,7 +805,7 @@ const nav = [
     margin-inline: -0.6rem;
     border-bottom: 1px solid rgb(255 255 255 / 13%);
     color: var(--surface-paper);
-    font-size: 0.84rem;
+    font-size: 0.875rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -846,7 +859,7 @@ const nav = [
 
     .portal-brand span strong {
       font-family: var(--surface-sans);
-      font-size: 0.82rem;
+      font-size: 0.875rem;
     }
 
     .portal-brand span strong::after {
@@ -857,7 +870,7 @@ const nav = [
     .portal-return {
       margin-left: auto;
       color: var(--surface-paper);
-      font-size: 0.78rem;
+      font-size: 0.875rem;
     }
 
     .surface-menu-button {
@@ -899,6 +912,15 @@ const nav = [
 
     .surface-nav {
       display: none;
+    }
+
+    .surface-search-btn span,
+    .surface-search-btn kbd {
+      display: none;
+    }
+
+    .surface-utility-actions {
+      gap: 0.6rem;
     }
   }
 

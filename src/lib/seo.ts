@@ -32,6 +32,17 @@ const sitemapExcludedExact = new Set([
   "/newsletter/confirmar",
   "/404",
   "/search-index.json",
+  "/rss.xml",
+  "/feed.json",
+  "/llms.txt",
+  "/llms-full.txt",
+  "/manifest.webmanifest",
+  "/manifest.json",
+  "/.well-known/security.txt",
+  "/superficie/rss.xml",
+  "/superficie/feed.json",
+  "/superficie/radar/rss.xml",
+  "/superficie/radar/feed.json",
 ]);
 
 const sitemapExcludedPrefixes = ["/superficie/lab", "/superficie/issues"];
