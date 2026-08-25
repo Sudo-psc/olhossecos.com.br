@@ -6,6 +6,7 @@ import GlobalSearchModal from "@/components/GlobalSearchModal.astro";
 import { magazineDescription } from "@/lib/superficie";
 import { normalizeBasePath, withBasePath } from "@/lib/site-path";
 import "@/styles/fonts.css";
+import "@/styles/touch-targets.css";
 
 interface Props {
   title: string;
@@ -465,7 +466,7 @@ const structuredData = {
     border-radius: var(--surface-radius-sm);
     background: transparent;
     font-family: var(--surface-sans);
-    font-size: 0.77rem;
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.08em;
     text-decoration: none;

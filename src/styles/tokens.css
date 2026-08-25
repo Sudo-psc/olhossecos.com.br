@@ -83,7 +83,7 @@
   --text-lead: clamp(1.125rem, 1.05rem + 0.4vw, 1.3125rem);
   --text-body: clamp(1.0625rem, 1.02rem + 0.16vw, 1.1875rem);
   --text-small: 0.9375rem;
-  --text-meta: 0.8125rem;
+  --text-meta: 0.875rem;
 
   --leading-tight: 1.05;
   --leading-snug: 1.25;

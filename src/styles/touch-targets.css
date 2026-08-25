@@ -1,0 +1,42 @@
+/*
+ * Alvos de toque 44×44 no mobile (WCAG 2.5.5).
+ *
+ * Botões ganham min-height/min-width: a maioria já estava em 38–42 px, e o
+ * acréscimo não desloca o layout. Links de chrome usam padding + margem
+ * negativa — a área clicável cresce, a caixa visual permanece no mesmo
+ * lugar. Sem ::after: a navegação e os cards já usam o pseudo para o traço.
+ */
+
+@media (max-width: 720px) {
+  button,
+  [type="button"],
+  [type="submit"],
+  [role="button"],
+  summary,
+  .header-search-btn,
+  .header-cta,
+  .portal-switch,
+  .citation-open-btn,
+  .sticky-search-btn,
+  .surface-search-btn,
+  .menu-button,
+  .surface-menu-button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .desktop-nav a,
+  .surface-nav a,
+  .sticky-nav a,
+  .breadcrumbs a,
+  .article-breadcrumb a,
+  .breadcrumb a,
+  .footer-links a,
+  .surface-footer nav a,
+  .article-toc a,
+  .mobile-nav a,
+  .surface-mobile-nav a {
+    padding-block: 0.7rem;
+    margin-block: -0.7rem;
+  }
+}
