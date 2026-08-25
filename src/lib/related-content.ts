@@ -171,6 +171,12 @@ const relatedContentByArticle: Record<string, readonly RelatedContentRef[]> = {
     "article:ia-na-superficie-ocular",
     "page:/profissional",
   ],
+  "olho-seco-oct-rnfl": [
+    "article:cinco-testes-cinco-perguntas",
+    "article:quando-sintomas-e-sinais-nao-batem",
+    "article:tfos-dews-iii-na-pratica",
+    "page:/diagnostico",
+  ],
 };
 
 const articleBySlug = new Map(

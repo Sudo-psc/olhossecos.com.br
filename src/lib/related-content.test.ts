@@ -72,11 +72,11 @@ test("a ordenação editorial coloca os artigos mais recentes nos hubs", () => {
   assert.deepEqual(
     latest.slice(0, 5).map(({ slug }) => slug),
     [
+      "olho-seco-oct-rnfl",
       "ia-na-superficie-ocular",
       "anti-demodex",
       "terapias-dirigidas-por-mecanismo",
       "prehab-ocular",
-      "anatomia-dry-eye-center",
     ],
   );
   assert.ok(

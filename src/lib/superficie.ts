@@ -2980,6 +2980,209 @@ const anatomiaDryEyeCenter: MagazineArticle = {
   },
 };
 
+const olhoSecoOctRnfl: MagazineArticle = {
+  slug: "olho-seco-oct-rnfl",
+  title: "O filme seco muda o número",
+  subtitle: "Qualidade de OCT, RNFL e o risco de chamar artefato de progressão",
+  excerpt: "A RNFL que caiu no follow-up pode ser o filme, não o nervo.",
+  category: "Diagnóstico",
+  author: {
+    name: "Dr. Philipe Saraiva Cruz",
+    slug: "philipe-saraiva-cruz",
+    specialty: "Oftalmologia — CRM-MG 69.870 · RQE 71.903",
+    affiliation: "Saraiva Vision, Caratinga/MG",
+  },
+  reviewSeal: "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  status: "published",
+  issue: "edicao-00",
+  publishedAt: "2026-08-25",
+  modifiedAt: "2026-08-25",
+  content: [
+    {
+      id: "por-que-importa",
+      title: "Por que importa",
+      kind: "why-it-matters",
+      figure: {
+        src: "/images/superficie/artigos/olho-seco-oct-rnfl/placa-impacto.png",
+        alt: "Placa Observatório: A RNFL que caiu pode ser o filme, não o nervo.",
+        caption: "A RNFL que caiu pode ser o filme, não o nervo.",
+        width: 1654,
+        height: 2339,
+      },
+      paragraphs: [
+        "O número da RNFL decide se o glaucoma “progrediu”. O mesmo paciente costuma chegar com colírio crônico e superfície irregular. Se o scan ruim afina o número, a visita seguinte parece piora.",
+        "Ressecamento degrada o sinal. No Stratus e no Cirrus, sinal baixo devolve RNFL mais fina. No Spectralis a direção inverte.",
+        "Stein é time-domain, olho tapado, sem DED.",
+      ],
+    },
+    {
+      id: "evidencia",
+      title: "Evidência",
+      kind: "evidence",
+      figure: {
+        src: "/images/superficie/artigos/olho-seco-oct-rnfl/placa-evidencia.png",
+        alt: "Gráfico de duas barras: RNFL média 93,07 µm antes e 98,27 µm depois de tratar OSD em 55 pessoas com GPAA. Sem braço controle.",
+        caption:
+          "O número que muda a visita. RNFL média em GPAA com OSD, n = 55, sem braço controle: 93,07 µm antes → 98,27 µm depois de tratar a superfície (Δ +5,2 µm; eixo do gráfico 80–110 µm; lágrima + loteprednol, semanas; não é gota na sala; não é RCT). Oktay, Dursun, Yılmaz. Eur J Ophthalmol. 2021;31(6):2997-3002. doi:10.1177/1120672121991395",
+        width: 1654,
+        height: 2339,
+      },
+      paragraphs: [
+        "Stein e colaboradores (2006): 17 sadios, Stratus, pálpebra tapada. A RNFL cai. A queda passa o IC95% do erro depois de ~15 s. É time-domain, olho tapado, sem DED.",
+        "Cheung e colaboradores (2008) e Wu e colaboradores (2009): signal strength <7 afina a RNFL no Stratus. Huang e colaboradores (2011): Topcon e Cirrus.",
+        "Yohannan e colaboradores (2020): de signal strength 10 para 3, o Δ é pequeno. Abaixo de 3: −15,70 a −16,34 µm por ponto. Artefato: −4,76 µm.",
+        "Gershoni e colaboradores (2022) e Strampe e colaboradores (2020): no Spectralis, Q baixo engrossa a RNFL.",
+        "Asrani e colaboradores (2010): artefatos; olho seco tem mais artefato macular. Kesimal e colaboradores (2026): DED baixa o SSI no RTVue; o resumo não traz delta de RNFL em mícrons.",
+        "Oktay, Dursun e Yılmaz (2021): 55 GPAA com OSD; lágrima + loteprednol, semanas. Sinal 19,15→23,93. RNFL média 93,07→98,27 µm. doi:10.1177/1120672121991395. Não é gota na sala do aparelho. Não é RCT.",
+        "Hannemann e Erb (2021): gota de ácido hialurônico em sadio — OCT inalterado. Ghazi e Much (2009): n = 13 scans que falharam; o lubrificante subiu o sinal.",
+        "Não há claim de GCC. Não há claim de IA que calibra filme.",
+      ],
+    },
+    {
+      id: "pratica",
+      title: "Prática",
+      kind: "practice",
+      figure: {
+        src: "/images/superficie/artigos/olho-seco-oct-rnfl/placa-visita.png",
+        alt: "Quatro beats da visita: piscar; ler o sinal no eixo daquele aparelho; tratar OSD e repetir; scan ruim não fecha piora.",
+        caption:
+          "O que muda na cadeira. Piscar: quinze segundos de secagem já saem do erro do Stratus. Ler o sinal no eixo daquele aparelho — Stratus e Cirrus não são Spectralis. Tratar OSD e repetir: não chamar progressão no scan seco. Scan ruim não fecha piora, nem no sentido errado da plataforma.",
+        width: 1654,
+        height: 2339,
+      },
+      paragraphs: [
+        "Na cadeira, o número só entra na decisão depois do sinal e da superfície.",
+      ],
+      bullets: [
+        "Piscar: quinze segundos de secagem já saem do erro do Stratus.",
+        "Ler o sinal no eixo daquele aparelho. Stratus e Cirrus não são Spectralis.",
+        "Não chamar progressão em OSD sem tratar (Oktay ~5 µm).",
+        "Gota imediata em sadio não puxa o número.",
+        "Não misturar corte de sinal entre plataformas. IA não calibra filme nesta edição.",
+      ],
+    },
+    {
+      id: "limitacoes",
+      title: "Limitações",
+      kind: "limitations",
+      figure: {
+        src: "/images/superficie/artigos/olho-seco-oct-rnfl/placa-freio.png",
+        alt: "Dois cartões: Stratus e Cirrus, sinal baixo afina; Spectralis, Q baixo engrossa.",
+        caption:
+          "O freio: a direção do viés depende do aparelho. Stratus e Cirrus: sinal baixo afina RNFL. Spectralis: Q baixo engrossa. Gershoni 2022, Strampe 2020. Não fundir plataforma. Sem IA que calibra filme.",
+        width: 1654,
+        height: 2339,
+      },
+      paragraphs: [
+        "Stein é experimental.",
+        "Oktay: n = 55, um centro, sem braço controle.",
+        "O viés do Spectralis é o inverso do Cirrus e do Stratus.",
+        "Não há DOI de IA que calibra filme.",
+      ],
+    },
+  ],
+  references: [
+    {
+      label:
+        "Stein DM, Wollstein G, Ishikawa H, Hertzmark E, Noecker RJ, Schuman JS. Effect of corneal drying on optical coherence tomography. Ophthalmology. 2006;113(6):985-991.",
+      url: "https://doi.org/10.1016/j.ophtha.2006.02.018",
+      doi: "10.1016/j.ophtha.2006.02.018",
+    },
+    {
+      label:
+        "Cheung CYL, Leung CKS, Lin D, Pang CP, Lam DSC. Relationship between retinal nerve fiber layer measurement and signal strength in optical coherence tomography. Ophthalmology. 2008;115(8):1347-1351.",
+      url: "https://doi.org/10.1016/j.ophtha.2007.11.027",
+      doi: "10.1016/j.ophtha.2007.11.027",
+    },
+    {
+      label:
+        "Wu Z, Huang J, Dustin L, Sadda SR. Signal strength is an important determinant of accuracy of nerve fiber layer thickness measurement by optical coherence tomography. J Glaucoma. 2009;18(3):213-216.",
+      url: "https://doi.org/10.1097/IJG.0b013e31817eee20",
+      doi: "10.1097/IJG.0b013e31817eee20",
+    },
+    {
+      label:
+        "Huang J, Liu X, Wu Z, Sadda S. Image quality affects macular and retinal nerve fiber layer thickness measurements on Fourier-domain optical coherence tomography. Ophthalmic Surg Lasers Imaging. 2011;42(3):216-221.",
+      url: "https://doi.org/10.3928/15428877-20110324-01",
+      doi: "10.3928/15428877-20110324-01",
+    },
+    {
+      label:
+        "Yohannan J, Cheng M, Da J, et al. Evidence-based criteria for determining peripapillary OCT reliability. Ophthalmology. 2020;127(2):167-176.",
+      url: "https://doi.org/10.1016/j.ophtha.2019.08.027",
+      doi: "10.1016/j.ophtha.2019.08.027",
+    },
+    {
+      label:
+        "Gershoni A, Barayev E, Vainer I, et al. Thickness measurements taken with the spectralis OCT increase with decreasing signal strength. BMC Ophthalmol. 2022;22:148.",
+      url: "https://doi.org/10.1186/s12886-022-02356-4",
+      doi: "10.1186/s12886-022-02356-4",
+    },
+    {
+      label:
+        "Strampe MR, Eldweik L, Chaon BC, et al. Retinal nerve fibre layer thickness increases with decreasing Spectralis OCT signal strength in normal eyes. Neuroophthalmology. 2020;44(2):100-103.",
+      url: "https://doi.org/10.1080/01658107.2019.1653934",
+      doi: "10.1080/01658107.2019.1653934",
+    },
+    {
+      label:
+        "Asrani S, Edghill B, Gupta Y, Meerhoff G. Optical coherence tomography errors in glaucoma. J Glaucoma. 2010;19(4):237-242.",
+      url: "https://doi.org/10.1097/IJG.0b013e3181b21f99",
+      doi: "10.1097/IJG.0b013e3181b21f99",
+    },
+    {
+      label:
+        "Kesimal B, Kocamış Sİ. Investigation of the impact of tear film dynamics on optical coherence tomography image quality in patients with dry eye disease. BMC Ophthalmol. 2026;26.",
+      url: "https://doi.org/10.1186/s12886-026-04893-8",
+      doi: "10.1186/s12886-026-04893-8",
+    },
+    {
+      label:
+        "Oktay Ö, Dursun Ö, Yılmaz A. The effects of ocular surface disease on optical coherence tomography test results in patients with glaucoma. Eur J Ophthalmol. 2021;31(6):2997-3002.",
+      url: "https://doi.org/10.1177/1120672121991395",
+      doi: "10.1177/1120672121991395",
+    },
+    {
+      label:
+        "Hannemann E, Erb C. The impact of artificial tear viscosity on the results of optical coherence tomography. Klin Monbl Augenheilkd. 2021;238(9):1004-1009.",
+      url: "https://doi.org/10.1055/a-1179-0131",
+      doi: "10.1055/a-1179-0131",
+    },
+    {
+      label:
+        "Ghazi NG, Much JW. The effect of lubricating eye drops on optical coherence tomography imaging of the retina. Digit J Ophthalmol. 2009;15(2):24-26.",
+      url: "https://doi.org/10.5693/djo.01.2009.006",
+      doi: "10.5693/djo.01.2009.006",
+    },
+  ],
+  disclosures: [
+    { label: "Financiamento", text: "Sem financiamento externo." },
+    {
+      label: "Conflitos de interesse",
+      text: "O autor declara não possuir vínculo com fabricantes de dispositivos, fármacos ou tecnologias citados neste artigo.",
+    },
+    {
+      label: "Uso de inteligência artificial",
+      text: "Houve assistência de IA na reorganização editorial, na revisão linguística e na conferência bibliográfica das referências contra Crossref e PubMed. A IA não foi tratada como fonte; as afirmações e referências foram verificadas pelo autor.",
+    },
+    {
+      label: "Revisão",
+      text: "Este artigo não passou por revisão independente por pares. Ver o selo editorial no topo da página.",
+    },
+    {
+      label: "Aprovação ética",
+      text: "Não se aplica: revisão narrativa sem dados individuais ou imagens identificáveis.",
+    },
+  ],
+  sponsored: false,
+  tags: ["OCT", "RNFL", "Olho seco", "Glaucoma", "Diagnóstico"],
+  seo: {
+    title: "O filme seco muda o número | SUPERFÍCIE",
+    description: "A RNFL que caiu no follow-up pode ser o filme, não o nervo.",
+    canonical: "/superficie/artigos/olho-seco-oct-rnfl",
+  },
+};
+
 export const publishedArticles: MagazineArticle[] = [
   dgmBiologiaMolecular,
   tfosDewsIiiNaPratica,
@@ -2993,6 +3196,7 @@ export const publishedArticles: MagazineArticle[] = [
   terapiasDirigidasPorMecanismo,
   prehabOcular,
   anatomiaDryEyeCenter,
+  olhoSecoOctRnfl,
 ];
 
 /**
