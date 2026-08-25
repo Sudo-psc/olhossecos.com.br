@@ -159,6 +159,14 @@ export const portalPages: PortalSearchEntry[] = [
     ],
   },
   {
+    href: "/politica-de-correcao",
+    category: "Transparência",
+    title: "Correção e retratação no olho seco",
+    description:
+      "Como o portal corrige, atualiza ou retrata conteúdo, com data visível e sem apagar o contexto.",
+    tags: ["correção", "retratação", "política", "transparência"],
+  },
+  {
     href: "/fontes",
     category: "Transparência",
     title: "Fontes e revisão",

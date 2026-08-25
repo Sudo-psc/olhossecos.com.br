@@ -98,6 +98,18 @@ const formatDate = formatLongDate;
           )
         }
         {
+          article.reviewedAt && (
+            <div>
+              <dt>Revisado em</dt>
+              <dd>
+                <time datetime={article.reviewedAt}>
+                  {formatDate(article.reviewedAt)}
+                </time>
+              </dd>
+            </div>
+          )
+        }
+        {
           article.modifiedAt && (
             <div>
               <dt>Atualizado em</dt>
@@ -131,6 +143,11 @@ const formatDate = formatLongDate;
         {
           article.references.length > 0 && (
             <a href="#referencias">Referências</a>
+          )
+        }
+        {
+          article.changelog && article.changelog.length > 0 && (
+            <a href="#historico">Histórico</a>
           )
         }
         <a href="#disclosures">Disclosures</a>
@@ -230,6 +247,23 @@ const formatDate = formatLongDate;
                     {reference.doi ? `DOI ${reference.doi}` : "Ver fonte"}
                     <span class="sr-only"> — {reference.label}</span>
                   </a>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )
+      }
+
+      {
+        article.changelog && article.changelog.length > 0 && (
+          <section id="historico" class="disclosure-section">
+            <p class="section-kicker">Versões</p>
+            <h2>Histórico desta matéria</h2>
+            <ol class="changelog-list">
+              {article.changelog.map((entry) => (
+                <li>
+                  <time datetime={entry.date}>{formatDate(entry.date)}</time>
+                  <span>{entry.summary}</span>
                 </li>
               ))}
             </ol>
@@ -618,6 +652,23 @@ const formatDate = formatLongDate;
     margin-top: 1.6rem;
     padding-top: 1.6rem;
     border-top: 1px solid var(--surface-line);
+  }
+
+  .changelog-list {
+    margin: 0;
+    padding-left: 1.2rem;
+  }
+
+  .changelog-list li + li {
+    margin-top: 0.75rem;
+  }
+
+  .changelog-list time {
+    display: block;
+    color: var(--surface-teal-dark);
+    font-family: var(--surface-sans);
+    font-size: 0.78rem;
+    font-weight: 750;
   }
 
   .section-title + .article-inline-figure {
