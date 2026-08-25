@@ -182,6 +182,23 @@ const structuredData = {
 <!doctype html>
 <html lang="pt-BR">
   <head>
+    <script
+      is:inline
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-GJGLLWV2KS"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      // `anonymize_ip` é herança do Universal Analytics: o GA4 descarta o IP
+      // antes de gravar e ignora o parâmetro. Fica declarado como registro da
+      // intenção, não como controle — ele não fecha o buraco de LGPD. O que
+      // falta é consentimento antes do disparo e /privacidade nomeando o
+      // Google como operador.
+      gtag("config", "G-GJGLLWV2KS", { anonymize_ip: true });
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="theme-color" content="#071D45" />
