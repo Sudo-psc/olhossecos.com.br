@@ -65,7 +65,7 @@ const newsletterEndpoint =
   {description}
   home
   schemaType="CollectionPage"
-  dateModified="2026-08-23"
+  dateModified="2026-08-25"
   breadcrumbs={[{ name: "SUPERFÍCIE", url: "/superficie" }]}
 >
   <section class="hero" aria-labelledby="hero-title">
@@ -285,27 +285,6 @@ const newsletterEndpoint =
           ))
         }
       </ol>
-    </div>
-  </section>
-
-  <section
-    id="entrevistas"
-    class="section conversations-section"
-    aria-labelledby="conversation-title"
-  >
-    <div class="surface-shell conversations-grid">
-      <div>
-        <p class="eyebrow ink">Entrevistas</p>
-        <h2 id="conversation-title">Conversas que movem a superfície ocular</h2>
-      </div>
-      <div class="conversation-placeholder">
-        <p class="eyebrow ink">Em breve</p>
-        <p>
-          Pesquisadores, especialistas, inovadores e desenvolvedores de
-          tecnologia terão espaço para conversas aprofundadas. Os convidados
-          serão apresentados somente após confirmação formal.
-        </p>
-      </div>
     </div>
   </section>
 
@@ -1038,7 +1017,6 @@ const newsletterEndpoint =
     font-family: var(--surface-serif);
   }
 
-  .conversations-grid,
   .technology-grid,
   .newsletter-grid,
   .principles-grid,
@@ -1048,20 +1026,6 @@ const newsletterEndpoint =
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(320px, 0.85fr);
     gap: clamp(3rem, 8vw, 9rem);
-  }
-
-  .conversation-placeholder {
-    align-self: end;
-    padding: 2rem;
-    border-top: 4px solid var(--surface-teal);
-    border-radius: var(--surface-radius-md);
-    background: var(--surface-white);
-    box-shadow: 0 18px 45px rgb(0 19 38 / 8%);
-  }
-
-  .conversation-placeholder p:last-child {
-    margin-bottom: 0;
-    color: var(--surface-copy);
   }
 
   .technology-list {
@@ -1334,7 +1298,6 @@ const newsletterEndpoint =
 
     .issue-grid,
     .evidence-grid,
-    .conversations-grid,
     .technology-grid,
     .newsletter-grid,
     .principles-grid,
