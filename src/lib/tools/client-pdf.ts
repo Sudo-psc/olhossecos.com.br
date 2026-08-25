@@ -181,8 +181,14 @@ export const pdfPageCount = (bytes: Uint8Array): number => {
 export const pdfContains = (bytes: Uint8Array, snippet: string): boolean =>
   new TextDecoder().decode(bytes).includes(snippet);
 
+const toArrayBuffer = (bytes: Uint8Array): ArrayBuffer =>
+  bytes.buffer.slice(
+    bytes.byteOffset,
+    bytes.byteOffset + bytes.byteLength,
+  ) as ArrayBuffer;
+
 export const downloadPdf = (bytes: Uint8Array, filename: string) => {
-  const blob = new Blob([bytes], { type: "application/pdf" });
+  const blob = new Blob([toArrayBuffer(bytes)], { type: "application/pdf" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
