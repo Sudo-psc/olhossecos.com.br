@@ -4,6 +4,21 @@ export const discoveryHeaders = (contentType: string) => ({
   "Content-Type": `${contentType}; charset=utf-8`,
   "Cache-Control": "public, max-age=3600, stale-while-revalidate=86400",
 });
+
+/** O adapter serve o arquivo prerenderizado pela extensão (.xml →
+ *  application/xml). Estes tipos são o contrato público das rotas. */
+export const discoveryContentTypes: Record<string, string> = {
+  "/rss.xml": "application/rss+xml; charset=utf-8",
+  "/feed.json": "application/feed+json; charset=utf-8",
+  "/superficie/rss.xml": "application/rss+xml; charset=utf-8",
+  "/superficie/feed.json": "application/feed+json; charset=utf-8",
+  "/superficie/radar/rss.xml": "application/rss+xml; charset=utf-8",
+  "/superficie/radar/feed.json": "application/feed+json; charset=utf-8",
+  "/llms.txt": "text/plain; charset=utf-8",
+  "/llms-full.txt": "text/plain; charset=utf-8",
+  "/.well-known/security.txt": "text/plain; charset=utf-8",
+  "/manifest.webmanifest": "application/manifest+json; charset=utf-8",
+};
 import { guides } from "./guides.ts";
 import { getRadarReportPath, radarReports } from "./radar.ts";
 import { siteOrigin } from "./seo.ts";

@@ -1,7 +1,13 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { responsibleDoctor } from "./doctor.ts";
-import { llmsFullTxt, llmsTxt, securityTxt, webManifest } from "./discovery.ts";
+import {
+  discoveryContentTypes,
+  llmsFullTxt,
+  llmsTxt,
+  securityTxt,
+  webManifest,
+} from "./discovery.ts";
 
 test("llms.txt descreve escopo, citação e atribuição com CRM", () => {
   assert.match(llmsTxt, /CRM-MG 69\.870/);
@@ -31,6 +37,21 @@ test("security.txt tem contato, validade e canônico", () => {
   assert.match(
     securityTxt,
     /^Canonical: https:\/\/olhossecos\.com\.br\/\.well-known\/security\.txt/m,
+  );
+});
+
+test("as rotas de descoberta declaram content-type próprio", () => {
+  assert.equal(
+    discoveryContentTypes["/rss.xml"],
+    "application/rss+xml; charset=utf-8",
+  );
+  assert.equal(
+    discoveryContentTypes["/manifest.webmanifest"],
+    "application/manifest+json; charset=utf-8",
+  );
+  assert.equal(
+    discoveryContentTypes["/.well-known/security.txt"],
+    "text/plain; charset=utf-8",
   );
 });
 
