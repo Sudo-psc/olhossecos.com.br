@@ -1,5 +1,7 @@
 ---
 // A área profissional virou portal com home própria em /profissional. A rota
 // antiga continua respondendo porque estava indexada e linkada de fora.
+export const prerender = false;
+
 return Astro.redirect("/profissional", 301);
 ---

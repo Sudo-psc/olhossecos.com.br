@@ -5,6 +5,17 @@ const route = (path: string) =>
   externalBaseUrl ? `${externalBaseUrl}${path}` : path;
 
 test.describe("regressões críticas da interface", () => {
+  test("aviso de visita anterior fica oculto na primeira visita", async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      window.localStorage.removeItem("olhossecos:portal");
+    });
+    await page.goto(route("/"));
+
+    await expect(page.locator("[data-resume]")).toBeHidden();
+  });
+
   test("tooltips do glossário permanecem dentro da viewport mobile", async ({
     page,
   }) => {

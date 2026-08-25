@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import * as siteBasePath from "./site-base-path.mjs";
 import {
   normalizeBasePath,
   rewriteHtml,
@@ -9,6 +10,13 @@ import {
 test("normaliza o prefixo de publicação", () => {
   assert.equal(normalizeBasePath("/v2/"), "/v2");
   assert.equal(normalizeBasePath("/"), "");
+});
+
+test("reduz caminhos publicados ao caminho lógico sem o prefixo", () => {
+  assert.equal(typeof siteBasePath.toLogicalPath, "function");
+  assert.equal(siteBasePath.toLogicalPath("/v2", "/v2"), "/");
+  assert.equal(siteBasePath.toLogicalPath("/v2/guias/", "/v2"), "/guias");
+  assert.equal(siteBasePath.toLogicalPath("/guias", "/v2"), "/guias");
 });
 
 test("prefixa apenas caminhos internos e não duplica o base", () => {
