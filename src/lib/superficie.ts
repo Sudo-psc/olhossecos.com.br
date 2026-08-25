@@ -1,3 +1,5 @@
+import { figures, type FigureCredit, type FigureLicense } from "./figures.ts";
+
 export const magazineCategories = [
   "Clínica",
   "Diagnóstico",
@@ -34,6 +36,9 @@ export interface MagazineArticleFigure {
   height: number;
   avif?: string;
   webp?: string;
+  credit?: FigureCredit;
+  license?: FigureLicense;
+  modification?: string;
 }
 
 export interface MagazineArticleSection {
@@ -1349,14 +1354,17 @@ const alemDoMeiboscore: MagazineArticle = {
       title: "O OCT 3D mostra ácino. Não vira ouro.",
       kind: "evidence",
       figure: {
-        src: "/images/educacao/meibografia-dgm-leve-acinos-hwang-2013.jpg",
-        alt: "Painel superior com volume de OCT em tons quentes mostrando ácinos pequenos e mal delimitados; painel inferior com meibografia infravermelha da mesma pálpebra e um retângulo vermelho no campo examinado.",
+        src: figures.meibographyMildMgdHwang2013.src,
+        alt: figures.meibographyMildMgdHwang2013.alt,
         caption:
-          "Caso com meiboscore 0 ou 1: o volume (A) mostra ácinos pequenos e mal delimitados; a foto infravermelha (B) só sugere o mesmo no retângulo de 5 × 2 mm. Reproduzido de Hwang et al., PLoS ONE 2013, CC BY 4.0. Série de 9 pessoas, aparelho de laboratório — não é atlas de consultório.",
-        width: 591,
-        height: 740,
+          "Caso com meiboscore 0 ou 1: o volume (A) mostra ácinos pequenos e mal delimitados; a foto infravermelha (B) só sugere o mesmo no retângulo de 5 × 2 mm. Série de 9 pessoas, aparelho de laboratório — não é atlas de consultório.",
+        width: figures.meibographyMildMgdHwang2013.width,
+        height: figures.meibographyMildMgdHwang2013.height,
         avif: "/images/educacao/meibografia-dgm-leve-acinos-hwang-2013-591.avif",
         webp: "/images/educacao/meibografia-dgm-leve-acinos-hwang-2013-591.webp",
+        credit: figures.meibographyMildMgdHwang2013.credit,
+        license: figures.meibographyMildMgdHwang2013.license,
+        modification: figures.meibographyMildMgdHwang2013.modification,
       },
       paragraphs: [
         "Hwang e colaboradores (2013) reconstruíram volumes de FD-OCT em 5 × 2 mm da pálpebra superior evertida: 2 voluntários e 7 pacientes com DGM. Nos dois voluntários, ácinos esféricos ligados a um ducto central ficaram mais nítidos do que na foto infravermelha. Em um caso com meiboscore 0 ou 1, o volume mostrou ácinos pequenos e mal delimitados. Em outro, com meiboscore 3, volume e infravermelho concordaram na perda quase completa.",
