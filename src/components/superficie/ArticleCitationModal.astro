@@ -256,10 +256,13 @@ const modalId = `citation-modal-${article.slug}`;
     align-items: center;
     gap: 0.55rem;
     padding: 0.55rem 0.95rem;
-    border: 1px solid var(--surface-gold, #d9b665);
+    border: 1px solid var(--surface-gold, #b98a36);
     border-radius: var(--surface-radius-sm, 4px);
-    background: transparent;
-    color: var(--surface-gold-light, #f0dfa8);
+    /* Fundo navy explícito: o botão vive no hero escuro, mas o fundo
+       computado era transparente e ferramentas de contraste mediam o
+       dourado contra o papel (1,76:1) em vez do navy (9,05:1). */
+    background: var(--surface-navy, #001a33);
+    color: var(--surface-gold-light, #d9b665);
     font-family: var(--surface-sans, ui-sans-serif, system-ui, sans-serif);
     font-size: 0.78rem;
     font-weight: 750;

@@ -40,6 +40,11 @@
   --copper-500: #b07a3f;
   --copper-100: #f3e8dc;
 
+  /* Dourado de texto (WCAG 1.4.3 AA, 4,5:1). Não é o ouro de marca: aquele
+     fica em fio, borda e superfície. Este token existe para o caso em que um
+     rótulo pequeno precisa continuar dourado sem cair abaixo de AA. */
+  --gold-text: #8a6516;
+
   --alert-600: #8b3129;
   --alert-500: #e95f4f;
   --alert-50: #fff6f3;

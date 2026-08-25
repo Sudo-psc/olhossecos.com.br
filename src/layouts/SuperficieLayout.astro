@@ -297,12 +297,14 @@ const structuredData = {
     --surface-muted-on-dark: #b9c5ce;
     --surface-teal: #0b827f;
     --surface-teal-dark: #055c5a;
-    /* O ouro tem dois papéis. --surface-gold é a marca: fio, borda e topo de
-       card, onde não há exigência de contraste. --surface-gold-text é o mesmo
-       matiz rebaixado até 7:1 sobre papel, e é o único que pode virar texto —
-       o ouro de marca dá 2,83:1, reprovando até no AA. */
+    /* O ouro tem três papéis. --surface-gold é a marca: fio, borda e topo de
+       card, sem exigência de contraste. --surface-gold-light é o ouro claro
+       de superfície, traço e texto sobre navy (≥24 px ou 4,5:1 no escuro).
+       --gold-text / --surface-gold-text são os únicos que podem virar texto
+       pequeno sobre papel: o ouro de marca dá 2,83:1 e o claro, 1,76:1. */
     --surface-gold: #b98a36;
     --surface-gold-text: #694e1f;
+    --gold-text: #8a6516;
     --surface-gold-light: #d9b665;
     --surface-line: #d8d3c7;
     /* Mesma serifada do portal, servida do próprio domínio. As duas frentes

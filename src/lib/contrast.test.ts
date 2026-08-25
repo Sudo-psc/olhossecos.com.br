@@ -58,6 +58,9 @@ test("o cálculo de contraste bate com os pares canônicos do WCAG", () => {
   assert.equal(ratio("#767676", "#ffffff"), 4.54);
 });
 
+const AA_NORMAL = 4.5;
+const AA_LARGE = 3;
+
 test("todo token de texto do portal tem 7:1 no pior fundo claro", async () => {
   const tokens = await readFile("src/styles/tokens.css", "utf8");
   const t = (name: string) => readToken(tokens, name);
@@ -97,6 +100,31 @@ test("todo token de texto do portal tem 7:1 no pior fundo claro", async () => {
   );
 });
 
+test("o dourado de texto do portal tem 4,5:1 no pior fundo claro real", async () => {
+  const tokens = await readFile("src/styles/tokens.css", "utf8");
+  const t = (name: string) => readToken(tokens, name);
+  const ouro = t("--gold-text");
+
+  // --paper-200 existe na escala mas não é fundo de texto; o pior fundo
+  // real é --teal-100 (4,62:1). WCAG 1.4.3 texto normal.
+  const fundos = [
+    t("--paper-0"),
+    t("--paper-50"),
+    t("--paper-100"),
+    t("--teal-50"),
+    t("--teal-100"),
+  ];
+
+  const falhas: string[] = [];
+  for (const fundo of fundos) {
+    const r = ratio(ouro, fundo);
+    if (r < AA_NORMAL)
+      falhas.push(`--gold-text (${ouro}) sobre ${fundo}: ${r}:1`);
+  }
+
+  assert.deepEqual(falhas, [], falhas.join("\n"));
+});
+
 test("todo token de texto da SUPERFÍCIE tem 7:1 no pior fundo claro", async () => {
   const layout = await readFile("src/layouts/SuperficieLayout.astro", "utf8");
   const t = (name: string) => readToken(layout, name);
@@ -121,6 +149,35 @@ test("todo token de texto da SUPERFÍCIE tem 7:1 no pior fundo claro", async () 
   }
 
   assert.deepEqual(falhas, [], falhas.join("\n"));
+});
+
+test("o dourado de texto AA da SUPERFÍCIE passa 4,5:1 no papel", async () => {
+  const layout = await readFile("src/layouts/SuperficieLayout.astro", "utf8");
+  const t = (name: string) => readToken(layout, name);
+  const ouro = t("--gold-text");
+
+  for (const fundo of ["--surface-white", "--surface-paper"]) {
+    const r = ratio(ouro, t(fundo));
+    assert.ok(
+      r >= AA_NORMAL,
+      `--gold-text sobre ${fundo}: ${r}:1 — WCAG 1.4.3 exige 4,5:1`,
+    );
+  }
+});
+
+test("o ouro claro só vale como texto sobre o navy", async () => {
+  const layout = await readFile("src/layouts/SuperficieLayout.astro", "utf8");
+  const t = (name: string) => readToken(layout, name);
+  const claro = t("--surface-gold-light");
+
+  assert.ok(
+    ratio(claro, t("--surface-navy")) >= AA_NORMAL,
+    `ouro claro no navy abaixo de 4,5:1`,
+  );
+  assert.ok(
+    ratio(claro, t("--surface-paper")) < AA_LARGE,
+    `ouro claro no papel passou a ter contraste de texto — não use como color: sobre fundo claro`,
+  );
 });
 
 test("o texto sobre o navy da SUPERFÍCIE também tem 7:1", async () => {
