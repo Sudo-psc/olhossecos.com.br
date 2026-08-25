@@ -160,6 +160,18 @@ const structuredData = {
 <!doctype html>
 <html lang="pt-BR">
   <head>
+    {
+      /*
+      Comentário de chave: `is:inline` entrega o script literalmente, então
+      qualquer // dentro dele chega ao código-fonte de toda página. Isto aqui
+      não é enviado.
+
+      `anonymize_ip` é herança do Universal Analytics — o GA4 descarta o IP
+      antes de gravar e ignora o parâmetro. A linha registra a intenção, não
+      é um controle, e não substitui consentimento antes do disparo nem
+      /privacidade nomeando o Google como operador.
+    */
+    }
     <script
       is:inline
       async
@@ -170,11 +182,6 @@ const structuredData = {
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-      // `anonymize_ip` é herança do Universal Analytics: o GA4 descarta o IP
-      // antes de gravar e ignora o parâmetro. Fica declarado como registro da
-      // intenção, não como controle — ele não fecha o buraco de LGPD. O que
-      // falta é consentimento antes do disparo e /privacidade nomeando o
-      // Google como operador.
       gtag("config", "G-GJGLLWV2KS", { anonymize_ip: true });
     </script>
     <meta charset="UTF-8" />
