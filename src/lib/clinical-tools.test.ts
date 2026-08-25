@@ -16,6 +16,8 @@ import {
   interpretDeq5,
   SIGNS_SYMPTOMS_ARTICLE_PATH,
 } from "./tools/result-engine.ts";
+import { pdfContains, pdfPageCount } from "./tools/client-pdf.ts";
+import { buildDeq5ReportPdf } from "./tools/deq5-pdf.ts";
 
 test("o OSDI permanece desligado até haver licença escrita", () => {
   assert.equal(osdiEnabled, false);
@@ -78,4 +80,19 @@ test("o resultado leva faixa, limitação e o artigo sobre sintoma e sinal", () 
   assert.match(result.limitation, /não diagnóstico/u);
   assert.equal(hasDiagnosticLanguage(result.band.meaning), false);
   assert.equal(hasDiagnosticLanguage(result.limitation), false);
+});
+
+test("o PDF do DEQ-5 cabe em uma página, cita a fonte e não pede identificador", () => {
+  const pdf = buildDeq5ReportPdf(complete([2, 3, 2, 3, 1]), new Date("2026-08-25T12:00:00Z"));
+  assert.equal(pdfPageCount(pdf), 1);
+  assert.equal(pdf[0], 0x25); // %
+  assert.equal(pdf[1], 0x50); // P
+  assert.equal(pdf[2], 0x44); // D
+  assert.equal(pdf[3], 0x46); // F
+  assert.equal(pdfContains(pdf, "Chalmers"), true);
+  assert.equal(pdfContains(pdf, "10.1016/j.clae.2009.12.010"), true);
+  assert.equal(pdfContains(pdf, "n\\343o substitui avalia"), true);
+  assert.equal(pdfContains(pdf, "Nenhum nome"), true);
+  assert.equal(pdfContains(pdf, "Nome:"), false);
+  assert.equal(pdfContains(pdf, "@"), false);
 });
