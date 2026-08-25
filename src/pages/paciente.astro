@@ -1,0 +1,95 @@
+---
+import ToolsShell from "@/components/tools/ToolsShell.astro";
+import Layout from "@/layouts/Layout.astro";
+import { patientHub, toolCatalog } from "@/lib/tools/catalog";
+
+const breadcrumbs = [
+  { name: "Início", url: "/" },
+  { name: "Paciente", url: patientHub.href },
+];
+---
+
+<Layout
+  title={patientHub.title}
+  description={patientHub.description}
+  schemaType="MedicalWebPage"
+  dateModified="2026-08-25"
+  breadcrumbs={breadcrumbs}
+>
+  <ToolsShell
+    kicker="Área do paciente"
+    title={patientHub.title}
+    lead="Ferramentas para organizar sintomas e pausas. Nenhuma delas substitui consulta, exame ou tratamento."
+    crumbs={breadcrumbs}
+  >
+    <ul class="hub-list">
+      {
+        toolCatalog.map((tool) => (
+          <li>
+            <a href={tool.href}>
+              <span>{tool.kicker}</span>
+              <strong>{tool.title}</strong>
+              <em>{tool.summary}</em>
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <a href="/app">
+          <span>Aplicativo</span>
+          <strong>Dry Eye Widget</strong>
+          <em>Lembretes de pausa no computador, sem conta e com dados locais.</em>
+        </a>
+      </li>
+      <li>
+        <a href="/sintomas">
+          <span>Leitura</span>
+          <strong>Sintomas de olho seco</strong>
+          <em>O que costuma aparecer e o que vale anotar antes da consulta.</em>
+        </a>
+      </li>
+    </ul>
+  </ToolsShell>
+</Layout>
+
+<style>
+  .hub-list {
+    display: grid;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hub-list a {
+    display: grid;
+    gap: 0.35rem;
+    min-height: 44px;
+    padding: 1.15rem 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--paper-0);
+  }
+
+  .hub-list a:hover {
+    border-color: var(--teal);
+  }
+
+  .hub-list span {
+    color: var(--copper-700);
+    font-size: var(--text-meta);
+    font-weight: 800;
+    letter-spacing: var(--tracking-kicker);
+    text-transform: uppercase;
+  }
+
+  .hub-list strong {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+  }
+
+  .hub-list em {
+    color: var(--ink-soft);
+    font-style: normal;
+  }
+</style>

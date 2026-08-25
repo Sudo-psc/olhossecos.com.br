@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { patientHub, toolCatalog, toolsIndex } from "./tools/catalog.ts";
 import {
   DEQ5_MAX,
   type Deq5Answers,
@@ -27,6 +28,14 @@ import {
   upsertDiaryEntry,
   type DiaryStore,
 } from "./tools/diary.ts";
+
+test("títulos das ferramentas cabem no teto da SERP", () => {
+  for (const page of [...toolCatalog, toolsIndex, patientHub]) {
+    assert.ok(page.title.length <= 60, page.title);
+    assert.ok(page.description.length <= 158, page.href);
+    assert.match(page.title, /olho seco/iu);
+  }
+});
 
 test("o OSDI permanece desligado até haver licença escrita", () => {
   assert.equal(osdiEnabled, false);

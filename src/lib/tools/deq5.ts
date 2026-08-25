@@ -108,6 +108,20 @@ export const deq5Items: readonly Deq5Item[] = [
   },
 ] as const;
 
+/** Tradução de apoio. Não substitui o enunciado original e não é pontuada. */
+export const deq5SupportGloss: Record<Deq5ItemId, string> = {
+  "discomfort-frequency":
+    "Num dia típico do último mês, com que frequência seus olhos sentiram desconforto?",
+  "discomfort-intensity":
+    "Quando sentiu desconforto, quão intenso foi no fim do dia, nas duas horas antes de dormir?",
+  "dryness-frequency":
+    "Num dia típico do último mês, com que frequência seus olhos sentiram secura?",
+  "dryness-intensity":
+    "Quando sentiu secura, quão intensa foi no fim do dia, nas duas horas antes de dormir?",
+  "watery-frequency":
+    "Num dia típico do último mês, com que frequência seus olhos pareceram ou sentiram excessivamente lacrimejantes?",
+};
+
 export type Deq5Answers = Record<Deq5ItemId, number | null>;
 
 export const emptyDeq5Answers = (): Deq5Answers => ({

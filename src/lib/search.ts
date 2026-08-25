@@ -182,6 +182,38 @@ export const portalPages: PortalSearchEntry[] = [
       "Lembretes ajustáveis para pausas, olhar para longe e perceber as piscadas durante o uso de telas.",
     tags: ["aplicativo", "widget", "telas", "pausas", "piscadas", "20-20-20"],
   },
+  {
+    href: "/ferramentas",
+    category: "Ferramenta",
+    title: "Ferramentas de olho seco",
+    description:
+      "DEQ-5 e diário de sintomas no navegador, sem cadastro e sem envio de dados.",
+    tags: ["deq-5", "diário", "questionário", "sintomas", "ferramentas"],
+  },
+  {
+    href: "/ferramentas/deq-5",
+    category: "Ferramenta",
+    title: "DEQ-5: sintomas de olho seco",
+    description:
+      "Cinco perguntas do DEQ-5 só neste navegador, com escore e PDF para a consulta.",
+    tags: ["deq-5", "questionário", "sintomas", "escore"],
+  },
+  {
+    href: "/ferramentas/diario",
+    category: "Ferramenta",
+    title: "Diário de 14 dias do olho seco",
+    description:
+      "Registro diário neste navegador, exportável em PDF e CSV, com botão para apagar tudo.",
+    tags: ["diário", "sintomas", "registro", "14 dias"],
+  },
+  {
+    href: "/paciente",
+    category: "Ferramenta",
+    title: "Paciente: ferramentas de olho seco",
+    description:
+      "Atalhos para o DEQ-5, o diário de 14 dias e o Dry Eye Widget.",
+    tags: ["paciente", "ferramentas", "deq-5", "diário", "widget"],
+  },
 ];
 
 export const normalizeSearchText = (value: string): string => {
