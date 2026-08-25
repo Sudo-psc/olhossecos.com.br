@@ -181,6 +181,41 @@ const formatDate = formatLongDate;
                 </picture>
                 <figcaption>
                   <p>{section.figure.caption}</p>
+                  {(section.figure.credit ||
+                    section.figure.license ||
+                    section.figure.modification) && (
+                    <small>
+                      {section.figure.credit?.url ? (
+                        <a
+                          href={section.figure.credit.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {section.figure.credit.label}
+                        </a>
+                      ) : section.figure.credit ? (
+                        <span>{section.figure.credit.label}</span>
+                      ) : null}
+                      {section.figure.license && (
+                        <>
+                          {section.figure.credit ? " · " : ""}
+                          <a
+                            href={section.figure.license.url}
+                            target="_blank"
+                            rel="noopener noreferrer license"
+                          >
+                            {section.figure.license.label}
+                          </a>
+                        </>
+                      )}
+                      {section.figure.modification && (
+                        <>
+                          {" · "}
+                          {section.figure.modification}
+                        </>
+                      )}
+                    </small>
+                  )}
                 </figcaption>
               </figure>
             )}
@@ -651,6 +686,22 @@ const formatDate = formatLongDate;
     font-family: var(--surface-sans);
     font-size: 0.84rem;
     line-height: 1.5;
+  }
+
+  .article-inline-figure figcaption small {
+    display: block;
+    margin-top: 0.35rem;
+    max-width: 68ch;
+    color: var(--surface-muted);
+    font-family: var(--surface-sans);
+    font-size: 0.75rem;
+    line-height: 1.45;
+  }
+
+  .article-inline-figure figcaption a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.12em;
   }
 
   .article-callout {
