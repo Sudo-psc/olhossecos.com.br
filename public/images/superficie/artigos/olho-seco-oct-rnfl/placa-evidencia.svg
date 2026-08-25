@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img">
+  <title>O numero que muda a visita</title>
+  <rect width="1200" height="800" fill="#F7F3EA"/>
+  <text x="72" y="92" fill="#0B1F33" font-family="Noto Serif, Georgia, serif" font-size="42" font-weight="700">O n&#250;mero que muda a visita</text>
+  <text x="72" y="138" fill="#00646A" font-family="Inter, Helvetica, sans-serif" font-size="20">RNFL m&#233;dia, GPAA com OSD &#183; n = 55 &#183; sem bra&#231;o controle</text>
+  <text x="360" y="250" text-anchor="middle" fill="#0B1F33" font-family="Noto Serif, Georgia, serif" font-size="36" font-weight="700">93,07 &#181;m</text>
+  <rect x="270" y="270" width="180" height="280" fill="#0B1F33"/>
+  <text x="360" y="590" text-anchor="middle" fill="#00646A" font-family="Inter, Helvetica, sans-serif" font-size="20">antes</text>
+  <text x="840" y="160" text-anchor="middle" fill="#00646A" font-family="Noto Serif, Georgia, serif" font-size="36" font-weight="700">98,27 &#181;m</text>
+  <rect x="750" y="180" width="180" height="370" fill="#00646A"/>
+  <text x="840" y="590" text-anchor="middle" fill="#00646A" font-family="Inter, Helvetica, sans-serif" font-size="20">depois de tratar OSD</text>
+  <line x1="72" y1="640" x2="1128" y2="640" stroke="#8A6621" stroke-width="1.5"/>
+  <text x="72" y="688" fill="#8A6621" font-family="Inter, Helvetica, sans-serif" font-size="18">Oktay, Dursun, Y&#305;lmaz. Eur J Ophthalmol. 2021;31(6):2997-3002.</text>
+  <text x="72" y="722" fill="#8A6621" font-family="Inter, Helvetica, sans-serif" font-size="18">doi:10.1177/1120672121991395 &#183; l&#225;grima + loteprednol, semanas. N&#227;o &#233; gota na sala. N&#227;o &#233; RCT.</text>
+</svg>

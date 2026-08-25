@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img">
+  <title>A RNFL que caiu pode ser o filme, nao o nervo</title>
+  <rect width="1200" height="800" fill="#0B1F33"/>
+  <rect x="48" y="48" width="1104" height="704" fill="none" stroke="#8A6621" stroke-width="2"/>
+  <text x="80" y="120" fill="#8A6621" font-family="Noto Serif, Georgia, serif" font-size="22" letter-spacing="4">SUPERF&#205;CIE &#183; OBSERVAT&#211;RIO DE EVID&#202;NCIA</text>
+  <text x="80" y="360" fill="#F7F3EA" font-family="Noto Serif, Georgia, serif" font-size="56">
+    <tspan x="80" dy="0">A RNFL que caiu</tspan>
+    <tspan x="80" dy="72">pode ser o filme,</tspan>
+    <tspan x="80" dy="72">n&#227;o o nervo.</tspan>
+  </text>
+</svg>
