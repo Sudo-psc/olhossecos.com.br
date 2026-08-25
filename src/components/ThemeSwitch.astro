@@ -121,6 +121,25 @@
     transition: transform 160ms ease;
   }
 
+  /* O anel de foco é global, mas hover e active são do componente: sem eles
+     o alvo não responde ao ponteiro antes do clique. */
+  .theme-switch:hover {
+    border-color: var(--teal-dark, var(--surface-teal-dark, #00576a));
+    background: var(--line-strong, var(--surface-line, #b8c7d6));
+  }
+
+  .theme-switch:active .theme-switch-thumb {
+    transform: scale(0.92);
+  }
+
+  .theme-switch[aria-pressed="true"]:hover {
+    background: var(--teal-dark, var(--surface-teal-dark, #00576a));
+  }
+
+  .theme-switch[aria-pressed="true"]:active .theme-switch-thumb {
+    transform: translateX(20px) scale(0.92);
+  }
+
   .theme-switch[aria-pressed="true"] {
     border-color: var(--teal-dark, var(--surface-teal-dark, #00576a));
     background: var(--teal, var(--surface-teal, #087f95));

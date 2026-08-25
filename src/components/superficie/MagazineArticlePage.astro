@@ -688,13 +688,17 @@ const formatDate = formatLongDate;
     line-height: 1.5;
   }
 
+  /* Crédito e licença são texto informativo — atribuição de CC BY não é
+     ornamento — então respeitam o piso de 14px. A distinção com a legenda
+     acima passa a vir do peso e do espaço, não de 2px a menos. */
   .article-inline-figure figcaption small {
     display: block;
-    margin-top: 0.35rem;
+    margin-top: 0.45rem;
     max-width: 68ch;
     color: var(--surface-muted);
     font-family: var(--surface-sans);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
     line-height: 1.45;
   }
 
