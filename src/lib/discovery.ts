@@ -9,10 +9,11 @@ export const discoveryHeaders = (contentType: string) => ({
   "Cache-Control": "public, max-age=3600, stale-while-revalidate=86400",
 });
 
-/** Contrato público das rotas de descoberta. O adapter Node serve o
- *  arquivo prerenderizado pela extensão; `_headers.json` (staticHeaders)
- *  reaplica estes tipos antes do `send()`, que não sobrescreve
- *  Content-Type já definido. */
+/** Tipos semânticos dos GET handlers. O estático do adapter Node escolhe
+ *  o MIME pela extensão (.xml → application/xml, .json → application/json)
+ *  porque o arquivo prerenderizado entra em `manifest.assets` e o
+ *  `app.match` não devolve a rota. application/xml é válido para RSS;
+ *  application/json é válido para JSON Feed. */
 export const discoveryContentTypes: Record<string, string> = {
   "/rss.xml": "application/rss+xml; charset=utf-8",
   "/feed.json": "application/feed+json; charset=utf-8",
@@ -25,14 +26,6 @@ export const discoveryContentTypes: Record<string, string> = {
   "/.well-known/security.txt": "text/plain; charset=utf-8",
   "/manifest.webmanifest": "application/manifest+json; charset=utf-8",
 };
-
-/** Mais longo primeiro: o matcher do adapter usa `pathname.includes`. */
-export const discoveryStaticHeaders = Object.entries(discoveryContentTypes)
-  .sort(([a], [b]) => b.length - a.length)
-  .map(([pathname, contentType]) => ({
-    pathname,
-    headers: [{ key: "Content-Type", value: contentType }],
-  }));
 
 const attribution = `Dr. ${responsibleDoctor.name}, ${responsibleDoctor.registration}. Portal educativo olhossecos.com.br.`;
 

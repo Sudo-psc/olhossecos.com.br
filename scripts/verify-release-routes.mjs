@@ -162,21 +162,26 @@ try {
     );
   }
   const discoveryRoutes = [
-    ["/rss.xml", "application/rss+xml"],
-    ["/feed.json", "application/feed+json"],
-    ["/superficie/rss.xml", "application/rss+xml"],
-    ["/superficie/feed.json", "application/feed+json"],
-    ["/superficie/radar/rss.xml", "application/rss+xml"],
-    ["/superficie/radar/feed.json", "application/feed+json"],
-    ["/llms.txt", "text/plain"],
-    ["/llms-full.txt", "text/plain"],
-    ["/.well-known/security.txt", "text/plain"],
-    ["/manifest.webmanifest", "application/manifest+json"],
+    ["/rss.xml", ["application/rss+xml", "application/xml"]],
+    ["/feed.json", ["application/feed+json", "application/json"]],
+    ["/superficie/rss.xml", ["application/rss+xml", "application/xml"]],
+    ["/superficie/feed.json", ["application/feed+json", "application/json"]],
+    ["/superficie/radar/rss.xml", ["application/rss+xml", "application/xml"]],
+    [
+      "/superficie/radar/feed.json",
+      ["application/feed+json", "application/json"],
+    ],
+    ["/llms.txt", ["text/plain"]],
+    ["/llms-full.txt", ["text/plain"]],
+    ["/.well-known/security.txt", ["text/plain"]],
+    ["/manifest.webmanifest", ["application/manifest+json"]],
   ];
-  for (const [path, expectedType] of discoveryRoutes) {
+  for (const [path, expectedTypes] of discoveryRoutes) {
     const response = await assertStatus(path);
     const type = response.headers.get("content-type") ?? "";
-    if (!type.includes(expectedType)) {
+    // Prerender em dist/client/ entra em manifest.assets; o estático do
+    // adapter escolhe o MIME pela extensão (xml → application/xml).
+    if (!expectedTypes.some((expected) => type.includes(expected))) {
       throw new Error(`${path}: content-type ${type || "ausente"}`);
     }
   }
