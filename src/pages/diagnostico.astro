@@ -16,9 +16,9 @@ import { sourceLink, sources } from "@/lib/sources";
     "O diagnóstico costuma buscar sintomas compatíveis junto com sinais objetivos; nenhum número deve ser interpretado sozinho.",
     "Lacrimejamento pode vir de produção reflexa, alteração das pálpebras ou drenagem reduzida; esses mecanismos podem coexistir.",
   ]}
-  updated="26 de julho de 2026"
-  dateModified="2026-07-26"
-  sourcesVerified="26 de julho de 2026"
+  updated="25 de agosto de 2026"
+  dateModified="2026-08-25"
+  sourcesVerified="25 de agosto de 2026"
   links={[
     { label: "A conversa inicial", href: "#historia" },
     { label: "O que pode ser observado", href: "#observado" },
@@ -36,6 +36,7 @@ import { sourceLink, sources } from "@/lib/sources";
     sourceLink(sources.functionalEpiphora),
     sourceLink(sources.conjunctivochalasisReview),
     sourceLink(sources.conjunctivochalasisTearFlow),
+    sourceLink(sources.hwangMeibography3d),
   ]}
 >
   <h2 id="historia">A história dos sintomas é parte do exame</h2>
@@ -182,6 +183,7 @@ import { sourceLink, sources } from "@/lib/sources";
     encurtamento, tortuosidade, dilatação e áreas em que o tecido glandular não
     fica visível, frequentemente descritas como <em>dropout</em> ou perda glandular.
   </p>
+  <EducationalFigure figure={figures.meibographyInfraredHwang2013} />
   <p>
     É um retrato da estrutura, não uma medida completa da função. Sozinha, a
     imagem não informa a qualidade da secreção, não prova que uma glândula seja
@@ -190,6 +192,15 @@ import { sourceLink, sources } from "@/lib/sources";
     aberturas glandulares, da expressibilidade e qualidade da secreção, da
     estabilidade das lágrimas e do restante da avaliação.
   </p>
+  <p>
+    Há pesquisas que usam OCT da pálpebra evertida para ver as glândulas em
+    corte e, em laboratório, em volume. Isso não é o mesmo exame que o AS-OCT do
+    menisco lacrimal. Hwang e colaboradores (2013) reconstruíram volumes em 9
+    pessoas com um aparelho de bancada e campo de 5 × 2 mm: os ácinos ficaram
+    mais nítidos do que na foto infravermelha, mas os autores pediram para usar
+    as duas técnicas juntas. Não é atlas de consultório.
+  </p>
+  <EducationalFigure figure={figures.meibographyOct3dHwang2013} />
 
   <h3>O que o AS-OCT pode acrescentar</h3>
   <p>

@@ -60,6 +60,74 @@ export const figures = {
     caption:
       "Meibografia e AS-OCT produzem imagens diferentes: a primeira documenta a estrutura das glândulas palpebrais; o segundo pode registrar cortes e medidas do segmento anterior.",
   },
+  meibographyInfraredHwang2013: {
+    src: "/images/educacao/meibografia-ir-palpebra-superior-hwang-2013.jpg",
+    avifSrcSet:
+      "/images/educacao/meibografia-ir-palpebra-superior-hwang-2013-760.avif 760w, /images/educacao/meibografia-ir-palpebra-superior-hwang-2013-1200.avif 1200w",
+    webpSrcSet:
+      "/images/educacao/meibografia-ir-palpebra-superior-hwang-2013-760.webp 760w, /images/educacao/meibografia-ir-palpebra-superior-hwang-2013-1200.webp 1200w",
+    width: 1200,
+    height: 467,
+    alt: "Dois painéis de meibografia infravermelha da pálpebra superior virada: à esquerda visão ampla das glândulas em colunas claras; à direita o mesmo padrão em maior aumento, com ácinos visíveis.",
+    caption:
+      "Na meibografia infravermelha, as glândulas da pálpebra superior virada aparecem como colunas claras, com um padrão que lembra cacho de uva. A imagem registra estrutura, não a qualidade da secreção.",
+    credit: {
+      label: "Hwang HS et al. — PLoS ONE, 2013, fig. 4",
+      url: "https://doi.org/10.1371/journal.pone.0067143",
+    },
+    license: {
+      label: "CC BY 4.0",
+      url: "https://creativecommons.org/licenses/by/4.0/",
+    },
+    modification:
+      "Conversão do TIFF original para JPEG, AVIF e WebP e redimensionamento. Sem recorte.",
+  },
+  meibographyOct3dHwang2013: {
+    src: "/images/educacao/meibografia-3d-oct-vs-ir-hwang-2013.jpg",
+    avifSrcSet:
+      "/images/educacao/meibografia-3d-oct-vs-ir-hwang-2013-591.avif 591w",
+    webpSrcSet:
+      "/images/educacao/meibografia-3d-oct-vs-ir-hwang-2013-591.webp 591w",
+    width: 591,
+    height: 791,
+    alt: "Painel superior com reconstrução 3D em tons quentes de glândulas de Meibomius; painel inferior com meibografia infravermelha da mesma pálpebra e um retângulo vermelho marcando o campo pequeno do OCT.",
+    caption:
+      "O mesmo trecho em volume de OCT (A) e na foto infravermelha (B). O retângulo marca o campo de 5 × 2 mm: neste estudo, o OCT 3D acrescenta detalhe de ácino, mas não cobre a pálpebra inteira.",
+    credit: {
+      label: "Hwang HS et al. — PLoS ONE, 2013, fig. 6",
+      url: "https://doi.org/10.1371/journal.pone.0067143",
+    },
+    license: {
+      label: "CC BY 4.0",
+      url: "https://creativecommons.org/licenses/by/4.0/",
+    },
+    modification:
+      "Conversão do TIFF original para JPEG, AVIF e WebP. Sem recorte.",
+    presentation: "compact",
+  },
+  meibographyMildMgdHwang2013: {
+    src: "/images/educacao/meibografia-dgm-leve-acinos-hwang-2013.jpg",
+    avifSrcSet:
+      "/images/educacao/meibografia-dgm-leve-acinos-hwang-2013-591.avif 591w",
+    webpSrcSet:
+      "/images/educacao/meibografia-dgm-leve-acinos-hwang-2013-591.webp 591w",
+    width: 591,
+    height: 740,
+    alt: "Painel superior com volume de OCT em tons quentes mostrando ácinos pequenos e mal delimitados; painel inferior com meibografia infravermelha da mesma pálpebra e um retângulo vermelho no campo examinado.",
+    caption:
+      "Caso com meiboscore 0 ou 1: o volume de OCT (A) mostra ácinos pequenos e mal delimitados; a foto infravermelha (B) só sugere o mesmo no retângulo do campo. Um escore baixo de área não apaga alteração acinar.",
+    credit: {
+      label: "Hwang HS et al. — PLoS ONE, 2013, fig. 9",
+      url: "https://doi.org/10.1371/journal.pone.0067143",
+    },
+    license: {
+      label: "CC BY 4.0",
+      url: "https://creativecommons.org/licenses/by/4.0/",
+    },
+    modification:
+      "Conversão do TIFF original para JPEG, AVIF e WebP. Sem recorte.",
+    presentation: "compact",
+  },
   iplEducation: {
     src: "/images/educacao/luz-pulsada-ipl-educacao.jpg",
     avifSrcSet:
@@ -238,5 +306,32 @@ export const openImageCredits = [
     licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
     modification:
       "Conversão do SVG para formatos raster, fundo branco e redimensionamento.",
+  },
+  {
+    title: "Meibografia infravermelha da pálpebra superior — fig. 4",
+    author: "Hwang HS, Shin JG, Lee BH, Eom TJ, Joo C-K",
+    sourceUrl: "https://doi.org/10.1371/journal.pone.0067143",
+    licenseLabel: "CC BY 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by/4.0/",
+    modification:
+      "Conversão do TIFF original (PLoS ONE) para JPEG, AVIF e WebP e redimensionamento para 1200 px. Sem recorte.",
+  },
+  {
+    title: "Meibografia 3D por OCT versus infravermelho — fig. 6",
+    author: "Hwang HS, Shin JG, Lee BH, Eom TJ, Joo C-K",
+    sourceUrl: "https://doi.org/10.1371/journal.pone.0067143",
+    licenseLabel: "CC BY 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by/4.0/",
+    modification:
+      "Conversão do TIFF original (PLoS ONE) para JPEG, AVIF e WebP. Sem recorte.",
+  },
+  {
+    title: "DGM leve com alteração acinar no OCT 3D — fig. 9",
+    author: "Hwang HS, Shin JG, Lee BH, Eom TJ, Joo C-K",
+    sourceUrl: "https://doi.org/10.1371/journal.pone.0067143",
+    licenseLabel: "CC BY 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by/4.0/",
+    modification:
+      "Conversão do TIFF original (PLoS ONE) para JPEG, AVIF e WebP. Sem recorte.",
   },
 ];

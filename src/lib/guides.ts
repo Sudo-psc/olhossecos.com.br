@@ -1607,6 +1607,111 @@ export const guides: Guide[] = [
       },
     ],
   },
+  {
+    slug: "meibografia-o-que-a-imagem-mostra",
+    category: "Diagnóstico",
+    seoTitle: "Meibografia: o que a imagem mostra",
+    title: "Meibografia: o que a imagem das glândulas mostra",
+    description:
+      "A meibografia registra a estrutura das glândulas palpebrais. Mostra perda e encurtamento, mas não mede secreção nem fecha sozinha o diagnóstico.",
+    summary: {
+      finding:
+        "A meibografia, em geral com luz infravermelha e a pálpebra virada, registra a estrutura das glândulas de Meibomius: distribuição, encurtamento, tortuosidade e áreas em que o tecido glandular não fica visível.",
+      implication:
+        "A imagem ajuda a documentar o que se vê nas pálpebras e a acompanhar o mesmo exame ao longo do tempo. Ela não substitui a expressão da secreção, a avaliação das bordas nem a conversa sobre sintomas.",
+      limits:
+        "Um escore de área visível não distingue atrofia de oclusão e não fecha olho seco. A reconstrução 3D por OCT, num estudo de 9 pessoas com aparelho de laboratório e campo de 5 × 2 mm, acrescentou detalhe de ácino — e os próprios autores pediram para usá-la junto da foto infravermelha, não no lugar dela.",
+    },
+    readingTime: "7 min",
+    updated: "25 de agosto de 2026",
+    datePublished: "2026-08-25",
+    dateModified: "2026-08-25",
+    sourcesVerified: "25 de agosto de 2026",
+    tags: [
+      "meibografia",
+      "diagnóstico",
+      "glândulas",
+      "pálpebras",
+      "imagem",
+      "DGM",
+    ],
+    sections: [
+      {
+        heading: "O que o exame procura mostrar",
+        paragraphs: [
+          "A meibografia mais usada no consultório emprega luz infravermelha com a pálpebra virada. As glândulas de Meibomius aparecem como colunas claras, muitas vezes com um padrão que lembra cacho de uva.",
+          "A leitura procura distribuição, encurtamento, tortuosidade, dilatação e áreas em que o tecido glandular não fica visível — o que a literatura costuma chamar de dropout ou perda glandular. É um retrato da estrutura, não uma medida completa da função.",
+        ],
+        figure: figures.meibographyInfraredHwang2013,
+        note: "A foto isolada não informa a qualidade da secreção, não prova que uma glândula visível esteja funcionando e não explica, sozinha, os sintomas.",
+      },
+      {
+        heading: "Infravermelho e OCT não são a mesma imagem",
+        paragraphs: [
+          "A meibografia infravermelha é uma foto de frente: mostra a pálpebra inteira, sem informação de profundidade. O OCT da pálpebra evertida faz cortes e, em pesquisa, pode reconstruir um volume.",
+          "Isso não é o mesmo exame que o AS-OCT do menisco lacrimal, usado para medir a faixa de lágrima junto à pálpebra inferior. Um estudo de Hwang e colaboradores (2013) reconstruiu volumes de OCT em 2 voluntários e 7 pacientes com disfunção das glândulas de Meibomius. Nos voluntários, os ácinos ficaram mais nítidos do que na foto infravermelha.",
+        ],
+        figure: figures.meibographyOct3dHwang2013,
+        evidence: {
+          design: "Série descritiva de FD-OCT 3D",
+          effect: "n = 9",
+          outcome:
+            "2 voluntários e 7 pacientes; campo 5 × 2 mm; aparelho de laboratório",
+          stats: ["4,2 s por volume", "campo 5 × 2 mm"],
+          level: 4,
+          levelLabel: "Muito baixo",
+          caveat:
+            "Série pequena, sem grupo-controle formal e sem aparelho comercial. Os autores recomendam usar o OCT 3D junto da meibografia infravermelha, não no lugar dela.",
+          reference: {
+            label:
+              "Hwang et al. In Vivo 3D Meibography of the Human Eyelid. PLoS ONE, 2013",
+            url: "https://doi.org/10.1371/journal.pone.0067143",
+          },
+        },
+      },
+      {
+        heading: "O que a imagem não responde",
+        bullets: [
+          "não mede, sozinha, se a glândula ainda consegue secretar;",
+          "não distingue atrofia de oclusão;",
+          "não fecha o diagnóstico de olho seco;",
+          "não indica, isolada, um procedimento ou um aparelho;",
+          "pode mudar de contraste logo após uma expressão da pálpebra.",
+        ],
+        paragraphs: [
+          "O DEWS III confirma doença do olho seco com sintomas mais um signo de perda de equilíbrio das lágrimas ou da superfície. A meibografia não entra nesse critério. Ela ajuda a subclassificar o eixo da pálpebra, quando a imagem foi bem adquirida.",
+        ],
+      },
+      {
+        heading: "Como a imagem entra na conversa",
+        paragraphs: [
+          "Pergunte quais pálpebras foram fotografadas, se a aquisição estava nítida e se o exame foi feito antes ou depois de expressar as glândulas. Vale também perguntar o que a imagem mudou — ou não mudou — no plano.",
+          "A higiene palpebral e o calor local confortável continuam sendo a base do cuidado na disfunção das glândulas de Meibomius. A foto não substitui essa rotina e não prediz, sozinha, quem vai se beneficiar de um procedimento.",
+        ],
+        note: "Uma imagem fora de foco, com reflexo ou com a pálpebra mal virada não deveria virar laudo. Nesses casos, a pergunta útil é se dá para repetir a aquisição.",
+      },
+    ],
+    sources: [
+      {
+        label:
+          "Hwang et al. In Vivo 3D Meibography of the Human Eyelid Using Real Time Imaging Fourier-Domain OCT. PLoS ONE, 2013.",
+        url: "https://doi.org/10.1371/journal.pone.0067143",
+      },
+      {
+        label:
+          "Arita et al. Noncontact Infrared Meibography to Document Age-Related Changes of the Meibomian Glands in a Normal Population. Ophthalmology, 2008.",
+        url: "https://doi.org/10.1016/j.ophtha.2007.06.031",
+      },
+      {
+        label: "TFOS DEWS III — metodologia diagnóstica",
+        url: "https://pubmed.ncbi.nlm.nih.gov/40451408/",
+      },
+      {
+        label: "Pult e Nichols. A Review of Meibography. Optom Vis Sci, 2012.",
+        url: "https://doi.org/10.1097/OPX.0b013e3182512ac1",
+      },
+    ],
+  },
 ];
 
 export const getGuide = (slug: string) =>

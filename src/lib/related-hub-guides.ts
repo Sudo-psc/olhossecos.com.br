@@ -25,9 +25,9 @@ const hubGuideSlugs: Record<string, readonly string[]> = {
     "olho-seco-lentes-de-contato",
   ],
   "/diagnostico": [
+    "meibografia-o-que-a-imagem-mostra",
     "epifora-olho-seco-vias-lacrimais",
     "olho-seco-guia-essencial",
-    "organizar-seus-sintomas",
   ],
   "/tratamentos": [
     "lubrificantes-perguntas-uteis",

@@ -74,6 +74,7 @@ test("guias do mesmo assunto se encontram", () => {
       "lubrificantes-perguntas-uteis",
     ],
     ["conjuntivocalase-olho-seco-mecanico", "epifora-olho-seco-vias-lacrimais"],
+    ["meibografia-o-que-a-imagem-mostra", "higiene-palpebral-com-seguranca"],
   ];
 
   for (const [from, to] of pares) {

@@ -651,6 +651,7 @@ const assertSealedArticle = (
     locks: RegExp[];
     forbiddenDois?: string[];
     forbiddenLabels?: RegExp[];
+    modifiedAt?: string;
   },
 ) => {
   const article = superficie.publishedArticles.find(
@@ -675,7 +676,7 @@ const assertSealedArticle = (
   assert.equal(article.sponsored, false);
   assert.equal(article.issue, "edicao-00");
   assert.equal(article.publishedAt, "2026-08-15");
-  assert.equal(article.modifiedAt, "2026-08-15");
+  assert.equal(article.modifiedAt, expected.modifiedAt ?? "2026-08-15");
   assert.equal(article.seo.canonical, `/superficie/artigos/${slug}`);
   assert.deepEqual(
     superficie.founderIssue.articles.map(({ slug }) => slug),
@@ -724,7 +725,8 @@ const assertSealedArticle = (
 test("matéria Além do meiboscore publica as quatro seções e as travas do rascunho selado", () => {
   assertSealedArticle("alem-do-meiboscore", {
     category: "Diagnóstico",
-    references: 15,
+    references: 16,
+    modifiedAt: "2026-08-25",
     practiceBullets: 0,
     locks: [
       /O meiboscore virou atalho de consultório/,
@@ -735,8 +737,19 @@ test("matéria Além do meiboscore publica as quatro seções e as travas do ras
       /n = 15/,
       /corpo do workshop não foi recuperado/,
       /R = 0,428/,
+      /Hwang e colaboradores \(2013\)/,
+      /campo 5 × 2 mm/,
     ],
   });
+
+  const article = superficie.publishedArticles.find(
+    ({ slug }) => slug === "alem-do-meiboscore",
+  );
+  const oct = article?.content.find(({ id }) => id === "oct-3d");
+  assert.equal(
+    oct?.figure?.src,
+    "/images/educacao/meibografia-dgm-leve-acinos-hwang-2013.jpg",
+  );
 });
 
 test("matéria Cinco testes, cinco perguntas publica as quatro seções e as travas do rascunho selado", () => {

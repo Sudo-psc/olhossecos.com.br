@@ -278,15 +278,16 @@ export const glossaryTerms: GlossaryTerm[] = [
     slug: "meibografia",
     term: "Meibografia",
     shortDefinition:
-      "Exame de imagem infravermelha que visualiza a arquitetura e eventual atrofia das glândulas de Meibomius.",
+      "Exame de imagem, em geral infravermelho, que visualiza a arquitetura e eventual perda das glândulas de Meibomius.",
     definition:
-      "Imagem, geralmente feita com luz infravermelha, que ajuda a observar a estrutura das glândulas de Meibomius. Não mede toda a função glandular e deve ser interpretada junto com sintomas, secreção, pálpebras e estabilidade das lágrimas.",
+      "Imagem, geralmente feita com luz infravermelha e a pálpebra virada, que ajuda a observar a estrutura das glândulas de Meibomius. Pesquisas também usam OCT da pálpebra para cortes ou volume; isso não é o mesmo exame que o AS-OCT do menisco lacrimal. Não mede toda a função glandular e deve ser interpretada junto com sintomas, secreção, pálpebras e estabilidade das lágrimas.",
     category: "Exames",
     aliases: [
       "meibografia",
       "meiboscore",
       "dropout meibomiano",
       "meibografia infravermelha",
+      "meibografia por oct",
     ],
   },
   {
