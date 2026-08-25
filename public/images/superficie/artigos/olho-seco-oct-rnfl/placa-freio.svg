@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img">
+<svg xmlns="http://www.w3.org/2000/svg" width="1654" height="2339" viewBox="0 0 1654 2339" role="img">
   <title>O freio: a direcao do vies depende do aparelho</title>
-  <rect width="1200" height="800" fill="#0B1F33"/>
-  <text x="72" y="96" fill="#F7F3EA" font-family="Noto Serif, Georgia, serif" font-size="34">O freio: a dire&#231;&#227;o do vi&#233;s depende do aparelho</text>
-  <rect x="72" y="160" width="500" height="480" fill="#F7F3EA"/>
-  <text x="322" y="250" text-anchor="middle" fill="#8A6621" font-family="Noto Serif, Georgia, serif" font-size="22" letter-spacing="3">STRATUS / CIRRUS</text>
-  <text x="322" y="360" text-anchor="middle" fill="#0B1F33" font-family="Noto Serif, Georgia, serif" font-size="28">sinal baixo</text>
-  <text x="322" y="520" text-anchor="middle" fill="#00646A" font-family="Noto Serif, Georgia, serif" font-size="72" font-weight="700">AFINA</text>
-  <rect x="628" y="160" width="500" height="480" fill="#F7F3EA"/>
-  <text x="878" y="250" text-anchor="middle" fill="#8A6621" font-family="Noto Serif, Georgia, serif" font-size="22" letter-spacing="3">SPECTRALIS</text>
-  <text x="878" y="360" text-anchor="middle" fill="#0B1F33" font-family="Noto Serif, Georgia, serif" font-size="28">Q baixo</text>
-  <text x="878" y="520" text-anchor="middle" fill="#8A6621" font-family="Noto Serif, Georgia, serif" font-size="72" font-weight="700">ENGROSSA</text>
-  <text x="72" y="720" fill="#F7F3EA" font-family="Inter, Helvetica, sans-serif" font-size="18">Gershoni 2022 &#183; Strampe 2020 &#183; N&#227;o fundir plataforma. Sem IA que calibra filme.</text>
+  
+  
+  <rect width="1654" height="2339" fill="#0B1F33"/>
+  <text x="96" y="180" fill="#FFFFFF" font-family="Noto Serif, Georgia, serif" font-size="64" font-weight="700">O freio</text>
+  <text x="96" y="250" fill="#D9B665" font-family="Inter, Helvetica, sans-serif" font-size="28">A dire&#231;&#227;o do vi&#233;s depende do aparelho.</text>
+  
+  <rect x="96" y="420" width="680" height="1480" fill="#F7F3EA"/>
+  <polygon points="436,680 336,520 536,520" fill="#00646A"/>
+  <text x="436" y="820" text-anchor="middle" fill="#8A6621" font-family="Noto Serif, Georgia, serif" font-size="26" letter-spacing="3">STRATUS / CIRRUS</text>
+  <text x="436" y="1100" text-anchor="middle" fill="#0B1F33" font-family="Noto Serif, Georgia, serif" font-size="36">sinal baixo</text>
+  <text x="436" y="1680" text-anchor="middle" fill="#00646A" font-family="Noto Serif, Georgia, serif" font-size="72" font-weight="700">AFINA</text>
+
+  
+  <rect x="878" y="420" width="680" height="1480" fill="#F7F3EA"/>
+  <polygon points="1218,520 1118,680 1318,680" fill="#D9B665"/>
+  <text x="1218" y="820" text-anchor="middle" fill="#8A6621" font-family="Noto Serif, Georgia, serif" font-size="26" letter-spacing="3">SPECTRALIS</text>
+  <text x="1218" y="1100" text-anchor="middle" fill="#0B1F33" font-family="Noto Serif, Georgia, serif" font-size="36">Q baixo</text>
+  <text x="1218" y="1680" text-anchor="middle" fill="#D9B665" font-family="Noto Serif, Georgia, serif" font-size="72" font-weight="700">ENGROSSA</text>
+
+  <text x="96" y="2040" fill="#FFFFFF" font-family="Inter, Helvetica, sans-serif" font-size="22">Gershoni 2022 &#183; Strampe 2020</text>
+  <text x="96" y="2090" fill="#D9B665" font-family="Inter, Helvetica, sans-serif" font-size="22">N&#227;o fundir plataforma. Sem IA que calibra filme.</text>
+
 </svg>

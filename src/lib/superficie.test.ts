@@ -957,7 +957,7 @@ test("matéria olho-seco-oct-rnfl publica as quatro seções e as quatro placas"
       "evidencia",
       "/images/superficie/artigos/olho-seco-oct-rnfl/placa-evidencia.png",
       "Gráfico de duas barras: RNFL média 93,07 µm antes e 98,27 µm depois de tratar OSD em 55 pessoas com GPAA. Sem braço controle.",
-      "O número que muda a visita. RNFL média em GPAA com OSD, n = 55, sem braço controle: 93,07 µm antes → 98,27 µm depois de tratar a superfície (lágrima + loteprednol, semanas; não é gota na sala; não é RCT). Oktay, Dursun, Yılmaz. Eur J Ophthalmol. 2021;31(6):2997-3002. doi:10.1177/1120672121991395",
+      "O número que muda a visita. RNFL média em GPAA com OSD, n = 55, sem braço controle: 93,07 µm antes → 98,27 µm depois de tratar a superfície (Δ +5,2 µm; eixo do gráfico 80–110 µm; lágrima + loteprednol, semanas; não é gota na sala; não é RCT). Oktay, Dursun, Yılmaz. Eur J Ophthalmol. 2021;31(6):2997-3002. doi:10.1177/1120672121991395",
     ],
     [
       "pratica",
@@ -979,12 +979,13 @@ test("matéria olho-seco-oct-rnfl publica as quatro seções e as quatro placas"
     assert.equal(figure.src, src);
     assert.equal(figure.alt, alt);
     assert.equal(figure.caption, caption);
-    assert.equal(figure.width, 1200);
-    assert.equal(figure.height, 800);
-    assert.ok(
-      existsSync(path.join(repoRoot, "public", src.replace(/^\//, ""))),
-      `${src} precisa estar versionado com o artigo`,
-    );
+    assert.equal(figure.width, 1654);
+    assert.equal(figure.height, 2339);
+    const file = path.join(repoRoot, "public", src.replace(/^\//, ""));
+    assert.ok(existsSync(file), `${src} precisa estar versionado com o artigo`);
+    const ihdr = readFileSync(file);
+    assert.equal(ihdr.readUInt32BE(16), 1654, `${src} width`);
+    assert.equal(ihdr.readUInt32BE(20), 2339, `${src} height`);
   }
 
   const text = [

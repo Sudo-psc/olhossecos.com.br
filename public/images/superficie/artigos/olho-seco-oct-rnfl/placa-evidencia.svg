@@ -1,16 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img">
+<svg xmlns="http://www.w3.org/2000/svg" width="1654" height="2339" viewBox="0 0 1654 2339" role="img">
   <title>O numero que muda a visita</title>
-  <rect width="1200" height="800" fill="#F7F3EA"/>
-  <text x="72" y="92" fill="#0B1F33" font-family="Noto Serif, Georgia, serif" font-size="42" font-weight="700">O n&#250;mero que muda a visita</text>
-  <text x="72" y="138" fill="#00646A" font-family="Inter, Helvetica, sans-serif" font-size="20">RNFL m&#233;dia, GPAA com OSD &#183; n = 55 &#183; sem bra&#231;o controle</text>
-  <text x="360" y="250" text-anchor="middle" fill="#0B1F33" font-family="Noto Serif, Georgia, serif" font-size="36" font-weight="700">93,07 &#181;m</text>
-  <rect x="270" y="270" width="180" height="280" fill="#0B1F33"/>
-  <text x="360" y="590" text-anchor="middle" fill="#00646A" font-family="Inter, Helvetica, sans-serif" font-size="20">antes</text>
-  <text x="840" y="160" text-anchor="middle" fill="#00646A" font-family="Noto Serif, Georgia, serif" font-size="36" font-weight="700">98,27 &#181;m</text>
-  <rect x="750" y="180" width="180" height="370" fill="#00646A"/>
-  <text x="840" y="590" text-anchor="middle" fill="#00646A" font-family="Inter, Helvetica, sans-serif" font-size="20">depois de tratar OSD</text>
-  <line x1="72" y1="640" x2="1128" y2="640" stroke="#8A6621" stroke-width="1.5"/>
-  <text x="72" y="688" fill="#8A6621" font-family="Inter, Helvetica, sans-serif" font-size="18">Oktay, Dursun, Y&#305;lmaz. Eur J Ophthalmol. 2021;31(6):2997-3002.</text>
-  <text x="72" y="722" fill="#8A6621" font-family="Inter, Helvetica, sans-serif" font-size="18">doi:10.1177/1120672121991395 &#183; l&#225;grima + loteprednol, semanas. N&#227;o &#233; gota na sala. N&#227;o &#233; RCT.</text>
+  
+  
+  <rect width="1654" height="2339" fill="#F7F3EA"/>
+  <text x="96" y="160" fill="#0B1F33" font-family="Noto Serif, Georgia, serif" font-size="56" font-weight="700">O n&#250;mero que muda a visita</text>
+  <text x="96" y="220" fill="#00646A" font-family="Inter, Helvetica, sans-serif" font-size="24">RNFL m&#233;dia &#183; GPAA com OSD &#183; n = 55 &#183; sem bra&#231;o controle</text>
+  <line x1="280" y1="520" x2="280" y2="1580" stroke="#0B1F33" stroke-width="1.4"/>
+  <line x1="280" y1="1580" x2="1480" y2="1580" stroke="#0B1F33" stroke-width="1.4"/>
+  
+        <line x1="270" y1="1580" x2="1480" y2="1580" stroke="#8A6621" stroke-opacity="0.18" stroke-width="1"/>
+        <text x="256" y="1588" text-anchor="end" fill="#0B1F33" font-family="Inter, Helvetica, sans-serif" font-size="20">80</text>
+      
+        <line x1="270" y1="1226.6666666666667" x2="1480" y2="1226.6666666666667" stroke="#8A6621" stroke-opacity="0.18" stroke-width="1"/>
+        <text x="256" y="1234.6666666666667" text-anchor="end" fill="#0B1F33" font-family="Inter, Helvetica, sans-serif" font-size="20">90</text>
+      
+        <line x1="270" y1="873.3333333333334" x2="1480" y2="873.3333333333334" stroke="#8A6621" stroke-opacity="0.18" stroke-width="1"/>
+        <text x="256" y="881.3333333333334" text-anchor="end" fill="#0B1F33" font-family="Inter, Helvetica, sans-serif" font-size="20">100</text>
+      
+        <line x1="270" y1="520" x2="1480" y2="520" stroke="#8A6621" stroke-opacity="0.18" stroke-width="1"/>
+        <text x="256" y="528" text-anchor="end" fill="#0B1F33" font-family="Inter, Helvetica, sans-serif" font-size="20">110</text>
+      
+  <text x="256" y="492" text-anchor="end" fill="#0B1F33" font-family="Inter, Helvetica, sans-serif" font-size="20">&#181;m</text>
+  <rect x="560" y="1118.1933333333336" width="220" height="461.8066666666664" fill="#0B1F33"/>
+  <rect x="980" y="934.4600000000002" width="220" height="645.5399999999998" fill="#00646A"/>
+  <text x="670" y="1094.1933333333336" text-anchor="middle" fill="#0B1F33" font-family="Noto Serif, Georgia, serif" font-size="36" font-weight="700">93,07 &#181;m</text>
+  <text x="1090" y="910.4600000000002" text-anchor="middle" fill="#0B1F33" font-family="Noto Serif, Georgia, serif" font-size="36" font-weight="700">98,27 &#181;m</text>
+  <text x="670" y="1628" text-anchor="middle" fill="#00646A" font-family="Inter, Helvetica, sans-serif" font-size="24">antes</text>
+  <text x="1090" y="1628" text-anchor="middle" fill="#00646A" font-family="Inter, Helvetica, sans-serif" font-size="24">depois</text>
+  <line x1="816" y1="1118.1933333333336" x2="816" y2="934.4600000000002" stroke="#8A6621" stroke-width="2"/>
+  <line x1="804" y1="1118.1933333333336" x2="828" y2="1118.1933333333336" stroke="#8A6621" stroke-width="2"/>
+  <line x1="804" y1="934.4600000000002" x2="828" y2="934.4600000000002" stroke="#8A6621" stroke-width="2"/>
+  <text x="836" y="1034.3266666666668" fill="#8A6621" font-family="Noto Serif, Georgia, serif" font-size="28" font-weight="700">+5,2 &#181;m</text>
+  <text x="96" y="1760" fill="#00646A" font-family="Inter, Helvetica, sans-serif" font-size="22">Eixo come&#231;a em 80 &#181;m. A diferen&#231;a &#233; esta, n&#227;o um salto de zero.</text>
+  <line x1="96" y1="1988" x2="1558" y2="1988" stroke="#8A6621" stroke-width="1.2"/>
+  <text x="96" y="2050" fill="#8A6621" font-family="Inter, Helvetica, sans-serif" font-size="22">Oktay, Dursun, Y&#305;lmaz. Eur J Ophthalmol. 2021;31(6):2997-3002.</text>
+  <text x="96" y="2092" fill="#8A6621" font-family="Inter, Helvetica, sans-serif" font-size="22">doi:10.1177/1120672121991395</text>
+  <text x="96" y="2154" fill="#8A6621" font-family="Noto Serif, Georgia, serif" font-size="22">L&#225;grima sem conservante + loteprednol, semanas. N&#227;o &#233; gota na sala. N&#227;o &#233; RCT.</text>
+
 </svg>

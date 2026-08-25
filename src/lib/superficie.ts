@@ -2972,8 +2972,8 @@ const olhoSecoOctRnfl: MagazineArticle = {
         src: "/images/superficie/artigos/olho-seco-oct-rnfl/placa-impacto.png",
         alt: "Placa Observatório: A RNFL que caiu pode ser o filme, não o nervo.",
         caption: "A RNFL que caiu pode ser o filme, não o nervo.",
-        width: 1200,
-        height: 800,
+        width: 1654,
+        height: 2339,
       },
       paragraphs: [
         "O número da RNFL decide se o glaucoma “progrediu”. O mesmo paciente costuma chegar com colírio crônico e superfície irregular. Se o scan ruim afina o número, a visita seguinte parece piora.",
@@ -2989,9 +2989,9 @@ const olhoSecoOctRnfl: MagazineArticle = {
         src: "/images/superficie/artigos/olho-seco-oct-rnfl/placa-evidencia.png",
         alt: "Gráfico de duas barras: RNFL média 93,07 µm antes e 98,27 µm depois de tratar OSD em 55 pessoas com GPAA. Sem braço controle.",
         caption:
-          "O número que muda a visita. RNFL média em GPAA com OSD, n = 55, sem braço controle: 93,07 µm antes → 98,27 µm depois de tratar a superfície (lágrima + loteprednol, semanas; não é gota na sala; não é RCT). Oktay, Dursun, Yılmaz. Eur J Ophthalmol. 2021;31(6):2997-3002. doi:10.1177/1120672121991395",
-        width: 1200,
-        height: 800,
+          "O número que muda a visita. RNFL média em GPAA com OSD, n = 55, sem braço controle: 93,07 µm antes → 98,27 µm depois de tratar a superfície (Δ +5,2 µm; eixo do gráfico 80–110 µm; lágrima + loteprednol, semanas; não é gota na sala; não é RCT). Oktay, Dursun, Yılmaz. Eur J Ophthalmol. 2021;31(6):2997-3002. doi:10.1177/1120672121991395",
+        width: 1654,
+        height: 2339,
       },
       paragraphs: [
         "Stein e colaboradores (2006): 17 sadios, Stratus, pálpebra tapada. A RNFL cai. A queda passa o IC95% do erro depois de ~15 s. É time-domain, olho tapado, sem DED.",
@@ -3013,8 +3013,8 @@ const olhoSecoOctRnfl: MagazineArticle = {
         alt: "Quatro beats da visita: piscar; ler o sinal no eixo daquele aparelho; tratar OSD e repetir; scan ruim não fecha piora.",
         caption:
           "O que muda na cadeira. Piscar: quinze segundos de secagem já saem do erro do Stratus. Ler o sinal no eixo daquele aparelho — Stratus e Cirrus não são Spectralis. Tratar OSD e repetir: não chamar progressão no scan seco. Scan ruim não fecha piora, nem no sentido errado da plataforma.",
-        width: 1200,
-        height: 800,
+        width: 1654,
+        height: 2339,
       },
       paragraphs: [
         "Na cadeira, o número só entra na decisão depois do sinal e da superfície.",
@@ -3036,8 +3036,8 @@ const olhoSecoOctRnfl: MagazineArticle = {
         alt: "Dois cartões: Stratus e Cirrus, sinal baixo afina; Spectralis, Q baixo engrossa.",
         caption:
           "O freio: a direção do viés depende do aparelho. Stratus e Cirrus: sinal baixo afina RNFL. Spectralis: Q baixo engrossa. Gershoni 2022, Strampe 2020. Não fundir plataforma. Sem IA que calibra filme.",
-        width: 1200,
-        height: 800,
+        width: 1654,
+        height: 2339,
       },
       paragraphs: [
         "Stein é experimental.",
