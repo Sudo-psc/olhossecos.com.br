@@ -302,7 +302,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
     border: 0;
     outline: 0;
     color: var(--ink);
-    font-size: 1rem;
+    font-size: var(--text-ui);
   }
 
   .guide-search input::-webkit-search-cancel-button {
@@ -333,7 +333,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
   }
 
   .guide-search button span {
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 800;
   }
 
@@ -354,7 +354,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
   }
 
   .library-intro.has-active-search .page-title {
-    font-size: clamp(2.5rem, 4.2vw, 4rem);
+    font-size: var(--text-display);
     line-height: 1;
   }
 
@@ -388,7 +388,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
     border: 1px solid var(--line);
     border-radius: var(--control-radius);
     color: var(--teal-dark);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 800;
     list-style: none;
   }
@@ -459,7 +459,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
     border-radius: 999px;
     background: white;
     color: var(--ink-soft);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 700;
     cursor: pointer;
   }
@@ -474,7 +474,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
     min-width: max-content;
     margin: 0.55rem 0 0;
     color: #5a6b80;
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
   }
 
   .portal-results {
@@ -490,7 +490,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
   .portal-results > h2 {
     margin: 0 0 0.8rem;
     color: var(--teal-dark);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     letter-spacing: 0.1em;
     text-transform: uppercase;
   }
@@ -514,7 +514,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
 
   .portal-results a > span {
     color: var(--teal-dark);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -523,13 +523,13 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
   .portal-results a > strong {
     color: var(--ink);
     font-family: var(--serif);
-    font-size: 1.35rem;
+    font-size: var(--text-body);
     line-height: 1.1;
   }
 
   .portal-results a > small {
     color: var(--ink-soft);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
   }
 
   .portal-results a > svg {
@@ -572,14 +572,14 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
   .guide-number {
     color: var(--teal-dark);
     font-family: var(--serif);
-    font-size: 4.2rem;
+    font-size: var(--text-display);
     line-height: 1;
   }
 
   .guide-list p {
     margin: 0 0 0.7rem;
     color: var(--teal-dark);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 800;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -589,7 +589,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
     max-width: 760px;
     margin: 0;
     font-family: var(--serif);
-    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    font-size: var(--text-h2);
     line-height: 1.05;
     letter-spacing: -0.04em;
     transition: color 180ms ease;
@@ -600,7 +600,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
     max-width: 760px;
     margin-top: 0.8rem;
     color: var(--ink-soft);
-    font-size: 0.9rem;
+    font-size: var(--text-meta);
   }
 
   .guide-list a > div {
@@ -609,7 +609,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
 
   .guide-list small {
     color: #62738a;
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     white-space: nowrap;
   }
 
@@ -638,7 +638,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
     }
 
     .library-intro.has-active-search .page-title {
-      font-size: 2.3rem;
+      font-size: var(--text-h3);
       line-height: 1;
     }
 
@@ -718,7 +718,7 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
     }
 
     .guide-number {
-      font-size: 3rem;
+      font-size: var(--text-h2);
     }
 
     .guide-list small {

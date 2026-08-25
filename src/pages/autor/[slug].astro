@@ -120,7 +120,7 @@ const personSchema = {
   .author-book-list article > div > p {
     margin: 0;
     color: #7b5a1f;
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 800;
     letter-spacing: 0.13em;
     text-transform: uppercase;
@@ -129,7 +129,7 @@ const personSchema = {
   h1 {
     margin: 0.9rem 0 0;
     font-family: var(--serif);
-    font-size: clamp(3.2rem, 6vw, 6.3rem);
+    font-size: var(--text-headline);
     font-weight: 500;
     letter-spacing: -0.055em;
     line-height: 0.92;
@@ -139,13 +139,13 @@ const personSchema = {
     margin: 1.2rem 0 0;
     color: var(--teal-dark);
     font-family: var(--serif);
-    font-size: 1.4rem;
+    font-size: var(--text-body);
   }
 
   .registration {
     margin: 0.35rem 0 0;
     color: var(--ink-soft);
-    font-size: 0.95rem;
+    font-size: var(--text-meta);
     letter-spacing: 0.01em;
   }
 
@@ -153,7 +153,7 @@ const personSchema = {
     max-width: 760px;
     margin: 1.4rem 0 0;
     color: var(--ink-soft);
-    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+    font-size: var(--text-ui);
   }
 
   .author-link,
@@ -186,7 +186,7 @@ const personSchema = {
   .author-books h2 {
     margin: 0;
     font-family: var(--serif);
-    font-size: clamp(2.5rem, 4vw, 4.4rem);
+    font-size: var(--text-display);
     font-weight: 500;
     letter-spacing: -0.045em;
   }
@@ -212,7 +212,7 @@ const personSchema = {
     max-width: 760px;
     margin: 0.7rem 0 0;
     font-family: var(--serif);
-    font-size: clamp(1.8rem, 3vw, 3rem);
+    font-size: var(--text-h2);
     font-weight: 500;
     line-height: 1.05;
   }
@@ -233,7 +233,7 @@ const personSchema = {
     }
 
     .initials {
-      font-size: 7rem;
+      font-size: var(--text-wordmark);
     }
 
     .author-book-list article {

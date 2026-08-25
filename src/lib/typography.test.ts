@@ -95,14 +95,46 @@ test("nenhum texto informativo é declarado abaixo de 14px", async () => {
   );
 });
 
+/**
+ * O piso agora mora no degrau, não no papel: `--text-meta` aponta para
+ * `--step-0`. Resolver a indireção é o ponto do teste — apontar um papel
+ * para um degrau menor que 14px é exatamente o erro que ele precisa pegar,
+ * e ler só o literal deixaria de ver isso.
+ */
+const resolveToken = (tokens: string, name: string): number => {
+  const match = tokens.match(new RegExp(`${name}:\\s*([^;]+);`, "u"));
+  assert.ok(match, `${name} ausente`);
+  const value = match[1].trim();
+  const step = value.match(/^var\((--step-\d+)\)$/u);
+  if (step) return resolveToken(tokens, step[1]);
+  const literal = value.match(/^([\d.]+)rem$/u);
+  assert.ok(literal, `${name} não resolve para rem: ${value}`);
+  return Number(literal[1]) * 16;
+};
+
 test("o token de meta não desce de 14px", async () => {
-  const tokens = await readFile("src/styles/tokens.css", "utf8");
-  const match = tokens.match(/--text-meta:\s*([\d.]+)rem/u);
-  assert.ok(match, "--text-meta ausente");
-  assert.ok(
-    Number(match[1]) * 16 >= 14,
-    `--text-meta ${match[1]}rem fica abaixo de 14px`,
+  const tokens = await readFile("src/styles/scale.css", "utf8");
+  for (const role of ["--text-meta", "--text-small", "--text-ui"]) {
+    const px = resolveToken(tokens, role);
+    assert.ok(px >= 14, `${role} resolve para ${px}px, abaixo do piso de 14px`);
+  }
+});
+
+test("a escala é modular: razão constante entre degraus vizinhos", async () => {
+  const tokens = await readFile("src/styles/scale.css", "utf8");
+  const steps = Array.from({ length: 11 }, (_, i) =>
+    resolveToken(tokens, `--step-${i}`),
   );
+
+  assert.equal(steps[0], 14, "o piso da escala é 14px");
+
+  const ratios = steps.slice(1).map((px, i) => px / steps[i]);
+  for (const [index, ratio] of ratios.entries()) {
+    assert.ok(
+      Math.abs(ratio - 1.25) < 0.01,
+      `degrau ${index + 1} quebra a razão 1,25: ${ratio.toFixed(3)}`,
+    );
+  }
 });
 
 test("as pilhas de fonte começam por famílias que o sistema resolve", async () => {
@@ -127,5 +159,33 @@ test("as pilhas de fonte começam por famílias que o sistema resolve", async ()
     offenders,
     [],
     `família não hospedada na frente da pilha: quem a tiver instalada vê um site, o resto vê outro\n${offenders.join("\n")}`,
+  );
+});
+
+/**
+ * A escala nasceu só em tokens.css, que só o Layout do portal importa. Na
+ * SUPERFÍCIE nenhum `var(--text-*)` resolvia e TODA a revista caía no padrão
+ * de 16px do navegador — duas páginas inteiras com um único tamanho. O build
+ * passava, a suíte passava, e só a medição no navegador via.
+ */
+test("todo layout que serve HTML carrega a escala tipográfica", async () => {
+  const layouts = [
+    "src/layouts/Layout.astro",
+    "src/layouts/SuperficieLayout.astro",
+    "src/layouts/SuperficieReaderLayout.astro",
+  ];
+
+  const offenders: string[] = [];
+  for (const path of layouts) {
+    const source = await readFile(path, "utf8");
+    const direct = source.includes("styles/scale.css");
+    const viaTokens = source.includes("styles/tokens.css");
+    if (!direct && !viaTokens) offenders.push(path);
+  }
+
+  assert.deepEqual(
+    offenders,
+    [],
+    `sem a escala, font-size cai no padrão de 16px do navegador:\n${offenders.join("\n")}`,
   );
 });

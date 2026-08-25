@@ -467,7 +467,7 @@ const editorialSchema = {
   .hero-kicker {
     display: inline-block;
     color: #7b5a1f;
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 800;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -478,7 +478,7 @@ const editorialSchema = {
     max-width: 760px;
     margin: 0;
     font-family: var(--serif);
-    font-size: clamp(3rem, 5vw, 5.2rem);
+    font-size: var(--text-headline);
     font-weight: 500;
     letter-spacing: -0.05em;
     line-height: 0.96;
@@ -490,7 +490,7 @@ const editorialSchema = {
     margin: 1.4rem 0 0;
     color: var(--teal-dark);
     font-family: var(--serif);
-    font-size: clamp(1.25rem, 1.8vw, 1.6rem);
+    font-size: var(--text-lead);
     line-height: 1.35;
   }
 
@@ -498,7 +498,7 @@ const editorialSchema = {
     max-width: 690px;
     margin: 1.2rem 0 0;
     color: var(--ink-soft);
-    font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+    font-size: var(--text-ui);
     line-height: 1.65;
   }
 
@@ -522,14 +522,14 @@ const editorialSchema = {
 
   .hero-signature-text .author-name {
     font-family: var(--serif);
-    font-size: 1.05rem;
+    font-size: var(--text-ui);
     font-weight: 700;
     color: var(--navy-900);
   }
 
   .hero-signature-text .author-role {
     color: var(--ink-soft);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
   }
 
   /* Vitrine Visual 3D do Hero */
@@ -572,7 +572,7 @@ const editorialSchema = {
     background: var(--navy-900);
     color: #d4af37;
     border: 1px solid #b28a42;
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 700;
     letter-spacing: 0.05em;
     z-index: 3;
@@ -641,7 +641,7 @@ const editorialSchema = {
   .section-label {
     margin: 0;
     color: #7b5a1f;
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 800;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -653,7 +653,7 @@ const editorialSchema = {
   .newsletter-section h2 {
     margin: 0;
     font-family: var(--serif);
-    font-size: clamp(2.2rem, 3.8vw, 4.2rem);
+    font-size: var(--text-h1);
     font-weight: 500;
     letter-spacing: -0.045em;
     line-height: 1;
@@ -684,7 +684,7 @@ const editorialSchema = {
   .expansion-mark {
     color: #0a6b7c;
     font-family: var(--serif);
-    font-size: clamp(8rem, 20vw, 18rem);
+    font-size: var(--text-numeral);
     font-weight: 400;
     line-height: 0.5;
     opacity: 0.1;
@@ -694,7 +694,7 @@ const editorialSchema = {
     max-width: 760px;
     margin: 1.5rem 0 0;
     color: var(--ink-soft);
-    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    font-size: var(--text-ui);
     line-height: 1.6;
   }
 
@@ -739,7 +739,7 @@ const editorialSchema = {
   .superficie-name {
     margin: 0;
     font-family: var(--serif);
-    font-size: clamp(2rem, 3.5vw, 3.4rem);
+    font-size: var(--text-h1);
     letter-spacing: 0.03em;
     line-height: 1;
     color: var(--navy-900);
@@ -751,7 +751,7 @@ const editorialSchema = {
     background: var(--paper-100);
     border: 1px solid #b28a42;
     color: #7b5a1f;
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 750;
     text-transform: uppercase;
     letter-spacing: 0.06em;
@@ -761,7 +761,7 @@ const editorialSchema = {
     max-width: 720px;
     margin: 0.5rem 0 0;
     font-family: var(--serif);
-    font-size: clamp(1.4rem, 2.2vw, 2.1rem);
+    font-size: var(--text-h3);
     font-weight: 500;
     line-height: 1.2;
     color: var(--navy-800);
@@ -770,7 +770,7 @@ const editorialSchema = {
   .superficie-tagline {
     margin: 0.85rem 0 0;
     color: var(--teal-dark);
-    font-size: 1.05rem;
+    font-size: var(--text-ui);
     font-weight: 750;
   }
 
@@ -853,7 +853,7 @@ const editorialSchema = {
   }
 
   .author-logo-label {
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 750;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -875,7 +875,7 @@ const editorialSchema = {
     max-width: 790px;
     margin: 1.4rem 0 0;
     color: var(--ink-soft);
-    font-size: clamp(1rem, 1.3vw, 1.15rem);
+    font-size: var(--text-ui);
     line-height: 1.65;
   }
 
@@ -958,7 +958,7 @@ const editorialSchema = {
 
   .field label {
     color: var(--ink);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -978,7 +978,7 @@ const editorialSchema = {
     border-radius: 0;
     background: transparent;
     color: var(--ink);
-    font-size: 1rem;
+    font-size: var(--text-ui);
   }
 
   .field input:focus-visible {
@@ -998,7 +998,7 @@ const editorialSchema = {
     align-items: start;
     margin-top: 1.6rem;
     color: var(--ink-soft);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     cursor: pointer;
   }
 
@@ -1026,7 +1026,7 @@ const editorialSchema = {
     border-radius: 999px;
     background: var(--teal-dark);
     color: white;
-    font-size: 0.95rem;
+    font-size: var(--text-meta);
     font-weight: 750;
     cursor: pointer;
     transition: background-color var(--duration-fast) var(--ease-standard);
@@ -1043,7 +1043,7 @@ const editorialSchema = {
 
   #newsletter-status {
     margin: 0;
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 600;
   }
 

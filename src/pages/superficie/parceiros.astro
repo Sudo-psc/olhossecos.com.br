@@ -233,7 +233,7 @@ const processSteps = [
 
   .eyebrow {
     margin: 0 0 0.9rem;
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 800;
     letter-spacing: 0.17em;
     text-transform: uppercase;
@@ -265,17 +265,17 @@ const processSteps = [
 
   h1 {
     margin-bottom: 0;
-    font-size: clamp(3.2rem, 7.5vw, 7.5rem);
+    font-size: var(--text-wordmark);
   }
 
   h2 {
     margin-bottom: 1.3rem;
-    font-size: clamp(2.4rem, 5.5vw, 5.2rem);
+    font-size: var(--text-headline);
   }
 
   h3 {
     margin-bottom: 0.65rem;
-    font-size: clamp(1.4rem, 2.2vw, 2rem);
+    font-size: var(--text-h3);
   }
 
   .partners-hero {
@@ -302,7 +302,7 @@ const processSteps = [
   .hero-aside > p,
   .request-grid > div > p {
     color: var(--surface-muted-on-dark);
-    font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+    font-size: var(--text-body);
   }
 
   .hero-actions {
@@ -352,7 +352,7 @@ const processSteps = [
   .process-grid span {
     color: #8b6220;
     font-family: var(--surface-serif);
-    font-size: 1.35rem;
+    font-size: var(--text-body);
   }
 
   .opportunity-list p,
@@ -447,7 +447,7 @@ const processSteps = [
     }
 
     h1 {
-      font-size: clamp(2.8rem, 13vw, 4.4rem);
+      font-size: var(--text-display);
     }
 
     .hero-actions {

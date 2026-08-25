@@ -1,5 +1,6 @@
 ---
 import SuperficieFooter from "@/components/superficie/SuperficieFooter.astro";
+import "@/styles/scale.css";
 import SuperficieHeader from "@/components/superficie/SuperficieHeader.astro";
 import AnalyticsCollector from "@/components/AnalyticsCollector.astro";
 import GlobalSearchModal from "@/components/GlobalSearchModal.astro";
@@ -457,7 +458,7 @@ const alternateFeeds = alternateFeedsForPath(Astro.url.pathname);
     background: var(--surface-paper);
     color: var(--surface-ink);
     font-family: var(--surface-sans);
-    font-size: clamp(1rem, 0.98rem + 0.1vw, 1.0625rem);
+    font-size: var(--text-ui);
     line-height: 1.65;
     text-rendering: optimizeLegibility;
   }
@@ -564,7 +565,7 @@ const alternateFeeds = alternateFeedsForPath(Astro.url.pathname);
     border-radius: var(--surface-radius-sm);
     background: transparent;
     font-family: var(--surface-sans);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 800;
     letter-spacing: 0.08em;
     text-decoration: none;
