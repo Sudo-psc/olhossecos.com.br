@@ -1,0 +1,132 @@
+---
+/**
+ * Claro / escuro / sistema. Vanilla, sem biblioteca. A persistência fica
+ * no localStorage; nada vai para analytics nem para o servidor.
+ */
+---
+
+<div class="theme-switch" role="group" aria-label="Tema de cores">
+  <button type="button" data-theme-choice="light" aria-pressed="false">
+    Claro
+  </button>
+  <button type="button" data-theme-choice="dark" aria-pressed="false">
+    Escuro
+  </button>
+  <button type="button" data-theme-choice="system" aria-pressed="true">
+    Sistema
+  </button>
+</div>
+
+<script>
+  import { themeStorageKey, type ThemeChoice } from "@/lib/theme";
+
+  const isChoice = (value: string | null): value is ThemeChoice =>
+    value === "light" || value === "dark" || value === "system";
+
+  const readChoice = (): ThemeChoice => {
+    try {
+      const stored = localStorage.getItem(themeStorageKey);
+      if (stored === "light" || stored === "dark") return stored;
+    } catch {
+      // Storage pode estar bloqueado; o tema segue o sistema.
+    }
+    return "system";
+  };
+
+  const applyChoice = (choice: ThemeChoice) => {
+    const root = document.documentElement;
+    if (choice === "light" || choice === "dark") {
+      root.setAttribute("data-theme", choice);
+      try {
+        localStorage.setItem(themeStorageKey, choice);
+      } catch {
+        // Preferência só desta sessão se o storage recusar.
+      }
+    } else {
+      root.removeAttribute("data-theme");
+      try {
+        localStorage.removeItem(themeStorageKey);
+      } catch {
+        // Sem storage, o atributo já saiu e o SO volta a mandar.
+      }
+    }
+
+    const dark =
+      choice === "dark" ||
+      (choice === "system" &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+    document
+      .querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')
+      .forEach((meta) => {
+        meta.setAttribute("content", dark ? "#04142f" : "#071D45");
+      });
+
+    document
+      .querySelectorAll<HTMLButtonElement>("[data-theme-choice]")
+      .forEach((button) => {
+        const value = button.getAttribute("data-theme-choice");
+        button.setAttribute(
+          "aria-pressed",
+          String(isChoice(value) && value === choice),
+        );
+      });
+  };
+
+  document
+    .querySelectorAll<HTMLButtonElement>("[data-theme-choice]")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        const value = button.getAttribute("data-theme-choice");
+        if (isChoice(value)) applyChoice(value);
+      });
+    });
+
+  applyChoice(readChoice());
+
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", () => {
+      if (readChoice() === "system") applyChoice("system");
+    });
+</script>
+
+<style>
+  .theme-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    padding: 0.15rem;
+    border: 1px solid var(--line, var(--surface-line, #d3dbe4));
+    border-radius: var(--control-radius, var(--surface-radius-sm, 6px));
+    background: var(--paper-0, var(--surface-white, #fff));
+  }
+
+  .theme-switch button {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.35rem 0.55rem;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--ink-soft, var(--surface-copy, #263d61));
+    font-size: 0.875rem;
+    font-weight: 650;
+    cursor: pointer;
+  }
+
+  .theme-switch button[aria-pressed="true"] {
+    background: var(--mist, var(--surface-paper, #eff8fb));
+    color: var(--ink, var(--surface-ink, #071d45));
+  }
+
+  .theme-switch button:hover {
+    color: var(--ink, var(--surface-ink, #071d45));
+  }
+
+  @media (max-width: 720px) {
+    .theme-switch button {
+      padding-inline: 0.45rem;
+    }
+  }
+</style>

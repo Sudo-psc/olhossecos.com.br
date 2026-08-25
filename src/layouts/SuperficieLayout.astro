@@ -5,6 +5,7 @@ import AnalyticsCollector from "@/components/AnalyticsCollector.astro";
 import GlobalSearchModal from "@/components/GlobalSearchModal.astro";
 import { magazineDescription } from "@/lib/superficie";
 import { normalizeBasePath, withBasePath } from "@/lib/site-path";
+import { themeBootScript } from "@/lib/theme";
 import "@/styles/fonts.css";
 import "@/styles/touch-targets.css";
 
@@ -163,6 +164,7 @@ const structuredData = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline set:html={themeBootScript} />
     <meta name="theme-color" content="#001a33" />
     <meta name="description" content={description} />
     <meta name="robots" content={effectiveRobots} />
@@ -357,6 +359,47 @@ const structuredData = {
     --focus-ring-contrast: #001a33;
     --focus-ring-width: 2px;
     --focus-ring-offset: 2px;
+
+    --surface-paper-on-dark: #0d1a28;
+    --surface-white-on-dark: #122033;
+    --surface-ink-on-dark: #f7f4ed;
+    --surface-copy-on-dark: #c5d0d8;
+    --surface-muted-scheme-on-dark: #9aadc4;
+    --surface-gold-text-on-dark: #d9b665;
+    --gold-text-on-dark: #e0c07a;
+    --surface-teal-dark-on-dark: #7ecfc8;
+    --surface-line-on-dark: #2a3d4a;
+    --focus-ring-contrast-on-dark: #f7f4ed;
+  }
+
+  [data-theme="dark"] {
+    color-scheme: dark;
+    --surface-paper: var(--surface-paper-on-dark);
+    --surface-white: var(--surface-white-on-dark);
+    --surface-ink: var(--surface-ink-on-dark);
+    --surface-copy: var(--surface-copy-on-dark);
+    --surface-muted: var(--surface-muted-scheme-on-dark);
+    --surface-gold-text: var(--surface-gold-text-on-dark);
+    --gold-text: var(--gold-text-on-dark);
+    --surface-teal-dark: var(--surface-teal-dark-on-dark);
+    --surface-line: var(--surface-line-on-dark);
+    --focus-ring-contrast: var(--focus-ring-contrast-on-dark);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --surface-paper: var(--surface-paper-on-dark);
+      --surface-white: var(--surface-white-on-dark);
+      --surface-ink: var(--surface-ink-on-dark);
+      --surface-copy: var(--surface-copy-on-dark);
+      --surface-muted: var(--surface-muted-scheme-on-dark);
+      --surface-gold-text: var(--surface-gold-text-on-dark);
+      --gold-text: var(--gold-text-on-dark);
+      --surface-teal-dark: var(--surface-teal-dark-on-dark);
+      --surface-line: var(--surface-line-on-dark);
+      --focus-ring-contrast: var(--focus-ring-contrast-on-dark);
+    }
   }
 
   * {

@@ -1,5 +1,6 @@
 ---
 import EyeMark from "@/components/EyeMark.astro";
+import ThemeSwitch from "@/components/ThemeSwitch.astro";
 import { isSurfaceNavCurrent } from "@/lib/superficie-nav";
 
 interface Props {
@@ -35,6 +36,7 @@ const nav = [
         <span><strong>Olhos Secos</strong> — Portal profissional</span>
       </a>
       <div class="surface-utility-actions">
+        <ThemeSwitch />
         <button
           type="button"
           class="surface-search-btn"
@@ -115,6 +117,7 @@ const nav = [
     hidden
   >
     <div class="surface-shell">
+      <ThemeSwitch />
       <button
         type="button"
         class="surface-mobile-search-btn"
@@ -784,6 +787,11 @@ const nav = [
     padding-block: 0.75rem 1.25rem;
   }
 
+  .surface-mobile-nav :global(.theme-switch) {
+    margin-bottom: 0.8rem;
+    justify-self: start;
+  }
+
   .surface-mobile-nav a {
     min-height: 48px;
     display: flex;
@@ -898,6 +906,10 @@ const nav = [
     }
 
     .surface-nav {
+      display: none;
+    }
+
+    .surface-utility-actions :global(.theme-switch) {
       display: none;
     }
   }

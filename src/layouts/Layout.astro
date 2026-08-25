@@ -5,6 +5,7 @@ import AnalyticsCollector from "@/components/AnalyticsCollector.astro";
 import GlobalSearchModal from "@/components/GlobalSearchModal.astro";
 import { author } from "@/lib/books";
 import { normalizeBasePath, withBasePath } from "@/lib/site-path";
+import { themeBootScript } from "@/lib/theme";
 import "@/styles/fonts.css";
 import "@/styles/tokens.css";
 import "@/styles/touch-targets.css";
@@ -185,6 +186,7 @@ const structuredData = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
+    <script is:inline set:html={themeBootScript} />
     <meta name="theme-color" content="#071D45" />
     <meta name="description" content={description} />
     <meta

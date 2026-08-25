@@ -152,6 +152,104 @@
   --focus-ring-contrast: #04142f;
   --focus-ring-width: 2px;
   --focus-ring-offset: 2px;
+
+  /* Contrapartes escuras. Moram no :root para nenhuma cor existir só
+     dentro de prefers-color-scheme. O media query e [data-theme="dark"]
+     só remapeiam os tokens semânticos. */
+  --ink-on-dark: #e8eef8;
+  --ink-soft-on-dark: #b8c7dc;
+  --navy-400-on-dark: #9aadc4;
+  --paper-0-on-dark: #0c1628;
+  --paper-50-on-dark: #0f1a2e;
+  --paper-100-on-dark: #152238;
+  --paper-200-on-dark: #1c2b40;
+  --teal-on-dark: #4eb8c9;
+  --teal-dark-on-dark: #7ecfdb;
+  --teal-50-on-dark: #0d2a32;
+  --teal-100-on-dark: #11343d;
+  --line-on-dark: #2a3d54;
+  --line-soft-on-dark: #223348;
+  --line-strong-on-dark: #3d536b;
+  --mist-on-dark: #0d2a32;
+  --aqua-on-dark: #11343d;
+  --coral-text-on-dark: #f0a39a;
+  --coral-soft-on-dark: #2a1816;
+  --copper-700-on-dark: #e0b07a;
+  --gold-text-on-dark: #e0c07a;
+  --alert-50-on-dark: #2a1816;
+  --focus-ring-on-dark: #4eb8c9;
+  --glass-bg-on-dark: rgb(12 22 40 / 62%);
+  --glass-bg-strong-on-dark: rgb(12 22 40 / 84%);
+  --glass-border-on-dark: rgb(255 255 255 / 12%);
+  --glass-edge-on-dark: rgb(255 255 255 / 8%);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: var(--ink-on-dark);
+  --ink-soft: var(--ink-soft-on-dark);
+  --navy-400: var(--navy-400-on-dark);
+  --navy-600: var(--ink-soft-on-dark);
+  --navy-800: var(--ink-on-dark);
+  --paper: var(--paper-0-on-dark);
+  --paper-0: var(--paper-0-on-dark);
+  --paper-50: var(--paper-50-on-dark);
+  --paper-100: var(--paper-100-on-dark);
+  --paper-200: var(--paper-200-on-dark);
+  --teal: var(--teal-on-dark);
+  --teal-dark: var(--teal-dark-on-dark);
+  --teal-50: var(--teal-50-on-dark);
+  --teal-100: var(--teal-100-on-dark);
+  --mist: var(--mist-on-dark);
+  --aqua: var(--aqua-on-dark);
+  --line: var(--line-on-dark);
+  --line-soft: var(--line-soft-on-dark);
+  --line-strong: var(--line-strong-on-dark);
+  --coral-text: var(--coral-text-on-dark);
+  --coral-soft: var(--coral-soft-on-dark);
+  --copper-700: var(--copper-700-on-dark);
+  --gold-text: var(--gold-text-on-dark);
+  --alert-50: var(--alert-50-on-dark);
+  --focus-ring: var(--focus-ring-on-dark);
+  --glass-bg: var(--glass-bg-on-dark);
+  --glass-bg-strong: var(--glass-bg-strong-on-dark);
+  --glass-border: var(--glass-border-on-dark);
+  --glass-edge: var(--glass-edge-on-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ink: var(--ink-on-dark);
+    --ink-soft: var(--ink-soft-on-dark);
+    --navy-400: var(--navy-400-on-dark);
+    --navy-600: var(--ink-soft-on-dark);
+    --navy-800: var(--ink-on-dark);
+    --paper: var(--paper-0-on-dark);
+    --paper-0: var(--paper-0-on-dark);
+    --paper-50: var(--paper-50-on-dark);
+    --paper-100: var(--paper-100-on-dark);
+    --paper-200: var(--paper-200-on-dark);
+    --teal: var(--teal-on-dark);
+    --teal-dark: var(--teal-dark-on-dark);
+    --teal-50: var(--teal-50-on-dark);
+    --teal-100: var(--teal-100-on-dark);
+    --mist: var(--mist-on-dark);
+    --aqua: var(--aqua-on-dark);
+    --line: var(--line-on-dark);
+    --line-soft: var(--line-soft-on-dark);
+    --line-strong: var(--line-strong-on-dark);
+    --coral-text: var(--coral-text-on-dark);
+    --coral-soft: var(--coral-soft-on-dark);
+    --copper-700: var(--copper-700-on-dark);
+    --gold-text: var(--gold-text-on-dark);
+    --alert-50: var(--alert-50-on-dark);
+    --focus-ring: var(--focus-ring-on-dark);
+    --glass-bg: var(--glass-bg-on-dark);
+    --glass-bg-strong: var(--glass-bg-strong-on-dark);
+    --glass-border: var(--glass-border-on-dark);
+    --glass-edge: var(--glass-edge-on-dark);
+  }
 }
 
 /* Sem backdrop-filter o vidro vira vidro fosco opaco: mantém a legibilidade em
@@ -162,6 +260,8 @@
   :root {
     --glass-bg: rgb(255 255 255 / 97%);
     --glass-bg-strong: rgb(255 255 255 / 99%);
+    --glass-bg-on-dark: rgb(12 22 40 / 97%);
+    --glass-bg-strong-on-dark: rgb(12 22 40 / 99%);
   }
 }
 

@@ -1,5 +1,6 @@
 ---
 import EyeMark from "./EyeMark.astro";
+import ThemeSwitch from "./ThemeSwitch.astro";
 import { isPortalNavCurrent, portalFor } from "@/lib/portals";
 
 const pathname = Astro.url.pathname;
@@ -37,6 +38,7 @@ const nav = portal?.nav ?? [];
     }
 
     <div class="header-actions">
+      <ThemeSwitch />
       <button
         type="button"
         class="header-search-btn"
@@ -102,6 +104,7 @@ const nav = portal?.nav ?? [];
         hidden
       >
         <div class="page-shell">
+          <ThemeSwitch />
           <button
             type="button"
             class="mobile-search-btn"
@@ -153,6 +156,10 @@ const nav = portal?.nav ?? [];
     display: flex;
     align-items: center;
     gap: 0.75rem;
+  }
+
+  .mobile-nav :global(.theme-switch) {
+    margin-bottom: 0.8rem;
   }
 
   .header-search-btn {
