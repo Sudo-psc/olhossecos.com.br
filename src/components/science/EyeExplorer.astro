@@ -607,8 +607,9 @@ const structures = [
   }
 
   .eye-sonar-pin:focus-visible {
-    outline: 3px solid var(--teal-600, #087f95);
-    outline-offset: 3px;
+    outline: var(--focus-ring-width, 2px) solid
+      var(--focus-ring, var(--teal-600, #087f95));
+    outline-offset: var(--focus-ring-offset, 2px);
   }
 
   .sonar-wave {

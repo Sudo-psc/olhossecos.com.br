@@ -205,6 +205,39 @@ test("o texto sobre o navy da SUPERFÍCIE também tem 7:1", async () => {
  * a ser cor de texto. `--surface-gold` sobre papel dá 2,83:1, e foi exatamente
  * assim — como `color:` — que a falha de AA entrou no site.
  */
+test("o anel de foco tem 3:1 nos dois temas e está declarado em 2px", async () => {
+  const portal = await readFile("src/styles/tokens.css", "utf8");
+  const superficie = await readFile(
+    "src/layouts/SuperficieLayout.astro",
+    "utf8",
+  );
+  const portalLayout = await readFile("src/layouts/Layout.astro", "utf8");
+  const tPortal = (name: string) => readToken(portal, name);
+  const tSurface = (name: string) => readToken(superficie, name);
+
+  assert.match(portal, /--focus-ring-width:\s*2px/);
+  assert.match(portal, /--focus-ring-offset:\s*2px/);
+  assert.match(superficie, /--focus-ring-width:\s*2px/);
+  assert.match(superficie, /--focus-ring-offset:\s*2px/);
+  assert.match(portalLayout, /outline: var\(--focus-ring-width\)/);
+  assert.match(superficie, /outline: var\(--focus-ring-width\)/);
+
+  // WCAG 2.4.13 / 1.4.11: indicador de foco ≥ 3:1 contra o fundo adjacente.
+  assert.ok(
+    ratio(tPortal("--focus-ring"), tPortal("--paper-0")) >= AA_LARGE,
+    `focus portal no branco: ${ratio(tPortal("--focus-ring"), tPortal("--paper-0"))}:1`,
+  );
+  assert.ok(
+    ratio(tSurface("--focus-ring-contrast"), tSurface("--surface-paper")) >=
+      AA_LARGE,
+    `anel navy no papel da revista abaixo de 3:1`,
+  );
+  assert.ok(
+    ratio(tSurface("--focus-ring"), tSurface("--surface-navy")) >= AA_LARGE,
+    `anel ouro no navy da revista abaixo de 3:1`,
+  );
+});
+
 test("token de marca nunca é cor de texto", async () => {
   const arquivos = [
     "src/components/superficie/MagazineArticlePage.astro",

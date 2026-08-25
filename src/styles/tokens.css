@@ -145,6 +145,13 @@
   );
 
   --header-height: 76px;
+
+  /* Anel de foco (WCAG 2.4.7 / 2.4.13). Teal 4,68:1 no branco — acima
+     dos 3:1 de componente. Largura e deslocamento fixos em 2px. */
+  --focus-ring: #087f95;
+  --focus-ring-contrast: #04142f;
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
 }
 
 /* Sem backdrop-filter o vidro vira vidro fosco opaco: mantém a legibilidade em

@@ -291,8 +291,9 @@ const modalId = `citation-modal-${article.slug}`;
   }
 
   .citation-open-btn:focus-visible {
-    outline: 2px solid var(--surface-gold-light, #f0dfa8);
-    outline-offset: 3px;
+    outline: var(--focus-ring-width, 2px) solid
+      var(--focus-ring, var(--surface-gold-light));
+    outline-offset: var(--focus-ring-offset, 2px);
   }
 
   .citation-dialog {

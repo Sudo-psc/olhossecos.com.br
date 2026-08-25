@@ -265,9 +265,10 @@ const { endpoint = "/api/superficie-parceiros" } = Astro.props;
   textarea:focus-visible,
   button:focus-visible,
   a:focus-visible {
-    outline: 3px solid var(--surface-gold-light);
-    outline-offset: 3px;
-    box-shadow: 0 0 0 3px var(--surface-navy);
+    outline: var(--focus-ring-width, 2px) solid
+      var(--focus-ring, var(--surface-gold-light));
+    outline-offset: var(--focus-ring-offset, 2px);
+    box-shadow: 0 0 0 2px var(--focus-ring-contrast, var(--surface-navy));
   }
 
   .consent {

@@ -982,9 +982,9 @@ const editorialSchema = {
   }
 
   .field input:focus-visible {
-    outline: none;
+    outline: var(--focus-ring-width) solid var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
     border-bottom-color: var(--teal-dark);
-    box-shadow: 0 1px 0 var(--teal-dark);
   }
 
   .honeypot {

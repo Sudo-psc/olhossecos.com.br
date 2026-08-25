@@ -300,10 +300,16 @@ const structuredData = {
     -webkit-tap-highlight-color: transparent;
   }
 
-  :focus-visible {
-    outline: 3px solid var(--teal-600);
-    outline-offset: 3px;
-    box-shadow: 0 0 0 6px rgb(8 127 149 / 18%);
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  summary:focus-visible,
+  [tabindex]:focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+    box-shadow: 0 0 0 2px rgb(8 127 149 / 18%);
   }
 
   ::selection {

@@ -350,6 +350,13 @@ const structuredData = {
     --surface-radius-sm: 6px;
     --surface-radius-md: 10px;
     --surface-radius-lg: 16px;
+
+    /* Anel de dois tons: o ouro sozinho fica em 1,77:1 no papel. O navy
+       interno resolve os fundos claros; o ouro externo, os escuros. */
+    --focus-ring: #d9b665;
+    --focus-ring-contrast: #001a33;
+    --focus-ring-width: 2px;
+    --focus-ring-offset: 2px;
   }
 
   * {
@@ -396,10 +403,16 @@ const structuredData = {
      próprio do elemento focado. Fixar um valor nesta regra sobrescreveria
      o raio real de botões e cards no exato momento do foco, fazendo o
      canto "pular" ao navegar por teclado. */
-  .superficie-document :focus-visible {
-    outline: 3px solid var(--surface-gold-light);
-    outline-offset: 3px;
-    box-shadow: 0 0 0 3px var(--surface-navy);
+  .superficie-document a:focus-visible,
+  .superficie-document button:focus-visible,
+  .superficie-document input:focus-visible,
+  .superficie-document select:focus-visible,
+  .superficie-document textarea:focus-visible,
+  .superficie-document summary:focus-visible,
+  .superficie-document [tabindex]:focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+    box-shadow: 0 0 0 2px var(--focus-ring-contrast);
   }
 
   .superficie-document ::selection {
