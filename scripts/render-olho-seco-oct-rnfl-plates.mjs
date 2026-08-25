@@ -45,7 +45,11 @@ const faces = `
   }
 `;
 
-const svg = (body, title, { embedFaces = false } = {}) => `<?xml version="1.0" encoding="UTF-8"?>
+const svg = (
+  body,
+  title,
+  { embedFaces = false } = {},
+) => `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img">
   <title>${title}</title>
   ${embedFaces ? `<style>${faces}</style>` : ""}
