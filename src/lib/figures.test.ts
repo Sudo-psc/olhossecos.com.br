@@ -14,16 +14,22 @@ test("toda figura declara um arquivo-fonte existente", () => {
 });
 
 test("figura com licença aberta traz crédito com URL e o arquivo da licença", () => {
-  const licensed = Object.entries(figures).filter(
-    ([, figure]) => figure.license,
+  const catalog = Object.entries(figures) as [string, FigureAsset][];
+  const licensed = catalog.filter(
+    (
+      entry,
+    ): entry is [
+      string,
+      FigureAsset & { license: NonNullable<FigureAsset["license"]> },
+    ] => Boolean(entry[1].license),
   );
 
   assert.ok(licensed.length >= 2, "faltam figuras de licença aberta");
 
   for (const [name, figure] of licensed) {
     assert.ok(figure.credit.url, `${name} sem URL de crédito`);
-    assert.ok(figure.license?.url, `${name} sem URL de licença`);
-    assert.match(figure.license?.label ?? "", /CC BY/u, name);
+    assert.ok(figure.license.url, `${name} sem URL de licença`);
+    assert.match(figure.license.label, /CC BY/u, name);
   }
 });
 
