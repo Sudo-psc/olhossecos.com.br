@@ -6,6 +6,7 @@ import GlobalSearchModal from "@/components/GlobalSearchModal.astro";
 import { author } from "@/lib/books";
 import { normalizeBasePath, withBasePath } from "@/lib/site-path";
 import { themeBootScript } from "@/lib/theme";
+import { alternateFeedsForPath } from "@/lib/feeds";
 import "@/styles/fonts.css";
 import "@/styles/tokens.css";
 import "@/styles/touch-targets.css";
@@ -157,6 +158,8 @@ const breadcrumbSchema =
       }
     : undefined;
 
+const alternateFeeds = alternateFeedsForPath(Astro.url.pathname);
+
 const extraSchemas = extraSchema
   ? Array.isArray(extraSchema)
     ? extraSchema
@@ -211,7 +214,20 @@ const structuredData = {
       rel="apple-touch-icon"
       href={withBasePath("/apple-touch-icon.png", basePath)}
     />
-    <link rel="manifest" href={withBasePath("/manifest.json", basePath)} />
+    <link
+      rel="manifest"
+      href={withBasePath("/manifest.webmanifest", basePath)}
+    />
+    {
+      alternateFeeds.map((feed) => (
+        <link
+          rel="alternate"
+          type={feed.type}
+          title={feed.title}
+          href={withBasePath(feed.href, basePath)}
+        />
+      ))
+    }
     <link
       rel="preload"
       href={withBasePath("/fonts/source-serif-4-subset.woff2", basePath)}

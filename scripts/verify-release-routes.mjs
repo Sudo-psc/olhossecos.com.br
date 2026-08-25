@@ -161,6 +161,35 @@ try {
       "homepage: o índice da busca voltou a ir no HTML; deve ficar em /search-index.json",
     );
   }
+  const discoveryRoutes = [
+    ["/rss.xml", "application/rss+xml"],
+    ["/feed.json", "application/feed+json"],
+    ["/superficie/rss.xml", "application/rss+xml"],
+    ["/superficie/feed.json", "application/feed+json"],
+    ["/superficie/radar/rss.xml", "application/rss+xml"],
+    ["/superficie/radar/feed.json", "application/feed+json"],
+    ["/llms.txt", "text/plain"],
+    ["/llms-full.txt", "text/plain"],
+    ["/.well-known/security.txt", "text/plain"],
+    ["/manifest.webmanifest", "application/manifest+json"],
+  ];
+  for (const [path, expectedType] of discoveryRoutes) {
+    const response = await assertStatus(path);
+    const type = response.headers.get("content-type") ?? "";
+    if (!type.includes(expectedType)) {
+      throw new Error(`${path}: content-type ${type || "ausente"}`);
+    }
+  }
+  if (!homeHtml.includes('rel="alternate"') || !homeHtml.includes("/rss.xml")) {
+    throw new Error("homepage: rel=alternate do RSS ausente");
+  }
+  if (
+    homeHtml.includes("serviceWorker") ||
+    homeHtml.includes("service-worker")
+  ) {
+    throw new Error("homepage: service worker não deve ser registrado");
+  }
+
   const searchIndexResponse = await assertStatus("/search-index.json");
   const searchIndexType = searchIndexResponse.headers.get("content-type") ?? "";
   if (!searchIndexType.includes("application/json")) {
