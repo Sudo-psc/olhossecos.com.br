@@ -34,6 +34,13 @@ test("o registro segue a redação exigida pelo CFM", () => {
   assert.equal(responsibleDoctor.registration, "CRM-MG 69.870 · RQE 71.903");
 });
 
+test("o LinkedIn público usa o slug confirmado, não uma grafia aproximada", () => {
+  assert.equal(
+    responsibleDoctor.linkedin,
+    "https://www.linkedin.com/in/dr-philipe-saraiva",
+  );
+});
+
 test("os rodapés do portal e da revista exibem o registro", async () => {
   const footers = [
     "src/components/Footer.astro",

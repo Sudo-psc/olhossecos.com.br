@@ -4,8 +4,7 @@ import BookCover from "@/components/BookCover.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import Layout from "@/layouts/Layout.astro";
 import { author, books } from "@/lib/books";
-import { physicianCredentials } from "@/lib/seo";
-import { responsibleDoctor } from "@/lib/doctor";
+import { physician, physicianCredentials } from "@/lib/seo";
 
 export function getStaticPaths() {
   return [{ params: { slug: author.slug } }];
@@ -28,11 +27,7 @@ const personSchema = {
   identifier: author.registration,
   description: author.description,
   url: new URL(`/autor/${author.slug}`, siteUrl).href,
-  sameAs: [
-    "https://www.amazon.com/author/drphilipesaraiva",
-    responsibleDoctor.orcid,
-    responsibleDoctor.lattes,
-  ],
+  sameAs: [...physician.sameAs],
   hasCredential: [...physicianCredentials],
 };
 ---

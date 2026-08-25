@@ -24,6 +24,7 @@ export const physician = {
     "https://www.amazon.com/author/drphilipesaraiva",
     responsibleDoctor.orcid,
     responsibleDoctor.lattes,
+    responsibleDoctor.linkedin,
   ],
 } as const;
 
