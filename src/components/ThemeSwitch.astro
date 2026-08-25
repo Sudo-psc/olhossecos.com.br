@@ -1,132 +1,132 @@
 ---
 /**
- * Claro / escuro / sistema. Vanilla, sem biblioteca. A persistência fica
- * no localStorage; nada vai para analytics nem para o servidor.
+ * Switch compacto claro/escuro. Sem rótulos: o trio Claro/Escuro/Sistema
+ * estourava o header em 390px (três alvos 44×44). Clique alterna as duas
+ * paletas e grava em localStorage. Sem stamp, o documento fica sem
+ * [data-theme] e o sistema manda — o botão só reflete o estado efetivo.
  */
 ---
 
-<div class="theme-switch" role="group" aria-label="Tema de cores">
-  <button type="button" data-theme-choice="light" aria-pressed="false">
-    Claro
-  </button>
-  <button type="button" data-theme-choice="dark" aria-pressed="false">
-    Escuro
-  </button>
-  <button type="button" data-theme-choice="system" aria-pressed="true">
-    Sistema
-  </button>
-</div>
+<button
+  type="button"
+  class="theme-switch"
+  aria-label="Alternar tema claro ou escuro"
+  aria-pressed="false"
+>
+  <span class="theme-switch-thumb" aria-hidden="true"></span>
+</button>
 
 <script>
-  import { themeStorageKey, type ThemeChoice } from "@/lib/theme";
+  import { themeStorageKey } from "@/lib/theme";
 
-  const isChoice = (value: string | null): value is ThemeChoice =>
-    value === "light" || value === "dark" || value === "system";
+  const switches = () =>
+    document.querySelectorAll<HTMLButtonElement>(".theme-switch");
 
-  const readChoice = (): ThemeChoice => {
+  const readStored = (): "light" | "dark" | null => {
     try {
       const stored = localStorage.getItem(themeStorageKey);
       if (stored === "light" || stored === "dark") return stored;
     } catch {
-      // Storage pode estar bloqueado; o tema segue o sistema.
+      // Storage bloqueado: segue o sistema, sem carimbo.
     }
-    return "system";
+    return null;
   };
 
-  const applyChoice = (choice: ThemeChoice) => {
-    const root = document.documentElement;
-    if (choice === "light" || choice === "dark") {
-      root.setAttribute("data-theme", choice);
-      try {
-        localStorage.setItem(themeStorageKey, choice);
-      } catch {
-        // Preferência só desta sessão se o storage recusar.
-      }
-    } else {
-      root.removeAttribute("data-theme");
-      try {
-        localStorage.removeItem(themeStorageKey);
-      } catch {
-        // Sem storage, o atributo já saiu e o SO volta a mandar.
-      }
+  const prefersDark = () =>
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  const effectiveDark = () => {
+    const stored = readStored();
+    if (stored === "dark") return true;
+    if (stored === "light") return false;
+    return prefersDark();
+  };
+
+  const applyChoice = (choice: "light" | "dark") => {
+    document.documentElement.setAttribute("data-theme", choice);
+    try {
+      localStorage.setItem(themeStorageKey, choice);
+    } catch {
+      // Preferência só desta sessão se o storage recusar.
     }
 
-    const dark =
-      choice === "dark" ||
-      (choice === "system" &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches);
-
+    const dark = choice === "dark";
     document
       .querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')
       .forEach((meta) => {
         meta.setAttribute("content", dark ? "#04142f" : "#071D45");
       });
+    for (const button of switches()) {
+      button.setAttribute("aria-pressed", String(dark));
+    }
+  };
 
+  const syncPressed = () => {
+    const dark = effectiveDark();
+    for (const button of switches()) {
+      button.setAttribute("aria-pressed", String(dark));
+    }
+    if (!readStored()) {
+      document.documentElement.removeAttribute("data-theme");
+    }
     document
-      .querySelectorAll<HTMLButtonElement>("[data-theme-choice]")
-      .forEach((button) => {
-        const value = button.getAttribute("data-theme-choice");
-        button.setAttribute(
-          "aria-pressed",
-          String(isChoice(value) && value === choice),
-        );
+      .querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')
+      .forEach((meta) => {
+        meta.setAttribute("content", dark ? "#04142f" : "#071D45");
       });
   };
 
-  document
-    .querySelectorAll<HTMLButtonElement>("[data-theme-choice]")
-    .forEach((button) => {
-      button.addEventListener("click", () => {
-        const value = button.getAttribute("data-theme-choice");
-        if (isChoice(value)) applyChoice(value);
-      });
+  for (const button of switches()) {
+    button.addEventListener("click", () => {
+      applyChoice(effectiveDark() ? "light" : "dark");
     });
+  }
 
-  applyChoice(readChoice());
+  syncPressed();
 
   window
     .matchMedia("(prefers-color-scheme: dark)")
     .addEventListener("change", () => {
-      if (readChoice() === "system") applyChoice("system");
+      if (!readStored()) syncPressed();
     });
 </script>
 
 <style>
   .theme-switch {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.15rem;
-    padding: 0.15rem;
-    border: 1px solid var(--line, var(--surface-line, #d3dbe4));
-    border-radius: var(--control-radius, var(--surface-radius-sm, 6px));
-    background: var(--paper-0, var(--surface-white, #fff));
-  }
-
-  .theme-switch button {
-    min-height: 44px;
+    position: relative;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 24px;
     min-width: 44px;
-    padding: 0.35rem 0.55rem;
-    border: 0;
-    border-radius: 4px;
-    background: transparent;
-    color: var(--ink-soft, var(--surface-copy, #263d61));
-    font-size: 0.875rem;
-    font-weight: 650;
+    min-height: 24px;
+    padding: 0;
+    border: 1px solid var(--line-strong, var(--surface-line, #b8c7d6));
+    border-radius: 999px;
+    background: var(--line, var(--surface-line, #d3dbe4));
     cursor: pointer;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease;
   }
 
-  .theme-switch button[aria-pressed="true"] {
-    background: var(--mist, var(--surface-paper, #eff8fb));
-    color: var(--ink, var(--surface-ink, #071d45));
+  .theme-switch-thumb {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--paper-0, var(--surface-white, #fff));
+    box-shadow: 0 1px 2px rgb(7 29 69 / 18%);
+    transition: transform 160ms ease;
   }
 
-  .theme-switch button:hover {
-    color: var(--ink, var(--surface-ink, #071d45));
+  .theme-switch[aria-pressed="true"] {
+    border-color: var(--teal-dark, var(--surface-teal-dark, #00576a));
+    background: var(--teal, var(--surface-teal, #087f95));
   }
 
-  @media (max-width: 720px) {
-    .theme-switch button {
-      padding-inline: 0.45rem;
-    }
+  .theme-switch[aria-pressed="true"] .theme-switch-thumb {
+    transform: translateX(20px);
   }
 </style>

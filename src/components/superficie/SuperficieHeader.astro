@@ -348,6 +348,8 @@ const nav = [
 
 <style>
   .surface-header {
+    min-width: 0;
+    overflow-x: clip;
     background: var(--surface-paper);
   }
 
@@ -358,6 +360,7 @@ const nav = [
   }
 
   .surface-utility-inner {
+    min-width: 0;
     min-height: 58px;
     display: flex;
     align-items: center;
@@ -368,6 +371,7 @@ const nav = [
   .surface-utility-actions {
     display: flex;
     align-items: center;
+    min-width: 0;
     gap: 1.25rem;
   }
 
@@ -486,6 +490,7 @@ const nav = [
   .portal-return {
     display: inline-flex;
     align-items: center;
+    min-width: 0;
     gap: 0.6rem;
   }
 
@@ -909,8 +914,13 @@ const nav = [
       display: none;
     }
 
-    .surface-utility-actions :global(.theme-switch) {
+    .surface-search-btn span,
+    .surface-search-btn kbd {
       display: none;
+    }
+
+    .surface-utility-actions {
+      gap: 0.6rem;
     }
   }
 

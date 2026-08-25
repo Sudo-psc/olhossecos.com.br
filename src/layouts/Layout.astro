@@ -279,6 +279,7 @@ const structuredData = {
   html {
     scroll-behavior: smooth;
     color-scheme: light;
+    overflow-x: clip;
   }
 
   :target,
@@ -288,6 +289,7 @@ const structuredData = {
 
   body {
     margin: 0;
+    overflow-x: clip;
     background: var(--paper-50);
     color: var(--ink);
     font-family: var(--sans);
@@ -363,6 +365,7 @@ const structuredData = {
   }
 
   .page-shell {
+    min-width: 0;
     width: min(100% - 4rem, 1340px);
     margin-inline: auto;
   }
@@ -374,6 +377,8 @@ const structuredData = {
     position: sticky;
     z-index: 50;
     top: 0;
+    min-width: 0;
+    overflow-x: clip;
     background: var(--glass-bg);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
@@ -406,9 +411,10 @@ const structuredData = {
   }
 
   .header-inner {
+    min-width: 0;
     min-height: var(--header-height);
     display: grid;
-    grid-template-columns: 220px 1fr auto;
+    grid-template-columns: minmax(0, 220px) minmax(0, 1fr) auto;
     align-items: center;
     gap: 2rem;
   }
@@ -417,7 +423,8 @@ const structuredData = {
     display: inline-flex;
     align-items: center;
     gap: 0.7rem;
-    width: max-content;
+    min-width: 0;
+    max-width: 100%;
   }
 
   .brand-mark {

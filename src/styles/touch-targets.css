@@ -8,8 +8,8 @@
  */
 
 @media (max-width: 720px) {
-  button,
-  [type="button"],
+  button:not(.theme-switch),
+  [type="button"]:not(.theme-switch),
   [type="submit"],
   [role="button"],
   summary,

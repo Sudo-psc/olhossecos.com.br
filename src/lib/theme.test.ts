@@ -71,10 +71,13 @@ test("o media query de tema só remapeia tokens", async () => {
   assert.equal(colorLiteral.test(dark), false, dark);
 });
 
-test("o alternador oferece claro, escuro e sistema", async () => {
+test("o alternador é um switch compacto claro/escuro", async () => {
   const source = await readFile("src/components/ThemeSwitch.astro", "utf8");
-  assert.match(source, /data-theme-choice="light"/);
-  assert.match(source, /data-theme-choice="dark"/);
-  assert.match(source, /data-theme-choice="system"/);
-  assert.match(source, /aria-label="Tema de cores"/);
+  assert.match(source, /aria-label="Alternar tema claro ou escuro"/);
+  assert.match(source, /aria-pressed/);
+  assert.match(source, /width:\s*44px/);
+  assert.match(source, /height:\s*24px/);
+  assert.doesNotMatch(source, />\s*Claro\s*</);
+  assert.doesNotMatch(source, />\s*Escuro\s*</);
+  assert.doesNotMatch(source, />\s*Sistema\s*</);
 });

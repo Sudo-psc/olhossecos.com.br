@@ -424,9 +424,11 @@ const alternateFeeds = alternateFeedsForPath(Astro.url.pathname);
   html {
     scroll-behavior: smooth;
     color-scheme: light;
+    overflow-x: clip;
   }
 
   body.superficie-document {
+    overflow-x: clip;
     margin: 0;
     background: var(--surface-paper);
     color: var(--surface-ink);
@@ -479,6 +481,7 @@ const alternateFeeds = alternateFeedsForPath(Astro.url.pathname);
   }
 
   .surface-shell {
+    min-width: 0;
     width: min(100% - 4rem, 1340px);
     margin-inline: auto;
   }
