@@ -23,3 +23,7 @@ export const responsibleDoctor = {
   orcid: "https://orcid.org/0000-0002-4073-8371",
   lattes: "https://lattes.cnpq.br/7365253786880035",
 } as const;
+
+/** Os artigos assinam "Dr. Philipe…"; o registro canônico omite o tratamento. */
+export const isResponsibleDoctorName = (name: string) =>
+  name.replace(/^dr\.?\s+/iu, "").trim() === responsibleDoctor.name;

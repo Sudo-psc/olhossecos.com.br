@@ -9,8 +9,9 @@ import {
 } from "@/lib/superficie";
 import { selectRelatedContent } from "@/lib/related-content";
 import { articleTemplatePreview } from "@/lib/superficie-preview";
-import { responsibleDoctor } from "@/lib/doctor";
+import { isResponsibleDoctorName, responsibleDoctor } from "@/lib/doctor";
 import { highwireTagsForArticle } from "@/lib/highwire";
+import { physician, physicianCredentials } from "@/lib/seo";
 
 export function getStaticPaths() {
   const invalid = publishedArticles.flatMap((article) =>
@@ -79,26 +80,11 @@ const articleSchema = isPublished
         ...(authorUrl ? { url: authorUrl } : {}),
         // Registro no schema pelo mesmo motivo que ele está no rodapé: em
         // conteúdo médico, quem assina precisa ser verificável.
-        ...(article.author.name === responsibleDoctor.name
+        ...(isResponsibleDoctorName(article.author.name)
           ? {
               identifier: responsibleDoctor.registration,
-              sameAs: [
-                "https://www.amazon.com/author/drphilipesaraiva",
-                responsibleDoctor.orcid,
-                responsibleDoctor.lattes,
-              ],
-              hasCredential: [
-                {
-                  "@type": "EducationalOccupationalCredential",
-                  credentialCategory: "MedicalLicense",
-                  name: responsibleDoctor.crm,
-                },
-                {
-                  "@type": "EducationalOccupationalCredential",
-                  credentialCategory: "board certification",
-                  name: responsibleDoctor.rqe,
-                },
-              ],
+              sameAs: [...physician.sameAs],
+              hasCredential: [...physicianCredentials],
             }
           : {}),
       },
