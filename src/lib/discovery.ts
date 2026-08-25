@@ -1,12 +1,18 @@
 import { responsibleDoctor } from "./doctor.ts";
+import { guides } from "./guides.ts";
+import { getRadarReportPath, radarReports } from "./radar.ts";
+import { siteOrigin } from "./seo.ts";
+import { getMagazineArticlePath, publishedArticles } from "./superficie.ts";
 
 export const discoveryHeaders = (contentType: string) => ({
   "Content-Type": `${contentType}; charset=utf-8`,
   "Cache-Control": "public, max-age=3600, stale-while-revalidate=86400",
 });
 
-/** O adapter serve o arquivo prerenderizado pela extensão (.xml →
- *  application/xml). Estes tipos são o contrato público das rotas. */
+/** Contrato público das rotas de descoberta. O adapter Node serve o
+ *  arquivo prerenderizado pela extensão; `_headers.json` (staticHeaders)
+ *  reaplica estes tipos antes do `send()`, que não sobrescreve
+ *  Content-Type já definido. */
 export const discoveryContentTypes: Record<string, string> = {
   "/rss.xml": "application/rss+xml; charset=utf-8",
   "/feed.json": "application/feed+json; charset=utf-8",
@@ -19,10 +25,14 @@ export const discoveryContentTypes: Record<string, string> = {
   "/.well-known/security.txt": "text/plain; charset=utf-8",
   "/manifest.webmanifest": "application/manifest+json; charset=utf-8",
 };
-import { guides } from "./guides.ts";
-import { getRadarReportPath, radarReports } from "./radar.ts";
-import { siteOrigin } from "./seo.ts";
-import { getMagazineArticlePath, publishedArticles } from "./superficie.ts";
+
+/** Mais longo primeiro: o matcher do adapter usa `pathname.includes`. */
+export const discoveryStaticHeaders = Object.entries(discoveryContentTypes)
+  .sort(([a], [b]) => b.length - a.length)
+  .map(([pathname, contentType]) => ({
+    pathname,
+    headers: [{ key: "Content-Type", value: contentType }],
+  }));
 
 const attribution = `Dr. ${responsibleDoctor.name}, ${responsibleDoctor.registration}. Portal educativo olhossecos.com.br.`;
 

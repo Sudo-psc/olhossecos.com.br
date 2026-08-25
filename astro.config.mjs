@@ -1,7 +1,9 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import node from "@astrojs/node";
+import { writeFile } from "node:fs/promises";
 import { lastmodForPath } from "./src/lib/sitemap-lastmod.ts";
+import { discoveryStaticHeaders } from "./src/lib/discovery.ts";
 import { isIndexableSitemapPath } from "./src/lib/seo.ts";
 
 const pocRobotsHeader = "noindex, nofollow, noarchive";
@@ -61,6 +63,7 @@ export default defineConfig({
   },
   adapter: node({
     mode: "standalone",
+    staticHeaders: true,
   }),
   integrations: [
     sitemap({
@@ -71,6 +74,17 @@ export default defineConfig({
         return item;
       },
     }),
+    {
+      name: "discovery-static-headers",
+      hooks: {
+        "astro:build:done": async ({ dir }) => {
+          await writeFile(
+            new URL("_headers.json", dir),
+            `${JSON.stringify(discoveryStaticHeaders, null, 2)}\n`,
+          );
+        },
+      },
+    },
   ],
   vite: {
     plugins: [superficiePocHeaders()],

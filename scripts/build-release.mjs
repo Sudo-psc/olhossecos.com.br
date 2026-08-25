@@ -22,6 +22,15 @@ execFileSync("astro", ["build"], {
   stdio: "inherit",
 });
 
+// O adapter Node lê dist/_headers.json quando staticHeaders=true. O hook
+// dele só grava CSP e pode esvaziar o arquivo; reescrevemos o MIME das
+// rotas de descoberta depois do astro build.
+execFileSync(
+  process.execPath,
+  ["--experimental-strip-types", "scripts/write-discovery-headers.mjs"],
+  { cwd: repositoryDirectory, stdio: "inherit" },
+);
+
 // Caminhos que existem sob public/ mas não devem ir para produção.
 //
 // As placas em art/ e os PNGs de origem dos heros são INSUMOS dos geradores

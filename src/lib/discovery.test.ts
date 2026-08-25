@@ -3,6 +3,7 @@ import { test } from "node:test";
 import { responsibleDoctor } from "./doctor.ts";
 import {
   discoveryContentTypes,
+  discoveryStaticHeaders,
   llmsFullTxt,
   llmsTxt,
   securityTxt,
@@ -53,6 +54,17 @@ test("as rotas de descoberta declaram content-type próprio", () => {
     discoveryContentTypes["/.well-known/security.txt"],
     "text/plain; charset=utf-8",
   );
+});
+
+test("o mapa de headers estáticos cobre as rotas e prefere o caminho longo", () => {
+  const paths = discoveryStaticHeaders.map((entry) => entry.pathname);
+  assert.deepEqual(
+    [...paths].sort((a, b) => b.length - a.length),
+    paths,
+  );
+  assert.ok(paths.includes("/rss.xml"));
+  assert.ok(paths.includes("/superficie/radar/rss.xml"));
+  assert.equal(discoveryStaticHeaders[0]?.headers[0]?.key, "Content-Type");
 });
 
 test("o manifesto mínimo não registra service worker", () => {
