@@ -60,7 +60,7 @@ const featuredBooks = books.slice(0, 2);
   title={homeTitle}
   description={homeDescription}
   imageAlt="Olhos Secos — ciência e informação sobre superfície ocular"
-  dateModified="2026-08-19"
+  dateModified="2026-08-25"
 >
   <!-- ------------------------------------------------------------- hero -->
   <section class="home-hero" aria-labelledby="home-title">
@@ -99,16 +99,12 @@ const featuredBooks = books.slice(0, 2);
       </div>
 
       <figure class="hero-visual" data-parallax>
-        <p class="visual-label">Superfície ocular • Filme lacrimal</p>
+        <p class="visual-label">Olho seco • Sintomas • Qualidade de vida</p>
         <div class="hero-frame">
           {
-            /* Imagem, não vídeo. O clipe custava 471 KB para decorar, e o
-              primeiro quadro dele é um olho fotorrealista e avermelhado, que
-              lê como fotografia clínica — a divulgação ao lado diz
-              "representação esquemática, não é registro clínico", e as duas
-              coisas não podiam conviver na mesma figura. Esta é a composição
-              esquemática para a qual a divulgação foi escrita, e é o que a
-              página precisa: 7,5 KB em avif. */
+            /* Fotografia editorial orientada ao paciente. A imagem humaniza a
+              porta de entrada do portal sem sugerir diagnóstico individual ou
+              representar um registro clínico. */
           }
           <picture>
             <source
@@ -124,15 +120,15 @@ const featuredBooks = books.slice(0, 2);
             <img
               class="hero-still"
               src="/images/hero-filme-lacrimal.jpg"
-              alt="Composição editorial da superfície da córnea vista de perfil, com uma película lacrimal iridescente espalhada sobre a curva"
+              alt="Pessoa em ambiente claro tocando suavemente a região ao redor dos olhos, representando desconforto associado a sintomas de olho seco"
               width="1024"
               height="768"
               fetchpriority="high"
             />
           </picture>
-          <!-- Interferência do filme lacrimal: duas faixas que derivam devagar
-               sobre a imagem. É o único movimento contínuo do hero, e some
-               inteiro em prefers-reduced-motion. -->
+          <!-- Linhas abstratas e discretas reforçam a identidade visual do
+               portal sem acrescentar informação clínica; desaparecem em
+               prefers-reduced-motion. -->
           <svg
             class="hero-interference"
             viewBox="0 0 600 450"
@@ -146,13 +142,12 @@ const featuredBooks = books.slice(0, 2);
         <figcaption class="science-index">
           <span>03</span>
           <p>
-            Camadas interdependentes contribuem para estabilidade, proteção e
-            qualidade óptica da superfície ocular.
+            Ardor, sensação de areia, visão flutuante e cansaço ocular podem
+            afetar conforto, concentração e qualidade de vida.
           </p>
           <small>
-            Ilustração original do portal · Vídeo e imagem gerados com IA para
-            fins editoriais; representação esquemática, sem escala anatômica e
-            não é registro clínico.
+            Imagem editorial gerada com IA para fins educativos; não representa
+            paciente real nem substitui avaliação médica.
           </small>
         </figcaption>
       </figure>
