@@ -19,4 +19,7 @@ export const responsibleDoctor = {
   rqe,
   /** Redação canônica exibida ao lado do nome. */
   registration: `${crm} · ${rqe}`,
+  /** Identificadores públicos já documentados. LinkedIn não estava no acervo. */
+  orcid: "https://orcid.org/0000-0002-4073-8371",
+  lattes: "https://lattes.cnpq.br/7365253786880035",
 } as const;

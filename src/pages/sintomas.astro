@@ -3,9 +3,19 @@ import ContentPage from "@/components/ContentPage.astro";
 import { sourceLink, sources } from "@/lib/sources";
 import EducationalFigure from "@/components/EducationalFigure.astro";
 import { figures } from "@/lib/figures";
+import { faqPageSchema } from "@/lib/seo";
+
+const faqItems = [
+  {
+    question: "Se é seco, por que pode lacrimejar?",
+    answer:
+      "Irritação da superfície ocular pode provocar uma resposta reflexa com lágrimas abundantes. Essas lágrimas podem escorrer, mas não necessariamente formam uma película estável e duradoura. Por isso, lacrimejamento e sensação de secura podem coexistir.",
+  },
+];
 ---
 
 <ContentPage
+  extraSchema={faqPageSchema(faqItems)}
   image="/images/og/og-sintomas.png"
   title="Sintomas de olho seco: ardência, areia e lacrimejo"
   description="Conheça os sintomas do olho seco e entenda quando lacrimejamento ou epífora podem estar ligados à superfície ocular ou às vias lacrimais."

@@ -20,8 +20,47 @@ export const physician = {
   affiliation: "Saraiva Vision",
   affiliationLocality: "Caratinga",
   affiliationRegion: "MG",
-  sameAs: ["https://www.amazon.com/author/drphilipesaraiva"],
+  sameAs: [
+    "https://www.amazon.com/author/drphilipesaraiva",
+    responsibleDoctor.orcid,
+    responsibleDoctor.lattes,
+  ],
 } as const;
+
+export const portalMedicalConditions = [
+  {
+    "@type": "MedicalCondition",
+    name: "Síndrome do olho seco",
+    alternateName: ["Olho seco", "Dry eye disease"],
+  },
+  {
+    "@type": "MedicalCondition",
+    name: "Disfunção das glândulas de Meibômio",
+    alternateName: ["DGM", "Meibomian gland dysfunction"],
+  },
+  {
+    "@type": "MedicalCondition",
+    name: "Blefarite",
+  },
+] as const;
+
+export const physicianCredentials = [
+  {
+    "@type": "EducationalOccupationalCredential",
+    credentialCategory: "MedicalLicense",
+    name: physician.crm,
+    recognizedBy: {
+      "@type": "Organization",
+      name: "Conselho Regional de Medicina do Estado de Minas Gerais",
+    },
+  },
+  {
+    "@type": "EducationalOccupationalCredential",
+    credentialCategory: "board certification",
+    name: physician.rqe,
+    competencyRequired: "Oftalmologia",
+  },
+] as const;
 
 const sitemapExcludedExact = new Set([
   "/blog",
@@ -210,6 +249,7 @@ export const physicianSchema = (siteUrl: URL) => ({
     },
   },
   sameAs: [...physician.sameAs],
+  hasCredential: [...physicianCredentials],
 });
 
 export interface FaqItem {

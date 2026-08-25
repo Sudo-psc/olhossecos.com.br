@@ -4,7 +4,12 @@ import Footer from "@/components/Footer.astro";
 import AnalyticsCollector from "@/components/AnalyticsCollector.astro";
 import GlobalSearchModal from "@/components/GlobalSearchModal.astro";
 import { author } from "@/lib/books";
+import {
+  physicianCredentials,
+  portalMedicalConditions,
+} from "@/lib/seo";
 import { normalizeBasePath, withBasePath } from "@/lib/site-path";
+import { responsibleDoctor } from "@/lib/doctor";
 import "@/styles/fonts.css";
 import "@/styles/tokens.css";
 
@@ -86,6 +91,12 @@ const person = {
   jobTitle: author.role,
   identifier: author.registration,
   url: new URL(withBasePath(`/autor/${author.slug}`, basePath), siteUrl).href,
+  sameAs: [
+    "https://www.amazon.com/author/drphilipesaraiva",
+    responsibleDoctor.orcid,
+    responsibleDoctor.lattes,
+  ],
+  hasCredential: [...physicianCredentials],
 };
 
 const website = {
@@ -120,11 +131,7 @@ const page = {
     schemaType === "MedicalWebPage" ? { "@id": person["@id"] } : undefined,
   about:
     schemaType === "MedicalWebPage" || schemaType === "Article"
-      ? {
-          "@type": "MedicalCondition",
-          name: "Doença do olho seco",
-          alternateName: "Olho seco",
-        }
+      ? [...portalMedicalConditions]
       : undefined,
   author: schemaType === "Article" ? { "@id": person["@id"] } : undefined,
   publisher:
