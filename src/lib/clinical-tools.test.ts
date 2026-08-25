@@ -18,6 +18,15 @@ import {
 } from "./tools/result-engine.ts";
 import { pdfContains, pdfPageCount } from "./tools/client-pdf.ts";
 import { buildDeq5ReportPdf } from "./tools/deq5-pdf.ts";
+import {
+  clearDiary,
+  diaryToCsv,
+  diaryWindow,
+  DIARY_STORAGE_KEY,
+  loadDiary,
+  upsertDiaryEntry,
+  type DiaryStore,
+} from "./tools/diary.ts";
 
 test("o OSDI permanece desligado até haver licença escrita", () => {
   assert.equal(osdiEnabled, false);
@@ -95,4 +104,37 @@ test("o PDF do DEQ-5 cabe em uma página, cita a fonte e não pede identificador
   assert.equal(pdfContains(pdf, "Nenhum nome"), true);
   assert.equal(pdfContains(pdf, "Nome:"), false);
   assert.equal(pdfContains(pdf, "@"), false);
+});
+
+const memoryStore = (): DiaryStore => {
+  const data = new Map<string, string>();
+  return {
+    getItem: (key) => data.get(key) ?? null,
+    setItem: (key, value) => {
+      data.set(key, value);
+    },
+    removeItem: (key) => {
+      data.delete(key);
+    },
+  };
+};
+
+test("o diário guarda 14 dias só no armazenamento local e pode apagar tudo", () => {
+  const store = memoryStore();
+  const today = new Date("2026-08-25T12:00:00Z");
+  assert.equal(diaryWindow(today).length, 14);
+  assert.equal(diaryWindow(today)[0], "2026-08-12");
+  assert.equal(diaryWindow(today).at(-1), "2026-08-25");
+
+  upsertDiaryEntry(store, { date: "2026-08-25", intensity: 4, note: "telas" });
+  assert.equal(loadDiary(store)[0]?.intensity, 4);
+  assert.equal(store.getItem(DIARY_STORAGE_KEY)?.includes("telas"), true);
+
+  const csv = diaryToCsv(loadDiary(store));
+  assert.match(csv, /^date,intensity,note/u);
+  assert.match(csv, /2026-08-25,4,"telas"/u);
+
+  clearDiary(store);
+  assert.deepEqual(loadDiary(store), []);
+  assert.equal(store.getItem(DIARY_STORAGE_KEY), null);
 });
