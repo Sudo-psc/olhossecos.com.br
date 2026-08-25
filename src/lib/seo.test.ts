@@ -57,7 +57,6 @@ test("a pré-página não herda data de conteúdo", () => {
   assert.equal(lastmodForSitemapPath("/"), "2026-08-24");
 });
 
-
 test("Organization e médico compartilham o mesmo @id canônico do portal", () => {
   const siteUrl = new URL("https://olhossecos.com.br/");
   const organization = organizationSchema(siteUrl);
