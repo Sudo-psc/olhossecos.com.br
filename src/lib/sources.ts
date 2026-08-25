@@ -9,6 +9,7 @@ export interface EditorialSource {
 const verified = "25 de julho de 2026";
 const verifiedToday = "26 de julho de 2026";
 const verifiedCurrent = "10 de agosto de 2026";
+const verifiedHwang = "25 de agosto de 2026";
 
 export const sources = {
   dews3Executive: {
@@ -266,6 +267,14 @@ export const sources = {
     description:
       "Síntese sobre pregas conjuntivais redundantes, sintomas, fluxo lacrimal, atrito, inflamação e opções de cuidado.",
     verified: verifiedToday,
+  },
+  hwangMeibography3d: {
+    name: "Hwang et al. — meibografia 3D por OCT de domínio Fourier",
+    type: "Estudo clínico descritivo",
+    url: "https://doi.org/10.1371/journal.pone.0067143",
+    description:
+      "Reconstrução em volume das glândulas de Meibomius com FD-OCT em 2 voluntários e 7 pacientes, comparada à meibografia infravermelha. PLoS ONE, licença CC BY 4.0.",
+    verified: verifiedHwang,
   },
   conjunctivochalasisTearFlow: {
     name: "Huang et al. — fluxo lacrimal na conjuntivocálase",

@@ -102,6 +102,33 @@ Prompt final:
 > generous negative space, suitable for a white editorial article card. Aspect
 > ratio 3:2, high resolution.
 
+## Figuras de licença aberta — Hwang et al., 2013
+
+Artigo: Hwang HS, Shin JG, Lee BH, Eom TJ, Joo C-K. In Vivo 3D
+Meibography of the Human Eyelid Using Real Time Imaging Fourier-Domain
+OCT. _PLoS ONE_. 2013;8(6):e67143.
+
+- DOI: https://doi.org/10.1371/journal.pone.0067143
+- PMID: 23805297 · PMCID: PMC3689717
+- Licença: Creative Commons Attribution 4.0 International
+  (Crossref, conferida em 25 de agosto de 2026)
+- Licença: https://creativecommons.org/licenses/by/4.0/
+- O artigo declara aprovação do IRB do Seoul St. Mary's Hospital e
+  consentimento escrito dos participantes. As figuras usadas mostram
+  pálpebra evertida e glândulas, sem identificação facial.
+- Arquivos-fonte: TIFFs originais da PLOS
+  (`article/figure/image?size=original&id=10.1371/journal.pone.0067143.g00N`)
+- Alterações: conversão para JPEG, AVIF e WebP; a figura 4 foi
+  redimensionada para 1200 px de largura. Sem recorte de painéis, letras
+  ou retângulos do campo.
+- Regenerar: `node scripts/process-hwang-meibography-figures.mjs`
+
+| Figura | SHA-256 do TIFF                                                    | Uso no site                              |
+| ------ | ------------------------------------------------------------------ | ---------------------------------------- |
+| 4      | `f784325bc915f94b8b3e702224adacffe180d090148d5ccc053f6bff9bfab135` | `/diagnostico` e o guia de meibografia   |
+| 6      | `c2514189d33f60ab70edf01efd807afb5f3d24c90a684b87d9d5a3a2e02df0ec` | `/diagnostico` e o guia de meibografia   |
+| 9      | `688583fb9d35b4491b4a6649ba902cd6371680a79d381c50ab77f05bfcc6be0c` | `/superficie/artigos/alem-do-meiboscore` |
+
 ## SUPERFÍCIE — Gate 3
 
 Ativos editoriais criados em 7 de agosto de 2026 para a landing da revista e a
