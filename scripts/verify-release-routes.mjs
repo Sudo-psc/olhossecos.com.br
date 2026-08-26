@@ -143,16 +143,14 @@ try {
   }
   const homeResponse = await assertStatus("/");
   const homeHtml = await homeResponse.text();
-  const responseCsp = homeResponse.headers.get("content-security-policy") ?? "";
-  if (
-    /googletagmanager\.com|google-analytics\.com|analytics\.google\.com|G-GJGLLWV2KS/u.test(
-      `${responseCsp}\n${homeHtml}`,
-    )
-  ) {
-    throw new Error(
-      "homepage: analytics de terceiro ou permissão CSP correspondente ainda publicada",
-    );
-  }
+  // Não há guard contra analytics de terceiro aqui. Houve um, que reprovava o
+  // release inteiro ao encontrar googletagmanager/google-analytics na CSP ou
+  // no HTML. Ele foi removido a pedido do responsável pelo site, que decidiu
+  // manter o GA4 — o guard e a decisão editorial não podiam valer juntos.
+  //
+  // A ressalva de LGPD registrada em 867baac continua de pé e não é resolvida
+  // por este arquivo: o gtag dispara no <head> antes de qualquer escolha do
+  // visitante, e /privacidade não nomeia o Google como operador.
   if (!homeHtml.includes(`href="${publicPath("/newsletter")}"`)) {
     throw new Error("homepage: link global para /newsletter ausente");
   }
