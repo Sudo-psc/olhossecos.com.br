@@ -69,4 +69,17 @@
   --text-headline: clamp(4.1723rem, 3.6508rem + 2.0862vw, 5.2154rem);
   --text-wordmark: clamp(5.2154rem, 4.5635rem + 2.6077vw, 6.5193rem);
   --text-numeral: clamp(6.5193rem, 5.7044rem + 3.2596vw, 8.1491rem);
+
+  /* Medida de leitura: 65–72 caracteres por linha.
+
+     `ch` é a largura do algarismo zero, e o zero é mais largo que a média das
+     minúsculas — 11,00px contra 10,39px no corpo do artigo. Por isso `68ch`
+     não entrega 68 caracteres, entrega 72. Os valores abaixo foram calibrados
+     medindo a largura média real do glifo na fonte servida, não pelo nome da
+     unidade. --article-column é a coluna do texto longo em medida absoluta,
+     porque ela também define uma faixa do grid, onde `ch` herdaria o
+     font-size do container e não o do parágrafo. */
+  --measure: 64ch;
+  --measure-narrow: 54ch;
+  --article-column: 44rem;
 }

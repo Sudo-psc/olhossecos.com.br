@@ -510,7 +510,7 @@ const formatDate = formatLongDate;
   }
 
   .excerpt {
-    max-width: 760px;
+    max-width: var(--article-column);
     margin-bottom: 0;
     color: var(--surface-muted-on-dark);
     font-size: var(--text-body);
@@ -543,7 +543,7 @@ const formatDate = formatLongDate;
 
   .article-grid {
     display: grid;
-    grid-template-columns: 220px minmax(0, 760px);
+    grid-template-columns: 220px minmax(0, var(--article-column));
     justify-content: center;
     gap: clamp(3rem, 8vw, 8rem);
     padding-block: clamp(4.5rem, 9vw, 8rem);

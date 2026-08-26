@@ -189,3 +189,51 @@ test("todo layout que serve HTML carrega a escala tipográfica", async () => {
     `sem a escala, font-size cai no padrão de 16px do navegador:\n${offenders.join("\n")}`,
   );
 });
+
+/**
+ * A armadilha que mordeu duas vezes na mesma sessão: um token declarado só em
+ * tokens.css, que apenas o layout do portal importa, e usado num componente da
+ * SUPERFÍCIE. O CSS não avisa — `var(--x)` sem fallback vira valor inválido e
+ * a propriedade some. Na primeira vez toda a revista caiu para os 16px padrão
+ * do navegador; na segunda, a coluna do artigo pulou de 704px para 1340px.
+ *
+ * Build e suíte passavam nas duas. Só a medição no navegador via.
+ */
+test("componente da SUPERFÍCIE não usa token exclusivo do portal", async () => {
+  const definidos = new Set<string>();
+  for (const path of [
+    "src/styles/scale.css",
+    "src/layouts/SuperficieLayout.astro",
+  ]) {
+    const source = await readFile(path, "utf8");
+    for (const match of source.matchAll(/(--[\w-]+):/gu))
+      definidos.add(match[1]);
+  }
+
+  const arquivos = (await collectStyleSources("src")).filter(
+    (path) =>
+      path.includes("/superficie/") || path.includes("SuperficieLayout"),
+  );
+
+  const offenders: string[] = [];
+  for (const path of arquivos) {
+    const source = await readFile(path, "utf8");
+    // Um arquivo pode declarar o próprio token, inclusive inline pelo atributo
+    // style — é como o MagazineArticlePage passa --figure-ratio por figura.
+    const locais = new Set(
+      [...source.matchAll(/(--[\w-]+)\s*:/gu)].map((match) => match[1]),
+    );
+    // Só `var(--x)` SEM fallback: com fallback a falta do token é intencional.
+    for (const match of source.matchAll(/var\(\s*(--[\w-]+)\s*\)/gu)) {
+      const token = match[1];
+      if (definidos.has(token) || locais.has(token)) continue;
+      offenders.push(`${path}: var(${token})`);
+    }
+  }
+
+  assert.deepEqual(
+    [...new Set(offenders)],
+    [],
+    `token indefinido na revista — declare em scale.css ou dê fallback:\n${[...new Set(offenders)].join("\n")}`,
+  );
+});

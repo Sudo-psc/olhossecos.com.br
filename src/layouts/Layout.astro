@@ -629,8 +629,12 @@ const structuredData = {
     border-bottom: 1px solid var(--line);
   }
 
+  /* `--measure` e não `--article-column`: o portal compõe em serifada, cujo
+     glifo é mais largo que o da pilha de sistema da revista. Medida absoluta
+     dá contagens diferentes nas duas frentes — 704px rende 68 caracteres no
+     artigo e 58 aqui. `ch` acompanha a família e mantém a contagem. */
   .page-intro p {
-    max-width: 760px;
+    max-width: var(--measure);
     margin: 2rem 0 0;
     color: var(--ink-soft);
     font-size: var(--text-body);
