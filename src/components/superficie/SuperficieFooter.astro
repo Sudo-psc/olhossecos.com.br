@@ -57,7 +57,9 @@ const groups = [
   <div class="surface-shell footer-imprint">
     <p>
       <span>Editor responsável</span>
-      <strong>Dr. {responsibleDoctor.name}</strong>
+      <strong>
+        <a href={responsibleDoctor.website}>Dr. {responsibleDoctor.name}</a>
+      </strong>
       <em>{responsibleDoctor.registration}</em>
     </p>
   </div>
@@ -151,6 +153,12 @@ const groups = [
     font-family: var(--surface-serif);
     font-size: 1.05rem;
     font-weight: 400;
+  }
+
+  .footer-imprint a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
   }
 
   .footer-imprint em {

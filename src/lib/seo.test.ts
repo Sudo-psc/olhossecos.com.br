@@ -84,6 +84,7 @@ test("Organization e médico compartilham o mesmo @id canônico do portal", () =
   assert.ok(
     person.sameAs.includes("https://www.linkedin.com/in/dr-philipe-saraiva"),
   );
+  assert.ok(person.sameAs.includes("https://drphilipesaraiva.com.br/"));
   assert.equal(person.hasCredential[0]?.name, physician.crm);
   assert.equal(portalMedicalConditions.length, 3);
   assert.equal(portalMedicalConditions[0]?.name, "Síndrome do olho seco");

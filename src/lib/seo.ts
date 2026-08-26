@@ -25,6 +25,7 @@ export const physician = {
     responsibleDoctor.orcid,
     responsibleDoctor.lattes,
     responsibleDoctor.linkedin,
+    responsibleDoctor.website,
   ],
 } as const;
 
