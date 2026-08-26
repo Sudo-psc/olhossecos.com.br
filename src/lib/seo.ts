@@ -230,6 +230,7 @@ export const organizationSchema = (siteUrl: URL) => ({
     height: 512,
   },
   founder: { "@id": physicianId(siteUrl) },
+  sameAs: ["https://drphilipesaraiva.com.br/"],
 });
 
 export const physicianSchema = (siteUrl: URL) => ({
