@@ -12,15 +12,13 @@
   font-weight: 400 700;
   font-style: normal;
   font-display: swap;
-  /* Subset latino: acentuação do português, travessão, aspas curvas, setas e
-     sinais matemáticos usados nos blocos de evidência. */
   unicode-range:
     U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
     U+2000-206F, U+20AC, U+2122, U+2190-2193, U+2212, U+2215, U+2264, U+2265;
 }
 
 /* Hero do Portal do Paciente: remove o marcador numérico legado e mantém a
-   legenda em coluna única. display:none também o retira da árvore acessível. */
+   legenda em coluna única. */
 .science-index {
   grid-template-columns: 1fr !important;
   gap: 0.8rem !important;
@@ -33,4 +31,112 @@
 .science-index small {
   grid-column: auto !important;
   margin-top: 0 !important;
+}
+
+/* Home — grande matéria. A ficha técnica passa a funcionar como uma capa
+   editorial abstrata: cria um segundo ponto focal sem adicionar uma imagem
+   pesada ao LCP nem inventar iconografia clínica. */
+.lead-sheet {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: clamp(360px, 42vw, 520px);
+  padding: clamp(1.5rem, 3vw, 2.5rem) !important;
+  border: 1px solid color-mix(in srgb, var(--teal) 24%, var(--line)) !important;
+  border-radius: var(--radius-lg) !important;
+  background:
+    radial-gradient(circle at 78% 20%, rgb(8 127 149 / 20%) 0 8%, transparent 9%),
+    radial-gradient(circle at 72% 26%, transparent 0 18%, rgb(8 127 149 / 12%) 18.5% 19.5%, transparent 20%),
+    linear-gradient(145deg, var(--paper-0) 0 48%, var(--teal-50) 48% 100%) !important;
+  box-shadow: var(--shadow-card);
+}
+
+.lead-sheet::before {
+  content: "DEWS III";
+  position: absolute;
+  z-index: -1;
+  right: -0.05em;
+  bottom: -0.18em;
+  font-family: var(--serif);
+  font-size: clamp(4.5rem, 9vw, 8.5rem);
+  font-weight: 700;
+  line-height: 0.85;
+  letter-spacing: -0.07em;
+  color: rgb(8 127 149 / 9%);
+  white-space: nowrap;
+}
+
+.lead-sheet::after {
+  content: "TFOS  •  MECANISMOS  •  PRÁTICA CLÍNICA";
+  position: absolute;
+  left: clamp(1.5rem, 3vw, 2.5rem);
+  bottom: clamp(1.5rem, 3vw, 2.5rem);
+  max-width: 70%;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--teal-dark);
+}
+
+.lead-sheet dl {
+  position: relative;
+  z-index: 1;
+  display: grid !important;
+  gap: 0 !important;
+  margin: 0 !important;
+  max-width: 78%;
+  background: rgb(255 255 255 / 72%);
+  border-top: 3px solid var(--teal);
+  backdrop-filter: blur(10px);
+}
+
+.lead-sheet dl > div {
+  display: grid;
+  grid-template-columns: minmax(5.5rem, 0.8fr) 1.4fr;
+  gap: 1rem;
+  padding: 1rem 0.9rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.lead-sheet dt {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal-dark);
+}
+
+.lead-sheet dd {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1rem;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.lead-tags {
+  position: relative;
+  z-index: 1;
+  max-width: 78%;
+  margin-top: 1.25rem !important;
+}
+
+@media (max-width: 760px) {
+  .lead-sheet {
+    min-height: 360px;
+  }
+
+  .lead-sheet dl,
+  .lead-tags {
+    max-width: 100%;
+  }
+
+  .lead-sheet::before {
+    font-size: clamp(4rem, 22vw, 6.5rem);
+  }
+
+  .lead-sheet::after {
+    max-width: calc(100% - 3rem);
+  }
 }
