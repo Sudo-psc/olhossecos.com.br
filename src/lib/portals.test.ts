@@ -71,19 +71,33 @@ test("cada portal aponta para a home do outro", () => {
  * Se a página profissional voltar ao bloco só de texto — ou reaproveitar o
  * filme lacrimal do paciente — a separação visual dos portais se perde.
  */
-test("o hero profissional tem imagem responsiva e independente", async () => {
+test("o hero profissional tem visual próprio e independente", async () => {
   const source = await readFile("src/pages/profissional.astro", "utf8");
 
-  assert.match(source, /<figure class="hero-visual">/u);
-  assert.match(
-    source,
-    /hero-interferometria-768\.avif 768w, \/images\/superficie\/hero-interferometria-1536\.avif 1536w/u,
-  );
+  // Há visual: o hero não volta a ser bloco só de texto.
+  assert.match(source, /class="hero-visual"/u);
+
+  // O visual é do portal profissional, não emprestado do paciente.
   assert.doesNotMatch(source, /hero-filme-lacrimal/u);
-  assert.match(source, /width="1536"[\s\S]*height="1024"/u);
-  assert.match(source, /fetchpriority="high"/u);
-  assert.match(source, /Ilustração gerada com IA/u);
-  assert.match(source, /não representa um exame/u);
+
+  // Hoje o visual é o mapa dos nove drivers, embutido. Como SVG inline ele
+  // não gera requisição, então não há srcset nem fetchpriority a exigir — a
+  // caixa é reservada pelo próprio viewBox e o CLS segue em 0.
+  assert.match(source, /hero-frame-diagrama/u);
+  assert.match(source, /mapa-nove-drivers\.svg/u);
+  assert.match(source, /aria-hidden="true" focusable="false"/u);
+
+  /*
+   * A trava de conformidade que importa preservar: se um dia o hero voltar a
+   * usar raster gerado por IA, a divulgação tem de vir junto. O CLAUDE.md
+   * exige, e é o tipo de coisa que some numa troca de arte. Um esquema
+   * vetorial de autoria própria não dispara a regra.
+   */
+  const usaRaster = /<img[^>]+src="[^"]+\.(?:jpg|png|webp|avif)"/u.test(source);
+  if (usaRaster) {
+    assert.match(source, /Ilustração gerada com IA/u);
+    assert.match(source, /não representa um exame/u);
+  }
 });
 
 test("a navegação de um portal não empurra o conteúdo do outro", () => {

@@ -150,7 +150,9 @@ try {
   //
   // A ressalva de LGPD registrada em 867baac continua de pé e não é resolvida
   // por este arquivo: o gtag dispara no <head> antes de qualquer escolha do
-  // visitante, e /privacidade não nomeia o Google como operador.
+  // visitante, e /privacidade não nomeia o Google como operador. Some-se o
+  // custo medido: o gtag.js pesa 558 KB crus, contra 7 KB de todo o
+  // JavaScript próprio do site.
   if (!homeHtml.includes(`href="${publicPath("/newsletter")}"`)) {
     throw new Error("homepage: link global para /newsletter ausente");
   }
