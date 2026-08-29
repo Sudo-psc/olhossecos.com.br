@@ -418,17 +418,30 @@ test("matéria TFOS DEWS III inclui o mapa dos nove drivers só no corpo", () =>
     path.join(repoRoot, "src/components/superficie/MagazineArticlePage.astro"),
     "utf8",
   );
-  assert.match(markup, /loading="eager"/u);
-  assert.match(markup, /fetchpriority="high"/u);
+  // A figura saiu para <ArticleFigure>. Só a primeira seção nasce eager:
+  // marcar toda figura como alta prioridade faz o navegador competir consigo
+  // mesmo por banda e atrasa justamente a candidata a LCP.
+  assert.match(markup, /<ArticleFigure figure=\{section\.figure\}/u);
+  assert.match(markup, /priority=\{index === 0\}/u);
+
+  const figura = readFileSync(
+    path.join(repoRoot, "src/components/superficie/ArticleFigure.astro"),
+    "utf8",
+  );
+  assert.match(figura, /loading=\{priority \? "eager" : "lazy"\}/u);
+  assert.match(figura, /fetchpriority=\{priority \? "high" : "auto"\}/u);
+  // width/height sempre presentes: é o que reserva a caixa e segura o CLS.
+  assert.match(figura, /width=\{figure\.width\}/u);
+  assert.match(figura, /height=\{figure\.height\}/u);
   assert.match(
-    markup,
-    /--figure-ratio: \$\{section\.figure\.width\} \/ \$\{section\.figure\.height\}/u,
+    figura,
+    /--figure-ratio: \$\{figure\.width\} \/ \$\{figure\.height\}/u,
   );
   assert.equal(section.figure.width, 1680);
   assert.equal(section.figure.height, 980);
   assert.match(
     markup,
-    /class="section-title"[\s\S]*section\.figure[\s\S]*section\.paragraphs/u,
+    /class="section-title"[\s\S]*ArticleFigure[\s\S]*section\.paragraphs/u,
   );
   assert.doesNotMatch(
     markup,
@@ -768,11 +781,13 @@ test("matéria Além do meiboscore publica as quatro seções e as travas do ras
   );
   assert.match(oct?.figure?.modification ?? "", /Sem recorte/u);
 
-  const magazineMarkup = read(
-    path.join(repoRoot, "src/components/superficie/MagazineArticlePage.astro"),
+  // Crédito e licença moram em <ArticleFigure>: atribuição de CC BY é
+  // exigência da licença, e é o componente que a renderiza agora.
+  const figuraMarkup = read(
+    path.join(repoRoot, "src/components/superficie/ArticleFigure.astro"),
   );
-  assert.match(magazineMarkup, /section\.figure\.credit\.url/u);
-  assert.match(magazineMarkup, /rel="noopener noreferrer license"/u);
+  assert.match(figuraMarkup, /figure\.credit\.url/u);
+  assert.match(figuraMarkup, /rel="noopener noreferrer license"/u);
 });
 
 test("matéria Cinco testes, cinco perguntas publica as quatro seções e as travas do rascunho selado", () => {

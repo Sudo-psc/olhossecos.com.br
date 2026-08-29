@@ -1,0 +1,148 @@
+---
+import type { MagazineArticleFigure } from "@/lib/superficie";
+
+/**
+ * Figura de artigo: imagem, legenda e linha de procedência.
+ *
+ * A marcação vivia inline no MagazineArticlePage, com cinquenta linhas de
+ * condicional de crédito e licença que nada mais podia reaproveitar.
+ *
+ * `priority` existe porque a estratégia de carregamento não é a mesma para
+ * toda figura: a primeira seção do artigo pode estar na dobra e ser candidata
+ * a LCP, as demais não. Antes desta extração TODA figura de seção nascia com
+ * `loading="eager"` e `fetchpriority="high"` — o navegador competia consigo
+ * mesmo por banda e atrasava justamente a imagem que importa.
+ *
+ * `width` e `height` chegam sempre ao <img>, e o `--figure-ratio` reserva a
+ * caixa antes do decode. É o que segura o CLS em 0.
+ */
+interface Props {
+  figure: MagazineArticleFigure;
+  priority?: boolean;
+}
+
+const { figure, priority = false } = Astro.props;
+const temProcedencia = Boolean(
+  figure.credit || figure.license || figure.modification,
+);
+---
+
+<figure
+  class="article-inline-figure"
+  style={`--figure-ratio: ${figure.width} / ${figure.height}`}
+>
+  <picture>
+    {figure.avif && <source type="image/avif" srcset={figure.avif} />}
+    {figure.webp && <source type="image/webp" srcset={figure.webp} />}
+    <img
+      src={figure.src}
+      alt={figure.alt}
+      width={figure.width}
+      height={figure.height}
+      loading={priority ? "eager" : "lazy"}
+      fetchpriority={priority ? "high" : "auto"}
+      decoding="async"
+    />
+  </picture>
+  <figcaption>
+    <p>{figure.caption}</p>
+    {
+      temProcedencia && (
+        <small>
+          {figure.credit?.url ? (
+            <a
+              href={figure.credit.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {figure.credit.label}
+            </a>
+          ) : figure.credit ? (
+            <span>{figure.credit.label}</span>
+          ) : null}
+          {figure.license && (
+            <>
+              {figure.credit ? " · " : ""}
+              <a
+                href={figure.license.url}
+                target="_blank"
+                rel="noopener noreferrer license"
+              >
+                {figure.license.label}
+              </a>
+            </>
+          )}
+          {figure.modification && (
+            <>
+              {" · "}
+              {figure.modification}
+            </>
+          )}
+        </small>
+      )
+    }
+  </figcaption>
+</figure>
+
+<style>
+  /*
+   * O escopo do Astro adiciona um atributo por componente. Como a marcação
+   * saiu do MagazineArticlePage, estas regras precisam vir junto — CSS deixado
+   * para trás simplesmente para de casar, sem erro e sem aviso.
+   *
+   * `.section-title` continua sendo do componente pai, então o seletor de
+   * irmão adjacente precisa de :global no lado de lá.
+   */
+  .article-inline-figure {
+    margin: 2rem 0 2.5rem;
+  }
+
+  :global(.section-title) + .article-inline-figure {
+    margin: 0.85rem 0 1.75rem;
+  }
+
+  /* A caixa reserva a razão da figura encomendada antes do decode. */
+  .article-inline-figure picture {
+    display: block;
+    overflow: hidden;
+    aspect-ratio: var(--figure-ratio);
+    background: var(--surface-white);
+    border: 1px solid var(--surface-line);
+  }
+
+  .article-inline-figure img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .article-inline-figure figcaption p {
+    margin: 0.75rem 0 0;
+    max-width: 68ch;
+    color: var(--surface-muted);
+    font-family: var(--surface-sans);
+    font-size: var(--text-meta);
+    line-height: 1.5;
+  }
+
+  /* Crédito e licença são texto informativo — atribuição de CC BY não é
+     ornamento — então respeitam o piso de 14px. A distinção com a legenda
+     acima vem do peso e do espaço, não de 2px a menos. */
+  .article-inline-figure figcaption small {
+    display: block;
+    margin-top: 0.45rem;
+    max-width: 68ch;
+    color: var(--surface-muted);
+    font-family: var(--surface-sans);
+    font-size: var(--text-meta);
+    font-weight: 500;
+    line-height: 1.45;
+  }
+
+  .article-inline-figure figcaption a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.12em;
+  }
+</style>
