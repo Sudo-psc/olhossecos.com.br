@@ -1,4 +1,27 @@
 ---
+import { readFileSync } from "node:fs";
+import nodePath from "node:path";
+
+/**
+ * O mapa dos nove drivers no hero.
+ *
+ * Reaproveita o mesmo SVG do artigo TFOS, que já nasceu com as cores em
+ * `var(--mapa-*, #hex)`. Aqui os tokens são remapeados para a paleta do
+ * portal — o desenho é o mesmo, a roupa é a da frente que o exibe.
+ *
+ * `aria-hidden` porque o diagrama é ornamento nesta posição: quem quiser o
+ * conteúdo dele o encontra no artigo, com legenda e alt descritivo. Anunciar
+ * catorze rótulos antes do primeiro parágrafo do portal atrapalharia.
+ */
+const mapaSvg = readFileSync(
+  nodePath.join(
+    process.cwd(),
+    "public/images/superficie/artigos/tfos-dews-iii-na-pratica/mapa-nove-drivers.svg",
+  ),
+  "utf8",
+)
+  .replace(/<\?xml[^>]*\?>\s*/u, "")
+  .replace(/<svg /u, '<svg aria-hidden="true" focusable="false" ');
 import Layout from "@/layouts/Layout.astro";
 import IssueCover from "@/components/superficie/IssueCover.astro";
 import NewsletterSignupForm from "@/components/NewsletterSignupForm.astro";
@@ -41,29 +64,32 @@ const latestRadar = latestRadarReport();
   dateModified="2026-08-24"
 >
   <section class="pro-hero" aria-labelledby="pro-title">
-    <div class="page-shell">
-      <p class="eyebrow">Portal profissional</p>
-      <h1 id="pro-title">Superfície ocular, com a limitação declarada</h1>
-      <p class="pro-lead">
-        Conteúdo técnico para quem investiga e trata: desenho de estudo,
-        amostra, grau de evidência e ressalva aparecem junto do número — e não
-        depois dele.
-      </p>
-      <div class="pro-actions">
-        <a
-          class="button-primary"
-          href="/superficie"
-          data-analytics-event="magazine_entry"
-        >
-          Entrar na SUPERFÍCIE
-        </a>
-        <a class="text-link" href="/superficie/radar">
-          Ver o RADAR Científico
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4 12h16m-5-5 5 5-5 5"></path>
-          </svg>
-        </a>
+    <div class="page-shell pro-hero-grid">
+      <div class="pro-hero-copy">
+        <p class="eyebrow">Portal profissional</p>
+        <h1 id="pro-title">Superfície ocular, com a limitação declarada</h1>
+        <p class="pro-lead">
+          Conteúdo técnico para quem investiga e trata: desenho de estudo,
+          amostra, grau de evidência e ressalva aparecem junto do número — e não
+          depois dele.
+        </p>
+        <div class="pro-actions">
+          <a
+            class="button-primary"
+            href="/superficie"
+            data-analytics-event="magazine_entry"
+          >
+            Entrar na SUPERFÍCIE
+          </a>
+          <a class="text-link" href="/superficie/radar">
+            Ver o RADAR Científico
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 12h16m-5-5 5 5-5 5"></path>
+            </svg>
+          </a>
+        </div>
       </div>
+      <div class="pro-hero-art" set:html={mapaSvg} />
     </div>
   </section>
 
@@ -276,6 +302,54 @@ const latestRadar = latestRadarReport();
 </script>
 
 <style>
+  .pro-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
+    align-items: center;
+    gap: clamp(2rem, 5vw, 4.5rem);
+  }
+
+  /* A paleta do diagrama traduzida para o portal. O SVG é o mesmo do artigo;
+     só os tokens mudam de frente. */
+  .pro-hero-art {
+    --mapa-fundo: var(--paper-0);
+    --mapa-carta: var(--paper-50);
+    --mapa-tinta: var(--ink);
+    --mapa-suave: var(--navy-400);
+    --mapa-fio: var(--line);
+    --mapa-teal: var(--teal-700);
+    --mapa-teal-fio: color-mix(in srgb, var(--teal-600) 40%, transparent);
+    --mapa-teal-tenue: color-mix(in srgb, var(--teal-600) 10%, transparent);
+    --mapa-cobre: var(--copper-700);
+    --mapa-cobre-fio: color-mix(in srgb, var(--copper-600) 45%, transparent);
+    --mapa-cobre-tenue: color-mix(in srgb, var(--copper-600) 14%, transparent);
+    --mapa-neutro: var(--ink-soft);
+    --mapa-neutro-fio: color-mix(in srgb, var(--ink-soft) 30%, transparent);
+    --mapa-neutro-tenue: color-mix(in srgb, var(--ink-soft) 8%, transparent);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+  }
+
+  .pro-hero-art :global(svg) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Abaixo de 860px o diagrama sai: numa coluna só ele viraria uma faixa
+     ilegível empurrando as ações para baixo da dobra. O hero mobile fica
+     idêntico ao que já era. */
+  @media (max-width: 860px) {
+    .pro-hero-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .pro-hero-art {
+      display: none;
+    }
+  }
+
   .pro-hero {
     padding: clamp(2.5rem, 1.8rem + 3.5vw, 4.5rem) 0
       clamp(2rem, 1.4rem + 2vw, 3rem);
