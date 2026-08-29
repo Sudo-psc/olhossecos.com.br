@@ -44,11 +44,16 @@ const issueSchema = {
   extraSchema={issueSchema}
 >
   <section class="issue-hero" aria-labelledby="issue-title">
-    <div class="surface-shell breadcrumb" aria-label="Navegação estrutural">
-      <a href="/superficie">SUPERFÍCIE</a>
-      <span aria-hidden="true">/</span>
-      <span>Edição 00</span>
-    </div>
+    <nav class="surface-shell breadcrumb" aria-label="Trilha de navegação">
+      <ol>
+        <li>
+          <a href="/superficie">SUPERFÍCIE</a>
+        </li>
+        <li>
+          <span aria-current="page">Edição 00</span>
+        </li>
+      </ol>
+    </nav>
 
     <div class="surface-shell issue-hero-grid">
       <div class="issue-cover-wrap">
@@ -373,6 +378,30 @@ const issueSchema = {
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+  }
+
+  .breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .breadcrumb li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* `content: "/" / ""` dá texto alternativo vazio ao separador. O Chromium
+     expõe conteúdo gerado à árvore de acessibilidade, e sem isso o leitor
+     de tela passaria a ler "SUPERFÍCIE barra ARTIGOS barra EVIDÊNCIA" — a
+     barra era <span aria-hidden> antes de virar CSS. */
+  .breadcrumb li:not(:last-child)::after {
+    content: "/" / "";
   }
 
   .breadcrumb a {
