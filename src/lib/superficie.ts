@@ -30,6 +30,16 @@ export interface MagazineContributor {
 
 export interface MagazineArticleFigure {
   src: string;
+  /**
+   * Caminho de um SVG em `public/` para embutir no lugar do <img>.
+   *
+   * Existe por dois motivos que o raster não resolve: o texto do diagrama
+   * continua sendo texto — selecionável, buscável e lido por leitor de tela —
+   * e as cores respondem ao tema, porque o CSS da página alcança o desenho.
+   * Como <img>, um SVG é documento isolado: nem herda variável nem escuta o
+   * data-theme. `src` continua obrigatório e serve de fallback.
+   */
+  svg?: string;
   alt: string;
   caption: string;
   width: number;
@@ -639,6 +649,7 @@ const tfosDewsIiiNaPratica: MagazineArticle = {
       kind: "evidence",
       figure: {
         src: "/images/superficie/artigos/tfos-dews-iii-na-pratica/mapa-nove-drivers.png",
+        svg: "/images/superficie/artigos/tfos-dews-iii-na-pratica/mapa-nove-drivers.svg",
         alt: "Mapa dos nove drivers da TFOS DEWS III: filme lacrimal (lipídico, aquoso, mucina/glicocálix), pálpebras (piscar e fechamento, margem palpebral) e superfície ocular (anatomia, disfunção neural, dano celular, inflamação).",
         caption:
           "O mapa dos nove drivers. Três territórios etiológicos — TFOS DEWS III.",

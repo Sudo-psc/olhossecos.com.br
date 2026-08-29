@@ -1,4 +1,6 @@
 ---
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import type { MagazineArticleFigure } from "@/lib/superficie";
 
 /**
@@ -25,25 +27,48 @@ const { figure, priority = false } = Astro.props;
 const temProcedencia = Boolean(
   figure.credit || figure.license || figure.modification,
 );
+
+/**
+ * O SVG é lido do disco na build e embutido no HTML. Embutir é o ponto: como
+ * <img>, um SVG é documento isolado — não herda `--surface-*`, não enxerga o
+ * `data-theme` e o texto dele não é texto para a página.
+ *
+ * `role="img"` com `aria-label` no <svg> faz o leitor de tela anunciar o alt
+ * uma vez, em vez de tropeçar nos catorze <text> soltos do desenho.
+ */
+const svgInline = figure.svg
+  ? readFileSync(path.join(process.cwd(), "public", figure.svg), "utf8")
+      .replace(/<\?xml[^>]*\?>\s*/u, "")
+      .replace(
+        /<svg /u,
+        `<svg role="img" aria-label="${figure.alt.replace(/"/gu, "&quot;")}" `,
+      )
+  : null;
 ---
 
 <figure
   class="article-inline-figure"
   style={`--figure-ratio: ${figure.width} / ${figure.height}`}
 >
-  <picture>
-    {figure.avif && <source type="image/avif" srcset={figure.avif} />}
-    {figure.webp && <source type="image/webp" srcset={figure.webp} />}
-    <img
-      src={figure.src}
-      alt={figure.alt}
-      width={figure.width}
-      height={figure.height}
-      loading={priority ? "eager" : "lazy"}
-      fetchpriority={priority ? "high" : "auto"}
-      decoding="async"
-    />
-  </picture>
+  {
+    svgInline ? (
+      <div class="figure-svg" set:html={svgInline} />
+    ) : (
+      <picture>
+        {figure.avif && <source type="image/avif" srcset={figure.avif} />}
+        {figure.webp && <source type="image/webp" srcset={figure.webp} />}
+        <img
+          src={figure.src}
+          alt={figure.alt}
+          width={figure.width}
+          height={figure.height}
+          loading={priority ? "eager" : "lazy"}
+          fetchpriority={priority ? "high" : "auto"}
+          decoding="async"
+        />
+      </picture>
+    )
+  }
   <figcaption>
     <p>{figure.caption}</p>
     {
@@ -115,6 +140,48 @@ const temProcedencia = Boolean(
     width: 100%;
     height: 100%;
     object-fit: contain;
+  }
+
+  /* Mesma caixa do <picture>: a razão de aspecto reserva o espaço antes de
+     qualquer pintura, então o SVG embutido não custa CLS. */
+  .figure-svg {
+    display: block;
+    overflow: hidden;
+    aspect-ratio: var(--figure-ratio);
+    background: var(--surface-white);
+    border: 1px solid var(--surface-line);
+  }
+
+  .figure-svg :global(svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    /* Paleta do diagrama. O SVG traz cada cor como `var(--mapa-*, #hex)`, e o
+       fallback é o que mantém o arquivo legível quando aberto sozinho. Aqui
+       os tokens amarram o desenho à revista. */
+    --mapa-fundo: var(--surface-white);
+    --mapa-carta: var(--surface-paper);
+    --mapa-tinta: var(--surface-ink);
+    --mapa-suave: var(--surface-muted);
+    --mapa-fio: var(--surface-line);
+    --mapa-teal: var(--surface-teal-dark);
+    --mapa-teal-fio: color-mix(in srgb, var(--surface-teal) 40%, transparent);
+    --mapa-teal-tenue: color-mix(in srgb, var(--surface-teal) 10%, transparent);
+    --mapa-cobre: var(--surface-gold-text);
+    --mapa-cobre-fio: color-mix(in srgb, var(--surface-gold) 45%, transparent);
+    --mapa-cobre-tenue: color-mix(
+      in srgb,
+      var(--surface-gold) 14%,
+      transparent
+    );
+    --mapa-neutro: var(--surface-copy);
+    --mapa-neutro-fio: color-mix(in srgb, var(--surface-copy) 30%, transparent);
+    --mapa-neutro-tenue: color-mix(
+      in srgb,
+      var(--surface-copy) 8%,
+      transparent
+    );
   }
 
   .article-inline-figure figcaption p {
