@@ -154,6 +154,24 @@ test("validação impede publicar artigo sem disclosure, data ou referência", (
   ]);
 });
 
+test("DOI no frontmatter precisa ser identificador nu", () => {
+  const validateMagazineArticle =
+    typeof api.validateMagazineArticle === "function"
+      ? (api.validateMagazineArticle as (value: MagazineArticle) => string[])
+      : () => [];
+
+  assert.deepEqual(
+    validateMagazineArticle(
+      article({ doi: "https://doi.org/10.5281/zenodo.1" }),
+    ),
+    ["DOI inválido: use o identificador nu (10.xxxx/...), sem URL."],
+  );
+  assert.deepEqual(
+    validateMagazineArticle(article({ doi: "10.5281/zenodo.1" })),
+    [],
+  );
+});
+
 test("selo que afirma revisão exige revisor nomeado", () => {
   const validateMagazineArticle =
     typeof api.validateMagazineArticle === "function"

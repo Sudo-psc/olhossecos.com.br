@@ -8,6 +8,7 @@ import {
   organizationSchema,
   physician,
   physicianSchema,
+  portalMedicalConditions,
   siteName,
 } from "./seo.ts";
 
@@ -66,6 +67,13 @@ test("Organization e médico compartilham o mesmo @id canônico do portal", () =
     physician.crm,
   );
   assert.equal(person.worksFor["@id"], organization["@id"]);
+  assert.ok(person.sameAs.includes(physician.sameAs[1]));
+  assert.ok(
+    person.sameAs.includes("https://www.linkedin.com/in/dr-philipe-saraiva"),
+  );
+  assert.equal(person.hasCredential[0]?.name, physician.crm);
+  assert.equal(portalMedicalConditions.length, 3);
+  assert.equal(portalMedicalConditions[0]?.name, "Síndrome do olho seco");
 });
 
 test("FAQ e glossário geram schema visível para rich results", () => {

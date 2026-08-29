@@ -177,6 +177,28 @@ test("eventos do laboratório do Reader não entram no banco de produção", asy
   );
 });
 
+test("aceita tool_open e descarta qualquer escore no mesmo payload", async () => {
+  const response = await handleAnalyticsRequest(
+    request({
+      event: "tool_open",
+      page_path: "/ferramentas/deq-5",
+      score: 18,
+      band: "sjogren-screen",
+    }),
+    { allowedOrigin, databasePath, rateLimit: false },
+  );
+
+  assert.equal(response.status, 202);
+  closeAnalyticsDatabases();
+  const database = new DatabaseSync(databasePath, { readOnly: true });
+  const row = database
+    .prepare("SELECT event_name, properties_json FROM analytics_events")
+    .get() as { event_name: string; properties_json: string };
+  database.close();
+  assert.equal(row.event_name, "tool_open");
+  assert.doesNotMatch(row.properties_json, /18|sjogren|score/u);
+});
+
 test("recusa eventos desconhecidos e origem cruzada", async () => {
   const unknownEvent = await handleAnalyticsRequest(
     request({ event: "email_capture", page_path: "/" }),
