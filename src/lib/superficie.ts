@@ -116,6 +116,11 @@ export interface MagazineDisclosure {
   text: string;
 }
 
+export interface MagazineArticleRevision {
+  date: string;
+  summary: string;
+}
+
 export interface MagazineArticle {
   slug: string;
   title: string;
@@ -130,6 +135,12 @@ export interface MagazineArticle {
   issue?: string;
   publishedAt?: string;
   modifiedAt?: string;
+  /** DOI próprio do artigo (Zenodo). Vazio até o depósito do responsável. */
+  doi?: string;
+  /** URL absoluta do PDF citável, quando existir. */
+  pdfUrl?: string;
+  reviewedAt?: string;
+  changelog?: MagazineArticleRevision[];
   references: MagazineReference[];
   disclosures: MagazineDisclosure[];
   sponsored: boolean;
@@ -261,6 +272,10 @@ export const validateMagazineArticle = (article: MagazineArticle) => {
     (!article.sponsor?.name.trim() || !article.sponsor.label)
   ) {
     errors.push("Conteúdo patrocinado exige patrocinador e rótulo explícito.");
+  }
+
+  if (article.doi && !/^10\.\d{4,9}\/\S+$/u.test(article.doi)) {
+    errors.push("DOI inválido: use o identificador nu (10.xxxx/...), sem URL.");
   }
 
   return errors;

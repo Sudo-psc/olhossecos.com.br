@@ -22,6 +22,8 @@ test("classifica visualizações editoriais pelas rotas canônicas", () => {
     "magazine_issue_view",
   );
   assert.equal(getInitialAnalyticsEvent("/olho-seco"), "page_view");
+  assert.equal(getInitialAnalyticsEvent("/ferramentas/deq-5"), "tool_open");
+  assert.equal(getInitialAnalyticsEvent("/ferramentas/diario"), "tool_open");
 });
 
 test("completa o caminho sem copiar propriedades potencialmente pessoais", () => {

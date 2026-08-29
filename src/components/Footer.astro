@@ -61,7 +61,9 @@ const columns =
   <div class="page-shell footer-imprint">
     <p>
       <span>Responsável técnico</span>
-      <strong>Dr. {responsibleDoctor.name}</strong>
+      <strong>
+        <a href={responsibleDoctor.website}>Dr. {responsibleDoctor.name}</a>
+      </strong>
       <em>{responsibleDoctor.registration}</em>
     </p>
   </div>

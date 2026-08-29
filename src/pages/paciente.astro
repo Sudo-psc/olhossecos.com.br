@@ -3,6 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import NewsletterSignupForm from "@/components/NewsletterSignupForm.astro";
 import { patientStarters } from "@/lib/home";
 import { guides } from "@/lib/guides";
+import { toolCatalog } from "@/lib/tools/catalog";
 
 /**
  * Home do portal do paciente. A versão anterior era única para os dois
@@ -27,7 +28,7 @@ const quickGuides = guides
   title="Olho seco: sintomas, causas e cuidados | Portal do paciente"
   description="Entenda os sintomas do olho seco, como o diagnóstico é feito, o que os tratamentos pretendem e o que dá para fazer no dia a dia."
   schemaType="MedicalWebPage"
-  dateModified="2026-08-24"
+  dateModified="2026-08-25"
 >
   <section class="patient-hero" aria-labelledby="patient-title">
     <div class="page-shell hero-grid">
@@ -67,22 +68,23 @@ const quickGuides = guides
             />
             <img
               src="/images/hero-filme-lacrimal.jpg"
-              alt="Composição editorial da superfície da córnea vista de perfil, com uma película lacrimal iridescente espalhada sobre a curva"
+              alt="Pessoa em ambiente claro tocando suavemente a região ao redor dos olhos, representando desconforto associado a sintomas de olho seco"
               width="1024"
               height="768"
               fetchpriority="high"
+              decoding="async"
             />
           </picture>
         </div>
         <figcaption>
           <p>
-            O filme lacrimal tem camadas que dependem umas das outras: quando
-            uma falha, a superfície perde estabilidade.
+            Ardor, sensação de areia, visão flutuante e cansaço ocular podem
+            afetar conforto, concentração e qualidade de vida.
           </p>
-          <small>
-            Ilustração do portal — representação esquemática, sem escala
-            anatômica e não é uma fotografia clínica.
-          </small>
+          <small
+            >Imagem editorial gerada com IA para fins educativos; não representa
+            paciente real nem substitui avaliação médica.</small
+          >
         </figcaption>
       </figure>
     </div>
@@ -174,6 +176,42 @@ const quickGuides = guides
           <path d="M4 12h16m-5-5 5 5-5 5"></path>
         </svg>
       </a>
+    </div>
+  </section>
+
+  <section class="tools-block" aria-labelledby="tools-title">
+    <div class="page-shell">
+      <header class="section-intro">
+        <p class="eyebrow">No navegador</p>
+        <h2 id="tools-title" class="section-heading">
+          Ferramentas para anotar sintomas
+        </h2>
+        <p>
+          DEQ-5 e o diário de 14 dias rodam só neste aparelho. Sem cadastro e
+          sem envio de dados. Nenhuma delas substitui consulta, exame ou
+          tratamento.
+        </p>
+      </header>
+      <ul class="tools-grid">
+        {
+          toolCatalog.map((tool) => (
+            <li>
+              <a href={tool.href}>
+                <span class="card-kicker">{tool.kicker}</span>
+                <strong>{tool.title}</strong>
+                <em>{tool.summary}</em>
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a href="/ferramentas">
+            <span class="card-kicker">Índice</span>
+            <strong>Todas as ferramentas</strong>
+            <em>DEQ-5, diário e o princípio de privacidade em uma página.</em>
+          </a>
+        </li>
+      </ul>
     </div>
   </section>
 
@@ -478,6 +516,56 @@ const quickGuides = guides
 
   .guides-block .text-link {
     margin-top: 1.5rem;
+  }
+
+  .tools-block {
+    padding: var(--space-block) 0;
+  }
+
+  .tools-grid {
+    display: grid;
+    gap: 1rem;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 700px) {
+    .tools-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .tools-grid a {
+    display: grid;
+    gap: 0.4rem;
+    height: 100%;
+    min-height: 44px;
+    padding: 1.35rem 1.4rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--paper);
+    transition:
+      filter var(--duration-base) var(--ease-out-soft),
+      border-color var(--duration-base) var(--ease-out-soft);
+  }
+
+  .tools-grid a:hover {
+    filter: var(--lift-hover);
+    border-color: var(--teal);
+  }
+
+  .tools-grid strong {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .tools-grid em {
+    color: var(--ink-soft);
+    font-style: normal;
+    font-size: var(--text-small);
   }
 
   .widget-block {

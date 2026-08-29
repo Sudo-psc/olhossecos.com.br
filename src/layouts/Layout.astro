@@ -4,6 +4,11 @@ import Footer from "@/components/Footer.astro";
 import AnalyticsCollector from "@/components/AnalyticsCollector.astro";
 import GlobalSearchModal from "@/components/GlobalSearchModal.astro";
 import { author } from "@/lib/books";
+import {
+  physician,
+  physicianCredentials,
+  portalMedicalConditions,
+} from "@/lib/seo";
 import { normalizeBasePath, withBasePath } from "@/lib/site-path";
 import { themeBootScript } from "@/lib/theme";
 import { alternateFeedsForPath } from "@/lib/feeds";
@@ -73,6 +78,7 @@ const organization = {
     "@type": "ImageObject",
     url: new URL(withBasePath("/favicon.svg", basePath), siteUrl).href,
   },
+  sameAs: ["https://drphilipesaraiva.com.br/"],
 };
 
 // Conteúdo médico é YMYL: quem assina importa tanto quanto o que está escrito.
@@ -89,6 +95,8 @@ const person = {
   jobTitle: author.role,
   identifier: author.registration,
   url: new URL(withBasePath(`/autor/${author.slug}`, basePath), siteUrl).href,
+  sameAs: [...physician.sameAs],
+  hasCredential: [...physicianCredentials],
 };
 
 const website = {
@@ -123,11 +131,7 @@ const page = {
     schemaType === "MedicalWebPage" ? { "@id": person["@id"] } : undefined,
   about:
     schemaType === "MedicalWebPage" || schemaType === "Article"
-      ? {
-          "@type": "MedicalCondition",
-          name: "Doença do olho seco",
-          alternateName: "Olho seco",
-        }
+      ? [...portalMedicalConditions]
       : undefined,
   author: schemaType === "Article" ? { "@id": person["@id"] } : undefined,
   publisher:
@@ -187,30 +191,6 @@ const structuredData = {
 <!doctype html>
 <html lang="pt-BR">
   <head>
-    {
-      /*
-      Comentário de chave: `is:inline` entrega o script literalmente, então
-      qualquer // dentro dele chega ao código-fonte de toda página. Isto aqui
-      não é enviado.
-
-      `anonymize_ip` é herança do Universal Analytics — o GA4 descarta o IP
-      antes de gravar e ignora o parâmetro. A linha registra a intenção, não
-      é um controle, e não substitui consentimento antes do disparo nem
-      /privacidade nomeando o Google como operador.
-    */
-    }
-    <script
-      is:inline
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-GJGLLWV2KS"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-      gtag("config", "G-GJGLLWV2KS", { anonymize_ip: true });
-    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <script is:inline set:html={themeBootScript} />
@@ -845,6 +825,12 @@ const structuredData = {
     font-family: var(--serif);
     font-size: var(--text-ui);
     font-weight: 600;
+  }
+
+  .footer-imprint a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
   }
 
   .footer-imprint em {

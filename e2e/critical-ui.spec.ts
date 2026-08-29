@@ -16,6 +16,47 @@ test.describe("regressões críticas da interface", () => {
     await expect(page.locator("[data-resume]")).toBeHidden();
   });
 
+  test("hero profissional usa imagem própria sem estourar a viewport", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(route("/profissional"));
+
+    const image = page.locator(".pro-hero .hero-visual img");
+    await expect(image).toBeVisible();
+    await expect(image).toHaveAttribute(
+      "src",
+      "/images/superficie/hero-interferometria.jpg",
+    );
+    await expect(image).toHaveAttribute("width", "1536");
+    await expect(image).toHaveAttribute("height", "1024");
+    await expect(
+      page.getByText("Ilustração gerada com IA", { exact: false }),
+    ).toBeVisible();
+
+    const imageBox = await image.boundingBox();
+    expect(imageBox).not.toBeNull();
+    expect(imageBox?.x ?? -1).toBeGreaterThanOrEqual(16);
+    expect((imageBox?.x ?? 0) + (imageBox?.width ?? 0)).toBeLessThanOrEqual(
+      374,
+    );
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth),
+    ).toBeLessThanOrEqual(390);
+
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.reload();
+    const copyBox = await page.locator(".pro-hero .hero-copy").boundingBox();
+    const visualBox = await page
+      .locator(".pro-hero .hero-visual")
+      .boundingBox();
+    expect(copyBox).not.toBeNull();
+    expect(visualBox).not.toBeNull();
+    expect(visualBox?.x ?? 0).toBeGreaterThan(
+      (copyBox?.x ?? 0) + (copyBox?.width ?? 0),
+    );
+  });
+
   test("tooltips do glossário permanecem dentro da viewport mobile", async ({
     page,
   }) => {

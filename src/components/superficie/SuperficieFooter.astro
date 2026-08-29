@@ -21,6 +21,7 @@ const groups = [
       ["Parceiros", "/superficie/parceiros"],
       ["Newsletter", "/superficie#newsletter"],
       ["Política editorial", "/superficie#independencia"],
+      ["Correção e retratação", "/politica-de-correcao"],
     ],
   },
   {
@@ -56,7 +57,9 @@ const groups = [
   <div class="surface-shell footer-imprint">
     <p>
       <span>Editor responsável</span>
-      <strong>Dr. {responsibleDoctor.name}</strong>
+      <strong>
+        <a href={responsibleDoctor.website}>Dr. {responsibleDoctor.name}</a>
+      </strong>
       <em>{responsibleDoctor.registration}</em>
     </p>
   </div>
@@ -153,6 +156,12 @@ const groups = [
     font-family: var(--surface-serif);
     font-size: var(--text-ui);
     font-weight: 400;
+  }
+
+  .footer-imprint a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
   }
 
   .footer-imprint em {

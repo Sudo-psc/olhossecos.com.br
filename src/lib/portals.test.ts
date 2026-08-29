@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readdir } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { test } from "node:test";
 import {
@@ -43,6 +43,10 @@ test("o resto do conteúdo fica no portal do paciente", () => {
     "/guias/olho-seco-guia-essencial",
     "/newsletter",
     "/glossario",
+    "/ferramentas",
+    "/ferramentas/deq-5",
+    "/ferramentas/diario",
+    "/politica-de-correcao",
   ]) {
     assert.equal(resolvePortal(path), "paciente", path);
   }
@@ -60,6 +64,26 @@ test("a barra final não muda o portal resolvido", () => {
 test("cada portal aponta para a home do outro", () => {
   assert.equal(portals.paciente.crossLink.href, portals.profissional.home);
   assert.equal(portals.profissional.crossLink.href, portals.paciente.home);
+});
+
+/**
+ * Os dois públicos compartilham a hierarquia do hero, não a direção de arte.
+ * Se a página profissional voltar ao bloco só de texto — ou reaproveitar o
+ * filme lacrimal do paciente — a separação visual dos portais se perde.
+ */
+test("o hero profissional tem imagem responsiva e independente", async () => {
+  const source = await readFile("src/pages/profissional.astro", "utf8");
+
+  assert.match(source, /<figure class="hero-visual">/u);
+  assert.match(
+    source,
+    /hero-interferometria-768\.avif 768w, \/images\/superficie\/hero-interferometria-1536\.avif 1536w/u,
+  );
+  assert.doesNotMatch(source, /hero-filme-lacrimal/u);
+  assert.match(source, /width="1536"[\s\S]*height="1024"/u);
+  assert.match(source, /fetchpriority="high"/u);
+  assert.match(source, /Ilustração gerada com IA/u);
+  assert.match(source, /não representa um exame/u);
 });
 
 test("a navegação de um portal não empurra o conteúdo do outro", () => {
