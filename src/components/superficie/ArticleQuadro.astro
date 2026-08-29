@@ -1,0 +1,94 @@
+---
+/**
+ * Quadro de destaque para "o que muda no consultório" e para limitações.
+ *
+ * Não inventa conteúdo: envolve os parágrafos que a seção já traz. As duas
+ * seções são o que o leitor clínico procura primeiro numa leitura em diagonal
+ * — a conduta e a ressalva — e hoje elas descem no mesmo peso visual de
+ * qualquer parágrafo do corpo.
+ *
+ * O peso vem de fundo, fio lateral e rótulo, nunca de tamanho de tipo: subir
+ * a fonte faria o quadro competir com os títulos de seção, que é justamente o
+ * que não pode acontecer. O tipo aqui é o mesmo do corpo.
+ *
+ * `variant` separa as duas cores editoriais da revista. O teal marca conduta
+ * — o que se leva para o consultório. O ouro marca ressalva — o que ainda não
+ * se sabe. Usar a mesma cor nos dois apagaria a distinção que a estrutura de
+ * propósito do artigo existe para manter.
+ *
+ * O `--surface-gold-text` é o degrau de contraste, não o ouro de marca: em
+ * texto o ouro de marca dá 2,83:1 sobre papel e reprova até no AA.
+ */
+interface Props {
+  variant: "practice" | "limitations";
+  label: string;
+}
+
+const { variant, label } = Astro.props;
+---
+
+<aside class:list={["article-quadro", variant]} aria-label={label}>
+  <p class="quadro-label">{label}</p>
+  <div class="quadro-body">
+    <slot />
+  </div>
+</aside>
+
+<style>
+  .article-quadro {
+    margin: 1.75rem 0 0;
+    padding: 1.15rem 1.35rem 1.25rem;
+    /* Sem max-width próprio: quem define a medida de leitura é a coluna do
+       artigo, e repetir o limite aqui fazia o quadro da seção prática medir
+       704px dentro de um pai de 604px — ele estourava a coluna. */
+    border: 1px solid;
+    border-left-width: 4px;
+    border-radius: var(--surface-radius-sm);
+  }
+
+  .quadro-label {
+    margin: 0 0 0.55rem;
+    font-family: var(--surface-sans);
+    font-size: var(--text-meta);
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  /* O corpo do quadro herda o tipo do artigo: o destaque é do contêiner, não
+     do tamanho da letra. */
+  .quadro-body :global(p) {
+    margin: 0 0 0.75rem;
+  }
+
+  .quadro-body :global(p:last-child),
+  .quadro-body :global(ul:last-child) {
+    margin-bottom: 0;
+  }
+
+  .practice {
+    background: color-mix(
+      in srgb,
+      var(--surface-teal) 8%,
+      var(--surface-white)
+    );
+    border-color: var(--surface-teal-dark);
+  }
+
+  .practice .quadro-label {
+    color: var(--surface-teal-dark);
+  }
+
+  .limitations {
+    background: color-mix(
+      in srgb,
+      var(--surface-gold) 12%,
+      var(--surface-white)
+    );
+    border-color: var(--surface-gold-text);
+  }
+
+  .limitations .quadro-label {
+    color: var(--surface-gold-text);
+  }
+</style>

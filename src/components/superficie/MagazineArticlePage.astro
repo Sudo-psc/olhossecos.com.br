@@ -1,6 +1,7 @@
 ---
 import ArticleCitationModal from "@/components/superficie/ArticleCitationModal.astro";
 import ArticleFigure from "@/components/superficie/ArticleFigure.astro";
+import ArticleQuadro from "@/components/superficie/ArticleQuadro.astro";
 import { formatLongDate } from "@/lib/dates";
 import {
   calculateArticleReadingTime,
@@ -14,6 +15,18 @@ interface Props {
 }
 
 const { article, related } = Astro.props;
+
+/**
+ * Quais seções ganham quadro. São as duas que o leitor clínico procura numa
+ * leitura em diagonal: a conduta e a ressalva. As demais seguem como corpo,
+ * porque encaixotar tudo é o mesmo que não destacar nada.
+ */
+const quadroDaSecao = (kind: MagazineArticle["content"][number]["kind"]) =>
+  kind === "practice"
+    ? "O que muda no consultório"
+    : kind === "limitations"
+      ? "Limitações"
+      : null;
 const readingTime = calculateArticleReadingTime(article);
 const isPreview = article.status !== "published";
 const formatDate = formatLongDate;
@@ -161,20 +174,40 @@ const formatDate = formatLongDate;
             {section.figure && (
               <ArticleFigure figure={section.figure} priority={index === 0} />
             )}
-            {section.paragraphs.map((paragraph) => (
-              <p>{paragraph}</p>
-            ))}
+            {quadroDaSecao(section.kind) ? (
+              <ArticleQuadro
+                variant={section.kind as "practice" | "limitations"}
+                label={quadroDaSecao(section.kind) as string}
+              >
+                {section.paragraphs.map((paragraph) => (
+                  <p>{paragraph}</p>
+                ))}
+                {section.bullets && (
+                  <ul>
+                    {section.bullets.map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                )}
+              </ArticleQuadro>
+            ) : (
+              <>
+                {section.paragraphs.map((paragraph) => (
+                  <p>{paragraph}</p>
+                ))}
+                {section.bullets && (
+                  <ul>
+                    {section.bullets.map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                )}
+              </>
+            )}
             {section.callout && (
               <aside class="article-callout" role="note">
                 <p>{section.callout}</p>
               </aside>
-            )}
-            {section.bullets && (
-              <ul>
-                {section.bullets.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
             )}
           </section>
         ))
@@ -562,7 +595,11 @@ const formatDate = formatLongDate;
     border-left: 1px solid var(--surface-gold);
   }
 
-  .article-section > p:not(.section-kicker),
+  /* Descendente, não filho direto: o <ArticleQuadro> aninha os parágrafos de
+     prática e limitações um nível abaixo, e com `>` eles perdiam a tipografia
+     do corpo e caíam para o tamanho de interface. A legenda da figura não é
+     atingida — ela mora em ArticleFigure, com escopo próprio. */
+  .article-section p:not(.section-kicker),
   .article-section li,
   .disclosure-list dd,
   .disclosure-section > p:not(.section-kicker) {
