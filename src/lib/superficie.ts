@@ -51,6 +51,15 @@ export interface MagazineArticleFigure {
   modification?: string;
 }
 
+export interface MagazineArticleTable {
+  /** Legenda acima da tabela; descreve a fonte e o recorte. */
+  caption: string;
+  /** Rótulos das colunas. A primeira coluna é o cabeçalho de cada linha. */
+  columns: string[];
+  /** Linhas na mesma ordem das colunas. */
+  rows: string[][];
+}
+
 export interface MagazineArticleSection {
   id: string;
   title: string;
@@ -59,6 +68,14 @@ export interface MagazineArticleSection {
   bullets?: string[];
   callout?: string;
   figure?: MagazineArticleFigure;
+  /**
+   * Dado que já é tabular no texto e estava descrito em prosa corrida.
+   *
+   * Não serve para transformar argumento em grade: só entra quando o próprio
+   * artigo enumera pares — teste e limiar, braço e resultado. As células
+   * repetem as palavras do texto, sem reescrever.
+   */
+  table?: MagazineArticleTable;
 }
 
 export interface MagazineReference {
@@ -132,6 +149,19 @@ export interface MagazineArticle {
     width?: number;
     height?: number;
   };
+  /**
+   * Arte de compartilhamento própria do artigo.
+   *
+   * Está vazio de propósito em toda a coleção, e og-cards.test.ts trava isso:
+   * dois artigos traziam arte própria e os outros dez caíam no card gerado,
+   * o que misturava a grade da home e o preview de compartilhamento. Volta
+   * quando houver arte para as doze, não para uma matéria isolada.
+   *
+   * As duas artes de 1200×630 continuam no repositório, em
+   * public/images/superficie/artigos/<slug>/og.jpg, à espera dessa decisão.
+   * Sem este campo, cada artigo usa o card gerado por build-og-cards.mjs,
+   * que compõe o título da matéria — ou seja, OG específico já existe.
+   */
   ogImage?: {
     src: string;
     alt?: string;
@@ -1586,7 +1616,7 @@ const cincoTestesCincoPerguntas: MagazineArticle = {
       kind: "evidence",
       paragraphs: [
         "O mapa clássico é o do DEWS II (Wolffsohn e colaboradores, 2017): depois da triagem, tempo de ruptura de preferência não invasivo, osmolaridade e coloração de córnea, conjuntiva e margem. Cada teste foi desenhado para um constructo. A subclassificação evaporativo versus aquoso informa manejo. Não é o tema desta matéria.",
-        "O dicionário de limiares é o DEWS III (Wolffsohn e colaboradores, 2025), depois de OSDI-6 ≥ 4 na soma bruta dos 6 itens (escala 0–24): NIBUT menor que 10 segundos, ou hiperosmolaridade (≥ 308 mOsm/L ou diferença interocular maior que 8), ou coloração (córnea > 5, ou conjuntiva > 9, ou margem ≥ 2 mm e ≥ 25% da largura). Interferometria e MMP-9 ficam em subclassificação ou bandeira. Não se reabre o mapa de eixos de “Quando sintomas e sinais não batem”.",
+        "O dicionário de limiares é o DEWS III (Wolffsohn e colaboradores, 2025), depois de OSDI-6 ≥ 4 na soma bruta dos 6 itens (escala 0–24). Interferometria e MMP-9 ficam em subclassificação ou bandeira. Não se reabre o mapa de eixos de “Quando sintomas e sinais não batem”.",
         "O filme é estável? NIBUT não é FBUT. Szczesna-Iskander e Llorens-Quintana (2024; n = 33) compararam dois videoceratóscopos automatizados com o tempo de ruptura por fluoresceína, com piscar padronizado. Um NIBUT ficou 0,6 ± 2,6 s mais curto que o FBUT. O outro, 3,3 ± 2,4 s mais longo. Limites de concordância de 26 a 31 segundos. Concordância melhor nos tempos curtos. Não são intercambiáveis. A fluoresceína desestabiliza o filme.",
         "NIBUT de uma plataforma não é NIBUT de outra. Lim, Wang e Craig (2021; n = 134, critério DEWS II) acharam correlação positiva entre dois sistemas automatizados, mas um deu tempos mais longos e maior variabilidade. Cortes de Youden: ≤ 8 s numa plataforma, ≤ 14 s na outra. AUC comparáveis, acima de 0,65. O corte menor que 10 segundos é compromisso operacional, não o Youden de cada aparelho. Não se “corrige” o consenso no texto.",
         "Há estresse hiperosmolar? Osmolaridade não é “DED sim ou não” numa única leitura. Tomlinson e colaboradores (2006), em meta-análise, propuseram o referente 316 mOsm/L. Sensibilidade 59%, especificidade 94%, acurácia global 89% naquelas amostras. Lemp e colaboradores (2011; n = 314, dez centros, financiamento de fabricante) acharam o corte mais sensível em 308, o mais específico em 315. Em 312, sensibilidade 73% e especificidade 92%. AUC 0,89 contra coloração, TBUT, Schirmer e meibômio. A diferença interocular correlacionou com gravidade (r² = 0,32). O 308 do DEWS III é o limiar sensível de Lemp, não o referente de Tomlinson. A frase do estudo de 2011, “melhor métrica única para diagnosticar e classificar”, é claim do paper, não conclusão desta matéria.",
@@ -1598,6 +1628,22 @@ const cincoTestesCincoPerguntas: MagazineArticle = {
         "Há bandeira de inflamação agora? MMP-9 ponto-de-cuidado é bandeira, não fenótipo. Sambursky e colaboradores (2013; n = 206) reportaram sensibilidade 85% e especificidade 94% contra avaliação clínica (OSDI, Schirmer, TBUT, coloração), não contra gold standard independente. Ensaio com apoio da fabricante. O limiar operacional do teste é da ordem de 40 ng/mL. Lanza, Valenzuela, Perez e Galor (2016) lembram que inflamação é componente, mas nem todo olho seco tem inflamação mensurável e nem todo positivo responde a anti-inflamatório. Nenhum teste de screening prediz curso ou resposta. MMP-9 pode ajudar a escolher terapia quando a clínica é ambígua. Não define fenótipo inflamatório “puro”.",
         "O único paper que tenta “quando muda a conduta” é Sambursky (2016; n = 100, retrospectivo, mesmo autor do teste). Positivos receberam anti-inflamatório mais ômega-3 e lágrima. Negativos, só ômega-3 e lágrima. Melhora de pelo menos 50% em 85% versus 86%. Os braços andam iguais. Conversão de positivo para negativo em 54%. Não demonstra que o teste muda desfecho. Evidência fraca para “o custo se justifica”.",
       ],
+      table: {
+        caption:
+          "Limiares do DEWS III (Wolffsohn e colaboradores, 2025), aplicados depois de OSDI-6 ≥ 4. Os três são alternativos: o texto os liga por “ou”.",
+        columns: ["Teste", "Limiar"],
+        rows: [
+          ["NIBUT", "menor que 10 segundos"],
+          [
+            "Hiperosmolaridade",
+            "≥ 308 mOsm/L ou diferença interocular maior que 8",
+          ],
+          [
+            "Coloração",
+            "córnea > 5, ou conjuntiva > 9, ou margem ≥ 2 mm e ≥ 25% da largura",
+          ],
+        ],
+      },
     },
     {
       id: "pratica",

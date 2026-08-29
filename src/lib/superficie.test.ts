@@ -717,10 +717,16 @@ const assertSealedArticle = (
   }
   assert.deepEqual(superficie.validateMagazineArticle(article), []);
 
+  // As células entram no corpus por um motivo específico: mover um trecho de
+  // prosa para tabela não o despublica, e a trava existe para garantir que a
+  // frase continue no ar — não que ela continue dentro de um <p>.
   const text = [
     ...article.content.flatMap((section) => [
       ...section.paragraphs,
       ...(section.bullets ?? []),
+      ...(section.table
+        ? [section.table.caption, ...section.table.rows.flat()]
+        : []),
     ]),
   ].join(" ");
   for (const lock of expected.locks) {

@@ -1,0 +1,140 @@
+---
+import type { MagazineArticleTable } from "@/lib/superficie";
+
+/**
+ * Tabela de artigo, com rolagem horizontal contida.
+ *
+ * "Contida" é o requisito que costuma faltar: sem um contêiner com
+ * `overflow-x: auto`, uma tabela larga empurra a página inteira e o corpo
+ * ganha barra horizontal — em telas estreitas o leitor passa a arrastar o
+ * artigo de lado para ler um parágrafo. Aqui só a tabela rola.
+ *
+ * O contêiner é focável por teclado (`tabindex="0"`) porque região rolável
+ * que não recebe foco é inalcançável para quem não usa ponteiro. O par
+ * role="group" + aria-label diz ao leitor de tela o que está sendo rolado.
+ *
+ * A primeira coluna é `<th scope="row">` e o cabeçalho é `<th scope="col">`:
+ * é isso que faz o leitor de tela anunciar "NIBUT, limiar, menor que 10
+ * segundos" em vez de despejar células soltas.
+ */
+interface Props {
+  table: MagazineArticleTable;
+}
+
+const { table } = Astro.props;
+const [primeira, ...demais] = table.columns;
+---
+
+<figure class="article-tabela">
+  <figcaption>{table.caption}</figcaption>
+  <div
+    class="tabela-scroll"
+    tabindex="0"
+    role="group"
+    aria-label={table.caption}
+  >
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">{primeira}</th>
+          {demais.map((coluna) => <th scope="col">{coluna}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {
+          table.rows.map(([cabecalho, ...celulas]) => (
+            <tr>
+              <th scope="row">{cabecalho}</th>
+              {celulas.map((celula) => (
+                <td>{celula}</td>
+              ))}
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</figure>
+
+<style>
+  .article-tabela {
+    margin: 1.9rem 0 2.2rem;
+  }
+
+  .article-tabela figcaption {
+    margin-bottom: 0.6rem;
+    color: var(--surface-muted);
+    font-family: var(--surface-sans);
+    font-size: var(--text-meta);
+    line-height: 1.5;
+  }
+
+  /* Só a tabela rola. O `overflow-x` aqui, e não no <table>, é o que impede
+     a página de ganhar barra horizontal em tela estreita. */
+  .tabela-scroll {
+    overflow-x: auto;
+    /* `min-width: 0` é o que permite o contêiner encolher abaixo da largura
+       do conteúdo. Sem isso, um item de grid ou flex adota a largura mínima
+       do que carrega dentro: a tabela de 416px esticava a caixa para 418px
+       numa viewport de 320px, e a rolagem interna nunca chegava a engatar. */
+    min-width: 0;
+    max-width: 100%;
+    border: 1px solid var(--surface-line);
+    border-radius: var(--surface-radius-sm);
+    background: var(--surface-white);
+  }
+
+  table {
+    width: 100%;
+    /* `min(26rem, 100%)` e não `26rem` seco: um mínimo fixo não fica contido
+       no contêiner — ele sobe pela árvore e alarga a própria seção do artigo.
+       Medido: a 320px de viewport a seção passava de 365px para 418px por
+       causa desta linha. Com `min()`, em tela larga a tabela tem piso de
+       leitura e rola dentro da caixa; em tela estreita ela cede e quebra,
+       sem empurrar nada. */
+    min-width: min(26rem, 100%);
+    border-collapse: collapse;
+    font-family: var(--surface-sans);
+    font-size: var(--text-ui);
+  }
+
+  th,
+  td {
+    padding: 0.7rem 0.95rem;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--surface-line);
+    line-height: 1.5;
+  }
+
+  thead th {
+    color: var(--surface-teal-dark);
+    font-size: var(--text-meta);
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  tbody th {
+    color: var(--surface-ink);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  tbody td {
+    color: var(--surface-copy);
+  }
+
+  tbody tr:last-child th,
+  tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  /* O anel de foco da região rolável precisa aparecer: é o único indício de
+     que aquela área responde às setas do teclado. */
+  .tabela-scroll:focus-visible {
+    outline: 2px solid var(--surface-teal-dark);
+    outline-offset: 2px;
+  }
+</style>

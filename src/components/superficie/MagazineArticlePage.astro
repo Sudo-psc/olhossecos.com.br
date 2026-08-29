@@ -2,6 +2,7 @@
 import ArticleCitationModal from "@/components/superficie/ArticleCitationModal.astro";
 import ArticleFigure from "@/components/superficie/ArticleFigure.astro";
 import ArticleQuadro from "@/components/superficie/ArticleQuadro.astro";
+import ArticleTabela from "@/components/superficie/ArticleTabela.astro";
 import { formatLongDate } from "@/lib/dates";
 import {
   calculateArticleReadingTime,
@@ -174,6 +175,7 @@ const formatDate = formatLongDate;
             {section.figure && (
               <ArticleFigure figure={section.figure} priority={index === 0} />
             )}
+            {section.table && <ArticleTabela table={section.table} />}
             {quadroDaSecao(section.kind) ? (
               <ArticleQuadro
                 variant={section.kind as "practice" | "limitations"}
