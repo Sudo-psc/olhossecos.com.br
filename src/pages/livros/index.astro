@@ -4,6 +4,7 @@ import BookCover from "@/components/BookCover.astro";
 import BookFeature from "@/components/BookFeature.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import IssueCover from "@/components/superficie/IssueCover.astro";
+import BookStoreClickGtag from "@/components/BookStoreClickGtag.astro";
 import Layout from "@/layouts/Layout.astro";
 import { author, books } from "@/lib/books";
 import { founderIssue } from "@/lib/superficie";
@@ -71,6 +72,7 @@ const editorialSchema = {
     type="application/ld+json"
     set:html={JSON.stringify(editorialSchema)}
   />
+  <BookStoreClickGtag />
 
   <header class="books-hero">
     <div class="page-shell">
