@@ -197,10 +197,14 @@ test("reader palette tokens stay scoped to the lab chrome", async () => {
     "utf8",
   );
 
-  assert.match(readerCss, /--reader-navy:\s*#0b1f33/iu);
+  assert.match(
+    readerCss,
+    /\.magazine-reader\s*\{[\s\S]*--reader-navy:\s*#0b1f33/iu,
+  );
   assert.match(readerCss, /--reader-ivory:\s*#f7f3ea/iu);
   assert.match(readerCss, /--reader-teal:\s*#00646a/iu);
   assert.match(readerCss, /--reader-gold:\s*#8a6621/iu);
+  assert.doesNotMatch(readerCss, /:root\s*\{[\s\S]*--reader-navy/u);
   assert.match(readerLayout, /#0[Bb]1[Ff]33/u);
   assert.match(landing, /--surface-navy:\s*#001a33/u);
   assert.match(landing, /--surface-paper:\s*#f7f4ed/u);
@@ -245,6 +249,29 @@ test("reader masks the internal lab stamp without rewriting sealed copy", async 
   assert.match(renderer, /lab-stamp-mask/u);
   assert.match(renderer, /não indexar/iu);
   assert.match(css, /\.lab-stamp-mask/u);
+});
+
+test("page renderer keeps the SSR cover node instead of swapping it for a GIF", async () => {
+  const renderer = await readFile(
+    "src/superficie/reader/page-renderer.ts",
+    "utf8",
+  );
+  const createAt = renderer.indexOf("createPageElements");
+  const createBlock = renderer.slice(
+    createAt,
+    renderer.indexOf("setHighlights"),
+  );
+  assert.match(createBlock, /adoptSsrCover/u);
+  assert.match(createBlock, /:scope > \[data-ssr-cover\]/u);
+  assert.match(createBlock, /ssrCover\.after/u);
+  assert.match(renderer, /private adoptSsrCover/u);
+  assert.doesNotMatch(
+    renderer.slice(
+      renderer.indexOf("private adoptSsrCover"),
+      renderer.indexOf("private bindTextLayerGestures"),
+    ),
+    /transparentPixel/u,
+  );
 });
 
 test("generated edicao-00 manifest is a self-contained 34-page issue", async () => {

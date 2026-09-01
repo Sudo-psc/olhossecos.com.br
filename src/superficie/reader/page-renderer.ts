@@ -27,16 +27,26 @@ export class PageRenderer {
   }
 
   createPageElements(currentPage = 1): HTMLElement[] {
-    const ssrCoverSrc = this.viewport
-      .querySelector<HTMLImageElement>("[data-ssr-cover] img")
-      ?.getAttribute("src");
-    const pages = this.manifest.pages.map((page) =>
-      this.createPageElement(
-        page,
-        page.number === currentPage,
-        page.number === 1 ? (ssrCoverSrc ?? undefined) : undefined,
-      ),
+    const ssrCover = this.viewport.querySelector<HTMLElement>(
+      ":scope > [data-ssr-cover]",
     );
+    const pages = this.manifest.pages.map((page) => {
+      if (page.number === 1 && ssrCover)
+        return this.adoptSsrCover(ssrCover, page);
+      return this.createPageElement(
+        page,
+        page.number === currentPage || page.number === 1,
+      );
+    });
+
+    if (ssrCover && pages[0] === ssrCover) {
+      Array.from(this.viewport.children)
+        .filter((child) => !pages.includes(child as HTMLElement))
+        .forEach((child) => child.remove());
+      ssrCover.after(...pages.slice(1));
+      return pages;
+    }
+
     this.viewport.replaceChildren(...pages);
     return pages;
   }
@@ -148,14 +158,48 @@ export class PageRenderer {
       "aria-label",
       `Texto selecionável da página ${page.number}`,
     );
+    this.bindTextLayerGestures(textLayer);
+    element.append(picture, textLayer);
+    return element;
+  }
+
+  private adoptSsrCover(element: HTMLElement, page: MagazinePage): HTMLElement {
+    element.dataset.readerPage = "";
+    element.dataset.pageNumber = "1";
+    element.dataset.density =
+      page.type === "cover" || page.type === "back-cover" ? "hard" : "soft";
+    element.setAttribute(
+      "aria-label",
+      `Página 1 de ${this.manifest.pageCount}`,
+    );
+    const image = element.querySelector<HTMLImageElement>("img");
+    if (image) {
+      image.dataset.src = page.image.small;
+      image.dataset.loaded = "true";
+      image.draggable = false;
+      if (!image.getAttribute("src")) image.src = page.image.medium;
+    }
+    if (!element.querySelector("[data-text-layer]")) {
+      const textLayer = document.createElement("div");
+      textLayer.className = "text-layer";
+      textLayer.dataset.textLayer = "";
+      textLayer.setAttribute(
+        "aria-label",
+        `Texto selecionável da página ${page.number}`,
+      );
+      this.bindTextLayerGestures(textLayer);
+      element.append(textLayer);
+    }
+    return element;
+  }
+
+  private bindTextLayerGestures(textLayer: HTMLElement): void {
     textLayer.addEventListener("mousedown", (event) => {
       event.stopPropagation();
     });
     textLayer.addEventListener("touchstart", (event) => {
       event.stopPropagation();
     });
-    element.append(picture, textLayer);
-    return element;
   }
 
   private hydrateImage(

@@ -1,4 +1,4 @@
-:root {
+.magazine-reader {
   --reader-navy: #0b1f33;
   --reader-ivory: #f7f3ea;
   --reader-teal: #00646a;
@@ -20,9 +20,6 @@
   --reader-line: rgb(247 243 234 / 17%);
   --reader-radius: 0.55rem;
   --reader-scale: 1;
-}
-
-.magazine-reader {
   position: fixed;
   inset: 0;
   min-width: 320px;
