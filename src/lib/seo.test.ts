@@ -18,6 +18,8 @@ test("o sitemap omite redirects, páginas noindex e o laboratório da revista", 
   assert.equal(isIndexableSitemapPath("/newsletter/confirmar"), false);
   assert.equal(isIndexableSitemapPath("/newsletter/descadastrar"), false);
   assert.equal(isIndexableSitemapPath("/superficie/lab/flipbook"), false);
+  assert.equal(isIndexableSitemapPath("/superficie/lab"), false);
+  assert.equal(isIndexableSitemapPath("/superficie/lab/edicao-00"), false);
   assert.equal(isIndexableSitemapPath("/superficie/issues/edicao-00"), false);
   assert.equal(isIndexableSitemapPath("/superficie/artigos"), true);
   assert.equal(isIndexableSitemapPath("/newsletter"), true);

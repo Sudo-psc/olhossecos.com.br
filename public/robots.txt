@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /superficie/lab
 Disallow: /superficie/lab/
 
 # Insumos do SUPERFÍCIE Reader: placas em webp, camadas de texto em JSON,

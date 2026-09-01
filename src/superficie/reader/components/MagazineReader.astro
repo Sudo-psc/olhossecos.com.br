@@ -1,6 +1,7 @@
 ---
 import "../reader.css";
 import { normalizeBasePath, withBasePath } from "@/lib/site-path";
+import { calculateReadingProgress } from "../navigation";
 import PageViewport from "./PageViewport.astro";
 import ReaderPanels from "./ReaderPanels.astro";
 import ReaderToolbar from "./ReaderToolbar.astro";
@@ -17,6 +18,7 @@ interface Props {
 const { manifestUrl, issueLabel, pageCount, pdfHref, coverSrc, coverAlt } =
   Astro.props;
 const basePath = normalizeBasePath(import.meta.env.BASE_URL);
+const initialProgress = pageCount ? calculateReadingProgress(1, pageCount) : 0;
 ---
 
 <div
@@ -74,12 +76,25 @@ const basePath = normalizeBasePath(import.meta.env.BASE_URL);
     aria-label="Progresso de leitura"
     aria-valuemin="0"
     aria-valuemax="100"
-    aria-valuenow="13"
+    aria-valuenow={pageCount ? Math.round(initialProgress) : 0}
   >
-    <span data-progress-bar></span>
+    <span
+      data-progress-bar
+      style={pageCount ? `width: ${initialProgress}%` : undefined}></span>
   </div>
 
   <PageViewport {pdfHref} {coverSrc} {coverAlt} />
+  <div class="resume-banner" data-resume-banner hidden>
+    <span data-resume-copy></span>
+    <button type="button" data-action="resume">Continuar</button>
+    <button
+      type="button"
+      data-action="dismiss-resume"
+      aria-label="Fechar sugestão"
+    >
+      ×
+    </button>
+  </div>
   <ReaderPanels />
   <ReaderToolbar />
 </div>

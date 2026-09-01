@@ -4,6 +4,7 @@ import { test } from "node:test";
 import {
   calculateReadingProgress,
   getVisiblePageNumbers,
+  isInEagerBand,
   normalizePageNumber,
 } from "./navigation.ts";
 import { resolveHighlightAnchor } from "./highlights.ts";
@@ -126,9 +127,12 @@ test("reader chrome does not seed a POC pageCount of 8", async () => {
     "src/pages/superficie/lab/edicao-00.astro",
     "utf8",
   );
+  const chromeCss = await readFile("src/superficie/reader/reader.css", "utf8");
   assert.match(markup, /data-page-count>\{pageCount \?\? ""\}<\/span>/u);
   assert.match(markup, /data-page-total hidden=\{!pageCount\}/u);
   assert.doesNotMatch(markup, /data-page-count>\s*8\s*</u);
+  assert.doesNotMatch(markup, /aria-valuenow="13"/u);
+  assert.doesNotMatch(chromeCss, /width:\s*12\.5%/u);
   assert.doesNotMatch(markup, /READER PROTOTYPE/iu);
   assert.doesNotMatch(markup, /Prototype · POC/iu);
   assert.doesNotMatch(viewport, /superficie-poc\.pdf/u);
@@ -142,6 +146,74 @@ test("reader chrome does not seed a POC pageCount of 8", async () => {
   assert.doesNotMatch(lab, /READER PROTOTYPE/iu);
 });
 
+test("lab first paint keeps the cover in HTML and omits loading chrome", async () => {
+  const viewport = await readFile(
+    "src/superficie/reader/components/PageViewport.astro",
+    "utf8",
+  );
+  const lab = await readFile(
+    "src/pages/superficie/lab/edicao-00.astro",
+    "utf8",
+  );
+  const flipbook = await readFile(
+    "src/pages/superficie/lab/flipbook.astro",
+    "utf8",
+  );
+  const layout = await readFile(
+    "src/layouts/SuperficieReaderLayout.astro",
+    "utf8",
+  );
+  const css = await readFile("src/superficie/reader/reader.css", "utf8");
+  const panels = await readFile(
+    "src/superficie/reader/components/ReaderPanels.astro",
+    "utf8",
+  );
+
+  assert.match(lab, /coverSrc=\{cover\?\.image\.medium\}/u);
+  assert.match(lab, /rel="preload" as="image"/u);
+  assert.match(layout, /slot name="head"/u);
+  assert.match(viewport, /!hasCover && \(/u);
+  assert.match(viewport, /loading="eager"/u);
+  assert.doesNotMatch(viewport, /hidden=\{hasCover\}[\s\S]*Preparando edição/u);
+  assert.doesNotMatch(
+    viewport,
+    /<h2[^>]*>Não foi possível iniciar a animação de páginas\.<\/h2>/u,
+  );
+  assert.match(css, /:not\(:has\(\[data-ssr-cover\]\)\)/u);
+  assert.doesNotMatch(flipbook, /Reader Prototype/iu);
+  assert.doesNotMatch(flipbook, /\bPOC\b/u);
+  assert.doesNotMatch(layout, /Reader Prototype/iu);
+  assert.doesNotMatch(panels, /demonstração/iu);
+});
+
+test("reader palette tokens stay scoped to the lab chrome", async () => {
+  const readerCss = await readFile("src/superficie/reader/reader.css", "utf8");
+  const readerLayout = await readFile(
+    "src/layouts/SuperficieReaderLayout.astro",
+    "utf8",
+  );
+  const landing = await readFile("src/layouts/SuperficieLayout.astro", "utf8");
+  const landingPage = await readFile(
+    "src/pages/superficie/index.astro",
+    "utf8",
+  );
+
+  assert.match(
+    readerCss,
+    /\.magazine-reader\s*\{[\s\S]*--reader-navy:\s*#0b1f33/iu,
+  );
+  assert.match(readerCss, /--reader-ivory:\s*#f7f3ea/iu);
+  assert.match(readerCss, /--reader-teal:\s*#00646a/iu);
+  assert.match(readerCss, /--reader-gold:\s*#8a6621/iu);
+  assert.doesNotMatch(readerCss, /:root\s*\{[\s\S]*--reader-navy/u);
+  assert.match(readerLayout, /#0[Bb]1[Ff]33/u);
+  assert.match(landing, /--surface-navy:\s*#001a33/u);
+  assert.match(landing, /--surface-paper:\s*#f7f4ed/u);
+  assert.match(landing, /--surface-teal:\s*#0b827f/u);
+  assert.doesNotMatch(landing, /#0[Bb]1[Ff]33/u);
+  assert.doesNotMatch(landingPage, /#0[Bb]1[Ff]33/u);
+});
+
 test("reader reveals the cover before importing page-flip", async () => {
   const source = await readFile("src/superficie/reader/reader-app.ts", "utf8");
   const startAt = source.indexOf("async start()");
@@ -149,10 +221,20 @@ test("reader reveals the cover before importing page-flip", async () => {
     startAt,
     source.indexOf("private async loadManifest"),
   );
+  const upgradeAt = source.indexOf("private async upgradeToPageFlip");
+  const upgradeBlock = source.slice(
+    upgradeAt,
+    source.indexOf("private async rebuildAdapter"),
+  );
+  assert.match(startBlock, /data-ssr-cover/u);
+  assert.match(startBlock, /this\.ui\.ready\(\)/u);
   assert.match(startBlock, /this\.mountVisibleReader\(\)/u);
   assert.match(startBlock, /void this\.upgradeToPageFlip\(\)/u);
+  assert.match(startBlock, /armResumePrompt/u);
+  assert.doesNotMatch(startBlock, /this\.ui\.showResume\(/u);
   assert.doesNotMatch(startBlock, /await this\.rebuildAdapter\(\)/u);
   assert.doesNotMatch(startBlock, /await import\(/u);
+  assert.doesNotMatch(upgradeBlock, /createPageElements/u);
 });
 
 test("reader default zoom keeps cover type above a readable floor", async () => {
@@ -170,6 +252,56 @@ test("reader masks the internal lab stamp without rewriting sealed copy", async 
   assert.match(renderer, /lab-stamp-mask/u);
   assert.match(renderer, /não indexar/iu);
   assert.match(css, /\.lab-stamp-mask/u);
+});
+
+test("page renderer keeps the SSR cover node instead of swapping it for a GIF", async () => {
+  const renderer = await readFile(
+    "src/superficie/reader/page-renderer.ts",
+    "utf8",
+  );
+  const createAt = renderer.indexOf("createPageElements");
+  const createBlock = renderer.slice(
+    createAt,
+    renderer.indexOf("setHighlights"),
+  );
+  assert.match(createBlock, /adoptSsrCover/u);
+  assert.match(createBlock, /:scope > \[data-ssr-cover\]/u);
+  assert.match(createBlock, /ssrCover\.after/u);
+  assert.match(renderer, /private adoptSsrCover/u);
+  assert.doesNotMatch(
+    renderer.slice(
+      renderer.indexOf("private adoptSsrCover"),
+      renderer.indexOf("private bindTextLayerGestures"),
+    ),
+    /transparentPixel/u,
+  );
+  assert.match(renderer, /isInEagerBand\(page\.number, currentPage\)/u);
+  assert.doesNotMatch(
+    renderer,
+    /hydrateImage\(\s*element,\s*page,\s*page\.number === currentPage/u,
+  );
+});
+
+test("resume toast lives in chrome and persists dismiss", async () => {
+  const reader = await readFile(
+    "src/superficie/reader/components/MagazineReader.astro",
+    "utf8",
+  );
+  const viewport = await readFile(
+    "src/superficie/reader/components/PageViewport.astro",
+    "utf8",
+  );
+  const css = await readFile("src/superficie/reader/reader.css", "utf8");
+  const app = await readFile("src/superficie/reader/reader-app.ts", "utf8");
+
+  assert.match(reader, /data-resume-banner/u);
+  assert.doesNotMatch(viewport, /data-resume-banner/u);
+  assert.match(css, /\.resume-banner\s*\{[\s\S]*bottom:\s*0\.65rem/u);
+  assert.doesNotMatch(css, /\.resume-banner\s*\{[\s\S]*top:\s*4\.6rem/u);
+  assert.match(app, /resumeDismissedPage/u);
+  assert.match(app, /armResumePrompt/u);
+  assert.match(app, /dismissResume/u);
+  assert.match(app, /acceptResume/u);
 });
 
 test("generated edicao-00 manifest is a self-contained 34-page issue", async () => {
@@ -246,6 +378,14 @@ test("generated POC manifest contains eight replaceable pages", async () => {
   assert.equal(result.data?.toc.length, 4);
   assert.equal(result.data?.articles[0]?.pages.join(","), "4,5");
   assert.equal(result.data?.audioSources.length, 3);
+});
+
+test("eager band covers the current page and its immediate neighbors", () => {
+  assert.equal(isInEagerBand(7, 7), true);
+  assert.equal(isInEagerBand(6, 7), true);
+  assert.equal(isInEagerBand(8, 7), true);
+  assert.equal(isInEagerBand(5, 7), false);
+  assert.equal(isInEagerBand(9, 7), false);
 });
 
 test("navigation clamps pages and keeps the cover isolated", () => {
@@ -331,6 +471,39 @@ test("stored reader data discards corrupt or cross-issue records", () => {
     notes: [],
   });
   assert.equal(stringZoom.preferences, null);
+
+  const withDismiss = sanitizeStoredReaderData("issue-a", 8, {
+    progress: null,
+    preferences: {
+      issueId: "issue-a",
+      soundEnabled: false,
+      reducedMotion: false,
+      toolbarMinimized: false,
+      zoomMode: "fit-width",
+      zoomPercent: 100,
+      resumeDismissedPage: 2,
+    },
+    bookmarks: [],
+    highlights: [],
+    notes: [],
+  });
+  assert.equal(withDismiss.preferences?.resumeDismissedPage, 2);
+
+  const withoutDismiss = sanitizeStoredReaderData("issue-a", 8, {
+    progress: null,
+    preferences: {
+      issueId: "issue-a",
+      soundEnabled: false,
+      reducedMotion: false,
+      toolbarMinimized: false,
+      zoomMode: "fit-width",
+      zoomPercent: 100,
+    },
+    bookmarks: [],
+    highlights: [],
+    notes: [],
+  });
+  assert.equal(withoutDismiss.preferences?.resumeDismissedPage, undefined);
 });
 
 test("search ignores accents and returns a useful page snippet", () => {

@@ -23,31 +23,47 @@ const logicalPath = (pathname) => {
   return normalized;
 };
 
+const isLabIndexUrl = (url = "") => {
+  const path = url.split("?")[0] ?? "";
+  return path === "/superficie/lab" || path === "/superficie/lab/";
+};
+
+const labIndexRedirect = (request, response, next) => {
+  if (isLabIndexUrl(request.url)) {
+    response.statusCode = 302;
+    response.setHeader("Location", "/superficie/lab/edicao-00");
+    response.setHeader("X-Robots-Tag", pocRobotsHeader);
+    response.end();
+    return;
+  }
+  if (
+    request.url?.startsWith("/superficie/lab") ||
+    request.url?.startsWith("/superficie/issues/poc/") ||
+    request.url?.startsWith("/superficie/issues/edicao-00/")
+  ) {
+    response.setHeader("X-Robots-Tag", pocRobotsHeader);
+  }
+  next();
+};
+
+const applyLabDevMiddleware = (server) => {
+  // Precisa entrar na frente do trailingSlash:never do Vite/Astro,
+  // senão /superficie/lab/ vira 404 antes do redirect.
+  return () => {
+    server.middlewares.stack.unshift({
+      route: "",
+      handle: labIndexRedirect,
+    });
+  };
+};
+
 const superficiePocHeaders = () => ({
   name: "superficie-poc-headers",
   configureServer(server) {
-    server.middlewares.use((request, response, next) => {
-      if (
-        request.url?.startsWith("/superficie/lab/") ||
-        request.url?.startsWith("/superficie/issues/poc/") ||
-        request.url?.startsWith("/superficie/issues/edicao-00/")
-      ) {
-        response.setHeader("X-Robots-Tag", pocRobotsHeader);
-      }
-      next();
-    });
+    return applyLabDevMiddleware(server);
   },
   configurePreviewServer(server) {
-    server.middlewares.use((request, response, next) => {
-      if (
-        request.url?.startsWith("/superficie/lab/") ||
-        request.url?.startsWith("/superficie/issues/poc/") ||
-        request.url?.startsWith("/superficie/issues/edicao-00/")
-      ) {
-        response.setHeader("X-Robots-Tag", pocRobotsHeader);
-      }
-      next();
-    });
+    return applyLabDevMiddleware(server);
   },
 });
 

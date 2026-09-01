@@ -1,4 +1,5 @@
 import { defineMiddleware } from "astro:middleware";
+import { isLabIndexPath, LAB_EDICAO_00_PATH } from "./lib/lab-routes";
 
 const applySecurityHeaders = (response: Response) => {
   response.headers.set("X-Frame-Options", "DENY");
@@ -47,9 +48,14 @@ const isEdicao00Assets = (pathname: string) =>
   pathname.startsWith("/superficie/issues/edicao-00/");
 
 const isBlockedLabOrPoc = (pathname: string) => {
-  if (isEdicao00Lab(pathname) || isEdicao00Assets(pathname)) return false;
+  if (
+    isEdicao00Lab(pathname) ||
+    isEdicao00Assets(pathname) ||
+    isLabIndexPath(pathname)
+  ) {
+    return false;
+  }
   return (
-    pathname === "/superficie/lab" ||
     pathname.startsWith("/superficie/lab/") ||
     pathname === "/superficie/issues/poc" ||
     pathname.startsWith("/superficie/issues/poc/")
@@ -59,9 +65,22 @@ const isBlockedLabOrPoc = (pathname: string) => {
 const isLabOrPoc = (pathname: string) =>
   isBlockedLabOrPoc(pathname) ||
   isEdicao00Lab(pathname) ||
-  isEdicao00Assets(pathname);
+  isEdicao00Assets(pathname) ||
+  isLabIndexPath(pathname);
 
 export const onRequest = defineMiddleware(async (context, next) => {
+  if (isLabIndexPath(context.url.pathname)) {
+    return applySecurityHeaders(
+      new Response(null, {
+        status: 302,
+        headers: {
+          Location: LAB_EDICAO_00_PATH,
+          "X-Robots-Tag": "noindex, nofollow, noarchive",
+        },
+      }),
+    );
+  }
+
   if (import.meta.env.PROD && isBlockedLabOrPoc(context.url.pathname)) {
     return applySecurityHeaders(
       new Response("Not Found", {

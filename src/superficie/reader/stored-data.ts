@@ -5,6 +5,7 @@ import type {
   ReaderPreferences,
   ReadingProgress,
   TextQuoteAnchor,
+  ZoomMode,
 } from "./types.ts";
 
 interface StoredReaderDataInput {
@@ -67,19 +68,11 @@ export function sanitizeStoredReaderData(
       ? (input.progress as unknown as ReadingProgress)
       : null;
 
-  const preferences =
-    isRecord(input.preferences) &&
-    belongsTo(input.preferences, issueId) &&
-    typeof input.preferences.soundEnabled === "boolean" &&
-    typeof input.preferences.reducedMotion === "boolean" &&
-    typeof input.preferences.toolbarMinimized === "boolean" &&
-    ["fit-page", "fit-width", "custom"].includes(
-      String(input.preferences.zoomMode),
-    ) &&
-    typeof input.preferences.zoomPercent === "number" &&
-    [100, 125, 150, 200].includes(input.preferences.zoomPercent)
-      ? (input.preferences as unknown as ReaderPreferences)
-      : null;
+  const preferences = sanitizePreferences(
+    input.preferences,
+    issueId,
+    pageCount,
+  );
 
   const bookmarks = Array.isArray(input.bookmarks)
     ? input.bookmarks.filter(
@@ -119,4 +112,36 @@ export function sanitizeStoredReaderData(
     : [];
 
   return { progress, preferences, bookmarks, highlights, notes };
+}
+
+function sanitizePreferences(
+  value: unknown,
+  issueId: string,
+  pageCount: number,
+): ReaderPreferences | null {
+  if (
+    !isRecord(value) ||
+    !belongsTo(value, issueId) ||
+    typeof value.soundEnabled !== "boolean" ||
+    typeof value.reducedMotion !== "boolean" ||
+    typeof value.toolbarMinimized !== "boolean" ||
+    !["fit-page", "fit-width", "custom"].includes(String(value.zoomMode)) ||
+    typeof value.zoomPercent !== "number" ||
+    ![100, 125, 150, 200].includes(value.zoomPercent)
+  ) {
+    return null;
+  }
+
+  const preferences: ReaderPreferences = {
+    issueId,
+    soundEnabled: value.soundEnabled,
+    reducedMotion: value.reducedMotion,
+    toolbarMinimized: value.toolbarMinimized,
+    zoomMode: value.zoomMode as ZoomMode,
+    zoomPercent: value.zoomPercent as ReaderPreferences["zoomPercent"],
+  };
+  if (isPage(value.resumeDismissedPage, pageCount)) {
+    preferences.resumeDismissedPage = value.resumeDismissedPage;
+  }
+  return preferences;
 }

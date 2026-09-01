@@ -1,26 +1,42 @@
-:root {
-  --reader-background: #061821;
-  --reader-background-soft: #0a2430;
-  --reader-toolbar: rgb(4 20 28 / 94%);
-  --reader-paper: #f5f0e7;
-  --reader-ink: #132732;
-  --reader-muted: #a8bac0;
-  --reader-line: rgb(214 230 230 / 17%);
-  --reader-gold: #c09a55;
-  --reader-teal: #63bbb0;
+.magazine-reader {
+  --reader-navy: #0b1f33;
+  --reader-ivory: #f7f3ea;
+  --reader-teal: #00646a;
+  --reader-gold: #8a6621;
+  --reader-background: var(--reader-navy);
+  --reader-background-soft: color-mix(
+    in srgb,
+    var(--reader-navy) 82%,
+    var(--reader-ivory) 18%
+  );
+  --reader-toolbar: color-mix(in srgb, var(--reader-navy) 94%, black);
+  --reader-paper: var(--reader-ivory);
+  --reader-ink: var(--reader-navy);
+  --reader-muted: color-mix(
+    in srgb,
+    var(--reader-ivory) 62%,
+    var(--reader-navy) 38%
+  );
+  --reader-line: rgb(247 243 234 / 17%);
   --reader-radius: 0.55rem;
   --reader-scale: 1;
-}
-
-.magazine-reader {
   position: fixed;
   inset: 0;
   min-width: 320px;
   overflow: hidden;
   background:
-    radial-gradient(circle at 50% 48%, rgb(39 87 97 / 24%), transparent 42%),
-    linear-gradient(145deg, #04131b, var(--reader-background) 58%, #081e28);
-  color: #f7f4ed;
+    radial-gradient(
+      circle at 50% 48%,
+      color-mix(in srgb, var(--reader-teal) 28%, transparent),
+      transparent 42%
+    ),
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--reader-navy) 88%, black),
+      var(--reader-background) 58%,
+      var(--reader-background-soft)
+    );
+  color: var(--reader-ivory);
   /* Ver a nota em Layout.astro: nenhuma fonte web é hospedada, então Inter
      sai da pilha para que o reader renderize igual em toda máquina. */
   font-family:
@@ -47,7 +63,8 @@
 .magazine-reader input:focus-visible,
 .magazine-reader textarea:focus-visible,
 .magazine-reader a:focus-visible {
-  outline: 2px solid var(--reader-teal);
+  outline: 2px solid
+    color-mix(in srgb, var(--reader-teal) 40%, var(--reader-ivory));
   outline-offset: 3px;
 }
 
@@ -115,8 +132,8 @@
 
 .reader-page-nav > button:hover,
 .reader-close:hover {
-  border-color: rgb(99 187 176 / 58%);
-  background: rgb(99 187 176 / 10%);
+  border-color: color-mix(in srgb, var(--reader-teal) 55%, var(--reader-ivory));
+  background: color-mix(in srgb, var(--reader-teal) 16%, transparent);
 }
 
 .reader-page-nav form {
@@ -160,7 +177,7 @@
 
 .reader-progress span {
   display: block;
-  width: 12.5%;
+  width: 0;
   height: 100%;
   transform-origin: left;
   background: linear-gradient(90deg, var(--reader-gold), var(--reader-teal));
@@ -232,7 +249,7 @@
   transition: max-width 220ms ease;
 }
 
-.page-viewport[aria-busy="true"] {
+.page-viewport[aria-busy="true"]:not(:has([data-ssr-cover])) {
   visibility: hidden;
 }
 
@@ -310,7 +327,7 @@
 
 .magazine-page img {
   object-fit: cover;
-  background: #e8e3da;
+  background: var(--reader-ivory);
 }
 
 .page-image-error {
@@ -320,7 +337,7 @@
   display: grid;
   place-items: center;
   padding: 2rem;
-  background: #f5f0e7;
+  background: var(--reader-ivory);
   color: #51646b;
   text-align: center;
 }
@@ -513,7 +530,7 @@
 }
 
 .reader-panel header p {
-  color: var(--reader-teal);
+  color: color-mix(in srgb, var(--reader-teal) 42%, var(--reader-ivory));
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -590,7 +607,7 @@
   padding: 0.72rem 0.9rem;
   border-radius: 0.4rem;
   background: var(--reader-teal);
-  color: #06202a;
+  color: var(--reader-ivory);
   font-weight: 700;
 }
 
@@ -750,9 +767,10 @@
 }
 
 .resume-banner {
-  position: fixed;
-  z-index: 70;
-  top: 4.6rem;
+  position: absolute;
+  z-index: 75;
+  right: auto;
+  bottom: 0.65rem;
   left: 50%;
   display: flex;
   align-items: center;
@@ -763,6 +781,7 @@
   border-radius: 999px;
   background: #0a2935;
   box-shadow: 0 12px 30px rgb(0 0 0 / 30%);
+  pointer-events: auto;
   font-size: 0.78rem;
 }
 
@@ -924,7 +943,8 @@
     bottom: 5.35rem;
   }
   .resume-banner {
-    top: 4rem;
+    top: auto;
+    bottom: 0.55rem;
     width: max-content;
     max-width: 92vw;
   }

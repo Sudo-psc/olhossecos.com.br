@@ -10,25 +10,14 @@ const hasCover = Boolean(coverSrc);
 ---
 
 <main class="reader-stage" id="superficie-reader" tabindex="-1">
-  <div class="resume-banner" data-resume-banner hidden>
-    <span data-resume-copy></span>
-    <button type="button" data-action="resume">Continuar</button>
-    <button
-      type="button"
-      data-action="dismiss-resume"
-      aria-label="Fechar sugestão">×</button
-    >
-  </div>
-
-  <div
-    class="reader-loading"
-    data-reader-loading
-    role="status"
-    hidden={hasCover}
-  >
-    <span class="loading-line" aria-hidden="true"></span>
-    <p>Preparando edição…</p>
-  </div>
+  {
+    !hasCover && (
+      <div class="reader-loading" data-reader-loading role="status">
+        <span class="loading-line" aria-hidden="true" />
+        <p>Preparando edição…</p>
+      </div>
+    )
+  }
 
   <section
     class="page-viewport"
@@ -45,6 +34,7 @@ const hasCover = Boolean(coverSrc);
               alt={coverAlt}
               width="700"
               height="990"
+              loading="eager"
               decoding="async"
               fetchpriority="high"
             />
@@ -82,7 +72,7 @@ const hasCover = Boolean(coverSrc);
     aria-labelledby="fallback-title"
   >
     <p>Leitor simplificado</p>
-    <h2 id="fallback-title">Não foi possível iniciar a animação de páginas.</h2>
+    <h2 id="fallback-title" data-fallback-title></h2>
     <p data-fallback-detail>
       Você ainda pode ler uma página por vez, abrir o artigo HTML ou acessar o
       PDF da edição.

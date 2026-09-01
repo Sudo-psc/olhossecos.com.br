@@ -126,4 +126,5 @@ export interface ReaderPreferences {
   toolbarMinimized: boolean;
   zoomMode: ZoomMode;
   zoomPercent: 100 | 125 | 150 | 200;
+  resumeDismissedPage?: number;
 }
