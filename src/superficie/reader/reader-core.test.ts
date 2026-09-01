@@ -169,6 +169,8 @@ test("lab first paint keeps the cover in HTML and omits loading chrome", async (
   );
 
   assert.match(lab, /coverSrc=\{cover\?\.image\.medium\}/u);
+  assert.match(lab, /rel="preload" as="image"/u);
+  assert.match(layout, /slot name="head"/u);
   assert.match(viewport, /!hasCover && \(/u);
   assert.match(viewport, /loading="eager"/u);
   assert.doesNotMatch(viewport, /hidden=\{hasCover\}[\s\S]*Preparando edição/u);
