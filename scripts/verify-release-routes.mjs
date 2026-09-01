@@ -67,6 +67,25 @@ const assertStatus = async (path, expectedStatus = 200) => {
   return response;
 };
 
+const assertLabIndexRedirect = async (path) => {
+  const response = await fetch(`${localOrigin}${publicPath(path)}`, {
+    redirect: "manual",
+  });
+  if (response.status !== 302) {
+    throw new Error(`${path}: esperado HTTP 302, recebido ${response.status}`);
+  }
+  const location = response.headers.get("location") ?? "";
+  if (!location.endsWith("/superficie/lab/edicao-00")) {
+    throw new Error(`${path}: Location ${location || "ausente"}`);
+  }
+  const robots = response.headers.get("x-robots-tag") ?? "";
+  if (!robots.includes("noindex")) {
+    throw new Error(
+      `${path}: X-Robots-Tag sem noindex (${robots || "ausente"})`,
+    );
+  }
+};
+
 const assertPage = async (path, canonicalPath) => {
   const response = await assertStatus(path);
   const html = await response.text();
@@ -137,6 +156,8 @@ try {
   await assertPage("/superficie/artigos", "/superficie/artigos");
   await assertStatus("/superficie/lab/flipbook", 404);
   await assertStatus("/superficie/lab/edicao-00", 200);
+  await assertLabIndexRedirect("/superficie/lab");
+  await assertLabIndexRedirect("/superficie/lab/");
   await assertStatus("/superficie/issues/poc/manifest.json", 404);
   await assertStatus("/superficie/issues/edicao-00/manifest.json", 200);
 

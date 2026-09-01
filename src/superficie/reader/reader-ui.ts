@@ -49,7 +49,10 @@ export class ReaderUi {
   }
 
   ready(): void {
-    this.find("[data-reader-loading]").hidden = true;
+    const loading = this.root.querySelector<HTMLElement>(
+      "[data-reader-loading]",
+    );
+    if (loading) loading.hidden = true;
     this.viewport.setAttribute("aria-busy", "false");
   }
 
@@ -141,8 +144,15 @@ export class ReaderUi {
   }
 
   showFallback(detail: string): void {
-    this.find("[data-reader-loading]").hidden = true;
+    const loading = this.root.querySelector<HTMLElement>(
+      "[data-reader-loading]",
+    );
+    if (loading) loading.hidden = true;
     this.viewport.hidden = true;
+    const title = this.root.querySelector<HTMLElement>("[data-fallback-title]");
+    if (title) {
+      title.textContent = "Não foi possível iniciar a animação de páginas.";
+    }
     this.find("[data-fallback-detail]").textContent = detail;
     this.find<HTMLElement>("[data-reader-fallback]").hidden = false;
   }

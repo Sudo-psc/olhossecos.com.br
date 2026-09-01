@@ -28,7 +28,7 @@ const superficiePocHeaders = () => ({
   configureServer(server) {
     server.middlewares.use((request, response, next) => {
       if (
-        request.url?.startsWith("/superficie/lab/") ||
+        request.url?.startsWith("/superficie/lab") ||
         request.url?.startsWith("/superficie/issues/poc/") ||
         request.url?.startsWith("/superficie/issues/edicao-00/")
       ) {
@@ -40,7 +40,7 @@ const superficiePocHeaders = () => ({
   configurePreviewServer(server) {
     server.middlewares.use((request, response, next) => {
       if (
-        request.url?.startsWith("/superficie/lab/") ||
+        request.url?.startsWith("/superficie/lab") ||
         request.url?.startsWith("/superficie/issues/poc/") ||
         request.url?.startsWith("/superficie/issues/edicao-00/")
       ) {

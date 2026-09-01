@@ -76,6 +76,7 @@ class MagazineReaderController {
   }
 
   async start(): Promise<void> {
+    if (this.root.querySelector("[data-ssr-cover]")) this.ui.ready();
     this.bindEvents();
     try {
       const manifest = await this.loadManifest();
@@ -154,7 +155,7 @@ class MagazineReaderController {
   private mountVisibleReader(): void {
     if (!this.manifest || !this.renderer) return;
     this.adapter?.destroy();
-    this.renderer.createPageElements();
+    this.renderer.createPageElements(this.currentPage);
     this.renderer.setHighlights(this.highlights);
     this.renderer.hydrateImages(this.currentPage);
     this.root.dataset.reducedMotion = String(this.isMotionReduced());
@@ -169,8 +170,11 @@ class MagazineReaderController {
         await import("./engines/StPageFlipAdapter.ts");
       if (!this.manifest || !this.renderer) return;
       this.adapter?.destroy();
-      this.renderer.createPageElements();
-      this.renderer.setHighlights(this.highlights);
+      this.ui.canvas
+        .querySelectorAll<HTMLElement>("[data-reader-page]")
+        .forEach((page) => {
+          page.hidden = false;
+        });
       this.renderer.hydrateImages(this.currentPage);
       this.adapter = new StPageFlipAdapter(this.currentPage);
       this.adapter.onPageChange((page) => void this.handlePageChange(page));

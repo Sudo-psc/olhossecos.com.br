@@ -26,9 +26,16 @@ export class PageRenderer {
     this.manifest = manifest;
   }
 
-  createPageElements(): HTMLElement[] {
+  createPageElements(currentPage = 1): HTMLElement[] {
+    const ssrCoverSrc = this.viewport
+      .querySelector<HTMLImageElement>("[data-ssr-cover] img")
+      ?.getAttribute("src");
     const pages = this.manifest.pages.map((page) =>
-      this.createPageElement(page),
+      this.createPageElement(
+        page,
+        page.number === currentPage,
+        page.number === 1 ? (ssrCoverSrc ?? undefined) : undefined,
+      ),
     );
     this.viewport.replaceChildren(...pages);
     return pages;
@@ -82,7 +89,11 @@ export class PageRenderer {
     if (page && element) await this.hydrateText(element, page, true);
   }
 
-  private createPageElement(page: MagazinePage): HTMLElement {
+  private createPageElement(
+    page: MagazinePage,
+    seedImage = false,
+    seedSrc?: string,
+  ): HTMLElement {
     const element = document.createElement("article");
     element.className = "magazine-page";
     element.dataset.readerPage = "";
@@ -102,13 +113,25 @@ export class PageRenderer {
     mediumSource.media = "(min-width: 600px)";
     mediumSource.dataset.srcset = page.image.medium;
     const image = document.createElement("img");
-    image.src = transparentPixel;
     image.dataset.src = page.image.small;
     image.alt = page.alt ?? `Página ${page.number}`;
     image.width = 700;
     image.height = 990;
     image.decoding = "async";
     image.draggable = false;
+    if (seedImage) {
+      const immediate = seedSrc ?? page.image.medium;
+      largeSource.srcset = page.image.large;
+      mediumSource.srcset = page.image.medium;
+      image.src = immediate;
+      image.srcset = `${page.image.small} 480w, ${page.image.medium} 900w, ${page.image.large} 1400w`;
+      image.sizes = "(max-width: 760px) 94vw, (max-width: 1100px) 62vw, 43vw";
+      image.loading = "eager";
+      image.fetchPriority = "high";
+      image.dataset.loaded = "true";
+    } else {
+      image.src = transparentPixel;
+    }
     image.addEventListener(
       "error",
       () => this.showImageError(element, page.number),

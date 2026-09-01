@@ -126,9 +126,12 @@ test("reader chrome does not seed a POC pageCount of 8", async () => {
     "src/pages/superficie/lab/edicao-00.astro",
     "utf8",
   );
+  const chromeCss = await readFile("src/superficie/reader/reader.css", "utf8");
   assert.match(markup, /data-page-count>\{pageCount \?\? ""\}<\/span>/u);
   assert.match(markup, /data-page-total hidden=\{!pageCount\}/u);
   assert.doesNotMatch(markup, /data-page-count>\s*8\s*</u);
+  assert.doesNotMatch(markup, /aria-valuenow="13"/u);
+  assert.doesNotMatch(chromeCss, /width:\s*12\.5%/u);
   assert.doesNotMatch(markup, /READER PROTOTYPE/iu);
   assert.doesNotMatch(markup, /Prototype · POC/iu);
   assert.doesNotMatch(viewport, /superficie-poc\.pdf/u);
@@ -142,6 +145,68 @@ test("reader chrome does not seed a POC pageCount of 8", async () => {
   assert.doesNotMatch(lab, /READER PROTOTYPE/iu);
 });
 
+test("lab first paint keeps the cover in HTML and omits loading chrome", async () => {
+  const viewport = await readFile(
+    "src/superficie/reader/components/PageViewport.astro",
+    "utf8",
+  );
+  const lab = await readFile(
+    "src/pages/superficie/lab/edicao-00.astro",
+    "utf8",
+  );
+  const flipbook = await readFile(
+    "src/pages/superficie/lab/flipbook.astro",
+    "utf8",
+  );
+  const layout = await readFile(
+    "src/layouts/SuperficieReaderLayout.astro",
+    "utf8",
+  );
+  const css = await readFile("src/superficie/reader/reader.css", "utf8");
+  const panels = await readFile(
+    "src/superficie/reader/components/ReaderPanels.astro",
+    "utf8",
+  );
+
+  assert.match(lab, /coverSrc=\{cover\?\.image\.medium\}/u);
+  assert.match(viewport, /!hasCover && \(/u);
+  assert.match(viewport, /loading="eager"/u);
+  assert.doesNotMatch(viewport, /hidden=\{hasCover\}[\s\S]*Preparando edição/u);
+  assert.doesNotMatch(
+    viewport,
+    /<h2[^>]*>Não foi possível iniciar a animação de páginas\.<\/h2>/u,
+  );
+  assert.match(css, /:not\(:has\(\[data-ssr-cover\]\)\)/u);
+  assert.doesNotMatch(flipbook, /Reader Prototype/iu);
+  assert.doesNotMatch(flipbook, /\bPOC\b/u);
+  assert.doesNotMatch(layout, /Reader Prototype/iu);
+  assert.doesNotMatch(panels, /demonstração/iu);
+});
+
+test("reader palette tokens stay scoped to the lab chrome", async () => {
+  const readerCss = await readFile("src/superficie/reader/reader.css", "utf8");
+  const readerLayout = await readFile(
+    "src/layouts/SuperficieReaderLayout.astro",
+    "utf8",
+  );
+  const landing = await readFile("src/layouts/SuperficieLayout.astro", "utf8");
+  const landingPage = await readFile(
+    "src/pages/superficie/index.astro",
+    "utf8",
+  );
+
+  assert.match(readerCss, /--reader-navy:\s*#0b1f33/iu);
+  assert.match(readerCss, /--reader-ivory:\s*#f7f3ea/iu);
+  assert.match(readerCss, /--reader-teal:\s*#00646a/iu);
+  assert.match(readerCss, /--reader-gold:\s*#8a6621/iu);
+  assert.match(readerLayout, /#0[Bb]1[Ff]33/u);
+  assert.match(landing, /--surface-navy:\s*#001a33/u);
+  assert.match(landing, /--surface-paper:\s*#f7f4ed/u);
+  assert.match(landing, /--surface-teal:\s*#0b827f/u);
+  assert.doesNotMatch(landing, /#0[Bb]1[Ff]33/u);
+  assert.doesNotMatch(landingPage, /#0[Bb]1[Ff]33/u);
+});
+
 test("reader reveals the cover before importing page-flip", async () => {
   const source = await readFile("src/superficie/reader/reader-app.ts", "utf8");
   const startAt = source.indexOf("async start()");
@@ -149,10 +214,18 @@ test("reader reveals the cover before importing page-flip", async () => {
     startAt,
     source.indexOf("private async loadManifest"),
   );
+  const upgradeAt = source.indexOf("private async upgradeToPageFlip");
+  const upgradeBlock = source.slice(
+    upgradeAt,
+    source.indexOf("private async rebuildAdapter"),
+  );
+  assert.match(startBlock, /data-ssr-cover/u);
+  assert.match(startBlock, /this\.ui\.ready\(\)/u);
   assert.match(startBlock, /this\.mountVisibleReader\(\)/u);
   assert.match(startBlock, /void this\.upgradeToPageFlip\(\)/u);
   assert.doesNotMatch(startBlock, /await this\.rebuildAdapter\(\)/u);
   assert.doesNotMatch(startBlock, /await import\(/u);
+  assert.doesNotMatch(upgradeBlock, /createPageElements/u);
 });
 
 test("reader default zoom keeps cover type above a readable floor", async () => {
