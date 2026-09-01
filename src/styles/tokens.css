@@ -1,3 +1,5 @@
+@import "./scale.css";
+
 /*
  * Design system do portal — camada única de tokens.
  *
@@ -65,6 +67,16 @@
   --coral-text: var(--alert-600);
   --coral-soft: var(--alert-50);
 
+  /* A medida é herdada de scale.css, mas o portal a sobrescreve: ele compõe
+     em serifada, e a razão entre o glifo médio e o `0` que define `ch` muda
+     com a família. Os mesmos 64ch rendem 68 caracteres na pilha de sistema da
+     revista e 74 aqui. Calibrado medindo, não pelo nome da unidade. */
+  --measure: 59ch;
+  --measure-narrow: 50ch;
+  /* A coluna absoluta segue a mesma lógica: 44rem rende 68 caracteres na
+     pilha de sistema da revista e só 61 na serifada do portal. */
+  --article-column: 52rem;
+
   /* ----------------------------------------------------------- tipografia */
   --serif:
     "Source Serif 4 Var", "Iowan Old Style", "Palatino Linotype", Palatino,
@@ -76,25 +88,11 @@
     sans-serif;
   --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
 
-  --text-display: clamp(2.5rem, 1.6rem + 3.6vw, 4rem);
-  --text-h1: clamp(2.25rem, 1.55rem + 2.8vw, 3.5rem);
-  --text-h2: clamp(1.75rem, 1.35rem + 1.6vw, 2.5rem);
-  --text-h3: clamp(1.3rem, 1.15rem + 0.6vw, 1.75rem);
-  --text-lead: clamp(1.125rem, 1.05rem + 0.4vw, 1.3125rem);
-  --text-body: clamp(1.0625rem, 1.02rem + 0.16vw, 1.1875rem);
-  --text-small: 0.9375rem;
-  --text-meta: 0.875rem;
-
   --leading-tight: 1.05;
   --leading-snug: 1.25;
   --leading-body: 1.65;
   --tracking-tight: -0.035em;
   --tracking-kicker: 0.14em;
-
-  /* 65–80 caracteres por linha no texto científico */
-  --measure: 68ch;
-  --measure-narrow: 58ch;
-  --article-column: 720px;
 
   /* -------------------------------------------------------------- espaço */
   --space-1: 0.25rem;

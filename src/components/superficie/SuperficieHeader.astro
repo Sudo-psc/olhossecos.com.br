@@ -356,7 +356,7 @@ const nav = [
   .surface-utility {
     border-bottom: 1px solid var(--surface-line);
     color: var(--surface-navy);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
   }
 
   .surface-utility-inner {
@@ -384,7 +384,7 @@ const nav = [
     border-radius: var(--surface-radius-sm, 6px);
     background: #ffffff;
     color: var(--surface-navy, #001a33);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 750;
     cursor: pointer;
     transition:
@@ -405,7 +405,7 @@ const nav = [
     border-radius: 3px;
     background: #f0f4f8;
     font-family: ui-monospace, monospace;
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     color: var(--surface-muted, #5b7081);
   }
 
@@ -430,7 +430,7 @@ const nav = [
     border-radius: var(--surface-radius-sm, 6px);
     background: rgb(217 182 101 / 14%);
     color: var(--surface-paper, #f7f4ed);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 750;
     cursor: pointer;
     transition:
@@ -496,7 +496,7 @@ const nav = [
 
   .portal-brand strong {
     font-family: var(--surface-serif);
-    font-size: 1.05rem;
+    font-size: var(--text-ui);
   }
 
   :global(.portal-mark) {
@@ -514,7 +514,7 @@ const nav = [
     border-radius: var(--surface-radius-sm);
     background: transparent;
     color: var(--surface-paper);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 750;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -546,7 +546,7 @@ const nav = [
   .surface-descriptor {
     margin: 0 0 0.75rem;
     color: var(--surface-gold-light);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 700;
     letter-spacing: 0.3em;
     text-transform: uppercase;
@@ -557,7 +557,7 @@ const nav = [
     margin: 0;
     color: var(--surface-paper);
     font-family: var(--surface-serif);
-    font-size: clamp(3rem, 7.8vw, 7rem);
+    font-size: var(--text-wordmark);
     font-weight: 400;
     letter-spacing: 0.18em;
     line-height: 0.92;
@@ -585,7 +585,7 @@ const nav = [
   .surface-tagline {
     margin: 0;
     font-family: var(--surface-serif);
-    font-size: clamp(1.35rem, 2.6vw, 2.15rem);
+    font-size: var(--text-h3);
     font-style: italic;
     line-height: 1.2;
   }
@@ -595,7 +595,7 @@ const nav = [
   }
 
   .compact .surface-wordmark {
-    font-size: clamp(3.5rem, 6.5vw, 6.2rem);
+    font-size: var(--text-wordmark);
   }
 
   .compact .surface-rule {
@@ -603,7 +603,7 @@ const nav = [
   }
 
   .compact .surface-tagline {
-    font-size: clamp(1.2rem, 2vw, 1.7rem);
+    font-size: var(--text-lead);
   }
 
   .compact .surface-nav {
@@ -621,7 +621,7 @@ const nav = [
     position: relative;
     padding-bottom: 0.2rem;
     color: var(--surface-paper);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -718,7 +718,7 @@ const nav = [
     flex: none;
     color: var(--surface-paper);
     font-family: var(--surface-serif);
-    font-size: 1.35rem;
+    font-size: var(--text-body);
     letter-spacing: 0.14em;
   }
 
@@ -733,7 +733,7 @@ const nav = [
     position: relative;
     padding-block: 0.35rem;
     color: var(--surface-muted-on-dark);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -805,7 +805,7 @@ const nav = [
     margin-inline: -0.6rem;
     border-bottom: 1px solid rgb(255 255 255 / 13%);
     color: var(--surface-paper);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -859,7 +859,7 @@ const nav = [
 
     .portal-brand span strong {
       font-family: var(--surface-sans);
-      font-size: 0.875rem;
+      font-size: var(--text-meta);
     }
 
     .portal-brand span strong::after {
@@ -870,7 +870,7 @@ const nav = [
     .portal-return {
       margin-left: auto;
       color: var(--surface-paper);
-      font-size: 0.875rem;
+      font-size: var(--text-meta);
     }
 
     .surface-menu-button {
@@ -889,7 +889,7 @@ const nav = [
     }
 
     .surface-wordmark {
-      font-size: clamp(2.9rem, 14.5vw, 5.4rem);
+      font-size: var(--text-headline);
       letter-spacing: 0.1em;
       text-indent: 0.1em;
     }
@@ -899,7 +899,7 @@ const nav = [
     }
 
     .compact .surface-wordmark {
-      font-size: clamp(2.6rem, 12vw, 4.2rem);
+      font-size: var(--text-display);
     }
 
     .surface-rule {
@@ -907,7 +907,7 @@ const nav = [
     }
 
     .surface-tagline {
-      font-size: clamp(1.2rem, 6vw, 1.65rem);
+      font-size: var(--text-lead);
     }
 
     .surface-nav {
@@ -944,7 +944,7 @@ const nav = [
     }
 
     .surface-wordmark {
-      font-size: 2.45rem;
+      font-size: var(--text-h2);
       letter-spacing: 0.055em;
       text-indent: 0.055em;
     }

@@ -131,7 +131,7 @@ const endpoint =
   h1 {
     max-width: 12ch;
     margin: 0;
-    font-size: clamp(2.75rem, 6.4vw, 5.7rem);
+    font-size: var(--text-headline);
     line-height: 0.98;
   }
 
@@ -139,7 +139,7 @@ const endpoint =
     max-width: 56ch;
     margin: clamp(1.5rem, 3vw, 2.5rem) 0 0;
     color: var(--ink-soft);
-    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+    font-size: var(--text-body);
     line-height: 1.7;
   }
 
@@ -157,7 +157,7 @@ const endpoint =
   .ecosystem h2,
   .trust h2 {
     margin: 0;
-    font-size: clamp(2.2rem, 4.5vw, 4rem);
+    font-size: var(--text-display);
     line-height: 1.05;
   }
 
@@ -185,7 +185,7 @@ const endpoint =
   .audience-grid h3 {
     margin: 0;
     color: var(--teal-dark);
-    font-size: clamp(1.7rem, 3vw, 2.5rem);
+    font-size: var(--text-h2);
   }
 
   .audience-grid p {
@@ -220,7 +220,7 @@ const endpoint =
     align-items: center;
     border-bottom: 1px solid rgb(255 255 255 / 28%);
     color: rgb(255 255 255 / 86%);
-    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    font-size: var(--text-ui);
     font-weight: 650;
     transition:
       color 160ms ease,
@@ -301,7 +301,7 @@ const endpoint =
     }
 
     h1 {
-      font-size: clamp(2.5rem, 13vw, 3.75rem);
+      font-size: var(--text-h1);
     }
 
     .audience-grid {

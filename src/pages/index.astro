@@ -16,7 +16,6 @@ const homeDescription =
 const paths = [
   {
     id: "paciente",
-    index: "01",
     audience: "Para quem sente",
     title: "Entender o que acontece nos meus olhos",
     text: "Ardência, sensação de areia, visão que oscila, olho que lacrimeja justamente por estar ressecado. O que cada sintoma sugere, como a investigação é feita e o que o tratamento pretende — sem promessa de cura.",
@@ -32,7 +31,6 @@ const paths = [
   },
   {
     id: "profissional",
-    index: "02",
     audience: "Para quem trata",
     title: "Acompanhar a evolução da superfície ocular",
     text: "Diagnóstico multimodal, fenotipagem, imagem, terapias dirigidas por mecanismo e leitura crítica da evidência — com o grau e a limitação de cada achado declarados ao lado do número.",
@@ -78,7 +76,7 @@ const paths = [
           paths.map((path) => (
             <article class="gateway-card" data-path={path.id}>
               <p class="gateway-kicker">
-                <span class="gateway-index">{path.index}</span>
+                <span class="gateway-mark" aria-hidden="true" />
                 {path.audience}
               </p>
               <h2>{path.title}</h2>
@@ -294,11 +292,29 @@ const paths = [
     text-transform: uppercase;
   }
 
-  .gateway-index {
-    color: var(--teal-dark);
-    font-family: var(--mono);
-    font-size: 0.95rem;
-    letter-spacing: 0;
+  /*
+   * Marcador de identidade, não ordinal.
+   *
+   * Os cards traziam "01" e "02". Numerar sugere sequência — primeiro um,
+   * depois o outro — e a escolha aqui é excludente: o leitor é paciente ou
+   * é profissional, e nunca percorre os dois em ordem. O número também
+   * insinuava uma hierarquia que não existe entre as duas frentes.
+   *
+   * No lugar entra a cor de cada portal, que é a mesma que o leitor vai
+   * encontrar do outro lado do clique. O rótulo de público — "Para quem
+   * sente" / "Para quem trata" — já estava ali e continua carregando o
+   * texto; o marcador é reforço visual e por isso é aria-hidden.
+   */
+  .gateway-mark {
+    flex: none;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 2px;
+    background: var(--teal);
+  }
+
+  [data-path="profissional"] .gateway-mark {
+    background: var(--ink);
   }
 
   .gateway-card h2 {

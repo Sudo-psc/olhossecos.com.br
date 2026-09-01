@@ -20,6 +20,10 @@ test("toda figura declara um arquivo-fonte existente", () => {
 
 test("figura com licença aberta traz crédito com URL e o arquivo da licença", () => {
   const catalog = Object.entries(figures) as [string, FigureAsset][];
+  // O predicado estreita `credit` junto com `license`, e não por capricho de
+  // tipo: figura sob CC BY sem atribuição viola a própria licença. Estreitar
+  // só `license` deixava `figure.credit.url` logo abaixo sem garantia, e o
+  // astro check derrubava o build com ts(18048).
   const licensed = catalog.filter(
     (entry): entry is [string, LicensedFigureAsset] =>
       Boolean(entry[1].credit && entry[1].license),
@@ -42,6 +46,7 @@ test("as figuras de Hwang et al. 2013 apontam para o DOI do PLoS ONE e CC BY 4.0
   ];
 
   for (const figure of hwang) {
+    assert.ok(figure.credit, "figura de Hwang sem bloco de crédito");
     assert.equal(
       figure.credit.url,
       "https://doi.org/10.1371/journal.pone.0067143",

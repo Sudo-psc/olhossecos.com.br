@@ -117,7 +117,7 @@ const readingTime = calculateArticleReadingTime(article);
     justify-content: space-between;
     gap: 1rem;
     color: var(--surface-muted);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 750;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -130,14 +130,14 @@ const readingTime = calculateArticleReadingTime(article);
   h3 {
     margin: 1rem 0 0.8rem;
     font-family: var(--surface-serif);
-    font-size: clamp(1.65rem, 3vw, 2.4rem);
+    font-size: var(--text-h3);
     font-weight: 400;
     letter-spacing: -0.025em;
     line-height: 1.08;
   }
 
   .compact h3 {
-    font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+    font-size: var(--text-lead);
   }
 
   h3 a:hover,

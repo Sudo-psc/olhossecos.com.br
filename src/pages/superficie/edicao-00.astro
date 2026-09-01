@@ -44,11 +44,16 @@ const issueSchema = {
   extraSchema={issueSchema}
 >
   <section class="issue-hero" aria-labelledby="issue-title">
-    <div class="surface-shell breadcrumb" aria-label="Navegação estrutural">
-      <a href="/superficie">SUPERFÍCIE</a>
-      <span aria-hidden="true">/</span>
-      <span>Edição 00</span>
-    </div>
+    <nav class="surface-shell breadcrumb" aria-label="Trilha de navegação">
+      <ol>
+        <li>
+          <a href="/superficie">SUPERFÍCIE</a>
+        </li>
+        <li>
+          <span aria-current="page">Edição 00</span>
+        </li>
+      </ol>
+    </nav>
 
     <div class="surface-shell issue-hero-grid">
       <div class="issue-cover-wrap">
@@ -324,7 +329,7 @@ const issueSchema = {
 
   .eyebrow {
     margin: 0 0 0.9rem;
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 800;
     letter-spacing: 0.18em;
     line-height: 1.35;
@@ -350,7 +355,7 @@ const issueSchema = {
 
   h2 {
     margin-bottom: 1.35rem;
-    font-size: clamp(2.5rem, 5.8vw, 5.5rem);
+    font-size: var(--text-headline);
   }
 
   p {
@@ -369,10 +374,34 @@ const issueSchema = {
     align-items: center;
     gap: 0.65rem;
     color: var(--surface-muted-on-dark);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+  }
+
+  .breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .breadcrumb li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* `content: "/" / ""` dá texto alternativo vazio ao separador. O Chromium
+     expõe conteúdo gerado à árvore de acessibilidade, e sem isso o leitor
+     de tela passaria a ler "SUPERFÍCIE barra ARTIGOS barra EVIDÊNCIA" — a
+     barra era <span aria-hidden> antes de virar CSS. */
+  .breadcrumb li:not(:last-child)::after {
+    content: "/" / "";
   }
 
   .breadcrumb a {
@@ -401,7 +430,7 @@ const issueSchema = {
   .issue-hero-copy h1 {
     max-width: 820px;
     margin-bottom: 1.3rem;
-    font-size: clamp(3.4rem, 7vw, 7.3rem);
+    font-size: var(--text-wordmark);
   }
 
   .description {
@@ -452,7 +481,7 @@ const issueSchema = {
     flex: 0 0 auto;
     align-items: center;
     min-height: 24px;
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 800;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -475,7 +504,7 @@ const issueSchema = {
   .editorial-copy .lead {
     color: var(--surface-teal-dark);
     font-family: var(--surface-serif);
-    font-size: clamp(1.45rem, 2.7vw, 2.4rem);
+    font-size: var(--text-h3);
     line-height: 1.25;
   }
 
@@ -490,7 +519,7 @@ const issueSchema = {
     padding-left: 1rem;
     border-left: 2px solid var(--surface-gold);
     color: var(--surface-muted);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
   }
 
   .state-note.light {
@@ -548,7 +577,7 @@ const issueSchema = {
 
   .summary-list small {
     color: var(--surface-muted-on-dark);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -580,7 +609,7 @@ const issueSchema = {
   .empty-number {
     color: #a87927;
     font-family: var(--surface-serif);
-    font-size: clamp(7rem, 16vw, 14rem);
+    font-size: var(--text-numeral);
     line-height: 1;
   }
 
@@ -590,7 +619,7 @@ const issueSchema = {
     align-items: center;
     border-bottom: 1px solid currentColor;
     color: var(--surface-teal-dark);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 800;
     letter-spacing: 0.07em;
     text-transform: uppercase;
@@ -651,7 +680,7 @@ const issueSchema = {
     border: 1px solid #8b949d;
     background: #8b949d;
     color: white;
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -699,7 +728,7 @@ const issueSchema = {
     }
 
     .issue-hero-copy h1 {
-      font-size: clamp(3.2rem, 14vw, 5.8rem);
+      font-size: var(--text-headline);
     }
 
     .summary-list {
@@ -711,7 +740,7 @@ const issueSchema = {
     }
 
     .empty-number {
-      font-size: 6rem;
+      font-size: var(--text-wordmark);
     }
   }
 

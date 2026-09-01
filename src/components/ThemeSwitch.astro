@@ -121,6 +121,8 @@
     transition: transform 160ms ease;
   }
 
+  /* O anel de foco é global, mas hover e active são do componente: sem eles
+     o alvo não responde ao ponteiro antes do clique. */
   .theme-switch:hover {
     border-color: var(--teal-dark, var(--surface-teal-dark, #00576a));
     background: var(--line-strong, var(--surface-line, #b8c7d6));

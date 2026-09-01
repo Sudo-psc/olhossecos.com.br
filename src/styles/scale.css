@@ -1,0 +1,85 @@
+/*
+ * Escala tipográfica — compartilhada pelas duas frentes.
+ *
+ * Mora fora de tokens.css porque tokens.css carrega a PALETA do portal, e o
+ * CLAUDE.md é explícito: portal e SUPERFÍCIE são visualmente distintos de
+ * propósito, e o que os separa é cor, ritmo e densidade — não a escala.
+ * Importar tokens.css inteiro na revista vazaria --ink, --teal e --paper para
+ * dentro do navy da SUPERFÍCIE.
+ *
+ * Este arquivo é importado por src/layouts/Layout.astro (via tokens.css) e
+ * por src/layouts/SuperficieLayout.astro. Um layout novo que sirva HTML
+ * precisa importá-lo, senão todo font-size cai no padrão de 16px do
+ * navegador — foi o que aconteceu quando a escala nasceu só em tokens.css.
+ */
+
+:root {
+  /* ---------------------------------------------- escala tipográfica
+
+     Escala modular de razão 1,25 com piso de 14px. Antes daqui os tamanhos
+     eram 151 valores distintos gerados por clamp() solto — degraus que o
+     leitor não lê como hierarquia, só como ruído.
+
+     Os sete primeiros degraus são a escala de TEXTO. Os quatro seguintes
+     continuam a MESMA razão e formam a família de DISPLAY: manchete
+     editorial, wordmark da revista e algarismo decorativo. Eles ficam fora
+     da escala de texto de propósito — encaixar 112px do masthead em sete
+     degraus a partir de 14px exigiria encolher manchete em até 52%, o que
+     é repaginar, não sistematizar.
+
+       s0   14.00px   meta, legenda, crédito, rótulo, kicker
+       s1   17.50px   corpo em tela estreita, texto de interface
+       s2   21.88px   corpo de leitura, lead em tela estreita
+       s3   27.34px   lead, h3 em tela estreita
+       s4   34.18px   h3, h2 em tela estreita
+       s5   42.72px   h2, h1 em tela estreita
+       s6   53.41px   h1
+       s7   66.76px   manchete editorial
+       s8   83.45px   manchete de capa
+       s9  104.31px   wordmark
+       s10 130.39px  algarismo decorativo
+
+     A fluidez interpola ENTRE degraus e satura em 400px e 1200px de
+     viewport. Isso é deliberado: nas duas larguras auditadas — 390px e
+     1512px — todo token cai exatamente sobre um degrau, então a contagem
+     de tamanhos distintos por página é a contagem de degraus em uso, e
+     não uma nuvem de valores intermediários. */
+  --step-0: 0.875rem;
+  --step-1: 1.0938rem;
+  --step-2: 1.3672rem;
+  --step-3: 1.709rem;
+  --step-4: 2.1362rem;
+  --step-5: 2.6703rem;
+  --step-6: 3.3379rem;
+  --step-7: 4.1723rem;
+  --step-8: 5.2154rem;
+  --step-9: 6.5193rem;
+  --step-10: 8.1491rem;
+
+  /* Papéis. Nenhum componente deve declarar px ou rem: só estes nomes. */
+  --text-meta: var(--step-0);
+  --text-small: var(--step-0);
+  --text-ui: var(--step-1);
+  --text-body: clamp(1.0938rem, 0.957rem + 0.5469vw, 1.3672rem);
+  --text-lead: clamp(1.3672rem, 1.1963rem + 0.6836vw, 1.709rem);
+  --text-h3: clamp(1.709rem, 1.4954rem + 0.8545vw, 2.1362rem);
+  --text-h2: clamp(2.1362rem, 1.8692rem + 1.0681vw, 2.6703rem);
+  --text-h1: clamp(2.6703rem, 2.3365rem + 1.3351vw, 3.3379rem);
+  --text-display: clamp(3.3379rem, 2.9206rem + 1.6689vw, 4.1723rem);
+  --text-headline: clamp(4.1723rem, 3.6508rem + 2.0862vw, 5.2154rem);
+  --text-wordmark: clamp(5.2154rem, 4.5635rem + 2.6077vw, 6.5193rem);
+  --text-numeral: clamp(6.5193rem, 5.7044rem + 3.2596vw, 8.1491rem);
+
+  /* Medida de leitura: 65–72 caracteres por linha.
+
+     `ch` é a largura do algarismo zero, e o zero é mais largo que a média das
+     minúsculas — 11,00px contra 10,39px no corpo do artigo. Por isso `68ch`
+     não entrega 68 caracteres, entrega 72. Os valores abaixo foram calibrados
+     medindo a largura média real do glifo na fonte servida, não pelo nome da
+     unidade. --article-column é a coluna do texto longo em medida absoluta,
+     porque ela também define uma faixa do grid, onde `ch` herdaria o
+     font-size do container e não o do parágrafo. */
+  --measure: 64ch;
+  --measure-narrow: 54ch;
+  --article-column: 44rem;
+}

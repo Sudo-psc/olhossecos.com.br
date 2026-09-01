@@ -84,10 +84,13 @@ const groups = [
     padding-block: clamp(3rem, 7vw, 5.5rem);
   }
 
+  /* A marca do rodapé acompanha o degrau que as manchetes de seção da revista
+     já ocupam. Passar por --text-display criava um degrau usado uma vez só na
+     página inteira — trocar um singleton por outro não consolida nada. */
   .footer-brand a {
     display: block;
     font-family: var(--surface-serif);
-    font-size: clamp(2rem, 4vw, 3.3rem);
+    font-size: var(--text-headline);
     letter-spacing: 0.16em;
   }
 
@@ -112,14 +115,14 @@ const groups = [
     margin: 0 0 0.6rem;
     color: var(--surface-gold-light);
     font-family: var(--surface-sans);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     letter-spacing: 0.14em;
     text-transform: uppercase;
   }
 
   .surface-footer nav a {
     color: var(--surface-muted-on-dark);
-    font-size: 0.88rem;
+    font-size: var(--text-meta);
   }
 
   .surface-footer nav a:hover,
@@ -143,7 +146,7 @@ const groups = [
 
   .footer-imprint span {
     color: var(--surface-gold-light);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -151,7 +154,7 @@ const groups = [
 
   .footer-imprint strong {
     font-family: var(--surface-serif);
-    font-size: 1.05rem;
+    font-size: var(--text-ui);
     font-weight: 400;
   }
 
@@ -163,7 +166,7 @@ const groups = [
 
   .footer-imprint em {
     color: var(--surface-muted-on-dark);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
     font-style: normal;
     font-variant-numeric: tabular-nums;
     letter-spacing: 0.02em;
@@ -177,7 +180,7 @@ const groups = [
     gap: 1rem;
     border-top: 1px solid rgb(255 255 255 / 14%);
     color: var(--surface-muted-on-dark);
-    font-size: 0.875rem;
+    font-size: var(--text-meta);
   }
 
   @media (max-width: 820px) {
