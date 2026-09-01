@@ -1,4 +1,5 @@
 import { resolveHighlightAnchor } from "./highlights.ts";
+import { isInEagerBand } from "./navigation.ts";
 import type {
   Highlight,
   IssueManifest,
@@ -35,7 +36,7 @@ export class PageRenderer {
         return this.adoptSsrCover(ssrCover, page);
       return this.createPageElement(
         page,
-        page.number === currentPage || page.number === 1,
+        page.number === 1 || isInEagerBand(page.number, currentPage),
       );
     });
 
@@ -62,7 +63,11 @@ export class PageRenderer {
       const element = this.getPageElement(page.number);
       if (!element) return;
       if (page.number >= minimum && page.number <= maximum) {
-        this.hydrateImage(element, page, page.number === currentPage);
+        this.hydrateImage(
+          element,
+          page,
+          isInEagerBand(page.number, currentPage),
+        );
       } else {
         this.dehydrateImage(element);
       }
@@ -79,7 +84,11 @@ export class PageRenderer {
       const element = this.getPageElement(page.number);
       if (!element) return;
       if (page.number >= minimum && page.number <= maximum) {
-        this.hydrateImage(element, page, page.number === currentPage);
+        this.hydrateImage(
+          element,
+          page,
+          isInEagerBand(page.number, currentPage),
+        );
         tasks.push(this.hydrateText(element, page, false, generation));
       } else {
         this.dehydrateImage(element);
@@ -205,21 +214,25 @@ export class PageRenderer {
   private hydrateImage(
     element: HTMLElement,
     page: MagazinePage,
-    current = false,
+    eager = false,
   ): void {
     const image = element.querySelector<HTMLImageElement>("img[data-src]");
-    if (!image || image.dataset.loaded === "true") return;
-    element
-      .querySelectorAll<HTMLSourceElement>("source[data-srcset]")
-      .forEach((source) => {
-        source.srcset = source.dataset.srcset ?? "";
-      });
-    image.src = image.dataset.src ?? page.image.small;
-    image.srcset = `${page.image.small} 480w, ${page.image.medium} 900w, ${page.image.large} 1400w`;
-    image.sizes = "(max-width: 760px) 94vw, (max-width: 1100px) 62vw, 43vw";
-    image.loading = current ? "eager" : "lazy";
-    image.fetchPriority = current ? "high" : "auto";
-    image.dataset.loaded = "true";
+    if (!image) return;
+    if (image.dataset.loaded !== "true") {
+      element
+        .querySelectorAll<HTMLSourceElement>("source[data-srcset]")
+        .forEach((source) => {
+          source.srcset = source.dataset.srcset ?? "";
+        });
+      image.src = image.dataset.src ?? page.image.small;
+      image.srcset = `${page.image.small} 480w, ${page.image.medium} 900w, ${page.image.large} 1400w`;
+      image.sizes = "(max-width: 760px) 94vw, (max-width: 1100px) 62vw, 43vw";
+      image.dataset.loaded = "true";
+    }
+    // lazy na vizinhança imediata deixa o GIF 1×1 no spread até o
+    // observer do browser decidir que a placa transformada "apareceu".
+    image.loading = eager ? "eager" : "lazy";
+    image.fetchPriority = eager ? "high" : "auto";
   }
 
   private dehydrateImage(element: HTMLElement): void {

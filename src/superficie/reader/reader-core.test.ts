@@ -4,6 +4,7 @@ import { test } from "node:test";
 import {
   calculateReadingProgress,
   getVisiblePageNumbers,
+  isInEagerBand,
   normalizePageNumber,
 } from "./navigation.ts";
 import { resolveHighlightAnchor } from "./highlights.ts";
@@ -229,6 +230,8 @@ test("reader reveals the cover before importing page-flip", async () => {
   assert.match(startBlock, /this\.ui\.ready\(\)/u);
   assert.match(startBlock, /this\.mountVisibleReader\(\)/u);
   assert.match(startBlock, /void this\.upgradeToPageFlip\(\)/u);
+  assert.match(startBlock, /armResumePrompt/u);
+  assert.doesNotMatch(startBlock, /this\.ui\.showResume\(/u);
   assert.doesNotMatch(startBlock, /await this\.rebuildAdapter\(\)/u);
   assert.doesNotMatch(startBlock, /await import\(/u);
   assert.doesNotMatch(upgradeBlock, /createPageElements/u);
@@ -272,6 +275,33 @@ test("page renderer keeps the SSR cover node instead of swapping it for a GIF", 
     ),
     /transparentPixel/u,
   );
+  assert.match(renderer, /isInEagerBand\(page\.number, currentPage\)/u);
+  assert.doesNotMatch(
+    renderer,
+    /hydrateImage\(\s*element,\s*page,\s*page\.number === currentPage/u,
+  );
+});
+
+test("resume toast lives in chrome and persists dismiss", async () => {
+  const reader = await readFile(
+    "src/superficie/reader/components/MagazineReader.astro",
+    "utf8",
+  );
+  const viewport = await readFile(
+    "src/superficie/reader/components/PageViewport.astro",
+    "utf8",
+  );
+  const css = await readFile("src/superficie/reader/reader.css", "utf8");
+  const app = await readFile("src/superficie/reader/reader-app.ts", "utf8");
+
+  assert.match(reader, /data-resume-banner/u);
+  assert.doesNotMatch(viewport, /data-resume-banner/u);
+  assert.match(css, /\.resume-banner\s*\{[\s\S]*bottom:\s*0\.65rem/u);
+  assert.doesNotMatch(css, /\.resume-banner\s*\{[\s\S]*top:\s*4\.6rem/u);
+  assert.match(app, /resumeDismissedPage/u);
+  assert.match(app, /armResumePrompt/u);
+  assert.match(app, /dismissResume/u);
+  assert.match(app, /acceptResume/u);
 });
 
 test("generated edicao-00 manifest is a self-contained 34-page issue", async () => {
@@ -348,6 +378,14 @@ test("generated POC manifest contains eight replaceable pages", async () => {
   assert.equal(result.data?.toc.length, 4);
   assert.equal(result.data?.articles[0]?.pages.join(","), "4,5");
   assert.equal(result.data?.audioSources.length, 3);
+});
+
+test("eager band covers the current page and its immediate neighbors", () => {
+  assert.equal(isInEagerBand(7, 7), true);
+  assert.equal(isInEagerBand(6, 7), true);
+  assert.equal(isInEagerBand(8, 7), true);
+  assert.equal(isInEagerBand(5, 7), false);
+  assert.equal(isInEagerBand(9, 7), false);
 });
 
 test("navigation clamps pages and keeps the cover isolated", () => {
@@ -433,6 +471,39 @@ test("stored reader data discards corrupt or cross-issue records", () => {
     notes: [],
   });
   assert.equal(stringZoom.preferences, null);
+
+  const withDismiss = sanitizeStoredReaderData("issue-a", 8, {
+    progress: null,
+    preferences: {
+      issueId: "issue-a",
+      soundEnabled: false,
+      reducedMotion: false,
+      toolbarMinimized: false,
+      zoomMode: "fit-width",
+      zoomPercent: 100,
+      resumeDismissedPage: 2,
+    },
+    bookmarks: [],
+    highlights: [],
+    notes: [],
+  });
+  assert.equal(withDismiss.preferences?.resumeDismissedPage, 2);
+
+  const withoutDismiss = sanitizeStoredReaderData("issue-a", 8, {
+    progress: null,
+    preferences: {
+      issueId: "issue-a",
+      soundEnabled: false,
+      reducedMotion: false,
+      toolbarMinimized: false,
+      zoomMode: "fit-width",
+      zoomPercent: 100,
+    },
+    bookmarks: [],
+    highlights: [],
+    notes: [],
+  });
+  assert.equal(withoutDismiss.preferences?.resumeDismissedPage, undefined);
 });
 
 test("search ignores accents and returns a useful page snippet", () => {

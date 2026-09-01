@@ -63,6 +63,7 @@ class MagazineReaderController {
   private articleLoadGeneration = 0;
   private resizeObserver: ResizeObserver | null = null;
   private pointerStart: { x: number; y: number; id: number } | null = null;
+  private pendingResumePage: number | null = null;
 
   constructor(root: HTMLElement) {
     this.root = root;
@@ -124,11 +125,19 @@ class MagazineReaderController {
 
       if (hasDeepLink || !stored.progress) await this.saveProgress();
 
-      if (!hasDeepLink && stored.progress && stored.progress.page > 1)
-        this.ui.showResume(stored.progress.page);
+      if (
+        !hasDeepLink &&
+        stored.progress &&
+        stored.progress.page > 1 &&
+        this.preferences?.resumeDismissedPage !== stored.progress.page
+      ) {
+        this.pendingResumePage = stored.progress.page;
+        this.armResumePrompt();
+      }
       this.analytics.track("reader_open", { issue_id: manifest.id });
       this.trackPageView();
       this.watchAvailableSpace();
+      this.root.dataset.readerStorage = "ready";
     } catch (error) {
       const message =
         error instanceof Error
@@ -300,11 +309,8 @@ class MagazineReaderController {
     if (action === "sound") return void this.toggleSound();
     if (action === "fullscreen") return void this.toggleFullscreen();
     if (action === "share") return void this.sharePage();
-    if (action === "resume") {
-      this.goToPage(this.ui.resumePage(), true);
-      return this.ui.hideResume();
-    }
-    if (action === "dismiss-resume") return this.ui.hideResume();
+    if (action === "resume") return void this.acceptResume();
+    if (action === "dismiss-resume") return void this.dismissResume();
     if (action === "minimize") return void this.toggleToolbar();
     if (action === "simple-reader") return void this.enableSimpleReader();
     if (action === "close") {
@@ -373,6 +379,7 @@ class MagazineReaderController {
     if (!this.manifest || page === this.currentPage) return;
     const previousPage = this.currentPage;
     this.currentPage = normalizePageNumber(page, this.manifest.pageCount);
+    if (this.currentPage !== 1) this.clearResumePrompt();
     const suppressAudio = this.suppressAudioOnce;
     this.suppressAudioOnce = false;
     if (!suppressAudio) this.audio.playTurn();
@@ -825,6 +832,34 @@ class MagazineReaderController {
     this.ui.find<HTMLInputElement>("[data-reduced-motion]").checked = reduced;
     await this.rebuildAdapter();
     this.updatePageUi();
+  }
+
+  private armResumePrompt(): void {
+    const reveal = () => {
+      if (this.pendingResumePage == null) return;
+      this.ui.showResume(this.pendingResumePage);
+    };
+    this.root.addEventListener("pointerdown", reveal, { once: true });
+    window.addEventListener("keydown", reveal, { once: true });
+  }
+
+  private clearResumePrompt(): void {
+    this.pendingResumePage = null;
+    this.ui.hideResume();
+  }
+
+  private async dismissResume(): Promise<void> {
+    if (this.preferences) {
+      this.preferences.resumeDismissedPage = this.ui.resumePage();
+      await this.savePreferences();
+    }
+    this.clearResumePrompt();
+  }
+
+  private acceptResume(): void {
+    const page = this.ui.resumePage();
+    this.clearResumePrompt();
+    this.goToPage(page, true);
   }
 
   private async savePreferences(): Promise<void> {

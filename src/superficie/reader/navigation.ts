@@ -29,3 +29,7 @@ export const calculateReadingProgress = (page: number, pageCount: number) =>
       100
     ).toFixed(2),
   );
+
+/** Placa atual e as duas vizinhas — o spread do page-flip mostra ±1. */
+export const isInEagerBand = (pageNumber: number, currentPage: number) =>
+  Math.abs(pageNumber - currentPage) <= 1;

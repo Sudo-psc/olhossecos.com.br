@@ -767,9 +767,10 @@
 }
 
 .resume-banner {
-  position: fixed;
-  z-index: 70;
-  top: 4.6rem;
+  position: absolute;
+  z-index: 75;
+  right: auto;
+  bottom: 0.65rem;
   left: 50%;
   display: flex;
   align-items: center;
@@ -780,6 +781,7 @@
   border-radius: 999px;
   background: #0a2935;
   box-shadow: 0 12px 30px rgb(0 0 0 / 30%);
+  pointer-events: auto;
   font-size: 0.78rem;
 }
 
@@ -941,7 +943,8 @@
     bottom: 5.35rem;
   }
   .resume-banner {
-    top: 4rem;
+    top: auto;
+    bottom: 0.55rem;
     width: max-content;
     max-width: 92vw;
   }

@@ -84,6 +84,17 @@ const initialProgress = pageCount ? calculateReadingProgress(1, pageCount) : 0;
   </div>
 
   <PageViewport {pdfHref} {coverSrc} {coverAlt} />
+  <div class="resume-banner" data-resume-banner hidden>
+    <span data-resume-copy></span>
+    <button type="button" data-action="resume">Continuar</button>
+    <button
+      type="button"
+      data-action="dismiss-resume"
+      aria-label="Fechar sugestão"
+    >
+      ×
+    </button>
+  </div>
   <ReaderPanels />
   <ReaderToolbar />
 </div>

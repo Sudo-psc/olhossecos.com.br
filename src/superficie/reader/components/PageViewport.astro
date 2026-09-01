@@ -10,16 +10,6 @@ const hasCover = Boolean(coverSrc);
 ---
 
 <main class="reader-stage" id="superficie-reader" tabindex="-1">
-  <div class="resume-banner" data-resume-banner hidden>
-    <span data-resume-copy></span>
-    <button type="button" data-action="resume">Continuar</button>
-    <button
-      type="button"
-      data-action="dismiss-resume"
-      aria-label="Fechar sugestão">×</button
-    >
-  </div>
-
   {
     !hasCover && (
       <div class="reader-loading" data-reader-loading role="status">
