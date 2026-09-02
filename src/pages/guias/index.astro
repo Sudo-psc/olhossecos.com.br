@@ -465,15 +465,15 @@ const categories = ["Todos", ...new Set(guides.map((guide) => guide.category))];
   }
 
   .category-filters button[aria-pressed="true"] {
-    border-color: var(--ink);
-    background: var(--ink);
-    color: white;
+    border-color: var(--surface-inverse);
+    background: var(--surface-inverse);
+    color: var(--on-inverse);
   }
 
   #search-status {
     min-width: max-content;
     margin: 0.55rem 0 0;
-    color: #5a6b80;
+    color: var(--navy-400);
     font-size: 0.875rem;
   }
 

@@ -190,22 +190,26 @@ const nav = portal?.nav ?? [];
 
   .header-search-btn kbd {
     padding: 0.15rem 0.35rem;
-    border: 1px solid #ccd9e2;
+    border: 1px solid var(--line, #d3dbe4);
     border-radius: 3px;
-    background: #ffffff;
+    background: var(--paper, #ffffff);
     font-family: ui-monospace, monospace;
     font-size: 0.875rem;
-    color: #556877;
+    color: var(--navy-400, #405168);
   }
 
   .header-search-btn:hover {
-    background: #e2f1f5;
+    background: var(--teal-100, #dff3f7);
     border-color: var(--teal, #087f95);
     color: var(--ink, #071d45);
   }
 
   .header-search-btn:active {
-    background: #d5eaef;
+    background: color-mix(
+      in srgb,
+      var(--teal, #087f95) 18%,
+      var(--paper, #ffffff)
+    );
   }
 
   .mobile-search-btn {
@@ -229,12 +233,16 @@ const nav = portal?.nav ?? [];
   }
 
   .mobile-search-btn:hover {
-    background: #e2f1f5;
+    background: var(--teal-100, #dff3f7);
     border-color: var(--teal-dark, #00657a);
   }
 
   .mobile-search-btn:active {
-    background: #d5eaef;
+    background: color-mix(
+      in srgb,
+      var(--teal, #087f95) 18%,
+      var(--paper, #ffffff)
+    );
   }
 
   .mobile-search-btn svg {
@@ -245,12 +253,12 @@ const nav = portal?.nav ?? [];
 
   .mobile-search-btn kbd {
     padding: 0.15rem 0.35rem;
-    border: 1px solid #ccd9e2;
+    border: 1px solid var(--line, #d3dbe4);
     border-radius: 3px;
-    background: #ffffff;
+    background: var(--paper, #ffffff);
     font-family: ui-monospace, monospace;
     font-size: 0.875rem;
-    color: #556877;
+    color: var(--navy-400, #405168);
   }
 
   /* Ponte entre os dois portais. Fica ao lado da busca, discreta: é rota de
@@ -284,7 +292,11 @@ const nav = portal?.nav ?? [];
   }
 
   .portal-switch:active {
-    background: #d5eaef;
+    background: color-mix(
+      in srgb,
+      var(--teal, #087f95) 18%,
+      var(--paper, #ffffff)
+    );
   }
 
   .mobile-portal-switch::before {

@@ -170,7 +170,7 @@ const latestRadar = latestRadarReport();
       <div class="track-grid">
         {
           professionalTracks.map((track, index) => (
-            <article id={track.id}>
+            <article id={track.id} class="reveal">
               <span class="track-index">
                 {String(index + 1).padStart(2, "0")}
               </span>
@@ -198,7 +198,7 @@ const latestRadar = latestRadarReport();
           </header>
           <ul class="recent-list">
             {recentArticles.map((article) => (
-              <li>
+              <li class="reveal">
                 <p class="card-kicker">{article.category}</p>
                 <h3>
                   <a href={getMagazineArticlePath(article)}>{article.title}</a>
@@ -228,7 +228,7 @@ const latestRadar = latestRadarReport();
   {
     latestRadar && (
       <section class="radar" aria-labelledby="radar-title">
-        <div class="page-shell radar-inner">
+        <div class="page-shell radar-inner reveal">
           <div>
             <p class="eyebrow">RADAR Científico</p>
             <h2 id="radar-title" class="section-heading">
@@ -257,7 +257,7 @@ const latestRadar = latestRadarReport();
       <ul class="book-list">
         {
           books.slice(0, 2).map((book) => (
-            <li>
+            <li class="reveal">
               <h3>
                 <a href={`/livros/${book.slug}`}>{book.title}</a>
               </h3>
@@ -582,6 +582,12 @@ const latestRadar = latestRadarReport();
     border: 1px solid var(--line-soft);
     border-radius: var(--radius-sm);
     background: var(--paper);
+    transition: border-color var(--duration-base) var(--ease-out-soft);
+  }
+
+  .recent-list li:has(a:hover),
+  .recent-list li:has(a:focus-visible) {
+    border-color: var(--copper-500);
   }
 
   .recent-list h3 {
@@ -596,32 +602,60 @@ const latestRadar = latestRadarReport();
     padding: var(--space-block) 0;
   }
 
+  /* Painel invertido: tokens estáveis entre temas. --ink clareia no escuro e
+     deixaria texto branco sobre fundo claro. O brilho cobre no canto é só
+     alpha — eco da paleta da SUPERFÍCIE. */
   .radar-inner {
+    position: relative;
+    overflow: hidden;
     padding: clamp(1.75rem, 1.2rem + 2vw, 3rem);
     border-radius: var(--radius-lg);
-    background: var(--ink);
-    color: white;
+    background: var(--surface-inverse);
+    color: var(--on-inverse);
+  }
+
+  .radar-inner::before {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      70% 90% at 100% 0%,
+      rgb(224 176 122 / 16%),
+      rgb(224 176 122 / 0%) 65%
+    );
+    content: "";
+    pointer-events: none;
+  }
+
+  .radar-inner > * {
+    position: relative;
   }
 
   .radar-inner .eyebrow {
-    color: var(--copper-100);
+    color: var(--copper-700-on-dark);
   }
 
   .radar-inner p {
     margin: 0.75rem 0 1.5rem;
     max-width: var(--measure);
-    color: rgb(255 255 255 / 80%);
+    color: var(--on-inverse-soft);
   }
 
   .radar-inner .button-primary {
-    background: white;
-    border-color: white;
-    color: var(--ink);
+    background: var(--on-inverse);
+    border-color: var(--on-inverse);
+    color: var(--surface-inverse);
   }
 
   .radar-inner .button-primary:hover {
-    background: var(--aqua);
-    border-color: var(--aqua);
+    background: var(--on-inverse-accent);
+    border-color: var(--on-inverse-accent);
+    color: var(--surface-inverse);
+  }
+
+  .radar-inner .button-primary:active {
+    background: var(--on-inverse-soft);
+    border-color: transparent;
+    color: var(--surface-inverse);
   }
 
   .books {
@@ -647,6 +681,15 @@ const latestRadar = latestRadarReport();
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
     background: var(--paper);
+    transition:
+      filter var(--duration-base) var(--ease-out-soft),
+      border-color var(--duration-base) var(--ease-out-soft);
+  }
+
+  .book-list li:has(a:hover),
+  .book-list li:has(a:focus-visible) {
+    filter: var(--lift-hover);
+    border-color: var(--copper-500);
   }
 
   .book-list h3 {

@@ -289,14 +289,16 @@ const detailUrl = `/livros/${book.slug}`;
 
   .book-cta:hover,
   .purchase-cta:hover {
-    background: var(--ink);
-    color: white;
+    border-color: var(--surface-inverse);
+    background: var(--surface-inverse);
+    color: var(--on-inverse);
   }
 
   .book-cta:active,
   .purchase-cta:active {
-    background: var(--navy-900);
-    color: white;
+    border-color: var(--surface-inverse-strong);
+    background: var(--surface-inverse-strong);
+    color: var(--on-inverse);
   }
 
   .book-cta svg {

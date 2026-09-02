@@ -76,7 +76,7 @@ const paths = [
       <div class="gateway-grid">
         {
           paths.map((path) => (
-            <article class="gateway-card" data-path={path.id}>
+            <article class="gateway-card reveal" data-path={path.id}>
               <p class="gateway-kicker">
                 <span class="gateway-index">{path.index}</span>
                 {path.audience}
@@ -104,7 +104,7 @@ const paths = [
         }
       </div>
 
-      <div class="gateway-shortcuts">
+      <div class="gateway-shortcuts reveal">
         <p>Sabe o que procura?</p>
         <ul>
           <li><a href="/olho-seco">O que é olho seco</a></li>
@@ -190,7 +190,31 @@ const paths = [
 
 <style>
   .gateway {
+    position: relative;
+    isolation: isolate;
     padding: clamp(3rem, 2rem + 5vw, 6rem) 0 var(--space-section);
+  }
+
+  /* Atmosfera: dois brilhos difusos atrás da pré-página, um por portal
+     (teal à esquerda, cobre à direita). Só alpha, então funciona sobre
+     qualquer papel — claro ou escuro — sem cor nova. */
+  .gateway::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(
+        60% 55% at 18% 12%,
+        var(--glow-teal),
+        var(--glow-none) 70%
+      ),
+      radial-gradient(
+        50% 45% at 88% 58%,
+        var(--glow-copper),
+        var(--glow-none) 70%
+      );
+    content: "";
+    pointer-events: none;
   }
 
   .gateway h1 {
@@ -255,6 +279,8 @@ const paths = [
   }
 
   .gateway-card {
+    --card-accent: var(--teal);
+    position: relative;
     display: flex;
     flex-direction: column;
     padding: clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem);
@@ -262,6 +288,7 @@ const paths = [
     border-radius: var(--radius-lg);
     background: var(--paper);
     box-shadow: var(--shadow-card);
+    overflow: hidden;
     /* A elevação usa filter porque o anel de foco de dois tons já ocupa o
        box-shadow — na mesma propriedade uma esconderia a outra. */
     transition:
@@ -273,13 +300,53 @@ const paths = [
   .gateway-card:hover,
   .gateway-card:focus-within {
     filter: var(--lift-hover);
-    border-color: var(--teal);
     transform: translateY(-2px);
   }
 
+  /* Cada portal carrega a própria cor: paciente em teal, profissional em
+     cobre — a mesma paleta da SUPERFÍCIE, antecipada aqui como convite. */
+  .gateway-card[data-path="profissional"] {
+    --card-accent: var(--copper-500);
+  }
+
+  /* Fio de cor no topo: cresce a partir do centro no hover. */
+  .gateway-card::before {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: var(--card-accent);
+    transform: scaleX(0.28);
+    transform-origin: center;
+    transition: transform var(--duration-slow) var(--ease-out-expo);
+    content: "";
+  }
+
+  .gateway-card:hover::before,
+  .gateway-card:focus-within::before,
+  .gateway-card[data-remembered]::before {
+    transform: scaleX(1);
+  }
+
+  .gateway-card:hover,
+  .gateway-card:focus-within {
+    border-color: var(--card-accent);
+  }
+
   .gateway-card[data-remembered] {
-    border-color: var(--teal);
+    border-color: var(--card-accent);
     background: linear-gradient(180deg, var(--mist), var(--paper) 46%);
+  }
+
+  .gateway-card[data-path="profissional"][data-remembered] {
+    background: linear-gradient(180deg, var(--copper-100), var(--paper) 46%);
+  }
+
+  .gateway-card[data-path="profissional"] .gateway-index {
+    color: var(--copper-700);
+  }
+
+  .gateway-card[data-path="profissional"] .gateway-highlights li::before {
+    background: var(--copper-500);
   }
 
   .gateway-kicker {
@@ -351,13 +418,15 @@ const paths = [
     margin-top: auto;
     padding: 0.85rem 1.4rem;
     border-radius: var(--control-radius);
-    background: var(--ink);
-    color: white;
+    background: var(--surface-inverse);
+    color: var(--on-inverse);
     font-weight: 700;
     /* margin-top:auto encosta o botão no rodapé do cartão; este afastamento
        garante o respiro quando os dois textos têm alturas diferentes. */
     margin-block-start: 1.75rem;
-    transition: background var(--duration-fast) var(--ease-standard);
+    transition:
+      background var(--duration-fast) var(--ease-standard),
+      gap var(--duration-fast) var(--ease-standard);
   }
 
   .gateway-cta svg {
@@ -371,11 +440,12 @@ const paths = [
   }
 
   .gateway-cta:hover {
-    background: var(--teal-dark);
+    background: var(--teal-700);
+    gap: 0.75rem;
   }
 
   .gateway-cta:active {
-    background: var(--navy-900);
+    background: var(--surface-inverse-strong);
   }
 
   .gateway-shortcuts {
@@ -426,6 +496,14 @@ const paths = [
     .gateway-card:hover,
     .gateway-card:focus-within {
       transform: none;
+    }
+
+    .gateway-card::before {
+      transition: none;
+    }
+
+    .gateway-cta {
+      transition: none;
     }
   }
 </style>
