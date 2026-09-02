@@ -423,13 +423,17 @@ const structuredData = {
     box-shadow: 0 1px 20px rgb(7 29 69 / 6%);
   }
 
+  /* Orçamento apertado: marca 220 + seis links + quatro ações precisam caber
+     em 1340px. A busca fica só com o ícone e os gaps são curtos por isso —
+     com rótulo e atalho a navegação transbordava sobre as ações em qualquer
+     largura. Abaixo de 1360px o menu vira hambúrguer. */
   .header-inner {
     min-width: 0;
     min-height: var(--header-height);
     display: grid;
     grid-template-columns: minmax(0, 220px) minmax(0, 1fr) auto;
     align-items: center;
-    gap: 2rem;
+    gap: 1.5rem;
   }
 
   .brand {
@@ -468,7 +472,8 @@ const structuredData = {
   .desktop-nav {
     display: flex;
     justify-content: center;
-    gap: clamp(0.4rem, 1.7vw, 1.7rem);
+    min-width: 0;
+    gap: clamp(0.5rem, 1.4vw, 1.6rem);
   }
 
   .desktop-nav a,
@@ -898,7 +903,7 @@ const structuredData = {
     margin: 0;
   }
 
-  @media (max-width: 1080px) {
+  @media (max-width: 1360px) {
     :root {
       --header-height: 68px;
     }

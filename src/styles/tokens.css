@@ -307,7 +307,7 @@
   }
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 1360px) {
   :root {
     --header-height: 68px;
   }
