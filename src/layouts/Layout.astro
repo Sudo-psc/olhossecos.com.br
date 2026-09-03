@@ -423,17 +423,19 @@ const structuredData = {
     box-shadow: 0 1px 20px rgb(7 29 69 / 6%);
   }
 
-  /* Orçamento apertado: marca 220 + seis links + quatro ações precisam caber
-     em 1340px. A busca fica só com o ícone e os gaps são curtos por isso —
-     com rótulo e atalho a navegação transbordava sobre as ações em qualquer
-     largura. Abaixo de 1360px o menu vira hambúrguer. */
+  /* Orçamento apertado: marca (~250px numa linha) + seis links + quatro
+     ações precisam caber em 1340px. A busca fica só com o ícone e os gaps
+     são curtos por isso — com rótulo e atalho a navegação transbordava sobre
+     as ações em qualquer largura. A coluna da marca é `auto` e o subtítulo
+     não quebra: presa em 220px, "PORTAL DO PACIENTE" virava duas linhas.
+     Abaixo de 1360px o menu vira hambúrguer. */
   .header-inner {
     min-width: 0;
     min-height: var(--header-height);
     display: grid;
-    grid-template-columns: minmax(0, 220px) minmax(0, 1fr) auto;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
 
   .brand {
@@ -442,6 +444,7 @@ const structuredData = {
     gap: 0.7rem;
     min-width: 0;
     max-width: 100%;
+    white-space: nowrap;
   }
 
   .brand-mark {
@@ -473,7 +476,7 @@ const structuredData = {
     display: flex;
     justify-content: center;
     min-width: 0;
-    gap: clamp(0.5rem, 1.4vw, 1.6rem);
+    gap: clamp(0.4rem, 1.4vw, 1.4rem);
   }
 
   .desktop-nav a,
@@ -911,6 +914,11 @@ const structuredData = {
     .header-inner {
       grid-template-columns: 1fr auto;
       min-height: var(--header-height);
+    }
+
+    /* Na pré-página em 360px, "Ciência e informação" só cabe quebrando. */
+    .brand {
+      white-space: normal;
     }
 
     .desktop-nav,
