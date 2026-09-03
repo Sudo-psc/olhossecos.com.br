@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 import {
   buildEditorialPageMap,
+  printFolio,
   remapSearchIndex,
   withoutAdPages,
 } from "./editorial-pages.ts";
@@ -77,7 +78,16 @@ test("withoutAdPages drops only type=ad and rebuilds consecutive pagination", ()
     ],
   );
   assert.equal(editorial.pages[1]?.articleId, "dgm");
+  assert.equal(editorial.pages[1]?.sourcePage, 3);
   assert.equal(editorial.pages[1]?.alt, "Página 2: DGM.");
+  assert.deepEqual(
+    editorial.pages.map((page) => [page.number, page.sourcePage]),
+    [
+      [1, 1],
+      [2, 3],
+      [3, 4],
+    ],
+  );
   assert.deepEqual(editorial.toc, [
     { title: "Capa", page: 1 },
     { title: "DGM", page: 2 },
@@ -152,8 +162,15 @@ test("edicao-00 lab manifest has no ads and keeps DGM/TFOS after reindex", async
     false,
   );
   assert.equal(editorial.pages[3]?.articleId, "biologia-molecular-da-dgm");
+  assert.equal(editorial.pages[3]?.number, 4);
+  assert.equal(editorial.pages[3]?.sourcePage, 5);
+  assert.equal(printFolio(editorial.pages[3]!), 5);
+  assert.match(editorial.pages[3]?.textLayer ?? "", /page-05\.json$/u);
   assert.equal(editorial.pages[4]?.articleId, "biologia-molecular-da-dgm");
+  assert.equal(editorial.pages[4]?.sourcePage, 6);
   assert.equal(editorial.pages[5]?.articleId, "tfos-dews-iii-na-pratica");
+  assert.equal(editorial.pages[5]?.sourcePage, 7);
+  assert.equal(printFolio(raw.pages[3]!), 5);
   assert.deepEqual(editorial.articles[0]?.pages, [4, 5]);
   assert.deepEqual(editorial.articles[1]?.pages, [6, 7]);
   assert.equal(

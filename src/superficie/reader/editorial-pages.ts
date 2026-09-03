@@ -8,8 +8,24 @@ import type {
 
 const isAdPage = (page: MagazinePage): boolean => page.type === "ad";
 
+const PAGE_ASSET = /page-(\d+)\.(?:json|webp)$/u;
+
 const remapAlt = (alt: string | undefined, pageNumber: number) =>
   alt ? alt.replace(/^Página \d+:/u, `Página ${pageNumber}:`) : alt;
+
+/** Folio impresso: `sourcePage`, senão o NN de `text/page-NN.json`. */
+export function printFolio(page: MagazinePage): number {
+  if (
+    typeof page.sourcePage === "number" &&
+    Number.isInteger(page.sourcePage) &&
+    page.sourcePage > 0
+  ) {
+    return page.sourcePage;
+  }
+  const fromLayer = PAGE_ASSET.exec(page.textLayer)?.[1];
+  if (fromLayer) return Number(fromLayer);
+  return page.number;
+}
 
 export function buildEditorialPageMap(
   pages: MagazinePage[],
@@ -35,6 +51,7 @@ export function withoutAdPages(manifest: IssueManifest): IssueManifest {
       }
       return {
         ...page,
+        sourcePage: printFolio(page),
         number,
         alt: remapAlt(page.alt, number),
       };

@@ -822,9 +822,7 @@ class MagazineReaderController {
       if (hidden) element.setAttribute("inert", "");
       else element.removeAttribute("inert");
     });
-    const restore = this.ui.find<HTMLButtonElement>(
-      "[data-action='show-chrome']",
-    );
+    const restore = this.ui.find<HTMLElement>("[data-chrome-restore]");
     restore.hidden = !hidden;
     restore.setAttribute("aria-hidden", String(!hidden));
     const hide = this.root.querySelector<HTMLButtonElement>(
