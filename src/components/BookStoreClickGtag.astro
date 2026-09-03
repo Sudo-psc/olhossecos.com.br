@@ -1,0 +1,60 @@
+---
+/* GA4 book_click for Amazon/Apple store CTAs on /livros. Inline so Ads
+   sees gtag('event','book_click') in served HTML. Scoped by pathname. */
+---
+<script is:inline data-book-click-gtag>
+(function () {
+  var path = location.pathname.replace(/\/+$/u, "") || "/";
+  if (path !== "/livros" && path.indexOf("/livros/") !== 0) return;
+  var hosts = {
+    "amazon.com": "amazon",
+    "amazon.com.br": "amazon",
+    "books.apple.com": "apple",
+    "itunes.apple.com": "apple"
+  };
+  function storeOf(hostname) {
+    var host = String(hostname || "").toLowerCase();
+    if (host.indexOf("www.") === 0) host = host.slice(4);
+    return hosts[host] || "";
+  }
+  function bookOf(anchor) {
+    var hay = ((anchor.getAttribute("data-book") || "") + " " + path).toLowerCase();
+    if (hay.indexOf("custo-invisivel") !== -1) return "custo-invisivel";
+    if (hay.indexOf("conjuntivocalase") !== -1) return "conjuntivocalase";
+    return "";
+  }
+  var lastKey = "";
+  var lastAt = 0;
+  function handle(event) {
+    var target = event.target;
+    if (!target || !target.closest) return;
+    var link = target.closest("a[href]");
+    if (!link) return;
+    var dest;
+    try { dest = new URL(link.href, location.href); } catch (err) { return; }
+    var store = storeOf(dest.hostname);
+    if (!store) return;
+    var book = bookOf(link);
+    if (!book) return;
+    var href = dest.href;
+    var key = store + "\t" + book + "\t" + href;
+    var now = Date.now();
+    if (key === lastKey && now - lastAt < 1500) return;
+    lastKey = key;
+    lastAt = now;
+    var params = { store: store, book: book, link_url: href };
+    if (typeof gtag === "function") {
+      gtag("event", "book_click", params);
+    }
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "book_click",
+      store: store,
+      book: book,
+      link_url: href
+    });
+  }
+  document.addEventListener("mousedown", handle, true);
+  document.addEventListener("click", handle, true);
+})();
+</script>
