@@ -273,6 +273,13 @@ const nav = portal?.nav ?? [];
     color: var(--navy-400, #405168);
   }
 
+  /* Sem teclado físico o atalho é ruído. */
+  @media (hover: none) {
+    .mobile-search-btn kbd {
+      display: none;
+    }
+  }
+
   /* Ponte entre os dois portais. Fica ao lado da busca, discreta: é rota de
      fuga para quem entrou pelo lado errado, não chamada de ação concorrente
      com a newsletter. */

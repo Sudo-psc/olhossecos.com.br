@@ -300,8 +300,10 @@ const endpoint =
       padding-top: 1.5rem;
     }
 
+    /* A largura da tela já limita a linha; o 12ch só forçava uma quarta. */
     h1 {
-      font-size: clamp(2.5rem, 13vw, 3.75rem);
+      max-width: none;
+      font-size: clamp(2.4rem, 10.5vw, 3.75rem);
     }
 
     .audience-grid {
