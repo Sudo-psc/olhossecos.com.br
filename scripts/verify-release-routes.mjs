@@ -143,14 +143,20 @@ try {
   }
   const homeResponse = await assertStatus("/");
   const homeHtml = await homeResponse.text();
-  const responseCsp = homeResponse.headers.get("content-security-policy") ?? "";
+  // O GA4 voltou de propósito (book_click nos CTAs de loja precisa do gtag).
+  if (!/googletagmanager\.com\/gtag\/js/u.test(homeHtml)) {
+    throw new Error("homepage: gtag do GA4 ausente");
+  }
+  // Página pré-renderizada sai do servidor sem CSP — quem aplica é o nginx.
+  // Quando o header vier (middleware), precisa liberar o domínio do gtag,
+  // senão o navegador bloqueia o script em silêncio e o GA4 fica sem dado.
+  const responseCsp = homeResponse.headers.get("content-security-policy");
   if (
-    /googletagmanager\.com|google-analytics\.com|analytics\.google\.com|G-GJGLLWV2KS/u.test(
-      `${responseCsp}\n${homeHtml}`,
-    )
+    responseCsp &&
+    !/script-src[^;]*googletagmanager\.com/u.test(responseCsp)
   ) {
     throw new Error(
-      "homepage: analytics de terceiro ou permissão CSP correspondente ainda publicada",
+      "homepage: CSP não libera googletagmanager.com para o gtag",
     );
   }
   if (!homeHtml.includes(`href="${publicPath("/newsletter")}"`)) {
