@@ -150,7 +150,14 @@ export class StPageFlipAdapter implements PageTurnAdapter {
   destroy(): void {
     if (this.requestedPageTimer !== null)
       window.clearTimeout(this.requestedPageTimer);
+    if (this.element) {
+      const pages = Array.from(
+        this.element.querySelectorAll<HTMLElement>("[data-reader-page]"),
+      );
+      pages.forEach((page) => this.element?.append(page));
+    }
     this.engine?.destroy();
+    this.element?.querySelector(".reader-page-engine")?.remove();
     this.engine = null;
     this.mounted = false;
     this.requestedPage = null;

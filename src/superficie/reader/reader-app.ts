@@ -372,7 +372,8 @@ class MagazineReaderController {
     }
     if (event.key === "h" || event.key === "H") {
       event.preventDefault();
-      return void this.setChromeHidden(!this.preferences?.chromeHidden);
+      await this.setChromeHidden(!this.preferences?.chromeHidden);
+      return;
     }
     if (event.key === "ArrowLeft") this.adapter?.previous();
     else if (event.key === "ArrowRight") this.adapter?.next();

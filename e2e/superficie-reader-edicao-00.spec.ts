@@ -99,13 +99,11 @@ test("barras do lab são ocultáveis, recuperáveis e usáveis pelo teclado", as
   await expect(hide).toBeFocused();
 
   await page.keyboard.press("h");
-  await expect(page.locator("[data-magazine-reader]")).toHaveAttribute(
-    "data-chrome-hidden",
-    "true",
-  );
+  await expect(restore).toBeFocused();
+  await page.locator("#superficie-reader").focus();
   await page.keyboard.press("ArrowRight");
   await expect(page.locator("[data-page-input]")).toHaveValue("2");
-  await expect(page.locator("[data-reader-live]")).toContainText("Página 2");
+  await expect(page.locator("[data-reader-live]")).toContainText(/Página 2/u);
 });
 
 test("landing /superficie/edicao-00 permanece fora do flipbook", async ({
