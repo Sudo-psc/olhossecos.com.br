@@ -1,3 +1,4 @@
+import { printFolio } from "./editorial-pages.ts";
 import { resolveHighlightAnchor } from "./highlights.ts";
 import type {
   Highlight,
@@ -212,7 +213,10 @@ export class PageRenderer {
       .then(async (response) => {
         if (!response.ok) throw new Error(`Text layer ${response.status}`);
         const value = (await response.json()) as TextLayerDocument;
-        if (!isValidTextLayer(value, page.number)) {
+        // JSON das placas usa o folio impresso; após withoutAdPages, number
+        // é o índice do reader (print 5 → reader 4). O manifesto em disco
+        // já pode vir remapeado — printFolio lê sourcePage ou page-NN.json.
+        if (!isValidTextLayer(value, printFolio(page))) {
           throw new Error("Text layer inválida.");
         }
         return value;

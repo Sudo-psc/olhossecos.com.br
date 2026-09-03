@@ -11,6 +11,12 @@ export type MagazinePageType =
 
 export interface MagazinePage {
   number: number;
+  /**
+   * Folio do inventário impresso. O reader remapeia `number` depois de
+   * filtrar `type=ad`; as camadas `text/page-NN.json` continuam no folio
+   * original e precisam deste valor para validar.
+   */
+  sourcePage?: number;
   image: {
     small: string;
     medium: string;

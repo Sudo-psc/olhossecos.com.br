@@ -226,7 +226,10 @@ test("reader chrome can be hidden and restored from markup", async () => {
   const app = await readFile("src/superficie/reader/reader-app.ts", "utf8");
   assert.match(toolbar, /data-action="hide-chrome"/u);
   assert.match(shell, /data-action="show-chrome"/u);
+  assert.match(shell, /data-chrome-restore/u);
+  assert.match(shell, /data-chrome-page-label/u);
   assert.match(css, /data-chrome-hidden/u);
+  assert.match(css, /reader-chrome-restore-nav/u);
   assert.match(app, /setChromeHidden/u);
   assert.match(app, /event\.key === "Escape"/u);
 });
