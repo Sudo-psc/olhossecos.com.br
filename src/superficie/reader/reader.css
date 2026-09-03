@@ -509,7 +509,7 @@
   border-radius: 999px;
   background: rgb(4 20 28 / 92%);
   color: #fff;
-  font-size: 0.82rem;
+  font-size: 0.875rem;
   letter-spacing: 0.04em;
 }
 
@@ -1028,7 +1028,7 @@
 
   .reader-chrome-restore [data-chrome-page-label] {
     color: var(--reader-muted);
-    font-size: 0.82rem;
+    font-size: 0.875rem;
     letter-spacing: 0.04em;
   }
 }
