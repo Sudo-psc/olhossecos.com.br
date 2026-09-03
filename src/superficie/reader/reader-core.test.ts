@@ -137,6 +137,7 @@ test("reader chrome does not seed a POC pageCount of 8", async () => {
   assert.match(viewport, /PDF da edição/u);
   assert.match(lab, /edicao-00\/manifest\.json/u);
   assert.match(lab, /pageCount=\{issue\.pageCount\}/u);
+  assert.match(lab, /withoutAdPages/u);
   assert.match(lab, /pdfHref=\{issue\.pdfFallback\}/u);
   assert.doesNotMatch(lab, /superficie-poc/u);
   assert.doesNotMatch(lab, /READER PROTOTYPE/iu);
@@ -155,10 +156,11 @@ test("reader reveals the cover before importing page-flip", async () => {
   assert.doesNotMatch(startBlock, /await import\(/u);
 });
 
-test("reader default zoom keeps cover type above a readable floor", async () => {
+test("reader default zoom fits the page in the viewport", async () => {
   const source = await readFile("src/superficie/reader/reader-app.ts", "utf8");
-  assert.match(source, /zoomMode: "fit-width"/u);
-  assert.match(source, /Math\.max\(0\.85/u);
+  assert.match(source, /zoomMode: "fit-page"/u);
+  assert.match(source, /fitA4Page/u);
+  assert.match(source, /withoutAdPages/u);
 });
 
 test("reader masks the internal lab stamp without rewriting sealed copy", async () => {
@@ -172,23 +174,25 @@ test("reader masks the internal lab stamp without rewriting sealed copy", async 
   assert.match(css, /\.lab-stamp-mask/u);
 });
 
-test("generated edicao-00 manifest is a self-contained 34-page issue", async () => {
+test("generated edicao-00 manifest is a self-contained editorial issue", async () => {
   const rawManifest = JSON.parse(
     await readFile("public/superficie/issues/edicao-00/manifest.json", "utf8"),
   );
   const result = validateIssueManifest(rawManifest);
   assert.equal(result.success, true, result.errors.join("\n"));
   assert.equal(result.data?.id, "edicao-00");
-  assert.equal(result.data?.pageCount, 34);
-  assert.equal(result.data?.pages.length, 34);
+  assert.equal(result.data?.pageCount, 27);
+  assert.equal(result.data?.pages.length, 27);
   assert.equal(result.data?.toc.length, 13);
   assert.equal(result.data?.articles.length, 2);
-  assert.equal(result.data?.articles[0]?.pages.join(","), "5,6");
-  assert.equal(result.data?.articles[1]?.pages.join(","), "7,8");
-  assert.equal(result.data?.pages[4]?.articleId, "biologia-molecular-da-dgm");
-  assert.equal(result.data?.pages[6]?.articleId, "tfos-dews-iii-na-pratica");
-  assert.equal(result.data?.pages[1]?.type, "ad");
-  assert.equal(result.data?.pages[33]?.type, "ad");
+  assert.equal(result.data?.articles[0]?.pages.join(","), "4,5");
+  assert.equal(result.data?.articles[1]?.pages.join(","), "6,7");
+  assert.equal(result.data?.pages[3]?.articleId, "biologia-molecular-da-dgm");
+  assert.equal(result.data?.pages[5]?.articleId, "tfos-dews-iii-na-pratica");
+  assert.equal(
+    result.data?.pages.some((page) => page.type === "ad"),
+    false,
+  );
   assert.equal(result.data?.pages.filter((page) => page.articleId).length, 4);
   assert.equal(result.data?.audioSources.length, 3);
   assert.ok(
@@ -196,6 +200,35 @@ test("generated edicao-00 manifest is a self-contained 34-page issue", async () 
       source.startsWith("/superficie/issues/edicao-00/"),
     ),
   );
+});
+
+test("landing /superficie/edicao-00 stays outside the lab reader", async () => {
+  const landing = await readFile(
+    "src/pages/superficie/edicao-00.astro",
+    "utf8",
+  );
+  assert.doesNotMatch(landing, /MagazineReader/u);
+  assert.doesNotMatch(landing, /data-magazine-reader/u);
+  assert.doesNotMatch(landing, /lab\/edicao-00/u);
+  assert.match(landing, /SuperficieLayout/u);
+});
+
+test("reader chrome can be hidden and restored from markup", async () => {
+  const toolbar = await readFile(
+    "src/superficie/reader/components/ReaderToolbar.astro",
+    "utf8",
+  );
+  const shell = await readFile(
+    "src/superficie/reader/components/MagazineReader.astro",
+    "utf8",
+  );
+  const css = await readFile("src/superficie/reader/reader.css", "utf8");
+  const app = await readFile("src/superficie/reader/reader-app.ts", "utf8");
+  assert.match(toolbar, /data-action="hide-chrome"/u);
+  assert.match(shell, /data-action="show-chrome"/u);
+  assert.match(css, /data-chrome-hidden/u);
+  assert.match(app, /setChromeHidden/u);
+  assert.match(app, /event\.key === "Escape"/u);
 });
 
 test("edicao-00 article text layers do not stack body paragraphs", async () => {

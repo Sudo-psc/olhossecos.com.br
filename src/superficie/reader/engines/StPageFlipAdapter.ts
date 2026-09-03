@@ -1,4 +1,5 @@
 import { PageFlip } from "page-flip";
+import { A4_PAGE_HEIGHT, A4_PAGE_WIDTH, fitA4Page } from "../fit-page.ts";
 import type { DisplayMode } from "../types.ts";
 import type { PageChangeListener, PageTurnAdapter } from "./PageTurnAdapter.ts";
 
@@ -7,11 +8,14 @@ export class StPageFlipAdapter implements PageTurnAdapter {
   private element: HTMLElement | null = null;
   private listeners = new Set<PageChangeListener>();
   private currentPage = 1;
-  private readonly startPage: number;
+  private startPage: number;
   private mounted = false;
   private requestedPage: number | null = null;
   private acceptEngineEvents = false;
   private requestedPageTimer: number | null = null;
+  private displayMode: DisplayMode = "single";
+  private fittedWidth = A4_PAGE_WIDTH;
+  private fittedHeight = A4_PAGE_HEIGHT;
 
   constructor(startPage = 1) {
     this.startPage = startPage;
@@ -30,16 +34,25 @@ export class StPageFlipAdapter implements PageTurnAdapter {
     engineHost.className = "reader-page-engine";
     element.append(engineHost);
 
+    const fitted = this.measureFit(element);
+    this.fittedWidth = fitted.width;
+    this.fittedHeight = fitted.height;
+    engineHost.style.width =
+      this.displayMode === "double"
+        ? `${fitted.width * 2}px`
+        : `${fitted.width}px`;
+    engineHost.style.height = `${fitted.height}px`;
+
     this.currentPage = this.startPage;
     this.engine = new PageFlip(engineHost, {
-      width: 700,
-      height: 990,
-      size: "stretch",
-      minWidth: 260,
-      maxWidth: 700,
-      minHeight: 368,
-      maxHeight: 990,
-      autoSize: true,
+      width: fitted.width,
+      height: fitted.height,
+      size: "fixed",
+      minWidth: fitted.width,
+      maxWidth: fitted.width,
+      minHeight: fitted.height,
+      maxHeight: fitted.height,
+      autoSize: false,
       drawShadow: true,
       maxShadowOpacity: 0.34,
       flippingTime: 720,
@@ -95,8 +108,32 @@ export class StPageFlipAdapter implements PageTurnAdapter {
   }
 
   setDisplayMode(mode: DisplayMode): void {
+    this.displayMode = mode;
     this.element?.setAttribute("data-display-mode", mode);
-    this.engine?.update();
+  }
+
+  fitToAvailable(pageWidth: number, pageHeight: number): void {
+    const width = Math.max(1, Math.round(pageWidth));
+    const height = Math.max(1, Math.round(pageHeight));
+    if (
+      this.fittedWidth === width &&
+      this.fittedHeight === height &&
+      this.mounted
+    ) {
+      this.engine?.update();
+      return;
+    }
+    if (!this.element) {
+      this.fittedWidth = width;
+      this.fittedHeight = height;
+      return;
+    }
+    const currentPage = this.getCurrentPage();
+    const host = this.element;
+    this.startPage = currentPage;
+    this.fittedWidth = width;
+    this.fittedHeight = height;
+    this.mount(host);
   }
 
   getCurrentPage(): number {
@@ -120,6 +157,20 @@ export class StPageFlipAdapter implements PageTurnAdapter {
     this.acceptEngineEvents = false;
     this.requestedPageTimer = null;
     this.element = null;
+  }
+
+  private measureFit(element: HTMLElement): { width: number; height: number } {
+    const stage =
+      element.closest<HTMLElement>(".reader-stage") ?? element.parentElement;
+    const bounds = stage?.getBoundingClientRect();
+    const availableWidth = Math.max(1, bounds?.width ?? A4_PAGE_WIDTH);
+    const availableHeight = Math.max(1, bounds?.height ?? A4_PAGE_HEIGHT);
+    const pagesInView = this.displayMode === "double" ? 2 : 1;
+    const fitted = fitA4Page(availableWidth, availableHeight, pagesInView);
+    return {
+      width: Math.max(1, Math.round(fitted.width)),
+      height: Math.max(1, Math.round(fitted.height)),
+    };
   }
 
   private clearRequestedPage(): void {

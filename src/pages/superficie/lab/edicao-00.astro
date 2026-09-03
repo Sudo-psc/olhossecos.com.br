@@ -5,25 +5,20 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import SuperficieReaderLayout from "../../../layouts/SuperficieReaderLayout.astro";
 import MagazineReader from "../../../superficie/reader/components/MagazineReader.astro";
+import { withoutAdPages } from "../../../superficie/reader/editorial-pages";
+import type { IssueManifest } from "../../../superficie/reader/types";
 
-const issue = JSON.parse(
-  readFileSync(
-    path.join(
-      process.cwd(),
-      "public/superficie/issues/edicao-00/manifest.json",
+const issue = withoutAdPages(
+  JSON.parse(
+    readFileSync(
+      path.join(
+        process.cwd(),
+        "public/superficie/issues/edicao-00/manifest.json",
+      ),
+      "utf8",
     ),
-    "utf8",
-  ),
-) as {
-  number: string;
-  title: string;
-  pageCount: number;
-  pdfFallback: string;
-  pages: Array<{
-    image: { medium: string };
-    alt?: string;
-  }>;
-};
+  ) as IssueManifest,
+);
 
 const cover = issue.pages[0];
 ---

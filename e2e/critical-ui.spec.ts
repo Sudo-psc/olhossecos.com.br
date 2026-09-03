@@ -85,13 +85,13 @@ test.describe("regressões críticas da interface", () => {
     page,
   }) => {
     await page.goto(route("/superficie/lab/edicao-00"));
-    await expect(page.locator("[data-page-total]")).toContainText("34", {
+    await expect(page.locator("[data-page-total]")).toContainText("27", {
       timeout: 15_000,
     });
     await page.locator("[data-action='thumbnails']").click();
 
     const thumbnails = page.locator("[data-thumbnail-list] img");
-    await expect(thumbnails).toHaveCount(34);
+    await expect(thumbnails).toHaveCount(27);
     const dimensions = await thumbnails.evaluateAll((images) =>
       images.map((image) => ({
         width: image.getAttribute("width"),
@@ -99,7 +99,7 @@ test.describe("regressões críticas da interface", () => {
       })),
     );
     expect(dimensions).toEqual(
-      Array.from({ length: 34 }, () => ({ width: "180", height: "255" })),
+      Array.from({ length: 27 }, () => ({ width: "180", height: "255" })),
     );
   });
 

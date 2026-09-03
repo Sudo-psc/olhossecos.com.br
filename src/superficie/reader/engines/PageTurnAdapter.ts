@@ -11,4 +11,5 @@ export interface PageTurnAdapter {
   getCurrentPage(): number;
   onPageChange(listener: PageChangeListener): () => void;
   destroy(): void;
+  fitToAvailable?(pageWidth: number, pageHeight: number): void;
 }

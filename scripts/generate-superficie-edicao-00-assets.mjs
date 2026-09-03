@@ -4,6 +4,11 @@ import path from "node:path";
 import sharp from "sharp";
 import { issue } from "../src/superficie/issues/edicao-00/issue-source.mjs";
 import { publishedArticles } from "../src/lib/superficie.ts";
+import {
+  buildEditorialPageMap,
+  remapSearchIndex,
+  withoutAdPages,
+} from "../src/superficie/reader/editorial-pages.ts";
 
 const PAGE_WIDTH = 1400;
 const PAGE_HEIGHT = 1867;
@@ -87,8 +92,7 @@ for (const [index, page] of issue.pages.entries()) {
   });
 }
 
-await writeJson(path.join(outputRoot, "search-index.json"), searchIndex);
-await writeJson(path.join(outputRoot, "manifest.json"), {
+const fullManifest = {
   id: issue.id,
   number: issue.number,
   title: issue.title,
@@ -103,7 +107,13 @@ await writeJson(path.join(outputRoot, "manifest.json"), {
   ],
   searchIndex: "/superficie/issues/edicao-00/search-index.json",
   pdfFallback: "/superficie/issues/edicao-00/superficie-edicao-00.pdf",
-});
+};
+const flipbookManifest = withoutAdPages(fullManifest);
+await writeJson(
+  path.join(outputRoot, "search-index.json"),
+  remapSearchIndex(searchIndex, buildEditorialPageMap(fullManifest.pages)),
+);
+await writeJson(path.join(outputRoot, "manifest.json"), flipbookManifest);
 
 await Promise.all([
   copyFile(

@@ -124,6 +124,7 @@ export interface ReaderPreferences {
   soundEnabled: boolean;
   reducedMotion: boolean;
   toolbarMinimized: boolean;
+  chromeHidden?: boolean;
   zoomMode: ZoomMode;
   zoomPercent: 100 | 125 | 150 | 200;
 }
