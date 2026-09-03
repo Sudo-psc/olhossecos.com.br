@@ -275,6 +275,10 @@ const nav = portal?.nav ?? [];
 
   /* Sem teclado físico o atalho é ruído. */
   @media (hover: none) {
+    .mobile-search-btn {
+      justify-content: flex-start;
+    }
+
     .mobile-search-btn kbd {
       display: none;
     }
