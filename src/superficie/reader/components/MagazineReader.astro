@@ -79,6 +79,29 @@ const basePath = normalizeBasePath(import.meta.env.BASE_URL);
     <span data-progress-bar></span>
   </div>
 
+  <div class="reader-chrome-restore" data-chrome-restore hidden>
+    <button
+      type="button"
+      class="reader-chrome-restore-nav"
+      data-action="previous"
+      aria-label="Página anterior">←</button
+    >
+    <span class="reader-chrome-restore-nav" data-chrome-page-label>1</span>
+    <button
+      type="button"
+      class="reader-chrome-restore-nav"
+      data-action="next"
+      aria-label="Próxima página">→</button
+    >
+    <button
+      type="button"
+      data-action="show-chrome"
+      aria-label="Mostrar barras de leitura"
+    >
+      Mostrar barras
+    </button>
+  </div>
+
   <PageViewport {pdfHref} {coverSrc} {coverAlt} />
   <ReaderPanels />
   <ReaderToolbar />

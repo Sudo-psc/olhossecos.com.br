@@ -67,6 +67,10 @@ export class ReaderUi {
           button.setAttribute("aria-current", "page");
         else button.removeAttribute("aria-current");
       });
+    const chromeLabel = this.root.querySelector<HTMLElement>(
+      "[data-chrome-page-label]",
+    );
+    if (chromeLabel) chromeLabel.textContent = `${page} / ${pageCount}`;
     this.announce(`Página ${page} de ${pageCount}.`);
   }
 

@@ -11,6 +11,12 @@ export type MagazinePageType =
 
 export interface MagazinePage {
   number: number;
+  /**
+   * Folio do inventário impresso. O reader remapeia `number` depois de
+   * filtrar `type=ad`; as camadas `text/page-NN.json` continuam no folio
+   * original e precisam deste valor para validar.
+   */
+  sourcePage?: number;
   image: {
     small: string;
     medium: string;
@@ -124,6 +130,7 @@ export interface ReaderPreferences {
   soundEnabled: boolean;
   reducedMotion: boolean;
   toolbarMinimized: boolean;
+  chromeHidden?: boolean;
   zoomMode: ZoomMode;
   zoomPercent: 100 | 125 | 150 | 200;
 }
