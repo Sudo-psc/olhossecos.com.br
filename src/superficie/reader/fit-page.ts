@@ -1,8 +1,25 @@
-import type { DisplayMode } from "./types.ts";
+import type { DisplayMode, PageSize } from "./types.ts";
 
 export const A4_PAGE_WIDTH = 700;
 export const A4_PAGE_HEIGHT = 990;
 export const A4_PAGE_RATIO = A4_PAGE_HEIGHT / A4_PAGE_WIDTH;
+
+/**
+ * Altura ÷ largura das placas da edição. As da Edição 00 são 1400 × 1867
+ * (4:3), não A4: assumir A4 deixa faixas vazias em cima e embaixo.
+ */
+export function pageRatioFromSize(size: PageSize | null | undefined): number {
+  if (
+    !size ||
+    !Number.isFinite(size.width) ||
+    !Number.isFinite(size.height) ||
+    size.width <= 0 ||
+    size.height <= 0
+  ) {
+    return A4_PAGE_RATIO;
+  }
+  return size.height / size.width;
+}
 
 export interface FittedPageSize {
   width: number;
@@ -18,11 +35,13 @@ export function fitA4Page(
   availableWidth: number,
   availableHeight: number,
   pagesInView: 1 | 2 = 1,
+  ratio: number = A4_PAGE_RATIO,
 ): FittedPageSize {
+  const pageRatio = Number.isFinite(ratio) && ratio > 0 ? ratio : A4_PAGE_RATIO;
   const widthBudget = Math.max(1, availableWidth);
   const heightBudget = Math.max(1, availableHeight);
   const singleWidthBudget = widthBudget / pagesInView;
-  const heightFromWidth = singleWidthBudget * A4_PAGE_RATIO;
+  const heightFromWidth = singleWidthBudget * pageRatio;
   if (heightFromWidth <= heightBudget) {
     return {
       width: singleWidthBudget,
@@ -31,7 +50,7 @@ export function fitA4Page(
     };
   }
   return {
-    width: heightBudget / A4_PAGE_RATIO,
+    width: heightBudget / pageRatio,
     height: heightBudget,
     pagesInView,
   };

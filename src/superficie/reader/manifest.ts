@@ -71,6 +71,27 @@ const isPage = (value: unknown, basePath = ""): value is MagazinePage => {
   );
 };
 
+/**
+ * A proporção precisa ser de retrato e plausível para uma página de revista.
+ * Um valor absurdo aqui distorceria todo o leitor, então é recusado.
+ */
+const isPageSize = (value: unknown): boolean => {
+  if (!isRecord(value)) return false;
+  const { width, height } = value;
+  if (
+    !Number.isInteger(width) ||
+    !Number.isInteger(height) ||
+    Number(width) < 1 ||
+    Number(height) < 1 ||
+    Number(width) > 20_000 ||
+    Number(height) > 20_000
+  ) {
+    return false;
+  }
+  const ratio = Number(width) / Number(height);
+  return ratio >= 0.4 && ratio <= 1;
+};
+
 const isTocEntry = (value: unknown): value is IssueTocEntry =>
   isRecord(value) && hasString(value, "title") && Number.isInteger(value.page);
 
@@ -107,6 +128,11 @@ export const validateIssueManifest = (
     Number(value.pageCount) > 500
   ) {
     errors.push("pageCount deve ser um inteiro entre 1 e 500.");
+  }
+  if (value.pageSize !== undefined && !isPageSize(value.pageSize)) {
+    errors.push(
+      "pageSize deve ter width e height inteiros de uma página em retrato.",
+    );
   }
   if (
     !Array.isArray(value.pages) ||

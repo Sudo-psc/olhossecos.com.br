@@ -1,6 +1,18 @@
 import { expect, test, type Page } from "@playwright/test";
 
 const readerUrl = "/superficie/lab/edicao-00";
+
+test.beforeEach(async ({ page }) => {
+  // O Tag Manager do site não faz parte do leitor: sem ele a suíte não herda
+  // violações de CSP nem os eventos gtm.* que o endpoint recusa com 422.
+  await page.route("https://www.googletagmanager.com/**", (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "application/javascript",
+      body: "",
+    }),
+  );
+});
 const landingUrl = "/superficie/edicao-00";
 
 test("edicao-00 abre na página 4, busca DGM e resolve o H1 no modo texto", async ({

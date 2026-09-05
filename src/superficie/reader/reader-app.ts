@@ -12,6 +12,7 @@ import {
   A4_PAGE_RATIO,
   availableStageSize,
   fitA4Page,
+  pageRatioFromSize,
   pagesInViewForMode,
 } from "./fit-page.ts";
 import { validateIssueManifest } from "./manifest.ts";
@@ -59,6 +60,7 @@ class MagazineReaderController {
   );
   private storage: ReaderStorage;
   private manifest: IssueManifest | null = null;
+  private pageRatio = A4_PAGE_RATIO;
   private renderer: PageRenderer | null = null;
   private adapter: PageTurnAdapter | null = null;
   private displayMode: DisplayMode = "single";
@@ -92,6 +94,13 @@ class MagazineReaderController {
     try {
       const manifest = await this.loadManifest();
       this.manifest = manifest;
+      this.pageRatio = pageRatioFromSize(manifest.pageSize);
+      // A custom property é largura ÷ altura, para alimentar `aspect-ratio`;
+      // `pageRatio` é o inverso, altura ÷ largura, como o fit espera.
+      this.root.style.setProperty(
+        "--reader-page-ratio",
+        String(Number((1 / this.pageRatio).toFixed(4))),
+      );
       this.audio = new PageAudioController(manifest.audioSources);
       this.ui.prepareManifest(manifest);
       const hasDeepLink = new URL(window.location.href).searchParams.has(
@@ -129,7 +138,10 @@ class MagazineReaderController {
       this.notes = stored.notes;
       this.renderer.setHighlights(this.highlights);
       this.applyPreferences();
-      await this.renderer.hydrateWindow(this.currentPage);
+      await this.renderer.hydrateWindow(
+        this.currentPage,
+        this.highlights.length > 0,
+      );
       this.renderSavedData();
       this.updatePageUi();
 
@@ -169,7 +181,8 @@ class MagazineReaderController {
     this.adapter?.destroy();
     this.renderer.createPageElements();
     this.renderer.setHighlights(this.highlights);
-    this.renderer.hydrateImages(this.currentPage);
+    // hydrateWindow também carrega as imagens da janela, de forma síncrona.
+    void this.renderer.hydrateWindow(this.currentPage);
     this.root.dataset.reducedMotion = String(this.isMotionReduced());
     this.mountSimpleAdapter();
     this.ui.ready();
@@ -182,13 +195,16 @@ class MagazineReaderController {
         await import("./engines/StPageFlipAdapter.ts");
       if (!this.manifest || !this.renderer) return;
       this.adapter?.destroy();
+      // As páginas são recriadas para o engine; sem reidratar a janela a
+      // camada de texto some e a seleção fica vazia até a próxima virada.
       this.renderer.createPageElements();
       this.renderer.setHighlights(this.highlights);
-      this.renderer.hydrateImages(this.currentPage);
-      this.adapter = new StPageFlipAdapter(this.currentPage);
+      void this.renderer.hydrateWindow(this.currentPage);
+      this.adapter = new StPageFlipAdapter(this.currentPage, this.pageRatio);
       this.adapter.onPageChange((page) => void this.handlePageChange(page));
-      this.adapter.mount(this.ui.canvas);
+      // O modo precede a montagem: o engine dimensiona o bloco por ele.
       this.adapter.setDisplayMode(this.displayMode);
+      this.adapter.mount(this.ui.canvas);
       this.applyZoom();
     } catch {
       this.mountSimpleAdapter();
@@ -204,8 +220,8 @@ class MagazineReaderController {
   private mountSimpleAdapter(): void {
     this.adapter = new SimplePageTurnAdapter(this.currentPage);
     this.adapter.onPageChange((page) => void this.handlePageChange(page));
-    this.adapter.mount(this.ui.canvas);
     this.adapter.setDisplayMode(this.displayMode);
+    this.adapter.mount(this.ui.canvas);
     this.applyZoom();
   }
 
@@ -754,19 +770,25 @@ class MagazineReaderController {
     const stage = this.ui.find<HTMLElement>(".reader-stage");
     const available = availableStageSize(stage);
     const pagesInView = pagesInViewForMode(this.displayMode);
-    let fitted = fitA4Page(available.width, available.height, pagesInView);
+    const fitPage = fitA4Page(
+      available.width,
+      available.height,
+      pagesInView,
+      this.pageRatio,
+    );
+    let fitted = fitPage;
     if (this.preferences.zoomMode === "fit-width") {
       const width = available.width / pagesInView;
       fitted = {
         width,
-        height: width * A4_PAGE_RATIO,
+        height: width * this.pageRatio,
         pagesInView,
       };
     } else if (this.preferences.zoomMode === "custom") {
       const scale = this.preferences.zoomPercent / 100;
       fitted = {
-        width: fitted.width * scale,
-        height: fitted.height * scale,
+        width: fitPage.width * scale,
+        height: fitPage.height * scale,
         pagesInView,
       };
     }
@@ -774,6 +796,12 @@ class MagazineReaderController {
     this.root.style.setProperty("--reader-page-height", `${fitted.height}px`);
     this.root.style.setProperty("--reader-spread-pages", String(pagesInView));
     this.root.style.setProperty("--reader-scale", "1");
+    // Passando do que cabe, o palco precisa rolar: sem esta marca o CSS
+    // limita a página ao palco e a ampliação não aparece.
+    this.root.dataset.zoomOverflow = String(
+      fitted.width * pagesInView > available.width + 1 ||
+        fitted.height > available.height + 1,
+    );
     this.zoomTargets().forEach((target) => {
       target.style.removeProperty("transform");
     });

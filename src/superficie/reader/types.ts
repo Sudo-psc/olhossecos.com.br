@@ -29,6 +29,12 @@ export interface MagazinePage {
   alt?: string;
 }
 
+/** Dimensão nativa das placas, em pixels. Define a proporção do leitor. */
+export interface PageSize {
+  width: number;
+  height: number;
+}
+
 export interface IssueTocEntry {
   title: string;
   page: number;
@@ -46,6 +52,8 @@ export interface IssueManifest {
   number: string;
   title: string;
   pageCount: number;
+  /** Ausente em edições antigas; o leitor cai no A4 de referência. */
+  pageSize?: PageSize;
   pages: MagazinePage[];
   toc: IssueTocEntry[];
   articles: IssueArticle[];

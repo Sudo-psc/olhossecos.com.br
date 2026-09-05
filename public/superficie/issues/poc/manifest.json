@@ -3,6 +3,10 @@
   "number": "POC",
   "title": "SUPERFÍCIE Reader Prototype",
   "pageCount": 8,
+  "pageSize": {
+    "width": 1400,
+    "height": 1980
+  },
   "pages": [
     {
       "number": 1,
