@@ -14,6 +14,7 @@ export class SimplePageTurnAdapter implements PageTurnAdapter {
 
   mount(element: HTMLElement): void {
     this.element = element;
+    element.setAttribute("data-display-mode", this.displayMode);
     this.pages = Array.from(
       element.querySelectorAll<HTMLElement>("[data-reader-page]"),
     );

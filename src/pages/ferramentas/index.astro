@@ -1,0 +1,91 @@
+---
+import ToolsShell from "@/components/tools/ToolsShell.astro";
+import Layout from "@/layouts/Layout.astro";
+import { toolCatalog, toolsIndex } from "@/lib/tools/catalog";
+
+const breadcrumbs = [
+  { name: "Início", url: "/" },
+  { name: "Ferramentas", url: toolsIndex.href },
+];
+---
+
+<Layout
+  title={toolsIndex.title}
+  description={toolsIndex.description}
+  schemaType="MedicalWebPage"
+  dateModified="2026-08-25"
+  breadcrumbs={breadcrumbs}
+>
+  <ToolsShell
+    kicker="No navegador"
+    title={toolsIndex.title}
+    lead="Instrumentos para organizar o que você sente e levar à consulta. Nenhum resultado é diagnóstico."
+    crumbs={breadcrumbs}
+  >
+    <ul class="tool-list">
+      {
+        toolCatalog.map((tool) => (
+          <li>
+            <article>
+              <p class="eyebrow">{tool.kicker}</p>
+              <h2>{tool.title}</h2>
+              <p>{tool.summary}</p>
+              <a class="text-link" href={tool.href}>
+                Abrir {tool.kicker.toLocaleLowerCase("pt-BR")}
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </a>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="osdi-note">
+      O OSDI não está disponível neste site: o instrumento é protegido por
+      copyright e a licença pública não está clara. Ver
+      <a href="/privacidade">privacidade</a>.
+    </p>
+  </ToolsShell>
+</Layout>
+
+<style>
+  .tool-list {
+    display: grid;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 720px) {
+    .tool-list {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  article {
+    height: 100%;
+    padding: 1.4rem 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--paper-0);
+  }
+
+  article h2 {
+    margin: 0 0 0.6rem;
+    font-family: var(--serif);
+    font-size: var(--text-h3);
+  }
+
+  article p {
+    margin: 0 0 1rem;
+    color: var(--ink-soft);
+  }
+
+  .osdi-note {
+    margin-top: 2rem;
+    color: var(--ink-soft);
+    font-size: var(--text-small);
+  }
+</style>

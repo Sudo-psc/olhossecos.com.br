@@ -4,9 +4,17 @@ import Footer from "@/components/Footer.astro";
 import AnalyticsCollector from "@/components/AnalyticsCollector.astro";
 import GlobalSearchModal from "@/components/GlobalSearchModal.astro";
 import { author } from "@/lib/books";
+import {
+  physician,
+  physicianCredentials,
+  portalMedicalConditions,
+} from "@/lib/seo";
 import { normalizeBasePath, withBasePath } from "@/lib/site-path";
+import { themeBootScript } from "@/lib/theme";
+import { alternateFeedsForPath } from "@/lib/feeds";
 import "@/styles/fonts.css";
 import "@/styles/tokens.css";
+import "@/styles/touch-targets.css";
 
 interface Props {
   title?: string;
@@ -70,6 +78,7 @@ const organization = {
     "@type": "ImageObject",
     url: new URL(withBasePath("/favicon.svg", basePath), siteUrl).href,
   },
+  sameAs: ["https://drphilipesaraiva.com.br/"],
 };
 
 // Conteúdo médico é YMYL: quem assina importa tanto quanto o que está escrito.
@@ -86,6 +95,8 @@ const person = {
   jobTitle: author.role,
   identifier: author.registration,
   url: new URL(withBasePath(`/autor/${author.slug}`, basePath), siteUrl).href,
+  sameAs: [...physician.sameAs],
+  hasCredential: [...physicianCredentials],
 };
 
 const website = {
@@ -120,11 +131,7 @@ const page = {
     schemaType === "MedicalWebPage" ? { "@id": person["@id"] } : undefined,
   about:
     schemaType === "MedicalWebPage" || schemaType === "Article"
-      ? {
-          "@type": "MedicalCondition",
-          name: "Doença do olho seco",
-          alternateName: "Olho seco",
-        }
+      ? [...portalMedicalConditions]
       : undefined,
   author: schemaType === "Article" ? { "@id": person["@id"] } : undefined,
   publisher:
@@ -155,6 +162,8 @@ const breadcrumbSchema =
       }
     : undefined;
 
+const alternateFeeds = alternateFeedsForPath(Astro.url.pathname);
+
 const extraSchemas = extraSchema
   ? Array.isArray(extraSchema)
     ? extraSchema
@@ -182,8 +191,33 @@ const structuredData = {
 <!doctype html>
 <html lang="pt-BR">
   <head>
+    {
+      /*
+      Comentário de chave: `is:inline` entrega o script literalmente, então
+      qualquer // dentro dele chega ao código-fonte de toda página. Isto aqui
+      não é enviado.
+
+      `anonymize_ip` é herança do Universal Analytics — o GA4 descarta o IP
+      antes de gravar e ignora o parâmetro. A linha registra a intenção, não
+      é um controle, e não substitui consentimento antes do disparo nem
+      /privacidade nomeando o Google como operador.
+    */
+    }
+    <script
+      is:inline
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-GJGLLWV2KS"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-GJGLLWV2KS", { anonymize_ip: true });
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
+    <script is:inline set:html={themeBootScript} />
     <meta name="theme-color" content="#071D45" />
     <meta name="description" content={description} />
     <meta
@@ -208,7 +242,20 @@ const structuredData = {
       rel="apple-touch-icon"
       href={withBasePath("/apple-touch-icon.png", basePath)}
     />
-    <link rel="manifest" href={withBasePath("/manifest.json", basePath)} />
+    <link
+      rel="manifest"
+      href={withBasePath("/manifest.webmanifest", basePath)}
+    />
+    {
+      alternateFeeds.map((feed) => (
+        <link
+          rel="alternate"
+          type={feed.type}
+          title={feed.title}
+          href={withBasePath(feed.href, basePath)}
+        />
+      ))
+    }
     <link
       rel="preload"
       href={withBasePath("/fonts/source-serif-4-subset.woff2", basePath)}
@@ -260,6 +307,7 @@ const structuredData = {
   html {
     scroll-behavior: smooth;
     color-scheme: light;
+    overflow-x: clip;
   }
 
   :target,
@@ -269,6 +317,7 @@ const structuredData = {
 
   body {
     margin: 0;
+    overflow-x: clip;
     background: var(--paper-50);
     color: var(--ink);
     font-family: var(--sans);
@@ -276,6 +325,15 @@ const structuredData = {
     line-height: var(--leading-body);
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
+    font-optical-sizing: auto;
+  }
+
+  /* Parágrafo sem órfã na última linha; títulos já usam balance. */
+  p,
+  li,
+  figcaption,
+  blockquote {
+    text-wrap: pretty;
   }
 
   img,
@@ -299,14 +357,20 @@ const structuredData = {
     -webkit-tap-highlight-color: transparent;
   }
 
-  :focus-visible {
-    outline: 3px solid var(--teal-600);
-    outline-offset: 3px;
-    box-shadow: 0 0 0 6px rgb(8 127 149 / 18%);
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  summary:focus-visible,
+  [tabindex]:focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+    box-shadow: 0 0 0 2px rgb(8 127 149 / 18%);
   }
 
   ::selection {
-    background: #cceef4;
+    background: var(--selection-bg);
     color: var(--ink);
   }
 
@@ -316,8 +380,8 @@ const structuredData = {
     left: 1rem;
     top: 1rem;
     transform: translateY(-160%);
-    background: var(--ink);
-    color: white;
+    background: var(--surface-inverse);
+    color: var(--on-inverse);
     padding: 0.7rem 1rem;
   }
 
@@ -338,6 +402,7 @@ const structuredData = {
   }
 
   .page-shell {
+    min-width: 0;
     width: min(100% - 4rem, 1340px);
     margin-inline: auto;
   }
@@ -349,6 +414,8 @@ const structuredData = {
     position: sticky;
     z-index: 50;
     top: 0;
+    min-width: 0;
+    overflow-x: clip;
     background: var(--glass-bg);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
@@ -366,8 +433,8 @@ const structuredData = {
     background: linear-gradient(
       90deg,
       transparent,
-      rgb(255 255 255 / 85%) 22%,
-      rgb(255 255 255 / 85%) 78%,
+      var(--header-highlight) 22%,
+      var(--header-highlight) 78%,
       transparent
     );
     content: "";
@@ -380,19 +447,28 @@ const structuredData = {
     box-shadow: 0 1px 20px rgb(7 29 69 / 6%);
   }
 
+  /* Orçamento apertado: marca (~250px numa linha) + seis links + quatro
+     ações precisam caber em 1340px. A busca fica só com o ícone e os gaps
+     são curtos por isso — com rótulo e atalho a navegação transbordava sobre
+     as ações em qualquer largura. A coluna da marca é `auto` e o subtítulo
+     não quebra: presa em 220px, "PORTAL DO PACIENTE" virava duas linhas.
+     Abaixo de 1360px o menu vira hambúrguer. */
   .header-inner {
+    min-width: 0;
     min-height: var(--header-height);
     display: grid;
-    grid-template-columns: 220px 1fr auto;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
-    gap: 2rem;
+    gap: 1.25rem;
   }
 
   .brand {
     display: inline-flex;
     align-items: center;
     gap: 0.7rem;
-    width: max-content;
+    min-width: 0;
+    max-width: 100%;
+    white-space: nowrap;
   }
 
   .brand-mark {
@@ -414,7 +490,7 @@ const structuredData = {
   .brand small {
     margin-top: 0.35rem;
     color: var(--ink-soft);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 750;
     letter-spacing: 0.09em;
     text-transform: uppercase;
@@ -423,7 +499,8 @@ const structuredData = {
   .desktop-nav {
     display: flex;
     justify-content: center;
-    gap: clamp(0.4rem, 1.7vw, 1.7rem);
+    min-width: 0;
+    gap: clamp(0.4rem, 1.4vw, 1.4rem);
   }
 
   .desktop-nav a,
@@ -455,7 +532,7 @@ const structuredData = {
   .header-cta {
     display: inline-flex;
     align-items: center;
-    min-height: 42px;
+    min-height: 44px;
     justify-content: center;
     padding: 0.55rem 1rem;
     border: 1px solid var(--ink);
@@ -467,13 +544,15 @@ const structuredData = {
   }
 
   .header-cta:hover {
-    background: var(--ink);
-    color: white;
+    background: var(--surface-inverse);
+    border-color: var(--surface-inverse);
+    color: var(--on-inverse);
   }
 
   .header-cta:active {
-    background: var(--navy-900);
-    color: white;
+    background: var(--surface-inverse-strong);
+    border-color: var(--surface-inverse-strong);
+    color: var(--on-inverse);
   }
 
   .menu-button,
@@ -526,37 +605,53 @@ const structuredData = {
     transform: translateX(4px);
   }
 
+  /* Botão cheio. Usa --teal-700 cru, não --teal-dark: o apelido clareia no
+     tema escuro e o texto branco perderia contraste. O brilho de topo é
+     background-image, não box-shadow — o anel de foco ocupa o box-shadow. */
   .button-primary {
     display: inline-flex;
     min-height: 54px;
     align-items: center;
     justify-content: center;
+    gap: 0.5rem;
     padding: 0.9rem 1.5rem;
-    border: 1px solid var(--teal-dark);
+    border: 1px solid var(--teal-700);
     border-radius: var(--control-radius);
-    background: var(--teal-dark);
-    color: white;
+    background-color: var(--teal-700);
+    background-image: linear-gradient(
+      180deg,
+      rgb(255 255 255 / 12%),
+      rgb(255 255 255 / 0%) 55%
+    );
+    color: var(--on-inverse);
     font-size: 0.98rem;
     font-weight: 750;
     transition:
-      background 180ms ease,
-      transform 180ms ease;
+      background-color var(--duration-base) var(--ease-out-soft),
+      border-color var(--duration-base) var(--ease-out-soft),
+      transform var(--duration-base) var(--ease-out-soft),
+      filter var(--duration-base) var(--ease-out-soft);
   }
 
   .button-primary:hover {
-    background: var(--ink);
+    background-color: var(--surface-inverse);
+    border-color: var(--surface-inverse);
     transform: translateY(-2px);
+    filter: var(--lift-hover);
   }
 
   .button-primary:active {
-    background: var(--navy-900);
+    background-color: var(--surface-inverse-strong);
+    border-color: var(--surface-inverse-strong);
     transform: translateY(0);
+    filter: none;
   }
 
   .button-primary:disabled {
     cursor: wait;
     opacity: 0.65;
     transform: none;
+    filter: none;
   }
 
   .eyebrow {
@@ -666,9 +761,27 @@ const structuredData = {
   }
 
   .site-footer {
+    position: relative;
     overflow: hidden;
-    background: var(--ink);
-    color: white;
+    background: var(--surface-inverse);
+    color: var(--on-inverse);
+  }
+
+  /* Fio luminoso no topo do rodapé: separa o navy do papel sem borda dura. */
+  .site-footer::before {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--on-inverse-accent) 30%,
+      var(--on-inverse-accent) 70%,
+      transparent
+    );
+    opacity: 0.55;
+    content: "";
+    pointer-events: none;
   }
 
   .footer-main {
@@ -680,17 +793,17 @@ const structuredData = {
   }
 
   .brand-inverse .brand-mark {
-    color: white;
+    color: var(--on-inverse);
   }
 
   .brand-inverse small {
-    color: #78d7e5;
+    color: var(--on-inverse-accent);
   }
 
   .footer-brand > p {
     max-width: 380px;
     margin: 1.6rem 0 0;
-    color: rgb(255 255 255 / 72%);
+    color: var(--on-inverse-soft);
     font-size: 0.91rem;
   }
 
@@ -709,18 +822,19 @@ const structuredData = {
   .footer-links h2 {
     margin: 0 0 0.5rem;
     padding-bottom: 0.6rem;
-    border-bottom: 1px solid rgb(255 255 255 / 22%);
+    border-bottom: 1px solid var(--on-inverse-line);
     font-family: var(--serif);
     font-size: 1.25rem;
   }
 
   .footer-links a {
-    color: rgb(255 255 255 / 72%);
-    font-size: 0.86rem;
+    color: var(--on-inverse-soft);
+    font-size: 0.875rem;
+    transition: color var(--duration-fast) var(--ease-standard);
   }
 
   .footer-links a:hover {
-    color: white;
+    color: var(--on-inverse);
   }
 
   .footer-art {
@@ -732,7 +846,7 @@ const structuredData = {
     position: absolute;
     width: 150px;
     height: 150px;
-    border: 1px solid rgb(255 255 255 / 30%);
+    border: 1px solid var(--on-inverse-line);
     border-radius: 50%;
   }
 
@@ -742,7 +856,7 @@ const structuredData = {
     bottom: 30px;
     width: 360px;
     height: 95px;
-    border-top: 3px solid #22b8cf;
+    border-top: 3px solid var(--on-inverse-accent);
     border-radius: 50%;
     transform: rotate(6deg);
   }
@@ -753,7 +867,10 @@ const structuredData = {
     bottom: 0;
     width: 130px;
     height: 100px;
-    background-image: radial-gradient(#22b8cf 1.5px, transparent 1.5px);
+    background-image: radial-gradient(
+      var(--on-inverse-accent) 1.5px,
+      transparent 1.5px
+    );
     background-size: 14px 14px;
   }
 
@@ -762,7 +879,7 @@ const structuredData = {
      rodapé inferior. */
   .footer-imprint {
     padding-block: 1.15rem;
-    border-top: 1px solid rgb(255 255 255 / 25%);
+    border-top: 1px solid var(--on-inverse-line);
   }
 
   .footer-imprint p {
@@ -774,8 +891,8 @@ const structuredData = {
   }
 
   .footer-imprint span {
-    color: #78d7e5;
-    font-size: 0.75rem;
+    color: var(--on-inverse-accent);
+    font-size: 0.875rem;
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -787,9 +904,15 @@ const structuredData = {
     font-weight: 600;
   }
 
+  .footer-imprint a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+
   .footer-imprint em {
-    color: rgb(255 255 255 / 82%);
-    font-size: 0.84rem;
+    color: var(--on-inverse-soft);
+    font-size: 0.875rem;
     font-style: normal;
   }
 
@@ -798,16 +921,16 @@ const structuredData = {
     justify-content: space-between;
     gap: 2rem;
     padding-block: 1.25rem 2rem;
-    border-top: 1px solid rgb(255 255 255 / 25%);
-    color: rgb(255 255 255 / 60%);
-    font-size: 0.76rem;
+    border-top: 1px solid var(--on-inverse-line);
+    color: var(--on-inverse-muted);
+    font-size: 0.875rem;
   }
 
   .footer-bottom p {
     margin: 0;
   }
 
-  @media (max-width: 1080px) {
+  @media (max-width: 1360px) {
     :root {
       --header-height: 68px;
     }
@@ -815,6 +938,11 @@ const structuredData = {
     .header-inner {
       grid-template-columns: 1fr auto;
       min-height: var(--header-height);
+    }
+
+    /* Na pré-página em 360px, "Ciência e informação" só cabe quebrando. */
+    .brand {
+      white-space: normal;
     }
 
     .desktop-nav,
@@ -904,7 +1032,7 @@ const structuredData = {
 
     .mobile-nav a {
       padding-block: 0.7rem;
-      border-bottom: 1px solid #e8eef2;
+      border-bottom: 1px solid var(--line-soft);
       font-weight: 650;
     }
 
@@ -957,7 +1085,7 @@ const structuredData = {
 
     .brand small {
       margin-top: 0.25rem;
-      font-size: 0.75rem;
+      font-size: 0.875rem;
     }
 
     .footer-links {
@@ -971,6 +1099,30 @@ const structuredData = {
     }
   }
 
+  /* Entrada suave ao rolar, dirigida pela própria rolagem (sem JS, sem
+     IntersectionObserver). Só onde o navegador suporta animation-timeline;
+     no resto o elemento simplesmente aparece. Anima opacity e translate —
+     nunca transform, que o hover das cartas já usa. */
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 38%;
+    }
+
+    @keyframes reveal-in {
+      from {
+        opacity: 0;
+        translate: 0 18px;
+      }
+
+      to {
+        opacity: 1;
+        translate: 0 0;
+      }
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -979,6 +1131,16 @@ const structuredData = {
       transition-duration: 0.01ms !important;
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
+    }
+
+    .reveal {
+      animation: none !important;
+    }
+  }
+
+  @media print {
+    .reveal {
+      animation: none !important;
     }
   }
 </style>

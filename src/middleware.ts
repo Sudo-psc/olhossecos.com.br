@@ -1,4 +1,10 @@
 import { defineMiddleware } from "astro:middleware";
+import { discoveryContentTypes } from "./lib/discovery";
+import { normalizeBasePath, withBasePath } from "./lib/site-path";
+
+const basePath = normalizeBasePath(import.meta.env.BASE_URL);
+const legacyProfessionalsPath = withBasePath("/profissionais", basePath);
+const professionalPath = withBasePath("/profissional", basePath);
 
 const applySecurityHeaders = (response: Response) => {
   response.headers.set("X-Frame-Options", "DENY");
@@ -12,11 +18,11 @@ const applySecurityHeaders = (response: Response) => {
 
   const cspDirectives = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline'",
+    "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com",
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: blob:",
+    "img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com",
     "font-src 'self'",
-    "connect-src 'self'",
+    "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.google-analytics.com https://www.googletagmanager.com",
     "frame-src 'none'",
     "object-src 'none'",
     "base-uri 'self'",
@@ -61,7 +67,23 @@ const isLabOrPoc = (pathname: string) =>
   isEdicao00Lab(pathname) ||
   isEdicao00Assets(pathname);
 
+const isLegacyProfessionals = (pathname: string) => {
+  const normalized = pathname.replace(/\/$/u, "") || "/";
+  return (
+    normalized === "/profissionais" || normalized === legacyProfessionalsPath
+  );
+};
+
 export const onRequest = defineMiddleware(async (context, next) => {
+  if (isLegacyProfessionals(context.url.pathname)) {
+    return applySecurityHeaders(
+      new Response(null, {
+        status: 301,
+        headers: { Location: professionalPath },
+      }),
+    );
+  }
+
   if (import.meta.env.PROD && isBlockedLabOrPoc(context.url.pathname)) {
     return applySecurityHeaders(
       new Response("Not Found", {
@@ -78,5 +100,14 @@ export const onRequest = defineMiddleware(async (context, next) => {
   if (isLabOrPoc(context.url.pathname)) {
     response.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
   }
+
+  const rawPath = context.url.pathname.replace(/\/$/u, "") || "/";
+  const logicalPath =
+    basePath && (rawPath === basePath || rawPath.startsWith(`${basePath}/`))
+      ? rawPath.slice(basePath.length) || "/"
+      : rawPath;
+  const discoveryType = discoveryContentTypes[logicalPath];
+  if (discoveryType) response.headers.set("Content-Type", discoveryType);
+
   return response;
 });

@@ -68,6 +68,7 @@ const canonicalEvents = new Set([
   "patient_path_click",
   "professional_area_entry",
   "sponsored_content_view",
+  "tool_open",
 ]);
 
 const eventAliases = new Map([

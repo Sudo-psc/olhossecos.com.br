@@ -125,8 +125,11 @@ test("a data em prosa dos guias concorda com a data ISO", () => {
 
 test("o lastmod das páginas-pilar acompanha a revisão declarada na página", () => {
   assert.equal(lastmodForPath("/olho-seco"), "2026-08-21");
-  assert.equal(lastmodForPath("/profissionais"), "2026-08-21");
+  assert.equal(lastmodForPath("/profissional"), "2026-08-24");
   assert.equal(lastmodForPath("/superficie/radar"), "2026-08-22");
+  assert.equal(lastmodForPath("/ferramentas"), "2026-08-25");
+  assert.equal(lastmodForPath("/paciente"), "2026-08-25");
+  assert.equal(lastmodForPath("/politica-de-correcao"), "2026-08-25");
 });
 
 test("o sitemap cobre todo caminho com dado por trás", () => {

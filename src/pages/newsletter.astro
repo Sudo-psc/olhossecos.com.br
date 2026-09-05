@@ -196,8 +196,8 @@ const endpoint =
 
   .ecosystem {
     padding-block: clamp(4rem, 8vw, 7rem);
-    background: var(--ink);
-    color: white;
+    background: var(--surface-inverse);
+    color: var(--on-inverse);
   }
 
   .ecosystem-grid {
@@ -211,15 +211,15 @@ const endpoint =
   }
 
   .ecosystem nav {
-    border-top: 1px solid rgb(255 255 255 / 28%);
+    border-top: 1px solid var(--on-inverse-line);
   }
 
   .ecosystem a {
     min-height: 56px;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid rgb(255 255 255 / 28%);
-    color: rgb(255 255 255 / 86%);
+    border-bottom: 1px solid var(--on-inverse-line);
+    color: var(--on-inverse-soft);
     font-size: clamp(1rem, 1.5vw, 1.15rem);
     font-weight: 650;
     transition:
@@ -229,7 +229,7 @@ const endpoint =
 
   .ecosystem a:hover {
     padding-left: 0.35rem;
-    color: white;
+    color: var(--on-inverse);
   }
 
   .trust {
@@ -300,8 +300,10 @@ const endpoint =
       padding-top: 1.5rem;
     }
 
+    /* A largura da tela já limita a linha; o 12ch só forçava uma quarta. */
     h1 {
-      font-size: clamp(2.5rem, 13vw, 3.75rem);
+      max-width: none;
+      font-size: clamp(2.4rem, 10.5vw, 3.75rem);
     }
 
     .audience-grid {

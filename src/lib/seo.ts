@@ -20,38 +20,96 @@ export const physician = {
   affiliation: "Saraiva Vision",
   affiliationLocality: "Caratinga",
   affiliationRegion: "MG",
-  sameAs: ["https://www.amazon.com/author/drphilipesaraiva"],
+  sameAs: [
+    "https://www.amazon.com/author/drphilipesaraiva",
+    responsibleDoctor.orcid,
+    responsibleDoctor.lattes,
+    responsibleDoctor.linkedin,
+    responsibleDoctor.website,
+  ],
 } as const;
+
+export const portalMedicalConditions = [
+  {
+    "@type": "MedicalCondition",
+    name: "Síndrome do olho seco",
+    alternateName: ["Olho seco", "Dry eye disease"],
+  },
+  {
+    "@type": "MedicalCondition",
+    name: "Disfunção das glândulas de Meibômio",
+    alternateName: ["DGM", "Meibomian gland dysfunction"],
+  },
+  {
+    "@type": "MedicalCondition",
+    name: "Blefarite",
+  },
+] as const;
+
+export const physicianCredentials = [
+  {
+    "@type": "EducationalOccupationalCredential",
+    credentialCategory: "MedicalLicense",
+    name: physician.crm,
+    recognizedBy: {
+      "@type": "Organization",
+      name: "Conselho Regional de Medicina do Estado de Minas Gerais",
+    },
+  },
+  {
+    "@type": "EducationalOccupationalCredential",
+    credentialCategory: "board certification",
+    name: physician.rqe,
+    competencyRequired: "Oftalmologia",
+  },
+] as const;
 
 const sitemapExcludedExact = new Set([
   "/blog",
   "/videos",
   "/exames",
+  "/profissionais",
   "/newsletter/descadastrar",
   "/newsletter/confirmar",
   "/404",
   "/search-index.json",
+  "/rss.xml",
+  "/feed.json",
+  "/llms.txt",
+  "/llms-full.txt",
+  "/manifest.webmanifest",
+  "/manifest.json",
+  "/.well-known/security.txt",
+  "/superficie/rss.xml",
+  "/superficie/feed.json",
+  "/superficie/radar/rss.xml",
+  "/superficie/radar/feed.json",
 ]);
 
 const sitemapExcludedPrefixes = ["/superficie/lab", "/superficie/issues"];
 
 /** lastmod mínimo conhecido das páginas estáticas do portal e da revista. */
 const pageLastmods: Record<string, string> = {
-  "/": "2026-08-07",
+  "/": "2026-08-24",
   "/app": "2026-07-26",
   "/autocuidado": "2026-07-26",
   "/autor/philipe-saraiva-cruz": "2026-08-07",
   "/causas": "2026-07-26",
-  "/diagnostico": "2026-07-26",
-  "/fontes": "2026-08-10",
-  "/glossario": "2026-07-26",
-  "/guias": "2026-08-10",
+  "/diagnostico": "2026-08-25",
+  "/ferramentas": "2026-08-25",
+  "/ferramentas/deq-5": "2026-08-25",
+  "/ferramentas/diario": "2026-08-25",
+  "/fontes": "2026-08-25",
+  "/glossario": "2026-08-25",
+  "/guias": "2026-08-25",
   "/livros": "2026-08-07",
   "/newsletter": "2026-08-08",
   "/olho-seco": "2026-08-21",
-  "/politica-editorial": "2026-08-07",
+  "/paciente": "2026-08-25",
+  "/politica-editorial": "2026-08-25",
+  "/politica-de-correcao": "2026-08-25",
   "/privacidade": "2026-08-08",
-  "/profissionais": "2026-08-21",
+  "/profissional": "2026-08-24",
   "/sinais-de-alerta": "2026-07-26",
   "/sintomas": "2026-07-26",
   "/superficie": "2026-08-08",
@@ -130,7 +188,11 @@ const contentLastmods = (): Map<string, string> => {
   remember("/superficie/edicao-00", latestArticle);
   remember("/superficie/radar", latestRadar);
   remember("/guias", latestGuide);
-  remember("/", laterDay(latestArticle, latestGuide, latestRadar));
+  // A raiz deixou de herdar data de conteúdo: virou pré-página e não lista
+  // mais nem guia nem artigo. Quem herda agora é a home de cada portal, que é
+  // onde a publicação nova de fato aparece.
+  remember("/paciente", latestGuide);
+  remember("/profissional", laterDay(latestArticle, latestRadar));
 
   return lastmods;
 };
@@ -168,6 +230,7 @@ export const organizationSchema = (siteUrl: URL) => ({
     height: 512,
   },
   founder: { "@id": physicianId(siteUrl) },
+  sameAs: ["https://drphilipesaraiva.com.br/"],
 });
 
 export const physicianSchema = (siteUrl: URL) => ({
@@ -206,6 +269,7 @@ export const physicianSchema = (siteUrl: URL) => ({
     },
   },
   sameAs: [...physician.sameAs],
+  hasCredential: [...physicianCredentials],
 });
 
 export interface FaqItem {

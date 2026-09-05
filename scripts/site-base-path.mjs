@@ -7,6 +7,17 @@ export const normalizeBasePath = (value = "") => {
   return `/${trimmed.replace(/^\/+|\/+$/gu, "")}`;
 };
 
+export const toLogicalPath = (value, basePath) => {
+  const normalized = value.replace(/\/$/u, "") || "/";
+  if (
+    basePath &&
+    (normalized === basePath || normalized.startsWith(`${basePath}/`))
+  ) {
+    return normalized.slice(basePath.length) || "/";
+  }
+  return normalized;
+};
+
 export const withBasePath = (value, basePath) => {
   if (typeof value !== "string" || !value || !basePath) return value;
   if (!value.startsWith("/") || value.startsWith("//")) return value;

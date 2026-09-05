@@ -154,6 +154,24 @@ test("validação impede publicar artigo sem disclosure, data ou referência", (
   ]);
 });
 
+test("DOI no frontmatter precisa ser identificador nu", () => {
+  const validateMagazineArticle =
+    typeof api.validateMagazineArticle === "function"
+      ? (api.validateMagazineArticle as (value: MagazineArticle) => string[])
+      : () => [];
+
+  assert.deepEqual(
+    validateMagazineArticle(
+      article({ doi: "https://doi.org/10.5281/zenodo.1" }),
+    ),
+    ["DOI inválido: use o identificador nu (10.xxxx/...), sem URL."],
+  );
+  assert.deepEqual(
+    validateMagazineArticle(article({ doi: "10.5281/zenodo.1" })),
+    [],
+  );
+});
+
 test("selo que afirma revisão exige revisor nomeado", () => {
   const validateMagazineArticle =
     typeof api.validateMagazineArticle === "function"
@@ -460,6 +478,7 @@ test("matéria de fenotipagem integrada publica as quatro seções sem capa nem 
       "terapias-dirigidas-por-mecanismo",
       "prehab-ocular",
       "anatomia-dry-eye-center",
+      "olho-seco-oct-rnfl",
     ],
   );
   assert.equal(article.status, "published");
@@ -541,6 +560,7 @@ test("matéria de tecnologias publica as quatro seções sem capa nem figura cl�
       "terapias-dirigidas-por-mecanismo",
       "prehab-ocular",
       "anatomia-dry-eye-center",
+      "olho-seco-oct-rnfl",
     ],
   );
   assert.equal(article.status, "published");
@@ -937,6 +957,108 @@ test("matéria anatomia do Dry Eye Center publica as quatro seções e o selo de
     "10.1016/j.clinsp.2025.100578",
     "10.5935/0004-2749.202200100",
   ]);
+});
+
+test("matéria olho-seco-oct-rnfl publica as quatro seções e as quatro placas", () => {
+  const article = superficie.publishedArticles.find(
+    ({ slug }) => slug === "olho-seco-oct-rnfl",
+  );
+
+  assert.ok(article, "slug olho-seco-oct-rnfl deve estar em publishedArticles");
+  assert.equal(article.status, "published");
+  assert.equal(article.category, "Diagnóstico");
+  assert.equal(article.issue, "edicao-00");
+  assert.equal(article.publishedAt, "2026-08-25");
+  assert.equal(
+    article.reviewSeal,
+    "CHECAGEM EDITORIAL — NÃO REVISADO POR PARES",
+  );
+  assert.equal(article.reviewer, undefined);
+  assert.equal(article.featuredImage, undefined);
+  assert.equal(article.heroBackground, undefined);
+  assert.equal(article.ogImage, undefined);
+  assert.equal(article.sponsored, false);
+  assert.equal(article.seo.canonical, "/superficie/artigos/olho-seco-oct-rnfl");
+  assert.deepEqual(superficie.validateMagazineArticle(article), []);
+  const technologyHrefs: readonly string[] = superficie.technologyTopics.map(
+    ({ href }) => href,
+  );
+  assert.equal(
+    technologyHrefs.includes("/superficie/artigos/olho-seco-oct-rnfl"),
+    false,
+  );
+
+  const byId = Object.fromEntries(
+    article.content.map((section) => [section.id, section]),
+  );
+  assert.equal(byId["por-que-importa"]?.kind, "why-it-matters");
+  assert.equal(byId.evidencia?.kind, "evidence");
+  assert.equal(byId.pratica?.kind, "practice");
+  assert.equal(byId.limitacoes?.kind, "limitations");
+  assert.equal(byId.pratica?.bullets?.length, 5);
+
+  const figures = [
+    [
+      "por-que-importa",
+      "/images/superficie/artigos/olho-seco-oct-rnfl/placa-impacto.png",
+      "Placa Observatório: A RNFL que caiu pode ser o filme, não o nervo.",
+      "A RNFL que caiu pode ser o filme, não o nervo.",
+    ],
+    [
+      "evidencia",
+      "/images/superficie/artigos/olho-seco-oct-rnfl/placa-evidencia.png",
+      "Gráfico de duas barras: RNFL média 93,07 µm antes e 98,27 µm depois de tratar OSD em 55 pessoas com GPAA. Sem braço controle.",
+      "O número que muda a visita. RNFL média em GPAA com OSD, n = 55, sem braço controle: 93,07 µm antes → 98,27 µm depois de tratar a superfície (Δ +5,2 µm; eixo do gráfico 80–110 µm; lágrima + loteprednol, semanas; não é gota na sala; não é RCT). Oktay, Dursun, Yılmaz. Eur J Ophthalmol. 2021;31(6):2997-3002. doi:10.1177/1120672121991395",
+    ],
+    [
+      "pratica",
+      "/images/superficie/artigos/olho-seco-oct-rnfl/placa-visita.png",
+      "Quatro beats da visita: piscar; ler o sinal no eixo daquele aparelho; tratar OSD e repetir; scan ruim não fecha piora.",
+      "O que muda na cadeira. Piscar: quinze segundos de secagem já saem do erro do Stratus. Ler o sinal no eixo daquele aparelho — Stratus e Cirrus não são Spectralis. Tratar OSD e repetir: não chamar progressão no scan seco. Scan ruim não fecha piora, nem no sentido errado da plataforma.",
+    ],
+    [
+      "limitacoes",
+      "/images/superficie/artigos/olho-seco-oct-rnfl/placa-freio.png",
+      "Dois cartões: Stratus e Cirrus, sinal baixo afina; Spectralis, Q baixo engrossa.",
+      "O freio: a direção do viés depende do aparelho. Stratus e Cirrus: sinal baixo afina RNFL. Spectralis: Q baixo engrossa. Gershoni 2022, Strampe 2020. Não fundir plataforma. Sem IA que calibra filme.",
+    ],
+  ] as const;
+
+  for (const [id, src, alt, caption] of figures) {
+    const figure = byId[id]?.figure;
+    assert.ok(figure, `falta a figura em #${id}`);
+    assert.equal(figure.src, src);
+    assert.equal(figure.alt, alt);
+    assert.equal(figure.caption, caption);
+    assert.equal(figure.width, 1654);
+    assert.equal(figure.height, 2339);
+    const file = path.join(repoRoot, "public", src.replace(/^\//, ""));
+    assert.ok(existsSync(file), `${src} precisa estar versionado com o artigo`);
+    const ihdr = readFileSync(file);
+    assert.equal(ihdr.readUInt32BE(16), 1654, `${src} width`);
+    assert.equal(ihdr.readUInt32BE(20), 2339, `${src} height`);
+  }
+
+  const text = [
+    ...article.content.flatMap((section) => [
+      ...section.paragraphs,
+      ...(section.bullets ?? []),
+    ]),
+  ].join(" ");
+  assert.match(text, /17 sadios/);
+  assert.match(text, /93,07/);
+  assert.match(text, /98,27/);
+  assert.match(text, /−15,70/);
+  assert.match(text, /−16,34/);
+  assert.match(text, /−4,76/);
+  assert.match(text, /n = 13/);
+  assert.match(text, /n = 55/);
+  assert.match(text, /IA não calibra filme/);
+  assert.equal(text.includes("GCC"), true);
+  assert.equal(
+    article.references.some(({ doi }) => doi === "10.1177/1120672121991395"),
+    true,
+  );
 });
 
 test("validação exige canonical consistente com o slug", () => {

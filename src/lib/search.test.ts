@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 import {
   normalizeSearchText,
   getUnifiedSearchIndex,
+  portalPages,
   searchUnified,
 } from "./search.ts";
 
@@ -60,6 +61,16 @@ test("searchUnified encontra termos médicos com e sem acento", () => {
 
   const empty = searchUnified("");
   assert.deepEqual(empty, []);
+});
+
+test("cada página do portal entra uma vez na busca", () => {
+  const hrefs = portalPages.map((page) => page.href);
+  assert.equal(hrefs.length, new Set(hrefs).size);
+
+  const paciente = portalPages.filter((page) => page.href === "/paciente");
+  assert.equal(paciente.length, 1);
+  assert.equal(paciente[0]?.category, "Portal");
+  assert.equal(paciente[0]?.title, "Portal do paciente");
 });
 
 test("a busca global não embute o índice no HTML de cada página", () => {

@@ -491,7 +491,23 @@ const searchIndexUrl = `${import.meta.env.BASE_URL.replace(/\/$/u, "")}/search-i
     border: 0;
   }
 
+  /* O modal é compartilhado pelos dois layouts. Cada token local cai em
+     cascata: portal, depois SUPERFÍCIE, depois o hex de emergência. Assim
+     ele acompanha o tema (claro/escuro) de quem o abriu sem misturar
+     sistemas. */
   .global-search-dialog {
+    --gs-bg: var(--paper, var(--surface-white, #ffffff));
+    --gs-bg-soft: var(--paper-50, var(--surface-paper, #fbfbf9));
+    --gs-bg-hover: var(--mist, var(--surface-paper, #eef3f6));
+    --gs-ink: var(--ink, var(--surface-ink, #071d45));
+    --gs-muted: var(--navy-400, var(--surface-muted, #486581));
+    --gs-line: var(--line, var(--surface-line, #c8d7e2));
+    --gs-line-soft: var(--line-soft, var(--surface-line, #e2e9ef));
+    --gs-accent: var(--teal, var(--surface-teal, #087f95));
+    --gs-accent-text: var(--teal-dark, var(--surface-teal-dark, #00657a));
+    --gs-accent-soft: var(--teal-100, var(--surface-paper, #e8f4f7));
+    --gs-inverse: var(--surface-inverse, var(--surface-navy, #071d45));
+    --gs-on-inverse: var(--on-inverse, #ffffff);
     padding: 0;
     border: 0;
     border-radius: 12px;
@@ -508,9 +524,9 @@ const searchIndexUrl = `${import.meta.env.BASE_URL.replace(/\/$/u, "")}/search-i
   }
 
   .search-dialog-card {
-    background: #ffffff;
-    color: #071d45;
-    border: 1px solid #c8d7e2;
+    background: var(--gs-bg);
+    color: var(--gs-ink);
+    border: 1px solid var(--gs-line);
     border-radius: 12px;
     display: flex;
     flex-direction: column;
@@ -524,18 +540,18 @@ const searchIndexUrl = `${import.meta.env.BASE_URL.replace(/\/$/u, "")}/search-i
     align-items: center;
     gap: 0.8rem;
     padding: 1.1rem 1.4rem;
-    border-bottom: 1px solid #e2e9ef;
-    background: #fbfbf9;
+    border-bottom: 1px solid var(--gs-line-soft);
+    background: var(--gs-bg-soft);
   }
 
   .search-icon {
     width: 22px;
     height: 22px;
-    color: #087f95;
+    color: var(--gs-accent);
   }
 
   .search-input-wrap:focus-within {
-    box-shadow: inset 0 -2px 0 #087f95;
+    box-shadow: inset 0 -2px 0 var(--gs-accent);
   }
 
   .search-input-wrap input {
@@ -548,12 +564,12 @@ const searchIndexUrl = `${import.meta.env.BASE_URL.replace(/\/$/u, "")}/search-i
       -apple-system,
       sans-serif;
     font-size: 1.08rem;
-    color: #071d45;
+    color: var(--gs-ink);
     width: 100%;
   }
 
   .search-input-wrap input::placeholder {
-    color: #8395a7;
+    color: var(--gs-muted);
   }
 
   .search-close-btn {
@@ -571,22 +587,22 @@ const searchIndexUrl = `${import.meta.env.BASE_URL.replace(/\/$/u, "")}/search-i
   }
 
   .search-close-btn:hover {
-    background: #eef3f6;
+    background: var(--gs-bg-hover);
   }
 
   .search-close-btn:active {
-    background: #e2e9ef;
+    background: var(--gs-line-soft);
   }
 
   .search-close-btn kbd,
   .shortcut-hints kbd {
     padding: 0.2rem 0.45rem;
-    border: 1px solid #ccd9e2;
+    border: 1px solid var(--gs-line);
     border-radius: 4px;
-    background: #eef3f6;
-    color: #486581;
+    background: var(--gs-bg-hover);
+    color: var(--gs-muted);
     font-family: ui-monospace, monospace;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 700;
   }
 
@@ -594,18 +610,18 @@ const searchIndexUrl = `${import.meta.env.BASE_URL.replace(/\/$/u, "")}/search-i
     display: flex;
     gap: 0.4rem;
     padding: 0.65rem 1.4rem;
-    border-bottom: 1px solid #eef2f5;
-    background: #f7fafb;
+    border-bottom: 1px solid var(--gs-line-soft);
+    background: var(--gs-bg-soft);
     overflow-x: auto;
   }
 
   .filter-chip {
     padding: 0.35rem 0.75rem;
-    border: 1px solid #d4e0e8;
+    border: 1px solid var(--gs-line);
     border-radius: 999px;
-    background: #ffffff;
-    color: #486581;
-    font-size: 0.75rem;
+    background: var(--gs-bg);
+    color: var(--gs-muted);
+    font-size: 0.875rem;
     font-weight: 700;
     cursor: pointer;
     white-space: nowrap;
@@ -616,18 +632,18 @@ const searchIndexUrl = `${import.meta.env.BASE_URL.replace(/\/$/u, "")}/search-i
   }
 
   .filter-chip:hover {
-    border-color: #087f95;
-    color: #087f95;
+    border-color: var(--gs-accent);
+    color: var(--gs-accent-text);
   }
 
   .filter-chip:active {
-    background: #e8f4f7;
+    background: var(--gs-accent-soft);
   }
 
   .filter-chip.active {
-    background: #071d45;
-    border-color: #071d45;
-    color: #ffffff;
+    background: var(--gs-inverse);
+    border-color: var(--gs-inverse);
+    color: var(--gs-on-inverse);
   }
 
   .search-results {
@@ -646,7 +662,7 @@ const searchIndexUrl = `${import.meta.env.BASE_URL.replace(/\/$/u, "")}/search-i
     padding: 0.8rem 1rem;
     border: 1px solid transparent;
     border-radius: 8px;
-    background: #ffffff;
+    background: var(--gs-bg);
     text-decoration: none;
     color: inherit;
     transition:
@@ -656,8 +672,8 @@ const searchIndexUrl = `${import.meta.env.BASE_URL.replace(/\/$/u, "")}/search-i
 
   .search-result-item:hover,
   .search-result-item.is-selected {
-    background: #f0f7f9;
-    border-color: #bee3eb;
+    background: var(--gs-bg-hover);
+    border-color: color-mix(in srgb, var(--gs-accent) 45%, transparent);
   }
 
   .result-top {
@@ -670,7 +686,7 @@ const searchIndexUrl = `${import.meta.env.BASE_URL.replace(/\/$/u, "")}/search-i
     display: inline-block;
     padding: 0.18rem 0.48rem;
     border-radius: 4px;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -683,7 +699,7 @@ const searchIndexUrl = `${import.meta.env.BASE_URL.replace(/\/$/u, "")}/search-i
 
   .badge-artigo {
     background: #001a33;
-    color: #d9b665;
+    color: var(--surface-gold-light, #d9b665);
   }
 
   .badge-radar {
@@ -707,22 +723,22 @@ const searchIndexUrl = `${import.meta.env.BASE_URL.replace(/\/$/u, "")}/search-i
   }
 
   .result-meta {
-    color: #627d98;
-    font-size: 0.75rem;
+    color: var(--gs-muted);
+    font-size: 0.875rem;
   }
 
   .result-title {
     font-family: "Iowan Old Style", Georgia, serif;
     font-size: 1.12rem;
     font-weight: 600;
-    color: #071d45;
+    color: var(--gs-ink);
     line-height: 1.25;
   }
 
   .result-desc {
     margin: 0;
-    color: #486581;
-    font-size: 0.82rem;
+    color: var(--gs-muted);
+    font-size: 0.875rem;
     line-height: 1.4;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -736,8 +752,8 @@ const searchIndexUrl = `${import.meta.env.BASE_URL.replace(/\/$/u, "")}/search-i
 
   .suggestions-kicker {
     margin: 0 0 0.8rem;
-    color: #087f95;
-    font-size: 0.75rem;
+    color: var(--gs-accent-text);
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -751,11 +767,11 @@ const searchIndexUrl = `${import.meta.env.BASE_URL.replace(/\/$/u, "")}/search-i
 
   .suggestions-tags button {
     padding: 0.45rem 0.85rem;
-    border: 1px solid #d4e0e8;
+    border: 1px solid var(--gs-line);
     border-radius: 6px;
-    background: #f7fafb;
-    color: #071d45;
-    font-size: 0.82rem;
+    background: var(--gs-bg-soft);
+    color: var(--gs-ink);
+    font-size: 0.875rem;
     font-weight: 650;
     cursor: pointer;
     transition:
@@ -764,30 +780,30 @@ const searchIndexUrl = `${import.meta.env.BASE_URL.replace(/\/$/u, "")}/search-i
   }
 
   .suggestions-tags button:hover {
-    background: #eef6f8;
-    border-color: #087f95;
-    color: #00657a;
+    background: var(--gs-bg-hover);
+    border-color: var(--gs-accent);
+    color: var(--gs-accent-text);
   }
 
   .suggestions-tags button:active {
-    background: #e2eef1;
+    background: var(--gs-accent-soft);
   }
 
   .search-empty {
     padding: 3rem 1.5rem;
     text-align: center;
-    color: #486581;
+    color: var(--gs-muted);
   }
 
   .search-empty p {
     margin: 0 0 0.4rem;
     font-size: 1rem;
     font-weight: 600;
-    color: #071d45;
+    color: var(--gs-ink);
   }
 
   .search-empty small {
-    font-size: 0.82rem;
+    font-size: 0.875rem;
   }
 
   .search-dialog-footer {
@@ -795,10 +811,10 @@ const searchIndexUrl = `${import.meta.env.BASE_URL.replace(/\/$/u, "")}/search-i
     align-items: center;
     justify-content: space-between;
     padding: 0.75rem 1.4rem;
-    border-top: 1px solid #e2e9ef;
-    background: #fbfbf9;
-    font-size: 0.75rem;
-    color: #627d98;
+    border-top: 1px solid var(--gs-line-soft);
+    background: var(--gs-bg-soft);
+    font-size: 0.875rem;
+    color: var(--gs-muted);
   }
 
   .shortcut-hints {

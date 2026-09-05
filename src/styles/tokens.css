@@ -18,7 +18,7 @@
   --navy-800: #071d45;
   --navy-700: #12305e;
   --navy-600: #263d61;
-  --navy-400: #5c7395;
+  --navy-400: #405168;
   --navy-300: #8fa3bd;
 
   --paper-0: #ffffff;
@@ -26,25 +26,54 @@
   --paper-100: #f5f2ec;
   --paper-200: #ece8df;
 
-  --teal-700: #00657a;
+  --teal-700: #00576a;
   --teal-600: #087f95;
   --teal-100: #dff3f7;
   --teal-50: #eff8fb;
 
-  /* Cobre editorial: entra em kicker, numeração de matéria e fio de destaque.
-     Nunca em texto corrido pequeno — o contraste sobre papel fica no limite. */
-  --copper-700: #7d4f22;
+  /* Cobre editorial. A escala tem dois papéis distintos, e trocar um pelo
+     outro quebra contraste: --copper-600 e --copper-500 são decorativos (fio,
+     borda, fundo) e não têm exigência de contraste; --copper-700 é o único
+     aprovado para texto, com 7:1 sobre todo fundo claro do portal. */
+  --copper-700: #6f461e;
   --copper-600: #9a6430;
   --copper-500: #b07a3f;
   --copper-100: #f3e8dc;
 
-  --alert-600: #a93c32;
+  /* Dourado de texto (WCAG 1.4.3 AA, 4,5:1). Não é o ouro de marca: aquele
+     fica em fio, borda e superfície. Este token existe para o caso em que um
+     rótulo pequeno precisa continuar dourado sem cair abaixo de AA. */
+  --gold-text: #8a6516;
+
+  --alert-600: #8b3129;
   --alert-500: #e95f4f;
   --alert-50: #fff6f3;
 
   --line-strong: #b8c7d6;
   --line: #d3dbe4;
   --line-soft: #e6e4dd;
+
+  /* Superfície invertida: o painel navy com texto claro (rodapé, RADAR,
+     widget, botão cheio). Não usa --ink porque --ink vira claro no tema
+     escuro e o painel ficaria branco com texto branco — foi o que aconteceu.
+     Estes tokens são estáveis nos dois temas: só o navy escurece um pouco
+     para continuar distinto do fundo da página. */
+  --surface-inverse: #071d45;
+  --surface-inverse-strong: #04142f;
+  --on-inverse: #ffffff;
+  --on-inverse-soft: rgb(255 255 255 / 76%);
+  --on-inverse-muted: rgb(255 255 255 / 60%);
+  --on-inverse-line: rgb(255 255 255 / 22%);
+  --on-inverse-accent: #78d7e5;
+
+  /* Brilhos de atmosfera: gradientes radiais atrás de heros e cartões. Só
+     cor com alfa — nunca texto — então não entram na conta de contraste. */
+  --glow-teal: rgb(8 127 149 / 14%);
+  --glow-copper: rgb(176 122 63 / 11%);
+  --glow-none: rgb(8 127 149 / 0%);
+
+  --selection-bg: #cceef4;
+  --header-highlight: rgb(255 255 255 / 85%);
 
   /* apelidos herdados */
   --ink: var(--navy-800);
@@ -76,7 +105,7 @@
   --text-lead: clamp(1.125rem, 1.05rem + 0.4vw, 1.3125rem);
   --text-body: clamp(1.0625rem, 1.02rem + 0.16vw, 1.1875rem);
   --text-small: 0.9375rem;
-  --text-meta: 0.8125rem;
+  --text-meta: 0.875rem;
 
   --leading-tight: 1.05;
   --leading-snug: 1.25;
@@ -109,6 +138,8 @@
   --duration-slow: 300ms;
   --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  /* Chegada de cartão ao rolar: desacelera muito no fim, sem quicar. */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* ---------------------------------------------------------- superfícies */
   --radius-sm: 6px;
@@ -138,6 +169,129 @@
   );
 
   --header-height: 76px;
+
+  /* Anel de foco (WCAG 2.4.7 / 2.4.13). Teal 4,68:1 no branco — acima
+     dos 3:1 de componente. Largura e deslocamento fixos em 2px. */
+  --focus-ring: #087f95;
+  --focus-ring-contrast: #04142f;
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+
+  /* Contrapartes escuras. Moram no :root para nenhuma cor existir só
+     dentro de prefers-color-scheme. O media query e [data-theme="dark"]
+     só remapeiam os tokens semânticos. */
+  --ink-on-dark: #e8eef8;
+  --ink-soft-on-dark: #b8c7dc;
+  --navy-400-on-dark: #9aadc4;
+  --paper-0-on-dark: #0c1628;
+  --paper-50-on-dark: #0f1a2e;
+  --paper-100-on-dark: #152238;
+  --paper-200-on-dark: #1c2b40;
+  --teal-on-dark: #4eb8c9;
+  --teal-dark-on-dark: #7ecfdb;
+  --teal-50-on-dark: #0d2a32;
+  --teal-100-on-dark: #11343d;
+  --line-on-dark: #2a3d54;
+  --line-soft-on-dark: #223348;
+  --line-strong-on-dark: #3d536b;
+  --mist-on-dark: #0d2a32;
+  --aqua-on-dark: #11343d;
+  --coral-text-on-dark: #f0a39a;
+  --coral-soft-on-dark: #2a1816;
+  --copper-700-on-dark: #e0b07a;
+  --gold-text-on-dark: #e0c07a;
+  --alert-50-on-dark: #2a1816;
+  --focus-ring-on-dark: #4eb8c9;
+  --glass-bg-on-dark: rgb(12 22 40 / 62%);
+  --glass-bg-strong-on-dark: rgb(12 22 40 / 84%);
+  --glass-border-on-dark: rgb(255 255 255 / 12%);
+  --glass-edge-on-dark: rgb(255 255 255 / 8%);
+  --surface-inverse-on-dark: #13264b;
+  --surface-inverse-strong-on-dark: #0b1a38;
+  --glow-teal-on-dark: rgb(78 184 201 / 12%);
+  --glow-copper-on-dark: rgb(224 176 122 / 7%);
+  --selection-bg-on-dark: #164b58;
+  --header-highlight-on-dark: rgb(255 255 255 / 10%);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: var(--ink-on-dark);
+  --ink-soft: var(--ink-soft-on-dark);
+  --navy-400: var(--navy-400-on-dark);
+  --navy-600: var(--ink-soft-on-dark);
+  --navy-800: var(--ink-on-dark);
+  --paper: var(--paper-0-on-dark);
+  --paper-0: var(--paper-0-on-dark);
+  --paper-50: var(--paper-50-on-dark);
+  --paper-100: var(--paper-100-on-dark);
+  --paper-200: var(--paper-200-on-dark);
+  --teal: var(--teal-on-dark);
+  --teal-dark: var(--teal-dark-on-dark);
+  --teal-50: var(--teal-50-on-dark);
+  --teal-100: var(--teal-100-on-dark);
+  --mist: var(--mist-on-dark);
+  --aqua: var(--aqua-on-dark);
+  --line: var(--line-on-dark);
+  --line-soft: var(--line-soft-on-dark);
+  --line-strong: var(--line-strong-on-dark);
+  --coral-text: var(--coral-text-on-dark);
+  --coral-soft: var(--coral-soft-on-dark);
+  --copper-700: var(--copper-700-on-dark);
+  --gold-text: var(--gold-text-on-dark);
+  --alert-50: var(--alert-50-on-dark);
+  --focus-ring: var(--focus-ring-on-dark);
+  --glass-bg: var(--glass-bg-on-dark);
+  --glass-bg-strong: var(--glass-bg-strong-on-dark);
+  --glass-border: var(--glass-border-on-dark);
+  --glass-edge: var(--glass-edge-on-dark);
+  --surface-inverse: var(--surface-inverse-on-dark);
+  --surface-inverse-strong: var(--surface-inverse-strong-on-dark);
+  --glow-teal: var(--glow-teal-on-dark);
+  --glow-copper: var(--glow-copper-on-dark);
+  --selection-bg: var(--selection-bg-on-dark);
+  --header-highlight: var(--header-highlight-on-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ink: var(--ink-on-dark);
+    --ink-soft: var(--ink-soft-on-dark);
+    --navy-400: var(--navy-400-on-dark);
+    --navy-600: var(--ink-soft-on-dark);
+    --navy-800: var(--ink-on-dark);
+    --paper: var(--paper-0-on-dark);
+    --paper-0: var(--paper-0-on-dark);
+    --paper-50: var(--paper-50-on-dark);
+    --paper-100: var(--paper-100-on-dark);
+    --paper-200: var(--paper-200-on-dark);
+    --teal: var(--teal-on-dark);
+    --teal-dark: var(--teal-dark-on-dark);
+    --teal-50: var(--teal-50-on-dark);
+    --teal-100: var(--teal-100-on-dark);
+    --mist: var(--mist-on-dark);
+    --aqua: var(--aqua-on-dark);
+    --line: var(--line-on-dark);
+    --line-soft: var(--line-soft-on-dark);
+    --line-strong: var(--line-strong-on-dark);
+    --coral-text: var(--coral-text-on-dark);
+    --coral-soft: var(--coral-soft-on-dark);
+    --copper-700: var(--copper-700-on-dark);
+    --gold-text: var(--gold-text-on-dark);
+    --alert-50: var(--alert-50-on-dark);
+    --focus-ring: var(--focus-ring-on-dark);
+    --glass-bg: var(--glass-bg-on-dark);
+    --glass-bg-strong: var(--glass-bg-strong-on-dark);
+    --glass-border: var(--glass-border-on-dark);
+    --glass-edge: var(--glass-edge-on-dark);
+    --surface-inverse: var(--surface-inverse-on-dark);
+    --surface-inverse-strong: var(--surface-inverse-strong-on-dark);
+    --glow-teal: var(--glow-teal-on-dark);
+    --glow-copper: var(--glow-copper-on-dark);
+    --selection-bg: var(--selection-bg-on-dark);
+    --header-highlight: var(--header-highlight-on-dark);
+  }
 }
 
 /* Sem backdrop-filter o vidro vira vidro fosco opaco: mantém a legibilidade em
@@ -148,10 +302,12 @@
   :root {
     --glass-bg: rgb(255 255 255 / 97%);
     --glass-bg-strong: rgb(255 255 255 / 99%);
+    --glass-bg-on-dark: rgb(12 22 40 / 97%);
+    --glass-bg-strong-on-dark: rgb(12 22 40 / 99%);
   }
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 1360px) {
   :root {
     --header-height: 68px;
   }

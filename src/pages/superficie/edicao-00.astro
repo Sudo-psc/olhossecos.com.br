@@ -100,12 +100,13 @@ const issueSchema = {
     <div class="surface-shell split-grid">
       <div>
         <p class="eyebrow ink">Editorial</p>
-        <h2 id="editorial-title">Uma edição em construção.</h2>
+        <h2 id="editorial-title">As matérias saem antes do editorial.</h2>
       </div>
       <div class="editorial-copy">
         <p class="lead">
-          O editorial da Edição Fundadora será publicado junto com a edição,
-          após o fechamento de pauta e a revisão final.
+          {
+            `As ${orderedArticles.length} matérias da Edição Fundadora já estão no ar — cada uma publicada assim que ficou pronta, com referências e disclosures. O editorial de abertura sai com o fechamento da edição impressa, em ${founderIssue.plannedPublication}.`
+          }
         </p>
         <p>
           A proposta editorial parte de uma pergunta central: como transformar a
@@ -113,8 +114,8 @@ const issueSchema = {
           precisas, transparentes e aplicáveis à prática clínica?
         </p>
         <p class="state-note">
-          Conteúdo em desenvolvimento — este texto não substitui o editorial
-          definitivo.
+          Esta seção descreve a proposta da edição. Não é o editorial
+          definitivo, que ainda não foi escrito.
         </p>
       </div>
     </div>
@@ -323,7 +324,7 @@ const issueSchema = {
 
   .eyebrow {
     margin: 0 0 0.9rem;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.18em;
     line-height: 1.35;
@@ -368,7 +369,7 @@ const issueSchema = {
     align-items: center;
     gap: 0.65rem;
     color: var(--surface-muted-on-dark);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -451,7 +452,7 @@ const issueSchema = {
     flex: 0 0 auto;
     align-items: center;
     min-height: 24px;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -489,7 +490,7 @@ const issueSchema = {
     padding-left: 1rem;
     border-left: 2px solid var(--surface-gold);
     color: var(--surface-muted);
-    font-size: 0.84rem;
+    font-size: 0.875rem;
   }
 
   .state-note.light {
@@ -547,7 +548,7 @@ const issueSchema = {
 
   .summary-list small {
     color: var(--surface-muted-on-dark);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -589,7 +590,7 @@ const issueSchema = {
     align-items: center;
     border-bottom: 1px solid currentColor;
     color: var(--surface-teal-dark);
-    font-size: 0.78rem;
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.07em;
     text-transform: uppercase;
@@ -650,7 +651,7 @@ const issueSchema = {
     border: 1px solid #8b949d;
     background: #8b949d;
     color: white;
-    font-size: 0.76rem;
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;

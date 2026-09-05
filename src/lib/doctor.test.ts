@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { test } from "node:test";
-import { responsibleDoctor } from "./doctor.ts";
+import { isResponsibleDoctorName, responsibleDoctor } from "./doctor.ts";
 
 /**
  * O CFM exige que toda página que nomeie o médico exiba CRM e RQE. O portal
@@ -11,10 +11,38 @@ import { responsibleDoctor } from "./doctor.ts";
  * a redação do registro e o fato de cada rodapé exibi-lo.
  */
 
+test("reconhece o responsável com ou sem o tratamento Dr.", () => {
+  assert.equal(isResponsibleDoctorName("Philipe Saraiva Cruz"), true);
+  assert.equal(isResponsibleDoctorName("Dr. Philipe Saraiva Cruz"), true);
+  assert.equal(isResponsibleDoctorName("Dra. Outra Pessoa"), false);
+});
+
+test("os artigos publicados da SUPERFÍCIE assinam o responsável técnico", async () => {
+  const { publishedArticles } = await import("./superficie.ts");
+  for (const article of publishedArticles) {
+    assert.equal(
+      isResponsibleDoctorName(article.author.name),
+      true,
+      `${article.slug} assina ${article.author.name}`,
+    );
+  }
+});
+
 test("o registro segue a redação exigida pelo CFM", () => {
   assert.equal(responsibleDoctor.crm, "CRM-MG 69.870");
   assert.equal(responsibleDoctor.rqe, "RQE 71.903");
   assert.equal(responsibleDoctor.registration, "CRM-MG 69.870 · RQE 71.903");
+});
+
+test("o LinkedIn público usa o slug confirmado, não uma grafia aproximada", () => {
+  assert.equal(
+    responsibleDoctor.linkedin,
+    "https://www.linkedin.com/in/dr-philipe-saraiva",
+  );
+});
+
+test("o site médico próprio é o destino rastreável do rodapé", () => {
+  assert.equal(responsibleDoctor.website, "https://drphilipesaraiva.com.br/");
 });
 
 test("os rodapés do portal e da revista exibem o registro", async () => {
@@ -29,6 +57,11 @@ test("os rodapés do portal e da revista exibem o registro", async () => {
       source,
       /responsibleDoctor\.registration/u,
       `${path} nomeia o médico sem exibir CRM e RQE`,
+    );
+    assert.match(
+      source,
+      /responsibleDoctor\.website/u,
+      `${path} não aponta o nome do médico para o site próprio`,
     );
   }
 });

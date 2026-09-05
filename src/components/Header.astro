@@ -1,44 +1,44 @@
 ---
 import EyeMark from "./EyeMark.astro";
+import ThemeSwitch from "./ThemeSwitch.astro";
+import { isPortalNavCurrent, portalFor } from "@/lib/portals";
 
 const pathname = Astro.url.pathname;
-const nav = [
-  { label: "Olho Seco", href: "/olho-seco" },
-  { label: "Guias", href: "/guias" },
-  { label: "Profissionais", href: "/profissionais" },
-  { label: "SUPERFÍCIE", href: "/superficie" },
-  { label: "Livros", href: "/livros" },
-  { label: "App", href: "/app" },
-  { label: "Sobre", href: "/politica-editorial" },
-];
-
-const isActive = (href: string) => pathname.startsWith(href);
+const portal = portalFor(pathname);
+// Na pré-página o cabeçalho fica só com a marca e a busca: qualquer navegação
+// ali já empurraria o leitor para um dos dois portais antes da escolha.
+const nav = portal?.nav ?? [];
 ---
 
-<header class="site-header" data-scrolled="false">
-  <div class="page-shell header-inner">
-    <a href="/" class="brand">
+<header class="site-header" data-scrolled="false" data-portal={portal?.id}>
+  <div class="page-shell header-inner" data-bare={portal ? undefined : "true"}>
+    <a href={portal?.home ?? "/"} class="brand">
       <EyeMark class="brand-mark" />
       <span>
-        <strong>Olhos Secos</strong>
-        <small>Ciência e informação</small>
+        <strong>{portal?.brandTitle ?? "Olhos Secos"}</strong>
+        <small>{portal?.brandSubtitle ?? "Ciência e informação"}</small>
       </span>
     </a>
 
-    <nav class="desktop-nav" aria-label="Navegação principal">
-      {
-        nav.map((item) => (
-          <a
-            href={item.href}
-            aria-current={isActive(item.href) ? "page" : undefined}
-          >
-            {item.label}
-          </a>
-        ))
-      }
-    </nav>
+    {
+      nav.length > 0 && (
+        <nav class="desktop-nav" aria-label="Navegação principal">
+          {nav.map((item) => (
+            <a
+              href={item.href}
+              aria-current={
+                isPortalNavCurrent(item.href, pathname) ? "page" : undefined
+              }
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+      )
+    }
 
     <div class="header-actions">
+      <ThemeSwitch />
       <button
         type="button"
         class="header-search-btn"
@@ -62,73 +62,124 @@ const isActive = (href: string) => pathname.startsWith(href);
         <span class="search-btn-label">Buscar</span>
         <kbd data-search-shortcut>Ctrl+K</kbd>
       </button>
-      <a class="header-cta" href="/newsletter"> Newsletter </a>
+      {
+        portal && (
+          <a class="portal-switch" href={portal.crossLink.href}>
+            {portal.crossLink.label}
+          </a>
+        )
+      }
+      {
+        portal && (
+          <a class="header-cta" href="/newsletter">
+            Newsletter
+          </a>
+        )
+      }
     </div>
 
-    <button
-      class="menu-button"
-      type="button"
-      aria-label="Abrir menu"
-      aria-expanded="false"
-      aria-controls="mobile-menu"
-    >
-      <span></span><span></span><span></span>
-    </button>
+    {
+      nav.length > 0 && (
+        <button
+          class="menu-button"
+          type="button"
+          aria-label="Abrir menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+      )
+    }
   </div>
 
-  <nav id="mobile-menu" class="mobile-nav" aria-label="Navegação móvel" hidden>
-    <div class="page-shell">
-      <button type="button" class="mobile-search-btn" data-open-global-search>
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <circle
-            cx="10.8"
-            cy="10.8"
-            r="6.7"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"></circle>
-          <path
-            d="m16 16 4.5 4.5"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"></path>
-        </svg>
-        <span>Buscar no portal...</span>
-        <kbd data-search-shortcut>Ctrl+K</kbd>
-      </button>
-      {
-        nav.map((item) => (
-          <a
-            href={item.href}
-            aria-current={isActive(item.href) ? "page" : undefined}
+  {
+    portal && (
+      <nav
+        id="mobile-menu"
+        class="mobile-nav"
+        aria-label="Navegação móvel"
+        hidden
+      >
+        <div class="page-shell">
+          <ThemeSwitch />
+          <button
+            type="button"
+            class="mobile-search-btn"
+            data-open-global-search
           >
-            {item.label}
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle
+                cx="10.8"
+                cy="10.8"
+                r="6.7"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <path
+                d="m16 16 4.5 4.5"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+            <span>Buscar no portal...</span>
+            <kbd data-search-shortcut>Ctrl+K</kbd>
+          </button>
+          {nav.map((item) => (
+            <a
+              href={item.href}
+              aria-current={
+                isPortalNavCurrent(item.href, pathname) ? "page" : undefined
+              }
+            >
+              {item.label}
+            </a>
+          ))}
+          <a class="mobile-portal-switch" href={portal.crossLink.href}>
+            {portal.crossLink.label}
           </a>
-        ))
-      }
-      <a class="mobile-newsletter" href="/newsletter">Newsletter</a>
-    </div>
-  </nav>
+          <a class="mobile-newsletter" href="/newsletter">
+            Newsletter
+          </a>
+        </div>
+      </nav>
+    )
+  }
 </header>
 
 <style>
   .header-actions {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    flex-shrink: 0;
+    min-width: 0;
+    gap: 0.5rem;
   }
 
+  .mobile-nav :global(.theme-switch) {
+    margin-bottom: 0.8rem;
+  }
+
+  /* Só o ícone: com rótulo e atalho o botão tinha 175px e a navegação do
+     paciente não cabia nem em 1920px. O aria-label leva o texto e o atalho;
+     o rótulo completo continua na busca do menu móvel. */
   .header-search-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.45rem;
-    min-height: 42px;
-    padding: 0.45rem 0.8rem;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.45rem 0.7rem;
     border: 1px solid var(--line, #c8d7e2);
     border-radius: var(--control-radius, 6px);
     background: var(--mist, #eff8fb);
     color: var(--ink-soft, #263d61);
-    font-size: 0.84rem;
+    font-size: 0.875rem;
     font-weight: 650;
     cursor: pointer;
     transition:
@@ -145,22 +196,32 @@ const isActive = (href: string) => pathname.startsWith(href);
 
   .header-search-btn kbd {
     padding: 0.15rem 0.35rem;
-    border: 1px solid #ccd9e2;
+    border: 1px solid var(--line, #d3dbe4);
     border-radius: 3px;
-    background: #ffffff;
+    background: var(--paper, #ffffff);
     font-family: ui-monospace, monospace;
-    font-size: 0.75rem;
-    color: #556877;
+    font-size: 0.875rem;
+    color: var(--navy-400, #405168);
+  }
+
+  /* Na pré-página há espaço para rótulo e atalho; dentro dos portais, não. */
+  .header-inner:not([data-bare]) .search-btn-label,
+  .header-inner:not([data-bare]) .header-search-btn kbd {
+    display: none;
   }
 
   .header-search-btn:hover {
-    background: #e2f1f5;
+    background: var(--teal-100, #dff3f7);
     border-color: var(--teal, #087f95);
     color: var(--ink, #071d45);
   }
 
   .header-search-btn:active {
-    background: #d5eaef;
+    background: color-mix(
+      in srgb,
+      var(--teal, #087f95) 18%,
+      var(--paper, #ffffff)
+    );
   }
 
   .mobile-search-btn {
@@ -184,12 +245,16 @@ const isActive = (href: string) => pathname.startsWith(href);
   }
 
   .mobile-search-btn:hover {
-    background: #e2f1f5;
+    background: var(--teal-100, #dff3f7);
     border-color: var(--teal-dark, #00657a);
   }
 
   .mobile-search-btn:active {
-    background: #d5eaef;
+    background: color-mix(
+      in srgb,
+      var(--teal, #087f95) 18%,
+      var(--paper, #ffffff)
+    );
   }
 
   .mobile-search-btn svg {
@@ -200,16 +265,90 @@ const isActive = (href: string) => pathname.startsWith(href);
 
   .mobile-search-btn kbd {
     padding: 0.15rem 0.35rem;
-    border: 1px solid #ccd9e2;
+    border: 1px solid var(--line, #d3dbe4);
     border-radius: 3px;
-    background: #ffffff;
+    background: var(--paper, #ffffff);
     font-family: ui-monospace, monospace;
-    font-size: 0.75rem;
-    color: #556877;
+    font-size: 0.875rem;
+    color: var(--navy-400, #405168);
   }
 
-  @media (max-width: 1080px) {
+  /* Sem teclado físico o atalho é ruído. */
+  @media (hover: none) {
+    .mobile-search-btn {
+      justify-content: flex-start;
+    }
+
+    .mobile-search-btn kbd {
+      display: none;
+    }
+  }
+
+  /* Ponte entre os dois portais. Fica ao lado da busca, discreta: é rota de
+     fuga para quem entrou pelo lado errado, não chamada de ação concorrente
+     com a newsletter. */
+  .portal-switch {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.45rem 0.75rem;
+    border-radius: var(--control-radius, 6px);
+    color: var(--ink-soft, #263d61);
+    font-size: 0.875rem;
+    font-weight: 650;
+    white-space: nowrap;
+    transition:
+      background-color 150ms ease,
+      color 150ms ease;
+  }
+
+  .portal-switch::before {
+    margin-right: 0.35rem;
+    color: var(--teal, #087f95);
+    content: "\21C4";
+    font-size: 0.95rem;
+  }
+
+  .portal-switch:hover {
+    background: var(--mist, #eff8fb);
+    color: var(--ink, #071d45);
+  }
+
+  .portal-switch:active {
+    background: color-mix(
+      in srgb,
+      var(--teal, #087f95) 18%,
+      var(--paper, #ffffff)
+    );
+  }
+
+  .mobile-portal-switch::before {
+    margin-right: 0.4rem;
+    color: var(--teal, #087f95);
+    content: "\21C4";
+  }
+
+  /* Pré-página: sem navegação, a grade de três colunas deixaria a marca
+     solta no canto e um vão no meio. */
+  .header-inner[data-bare] {
+    grid-template-columns: 1fr auto;
+  }
+
+  @media (max-width: 1360px) {
     .header-actions {
+      display: none;
+    }
+
+    /* Sem menu móvel na pré-página, esconder as ações deixaria o cabeçalho
+       sem busca nenhuma em tela estreita. */
+    .header-inner[data-bare] .header-actions {
+      display: flex;
+    }
+
+    .search-btn-label,
+    .header-search-btn kbd,
+    .header-inner[data-bare] .search-btn-label,
+    .header-inner[data-bare] kbd {
       display: none;
     }
   }

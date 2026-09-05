@@ -56,30 +56,52 @@ test("toda fonte declarada é servida pelo próprio domínio", async () => {
   );
 });
 
-test("nenhum texto é declarado abaixo de 12px", async () => {
-  // Piso de legibilidade: havia declarações de 0.62rem, 9,9px. São rótulos
-  // curtos em caixa alta, o que disfarça o tamanho, mas não o resolve — e a
-  // auditoria de font-size do Lighthouse mede o mesmo número.
+test("nenhum texto informativo é declarado abaixo de 14px", async () => {
+  // WCAG 1.4.4 / auditoria de font-size: 14px é o piso de leitura. Rótulos
+  // decorativos sem informação única (atalho ⌘K que já está no aria-label)
+  // podem ficar menores — o teste os ignora pelo seletor.
   const tiny: string[] = [];
   for (const path of await collectStyleSources("src")) {
     const source = await readFile(path, "utf8");
+    const decorative =
+      /(?:^|\n)\s*(?:kbd|\.visually-hidden|\.sr-only)\b[^{]*\{[^}]*font-size:/gu;
+    const skipped = new Set(
+      [...source.matchAll(decorative)].map((match) => match[0]),
+    );
     // clamp() precisa ser lido pelo primeiro argumento: é o piso, o tamanho
-    // que a viewport estreita entrega. A versão anterior só casava valores
-    // literais, e três declarações passaram por baixo — a menor com piso de
-    // 0.42rem, 6,7px, num rótulo do reader.
+    // que a viewport estreita entrega.
     for (const match of source.matchAll(
       /font-size:\s*(?:clamp\(\s*)?([\d.]+)(rem|em|px)/gu,
     )) {
       const value = Number(match[1]);
       const px = match[2] === "px" ? value : value * 16;
-      if (px < 12) tiny.push(`${path}: ${match[0]} = ${px.toFixed(1)}px`);
+      if (px >= 14) continue;
+      const around = source.slice(
+        Math.max(0, match.index - 80),
+        match.index + match[0].length,
+      );
+      if ([...skipped].some((block) => block.includes(match[0]))) continue;
+      if (/(?:kbd|\.visually-hidden|\.sr-only)\b[^{]*\{[^}]*$/u.test(around)) {
+        continue;
+      }
+      tiny.push(`${path}: ${match[0]} = ${px.toFixed(1)}px`);
     }
   }
 
   assert.deepEqual(
     tiny,
     [],
-    `abaixo de 12px o texto deixa de ser confortável em tela pequena:\n${tiny.join("\n")}`,
+    `abaixo de 14px o texto informativo falha a auditoria de tamanho:\n${tiny.join("\n")}`,
+  );
+});
+
+test("o token de meta não desce de 14px", async () => {
+  const tokens = await readFile("src/styles/tokens.css", "utf8");
+  const match = tokens.match(/--text-meta:\s*([\d.]+)rem/u);
+  assert.ok(match, "--text-meta ausente");
+  assert.ok(
+    Number(match[1]) * 16 >= 14,
+    `--text-meta ${match[1]}rem fica abaixo de 14px`,
   );
 });
 

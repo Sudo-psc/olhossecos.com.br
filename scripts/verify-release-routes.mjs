@@ -2,7 +2,11 @@ import { spawn } from "node:child_process";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { normalizeBasePath, withBasePath } from "./site-base-path.mjs";
+import {
+  normalizeBasePath,
+  toLogicalPath,
+  withBasePath,
+} from "./site-base-path.mjs";
 import { dataBackedPaths, lastmodForPath } from "../src/lib/sitemap-lastmod.ts";
 
 const host = "127.0.0.1";
@@ -81,6 +85,31 @@ const assertPage = async (path, canonicalPath) => {
   return html;
 };
 
+const assertPortalOrganization = (html, path) => {
+  const structuredData = html.match(
+    /<script type="application\/ld\+json">([\s\S]*?)<\/script>/u,
+  )?.[1];
+  if (!structuredData) {
+    throw new Error(`${path}: JSON-LD ausente`);
+  }
+
+  let graph;
+  try {
+    graph = JSON.parse(structuredData)["@graph"];
+  } catch (error) {
+    throw new Error(`${path}: JSON-LD inválido — ${error.message}`);
+  }
+
+  const organization = graph?.find(
+    (item) => item?.["@id"] === `${publicOrigin}/#organization`,
+  );
+  if (organization?.name !== "Olhos Secos") {
+    throw new Error(
+      `${path}: organização canônica deve ser "Olhos Secos", recebido ${organization?.name ?? "ausente"}`,
+    );
+  }
+};
+
 // Rotas que o servidor realmente entrega, para confrontar com o sitemap.
 const rotasConhecidas = new Set();
 const mapearRotas = async (directory, prefix = "") => {
@@ -89,7 +118,7 @@ const mapearRotas = async (directory, prefix = "") => {
     if (entry.isDirectory()) {
       await mapearRotas(join(directory, entry.name), `${prefix}/${entry.name}`);
     } else if (entry.name === "index.html") {
-      rotasConhecidas.add(prefix || "/");
+      rotasConhecidas.add(toLogicalPath(prefix || "/", basePath));
     }
   }
 };
@@ -106,13 +135,30 @@ try {
   const raizCanonical = raizHtml.match(
     /<link rel="canonical" href="([^"]+)">/u,
   )?.[1];
-  if (raizCanonical && raizCanonical.replace(/\/$/u, "") !== productionOrigin) {
+  if (raizCanonical && raizCanonical.replace(/\/$/u, "") !== publicOrigin) {
     throw new Error(
-      `canonical da raiz é ${raizCanonical}, esperado ${productionOrigin}. ` +
+      `canonical da raiz é ${raizCanonical}, esperado ${publicOrigin}. ` +
         `Build gerado com SITE_BASE_PATH? Regere com "env -u SITE_BASE_PATH npm run build".`,
     );
   }
-  const homeHtml = await (await assertStatus("/")).text();
+  const homeResponse = await assertStatus("/");
+  const homeHtml = await homeResponse.text();
+  // O GA4 voltou de propósito (book_click nos CTAs de loja precisa do gtag).
+  if (!/googletagmanager\.com\/gtag\/js/u.test(homeHtml)) {
+    throw new Error("homepage: gtag do GA4 ausente");
+  }
+  // Página pré-renderizada sai do servidor sem CSP — quem aplica é o nginx.
+  // Quando o header vier (middleware), precisa liberar o domínio do gtag,
+  // senão o navegador bloqueia o script em silêncio e o GA4 fica sem dado.
+  const responseCsp = homeResponse.headers.get("content-security-policy");
+  if (
+    responseCsp &&
+    !/script-src[^;]*googletagmanager\.com/u.test(responseCsp)
+  ) {
+    throw new Error(
+      "homepage: CSP não libera googletagmanager.com para o gtag",
+    );
+  }
   if (!homeHtml.includes(`href="${publicPath("/newsletter")}"`)) {
     throw new Error("homepage: link global para /newsletter ausente");
   }
@@ -121,6 +167,40 @@ try {
       "homepage: o índice da busca voltou a ir no HTML; deve ficar em /search-index.json",
     );
   }
+  const discoveryRoutes = [
+    ["/rss.xml", ["application/rss+xml", "application/xml"]],
+    ["/feed.json", ["application/feed+json", "application/json"]],
+    ["/superficie/rss.xml", ["application/rss+xml", "application/xml"]],
+    ["/superficie/feed.json", ["application/feed+json", "application/json"]],
+    ["/superficie/radar/rss.xml", ["application/rss+xml", "application/xml"]],
+    [
+      "/superficie/radar/feed.json",
+      ["application/feed+json", "application/json"],
+    ],
+    ["/llms.txt", ["text/plain"]],
+    ["/llms-full.txt", ["text/plain"]],
+    ["/.well-known/security.txt", ["text/plain"]],
+    ["/manifest.webmanifest", ["application/manifest+json"]],
+  ];
+  for (const [path, expectedTypes] of discoveryRoutes) {
+    const response = await assertStatus(path);
+    const type = response.headers.get("content-type") ?? "";
+    // Prerender em dist/client/ entra em manifest.assets; o estático do
+    // adapter escolhe o MIME pela extensão (xml → application/xml).
+    if (!expectedTypes.some((expected) => type.includes(expected))) {
+      throw new Error(`${path}: content-type ${type || "ausente"}`);
+    }
+  }
+  if (!homeHtml.includes('rel="alternate"') || !homeHtml.includes("/rss.xml")) {
+    throw new Error("homepage: rel=alternate do RSS ausente");
+  }
+  if (
+    homeHtml.includes("serviceWorker") ||
+    homeHtml.includes("service-worker")
+  ) {
+    throw new Error("homepage: service worker não deve ser registrado");
+  }
+
   const searchIndexResponse = await assertStatus("/search-index.json");
   const searchIndexType = searchIndexResponse.headers.get("content-type") ?? "";
   if (!searchIndexType.includes("application/json")) {
@@ -134,7 +214,25 @@ try {
   }
   await assertStatus("/superficie");
   await assertPage("/superficie/edicoes", "/superficie/edicoes");
-  await assertPage("/superficie/artigos", "/superficie/artigos");
+  const superficieHtml = await assertPage(
+    "/superficie/artigos",
+    "/superficie/artigos",
+  );
+  assertPortalOrganization(superficieHtml, "/superficie/artigos");
+
+  const legacyRedirect = await fetch(
+    `${localOrigin}${publicPath("/profissionais")}`,
+    { redirect: "manual" },
+  );
+  if (
+    legacyRedirect.status !== 301 ||
+    legacyRedirect.headers.get("location") !== publicPath("/profissional")
+  ) {
+    throw new Error(
+      `/profissionais: esperado redirect HTTP 301 para ${publicPath("/profissional")}, ` +
+        `recebido ${legacyRedirect.status} para ${legacyRedirect.headers.get("location") ?? "ausente"}`,
+    );
+  }
   await assertStatus("/superficie/lab/flipbook", 404);
   await assertStatus("/superficie/lab/edicao-00", 200);
   await assertStatus("/superficie/issues/poc/manifest.json", 404);
@@ -213,8 +311,7 @@ try {
       [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/gu)]
         .map((match) => new URL(match[1]).pathname)
         .filter(
-          (pathname) =>
-            !rotasConhecidas.has(pathname.replace(/\/$/u, "") || "/"),
+          (pathname) => !rotasConhecidas.has(toLogicalPath(pathname, basePath)),
         ),
     ),
   ];
@@ -254,12 +351,7 @@ try {
       (match) => [
         (() => {
           const pathname = new URL(match[1]).pathname;
-          const logicalPath =
-            basePath &&
-            (pathname === basePath || pathname.startsWith(`${basePath}/`))
-              ? pathname.slice(basePath.length) || "/"
-              : pathname;
-          return logicalPath.replace(/\/$/u, "") || "/";
+          return toLogicalPath(pathname, basePath);
         })(),
         match[2],
       ],

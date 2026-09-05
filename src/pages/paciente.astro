@@ -1,0 +1,671 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import NewsletterSignupForm from "@/components/NewsletterSignupForm.astro";
+import { patientStarters } from "@/lib/home";
+import { guides } from "@/lib/guides";
+import { toolCatalog } from "@/lib/tools/catalog";
+
+/**
+ * Home do portal do paciente. A versão anterior era única para os dois
+ * públicos e carregava onze seções: revista, livros, conselho editorial e
+ * jornadas conviviam com o conteúdo de quem só queria saber o que fazer com a
+ * ardência. Aqui ficam seis blocos, na ordem em que a dúvida costuma aparecer.
+ */
+const featuredGuide =
+  guides.find(({ slug }) => slug === "olho-seco-guia-essencial") ?? guides[0];
+
+const parseMinutes = (readingTime: string) =>
+  Number.parseInt(readingTime, 10) || 99;
+
+const quickGuides = guides
+  .filter((guide) => guide.slug !== featuredGuide?.slug)
+  .sort((a, b) => parseMinutes(a.readingTime) - parseMinutes(b.readingTime))
+  .slice(0, 4);
+---
+
+<Layout
+  image="/images/og/og-paciente.png"
+  title="Olho seco: sintomas, causas e cuidados | Portal do paciente"
+  description="Entenda os sintomas do olho seco, como o diagnóstico é feito, o que os tratamentos pretendem e o que dá para fazer no dia a dia."
+  schemaType="MedicalWebPage"
+  dateModified="2026-08-25"
+>
+  <section class="patient-hero" aria-labelledby="patient-title">
+    <div class="page-shell hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Portal do paciente</p>
+        <h1 id="patient-title">
+          Seus olhos ardem, coçam ou embaçam. Vamos por partes.
+        </h1>
+        <p class="hero-lead">
+          Olho seco tem mais de um mecanismo, e é por isso que dois casos
+          parecidos recebem cuidados diferentes. Aqui o conteúdo é explicativo,
+          com fontes citadas e sem promessa de resultado.
+        </p>
+        <div class="hero-actions">
+          <a class="button-primary" href="/sintomas">Começar pelos sintomas</a>
+          <a class="text-link" href="/olho-seco">
+            Antes disso: o que é olho seco?
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 12h16m-5-5 5 5-5 5"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <figure class="hero-visual">
+        <div class="hero-frame">
+          <picture>
+            <source
+              type="image/avif"
+              srcset="/images/hero-filme-lacrimal-720.avif 720w, /images/hero-filme-lacrimal-1024.avif 1024w"
+              sizes="(max-width: 760px) calc(100vw - 2rem), (max-width: 1100px) 44vw, 560px"
+            />
+            <source
+              type="image/webp"
+              srcset="/images/hero-filme-lacrimal-720.webp 720w, /images/hero-filme-lacrimal-1024.webp 1024w"
+              sizes="(max-width: 760px) calc(100vw - 2rem), (max-width: 1100px) 44vw, 560px"
+            />
+            <img
+              src="/images/hero-filme-lacrimal.jpg"
+              alt="Pessoa em ambiente claro tocando suavemente a região ao redor dos olhos, representando desconforto associado a sintomas de olho seco"
+              width="1024"
+              height="768"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </picture>
+        </div>
+        <figcaption>
+          <p>
+            Ardor, sensação de areia, visão flutuante e cansaço ocular podem
+            afetar conforto, concentração e qualidade de vida.
+          </p>
+          <small
+            >Imagem editorial gerada com IA para fins educativos; não representa
+            paciente real nem substitui avaliação médica.</small
+          >
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="starters" aria-labelledby="starters-title">
+    <div class="page-shell">
+      <h2 id="starters-title" class="section-heading">
+        Comece por onde está a sua dúvida
+      </h2>
+      <ul class="starter-grid">
+        {
+          patientStarters.map((item, index) => (
+            <li class="reveal">
+              <a href={item.href}>
+                <span class="starter-index">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <strong>{item.label}</strong>
+                <span class="starter-text">{item.description}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="alert-strip" aria-labelledby="alert-title">
+    <div class="page-shell alert-inner reveal">
+      <div>
+        <p class="eyebrow">Antes de qualquer coisa</p>
+        <h2 id="alert-title">Alguns sinais pedem avaliação sem esperar</h2>
+        <p>
+          Dor intensa, queda de visão, sensibilidade forte à luz, vermelhidão
+          que piora ou secreção não são para investigar na internet.
+        </p>
+      </div>
+      <a class="button-primary" href="/sinais-de-alerta">Ver sinais de alerta</a
+      >
+    </div>
+  </section>
+
+  <section class="guides-block" aria-labelledby="guides-title">
+    <div class="page-shell">
+      <header class="section-intro">
+        <p class="eyebrow">Guias</p>
+        <h2 id="guides-title" class="section-heading">
+          Leituras curtas para decidir com mais clareza
+        </h2>
+      </header>
+
+      <div class="guides-grid">
+        {
+          featuredGuide && (
+            <article class="guide-feature reveal">
+              <p class="card-kicker">{featuredGuide.category}</p>
+              <h3>
+                <a href={`/guias/${featuredGuide.slug}`}>
+                  {featuredGuide.title}
+                </a>
+              </h3>
+              <p>{featuredGuide.description}</p>
+              <p class="card-meta">
+                <span>{featuredGuide.readingTime} de leitura</span>
+                <span>Revisado em {featuredGuide.updated}</span>
+              </p>
+            </article>
+          )
+        }
+
+        <ul class="guide-list">
+          {
+            quickGuides.map((guide) => (
+              <li class="reveal">
+                <p class="card-kicker">{guide.readingTime}</p>
+                <h3>
+                  <a href={`/guias/${guide.slug}`}>{guide.title}</a>
+                </h3>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <a class="text-link" href="/guias">
+        Ver todos os guias
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 12h16m-5-5 5 5-5 5"></path>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <section class="tools-block" aria-labelledby="tools-title">
+    <div class="page-shell">
+      <header class="section-intro">
+        <p class="eyebrow">No navegador</p>
+        <h2 id="tools-title" class="section-heading">
+          Ferramentas para anotar sintomas
+        </h2>
+        <p>
+          DEQ-5 e o diário de 14 dias rodam só neste aparelho. Sem cadastro e
+          sem envio de dados. Nenhuma delas substitui consulta, exame ou
+          tratamento.
+        </p>
+      </header>
+      <ul class="tools-grid">
+        {
+          toolCatalog.map((tool) => (
+            <li class="reveal">
+              <a href={tool.href}>
+                <span class="card-kicker">{tool.kicker}</span>
+                <strong>{tool.title}</strong>
+                <em>{tool.summary}</em>
+              </a>
+            </li>
+          ))
+        }
+        <li class="reveal">
+          <a href="/ferramentas">
+            <span class="card-kicker">Índice</span>
+            <strong>Todas as ferramentas</strong>
+            <em>DEQ-5, diário e o princípio de privacidade em uma página.</em>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="widget-block" aria-labelledby="widget-title">
+    <div class="page-shell widget-inner reveal">
+      <div>
+        <p class="eyebrow">Ferramenta gratuita</p>
+        <h2 id="widget-title" class="section-heading">Dry Eye Widget</h2>
+        <p>
+          Lembretes de pausa e de piscada durante o trabalho em telas. Roda no
+          navegador, não pede cadastro e não envia nada para lugar nenhum.
+        </p>
+        <a class="button-primary" href="/app">Abrir o widget</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="newsletter-block" aria-labelledby="patient-newsletter-title">
+    <div class="page-shell newsletter-inner">
+      <div>
+        <p class="eyebrow">Newsletter</p>
+        <h2 id="patient-newsletter-title" class="section-heading">
+          Receba o que for publicado
+        </h2>
+        <p>
+          Guias novos e revisões dos existentes. Sem frequência fixa: só quando
+          há o que dizer.
+        </p>
+      </div>
+      <NewsletterSignupForm source="newsletter" variant="portal" />
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .patient-hero {
+    padding: clamp(2.5rem, 1.8rem + 3.5vw, 4.5rem) 0
+      clamp(2rem, 1.4rem + 2.5vw, 3.5rem);
+  }
+
+  .hero-grid {
+    display: grid;
+    gap: clamp(1.75rem, 1.2rem + 2.4vw, 3rem);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .hero-grid {
+      grid-template-columns: 1.05fr 0.95fr;
+    }
+  }
+
+  .hero-copy h1 {
+    margin: 0.6rem 0 0;
+    max-width: 17ch;
+    font-family: var(--serif);
+    font-size: var(--text-h1);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-tight);
+    text-wrap: balance;
+  }
+
+  .hero-lead {
+    margin: 1.1rem 0 0;
+    max-width: var(--measure-narrow);
+    color: var(--ink-soft);
+    font-size: var(--text-lead);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.5rem;
+    margin-top: 1.75rem;
+  }
+
+  .hero-visual {
+    margin: 0;
+  }
+
+  .hero-frame {
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+  }
+
+  .hero-visual figcaption {
+    margin-top: 1rem;
+    max-width: 46ch;
+  }
+
+  .hero-visual figcaption p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: var(--text-small);
+  }
+
+  .hero-visual figcaption small {
+    display: block;
+    margin-top: 0.5rem;
+    color: var(--navy-400);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .starters {
+    padding: var(--space-block) 0;
+  }
+
+  .starter-grid {
+    display: grid;
+    gap: 1rem;
+    margin: 1.75rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 700px) {
+    .starter-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1050px) {
+    .starter-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .starter-grid a {
+    display: grid;
+    gap: 0.4rem;
+    height: 100%;
+    padding: 1.35rem 1.4rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--paper);
+    transition:
+      filter var(--duration-base) var(--ease-out-soft),
+      border-color var(--duration-base) var(--ease-out-soft);
+  }
+
+  .starter-grid a:hover {
+    filter: var(--lift-hover);
+    border-color: var(--teal);
+  }
+
+  .starter-grid a:active {
+    filter: none;
+    background: var(--mist);
+  }
+
+  .starter-index {
+    color: var(--teal-dark);
+    font-family: var(--mono);
+    font-size: var(--text-meta);
+  }
+
+  .starter-grid strong {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .starter-text {
+    color: var(--ink-soft);
+    font-size: var(--text-small);
+  }
+
+  .alert-strip {
+    padding: var(--space-block) 0;
+  }
+
+  .alert-inner {
+    display: grid;
+    gap: 1.5rem;
+    align-items: center;
+    padding: clamp(1.5rem, 1.1rem + 1.4vw, 2.25rem);
+    border: 1px solid color-mix(in srgb, var(--coral) 35%, transparent);
+    border-left: 5px solid var(--coral);
+    border-radius: var(--radius-md);
+    background: var(--coral-soft);
+  }
+
+  @media (min-width: 860px) {
+    .alert-inner {
+      grid-template-columns: 1fr auto;
+    }
+  }
+
+  .alert-inner h2 {
+    margin: 0.4rem 0 0.6rem;
+    font-family: var(--serif);
+    font-size: var(--text-h3);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-snug);
+  }
+
+  .alert-inner p {
+    margin: 0;
+    max-width: var(--measure-narrow);
+    color: var(--ink-soft);
+  }
+
+  .alert-inner .eyebrow {
+    color: var(--coral-text);
+  }
+
+  .guides-block {
+    padding: var(--space-block) 0;
+    background: var(--paper-100);
+  }
+
+  .section-intro {
+    margin-bottom: 1.75rem;
+  }
+
+  .guides-grid {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 900px) {
+    .guides-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+  }
+
+  .guide-feature {
+    padding: clamp(1.5rem, 1.1rem + 1.4vw, 2.25rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--paper);
+  }
+
+  .guide-feature h3 {
+    margin: 0.5rem 0 0.75rem;
+    font-family: var(--serif);
+    font-size: var(--text-h3);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-snug);
+  }
+
+  .guide-feature p {
+    margin: 0;
+    color: var(--ink-soft);
+  }
+
+  .card-kicker {
+    margin: 0;
+    color: var(--teal-dark);
+    font-size: var(--text-meta);
+    font-weight: 750;
+    letter-spacing: var(--tracking-kicker);
+    text-transform: uppercase;
+  }
+
+  .card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+    margin-top: 1rem;
+    color: var(--navy-400);
+    font-size: var(--text-meta);
+  }
+
+  .guide-list {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .guide-list li {
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-sm);
+    background: var(--paper);
+    transition: border-color var(--duration-base) var(--ease-out-soft);
+  }
+
+  .guide-list li:has(a:hover),
+  .guide-list li:has(a:focus-visible) {
+    border-color: var(--teal);
+  }
+
+  .guide-list h3 {
+    margin: 0.35rem 0 0;
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: var(--leading-snug);
+  }
+
+  .guide-list a:hover,
+  .guide-feature h3 a:hover {
+    color: var(--teal-dark);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .guides-block .text-link {
+    margin-top: 1.5rem;
+  }
+
+  .tools-block {
+    padding: var(--space-block) 0;
+  }
+
+  .tools-grid {
+    display: grid;
+    gap: 1rem;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 700px) {
+    .tools-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .tools-grid a {
+    display: grid;
+    gap: 0.4rem;
+    height: 100%;
+    min-height: 44px;
+    padding: 1.35rem 1.4rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--paper);
+    transition:
+      filter var(--duration-base) var(--ease-out-soft),
+      border-color var(--duration-base) var(--ease-out-soft);
+  }
+
+  .tools-grid a:hover {
+    filter: var(--lift-hover);
+    border-color: var(--teal);
+  }
+
+  .tools-grid strong {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .tools-grid em {
+    color: var(--ink-soft);
+    font-style: normal;
+    font-size: var(--text-small);
+  }
+
+  .widget-block {
+    padding: var(--space-block) 0;
+  }
+
+  /* Painel invertido: tokens estáveis entre temas. --ink clareia no escuro e
+     deixaria texto branco sobre fundo claro. O brilho no canto é só alpha. */
+  .widget-inner {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(1.75rem, 1.2rem + 2vw, 3rem);
+    border-radius: var(--radius-lg);
+    background: var(--surface-inverse);
+    color: var(--on-inverse);
+  }
+
+  .widget-inner::before {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      70% 90% at 100% 0%,
+      rgb(120 215 229 / 18%),
+      rgb(120 215 229 / 0%) 65%
+    );
+    content: "";
+    pointer-events: none;
+  }
+
+  .widget-inner > * {
+    position: relative;
+  }
+
+  .widget-inner .eyebrow {
+    color: var(--on-inverse-accent);
+  }
+
+  .widget-inner p {
+    color: var(--on-inverse-soft);
+  }
+
+  .widget-inner p {
+    margin: 0.75rem 0 1.5rem;
+    max-width: var(--measure-narrow);
+  }
+
+  .widget-inner .button-primary {
+    background: var(--on-inverse);
+    border-color: var(--on-inverse);
+    color: var(--surface-inverse);
+  }
+
+  .widget-inner .button-primary:hover {
+    background: var(--on-inverse-accent);
+    border-color: var(--on-inverse-accent);
+    color: var(--surface-inverse);
+  }
+
+  .widget-inner .button-primary:active {
+    background: var(--on-inverse-soft);
+    border-color: transparent;
+    color: var(--surface-inverse);
+  }
+
+  .newsletter-block {
+    padding: var(--space-block) 0 var(--space-section);
+  }
+
+  .newsletter-inner {
+    display: grid;
+    gap: 1.75rem;
+    align-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .newsletter-inner {
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+  }
+
+  .newsletter-inner p {
+    margin: 0.75rem 0 0;
+    max-width: var(--measure-narrow);
+    color: var(--ink-soft);
+  }
+
+  .text-link svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>

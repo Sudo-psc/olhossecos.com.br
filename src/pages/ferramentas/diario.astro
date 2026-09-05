@@ -1,0 +1,82 @@
+---
+import ToolsShell from "@/components/tools/ToolsShell.astro";
+import Layout from "@/layouts/Layout.astro";
+import { responsibleDoctor } from "@/lib/doctor";
+import { toolCatalog } from "@/lib/tools/catalog";
+
+const tool = toolCatalog[1];
+const breadcrumbs = [
+  { name: "Início", url: "/" },
+  { name: "Ferramentas", url: "/ferramentas" },
+  { name: "Diário", url: tool.href },
+];
+
+const extraSchema = {
+  "@type": "WebApplication",
+  name: "Diário de sintomas",
+  applicationCategory: "HealthApplication",
+  operatingSystem: "Any",
+  isAccessibleForFree: true,
+  description: tool.description,
+  author: {
+    "@type": "Person",
+    name: `Dr. ${responsibleDoctor.name}`,
+    identifier: responsibleDoctor.registration,
+  },
+};
+---
+
+<Layout
+  title={tool.title}
+  description={tool.description}
+  schemaType="MedicalWebPage"
+  dateModified="2026-08-25"
+  breadcrumbs={breadcrumbs}
+  extraSchema={extraSchema}
+>
+  <ToolsShell
+    kicker="14 dias"
+    title={tool.title}
+    lead="Intensidade de 0 a 10 e uma nota curta. Os dados vivem só neste navegador."
+    crumbs={breadcrumbs}
+  >
+    <p>
+      Os dados vivem só neste navegador. Trocar de aparelho, limpar o site ou
+      usar outro perfil apaga o histórico. Nada disso é diagnóstico.
+    </p>
+
+    <div data-diary>
+      <p class="sr-only" data-diary-live aria-live="polite"></p>
+      <div class="tool-panel" style="overflow-x: auto">
+        <table class="tool-table">
+          <thead>
+            <tr>
+              <th scope="col">Dia</th>
+              <th scope="col">Intensidade (0–10)</th>
+              <th scope="col">Nota</th>
+            </tr>
+          </thead>
+          <tbody data-diary-rows></tbody>
+        </table>
+      </div>
+      <div class="tool-actions">
+        <button class="button-primary" type="button" data-diary-pdf>
+          Baixar PDF
+        </button>
+        <button class="button-primary" type="button" data-diary-csv>
+          Baixar CSV
+        </button>
+        <button class="button-primary" type="button" data-diary-clear>
+          Apagar tudo
+        </button>
+      </div>
+    </div>
+  </ToolsShell>
+</Layout>
+
+<script>
+  import { mountDiary } from "@/lib/tools/diary-ui";
+
+  const root = document.querySelector<HTMLElement>("[data-diary]");
+  if (root) mountDiary(root);
+</script>

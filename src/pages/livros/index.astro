@@ -4,6 +4,7 @@ import BookCover from "@/components/BookCover.astro";
 import BookFeature from "@/components/BookFeature.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import IssueCover from "@/components/superficie/IssueCover.astro";
+import BookStoreClickGtag from "@/components/BookStoreClickGtag.astro";
 import Layout from "@/layouts/Layout.astro";
 import { author, books } from "@/lib/books";
 import { founderIssue } from "@/lib/superficie";
@@ -71,6 +72,7 @@ const editorialSchema = {
     type="application/ld+json"
     set:html={JSON.stringify(editorialSchema)}
   />
+  <BookStoreClickGtag />
 
   <header class="books-hero">
     <div class="page-shell">
@@ -467,7 +469,7 @@ const editorialSchema = {
   .hero-kicker {
     display: inline-block;
     color: #7b5a1f;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -482,7 +484,7 @@ const editorialSchema = {
     font-weight: 500;
     letter-spacing: -0.05em;
     line-height: 0.96;
-    color: var(--navy-900);
+    color: var(--ink);
   }
 
   .hero-subtitle {
@@ -524,12 +526,12 @@ const editorialSchema = {
     font-family: var(--serif);
     font-size: 1.05rem;
     font-weight: 700;
-    color: var(--navy-900);
+    color: var(--ink);
   }
 
   .hero-signature-text .author-role {
     color: var(--ink-soft);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
   }
 
   /* Vitrine Visual 3D do Hero */
@@ -572,7 +574,7 @@ const editorialSchema = {
     background: var(--navy-900);
     color: #d4af37;
     border: 1px solid #b28a42;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 700;
     letter-spacing: 0.05em;
     z-index: 3;
@@ -641,7 +643,7 @@ const editorialSchema = {
   .section-label {
     margin: 0;
     color: #7b5a1f;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -657,7 +659,7 @@ const editorialSchema = {
     font-weight: 500;
     letter-spacing: -0.045em;
     line-height: 1;
-    color: var(--navy-900);
+    color: var(--ink);
   }
 
   .section-intro > span {
@@ -742,7 +744,7 @@ const editorialSchema = {
     font-size: clamp(2rem, 3.5vw, 3.4rem);
     letter-spacing: 0.03em;
     line-height: 1;
-    color: var(--navy-900);
+    color: var(--ink);
   }
 
   .superficie-status-badge {
@@ -751,7 +753,7 @@ const editorialSchema = {
     background: var(--paper-100);
     border: 1px solid #b28a42;
     color: #7b5a1f;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 750;
     text-transform: uppercase;
     letter-spacing: 0.06em;
@@ -795,8 +797,8 @@ const editorialSchema = {
     gap: 0.55rem;
     padding: 0.75rem 1.4rem;
     border-radius: 999px;
-    background: var(--navy-900);
-    color: #ffffff;
+    background: var(--surface-inverse-strong);
+    color: var(--on-inverse);
     font-size: var(--text-small);
     font-weight: 700;
     text-decoration: none;
@@ -853,7 +855,7 @@ const editorialSchema = {
   }
 
   .author-logo-label {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 750;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -901,7 +903,7 @@ const editorialSchema = {
   }
 
   .editorial-link:hover {
-    color: var(--navy-900);
+    color: var(--ink);
   }
 
   .editorial-link svg {
@@ -958,7 +960,7 @@ const editorialSchema = {
 
   .field label {
     color: var(--ink);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -982,9 +984,9 @@ const editorialSchema = {
   }
 
   .field input:focus-visible {
-    outline: none;
+    outline: var(--focus-ring-width) solid var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
     border-bottom-color: var(--teal-dark);
-    box-shadow: 0 1px 0 var(--teal-dark);
   }
 
   .honeypot {
@@ -998,12 +1000,14 @@ const editorialSchema = {
     align-items: start;
     margin-top: 1.6rem;
     color: var(--ink-soft);
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     cursor: pointer;
   }
 
   .consent input {
-    margin-top: 0.2rem;
+    width: 22px;
+    height: 22px;
+    margin: 0;
     accent-color: var(--teal-dark);
   }
 
@@ -1024,8 +1028,8 @@ const editorialSchema = {
     padding: 0.95rem 1.8rem;
     border: 0;
     border-radius: 999px;
-    background: var(--teal-dark);
-    color: white;
+    background: var(--teal-700);
+    color: var(--on-inverse);
     font-size: 0.95rem;
     font-weight: 750;
     cursor: pointer;
@@ -1033,7 +1037,7 @@ const editorialSchema = {
   }
 
   .form-footer button:hover {
-    background: var(--ink);
+    background: var(--surface-inverse);
   }
 
   .form-footer button:disabled {
@@ -1043,7 +1047,7 @@ const editorialSchema = {
 
   #newsletter-status {
     margin: 0;
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     font-weight: 600;
   }
 

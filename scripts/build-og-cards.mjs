@@ -74,7 +74,12 @@ const cards = [
     "Filme lacrimal, tipos e por onde começar",
   ],
   ["glossario", "Glossário", "Termos da superfície ocular em linguagem clara"],
-  ["profissionais", "Para profissionais", "Superfície ocular em profundidade"],
+  ["paciente", "Portal do paciente", "Sintomas, diagnóstico e cuidado"],
+  [
+    "profissional",
+    "Portal profissional",
+    "Superfície ocular com a limitação declarada",
+  ],
   ["newsletter", "Newsletter", "Conteúdo editorial no seu e-mail"],
   ["app", "Dry Eye Widget", "Pausas e piscadas na rotina de telas"],
 ];
