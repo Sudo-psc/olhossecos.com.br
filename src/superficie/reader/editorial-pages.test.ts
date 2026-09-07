@@ -179,6 +179,57 @@ test("edicao-00 lab manifest has no ads and keeps DGM/TFOS after reindex", async
   );
 });
 
+test("lab HTML de A prega atribui 1,97 vs 2,94 ao TBUT global de Vu 2018", async () => {
+  const html = (
+    await readFile(
+      "public/superficie/issues/edicao-00/articles/a-prega-o-atrito-e-o-piscar.html",
+      "utf8",
+    )
+  ).replace(/\s+/gu, " ");
+  const page17 = JSON.parse(
+    await readFile(
+      "public/superficie/issues/edicao-00/text/page-17.json",
+      "utf8",
+    ),
+  ) as { blocks: { text: string }[] };
+  const page18 = JSON.parse(
+    await readFile(
+      "public/superficie/issues/edicao-00/text/page-18.json",
+      "utf8",
+    ),
+  ) as { blocks: { text: string }[] };
+
+  assert.match(html, /CHECAGEM EDITORIAL — NÃO REVISADO POR PARES/);
+  assert.match(
+    html,
+    /DGM encurtou TBUT no conjunto global \(1,97 versus 2,94 s; MGD presente versus ausente\)/,
+  );
+  assert.match(
+    html,
+    /Em deficiência aquosa com FRD: TBUT 2,08 versus 2,92 s sem FRD/,
+  );
+  assert.doesNotMatch(html, /1,97 versus 2,94 s\) em deficiência aquosa e em/);
+  assert.match(
+    html,
+    /Changes of conjunctivochalasis with age in a hospital-based study/,
+  );
+  assert.match(html, /Lid wiper epitheliopathy and dry eye symptoms/);
+  assert.match(html, /Medical and surgical management of conjunctivochalasis/);
+  assert.match(
+    html,
+    /after One and Three Months: A Self-Controlled, Unmasked Study/,
+  );
+  assert.match(
+    html,
+    /Dry Eye Symptoms with and Without Contact Lens Wear: A Review of the Literature/,
+  );
+
+  const layer = [...page17.blocks, ...page18.blocks]
+    .map((block) => block.text)
+    .join(" ");
+  assert.doesNotMatch(layer, /1,97 versus 2,94/);
+});
+
 test("edicao-00 search index remaps with the editorial page map", async () => {
   const raw = JSON.parse(
     await readFile("public/superficie/issues/edicao-00/manifest.json", "utf8"),
