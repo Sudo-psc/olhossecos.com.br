@@ -9,7 +9,7 @@ test("edicao-00 abre na página 4, busca DGM e resolve o H1 no modo texto", asyn
   await page.goto(`${readerUrl}?page=4`, { waitUntil: "domcontentloaded" });
   await readerReady(page);
   await expect(page.locator("[data-page-input]")).toHaveValue("4");
-  await expect(page.locator("[data-page-count]")).toHaveText("27");
+  await expect(page.locator("[data-page-count]")).toHaveText("28");
   await expect(page.locator("[data-reader-brand-line]")).toContainText(
     "A nova era da superfície ocular",
   );
@@ -35,7 +35,7 @@ test("lab edicao-00 cabe a página no viewport e remove as páginas type=ad", as
   await page.goto(readerUrl, { waitUntil: "domcontentloaded" });
   await readerReady(page);
 
-  await expect(page.locator("[data-page-count]")).toHaveText("27");
+  await expect(page.locator("[data-page-count]")).toHaveText("28");
   await expect(page.locator("[data-magazine-reader]")).toHaveAttribute(
     "data-zoom-mode",
     "fit-page",
@@ -67,7 +67,7 @@ test("lab edicao-00 cabe a página no viewport e remove as páginas type=ad", as
 
   await page.locator("[data-action='thumbnails']").click();
   const thumbs = page.locator("[data-thumbnail-list] img");
-  await expect(thumbs).toHaveCount(27);
+  await expect(thumbs).toHaveCount(28);
   await expect(page.locator("[data-thumbnail-list]")).not.toContainText(
     "PUBLICIDADE",
   );

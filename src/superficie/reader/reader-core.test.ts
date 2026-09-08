@@ -181,8 +181,14 @@ test("generated edicao-00 manifest is a self-contained editorial issue", async (
   const result = validateIssueManifest(rawManifest);
   assert.equal(result.success, true, result.errors.join("\n"));
   assert.equal(result.data?.id, "edicao-00");
-  assert.equal(result.data?.pageCount, 27);
-  assert.equal(result.data?.pages.length, 27);
+  assert.equal(result.data?.pageCount, 28);
+  assert.equal(result.data?.pages.length, 28);
+  assert.equal(result.data?.pageCount % 2, 0);
+  assert.equal(result.data?.pages.at(-1)?.type, "closing");
+  assert.match(
+    result.data?.pages.at(-1)?.image.medium ?? "",
+    /page-blank-medium\.webp$/u,
+  );
   assert.equal(result.data?.toc.length, 13);
   assert.equal(result.data?.articles.length, 2);
   assert.equal(result.data?.articles[0]?.pages.join(","), "4,5");

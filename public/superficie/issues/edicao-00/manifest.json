@@ -2,7 +2,7 @@
   "id": "edicao-00",
   "number": "00",
   "title": "A nova era da superfície ocular",
-  "pageCount": 27,
+  "pageCount": 28,
   "pages": [
     {
       "number": 1,
@@ -331,6 +331,18 @@
       "textLayer": "/superficie/issues/edicao-00/text/page-33.json",
       "type": "article",
       "alt": "Página 27: O indicador que some do discurso."
+    },
+    {
+      "number": 28,
+      "image": {
+        "small": "/superficie/issues/edicao-00/pages/page-blank-small.webp",
+        "medium": "/superficie/issues/edicao-00/pages/page-blank-medium.webp",
+        "large": "/superficie/issues/edicao-00/pages/page-blank-large.webp"
+      },
+      "thumbnail": "/superficie/issues/edicao-00/pages/page-blank-thumb.webp",
+      "textLayer": "/superficie/issues/edicao-00/text/page-blank.json",
+      "type": "closing",
+      "alt": "Página 28: Folha em branco."
     }
   ],
   "toc": [

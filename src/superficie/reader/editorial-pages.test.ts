@@ -151,8 +151,11 @@ test("edicao-00 lab manifest has no ads and keeps DGM/TFOS after reindex", async
   const editorial = withoutAdPages(raw);
   const validated = validateIssueManifest(editorial);
   assert.equal(validated.success, true, validated.errors.join("\n"));
-  assert.equal(editorial.pageCount, 27);
-  assert.equal(editorial.pages.length, 27);
+  assert.equal(editorial.pageCount, 28);
+  assert.equal(editorial.pages.length, 28);
+  assert.equal(editorial.pageCount % 2, 0);
+  assert.equal(editorial.pages.at(-1)?.type, "closing");
+  assert.equal(editorial.pages.at(-1)?.number, 28);
   assert.equal(
     editorial.pages.some((page) => page.type === "ad"),
     false,
