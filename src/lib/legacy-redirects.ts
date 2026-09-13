@@ -7,7 +7,7 @@
  * automático.
  */
 
-const exactRedirects = new Map<string, string>([
+export const exactRedirects = new Map<string, string>([
   ["/blog", "/guias"],
   ["/videos", "/guias"],
   ["/exames", "/diagnostico"],

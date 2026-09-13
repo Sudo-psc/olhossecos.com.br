@@ -1,6 +1,7 @@
 import { author, books } from "./books.ts";
 import { clinic } from "./clinic.ts";
 import { responsibleDoctor } from "./doctor.ts";
+import { exactRedirects } from "./legacy-redirects.ts";
 import { guides } from "./guides.ts";
 import { getRadarReportPath, radarReports } from "./radar.ts";
 import { getMagazineArticlePath, publishedArticles } from "./superficie.ts";
@@ -67,6 +68,7 @@ export const physicianCredentials = [
 
 const sitemapExcludedExact = new Set([
   "/blog",
+  ...exactRedirects.keys(),
   "/videos",
   "/exames",
   "/profissionais",
@@ -133,6 +135,7 @@ export const normalizeSitemapPath = (value: string) => {
 export const isIndexableSitemapPath = (value: string) => {
   const path = normalizeSitemapPath(value);
   if (sitemapExcludedExact.has(path)) return false;
+  if (path === "/blog" || path.startsWith("/blog/")) return false;
   return !sitemapExcludedPrefixes.some(
     (prefix) => path === prefix || path.startsWith(`${prefix}/`),
   );

@@ -29,6 +29,12 @@ test("o sitemap omite redirects, páginas noindex e o laboratório da revista", 
   assert.equal(isIndexableSitemapPath("/llms.txt"), false);
   assert.equal(isIndexableSitemapPath("/.well-known/security.txt"), false);
   assert.equal(isIndexableSitemapPath("/contato"), true);
+  assert.equal(isIndexableSitemapPath("/quiz"), false);
+  assert.equal(
+    isIndexableSitemapPath("/blog/sintomas-olho-seco-caratinga"),
+    false,
+  );
+  assert.equal(isIndexableSitemapPath("/tratamentos/luz-pulsada-irpl"), false);
 });
 
 test("lastmod dos artigos publicados usa a data editorial, não o fallback de julho", () => {
