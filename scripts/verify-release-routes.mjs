@@ -245,6 +245,29 @@ try {
         `recebido ${blogRedirect.status} para ${blogRedirect.headers.get("location") ?? "ausente"}`,
     );
   }
+  const unknownLegacy = await fetch(
+    `${localOrigin}${publicPath("/sintomass")}`,
+    {
+      redirect: "manual",
+    },
+  );
+  if (unknownLegacy.status !== 404) {
+    throw new Error(
+      `/sintomass: esperado HTTP 404 da página customizada, recebido ${unknownLegacy.status}`,
+    );
+  }
+  const unknownLegacyType = unknownLegacy.headers.get("content-type") ?? "";
+  const unknownLegacyHtml = await unknownLegacy.text();
+  if (!unknownLegacyType.includes("text/html")) {
+    throw new Error(
+      `/sintomass: esperado text/html da 404 customizada, recebido ${unknownLegacyType || "ausente"}`,
+    );
+  }
+  if (!unknownLegacyHtml.includes("Esta página não foi encontrada")) {
+    throw new Error(
+      "/sintomass: o catch-all deve renderizar src/pages/404.astro, não text/plain",
+    );
+  }
   await assertPage("/contato", "/contato");
   await assertStatus("/superficie/lab/flipbook", 404);
   await assertStatus("/superficie/lab/edicao-00", 200);

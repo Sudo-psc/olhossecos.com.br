@@ -1,17 +1,20 @@
 ---
+import NotFound from "./404.astro";
 import { resolveLegacyRedirect } from "@/lib/legacy-redirects";
 
 // Catch-all SSR das URLs mortas do funil (/quiz, /tratamentos/luz-pulsada-irpl,
-// etc.). Arquivo estático ou 404.html não atravessa o middleware.
+// etc.). Arquivo estático ou 404.html não atravessa o middleware — por isso o
+// 301 mora aqui. O mesmo arquivo também engole typos (/sintomass); devolver
+// text/plain impedia o Astro de servir src/pages/404.astro. Rewrite para a
+// 404 prerenderizada é ForbiddenRewrite (SSR → estático).
 export const prerender = false;
 
 const target = resolveLegacyRedirect(Astro.url.pathname);
-if (!target) {
-  return new Response("Not Found", {
-    status: 404,
-    headers: { "Content-Type": "text/plain; charset=utf-8" },
-  });
+if (target) {
+  return Astro.redirect(target, 301);
 }
 
-return Astro.redirect(target, 301);
+Astro.response.status = 404;
 ---
+
+<NotFound />

@@ -40,3 +40,10 @@ test("não intercepta rotas vivas do portal", () => {
     assert.equal(resolveLegacyRedirect(path), null, path);
   }
 });
+
+test("typos e URLs desconhecidas não viram 301 — o catch-all serve a 404", () => {
+  for (const path of ["/sintomass", "/quizx", "/pagina-que-nunca-existiu"]) {
+    assert.equal(resolveLegacyRedirect(path), null, path);
+    assert.equal(resolveLegacyRedirect(`${path}/`), null, `${path}/`);
+  }
+});
