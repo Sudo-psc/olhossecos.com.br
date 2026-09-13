@@ -1,12 +1,11 @@
 ---
 import { resolveLegacyRedirect } from "@/lib/legacy-redirects";
 
-const target = resolveLegacyRedirect(Astro.url.pathname);
-
 // Catch-all SSR das URLs mortas do funil (/quiz, /tratamentos/luz-pulsada-irpl,
 // etc.). Arquivo estático ou 404.html não atravessa o middleware.
 export const prerender = false;
 
+const target = resolveLegacyRedirect(Astro.url.pathname);
 if (!target) {
   return new Response("Not Found", {
     status: 404,
