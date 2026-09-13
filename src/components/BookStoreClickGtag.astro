@@ -1,6 +1,6 @@
 ---
-/* GA4 book_click for Amazon/Apple store CTAs on /livros. Inline so Ads
-   sees gtag('event','book_click') in served HTML. Scoped by pathname. */
+/* book_click first-party nos CTAs de loja em /livros. Sem gtag: a tag
+   puxava DoubleClick e o dataLayer gerava 422. */
 ---
 
 <script is:inline data-book-click-gtag>
@@ -52,9 +52,6 @@
       lastKey = key;
       lastAt = now;
       var params = { store: store, book: book, link_url: href };
-      if (typeof gtag === "function") {
-        gtag("event", "book_click", params);
-      }
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: "book_click",
@@ -62,6 +59,16 @@
         book: book,
         link_url: href,
       });
+      window.dispatchEvent(
+        new CustomEvent("olhossecos:analytics", {
+          detail: {
+            event: "book_click",
+            store: store,
+            book: book,
+            link_url: href,
+          },
+        }),
+      );
     }
     document.addEventListener("mousedown", handle, true);
     document.addEventListener("click", handle, true);

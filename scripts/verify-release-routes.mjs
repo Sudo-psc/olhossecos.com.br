@@ -143,21 +143,20 @@ try {
   }
   const homeResponse = await assertStatus("/");
   const homeHtml = await homeResponse.text();
-  // O GA4 voltou de propósito (book_click nos CTAs de loja precisa do gtag).
-  if (!/googletagmanager\.com\/gtag\/js/u.test(homeHtml)) {
-    throw new Error("homepage: gtag do GA4 ausente");
+  // O gtag puxava DoubleClick, a CSP bloqueava e o dataLayer gerava 422
+  // em /api/analytics. A métrica editorial é first-party.
+  if (/googletagmanager\.com\/gtag\/js|G-GJGLLWV2KS/u.test(homeHtml)) {
+    throw new Error("homepage: gtag do GA4 voltou a ser injetado");
   }
-  // Página pré-renderizada sai do servidor sem CSP — quem aplica é o nginx.
-  // Quando o header vier (middleware), precisa liberar o domínio do gtag,
-  // senão o navegador bloqueia o script em silêncio e o GA4 fica sem dado.
   const responseCsp = homeResponse.headers.get("content-security-policy");
-  if (
-    responseCsp &&
-    !/script-src[^;]*googletagmanager\.com/u.test(responseCsp)
-  ) {
-    throw new Error(
-      "homepage: CSP não libera googletagmanager.com para o gtag",
-    );
+  if (responseCsp && /googletagmanager|doubleclick/u.test(responseCsp)) {
+    throw new Error("homepage: CSP ainda abre host de tag quebrada");
+  }
+  if (!homeHtml.includes("https://saraivavision.com.br")) {
+    throw new Error("homepage: ponte ética da clínica ausente no rodapé");
+  }
+  if (!homeHtml.includes("LocalBusiness")) {
+    throw new Error("homepage: schema LocalBusiness ausente");
   }
   if (!homeHtml.includes(`href="${publicPath("/newsletter")}"`)) {
     throw new Error("homepage: link global para /newsletter ausente");
@@ -233,6 +232,20 @@ try {
         `recebido ${legacyRedirect.status} para ${legacyRedirect.headers.get("location") ?? "ausente"}`,
     );
   }
+  const blogRedirect = await fetch(
+    `${localOrigin}${publicPath("/blog/sintomas-olho-seco-caratinga")}`,
+    { redirect: "manual" },
+  );
+  if (
+    blogRedirect.status !== 301 ||
+    blogRedirect.headers.get("location") !== publicPath("/sintomas")
+  ) {
+    throw new Error(
+      `/blog/sintomas-olho-seco-caratinga: esperado 301 para ${publicPath("/sintomas")}, ` +
+        `recebido ${blogRedirect.status} para ${blogRedirect.headers.get("location") ?? "ausente"}`,
+    );
+  }
+  await assertPage("/contato", "/contato");
   await assertStatus("/superficie/lab/flipbook", 404);
   await assertStatus("/superficie/lab/edicao-00", 200);
   await assertStatus("/superficie/issues/poc/manifest.json", 404);
@@ -411,7 +424,7 @@ try {
   // MedicalWebPage arrasta `about: MedicalCondition`. Declarar privacidade ou
   // política editorial como conteúdo médico afirmava que aquelas páginas
   // tratam da doença do olho seco.
-  for (const path of ["/privacidade", "/politica-editorial"]) {
+  for (const path of ["/privacidade", "/politica-editorial", "/contato"]) {
     const html = await (await assertStatus(path)).text();
     if (html.includes("MedicalWebPage")) {
       throw new Error(`${path}: página institucional tipada como médica`);

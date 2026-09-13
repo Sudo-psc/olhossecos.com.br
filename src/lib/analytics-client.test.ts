@@ -69,6 +69,12 @@ test("recusa detalhe sem nome de evento válido", () => {
   assert.equal(getSafeAnalyticsDetail({}, "/"), null);
 });
 
+test("ignora eventos internos do dataLayer do gtag para não gerar 422", () => {
+  assert.equal(getSafeAnalyticsDetail({ event: "gtm.js" }, "/"), null);
+  assert.equal(getSafeAnalyticsDetail({ event: "gtag.js" }, "/"), null);
+  assert.equal(getSafeAnalyticsDetail({ event: "email_capture" }, "/"), null);
+});
+
 test("aceita métricas seguras do reader e descarta conteúdo privado", () => {
   assert.deepEqual(
     getSafeAnalyticsDetail(

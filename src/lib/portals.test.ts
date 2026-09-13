@@ -47,6 +47,7 @@ test("o resto do conteúdo fica no portal do paciente", () => {
     "/ferramentas/deq-5",
     "/ferramentas/diario",
     "/politica-de-correcao",
+    "/contato",
   ]) {
     assert.equal(resolvePortal(path), "paciente", path);
   }
