@@ -1,10 +1,9 @@
 import { defineMiddleware } from "astro:middleware";
 import { discoveryContentTypes } from "./lib/discovery";
+import { resolveLegacyRedirect } from "./lib/legacy-redirects";
 import { normalizeBasePath, withBasePath } from "./lib/site-path";
 
 const basePath = normalizeBasePath(import.meta.env.BASE_URL);
-const legacyProfessionalsPath = withBasePath("/profissionais", basePath);
-const professionalPath = withBasePath("/profissional", basePath);
 
 const applySecurityHeaders = (response: Response) => {
   response.headers.set("X-Frame-Options", "DENY");
@@ -18,11 +17,11 @@ const applySecurityHeaders = (response: Response) => {
 
   const cspDirectives = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com",
+    "script-src 'self' 'unsafe-inline'",
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com",
+    "img-src 'self' data: blob:",
     "font-src 'self'",
-    "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.google-analytics.com https://www.googletagmanager.com",
+    "connect-src 'self'",
     "frame-src 'none'",
     "object-src 'none'",
     "base-uri 'self'",
@@ -67,19 +66,26 @@ const isLabOrPoc = (pathname: string) =>
   isEdicao00Lab(pathname) ||
   isEdicao00Assets(pathname);
 
-const isLegacyProfessionals = (pathname: string) => {
-  const normalized = pathname.replace(/\/$/u, "") || "/";
-  return (
-    normalized === "/profissionais" || normalized === legacyProfessionalsPath
-  );
+const logicalPathname = (pathname: string) => {
+  const rawPath = pathname.replace(/\/$/u, "") || "/";
+  if (
+    basePath &&
+    (rawPath === basePath || rawPath.startsWith(`${basePath}/`))
+  ) {
+    return rawPath.slice(basePath.length) || "/";
+  }
+  return rawPath;
 };
 
 export const onRequest = defineMiddleware(async (context, next) => {
-  if (isLegacyProfessionals(context.url.pathname)) {
+  const legacyTarget = resolveLegacyRedirect(
+    logicalPathname(context.url.pathname),
+  );
+  if (legacyTarget) {
     return applySecurityHeaders(
       new Response(null, {
         status: 301,
-        headers: { Location: professionalPath },
+        headers: { Location: withBasePath(legacyTarget, basePath) },
       }),
     );
   }
@@ -101,12 +107,8 @@ export const onRequest = defineMiddleware(async (context, next) => {
     response.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
   }
 
-  const rawPath = context.url.pathname.replace(/\/$/u, "") || "/";
-  const logicalPath =
-    basePath && (rawPath === basePath || rawPath.startsWith(`${basePath}/`))
-      ? rawPath.slice(basePath.length) || "/"
-      : rawPath;
-  const discoveryType = discoveryContentTypes[logicalPath];
+  const discoveryType =
+    discoveryContentTypes[logicalPathname(context.url.pathname)];
   if (discoveryType) response.headers.set("Content-Type", discoveryType);
 
   return response;

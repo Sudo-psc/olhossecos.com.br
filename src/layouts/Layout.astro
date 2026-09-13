@@ -5,6 +5,7 @@ import AnalyticsCollector from "@/components/AnalyticsCollector.astro";
 import GlobalSearchModal from "@/components/GlobalSearchModal.astro";
 import { author } from "@/lib/books";
 import {
+  clinicLocalBusinessSchema,
   physician,
   physicianCredentials,
   portalMedicalConditions,
@@ -182,6 +183,7 @@ const structuredData = {
       ? [person]
       : []),
     page,
+    clinicLocalBusinessSchema(siteUrl),
     ...(breadcrumbSchema ? [breadcrumbSchema] : []),
     ...extraSchemas,
   ],
@@ -191,30 +193,6 @@ const structuredData = {
 <!doctype html>
 <html lang="pt-BR">
   <head>
-    {
-      /*
-      Comentário de chave: `is:inline` entrega o script literalmente, então
-      qualquer // dentro dele chega ao código-fonte de toda página. Isto aqui
-      não é enviado.
-
-      `anonymize_ip` é herança do Universal Analytics — o GA4 descarta o IP
-      antes de gravar e ignora o parâmetro. A linha registra a intenção, não
-      é um controle, e não substitui consentimento antes do disparo nem
-      /privacidade nomeando o Google como operador.
-    */
-    }
-    <script
-      is:inline
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-GJGLLWV2KS"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-      gtag("config", "G-GJGLLWV2KS", { anonymize_ip: true });
-    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <script is:inline set:html={themeBootScript} />
@@ -872,6 +850,39 @@ const structuredData = {
       transparent 1.5px
     );
     background-size: 14px 14px;
+  }
+
+  .footer-clinic {
+    padding-block: 1.35rem 0.35rem;
+    border-top: 1px solid var(--on-inverse-line);
+  }
+
+  .footer-clinic p {
+    margin: 0 0 0.45rem;
+    color: var(--on-inverse-soft);
+    font-size: 0.875rem;
+  }
+
+  .footer-clinic span {
+    display: block;
+    margin-bottom: 0.35rem;
+    color: var(--on-inverse-accent);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .footer-clinic strong {
+    color: var(--on-inverse);
+    font-family: var(--serif);
+    font-weight: 600;
+  }
+
+  .footer-clinic a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
   }
 
   /* Registro do responsável técnico: exigido pelo CFM, então fica acima da

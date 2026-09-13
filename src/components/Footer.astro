@@ -1,5 +1,6 @@
 ---
 import EyeMark from "./EyeMark.astro";
+import { clinic } from "@/lib/clinic";
 import { responsibleDoctor } from "@/lib/doctor";
 import { portalFor, portals } from "@/lib/portals";
 
@@ -56,6 +57,28 @@ const columns =
       <span class="footer-wave"></span>
       <span class="footer-dots"></span>
     </div>
+  </div>
+
+  <div class="page-shell footer-clinic">
+    <p>
+      <span>Atendimento presencial</span>
+      <strong>{clinic.name} · {clinic.addressLocality}</strong>
+    </p>
+    <p>
+      Dr. {responsibleDoctor.name}
+      {" · "}
+      {responsibleDoctor.registration}
+    </p>
+    <p>
+      <a href={clinic.whatsappUrl} rel="noopener noreferrer">
+        WhatsApp {clinic.telephoneDisplay}
+      </a>
+      <span aria-hidden="true"> · </span>
+      <a href={clinic.url} rel="noopener noreferrer">Agendar na clínica</a>
+    </p>
+    <p>
+      Este portal é educativo. Não faz diagnóstico online e não oferece cupom.
+    </p>
   </div>
 
   <div class="page-shell footer-imprint">

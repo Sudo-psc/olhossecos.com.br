@@ -1,0 +1,14 @@
+---
+import { resolveLegacyRedirect } from "@/lib/legacy-redirects";
+
+// SSR: o adapter Node serve HTML estático sem passar no middleware.
+// Sem isto, /blog/* vira 404 ou meta-refresh 200 em vez de 301.
+export const prerender = false;
+
+const target = resolveLegacyRedirect(Astro.url.pathname);
+if (!target) {
+  return Astro.redirect("/guias", 301);
+}
+
+return Astro.redirect(target, 301);
+---

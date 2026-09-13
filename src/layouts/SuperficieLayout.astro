@@ -3,6 +3,7 @@ import SuperficieFooter from "@/components/superficie/SuperficieFooter.astro";
 import SuperficieHeader from "@/components/superficie/SuperficieHeader.astro";
 import AnalyticsCollector from "@/components/AnalyticsCollector.astro";
 import GlobalSearchModal from "@/components/GlobalSearchModal.astro";
+import { clinicLocalBusinessSchema } from "@/lib/seo";
 import { magazineDescription } from "@/lib/superficie";
 import { normalizeBasePath, withBasePath } from "@/lib/site-path";
 import { themeBootScript } from "@/lib/theme";
@@ -159,7 +160,7 @@ const extras = Array.isArray(extraSchema)
     : [];
 const structuredData = {
   "@context": "https://schema.org",
-  "@graph": [...baseGraph, ...extras],
+  "@graph": [...baseGraph, clinicLocalBusinessSchema(siteUrl), ...extras],
 };
 const alternateFeeds = alternateFeedsForPath(Astro.url.pathname);
 ---
@@ -167,30 +168,6 @@ const alternateFeeds = alternateFeedsForPath(Astro.url.pathname);
 <!doctype html>
 <html lang="pt-BR">
   <head>
-    {
-      /*
-      Comentário de chave: `is:inline` entrega o script literalmente, então
-      qualquer // dentro dele chega ao código-fonte de toda página. Isto aqui
-      não é enviado.
-
-      `anonymize_ip` é herança do Universal Analytics — o GA4 descarta o IP
-      antes de gravar e ignora o parâmetro. A linha registra a intenção, não
-      é um controle, e não substitui consentimento antes do disparo nem
-      /privacidade nomeando o Google como operador.
-    */
-    }
-    <script
-      is:inline
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-GJGLLWV2KS"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-      gtag("config", "G-GJGLLWV2KS", { anonymize_ip: true });
-    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script is:inline set:html={themeBootScript} />

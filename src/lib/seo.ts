@@ -1,5 +1,7 @@
 import { author, books } from "./books.ts";
+import { clinic } from "./clinic.ts";
 import { responsibleDoctor } from "./doctor.ts";
+import { exactRedirects } from "./legacy-redirects.ts";
 import { guides } from "./guides.ts";
 import { getRadarReportPath, radarReports } from "./radar.ts";
 import { getMagazineArticlePath, publishedArticles } from "./superficie.ts";
@@ -66,6 +68,7 @@ export const physicianCredentials = [
 
 const sitemapExcludedExact = new Set([
   "/blog",
+  ...exactRedirects.keys(),
   "/videos",
   "/exames",
   "/profissionais",
@@ -95,6 +98,7 @@ const pageLastmods: Record<string, string> = {
   "/autocuidado": "2026-07-26",
   "/autor/philipe-saraiva-cruz": "2026-08-07",
   "/causas": "2026-07-26",
+  "/contato": "2026-09-13",
   "/diagnostico": "2026-08-25",
   "/ferramentas": "2026-08-25",
   "/ferramentas/deq-5": "2026-08-25",
@@ -131,6 +135,7 @@ export const normalizeSitemapPath = (value: string) => {
 export const isIndexableSitemapPath = (value: string) => {
   const path = normalizeSitemapPath(value);
   if (sitemapExcludedExact.has(path)) return false;
+  if (path === "/blog" || path.startsWith("/blog/")) return false;
   return !sitemapExcludedPrefixes.some(
     (prefix) => path === prefix || path.startsWith(`${prefix}/`),
   );
@@ -261,15 +266,47 @@ export const physicianSchema = (siteUrl: URL) => ({
   affiliation: {
     "@type": "Organization",
     name: physician.affiliation,
+    url: clinic.url,
     address: {
       "@type": "PostalAddress",
+      streetAddress: clinic.streetAddress,
       addressLocality: physician.affiliationLocality,
       addressRegion: physician.affiliationRegion,
+      postalCode: clinic.postalCode,
       addressCountry: "BR",
     },
   },
   sameAs: [...physician.sameAs],
   hasCredential: [...physicianCredentials],
+});
+
+export const clinicLocalBusinessId = `${clinic.url}/#localbusiness`;
+
+/**
+ * Complemento de SEO local. Não é MedicalBusiness nem CTA de funil: só
+ * endereço e telefone da clínica presencial, no domínio dela.
+ */
+export const clinicLocalBusinessSchema = (_siteUrl: URL) => ({
+  "@type": "LocalBusiness",
+  "@id": clinicLocalBusinessId,
+  name: clinic.name,
+  legalName: clinic.legalName,
+  url: clinic.url,
+  telephone: clinic.telephoneE164,
+  taxID: clinic.taxId,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: clinic.streetAddress,
+    addressLocality: clinic.addressLocality,
+    addressRegion: clinic.addressRegion,
+    postalCode: clinic.postalCode,
+    addressCountry: clinic.addressCountry,
+  },
+  areaServed: {
+    "@type": "City",
+    name: clinic.addressLocality,
+  },
+  openingHours: [...clinic.openingHours],
 });
 
 export interface FaqItem {

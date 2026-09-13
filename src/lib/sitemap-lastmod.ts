@@ -32,6 +32,7 @@ const staticPages: Record<string, string> = {
   "/autocuidado": "2026-07-26",
   "/autor/philipe-saraiva-cruz": "2026-08-07",
   "/causas": "2026-07-26",
+  "/contato": "2026-09-13",
   "/diagnostico": "2026-08-25",
   "/ferramentas": "2026-08-25",
   "/ferramentas/deq-5": "2026-08-25",
