@@ -75,6 +75,53 @@ test("manifest validation accepts assets published below a base path", () => {
   assert.equal(result.success, true);
 });
 
+test("manifest validation accepts a portrait pageSize and rejects nonsense", () => {
+  const accepted = validateIssueManifest({
+    ...validManifest,
+    pageSize: { width: 1400, height: 1867 },
+  });
+  assert.equal(accepted.success, true, accepted.errors.join("\n"));
+  assert.deepEqual(accepted.data?.pageSize, { width: 1400, height: 1867 });
+  for (const pageSize of [
+    { width: 0, height: 1867 },
+    { width: 1400.5, height: 1867 },
+    { width: 1867, height: 1400 },
+    { width: 100, height: 1867 },
+    "1400x1867",
+  ]) {
+    const rejected = validateIssueManifest({ ...validManifest, pageSize });
+    assert.equal(rejected.success, false, JSON.stringify(pageSize));
+    assert.match(rejected.errors.join(" "), /pageSize/u);
+  }
+});
+
+test("published issues declare the pixel size of their plates", async () => {
+  for (const [issue, expected] of [
+    ["edicao-00", { width: 1400, height: 1867 }],
+    ["poc", { width: 1400, height: 1980 }],
+  ] as const) {
+    const manifest = JSON.parse(
+      await readFile(`public/superficie/issues/${issue}/manifest.json`, "utf8"),
+    );
+    assert.deepEqual(manifest.pageSize, expected, issue);
+  }
+});
+
+test("the reader rehydrates the text window when the flip engine mounts", async () => {
+  const source = await readFile("src/superficie/reader/reader-app.ts", "utf8");
+  const upgrade = source.slice(
+    source.indexOf("private async upgradeToPageFlip"),
+    source.indexOf("private async rebuildAdapter"),
+  );
+  assert.match(upgrade, /hydrateWindow\(this\.currentPage\)/u);
+  assert.doesNotMatch(upgrade, /hydrateImages/u);
+  const mount = source.slice(
+    source.indexOf("private mountVisibleReader"),
+    source.indexOf("private async upgradeToPageFlip"),
+  );
+  assert.match(mount, /hydrateWindow\(this\.currentPage\)/u);
+});
+
 test("manifest validation rejects external assets and invalid references", () => {
   const unsafe = {
     ...validManifest,

@@ -9,7 +9,11 @@ Disallow: /superficie/lab/
 # carregando o carimbo interno de checagem editorial.
 Disallow: /superficie/issues/
 
-# A edição em PDF é entrega ao leitor, não plumbing: continua indexável.
-Allow: /superficie/issues/edicao-00/superficie-edicao-00.pdf
+# O PDF da edição NÃO é exceção ao Disallow acima. `buildPlaceholderPdf()`
+# gera um fallback de 10 KB — uma linha por página, sem acentuação correta —
+# que existe só para o reader ter um `pdfFallback` quando o canvas falha.
+# Ele já esteve com `Allow:` aqui e ficou público e indexável enquanto
+# /superficie/edicao-00 dizia "download ainda indisponível". Quando houver
+# uma edição em PDF de verdade, reabra a linha junto com o botão da página.
 
 Sitemap: https://olhossecos.com.br/sitemap-index.xml

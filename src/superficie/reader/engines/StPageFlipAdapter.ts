@@ -1,5 +1,11 @@
 import { PageFlip } from "page-flip";
-import { A4_PAGE_HEIGHT, A4_PAGE_WIDTH, fitA4Page } from "../fit-page.ts";
+import {
+  A4_PAGE_HEIGHT,
+  A4_PAGE_RATIO,
+  A4_PAGE_WIDTH,
+  availableStageSize,
+  fitA4Page,
+} from "../fit-page.ts";
 import type { DisplayMode } from "../types.ts";
 import type { PageChangeListener, PageTurnAdapter } from "./PageTurnAdapter.ts";
 
@@ -16,14 +22,30 @@ export class StPageFlipAdapter implements PageTurnAdapter {
   private displayMode: DisplayMode = "single";
   private fittedWidth = A4_PAGE_WIDTH;
   private fittedHeight = A4_PAGE_HEIGHT;
+  /**
+   * Tamanho pedido pelo controlador. Enquanto for nulo o adapter mede o
+   * palco sozinho; depois de `fitToAvailable` ele obedece, senão o zoom
+   * seria descartado a cada remontagem.
+   */
+  private requestedSize: { width: number; height: number } | null = null;
+  /**
+   * Modo com que o engine foi montado. Quando o palco é limitado pela altura,
+   * página única e dupla chegam à mesma largura por página, então comparar só
+   * o tamanho deixaria o leitor presto numa página quando deveria abrir duas.
+   */
+  private mountedDisplayMode: DisplayMode | null = null;
+  private readonly pageRatio: number;
 
-  constructor(startPage = 1) {
+  constructor(startPage = 1, pageRatio: number = A4_PAGE_RATIO) {
     this.startPage = startPage;
+    this.pageRatio =
+      Number.isFinite(pageRatio) && pageRatio > 0 ? pageRatio : A4_PAGE_RATIO;
   }
 
   mount(element: HTMLElement): void {
     this.destroy();
     this.element = element;
+    element.setAttribute("data-display-mode", this.displayMode);
     const pageElements = Array.from(
       element.querySelectorAll<HTMLElement>("[data-reader-page]"),
     );
@@ -34,7 +56,7 @@ export class StPageFlipAdapter implements PageTurnAdapter {
     engineHost.className = "reader-page-engine";
     element.append(engineHost);
 
-    const fitted = this.measureFit(element);
+    const fitted = this.requestedSize ?? this.measureFit(element);
     this.fittedWidth = fitted.width;
     this.fittedHeight = fitted.height;
     engineHost.style.width =
@@ -81,6 +103,7 @@ export class StPageFlipAdapter implements PageTurnAdapter {
     });
     this.engine.loadFromHTML(pageElements);
     this.mounted = true;
+    this.mountedDisplayMode = this.displayMode;
   }
 
   goToPage(page: number): void {
@@ -112,12 +135,18 @@ export class StPageFlipAdapter implements PageTurnAdapter {
     this.element?.setAttribute("data-display-mode", mode);
   }
 
+  getDisplayMode(): DisplayMode | null {
+    return this.mounted ? this.mountedDisplayMode : null;
+  }
+
   fitToAvailable(pageWidth: number, pageHeight: number): void {
     const width = Math.max(1, Math.round(pageWidth));
     const height = Math.max(1, Math.round(pageHeight));
+    this.requestedSize = { width, height };
     if (
       this.fittedWidth === width &&
       this.fittedHeight === height &&
+      this.mountedDisplayMode === this.displayMode &&
       this.mounted
     ) {
       this.engine?.update();
@@ -131,8 +160,6 @@ export class StPageFlipAdapter implements PageTurnAdapter {
     const currentPage = this.getCurrentPage();
     const host = this.element;
     this.startPage = currentPage;
-    this.fittedWidth = width;
-    this.fittedHeight = height;
     this.mount(host);
   }
 
@@ -160,20 +187,30 @@ export class StPageFlipAdapter implements PageTurnAdapter {
     this.element?.querySelector(".reader-page-engine")?.remove();
     this.engine = null;
     this.mounted = false;
+    this.mountedDisplayMode = null;
     this.requestedPage = null;
     this.acceptEngineEvents = false;
     this.requestedPageTimer = null;
     this.element = null;
   }
 
+  /**
+   * Só vale para a primeira montagem. Mede como `availableStageSize`, isto é
+   * descontando o padding do palco, senão a primeira chamada de `applyZoom`
+   * discordaria por alguns pixels e remontaria o engine à toa.
+   */
   private measureFit(element: HTMLElement): { width: number; height: number } {
-    const stage =
-      element.closest<HTMLElement>(".reader-stage") ?? element.parentElement;
-    const bounds = stage?.getBoundingClientRect();
-    const availableWidth = Math.max(1, bounds?.width ?? A4_PAGE_WIDTH);
-    const availableHeight = Math.max(1, bounds?.height ?? A4_PAGE_HEIGHT);
+    const stage = element.closest<HTMLElement>(".reader-stage");
+    const available = stage
+      ? availableStageSize(stage)
+      : { width: A4_PAGE_WIDTH, height: A4_PAGE_HEIGHT };
     const pagesInView = this.displayMode === "double" ? 2 : 1;
-    const fitted = fitA4Page(availableWidth, availableHeight, pagesInView);
+    const fitted = fitA4Page(
+      Math.max(1, available.width),
+      Math.max(1, available.height),
+      pagesInView,
+      this.pageRatio,
+    );
     return {
       width: Math.max(1, Math.round(fitted.width)),
       height: Math.max(1, Math.round(fitted.height)),

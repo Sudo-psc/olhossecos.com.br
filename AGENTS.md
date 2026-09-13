@@ -58,20 +58,6 @@ npm run format  # Prettier + prettier-plugin-astro
 - PR com resumo curto e, para mudança visual, captura de antes e depois.
 - Confirme `npm run check` antes de pedir revisão.
 
-## Conteúdo médico
-
-Este site publica orientação de saúde sob a responsabilidade de um médico
-identificado (CRM-MG 69.870 · RQE 71.903).
-
-- Referência nova precisa ser **conferida no Crossref ou PubMed** antes de entrar:
-  autor e título têm que bater. Buscas devolvem cartas ao editor e errata como
-  primeiro resultado com frequência.
-- Onde a evidência for fraca, curta ou de efeito transitório, **diga isso no
-  texto**. Não omita limitação para deixar a recomendação mais atraente.
-- Nada de promessa de resultado, superlativo ou comparação com concorrente.
-- Imagem gerada por IA carrega divulgação obrigatória (ver `figures.ts`), e
-  precisa ilustrar o que a seção de fato afirma — não só parecer bonita.
-
 ## Segurança e configuração
 
 - Copie `.env.example` para `.env`. As variáveis reais cobrem analytics,

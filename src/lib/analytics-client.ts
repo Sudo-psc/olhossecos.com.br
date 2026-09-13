@@ -1,3 +1,4 @@
+import { resolveAnalyticsEventName } from "./analytics-events.ts";
 import { sanitizeAnalyticsProperty } from "./analytics-safety.ts";
 
 const safePropertyNames = new Set([
@@ -27,25 +28,14 @@ const safePropertyNames = new Set([
   "utm_term",
 ]);
 
-const eventAliases = new Map([
-  ["click_book", "book_click"],
-  ["click_purchase", "purchase_click"],
-  ["click_superficie", "magazine_entry"],
-  ["home_view", "page_view"],
-  ["issue_click", "magazine_issue_click"],
-  ["media_kit_click", "partner_media_kit_click"],
-  ["professional_path_click", "professional_area_entry"],
-  ["superficie_click", "magazine_entry"],
-  ["superficie_home_view", "magazine_home_view"],
-  ["superficie_issue_click", "magazine_issue_click"],
-  ["view_book", "book_view"],
-]);
-
 export const getInitialAnalyticsEvent = (pathname: string) => {
   if (/^\/livros\/[^/]+$/u.test(pathname)) return "book_view";
   if (/^\/superficie\/artigos\/[^/]+$/u.test(pathname)) return "article_view";
   if (/^\/superficie\/edicao-[^/]+$/u.test(pathname)) {
     return "magazine_issue_view";
+  }
+  if (pathname === "/ferramentas/deq-5" || pathname === "/ferramentas/diario") {
+    return "tool_open";
   }
   return "page_view";
 };
@@ -56,9 +46,11 @@ export const getSafeAnalyticsDetail = (
 ) => {
   if (typeof detail.event !== "string" || !detail.event.trim()) return null;
 
+  const eventName = resolveAnalyticsEventName(detail.event);
+  if (!eventName) return null;
+
   const safe: Record<string, string | number> = {
-    event:
-      eventAliases.get(detail.event.trim()) ?? detail.event.trim().slice(0, 80),
+    event: eventName,
     page_path: pathname,
   };
   for (const property of safePropertyNames) {

@@ -97,6 +97,7 @@ const fullManifest = {
   number: issue.number,
   title: issue.title,
   pageCount: issue.pages.length,
+  pageSize: { width: PAGE_WIDTH, height: PAGE_HEIGHT },
   pages: manifestPages,
   toc: issue.toc,
   articles: issue.articles,

@@ -22,6 +22,8 @@ test("classifica visualizações editoriais pelas rotas canônicas", () => {
     "magazine_issue_view",
   );
   assert.equal(getInitialAnalyticsEvent("/olho-seco"), "page_view");
+  assert.equal(getInitialAnalyticsEvent("/ferramentas/deq-5"), "tool_open");
+  assert.equal(getInitialAnalyticsEvent("/ferramentas/diario"), "tool_open");
 });
 
 test("completa o caminho sem copiar propriedades potencialmente pessoais", () => {
@@ -65,6 +67,12 @@ test("remove PII semântica de UTMs e URLs antes de enviar o evento", () => {
 test("recusa detalhe sem nome de evento válido", () => {
   assert.equal(getSafeAnalyticsDetail({ event: "" }, "/"), null);
   assert.equal(getSafeAnalyticsDetail({}, "/"), null);
+});
+
+test("ignora eventos internos do dataLayer do gtag para não gerar 422", () => {
+  assert.equal(getSafeAnalyticsDetail({ event: "gtm.js" }, "/"), null);
+  assert.equal(getSafeAnalyticsDetail({ event: "gtag.js" }, "/"), null);
+  assert.equal(getSafeAnalyticsDetail({ event: "email_capture" }, "/"), null);
 });
 
 test("aceita métricas seguras do reader e descarta conteúdo privado", () => {

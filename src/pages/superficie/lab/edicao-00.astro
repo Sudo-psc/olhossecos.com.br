@@ -32,6 +32,7 @@ const cover = issue.pages[0];
     manifestUrl="/superficie/issues/edicao-00/manifest.json"
     issueLabel={`${issue.number} · ${issue.title}`}
     pageCount={issue.pageCount}
+    pageSize={issue.pageSize}
     pdfHref={issue.pdfFallback}
     coverSrc={cover?.image.medium}
     coverAlt={cover?.alt ?? "Capa da Edição 00"}

@@ -5,6 +5,11 @@ import { figures, openImageCredits, type FigureAsset } from "./figures.ts";
 
 const assetPath = (src: string) => `public${src}`;
 
+type LicensedFigureAsset = FigureAsset & {
+  credit: NonNullable<FigureAsset["credit"]>;
+  license: NonNullable<FigureAsset["license"]>;
+};
+
 test("toda figura declara um arquivo-fonte existente", () => {
   const missing = Object.entries(figures)
     .filter(([, figure]) => !existsSync(assetPath(figure.src)))
@@ -16,12 +21,8 @@ test("toda figura declara um arquivo-fonte existente", () => {
 test("figura com licença aberta traz crédito com URL e o arquivo da licença", () => {
   const catalog = Object.entries(figures) as [string, FigureAsset][];
   const licensed = catalog.filter(
-    (
-      entry,
-    ): entry is [
-      string,
-      FigureAsset & { license: NonNullable<FigureAsset["license"]> },
-    ] => Boolean(entry[1].license),
+    (entry): entry is [string, LicensedFigureAsset] =>
+      Boolean(entry[1].credit && entry[1].license),
   );
 
   assert.ok(licensed.length >= 2, "faltam figuras de licença aberta");
@@ -34,7 +35,7 @@ test("figura com licença aberta traz crédito com URL e o arquivo da licença",
 });
 
 test("as figuras de Hwang et al. 2013 apontam para o DOI do PLoS ONE e CC BY 4.0", () => {
-  const hwang: FigureAsset[] = [
+  const hwang: LicensedFigureAsset[] = [
     figures.meibographyInfraredHwang2013,
     figures.meibographyOct3dHwang2013,
     figures.meibographyMildMgdHwang2013,

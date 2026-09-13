@@ -3,6 +3,10 @@
   "number": "00",
   "title": "A nova era da superfície ocular",
   "pageCount": 27,
+  "pageSize": {
+    "width": 1400,
+    "height": 1867
+  },
   "pages": [
     {
       "number": 1,
@@ -391,19 +395,13 @@
     {
       "id": "biologia-molecular-da-dgm",
       "title": "Além da obstrução: a biologia molecular da DGM",
-      "pages": [
-        4,
-        5
-      ],
+      "pages": [4, 5],
       "htmlPath": "/superficie/issues/edicao-00/articles/biologia-molecular-da-dgm.html"
     },
     {
       "id": "tfos-dews-iii-na-pratica",
       "title": "TFOS DEWS III na prática",
-      "pages": [
-        6,
-        7
-      ],
+      "pages": [6, 7],
       "htmlPath": "/superficie/issues/edicao-00/articles/tfos-dews-iii-na-pratica.html"
     }
   ],

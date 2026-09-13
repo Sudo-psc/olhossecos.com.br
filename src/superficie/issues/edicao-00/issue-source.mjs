@@ -4,8 +4,12 @@
  * O reader não importa este módulo — só o `manifest.json` gerado. A cópia
  * das páginas DGM/TFOS é selada (why-it-matters / practice / limitations).
  * O HTML canônico continua nas rotas `/superficie/artigos/*`.
- * `founderIssue.articles` permanece []. Rascunhos selados 1–10 não têm
- * articleId nem rota HTML nova.
+ *
+ * As doze matérias da edição estão publicadas. Só DGM e TFOS carregam
+ * `articleId` — as outras dez são recortes escritos à mão, sem vínculo de
+ * dados com o artigo. Por isso a copy das páginas fixas (capa, editorial,
+ * sumário) precisa ser revista quando o número de matérias no ar muda: ela
+ * já ficou dizendo "duas no ar e dez seladas" com doze publicadas.
  */
 export const issue = {
   id: "edicao-00",
@@ -18,13 +22,17 @@ export const issue = {
       type: "cover",
       plate: "p01-capa",
       theme: "dark",
-      eyebrow: "EDIÇÃO 00 · EM PRODUÇÃO",
+      eyebrow: "EDIÇÃO 00 · ARTIGOS NO AR",
       title: "SUPERFÍCIE",
       subtitle: "A nova era da superfície ocular",
       body: [
         "Do sintoma ao fenótipo: diagnóstico multimodal e terapias dirigidas por mecanismo.",
       ],
-      footer: "Laboratório · não indexar",
+      // Sem `footer`: cai no padrão "SUPERFÍCIE · EDIÇÃO 00". O carimbo
+      // "Laboratório · não indexar" ficava queimado no pixel da capa, e o
+      // `lab-stamp-mask` do reader só esconde o bloco de texto — quem abria
+      // o reader via o carimbo interno na imagem. O bloqueio de indexação
+      // é responsabilidade do robots.txt e do middleware, não da arte.
     },
     {
       type: "ad",
@@ -38,12 +46,12 @@ export const issue = {
       plate: "p03-editorial",
       theme: "light",
       eyebrow: "EDITORIAL",
-      title: "Duas leituras, edição ainda em produção",
+      title: "Duas leituras da mesma edição",
       subtitle: "O HTML publicado é o texto canônico desta revista.",
       body: [
-        "Este caderno de laboratório reúne as matérias já no ar da SUPERFÍCIE — a biologia molecular da DGM e o TFOS DEWS III na prática — e os recortes das dez matérias seladas da edição 0.",
-        "A Edição Fundadora nº 0 continua em produção. O que você vê aqui é um objeto de revista para o reader — não é o editorial fundador ainda não escrito, e não substitui as páginas HTML.",
-        "O texto canônico de cada matéria permanece em /superficie/artigos/. Referências, disclosures e o selo editorial estão lá. Nestas páginas impressas há só o recorte que cabe no papel.",
+        "As doze matérias da Edição Fundadora estão no ar em /superficie/artigos/. Estas páginas são o recorte impresso de cada uma delas — a leitura de revista, não uma segunda versão do texto.",
+        "A Edição Fundadora nº 00 fecha em novembro de 2026. O que você vê aqui é o objeto de revista que alimenta o reader; não é o editorial fundador, que será publicado com o fechamento.",
+        "O texto canônico de cada matéria permanece em /superficie/artigos/. Referências, disclosures e o selo editorial estão lá. Nestas páginas há só o recorte que cabe no papel.",
       ],
     },
     {
@@ -52,7 +60,7 @@ export const issue = {
       theme: "light",
       eyebrow: "SUMÁRIO",
       title: "Nesta edição",
-      subtitle: "Recortes de laboratório. A edição continua em produção.",
+      subtitle: "As doze matérias no ar. A edição impressa fecha em novembro.",
       body: [
         "01 Capa",
         "02 PUBLICIDADE",

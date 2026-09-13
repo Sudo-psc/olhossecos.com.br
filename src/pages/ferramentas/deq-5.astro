@@ -1,0 +1,130 @@
+---
+import ToolsShell from "@/components/tools/ToolsShell.astro";
+import Layout from "@/layouts/Layout.astro";
+import { responsibleDoctor } from "@/lib/doctor";
+import { toolCatalog } from "@/lib/tools/catalog";
+import {
+  deq5Citation,
+  deq5FrequencyOptions,
+  deq5IntensityOptions,
+  deq5Items,
+  deq5Source,
+  deq5SupportGloss,
+} from "@/lib/tools/deq5";
+
+const tool = toolCatalog[0];
+const breadcrumbs = [
+  { name: "Início", url: "/" },
+  { name: "Ferramentas", url: "/ferramentas" },
+  { name: "DEQ-5", url: tool.href },
+];
+
+const extraSchema = {
+  "@type": "WebApplication",
+  name: "DEQ-5",
+  applicationCategory: "HealthApplication",
+  operatingSystem: "Any",
+  isAccessibleForFree: true,
+  description: tool.description,
+  author: {
+    "@type": "Person",
+    name: `Dr. ${responsibleDoctor.name}`,
+    identifier: responsibleDoctor.registration,
+  },
+};
+---
+
+<Layout
+  title={tool.title}
+  description={tool.description}
+  schemaType="MedicalWebPage"
+  dateModified="2026-08-25"
+  breadcrumbs={breadcrumbs}
+  extraSchema={extraSchema}
+>
+  <ToolsShell
+    kicker="DEQ-5"
+    title={tool.title}
+    lead="Cinco itens no enunciado original. O escore descreve sintomas — não fecha diagnóstico."
+    crumbs={breadcrumbs}
+  >
+    <p class="source">
+      Fonte: <cite>{deq5Citation}</cite>
+      <a href={deq5Source.url} rel="noreferrer">DOI {deq5Source.doi}</a>
+    </p>
+
+    <div data-deq5>
+      <form data-deq5-form>
+        {
+          deq5Items.map((item, index) => {
+            const options =
+              item.kind === "intensity"
+                ? deq5IntensityOptions
+                : deq5FrequencyOptions;
+            return (
+              <fieldset>
+                <legend id={`${item.id}-legend`}>
+                  {index + 1}. {item.prompt}
+                </legend>
+                <p class="tool-gloss">{deq5SupportGloss[item.id]}</p>
+                <div class="tool-options">
+                  {options.map((option) => (
+                    <label class="tool-option">
+                      <input
+                        type="radio"
+                        name={item.id}
+                        value={String(option.value)}
+                        required
+                      />
+                      <span>
+                        {option.label} ({option.value})
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+            );
+          })
+        }
+      </form>
+
+      <section
+        class="tool-panel"
+        data-deq5-result
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        <p>O escore aparece quando as cinco perguntas tiverem resposta.</p>
+      </section>
+
+      <div class="tool-actions">
+        <button class="button-primary" type="button" data-deq5-pdf disabled>
+          Baixar PDF de uma página
+        </button>
+      </div>
+    </div>
+  </ToolsShell>
+</Layout>
+
+<script>
+  import { mountDeq5 } from "@/lib/tools/deq5-ui";
+
+  const root = document.querySelector<HTMLElement>("[data-deq5]");
+  if (root) mountDeq5(root);
+</script>
+
+<style>
+  .source {
+    max-width: 46rem;
+    margin: 0 0 1.75rem;
+    color: var(--ink-soft);
+    font-size: var(--text-small);
+  }
+
+  .source a {
+    display: inline-block;
+    margin-left: 0.35rem;
+    color: var(--teal-dark);
+    text-decoration: underline;
+  }
+</style>

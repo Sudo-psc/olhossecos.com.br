@@ -9,7 +9,9 @@ import {
 } from "@/lib/superficie";
 import { selectRelatedContent } from "@/lib/related-content";
 import { articleTemplatePreview } from "@/lib/superficie-preview";
-import { responsibleDoctor } from "@/lib/doctor";
+import { isResponsibleDoctorName, responsibleDoctor } from "@/lib/doctor";
+import { highwireTagsForArticle } from "@/lib/highwire";
+import { physician, physicianCredentials } from "@/lib/seo";
 
 export function getStaticPaths() {
   const invalid = publishedArticles.flatMap((article) =>
@@ -58,17 +60,19 @@ const articleImageType =
 
 const articleSchema = isPublished
   ? {
-      "@type": "Article",
+      "@type": "MedicalScholarlyArticle",
       "@id": `${articleUrl}#article`,
       headline: article.title,
       description: article.excerpt,
       datePublished: article.publishedAt,
       dateModified: article.modifiedAt ?? article.publishedAt,
+      dateCreated: article.publishedAt,
       inLanguage: "pt-BR",
       isAccessibleForFree: true,
       articleSection: article.category,
       keywords: article.tags.join(", "),
       image: new URL(articleImage, Astro.site).href,
+      identifier: article.doi ? `https://doi.org/${article.doi}` : undefined,
       author: {
         "@type": "Person",
         name: article.author.name,
@@ -76,8 +80,12 @@ const articleSchema = isPublished
         ...(authorUrl ? { url: authorUrl } : {}),
         // Registro no schema pelo mesmo motivo que ele está no rodapé: em
         // conteúdo médico, quem assina precisa ser verificável.
-        ...(article.author.name === responsibleDoctor.name
-          ? { identifier: responsibleDoctor.registration }
+        ...(isResponsibleDoctorName(article.author.name)
+          ? {
+              identifier: responsibleDoctor.registration,
+              sameAs: [...physician.sameAs],
+              hasCredential: [...physicianCredentials],
+            }
           : {}),
       },
       publisher: {
@@ -85,7 +93,18 @@ const articleSchema = isPublished
       },
       isPartOf: { "@id": new URL("/superficie#periodical", Astro.site).href },
       mainEntityOfPage: { "@id": `${articleUrl}#webpage` },
-      citation: article.references.map((reference) => reference.url),
+      citation: article.references.map((reference) => {
+        const doi = reference.doi?.replace(
+          /^https?:\/\/(?:dx\.)?doi\.org\//u,
+          "",
+        );
+        return {
+          "@type": "ScholarlyArticle",
+          name: reference.label,
+          url: reference.url,
+          ...(doi ? { identifier: `https://doi.org/${doi}` } : {}),
+        };
+      }),
       ...(article.sponsored && article.sponsor
         ? {
             sponsor: {
@@ -118,6 +137,7 @@ const articleSchema = isPublished
     { name: article.title, url: canonicalPath },
   ]}
   extraSchema={articleSchema}
+  highwire={isPublished ? highwireTagsForArticle(article) : []}
 >
   <MagazineArticlePage {article} {related} />
 

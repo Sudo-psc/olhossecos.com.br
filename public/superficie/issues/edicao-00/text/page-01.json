@@ -3,7 +3,7 @@
   "blocks": [
     {
       "id": "page-1-eyebrow",
-      "text": "EDIÇÃO 00 · EM PRODUÇÃO",
+      "text": "EDIÇÃO 00 · ARTIGOS NO AR",
       "x": 0.1,
       "y": 0.065,
       "width": 0.8,
@@ -36,15 +36,6 @@
       "width": 0.8,
       "height": 0.040707016604177824,
       "role": "paragraph"
-    },
-    {
-      "id": "page-1-footer",
-      "text": "Laboratório · não indexar",
-      "x": 0.1,
-      "y": 0.93,
-      "width": 0.6,
-      "height": 0.025,
-      "role": "label"
     },
     {
       "id": "page-1-number",

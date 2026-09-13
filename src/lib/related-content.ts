@@ -72,25 +72,25 @@ const portalContent: Record<string, PortalContent> = {
     description:
       "Possibilidades de cuidado apresentadas pelos mecanismos predominantes e pelos objetivos de cada etapa.",
   },
-  "/profissionais": {
+  "/profissional": {
     type: "page",
-    href: "/profissionais",
-    label: "Portal · Profissionais",
-    title: "Superfície ocular em profundidade",
+    href: "/profissional",
+    label: "Portal profissional",
+    title: "Superfície ocular, com a limitação declarada",
     description:
-      "Eixos técnicos do portal sobre diagnóstico multimodal, fenotipagem, imagem, terapias e evidências.",
+      "Home do portal profissional: revista SUPERFÍCIE, RADAR Científico e os eixos técnicos do site.",
   },
-  "/profissionais#diagnostico": {
+  "/profissional#diagnostico": {
     type: "page",
-    href: "/profissionais#diagnostico",
+    href: "/profissional#diagnostico",
     label: "Portal · Diagnóstico",
     title: "Diagnóstico multimodal",
     description:
       "Integração entre história clínica, sinais, estabilidade lacrimal, colorações, imagem e contexto.",
   },
-  "/profissionais#evidencias": {
+  "/profissional#evidencias": {
     type: "page",
-    href: "/profissionais#evidencias",
+    href: "/profissional#evidencias",
     label: "Portal · Evidências",
     title: "Evidências para a prática profissional",
     description:
@@ -121,7 +121,7 @@ const relatedContentByArticle: Record<string, readonly RelatedContentRef[]> = {
     "article:prehab-ocular",
     "article:terapias-dirigidas-por-mecanismo",
     "page:/tratamentos",
-    "page:/profissionais#evidencias",
+    "page:/profissional#evidencias",
   ],
   "alem-do-meiboscore": [
     "article:biologia-molecular-da-dgm",
@@ -133,7 +133,7 @@ const relatedContentByArticle: Record<string, readonly RelatedContentRef[]> = {
     "article:tfos-dews-iii-na-pratica",
     "article:quando-sintomas-e-sinais-nao-batem",
     "article:alem-do-meiboscore",
-    "page:/profissionais#diagnostico",
+    "page:/profissional#diagnostico",
   ],
   "a-prega-o-atrito-e-o-piscar": [
     "guide:conjuntivocalase-olho-seco-mecanico",
@@ -145,7 +145,7 @@ const relatedContentByArticle: Record<string, readonly RelatedContentRef[]> = {
     "article:alem-do-meiboscore",
     "article:cinco-testes-cinco-perguntas",
     "article:quando-sintomas-e-sinais-nao-batem",
-    "page:/profissionais#diagnostico",
+    "page:/profissional#diagnostico",
   ],
   "anti-demodex": [
     "article:biologia-molecular-da-dgm",
@@ -169,7 +169,13 @@ const relatedContentByArticle: Record<string, readonly RelatedContentRef[]> = {
     "article:terapias-dirigidas-por-mecanismo",
     "article:tres-meses-nao-sao-doze",
     "article:ia-na-superficie-ocular",
-    "page:/profissionais",
+    "page:/profissional",
+  ],
+  "olho-seco-oct-rnfl": [
+    "article:cinco-testes-cinco-perguntas",
+    "article:quando-sintomas-e-sinais-nao-batem",
+    "article:tfos-dews-iii-na-pratica",
+    "page:/diagnostico",
   ],
 };
 

@@ -7,6 +7,7 @@ import {
   generateAbntCitation,
   generateVancouverCitation,
   generateBibtexCitation,
+  generateRisCitation,
   generateAllCitations,
 } from "./citations.ts";
 import { publishedArticles } from "./superficie.ts";
@@ -74,11 +75,40 @@ test("generateBibtexCitation gera bloco BibTeX integro", () => {
   );
 });
 
+test("citações incluem o DOI quando o frontmatter o traz", () => {
+  const withDoi = {
+    ...sampleArticle,
+    doi: "10.5281/zenodo.9999999",
+  };
+  assert.match(
+    generateAbntCitation(withDoi),
+    /DOI: https:\/\/doi.org\/10.5281\/zenodo.9999999/u,
+  );
+  assert.match(
+    generateVancouverCitation(withDoi),
+    /doi: 10.5281\/zenodo.9999999/u,
+  );
+  assert.match(
+    generateBibtexCitation(withDoi),
+    /doi = \{10.5281\/zenodo.9999999\}/u,
+  );
+  assert.match(generateRisCitation(withDoi), /DO  - 10.5281\/zenodo.9999999/u);
+});
+
+test("generateRisCitation emite um registro JOUR fechado", () => {
+  const ris = generateRisCitation(sampleArticle);
+  assert.match(ris, /^TY  - JOUR/u);
+  assert.match(ris, /T1  - /u);
+  assert.match(ris, /AU  - Cruz, Philipe Saraiva/u);
+  assert.match(ris, /ER  - /u);
+});
+
 test("generateAllCitations devolve os 3 formatos para todos os artigos publicados", () => {
   for (const article of publishedArticles) {
     const citations = generateAllCitations(article);
     assert.ok(citations.abnt.length > 50);
     assert.ok(citations.vancouver.length > 30);
     assert.ok(citations.bibtex.length > 80);
+    assert.ok(citations.ris.startsWith("TY  - JOUR"));
   }
 });

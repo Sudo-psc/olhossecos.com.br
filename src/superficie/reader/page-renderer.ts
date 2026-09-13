@@ -39,21 +39,12 @@ export class PageRenderer {
     this.highlights = highlights;
   }
 
-  hydrateImages(currentPage: number): void {
-    const minimum = Math.max(1, currentPage - 2);
-    const maximum = Math.min(this.manifest.pageCount, currentPage + 2);
-    this.manifest.pages.forEach((page) => {
-      const element = this.getPageElement(page.number);
-      if (!element) return;
-      if (page.number >= minimum && page.number <= maximum) {
-        this.hydrateImage(element, page, page.number === currentPage);
-      } else {
-        this.dehydrateImage(element);
-      }
-    });
-  }
-
-  async hydrateWindow(currentPage: number): Promise<void> {
+  /**
+   * Hidrata a janela `currentPage ± 2`: imagens de forma síncrona e as
+   * camadas de texto em seguida. `force` reescreve camadas já preenchidas,
+   * necessário quando os destaques só chegam depois da primeira hidratação.
+   */
+  async hydrateWindow(currentPage: number, force = false): Promise<void> {
     const generation = ++this.hydrationGeneration;
     const minimum = Math.max(1, currentPage - 2);
     const maximum = Math.min(this.manifest.pageCount, currentPage + 2);
@@ -64,7 +55,7 @@ export class PageRenderer {
       if (!element) return;
       if (page.number >= minimum && page.number <= maximum) {
         this.hydrateImage(element, page, page.number === currentPage);
-        tasks.push(this.hydrateText(element, page, false, generation));
+        tasks.push(this.hydrateText(element, page, force, generation));
       } else {
         this.dehydrateImage(element);
         element

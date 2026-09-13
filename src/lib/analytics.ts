@@ -2,6 +2,10 @@ import { randomUUID } from "node:crypto";
 import { chmodSync, mkdirSync } from "node:fs";
 import { dirname } from "node:path";
 import { DatabaseSync } from "node:sqlite";
+import {
+  analyticsEventAliases,
+  canonicalAnalyticsEvents,
+} from "./analytics-events.ts";
 import { sanitizeAnalyticsProperty } from "./analytics-safety.ts";
 
 const MAX_BODY_BYTES = 4_096;
@@ -29,62 +33,6 @@ export type AnalyticsHandlerOptions = {
   now?: () => Date;
   rateLimit?: boolean;
 };
-
-const canonicalEvents = new Set([
-  "app_click",
-  "article_click",
-  "article_read_depth",
-  "article_view",
-  "author_click",
-  "book_click",
-  "book_view",
-  "magazine_download",
-  "magazine_entry",
-  "magazine_home_view",
-  "magazine_issue_click",
-  "magazine_issue_view",
-  "newsletter_click",
-  "newsletter_profile_complete",
-  "newsletter_signup",
-  "outbound_click",
-  "page_view",
-  "radar_click",
-  "radar_doi_click",
-  "radar_report_click",
-  "radar_source_click",
-  "reader_open",
-  "page_turn",
-  "search",
-  "bookmark_add",
-  "highlight_create",
-  "note_create",
-  "fullscreen_enter",
-  "share",
-  "citation_copy",
-  "partner_click",
-  "partner_lead_submit",
-  "partner_media_kit_click",
-  "partner_page_view",
-  "patient_path_click",
-  "professional_area_entry",
-  "sponsored_content_view",
-]);
-
-const eventAliases = new Map([
-  ["click_book", "book_click"],
-  ["click_purchase", "purchase_click"],
-  ["click_superficie", "magazine_entry"],
-  ["home_view", "page_view"],
-  ["issue_click", "magazine_issue_click"],
-  ["media_kit_click", "partner_media_kit_click"],
-  ["professional_path_click", "professional_area_entry"],
-  ["superficie_click", "magazine_entry"],
-  ["superficie_home_view", "magazine_home_view"],
-  ["superficie_issue_click", "magazine_issue_click"],
-  ["view_book", "book_view"],
-]);
-
-canonicalEvents.add("purchase_click");
 
 const allowedProperties = new Set([
   "article_path",
@@ -278,9 +226,9 @@ export const handleAnalyticsRequest = async (
   }
 
   const requestedEvent = normalizeText(payload.event, 80);
-  const eventName = eventAliases.get(requestedEvent) ?? requestedEvent;
+  const eventName = analyticsEventAliases.get(requestedEvent) ?? requestedEvent;
   const pagePath = normalizePagePath(payload.page_path);
-  if (!canonicalEvents.has(eventName) || !pagePath) {
+  if (!canonicalAnalyticsEvents.has(eventName) || !pagePath) {
     return jsonResponse({ message: "Evento inválido." }, 422);
   }
 

@@ -68,6 +68,17 @@ const basePath = normalizeBasePath(import.meta.env.BASE_URL);
     font: inherit;
   }
 
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  summary:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid #d9b665;
+    outline-offset: 2px;
+  }
+
   .reader-skip-link {
     position: fixed;
     z-index: 1000;
