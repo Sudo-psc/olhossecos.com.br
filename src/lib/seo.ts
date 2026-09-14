@@ -109,7 +109,7 @@ const pageLastmods: Record<string, string> = {
   "/livros": "2026-08-07",
   "/newsletter": "2026-08-08",
   "/olho-seco": "2026-08-21",
-  "/paciente": "2026-08-25",
+  "/paciente": "2026-09-14",
   "/politica-editorial": "2026-08-25",
   "/politica-de-correcao": "2026-08-25",
   "/privacidade": "2026-08-08",

@@ -72,6 +72,28 @@ test("cada portal aponta para a home do outro", () => {
  * Se a página profissional voltar ao bloco só de texto — ou reaproveitar o
  * filme lacrimal do paciente — a separação visual dos portais se perde.
  */
+/**
+ * A home do paciente ensina com o catálogo de figuras e com a animação do
+ * filme — sem vídeo, sem Lottie e sem inventar outro sistema visual. O teste
+ * tranca o contrato da página, não o CSS.
+ */
+test("o portal do paciente ensina com figuras educativas e movimento leve", async () => {
+  const source = await readFile("src/pages/paciente.astro", "utf8");
+
+  assert.match(source, /import EducationalFigure/u);
+  assert.match(source, /import TearFilmCycle/u);
+  assert.match(source, /figures\.tearFilmLayersEducation/u);
+  assert.match(source, /figures\.blinkCompletenessEducation/u);
+  assert.match(source, /figures\.slitLampAssessment/u);
+  assert.match(source, /figures\.meibographyInfraredHwang2013/u);
+  assert.match(source, /figures\.lidHygieneEducation/u);
+  assert.match(source, /prefers-reduced-motion: reduce/u);
+  assert.match(source, /--reveal-index/u);
+  assert.doesNotMatch(source, /<video/u);
+  assert.doesNotMatch(source, /lottie/iu);
+  assert.match(source, /fetchpriority="high"/u);
+});
+
 test("o hero profissional tem imagem responsiva e independente", async () => {
   const source = await readFile("src/pages/profissional.astro", "utf8");
 
