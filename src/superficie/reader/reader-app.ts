@@ -1,8 +1,20 @@
 import { SiteReaderAnalytics } from "./analytics/SiteReaderAnalytics.ts";
 import { PageAudioController } from "./audio/PageAudioController.ts";
 import { normalizeBasePath, withBasePath } from "../../lib/site-path.ts";
+import {
+  buildEditorialPageMap,
+  remapSearchIndex,
+  withoutAdPages,
+} from "./editorial-pages.ts";
 import type { PageTurnAdapter } from "./engines/PageTurnAdapter.ts";
 import { SimplePageTurnAdapter } from "./engines/SimplePageTurnAdapter.ts";
+import {
+  A4_PAGE_RATIO,
+  availableStageSize,
+  fitA4Page,
+  pageRatioFromSize,
+  pagesInViewForMode,
+} from "./fit-page.ts";
 import { validateIssueManifest } from "./manifest.ts";
 import {
   calculateReadingProgress,
@@ -48,6 +60,7 @@ class MagazineReaderController {
   );
   private storage: ReaderStorage;
   private manifest: IssueManifest | null = null;
+  private pageRatio = A4_PAGE_RATIO;
   private renderer: PageRenderer | null = null;
   private adapter: PageTurnAdapter | null = null;
   private displayMode: DisplayMode = "single";
@@ -57,6 +70,7 @@ class MagazineReaderController {
   private highlights: Highlight[] = [];
   private notes: ReaderNote[] = [];
   private searchIndex: SearchIndexEntry[] | null = null;
+  private editorialPageMap = new Map<number, number>();
   private pendingSelection: CapturedSelection | null = null;
   private suppressAudioOnce = false;
   private loadedArticlePath: string | null = null;
@@ -80,6 +94,13 @@ class MagazineReaderController {
     try {
       const manifest = await this.loadManifest();
       this.manifest = manifest;
+      this.pageRatio = pageRatioFromSize(manifest.pageSize);
+      // A custom property é largura ÷ altura, para alimentar `aspect-ratio`;
+      // `pageRatio` é o inverso, altura ÷ largura, como o fit espera.
+      this.root.style.setProperty(
+        "--reader-page-ratio",
+        String(Number((1 / this.pageRatio).toFixed(4))),
+      );
       this.audio = new PageAudioController(manifest.audioSources);
       this.ui.prepareManifest(manifest);
       const hasDeepLink = new URL(window.location.href).searchParams.has(
@@ -117,7 +138,10 @@ class MagazineReaderController {
       this.notes = stored.notes;
       this.renderer.setHighlights(this.highlights);
       this.applyPreferences();
-      await this.renderer.hydrateWindow(this.currentPage);
+      await this.renderer.hydrateWindow(
+        this.currentPage,
+        this.highlights.length > 0,
+      );
       this.renderSavedData();
       this.updatePageUi();
 
@@ -148,7 +172,8 @@ class MagazineReaderController {
       this.basePath,
     );
     if (!validation.success) throw new Error(validation.errors.join(" "));
-    return validation.data;
+    this.editorialPageMap = buildEditorialPageMap(validation.data.pages);
+    return withoutAdPages(validation.data);
   }
 
   private mountVisibleReader(): void {
@@ -156,7 +181,8 @@ class MagazineReaderController {
     this.adapter?.destroy();
     this.renderer.createPageElements();
     this.renderer.setHighlights(this.highlights);
-    this.renderer.hydrateImages(this.currentPage);
+    // hydrateWindow também carrega as imagens da janela, de forma síncrona.
+    void this.renderer.hydrateWindow(this.currentPage);
     this.root.dataset.reducedMotion = String(this.isMotionReduced());
     this.mountSimpleAdapter();
     this.ui.ready();
@@ -169,13 +195,16 @@ class MagazineReaderController {
         await import("./engines/StPageFlipAdapter.ts");
       if (!this.manifest || !this.renderer) return;
       this.adapter?.destroy();
+      // As páginas são recriadas para o engine; sem reidratar a janela a
+      // camada de texto some e a seleção fica vazia até a próxima virada.
       this.renderer.createPageElements();
       this.renderer.setHighlights(this.highlights);
-      this.renderer.hydrateImages(this.currentPage);
-      this.adapter = new StPageFlipAdapter(this.currentPage);
+      void this.renderer.hydrateWindow(this.currentPage);
+      this.adapter = new StPageFlipAdapter(this.currentPage, this.pageRatio);
       this.adapter.onPageChange((page) => void this.handlePageChange(page));
-      this.adapter.mount(this.ui.canvas);
+      // O modo precede a montagem: o engine dimensiona o bloco por ele.
       this.adapter.setDisplayMode(this.displayMode);
+      this.adapter.mount(this.ui.canvas);
       this.applyZoom();
     } catch {
       this.mountSimpleAdapter();
@@ -191,8 +220,8 @@ class MagazineReaderController {
   private mountSimpleAdapter(): void {
     this.adapter = new SimplePageTurnAdapter(this.currentPage);
     this.adapter.onPageChange((page) => void this.handlePageChange(page));
-    this.adapter.mount(this.ui.canvas);
     this.adapter.setDisplayMode(this.displayMode);
+    this.adapter.mount(this.ui.canvas);
     this.applyZoom();
   }
 
@@ -302,6 +331,8 @@ class MagazineReaderController {
     }
     if (action === "dismiss-resume") return this.ui.hideResume();
     if (action === "minimize") return void this.toggleToolbar();
+    if (action === "hide-chrome") return void this.setChromeHidden(true);
+    if (action === "show-chrome") return void this.setChromeHidden(false);
     if (action === "simple-reader") return void this.enableSimpleReader();
     if (action === "close") {
       if (window.history.length > 1) window.history.back();
@@ -351,7 +382,13 @@ class MagazineReaderController {
       return;
     if (event.key === "Escape") {
       if (this.ui.hasOpenPanel()) this.ui.closePanels();
+      else if (this.preferences?.chromeHidden) void this.setChromeHidden(false);
       else if (document.fullscreenElement) await document.exitFullscreen();
+      return;
+    }
+    if (event.key === "h" || event.key === "H") {
+      event.preventDefault();
+      await this.setChromeHidden(!this.preferences?.chromeHidden);
       return;
     }
     if (event.key === "ArrowLeft") this.adapter?.previous();
@@ -546,16 +583,36 @@ class MagazineReaderController {
     await this.savePreferences();
   }
 
+  private async setChromeHidden(hidden: boolean): Promise<void> {
+    if (!this.preferences) return;
+    if (hidden && this.ui.hasOpenPanel()) this.ui.closePanels();
+    this.preferences.chromeHidden = hidden;
+    if (hidden) this.preferences.toolbarMinimized = false;
+    this.applyChromeState();
+    this.updateDisplayMode();
+    const focusTarget = hidden
+      ? this.ui.find<HTMLButtonElement>("[data-action='show-chrome']")
+      : this.ui.find<HTMLButtonElement>("[data-action='hide-chrome']");
+    focusTarget.focus();
+    this.ui.announce(
+      hidden
+        ? "Barras ocultas. Pressione Escape ou o botão Mostrar barras para recuperá-las."
+        : "Barras de leitura restauradas.",
+    );
+    await this.savePreferences();
+  }
+
   private async loadSearchIndex(): Promise<void> {
     if (!this.manifest || this.searchIndex) return;
     this.ui.searchStatus("Carregando índice…");
     try {
       const response = await fetch(this.manifest.searchIndex);
       if (!response.ok) throw new Error();
-      const index = validateSearchIndex(
-        await response.json(),
-        this.manifest.pageCount,
+      const remapped = remapSearchIndex(
+        (await response.json()) as SearchIndexEntry[],
+        this.editorialPageMap,
       );
+      const index = validateSearchIndex(remapped, this.manifest.pageCount);
       if (!index) throw new Error("Índice inválido.");
       this.searchIndex = index;
       this.ui.searchStatus("Digite ao menos dois caracteres.");
@@ -701,7 +758,7 @@ class MagazineReaderController {
   private applyPreferences(): void {
     if (!this.preferences) return;
     if (this.preferences.soundEnabled) this.audio.enable();
-    this.applyToolbarState();
+    this.applyChromeState();
     this.ui.updateSoundButton(this.preferences.soundEnabled);
     this.ui.find<HTMLInputElement>("[data-reduced-motion]").checked =
       this.isMotionReduced();
@@ -710,36 +767,45 @@ class MagazineReaderController {
 
   private applyZoom(): void {
     if (!this.preferences) return;
-    const zoomTargets = this.zoomTargets();
-    zoomTargets.forEach((target) => {
-      target.style.setProperty("transform", "scale(1)");
-      target.style.setProperty("transform-origin", "top center");
-    });
-    const contentBounds = this.measureVisibleContent();
     const stage = this.ui.find<HTMLElement>(".reader-stage");
-    const stageStyle = window.getComputedStyle(stage);
-    const availableWidth =
-      stage.clientWidth -
-      Number.parseFloat(stageStyle.paddingLeft) -
-      Number.parseFloat(stageStyle.paddingRight);
-    const availableHeight =
-      stage.clientHeight -
-      Number.parseFloat(stageStyle.paddingTop) -
-      Number.parseFloat(stageStyle.paddingBottom);
-    let scale = this.preferences.zoomPercent / 100;
-    if (contentBounds && this.preferences.zoomMode === "fit-page") {
-      scale = Math.min(
-        availableWidth / contentBounds.width,
-        availableHeight / contentBounds.height,
-      );
-    } else if (contentBounds && this.preferences.zoomMode === "fit-width") {
-      scale = availableWidth / contentBounds.width;
-    }
-    scale = Math.max(0.85, Math.min(2, scale));
-    this.root.style.setProperty("--reader-scale", String(scale));
-    zoomTargets.forEach((target) =>
-      target.style.setProperty("transform", `scale(${scale})`),
+    const available = availableStageSize(stage);
+    const pagesInView = pagesInViewForMode(this.displayMode);
+    const fitPage = fitA4Page(
+      available.width,
+      available.height,
+      pagesInView,
+      this.pageRatio,
     );
+    let fitted = fitPage;
+    if (this.preferences.zoomMode === "fit-width") {
+      const width = available.width / pagesInView;
+      fitted = {
+        width,
+        height: width * this.pageRatio,
+        pagesInView,
+      };
+    } else if (this.preferences.zoomMode === "custom") {
+      const scale = this.preferences.zoomPercent / 100;
+      fitted = {
+        width: fitPage.width * scale,
+        height: fitPage.height * scale,
+        pagesInView,
+      };
+    }
+    this.root.style.setProperty("--reader-page-width", `${fitted.width}px`);
+    this.root.style.setProperty("--reader-page-height", `${fitted.height}px`);
+    this.root.style.setProperty("--reader-spread-pages", String(pagesInView));
+    this.root.style.setProperty("--reader-scale", "1");
+    // Passando do que cabe, o palco precisa rolar: sem esta marca o CSS
+    // limita a página ao palco e a ampliação não aparece.
+    this.root.dataset.zoomOverflow = String(
+      fitted.width * pagesInView > available.width + 1 ||
+        fitted.height > available.height + 1,
+    );
+    this.zoomTargets().forEach((target) => {
+      target.style.removeProperty("transform");
+    });
+    this.adapter?.fitToAvailable?.(fitted.width, fitted.height);
     this.root.dataset.zoomMode = this.preferences.zoomMode;
     this.root
       .querySelectorAll<HTMLButtonElement>("[data-zoom]")
@@ -754,7 +820,8 @@ class MagazineReaderController {
 
   private applyToolbarState(): void {
     if (!this.preferences) return;
-    const minimized = this.preferences.toolbarMinimized;
+    const minimized =
+      this.preferences.toolbarMinimized && !this.preferences.chromeHidden;
     this.root.dataset.toolbarMinimized = String(minimized);
     this.root
       .querySelectorAll<HTMLButtonElement>(".reader-toolbar .toolbar-item")
@@ -771,6 +838,27 @@ class MagazineReaderController {
     );
   }
 
+  private applyChromeState(): void {
+    if (!this.preferences) return;
+    const hidden = Boolean(this.preferences.chromeHidden);
+    this.root.dataset.chromeHidden = String(hidden);
+    this.applyToolbarState();
+    const chrome = this.root.querySelectorAll<HTMLElement>(
+      ".reader-header, .reader-progress, .reader-toolbar",
+    );
+    chrome.forEach((element) => {
+      if (hidden) element.setAttribute("inert", "");
+      else element.removeAttribute("inert");
+    });
+    const restore = this.ui.find<HTMLElement>("[data-chrome-restore]");
+    restore.hidden = !hidden;
+    restore.setAttribute("aria-hidden", String(!hidden));
+    const hide = this.root.querySelector<HTMLButtonElement>(
+      "[data-action='hide-chrome']",
+    );
+    hide?.setAttribute("aria-pressed", String(hidden));
+  }
+
   private zoomTargets(): HTMLElement[] {
     const engine = this.ui.canvas.querySelector<HTMLElement>(
       ".reader-page-engine",
@@ -781,30 +869,6 @@ class MagazineReaderController {
         "[data-page-number]:not([hidden])",
       ),
     );
-  }
-
-  private measureVisibleContent(): { width: number; height: number } | null {
-    const engine = this.ui.canvas.querySelector<HTMLElement>(
-      ".reader-page-engine .stf__parent",
-    );
-    if (engine) {
-      const bounds = engine.getBoundingClientRect();
-      return bounds.width > 0 && bounds.height > 0
-        ? { width: bounds.width, height: bounds.height }
-        : null;
-    }
-    const pages = Array.from(
-      this.ui.canvas.querySelectorAll<HTMLElement>(
-        "[data-page-number]:not([hidden])",
-      ),
-    ).filter((page) => page.getBoundingClientRect().width > 0);
-    if (pages.length === 0) return null;
-    const bounds = pages.map((page) => page.getBoundingClientRect());
-    const left = Math.min(...bounds.map((rect) => rect.left));
-    const right = Math.max(...bounds.map((rect) => rect.right));
-    const top = Math.min(...bounds.map((rect) => rect.top));
-    const bottom = Math.max(...bounds.map((rect) => rect.bottom));
-    return { width: right - left, height: bottom - top };
   }
 
   private isMotionReduced(): boolean {
@@ -918,7 +982,8 @@ function defaultPreferences(issueId: string): ReaderPreferences {
     soundEnabled: false,
     reducedMotion: false,
     toolbarMinimized: false,
-    zoomMode: "fit-width",
+    chromeHidden: false,
+    zoomMode: "fit-page",
     zoomPercent: 100,
   };
 }

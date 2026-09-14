@@ -59,6 +59,7 @@ await writeJson(path.join(outputRoot, "manifest.json"), {
   number: issue.number,
   title: issue.title,
   pageCount: issue.pages.length,
+  pageSize: { width: 1400, height: 1980 },
   pages: manifestPages,
   toc: issue.toc,
   articles: issue.articles,

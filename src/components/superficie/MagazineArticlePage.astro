@@ -470,14 +470,14 @@ const formatDate = formatLongDate;
     align-items: center;
     gap: 0.65rem;
     color: var(--surface-muted-on-dark);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 750;
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
-  /* O texto em caixa alta a 0.68rem gera altura de ~18px. O alvo precisa dos
-     24px da WCAG 2.5.8 sem que a linha do breadcrumb engorde. */
+  /* A linha do breadcrumb permanece fina; a área de 44×44 vem do
+     padding + margem em touch-targets.css. */
   .article-breadcrumb a {
     display: inline-flex;
     align-items: center;
@@ -502,7 +502,7 @@ const formatDate = formatLongDate;
   .article-newsletter > div > div:first-child > p {
     margin: 0 0 0.9rem;
     color: var(--surface-gold-light);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.16em;
     text-transform: uppercase;
@@ -563,7 +563,7 @@ const formatDate = formatLongDate;
 
   .article-facts dt {
     color: var(--surface-gold-light);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -572,7 +572,7 @@ const formatDate = formatLongDate;
   .article-facts dd {
     margin: 0.2rem 0 0;
     color: var(--surface-muted-on-dark);
-    font-size: 0.86rem;
+    font-size: 0.875rem;
   }
 
   .article-grid {
@@ -605,7 +605,7 @@ const formatDate = formatLongDate;
     padding-block: 0.65rem;
     border-top: 1px solid var(--surface-line);
     color: var(--surface-muted);
-    font-size: 0.76rem;
+    font-size: 0.875rem;
     line-height: 1.35;
   }
 
@@ -643,7 +643,7 @@ const formatDate = formatLongDate;
 
   .section-title > span {
     padding-top: 0.35rem;
-    color: var(--surface-gold);
+    color: var(--surface-gold-text);
     font-family: var(--surface-serif);
     font-size: 1.5rem;
     line-height: 1;
@@ -672,7 +672,7 @@ const formatDate = formatLongDate;
     margin-bottom: 0.3rem;
     color: var(--surface-ink);
     font-family: var(--surface-sans);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -702,7 +702,7 @@ const formatDate = formatLongDate;
     display: block;
     color: var(--surface-teal-dark);
     font-family: var(--surface-sans);
-    font-size: 0.78rem;
+    font-size: 0.875rem;
     font-weight: 750;
   }
 
@@ -735,17 +735,18 @@ const formatDate = formatLongDate;
     max-width: 68ch;
     color: var(--surface-muted);
     font-family: var(--surface-sans);
-    font-size: 0.84rem;
+    font-size: 0.875rem;
     line-height: 1.5;
   }
 
   .article-inline-figure figcaption small {
     display: block;
-    margin-top: 0.35rem;
+    margin-top: 0.45rem;
     max-width: 68ch;
     color: var(--surface-muted);
     font-family: var(--surface-sans);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
     line-height: 1.45;
   }
 
@@ -817,13 +818,13 @@ const formatDate = formatLongDate;
     border-radius: 50%;
     color: var(--surface-teal-dark);
     font-family: var(--surface-sans);
-    font-size: 0.82rem;
+    font-size: 0.875rem;
     font-variant-numeric: tabular-nums;
     font-weight: 700;
   }
 
   .article-section.limitations li::marker {
-    color: var(--surface-gold);
+    color: var(--surface-gold-text);
   }
 
   .article-section.evidence,
@@ -895,8 +896,8 @@ const formatDate = formatLongDate;
     top: 1.15rem;
     left: 0;
     min-width: 2rem;
-    color: var(--surface-gold);
-    font-size: 0.82rem;
+    color: var(--surface-gold-text);
+    font-size: 0.875rem;
     font-variant-numeric: tabular-nums;
     font-weight: 700;
     letter-spacing: 0.04em;
@@ -917,7 +918,7 @@ const formatDate = formatLongDate;
     margin-top: 0.45rem;
     color: var(--surface-teal-dark);
     font-family: var(--surface-sans);
-    font-size: 0.76rem;
+    font-size: 0.875rem;
     font-variant-numeric: tabular-nums;
     letter-spacing: 0.02em;
     text-decoration: underline;
@@ -926,8 +927,12 @@ const formatDate = formatLongDate;
     word-break: break-all;
   }
 
-  .reference-link:hover {
-    color: var(--surface-teal);
+  /* O hover escurece, não clareia: --surface-teal dá 4,24:1 e derrubava o
+     link abaixo do AA justamente no estado em que o usuário está mirando.
+     --surface-navy é o mesmo hover que os text-link da revista já usam. */
+  .reference-link:hover,
+  .reference-link:focus-visible {
+    color: var(--surface-navy);
   }
 
   .related-section {
@@ -973,7 +978,7 @@ const formatDate = formatLongDate;
 
   .related-label {
     color: var(--surface-teal-dark);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.1em;
     line-height: 1.35;
@@ -1043,7 +1048,7 @@ const formatDate = formatLongDate;
     align-items: center;
     border-bottom: 1px solid var(--surface-gold-light);
     color: var(--surface-gold-light);
-    font-size: 0.76rem;
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;

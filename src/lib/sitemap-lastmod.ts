@@ -27,11 +27,12 @@ const LAUNCHED_ON = "2026-07-25";
  * lista é fechada e muda com a estrutura do site, não a cada publicação.
  */
 const staticPages: Record<string, string> = {
-  "/": "2026-08-07",
+  "/": "2026-08-24",
   "/app": "2026-07-26",
   "/autocuidado": "2026-07-26",
   "/autor/philipe-saraiva-cruz": "2026-08-07",
   "/causas": "2026-07-26",
+  "/contato": "2026-09-13",
   "/diagnostico": "2026-08-25",
   "/ferramentas": "2026-08-25",
   "/ferramentas/deq-5": "2026-08-25",
@@ -49,7 +50,7 @@ const staticPages: Record<string, string> = {
   "/politica-editorial": "2026-08-25",
   "/politica-de-correcao": "2026-08-25",
   "/privacidade": "2026-08-08",
-  "/profissionais": "2026-08-21",
+  "/profissional": "2026-08-24",
   "/sinais-de-alerta": "2026-07-26",
   "/sintomas": "2026-07-26",
   "/superficie": "2026-08-08",

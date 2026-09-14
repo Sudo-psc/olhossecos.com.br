@@ -175,12 +175,30 @@ export const portalPages: PortalSearchEntry[] = [
     tags: ["referências", "evidências", "TFOS", "DEWS III", "revisão"],
   },
   {
-    href: "/profissionais",
+    href: "/profissional",
     category: "Profissional",
-    title: "Área para profissionais",
+    title: "Portal profissional",
     description:
       "Diagnóstico multimodal, fenotipagem, imagem, tecnologias e evidências contemporâneas.",
     tags: ["profissionais", "médicos", "oftalmologia", "nibut", "osmolaridade"],
+  },
+  {
+    href: "/paciente",
+    category: "Portal",
+    title: "Portal do paciente",
+    description:
+      "Ponto de partida para entender sintomas, causas, diagnóstico, tratamentos e autocuidado.",
+    tags: [
+      "paciente",
+      "início",
+      "sintomas",
+      "tratamento",
+      "autocuidado",
+      "ferramentas",
+      "deq-5",
+      "diário",
+      "widget",
+    ],
   },
   {
     href: "/app",
@@ -213,14 +231,6 @@ export const portalPages: PortalSearchEntry[] = [
     description:
       "Registro diário neste navegador, exportável em PDF e CSV, com botão para apagar tudo.",
     tags: ["diário", "sintomas", "registro", "14 dias"],
-  },
-  {
-    href: "/paciente",
-    category: "Ferramenta",
-    title: "Paciente: ferramentas de olho seco",
-    description:
-      "Atalhos para o DEQ-5, o diário de 14 dias e o Dry Eye Widget.",
-    tags: ["paciente", "ferramentas", "deq-5", "diário", "widget"],
   },
 ];
 

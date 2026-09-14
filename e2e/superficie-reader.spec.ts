@@ -3,6 +3,15 @@ import { expect, test, type Page } from "@playwright/test";
 const readerUrl = "/superficie/lab/flipbook";
 
 test.beforeEach(async ({ page }) => {
+  // O Tag Manager do site não faz parte do leitor: sem ele a suíte não herda
+  // violações de CSP nem os eventos gtm.* que o endpoint recusa com 422.
+  await page.route("https://www.googletagmanager.com/**", (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "application/javascript",
+      body: "",
+    }),
+  );
   const criticalConsoleMessages: string[] = [];
   const missingResources: string[] = [];
   const pageErrors: string[] = [];
@@ -42,7 +51,7 @@ test("fluxo crítico persiste destaque, marcador e progresso", async ({
     /single|double/u,
   );
 
-  await page.locator("[data-action='next']").click();
+  await page.locator(".reader-page-nav [data-action='next']").click();
   await expect(page.locator("[data-page-input]")).toHaveValue("2", {
     timeout: 3_000,
   });
@@ -231,45 +240,73 @@ test("virtualização mantém no máximo cinco páginas pesadas hidratadas", asy
     .toBeLessThanOrEqual(5);
 });
 
-test("zoom diferencia fit page, fit width e amplia o adapter simples", async ({
+test("zoom diferencia fit page, fit width e amplia as duas engines", async ({
   page,
 }) => {
-  await openReader(page, 4);
-  const visiblePage = page.locator("[data-page-number='4']:visible").first();
-  await page.locator("[data-action='zoom']").click();
-  await page.locator("[data-zoom='fit-page']").click();
-  const fitPage = await visiblePage.boundingBox();
-  await page.locator("[data-zoom='fit-width']").click();
-  const fitWidth = await visiblePage.boundingBox();
-  expect(fitPage).not.toBeNull();
-  expect(fitWidth).not.toBeNull();
-  const displayMode = await page
-    .locator("[data-reader-viewport]")
-    .getAttribute("data-display-mode");
-  if (displayMode === "double") {
-    expect(fitWidth!.width).toBeGreaterThan(fitPage!.width * 1.05);
-  } else {
-    expect(fitWidth!.width).toBeGreaterThanOrEqual(fitPage!.width * 0.99);
-  }
+  // A ampliação entra no layout pela largura da página, não por transform:
+  // o engine é remontado no tamanho novo, então cada leitura espera assentar.
+  const pageWidth = () =>
+    page.evaluate(() => {
+      const value = document
+        .querySelector<HTMLElement>("[data-magazine-reader]")!
+        .style.getPropertyValue("--reader-page-width");
+      return Math.round(Number.parseFloat(value));
+    });
+  const settledPageWidth = async () => {
+    let last = -1;
+    await expect
+      .poll(async () => {
+        const current = await pageWidth();
+        const stable = current === last;
+        last = current;
+        return stable;
+      })
+      .toBe(true);
+    return last;
+  };
 
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.reload();
-  await readerReady(page);
-  const simplePage = page.locator("[data-page-number='4']:visible").first();
-  await page.locator("[data-action='zoom']").click();
-  await page.locator("[data-zoom='100']").click();
-  await expect(simplePage).toHaveCSS("transform", /matrix\(1, 0, 0, 1/u);
-  const before = await simplePage.boundingBox();
-  await page.locator("[data-zoom='150']").click();
-  await expect(page.locator("[data-magazine-reader]")).toHaveAttribute(
-    "data-zoom-mode",
-    "custom",
-  );
-  await expect(simplePage).toHaveCSS("transform", /matrix\(1\.5/u);
-  const after = await simplePage.boundingBox();
-  expect(before).not.toBeNull();
-  expect(after).not.toBeNull();
-  expect(after!.width).toBeGreaterThan(before!.width * 1.4);
+  for (const reducedMotion of ["no-preference", "reduce"] as const) {
+    await page.emulateMedia({ reducedMotion });
+    await openReader(page, 4);
+    await page.locator("[data-action='zoom']").click();
+
+    await page.locator("[data-zoom='fit-page']").click();
+    const fitPage = await settledPageWidth();
+    await page.locator("[data-zoom='fit-width']").click();
+    const fitWidth = await settledPageWidth();
+    const displayMode = await page
+      .locator("[data-reader-viewport]")
+      .getAttribute("data-display-mode");
+    if (displayMode === "double") {
+      expect(fitWidth).toBeGreaterThan(fitPage * 1.05);
+    } else {
+      expect(fitWidth).toBeGreaterThanOrEqual(fitPage * 0.99);
+    }
+
+    await page.locator("[data-zoom='100']").click();
+    const hundred = await settledPageWidth();
+    await page.locator("[data-zoom='200']").click();
+    await expect(page.locator("[data-magazine-reader]")).toHaveAttribute(
+      "data-zoom-mode",
+      "custom",
+    );
+    const doubled = await settledPageWidth();
+    expect(doubled).toBeGreaterThan(hundred * 1.9);
+    // Ampliado além do palco, a leitura precisa poder rolar até as bordas.
+    await expect(page.locator("[data-magazine-reader]")).toHaveAttribute(
+      "data-zoom-overflow",
+      "true",
+    );
+    expect(
+      await page.evaluate(() => {
+        const stage = document.querySelector(".reader-stage")!;
+        return (
+          stage.scrollWidth > stage.clientWidth &&
+          getComputedStyle(stage).overflowX !== "hidden"
+        );
+      }),
+    ).toBe(true);
+  }
 });
 
 test("painéis restauram foco e marcadores podem ser consultados sem mutação", async ({
@@ -493,6 +530,40 @@ test("mudança de reduced motion durante a sessão troca o adapter", async ({
   await expect(page.locator(".stf__block")).toHaveCount(0);
   await expect(page.locator("[data-page-input]")).toHaveValue("4");
   await expect(page.locator("[data-page-number='4']")).toBeVisible();
+});
+
+test("a camada de texto sobrevive à montagem do engine de virada", async ({
+  page,
+}) => {
+  await openReader(page, 4);
+  await expect(page.locator(".stf__block")).toHaveCount(1);
+  const blocks = page.locator("[data-page-number='4'] [data-text-block]");
+  await expect(blocks.first()).toBeAttached();
+  const total = await blocks.count();
+  expect(total).toBeGreaterThan(0);
+  // Nada de esvaziar depois: a seleção precisa funcionar sem virar a página.
+  await page.waitForTimeout(1_500);
+  await expect(blocks).toHaveCount(total);
+});
+
+test("a página renderiza na proporção declarada pelo manifest", async ({
+  page,
+}) => {
+  await openReader(page, 4);
+  await expect(page.locator(".stf__block")).toHaveCount(1);
+  const { declared, rendered } = await page.evaluate(async () => {
+    const response = await fetch("/superficie/issues/poc/manifest.json");
+    const manifest = await response.json();
+    const item = [...document.querySelectorAll(".stf__item")].find(
+      (element) => element.getBoundingClientRect().width > 1,
+    )!;
+    const box = item.getBoundingClientRect();
+    return {
+      declared: manifest.pageSize.height / manifest.pageSize.width,
+      rendered: box.height / box.width,
+    };
+  });
+  expect(Math.abs(rendered - declared)).toBeLessThan(0.01);
 });
 
 test("modos responsivos seguem o espaço útil nas larguras obrigatórias", async ({

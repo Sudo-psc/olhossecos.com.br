@@ -73,12 +73,17 @@ export function sanitizeStoredReaderData(
     typeof input.preferences.soundEnabled === "boolean" &&
     typeof input.preferences.reducedMotion === "boolean" &&
     typeof input.preferences.toolbarMinimized === "boolean" &&
+    (input.preferences.chromeHidden === undefined ||
+      typeof input.preferences.chromeHidden === "boolean") &&
     ["fit-page", "fit-width", "custom"].includes(
       String(input.preferences.zoomMode),
     ) &&
     typeof input.preferences.zoomPercent === "number" &&
     [100, 125, 150, 200].includes(input.preferences.zoomPercent)
-      ? (input.preferences as unknown as ReaderPreferences)
+      ? {
+          ...(input.preferences as unknown as ReaderPreferences),
+          chromeHidden: Boolean(input.preferences.chromeHidden),
+        }
       : null;
 
   const bookmarks = Array.isArray(input.bookmarks)

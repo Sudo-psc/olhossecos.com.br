@@ -57,9 +57,7 @@ test("a curadoria cruza artigos, guias e páginas-pilar quando o assunto pede", 
       ({ href }) => href === "/superficie/artigos/alem-do-meiboscore",
     ),
   );
-  assert.ok(
-    iaRelated.some(({ href }) => href === "/profissionais#diagnostico"),
-  );
+  assert.ok(iaRelated.some(({ href }) => href === "/profissional#diagnostico"));
   assert.ok(
     conjuntivocalaseRelated.some(
       ({ href }) => href === "/guias/conjuntivocalase-olho-seco-mecanico",
@@ -74,11 +72,11 @@ test("a ordenação editorial coloca os artigos mais recentes nos hubs", () => {
   assert.deepEqual(
     latest.slice(0, 5).map(({ slug }) => slug),
     [
+      "olho-seco-oct-rnfl",
       "ia-na-superficie-ocular",
       "anti-demodex",
       "terapias-dirigidas-por-mecanismo",
       "prehab-ocular",
-      "anatomia-dry-eye-center",
     ],
   );
   assert.ok(

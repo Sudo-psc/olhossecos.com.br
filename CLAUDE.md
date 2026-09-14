@@ -6,14 +6,30 @@ Orientação para o Claude Code (claude.ai/code) trabalhando neste repositório.
 
 **olhossecos.com.br** é um portal editorial sobre olho seco e superfície ocular,
 da Saraiva Vision (Caratinga/MG). Não é um site institucional de clínica: o
-conteúdo é a entrega. São quatro frentes no mesmo repositório:
+conteúdo é a entrega.
 
-| Frente                 | Rotas                                                                                                          | O que é                                                                           |
-| ---------------------- | -------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| **Portal do paciente** | `/`, `/sintomas`, `/causas`, `/diagnostico`, `/tratamentos`, `/autocuidado`, `/sinais-de-alerta`, `/glossario` | Conteúdo explicativo para pacientes                                               |
-| **Guias**              | `/guias`, `/guias/[slug]`                                                                                      | 13 leituras curtas e aprofundadas, com referências                                |
-| **SUPERFÍCIE**         | `/superficie/**`                                                                                               | Revista para profissionais: edição fundadora, RADAR Científico, área de parceiros |
-| **Livros e app**       | `/livros/**`, `/app`                                                                                           | Obras do autor e o Dry Eye Widget                                                 |
+**A raiz é uma pré-página, não uma home.** `/` só separa os dois públicos e sai
+da frente. Cada portal tem home própria, navegação própria e rodapé próprio:
+
+| Frente                  | Rotas                                                                                                                                        | O que é                                                              |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| **Pré-página**          | `/`                                                                                                                                          | Seletor entre os dois portais; lembra a escolha, nunca redireciona   |
+| **Portal do paciente**  | `/paciente`, `/olho-seco`, `/sintomas`, `/causas`, `/diagnostico`, `/tratamentos`, `/autocuidado`, `/sinais-de-alerta`, `/glossario`, `/app` | Conteúdo explicativo para pacientes e o Dry Eye Widget               |
+| **Guias**               | `/guias`, `/guias/[slug]`                                                                                                                    | Leituras curtas e aprofundadas, com referências (portal do paciente) |
+| **Portal profissional** | `/profissional`, `/superficie/**`, `/livros/**`                                                                                              | Revista SUPERFÍCIE, RADAR Científico, parceiros e obras do autor     |
+
+`src/lib/portals.ts` é a fonte única do que cada portal mostra. `Header.astro` e
+`Footer.astro` resolvem o portal **pelo pathname** — página nova entra no portal
+certo sem declarar nada. Rota profissional é a que começa com `/profissional`,
+`/superficie` ou `/livros`; a raiz não pertence a portal nenhum; todo o resto é
+paciente. `src/lib/portals.test.ts` tranca isso, inclusive contra link de menu
+para rota inexistente.
+
+A troca entre portais fica a um clique em qualquer página (`crossLink`).
+Separar públicos não pode virar porta trancada.
+
+`/profissionais` (plural) é a rota antiga e responde com redirecionamento para
+`/profissional`.
 
 **Responsável técnico:** Dr. Philipe Saraiva Cruz — CRM-MG 69.870 · RQE 71.903.
 
@@ -67,18 +83,9 @@ apenas renderizam.
 | `books.ts`                           | catálogo de livros                                    | `/livros/**`              |
 | `figures.ts`                         | `figures` — todo o acervo de imagens educativas       | qualquer página           |
 | `sources.ts`, `home.ts`, `search.ts` | fontes, blocos da home, busca                         | portal                    |
+| `portals.ts`                         | navegação e rodapé de cada portal, resolução por rota | `Header`, `Footer`        |
 
 Para publicar conteúdo novo, edite o módulo — não crie HTML solto na página.
-
-### Referências: verifique antes de citar
-
-Este é um site médico. Toda referência nova deve ser conferida no Crossref ou no
-PubMed **antes** de entrar no código — autor e título precisam bater. Isso já
-evitou pelo menos um erro real: uma busca por um estudo do 20-20-20 devolveu
-como primeiro resultado uma _carta ao editor_ sobre o artigo, não o artigo.
-
-Onde a evidência for curta, fraca ou de efeito transitório, **o texto deve dizer
-isso**. Não omita limitação para deixar a recomendação mais atraente.
 
 ## Rotas SSR e dados
 
@@ -178,20 +185,8 @@ nome.jpg              fallback, 1200px de largura
 nome-760.avif/webp    e nome-1200.avif/webp
 alt                   descritivo, não decorativo
 caption               ensina algo — não repete o texto ao lado
-disclosure            obrigatório quando gerada por IA
+disclosure            texto editorial da figura
 ```
-
-Há duas redações de divulgação, e a diferença importa:
-
-- **esquemática** — "representação esquemática, sem escala anatômica e não é uma
-  fotografia clínica"
-- **com pessoas** — "cena ilustrativa com pessoas fictícias, não é fotografia de
-  paciente real nem registro clínico"
-
-Uma figura precisa ilustrar **o que a seção afirma**. Já foi descartada uma
-imagem tecnicamente boa que mostrava olho fechado × olho aberto numa seção sobre
-piscada completa × incompleta — o modelo leu "incompleta" como "aberta". Confira
-o conceito, não só a estética.
 
 ### Marca, ícones e OpenGraph
 
@@ -238,21 +233,9 @@ o build precisa corresponder ao commit.
 
 ## Conformidade
 
-**CFM.** Toda página que nomeia o médico deve exibir **CRM-MG 69.870 · RQE
-71.903**. Nada de promessa de resultado, superlativo ou comparação com outros
-serviços. Ao descrever tratamento, diga o que ele pretende e o que ainda é
-incerto.
-
 **LGPD.** Os formulários coletam consentimento explícito e linkam
 `/privacidade`. Os endpoints lidam com dado pessoal: nunca registre em log nem
 exponha e-mail, telefone ou nome.
-
-**Independência editorial.** A SUPERFÍCIE separa conteúdo editorial de
-publicidade. Parceria comercial não determina pauta nem conclusão clínica. Rótulo
-de publicidade e disclosure são obrigatórios onde houver patrocínio.
-
-O repositório traz a skill `skills/saraiva-vision-compliance-review` para revisar
-diffs e textos contra esses critérios.
 
 ## Arquivos desatualizados no repositório
 
@@ -265,8 +248,8 @@ Não siga estes; descrevem um mundo que não existe mais:
 - `docs/SANITY_INTEGRATION.md` — o CMS foi removido
 - `pnpm-lock.yaml` — o gerenciador é npm
 
-Redirects 301 preservam URLs antigas: `/blog` → `/guias`, `/exames` →
-`/diagnostico`. São páginas sem conteúdo — não adicione imagem nem texto nelas.
+Redirects preservam URLs antigas: `/blog` → `/guias`, `/exames` →
+`/diagnostico`, `/profissionais` → `/profissional`. São páginas sem conteúdo — não adicione imagem nem texto nelas.
 
 ## Convenções
 

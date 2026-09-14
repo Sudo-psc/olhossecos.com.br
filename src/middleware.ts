@@ -1,4 +1,9 @@
 import { defineMiddleware } from "astro:middleware";
+import { discoveryContentTypes } from "./lib/discovery";
+import { resolveLegacyRedirect } from "./lib/legacy-redirects";
+import { normalizeBasePath, withBasePath } from "./lib/site-path";
+
+const basePath = normalizeBasePath(import.meta.env.BASE_URL);
 
 const applySecurityHeaders = (response: Response) => {
   response.headers.set("X-Frame-Options", "DENY");
@@ -61,7 +66,30 @@ const isLabOrPoc = (pathname: string) =>
   isEdicao00Lab(pathname) ||
   isEdicao00Assets(pathname);
 
+const logicalPathname = (pathname: string) => {
+  const rawPath = pathname.replace(/\/$/u, "") || "/";
+  if (
+    basePath &&
+    (rawPath === basePath || rawPath.startsWith(`${basePath}/`))
+  ) {
+    return rawPath.slice(basePath.length) || "/";
+  }
+  return rawPath;
+};
+
 export const onRequest = defineMiddleware(async (context, next) => {
+  const legacyTarget = resolveLegacyRedirect(
+    logicalPathname(context.url.pathname),
+  );
+  if (legacyTarget) {
+    return applySecurityHeaders(
+      new Response(null, {
+        status: 301,
+        headers: { Location: withBasePath(legacyTarget, basePath) },
+      }),
+    );
+  }
+
   if (import.meta.env.PROD && isBlockedLabOrPoc(context.url.pathname)) {
     return applySecurityHeaders(
       new Response("Not Found", {
@@ -78,5 +106,10 @@ export const onRequest = defineMiddleware(async (context, next) => {
   if (isLabOrPoc(context.url.pathname)) {
     response.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
   }
+
+  const discoveryType =
+    discoveryContentTypes[logicalPathname(context.url.pathname)];
+  if (discoveryType) response.headers.set("Content-Type", discoveryType);
+
   return response;
 });

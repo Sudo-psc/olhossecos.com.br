@@ -41,6 +41,10 @@ test("o LinkedIn público usa o slug confirmado, não uma grafia aproximada", ()
   );
 });
 
+test("o site médico próprio é o destino rastreável do rodapé", () => {
+  assert.equal(responsibleDoctor.website, "https://drphilipesaraiva.com.br/");
+});
+
 test("os rodapés do portal e da revista exibem o registro", async () => {
   const footers = [
     "src/components/Footer.astro",
@@ -53,6 +57,11 @@ test("os rodapés do portal e da revista exibem o registro", async () => {
       source,
       /responsibleDoctor\.registration/u,
       `${path} nomeia o médico sem exibir CRM e RQE`,
+    );
+    assert.match(
+      source,
+      /responsibleDoctor\.website/u,
+      `${path} não aponta o nome do médico para o site próprio`,
     );
   }
 });

@@ -24,6 +24,8 @@ export const responsibleDoctor = {
   lattes: "https://lattes.cnpq.br/7365253786880035",
   /** Perfil público; slug confirmado como saraiva, não sarava. */
   linkedin: "https://www.linkedin.com/in/dr-philipe-saraiva",
+  /** Site médico próprio — link rastreável a partir do portal. */
+  website: "https://drphilipesaraiva.com.br/",
 } as const;
 
 /** Os artigos assinam "Dr. Philipe…"; o registro canônico omite o tratamento. */

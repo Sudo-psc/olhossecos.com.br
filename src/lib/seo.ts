@@ -1,5 +1,7 @@
 import { author, books } from "./books.ts";
+import { clinic } from "./clinic.ts";
 import { responsibleDoctor } from "./doctor.ts";
+import { exactRedirects } from "./legacy-redirects.ts";
 import { guides } from "./guides.ts";
 import { getRadarReportPath, radarReports } from "./radar.ts";
 import { getMagazineArticlePath, publishedArticles } from "./superficie.ts";
@@ -25,6 +27,7 @@ export const physician = {
     responsibleDoctor.orcid,
     responsibleDoctor.lattes,
     responsibleDoctor.linkedin,
+    responsibleDoctor.website,
   ],
 } as const;
 
@@ -65,23 +68,37 @@ export const physicianCredentials = [
 
 const sitemapExcludedExact = new Set([
   "/blog",
+  ...exactRedirects.keys(),
   "/videos",
   "/exames",
+  "/profissionais",
   "/newsletter/descadastrar",
   "/newsletter/confirmar",
   "/404",
   "/search-index.json",
+  "/rss.xml",
+  "/feed.json",
+  "/llms.txt",
+  "/llms-full.txt",
+  "/manifest.webmanifest",
+  "/manifest.json",
+  "/.well-known/security.txt",
+  "/superficie/rss.xml",
+  "/superficie/feed.json",
+  "/superficie/radar/rss.xml",
+  "/superficie/radar/feed.json",
 ]);
 
 const sitemapExcludedPrefixes = ["/superficie/lab", "/superficie/issues"];
 
 /** lastmod mínimo conhecido das páginas estáticas do portal e da revista. */
 const pageLastmods: Record<string, string> = {
-  "/": "2026-08-07",
+  "/": "2026-08-24",
   "/app": "2026-07-26",
   "/autocuidado": "2026-07-26",
   "/autor/philipe-saraiva-cruz": "2026-08-07",
   "/causas": "2026-07-26",
+  "/contato": "2026-09-13",
   "/diagnostico": "2026-08-25",
   "/ferramentas": "2026-08-25",
   "/ferramentas/deq-5": "2026-08-25",
@@ -96,7 +113,7 @@ const pageLastmods: Record<string, string> = {
   "/politica-editorial": "2026-08-25",
   "/politica-de-correcao": "2026-08-25",
   "/privacidade": "2026-08-08",
-  "/profissionais": "2026-08-21",
+  "/profissional": "2026-08-24",
   "/sinais-de-alerta": "2026-07-26",
   "/sintomas": "2026-07-26",
   "/superficie": "2026-08-08",
@@ -118,6 +135,7 @@ export const normalizeSitemapPath = (value: string) => {
 export const isIndexableSitemapPath = (value: string) => {
   const path = normalizeSitemapPath(value);
   if (sitemapExcludedExact.has(path)) return false;
+  if (path === "/blog" || path.startsWith("/blog/")) return false;
   return !sitemapExcludedPrefixes.some(
     (prefix) => path === prefix || path.startsWith(`${prefix}/`),
   );
@@ -175,7 +193,11 @@ const contentLastmods = (): Map<string, string> => {
   remember("/superficie/edicao-00", latestArticle);
   remember("/superficie/radar", latestRadar);
   remember("/guias", latestGuide);
-  remember("/", laterDay(latestArticle, latestGuide, latestRadar));
+  // A raiz deixou de herdar data de conteúdo: virou pré-página e não lista
+  // mais nem guia nem artigo. Quem herda agora é a home de cada portal, que é
+  // onde a publicação nova de fato aparece.
+  remember("/paciente", latestGuide);
+  remember("/profissional", laterDay(latestArticle, latestRadar));
 
   return lastmods;
 };
@@ -213,6 +235,7 @@ export const organizationSchema = (siteUrl: URL) => ({
     height: 512,
   },
   founder: { "@id": physicianId(siteUrl) },
+  sameAs: ["https://drphilipesaraiva.com.br/"],
 });
 
 export const physicianSchema = (siteUrl: URL) => ({
@@ -243,15 +266,47 @@ export const physicianSchema = (siteUrl: URL) => ({
   affiliation: {
     "@type": "Organization",
     name: physician.affiliation,
+    url: clinic.url,
     address: {
       "@type": "PostalAddress",
+      streetAddress: clinic.streetAddress,
       addressLocality: physician.affiliationLocality,
       addressRegion: physician.affiliationRegion,
+      postalCode: clinic.postalCode,
       addressCountry: "BR",
     },
   },
   sameAs: [...physician.sameAs],
   hasCredential: [...physicianCredentials],
+});
+
+export const clinicLocalBusinessId = `${clinic.url}/#localbusiness`;
+
+/**
+ * Complemento de SEO local. Não é MedicalBusiness nem CTA de funil: só
+ * endereço e telefone da clínica presencial, no domínio dela.
+ */
+export const clinicLocalBusinessSchema = (_siteUrl: URL) => ({
+  "@type": "LocalBusiness",
+  "@id": clinicLocalBusinessId,
+  name: clinic.name,
+  legalName: clinic.legalName,
+  url: clinic.url,
+  telephone: clinic.telephoneE164,
+  taxID: clinic.taxId,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: clinic.streetAddress,
+    addressLocality: clinic.addressLocality,
+    addressRegion: clinic.addressRegion,
+    postalCode: clinic.postalCode,
+    addressCountry: clinic.addressCountry,
+  },
+  areaServed: {
+    "@type": "City",
+    name: clinic.addressLocality,
+  },
+  openingHours: [...clinic.openingHours],
 });
 
 export interface FaqItem {

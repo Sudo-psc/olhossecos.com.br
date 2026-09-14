@@ -1,0 +1,59 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { clinic, clinicAddressLine } from "@/lib/clinic";
+import { responsibleDoctor } from "@/lib/doctor";
+
+const title = "Atendimento em Caratinga";
+const description =
+  "Este portal é educativo. O atendimento presencial fica na Saraiva Vision, em Caratinga, com o Dr. Philipe Saraiva Cruz.";
+---
+
+<Layout
+  title={title}
+  description={description}
+  schemaType="WebPage"
+  dateModified="2026-09-13"
+>
+  <header class="page-intro">
+    <div class="page-shell">
+      <p class="eyebrow">Clínica presencial</p>
+      <h1 class="page-title">{title}</h1>
+      <p>
+        olhossecos.com.br explica a doença do olho seco. Não é consultório, não
+        fecha diagnóstico à distância e não oferece cupom. Quem precisa de
+        avaliação marca na clínica.
+      </p>
+    </div>
+  </header>
+
+  <section class="content-section">
+    <div class="page-shell prose">
+      <p>
+        <strong>Dr. {responsibleDoctor.name}</strong>
+        <br />
+        {responsibleDoctor.registration}
+      </p>
+      <p>
+        {clinic.name} · {clinic.addressLocality}/{clinic.addressRegion}
+        <br />
+        {clinicAddressLine}
+      </p>
+      <p>
+        WhatsApp
+        <a href={clinic.whatsappUrl} rel="noopener noreferrer"
+          >{clinic.telephoneDisplay}</a
+        >
+      </p>
+      <p>
+        <a class="button-primary" href={clinic.url} rel="noopener noreferrer">
+          Ir para o site da clínica
+        </a>
+      </p>
+      <p>
+        <a href="/paciente">Voltar ao portal do paciente</a>
+        {" · "}
+        <a href="/olho-seco">Entender o olho seco</a>
+      </p>
+    </div>
+  </section>
+</Layout>

@@ -1,108 +1,109 @@
+/**
+ * Blocos das duas homes de portal. A raiz não consome nada daqui: ela é só a
+ * pré-página que separa os públicos.
+ */
+
 export interface HomeLink {
   label: string;
   href: string;
 }
 
-export interface HomeJourney {
-  audience: "patient" | "professional";
-  eyebrow: string;
-  title: string;
-  description: string;
-  links: HomeLink[];
-  cta: HomeLink;
-}
-
-export interface EssentialContent extends HomeLink {
+export interface StarterCard extends HomeLink {
   description: string;
 }
 
-export const homeJourneys: HomeJourney[] = [
+/** Os primeiros passos do portal do paciente, na ordem da dúvida real. */
+export const patientStarters: StarterCard[] = [
   {
-    audience: "patient",
-    eyebrow: "Para pacientes",
-    title: "Entenda seus sintomas",
+    label: "O que é olho seco",
+    href: "/olho-seco",
     description:
-      "Ardência, sensação de areia, visão oscilante, lacrimejamento, desconforto com telas e sensibilidade ocular podem ter diferentes causas. Entenda como o olho seco se manifesta, como é investigado e quais são as possibilidades de cuidado.",
-    links: [
-      { label: "Sintomas", href: "/sintomas" },
-      { label: "Causas", href: "/causas" },
-      { label: "Diagnóstico", href: "/diagnostico" },
-      { label: "Tratamento", href: "/tratamentos" },
-      { label: "Glândulas de Meibomius", href: "/causas#evaporacao" },
-      {
-        label: "Olho seco e telas",
-        href: "/guias/telas-piscadas-desconforto",
-      },
-      {
-        label: "Conjuntivocálase",
-        href: "/guias/conjuntivocalase-olho-seco-mecanico",
-      },
-      { label: "Perguntas frequentes", href: "/olho-seco#proximos-passos" },
-    ],
-    cta: { label: "Explorar olho seco", href: "/olho-seco" },
+      "O que caracteriza a doença, por que ela envolve mecanismos diferentes e o que isso muda no cuidado.",
   },
   {
-    audience: "professional",
-    eyebrow: "Para profissionais",
-    title: "Superfície ocular em profundidade",
+    label: "Sintomas",
+    href: "/sintomas",
     description:
-      "Conteúdo técnico sobre diagnóstico multimodal, fenotipagem, imagem, tecnologias, terapias e evidências contemporâneas em doença do olho seco e superfície ocular.",
-    links: [
-      {
-        label: "Diagnóstico multimodal",
-        href: "/profissionais#diagnostico",
-      },
-      { label: "Meibografia", href: "/diagnostico#imagem" },
-      { label: "NIBUT", href: "/profissionais#nibut" },
-      { label: "Interferometria", href: "/profissionais#interferometria" },
-      { label: "Osmolaridade", href: "/profissionais#osmolaridade" },
-      { label: "Fenotipagem", href: "/profissionais#fenotipagem" },
-      { label: "Terapias", href: "/tratamentos" },
-      { label: "Evidências", href: "/profissionais#evidencias" },
-    ],
-    cta: {
-      label: "Acessar área profissional",
-      href: "/profissionais",
-    },
+      "Ardência, sensação de areia, lacrimejamento e visão que oscila — e o que cada padrão costuma sugerir.",
+  },
+  {
+    label: "Causas",
+    href: "/causas",
+    description:
+      "Evaporação, produção insuficiente, inflamação, ambiente e medicamentos: quase nunca há uma causa só.",
+  },
+  {
+    label: "Diagnóstico",
+    href: "/diagnostico",
+    description:
+      "Como história, exame e testes se somam — e por que nenhum número isolado fecha o diagnóstico.",
+  },
+  {
+    label: "Tratamentos",
+    href: "/tratamentos",
+    description:
+      "O que cada opção pretende, para quem costuma fazer sentido e o que ainda é incerto.",
+  },
+  {
+    label: "Autocuidado",
+    href: "/autocuidado",
+    description:
+      "Práticas de baixo risco para telas, ambiente e higiene palpebral, sem promessa de resultado.",
   },
 ];
 
-export const essentialContents: EssentialContent[] = [
+export interface ProfessionalTrack extends HomeLink {
+  id: string;
+  title: string;
+  text: string;
+}
+
+/**
+ * Eixos editoriais do portal profissional. Cada um leva ao texto que sustenta
+ * a afirmação — eixo sem destino é rótulo, não conteúdo.
+ */
+export const professionalTracks: ProfessionalTrack[] = [
   {
-    label: "O que é doença do olho seco?",
-    href: "/olho-seco",
-    description:
-      "Entenda o que caracteriza a doença e por que ela pode envolver diferentes mecanismos.",
+    id: "diagnostico",
+    title: "Diagnóstico multimodal",
+    text: "História clínica, sinais da superfície, estabilidade lacrimal, colorações e imagem lidas em conjunto.",
+    href: "/superficie/artigos/cinco-testes-cinco-perguntas",
+    label: "Cinco testes, cinco perguntas",
   },
   {
-    label: "Sintomas de olho seco",
-    href: "/sintomas",
-    description:
-      "Reconheça padrões como ardência, sensação de areia, lacrimejamento e visão oscilante.",
+    id: "fenotipagem",
+    title: "Fenotipagem",
+    text: "Organizar o mecanismo predominante para apoiar raciocínio, comunicação e acompanhamento.",
+    href: "/superficie/artigos/quando-sintomas-e-sinais-nao-batem",
+    label: "Quando sintomas e sinais não batem",
   },
   {
-    label: "Como é feito o diagnóstico?",
-    href: "/diagnostico",
-    description:
-      "Veja como história, exame e testes se complementam na investigação da superfície ocular.",
+    id: "imagem",
+    title: "Imagem e interferometria",
+    text: "Meibografia e camada lipídica como parte da leitura, não como veredito isolado.",
+    href: "/superficie/artigos/alem-do-meiboscore",
+    label: "Além do meiboscore",
   },
   {
-    label: "Tratamentos disponíveis",
-    href: "/tratamentos",
-    description:
-      "Conheça possibilidades de cuidado organizadas pelos mecanismos e objetivos do tratamento.",
+    id: "biomarcadores",
+    title: "Biomarcadores",
+    text: "NIBUT e osmolaridade respondem perguntas específicas — e há perguntas que eles não respondem.",
+    href: "/superficie/artigos/cinco-testes-cinco-perguntas",
+    label: "O que a osmolaridade responde",
   },
   {
-    label: "Doença das glândulas de Meibomius",
-    href: "/causas#evaporacao",
-    description:
-      "Compreenda a relação entre a camada lipídica, a evaporação e a estabilidade das lágrimas.",
+    id: "terapias",
+    title: "Terapias por mecanismo",
+    text: "Escolher a intervenção pelo mecanismo predominante, declarando o que a evidência sustenta.",
+    href: "/superficie/artigos/terapias-dirigidas-por-mecanismo",
+    label: "Terapias dirigidas por mecanismo",
   },
   {
-    label: "Olho seco e uso de telas",
-    href: "/guias/telas-piscadas-desconforto",
-    description:
-      "Entenda o papel das piscadas, do ambiente e dos hábitos durante o uso prolongado de telas.",
+    id: "evidencias",
+    title: "Evidências",
+    text: "Curadoria periódica com fonte verificável, resumo e por que o achado importa na prática.",
+    href: "/superficie/radar",
+    label: "RADAR Científico",
   },
 ];
 

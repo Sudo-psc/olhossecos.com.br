@@ -34,6 +34,23 @@ const perioperativeTopics = [
   "Superfície ocular no pós-operatório",
 ];
 
+/**
+ * O que cada frente já entregou. A nota dizia "conteúdos em desenvolvimento
+ * editorial" nas duas colunas enquanto três matérias sobre esses eixos
+ * estavam no ar logo acima, na grade de destaques — a mesma página se
+ * contradizia em duas rolagens.
+ */
+const practicePublished = {
+  therapy: [
+    {
+      slug: "terapias-dirigidas-por-mecanismo",
+      title: "O mecanismo da visita, não o degrau",
+    },
+    { slug: "anti-demodex", title: "Quando a higiene não basta" },
+  ],
+  perioperative: [{ slug: "prehab-ocular", title: "Tratar antes de medir" }],
+};
+
 const featuredArticles = sortPublishedArticlesByDate(publishedArticles).slice(
   0,
   6,
@@ -48,7 +65,7 @@ const newsletterEndpoint =
   {description}
   home
   schemaType="CollectionPage"
-  dateModified="2026-08-23"
+  dateModified="2026-08-25"
   breadcrumbs={[{ name: "SUPERFÍCIE", url: "/superficie" }]}
 >
   <section class="hero" aria-labelledby="hero-title">
@@ -156,7 +173,7 @@ const newsletterEndpoint =
       </div>
 
       <div class="topics-panel">
-        <p class="topics-label">Temas em desenvolvimento editorial</p>
+        <p class="topics-label">Eixos desta edição</p>
         <ol class="topics-list">
           {
             founderIssue.topics.map((topic, index) => (
@@ -170,7 +187,7 @@ const newsletterEndpoint =
       </div>
 
       <details class="topics-mobile">
-        <summary>Ver temas em desenvolvimento editorial</summary>
+        <summary>Ver os eixos desta edição</summary>
         <ol>
           {founderIssue.topics.map((topic) => <li>{topic}</li>)}
         </ol>
@@ -272,27 +289,6 @@ const newsletterEndpoint =
   </section>
 
   <section
-    id="entrevistas"
-    class="section conversations-section"
-    aria-labelledby="conversation-title"
-  >
-    <div class="surface-shell conversations-grid">
-      <div>
-        <p class="eyebrow ink">Entrevistas</p>
-        <h2 id="conversation-title">Conversas que movem a superfície ocular</h2>
-      </div>
-      <div class="conversation-placeholder">
-        <p class="eyebrow ink">Em breve</p>
-        <p>
-          Pesquisadores, especialistas, inovadores e desenvolvedores de
-          tecnologia terão espaço para conversas aprofundadas. Os convidados
-          serão apresentados somente após confirmação formal.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section
     id="tecnologia"
     class="section technology-section"
     aria-labelledby="technology-title"
@@ -341,7 +337,23 @@ const newsletterEndpoint =
           <ul>
             {therapyTopics.map((topic) => <li>{topic}</li>)}
           </ul>
-          <p class="practice-note">Conteúdos em desenvolvimento editorial.</p>
+          <p class="practice-note">
+            Já no ar:{" "}
+            {
+              practicePublished.therapy.map((item, index) => (
+                <>
+                  {index > 0 && " · "}
+                  <a
+                    href={`/superficie/artigos/${item.slug}`}
+                    data-analytics-event="article_click"
+                    data-analytics-label={item.slug}
+                  >
+                    {item.title}
+                  </a>
+                </>
+              ))
+            }
+          </p>
         </article>
         <article>
           <p class="eyebrow ink">Superfície ocular perioperatória</p>
@@ -349,7 +361,23 @@ const newsletterEndpoint =
           <ul>
             {perioperativeTopics.map((topic) => <li>{topic}</li>)}
           </ul>
-          <p class="practice-note">Conteúdos em desenvolvimento editorial.</p>
+          <p class="practice-note">
+            Já no ar:{" "}
+            {
+              practicePublished.perioperative.map((item, index) => (
+                <>
+                  {index > 0 && " · "}
+                  <a
+                    href={`/superficie/artigos/${item.slug}`}
+                    data-analytics-event="article_click"
+                    data-analytics-label={item.slug}
+                  >
+                    {item.title}
+                  </a>
+                </>
+              ))
+            }
+          </p>
         </article>
       </div>
     </div>
@@ -559,7 +587,7 @@ const newsletterEndpoint =
   .eyebrow {
     margin: 0 0 0.9rem;
     color: var(--surface-paper);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.18em;
     line-height: 1.35;
@@ -684,7 +712,7 @@ const newsletterEndpoint =
 
   .hero-index span,
   .hero-index small {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.16em;
     writing-mode: vertical-rl;
@@ -735,7 +763,7 @@ const newsletterEndpoint =
   .hero-cover p {
     margin: 1.15rem 0 0;
     color: var(--surface-gold-light);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.15em;
     text-align: center;
@@ -774,7 +802,7 @@ const newsletterEndpoint =
     align-items: center;
     gap: 0.6rem 0.8rem;
     margin: 1.7rem 0;
-    font-size: 0.82rem;
+    font-size: 0.875rem;
   }
 
   .status-line span:last-child {
@@ -800,7 +828,7 @@ const newsletterEndpoint =
     align-items: center;
     border-bottom: 1px solid currentColor;
     color: var(--surface-teal-dark);
-    font-size: 0.78rem;
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.07em;
     text-transform: uppercase;
@@ -816,7 +844,7 @@ const newsletterEndpoint =
   .topics-label {
     margin-bottom: 1.3rem;
     color: var(--surface-muted);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -837,7 +865,7 @@ const newsletterEndpoint =
   }
 
   .topics-list span {
-    color: #8b6220;
+    color: var(--gold-text);
     font-family: var(--surface-serif);
   }
 
@@ -966,7 +994,7 @@ const newsletterEndpoint =
     padding-left: 1rem;
     border-left: 2px solid var(--surface-gold-light);
     color: var(--surface-gold-light);
-    font-size: 0.85rem;
+    font-size: 0.875rem;
   }
 
   .evidence-steps {
@@ -989,7 +1017,6 @@ const newsletterEndpoint =
     font-family: var(--surface-serif);
   }
 
-  .conversations-grid,
   .technology-grid,
   .newsletter-grid,
   .principles-grid,
@@ -999,20 +1026,6 @@ const newsletterEndpoint =
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(320px, 0.85fr);
     gap: clamp(3rem, 8vw, 9rem);
-  }
-
-  .conversation-placeholder {
-    align-self: end;
-    padding: 2rem;
-    border-top: 4px solid var(--surface-teal);
-    border-radius: var(--surface-radius-md);
-    background: var(--surface-white);
-    box-shadow: 0 18px 45px rgb(0 19 38 / 8%);
-  }
-
-  .conversation-placeholder p:last-child {
-    margin-bottom: 0;
-    color: var(--surface-copy);
   }
 
   .technology-list {
@@ -1077,11 +1090,14 @@ const newsletterEndpoint =
   .policy-state {
     margin: 1.5rem 0 0;
     color: var(--surface-muted);
-    font-size: 0.82rem;
+    font-size: 0.875rem;
   }
 
+  .practice-note a,
   .policy-state a {
-    color: var(--surface-teal);
+    /* --surface-teal é a cor de marca (fio, borda) e dá 4,24:1 sobre papel —
+       reprova até no AA para texto corrido. Link usa a variante de texto. */
+    color: var(--surface-teal-dark);
     text-decoration: underline;
     text-underline-offset: 0.15em;
   }
@@ -1100,14 +1116,14 @@ const newsletterEndpoint =
   .launch-note {
     margin: 0.8rem 0 0;
     color: var(--surface-teal-dark);
-    font-size: 0.83rem;
+    font-size: 0.875rem;
     font-weight: 700;
   }
 
   .benefit-note {
     margin: 1rem 0 0;
     color: var(--surface-muted-on-dark);
-    font-size: 0.78rem;
+    font-size: 0.875rem;
   }
 
   .principles-grid,
@@ -1131,7 +1147,7 @@ const newsletterEndpoint =
 
   .labels-card > p {
     color: var(--surface-muted);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -1144,7 +1160,7 @@ const newsletterEndpoint =
     border: 1px solid var(--surface-line);
     border-radius: var(--surface-radius-sm);
     color: var(--surface-navy);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 850;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -1284,7 +1300,6 @@ const newsletterEndpoint =
 
     .issue-grid,
     .evidence-grid,
-    .conversations-grid,
     .technology-grid,
     .newsletter-grid,
     .principles-grid,
@@ -1315,7 +1330,7 @@ const newsletterEndpoint =
       align-items: center;
       color: var(--surface-teal-dark);
       cursor: pointer;
-      font-size: 0.78rem;
+      font-size: 0.875rem;
       font-weight: 800;
       letter-spacing: 0.07em;
       text-transform: uppercase;

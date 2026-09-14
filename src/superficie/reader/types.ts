@@ -11,6 +11,12 @@ export type MagazinePageType =
 
 export interface MagazinePage {
   number: number;
+  /**
+   * Folio do inventário impresso. O reader remapeia `number` depois de
+   * filtrar `type=ad`; as camadas `text/page-NN.json` continuam no folio
+   * original e precisam deste valor para validar.
+   */
+  sourcePage?: number;
   image: {
     small: string;
     medium: string;
@@ -21,6 +27,12 @@ export interface MagazinePage {
   type?: MagazinePageType;
   articleId?: string;
   alt?: string;
+}
+
+/** Dimensão nativa das placas, em pixels. Define a proporção do leitor. */
+export interface PageSize {
+  width: number;
+  height: number;
 }
 
 export interface IssueTocEntry {
@@ -40,6 +52,8 @@ export interface IssueManifest {
   number: string;
   title: string;
   pageCount: number;
+  /** Ausente em edições antigas; o leitor cai no A4 de referência. */
+  pageSize?: PageSize;
   pages: MagazinePage[];
   toc: IssueTocEntry[];
   articles: IssueArticle[];
@@ -124,6 +138,7 @@ export interface ReaderPreferences {
   soundEnabled: boolean;
   reducedMotion: boolean;
   toolbarMinimized: boolean;
+  chromeHidden?: boolean;
   zoomMode: ZoomMode;
   zoomPercent: 100 | 125 | 150 | 200;
 }
