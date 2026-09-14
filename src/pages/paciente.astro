@@ -1,6 +1,9 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import EducationalFigure from "@/components/EducationalFigure.astro";
 import NewsletterSignupForm from "@/components/NewsletterSignupForm.astro";
+import TearFilmCycle from "@/components/TearFilmCycle.astro";
+import { figures } from "@/lib/figures";
 import { patientStarters } from "@/lib/home";
 import { guides } from "@/lib/guides";
 import { toolCatalog } from "@/lib/tools/catalog";
@@ -9,8 +12,12 @@ import { toolCatalog } from "@/lib/tools/catalog";
  * Home do portal do paciente. A versão anterior era única para os dois
  * públicos e carregava onze seções: revista, livros, conselho editorial e
  * jornadas conviviam com o conteúdo de quem só queria saber o que fazer com a
- * ardência. Aqui ficam seis blocos, na ordem em que a dúvida costuma aparecer.
+ * ardência. Aqui ficam os blocos de partida, na ordem em que a dúvida costuma
+ * aparecer, com figuras do catálogo e a animação do filme lacrimal — o único
+ * conceito central que imagem parada não mostra.
  */
+const figureSizes = "(max-width: 900px) calc(100vw - 2.5rem), min(560px, 42vw)";
+const wideFigureSizes = "(max-width: 850px) calc(100vw - 2.5rem), 780px";
 const featuredGuide =
   guides.find(({ slug }) => slug === "olho-seco-guia-essencial") ?? guides[0];
 
@@ -28,7 +35,7 @@ const quickGuides = guides
   title="Olho seco: sintomas, causas e cuidados | Portal do paciente"
   description="Entenda os sintomas do olho seco, como o diagnóstico é feito, o que os tratamentos pretendem e o que dá para fazer no dia a dia."
   schemaType="MedicalWebPage"
-  dateModified="2026-08-25"
+  dateModified="2026-09-14"
 >
   <section class="patient-hero" aria-labelledby="patient-title">
     <div class="page-shell hero-grid">
@@ -90,6 +97,40 @@ const quickGuides = guides
     </div>
   </section>
 
+  <section class="film-block" aria-labelledby="film-title">
+    <div class="page-shell">
+      <header class="section-intro reveal">
+        <p class="eyebrow">O que acontece na superfície</p>
+        <h2 id="film-title" class="section-heading">
+          Entre uma piscada e a seguinte, o filme cobre, afina e pode romper
+        </h2>
+        <p>
+          Olho seco não é só produzir pouca lágrima. A película que protege a
+          superfície é dinâmica: se espalha na piscada, afina com o tempo e, em
+          alguns pontos, deixa o epitélio exposto até a piscada seguinte.
+        </p>
+      </header>
+
+      <div class="film-cycle reveal">
+        <TearFilmCycle />
+      </div>
+
+      <div class="film-figure reveal">
+        <EducationalFigure
+          figure={figures.tearFilmLayersEducation}
+          sizes={wideFigureSizes}
+        />
+      </div>
+
+      <a class="text-link" href="/olho-seco">
+        Continuar em: o que é olho seco?
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 12h16m-5-5 5 5-5 5"></path>
+        </svg>
+      </a>
+    </div>
+  </section>
+
   <section class="starters" aria-labelledby="starters-title">
     <div class="page-shell">
       <h2 id="starters-title" class="section-heading">
@@ -98,7 +139,7 @@ const quickGuides = guides
       <ul class="starter-grid">
         {
           patientStarters.map((item, index) => (
-            <li class="reveal">
+            <li class="reveal" style={`--reveal-index: ${index}`}>
               <a href={item.href}>
                 <span class="starter-index">
                   {String(index + 1).padStart(2, "0")}
@@ -110,6 +151,99 @@ const quickGuides = guides
           ))
         }
       </ul>
+    </div>
+  </section>
+
+  <section class="visual-path" aria-labelledby="visual-path-title">
+    <div class="page-shell">
+      <header class="section-intro reveal">
+        <p class="eyebrow">Ver para entender</p>
+        <h2 id="visual-path-title" class="section-heading">
+          Três paradas visuais da jornada
+        </h2>
+        <p>
+          A piscada que redistribui o filme, o exame que observa a superfície e
+          o cuidado de baixo risco no dia a dia. As legendas explicam a imagem;
+          nenhuma delas promete resultado.
+        </p>
+      </header>
+
+      <article class="visual-stop reveal">
+        <div class="visual-stop-copy">
+          <p class="card-kicker">Sintomas e mecanismo</p>
+          <h3>
+            A piscada completa cobre; a incompleta deixa uma faixa de fora
+          </h3>
+          <p>
+            Na piscada completa a pálpebra superior alcança a inferior e o filme
+            se redistribui por toda a superfície. Na incompleta, uma faixa
+            inferior fica sem essa renovação — um padrão comum em tarefas de
+            atenção prolongada.
+          </p>
+          <a class="text-link" href="/sintomas">
+            Ver sintomas
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 12h16m-5-5 5 5-5 5"></path>
+            </svg>
+          </a>
+        </div>
+        <EducationalFigure
+          figure={figures.blinkCompletenessEducation}
+          sizes={figureSizes}
+        />
+      </article>
+
+      <article class="visual-stop reveal">
+        <div class="visual-stop-copy">
+          <p class="card-kicker">Diagnóstico e imagem</p>
+          <h3>O exame observa; a meibografia registra estrutura, não função</h3>
+          <p>
+            A lâmpada de fenda permite examinar pálpebras, filme lacrimal e
+            superfície com ampliação. A meibografia infravermelha mostra as
+            glândulas da pálpebra virada como colunas claras. É um retrato da
+            forma — não da qualidade da secreção nem da causa dos sintomas.
+          </p>
+          <a class="text-link" href="/diagnostico">
+            Como o diagnóstico é feito
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 12h16m-5-5 5 5-5 5"></path>
+            </svg>
+          </a>
+        </div>
+        <EducationalFigure
+          figure={figures.slitLampAssessment}
+          sizes={figureSizes}
+        />
+      </article>
+
+      <div class="visual-path-wide reveal">
+        <EducationalFigure
+          figure={figures.meibographyInfraredHwang2013}
+          sizes={wideFigureSizes}
+        />
+      </div>
+
+      <article class="visual-stop reveal">
+        <div class="visual-stop-copy">
+          <p class="card-kicker">Autocuidado</p>
+          <h3>Calor confortável e limpeza suave, sem força extra</h3>
+          <p>
+            Compressa morna e higiene das bordas palpebrais formam a base da
+            rotina de baixo risco. Intensidade não é sinônimo de eficácia, e
+            nenhuma prática caseira substitui avaliação quando os sinais pedem.
+          </p>
+          <a class="text-link" href="/autocuidado">
+            Ver autocuidado
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 12h16m-5-5 5 5-5 5"></path>
+            </svg>
+          </a>
+        </div>
+        <EducationalFigure
+          figure={figures.lidHygieneEducation}
+          sizes={figureSizes}
+        />
+      </article>
     </div>
   </section>
 
@@ -194,8 +328,8 @@ const quickGuides = guides
       </header>
       <ul class="tools-grid">
         {
-          toolCatalog.map((tool) => (
-            <li class="reveal">
+          toolCatalog.map((tool, index) => (
+            <li class="reveal" style={`--reveal-index: ${index}`}>
               <a href={tool.href}>
                 <span class="card-kicker">{tool.kicker}</span>
                 <strong>{tool.title}</strong>
@@ -204,7 +338,7 @@ const quickGuides = guides
             </li>
           ))
         }
-        <li class="reveal">
+        <li class="reveal" style={`--reveal-index: ${toolCatalog.length}`}>
           <a href="/ferramentas">
             <span class="card-kicker">Índice</span>
             <strong>Todas as ferramentas</strong>
@@ -319,6 +453,37 @@ const quickGuides = guides
     line-height: 1.5;
   }
 
+  .film-block {
+    padding: var(--space-block) 0;
+    background: var(--paper-100);
+  }
+
+  .film-block .section-intro p,
+  .visual-path .section-intro p {
+    margin: 0.85rem 0 0;
+    max-width: var(--measure-narrow);
+    color: var(--ink-soft);
+  }
+
+  .film-cycle :global(.tear-cycle),
+  .film-figure :global(.educational-figure),
+  .visual-stop :global(.educational-figure),
+  .visual-path-wide :global(.educational-figure) {
+    margin: 0;
+  }
+
+  .film-cycle {
+    margin-top: 1.75rem;
+  }
+
+  .film-figure {
+    margin-top: 1.5rem;
+  }
+
+  .film-block .text-link {
+    margin-top: 1.5rem;
+  }
+
   .starters {
     padding: var(--space-block) 0;
   }
@@ -382,6 +547,78 @@ const quickGuides = guides
   .starter-text {
     color: var(--ink-soft);
     font-size: var(--text-small);
+  }
+
+  .visual-path {
+    padding: var(--space-block) 0;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .visual-stop {
+    display: grid;
+    gap: clamp(1.25rem, 0.9rem + 1.6vw, 2.25rem);
+    align-items: center;
+    margin-top: clamp(1.75rem, 1.2rem + 2vw, 2.75rem);
+  }
+
+  .visual-path .section-intro + .visual-stop {
+    margin-top: 0;
+  }
+
+  @media (min-width: 900px) {
+    .visual-stop {
+      grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    }
+
+    .visual-stop:nth-of-type(even) {
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    }
+
+    .visual-stop:nth-of-type(even) .visual-stop-copy {
+      order: 2;
+    }
+  }
+
+  .visual-stop-copy h3 {
+    margin: 0.45rem 0 0.75rem;
+    max-width: 22ch;
+    font-family: var(--serif);
+    font-size: var(--text-h3);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-snug);
+    text-wrap: balance;
+  }
+
+  .visual-stop-copy p {
+    margin: 0;
+    max-width: var(--measure-narrow);
+    color: var(--ink-soft);
+  }
+
+  .visual-stop-copy .text-link {
+    margin-top: 1.15rem;
+  }
+
+  .visual-path-wide {
+    margin-top: clamp(1.5rem, 1rem + 1.6vw, 2.25rem);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .starter-grid .reveal,
+    .tools-grid .reveal {
+      animation-delay: calc(var(--reveal-index, 0) * 70ms);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .starter-grid .reveal,
+    .tools-grid .reveal,
+    .film-block .reveal,
+    .visual-path .reveal {
+      animation: none;
+      animation-delay: 0ms;
+    }
   }
 
   .alert-strip {

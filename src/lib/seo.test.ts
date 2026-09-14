@@ -56,7 +56,7 @@ test("hubs editoriais herdam a data do conteúdo mais recente", () => {
   assert.equal(lastmodForSitemapPath("/superficie"), "2026-08-25");
   assert.equal(lastmodForSitemapPath("/superficie/artigos"), "2026-08-25");
   assert.equal(lastmodForSitemapPath("/profissional"), "2026-08-25");
-  assert.equal(lastmodForSitemapPath("/paciente"), "2026-08-25");
+  assert.equal(lastmodForSitemapPath("/paciente"), "2026-09-14");
 });
 
 /**
