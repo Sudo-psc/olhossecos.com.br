@@ -275,6 +275,7 @@ const paths = [
   @media (min-width: 900px) {
     .gateway-grid {
       grid-template-columns: 1fr 1fr;
+      perspective: 1400px;
     }
   }
 
@@ -291,6 +292,12 @@ const paths = [
     overflow: hidden;
     /* A elevação usa filter porque o anel de foco de dois tons já ocupa o
        box-shadow — na mesma propriedade uma esconderia a outra. */
+    --tilt-x: 0deg;
+    --tilt-y: 0deg;
+    --gateway-lift: 0px;
+    transform: translateY(var(--gateway-lift)) rotateX(var(--tilt-x))
+      rotateY(var(--tilt-y));
+    transform-style: preserve-3d;
     transition:
       filter var(--duration-base) var(--ease-out-soft),
       border-color var(--duration-base) var(--ease-out-soft),
@@ -299,8 +306,8 @@ const paths = [
 
   .gateway-card:hover,
   .gateway-card:focus-within {
+    --gateway-lift: -2px;
     filter: var(--lift-hover);
-    transform: translateY(-2px);
   }
 
   /* Cada portal carrega a própria cor: paciente em teal, profissional em
@@ -490,12 +497,15 @@ const paths = [
 
   @media (prefers-reduced-motion: reduce) {
     .gateway-card {
+      --tilt-x: 0deg;
+      --tilt-y: 0deg;
+      --gateway-lift: 0px;
       transition: none;
     }
 
     .gateway-card:hover,
     .gateway-card:focus-within {
-      transform: none;
+      --gateway-lift: 0px;
     }
 
     .gateway-card::before {

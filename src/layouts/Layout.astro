@@ -3,6 +3,7 @@ import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import AnalyticsCollector from "@/components/AnalyticsCollector.astro";
 import GlobalSearchModal from "@/components/GlobalSearchModal.astro";
+import PortalMotion from "@/components/PortalMotion.astro";
 import { author } from "@/lib/books";
 import {
   clinicLocalBusinessSchema,
@@ -274,6 +275,7 @@ const structuredData = {
     </main>
     <Footer />
     <GlobalSearchModal />
+    <PortalMotion />
   </body>
 </html>
 
@@ -1110,12 +1112,22 @@ const structuredData = {
     }
   }
 
+  html[data-motion-scroll="lenis"] {
+    scroll-behavior: auto;
+  }
+
+  html[data-motion-scroll="lenis"],
+  html[data-motion-scroll="lenis"] body {
+    height: auto;
+  }
+
   /* Entrada suave ao rolar, dirigida pela própria rolagem (sem JS, sem
      IntersectionObserver). Só onde o navegador suporta animation-timeline;
      no resto o elemento simplesmente aparece. Anima opacity e translate —
-     nunca transform, que o hover das cartas já usa. */
+     nunca transform, que o hover das cartas já usa. GSAP desliga isso para
+     não competir com o mesmo elemento. */
   @supports (animation-timeline: view()) {
-    .reveal {
+    html:not([data-motion-engine="gsap"]) .reveal {
       animation: reveal-in linear both;
       animation-timeline: view();
       animation-range: entry 0% entry 38%;

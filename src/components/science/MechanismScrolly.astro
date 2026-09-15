@@ -6,6 +6,8 @@
  *
  * O scroll é o do navegador — nada é sequestrado. Sem JavaScript, ou com
  * "menos movimento" ativo, as seis etapas continuam legíveis em sequência.
+ * Com GSAP, a troca de camada ganha easing; o IntersectionObserver fica
+ * como fallback quando o motor não sobe.
  */
 import { sources } from "@/lib/sources";
 
@@ -395,6 +397,16 @@ const steps = [
     opacity: 0.55;
   }
 
+  /* O motor anima opacity; o CSS só marca células e o fio da etapa. */
+  [data-engine="gsap"] .layer-break,
+  [data-engine="gsap"] .layer-evaporation,
+  [data-engine="gsap"] .layer-osmolarity,
+  [data-engine="gsap"] .layer-inflammation,
+  [data-engine="gsap"] .layer-nerve {
+    opacity: 0;
+    transition: none;
+  }
+
   @media (min-width: 900px) {
     .mechanism-grid {
       display: grid;
@@ -430,6 +442,7 @@ const steps = [
 
     const observer = new IntersectionObserver(
       (entries) => {
+        if (document.documentElement.dataset.motionEngine === "gsap") return;
         const active = entries
           .filter((entry) => entry.isIntersecting)
           .sort(
