@@ -58,7 +58,7 @@ const staticPages: Record<string, string> = {
   "/superficie/edicao-00": "2026-08-07",
   "/superficie/edicoes": "2026-08-15",
   "/superficie/parceiros": "2026-08-08",
-  "/superficie/radar": "2026-08-22",
+  "/superficie/radar": "2026-09-15",
   "/tratamentos": "2026-07-26",
 };
 

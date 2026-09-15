@@ -50,12 +50,16 @@ test("lastmod dos artigos publicados usa a data editorial, não o fallback de ju
     lastmodForSitemapPath("/superficie/radar/agosto-2026"),
     "2026-08-09",
   );
+  assert.equal(
+    lastmodForSitemapPath("/superficie/radar/setembro-2026"),
+    "2026-09-15",
+  );
 });
 
 test("hubs editoriais herdam a data do conteúdo mais recente", () => {
   assert.equal(lastmodForSitemapPath("/superficie"), "2026-08-25");
   assert.equal(lastmodForSitemapPath("/superficie/artigos"), "2026-08-25");
-  assert.equal(lastmodForSitemapPath("/profissional"), "2026-08-25");
+  assert.equal(lastmodForSitemapPath("/profissional"), "2026-09-15");
   assert.equal(lastmodForSitemapPath("/paciente"), "2026-09-14");
 });
 
