@@ -7,11 +7,13 @@ import {
   radarReports,
 } from "./radar.ts";
 
-const SEALED_SETEMBRO_DOIS = [
+const SETEMBRO_DOIS = [
   "10.1002/14651858.CD010051.pub3",
   "10.2147/DDDT.S620553",
   "10.1007/s10792-026-04178-5",
   "10.1038/s41598-026-62115-z",
+  "10.3390/jcm15135029",
+  "10.1007/s40265-025-02241-6",
 ] as const;
 
 test("o relatório mais recente é setembro-2026 e vem primeiro", () => {
@@ -25,16 +27,21 @@ test("o relatório mais recente é setembro-2026 e vem primeiro", () => {
   assert.equal(getRadarReportPath(latest!), "/superficie/radar/setembro-2026");
 });
 
-test("setembro-2026 publica só o núcleo selado de quatro achados", () => {
+test("setembro-2026 publica exatamente seis achados", () => {
   const report = radarReports[0];
   assert.ok(report);
-  assert.equal(report.findings.length, 4);
+  assert.equal(report.findings.length, 6);
   assert.deepEqual(
     report.findings.map((finding) => finding.doi),
-    [...SEALED_SETEMBRO_DOIS],
+    [...SETEMBRO_DOIS],
   );
   assert.equal(report.industry.length, 0);
   assert.equal(report.publishedAt, "2026-09-15");
+  assert.equal(
+    report.findings.some((finding) => finding.doi === "10.3390/jcm15114093"),
+    false,
+    "Ansari (agosto) não volta em setembro",
+  );
 });
 
 test("nenhum achado do RADAR entra sem URL e DOI verificável", () => {
@@ -66,6 +73,6 @@ test("groupFindingsBySection preserva a ordem e não mistura seções", () => {
     groups.map((group) => group.section),
     ["Farmacologia e pipeline", "Tecnologias diagnósticas e terapêuticas"],
   );
-  assert.equal(groups[0]?.findings.length, 3);
+  assert.equal(groups[0]?.findings.length, 5);
   assert.equal(groups[1]?.findings.length, 1);
 });

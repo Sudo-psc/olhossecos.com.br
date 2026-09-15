@@ -103,7 +103,7 @@ const setembro2026: RadarReport = {
   period: "Varredura de julho e agosto de 2026",
   publishedAt: "2026-09-15",
   executiveSummary:
-    "O período não entrega classe nova. Entrega o cheque de três ferramentas que o consultório já usa. Ciclosporina tópica pode ajudar; a certeza é baixa a moderada e a descontinuação sobe. O spray nasal de vareniclina sobe o Schirmer e não fecha o sintoma. O lenço de higiene ganha do soro em quatro semanas e não prova superioridade sobre o ácido hipocloroso. A pergunta deixa de ser «funciona?» e passa a ser o que cada ferramenta muda, em quanto tempo, e o que ela não promete.",
+    "O período não entrega classe nova. Entrega o cheque de três ferramentas que o consultório já usa. Ciclosporina tópica pode ajudar; a certeza é baixa a moderada e a descontinuação sobe. O spray nasal de vareniclina sobe o Schirmer e não fecha o sintoma. O lenço de higiene ganha do soro em quatro semanas e não prova superioridade sobre o ácido hipocloroso. Duas leituras de contexto fecham o pacote de seis: o mapa da via nasal — a vareniclina já aprovada é um caso clínico, não a prova de que todo fármaco nasal chega ao olho — e a revisão de Cooper sobre o cardápio farmacológico e natural da DGM, amplo e ainda sem protocolo único. A pergunta deixa de ser «funciona?» e passa a ser o que cada ferramenta muda, em quanto tempo, e o que ela não promete.",
   highlights: [
     {
       title:
@@ -128,6 +128,16 @@ const setembro2026: RadarReport = {
         "Lenço de higiene ganha do soro em quatro semanas — não elege marca",
       whyItMatters:
         "Higiene mecânica com lenço pronto bateu o soro no sintoma curto. Isso não é ranking de ácido hipocloroso nem generaliza para Demodex grave.",
+    },
+    {
+      title: "A via nasal é um mapa de entrega, não um atalho clínico",
+      whyItMatters:
+        "Ajuda a ler a vareniclina no lugar certo: um spray aprovado para olho seco, no meio de um racional ainda pré-clínico para a maior parte dos outros agentes.",
+    },
+    {
+      title: "O cardápio da DGM cresce; o protocolo único não chegou",
+      whyItMatters:
+        "Organiza classes e opções naturais sem eleger vencedor. O exame e o mecanismo vêm antes da prateleira.",
     },
   ],
   findings: [
@@ -186,14 +196,42 @@ const setembro2026: RadarReport = {
       evidenceLevel: "RCT / um centro / n = 72 randomizados",
       section: "Tecnologias diagnósticas e terapêuticas",
     },
+    {
+      title:
+        "Nose-to-Eye Delivery: The Potential of Intranasal Administration in Ophthalmology",
+      source: "Journal of Clinical Medicine, 2026;15(13):5029",
+      date: "27/06/2026",
+      url: "https://pubmed.ncbi.nlm.nih.gov/42452492/",
+      doi: "10.3390/jcm15135029",
+      summary:
+        "Revisão narrativa (Adezio, Iannetta, Manni, Visioli, Roberti, Alisi) da via intranasal como estratégia de entrega ocular. O resumo parte do limite das gotas convencionais — biodisponibilidade inferior a 5% pelas barreiras pré-corneanas e pelo epitélio — e descreve três caminhos: reflexo nasolacrimal, «ponte neural» pelo crivo (olfatório e trigêmeo) e absorção sistêmica sem primeira passagem hepática. A evidência de concentração retiniana superior (eritropoetina, NGF, insulina) é pré-clínica. No consultório, o spray nasal de vareniclina já tem aprovação da FDA para olho seco; esteroides intranasais, no recorte dos autores, não elevam de forma significativa a pressão intraocular. Limites declarados: clearance mucociliar e volume pequeno de entrega.",
+      whyItMatters:
+        "Dá o mapa em que a meta-análise da vareniclina deste ciclo se senta. Não autoriza extrapolar todo fármaco nasal para a superfície ocular.",
+      evidenceLevel: "Revisão narrativa",
+      section: "Farmacologia e pipeline",
+    },
+    {
+      title:
+        "Pharmacological, Natural and Emerging Therapies for Meibomian Gland Dysfunction: A Review",
+      source: "Drugs, 2026;86(5):675-718",
+      date: "Online em 03/04/2026; impresso em maio de 2026",
+      url: "https://doi.org/10.1007/s40265-025-02241-6",
+      doi: "10.1007/s40265-025-02241-6",
+      summary:
+        "Revisão (Cooper, Mahmoud, Jennings, Bandamwar, Wang, Craig) do manejo da DGM, causa principal do olho seco não aquoso-deficiente. Os autores registram que o tratamento não é padronizado. No braço farmacológico listam anti-inflamatórios (antibióticos, imunossupressores e antagonistas tópicos de integrina), perfluorohexiloctano e secretagogos aquosos tópicos. No braço natural, suplementos orais (ácidos graxos poli-insaturados, astaxantina, mirtilo, formulações chinesas e ginseng vermelho coreano) e tópicos de origem natural (óleo de rícino, mel de manuka, óleo de tea tree, coenzima Q10 e extrato de chá verde). Pedem exame que identifique o mecanismo antes de tratar, e que eficácia, duração e segurança entrem na escolha. O resumo não traz estimativa de efeito nem ranking.",
+      whyItMatters:
+        "Organiza a prateleira da DGM sem eleger vencedor. Complementa o ensaio de higiene deste ciclo: o lenço ganhou do soro em quatro semanas; esta revisão lembra que isso não fecha o protocolo da glândula.",
+      evidenceLevel: "Revisão narrativa",
+      section: "Farmacologia e pipeline",
+    },
   ],
   industry: [],
   transparencyNote:
-    "Núcleo selado em 01/09/2026 (ed.0, pp. 77–78): quatro achados, todos com PubMed e DOI conferidos de novo em 15/09/2026 no Crossref e no PubMed. O DOI da Cochrane resolve; o link publicado é o PubMed porque o Wiley devolveu 403 ao verificador automático. Chen (DOI 10.1177/10807683261424112) permanece fora — corte de data Crossref do Revisor. Sem bloco de indústria neste ciclo: não houve fonte primária FDA/ANVISA no recorte. Itens posteriores a 01/09 ficaram como candidatos na descrição do PR, sem entrar nos achados.",
+    "Pacote de seis para o portal. Núcleo selado em 01/09/2026 (ed.0, pp. 77–78): quatro achados, todos com PubMed e DOI conferidos de novo em 15/09/2026 no Crossref e no PubMed. Dois acréscimos vieram de varredura no Consensus e só entraram depois de fechar PMID e DOI no PubMed e no Crossref: Adezio et al. (PMID 42452492; DOI 10.3390/jcm15135029; online 27/06/2026) e Cooper et al. (PMID 41931217; DOI 10.1007/s40265-025-02241-6; online 03/04/2026). Consensus não é fonte de número. O DOI da Cochrane resolve; o link publicado é o PubMed porque o Wiley devolveu 403 ao verificador automático. O mesmo critério vale para Adezio (MDPI 403; PubMed aberto). Chen (DOI 10.1177/10807683261424112) permanece fora — corte de data Crossref do Revisor. Alsuhail (CsA versus diquafosol) continua fora do mesmo recorte. Ansari (métricas de DGM) já está no RADAR de agosto. Sem bloco de indústria neste ciclo.",
   seo: {
     title: "RADAR Científico — Setembro 2026 | SUPERFÍCIE",
     description:
-      "Curadoria de julho e agosto de 2026: Cochrane da ciclosporina tópica, CsA 0,1% sem água, vareniclina nasal e higiene palpebral.",
+      "Curadoria de setembro de 2026: Cochrane da ciclosporina, CsA 0,1% sem água, via nasal, higiene palpebral e o cardápio da DGM.",
   },
 };
 
