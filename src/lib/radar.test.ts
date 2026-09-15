@@ -55,6 +55,19 @@ test("nenhum achado do RADAR entra sem URL e DOI verificável", () => {
   }
 });
 
+test("setembro cita DEWS III só como idioma, sem republicar agosto", () => {
+  const setembro = radarReports.find(
+    (report) => report.slug === "setembro-2026",
+  );
+  assert.ok(setembro);
+  assert.match(setembro.executiveSummary, /TFOS DEWS III/u);
+  assert.match(setembro.executiveSummary, /não se republica aqui/u);
+  const findings = JSON.stringify(setembro.findings);
+  assert.doesNotMatch(findings, /DEWS III/u);
+  assert.doesNotMatch(findings, /lifitegrast/iu);
+  assert.doesNotMatch(findings, /TRYPTYR|acoltremon/iu);
+});
+
 test("Chen permanece fora do ciclo de setembro", () => {
   const setembro = radarReports.find(
     (report) => report.slug === "setembro-2026",
