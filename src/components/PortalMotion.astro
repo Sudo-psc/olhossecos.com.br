@@ -1,0 +1,13 @@
+---
+/**
+ * Motor de movimento do portal. O JavaScript só importa GSAP/Lenis depois
+ * de ler prefers-reduced-motion — quem pediu menos movimento não baixa o
+ * bundle. A revista SUPERFÍCIE fica de fora: tem ritmo próprio.
+ */
+---
+
+<script>
+  import { bootPortalMotion } from "@/lib/portal-motion";
+
+  void bootPortalMotion();
+</script>

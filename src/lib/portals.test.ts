@@ -82,6 +82,7 @@ test("o portal do paciente ensina com figuras educativas e movimento leve", asyn
 
   assert.match(source, /import EducationalFigure/u);
   assert.match(source, /import TearFilmCycle/u);
+  assert.match(source, /import MechanismScrolly/u);
   assert.match(source, /figures\.tearFilmLayersEducation/u);
   assert.match(source, /figures\.blinkCompletenessEducation/u);
   assert.match(source, /figures\.slitLampAssessment/u);

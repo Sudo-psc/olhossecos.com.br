@@ -5,9 +5,10 @@
  *
  * É o único conceito central do portal que imagem parada não mostra — a
  * doença está justamente na passagem do tempo entre uma piscada e a seguinte.
- * Feito em SVG animado por CSS em vez de vídeo: 6 KB no release, traço nítido
- * em qualquer tela, e cada quadro é auditável, o que um MP4 gerado por modelo
- * não é.
+ * Feito em SVG em vez de vídeo: 6 KB no release, traço nítido em qualquer
+ * tela, e cada quadro é auditável, o que um MP4 gerado por modelo não é.
+ * O CSS anima o ciclo sozinho; GSAP assume quando o visitante aceita
+ * movimento — piscada com inércia e pausa fora da tela.
  *
  * A espessura não é interpolada: CSS não anima o `d` de um path, e emular com
  * scaleY descolaria a fita da curva da córnea, porque a mesma transformação
@@ -33,7 +34,7 @@ const ribbon = (t: number) =>
   `M40 ${160 - t} Q 320 ${40 - t} 600 ${160 - t} L 600 160 Q 320 40 40 160 Z`;
 ---
 
-<figure class="tear-cycle">
+<figure class="tear-cycle" data-tear-cycle>
   <svg
     viewBox="0 0 640 210"
     role="img"
@@ -66,12 +67,19 @@ const ribbon = (t: number) =>
       d="M40 160 Q 320 40 600 160 L 600 200 L 40 200 Z"
       fill="url(#tc-epithelium)"></path>
 
-    <path class="tc-film tc-film--cheio" d={ribbon(30)} fill="url(#tc-film)"
-    ></path>
-    <path class="tc-film tc-film--medio" d={ribbon(15)} fill="url(#tc-film)"
-    ></path>
+    <path
+      class="tc-film tc-film--cheio"
+      data-tear-layer="cheio"
+      d={ribbon(30)}
+      fill="url(#tc-film)"></path>
+    <path
+      class="tc-film tc-film--medio"
+      data-tear-layer="medio"
+      d={ribbon(15)}
+      fill="url(#tc-film)"></path>
     <path
       class="tc-film tc-film--roto"
+      data-tear-layer="roto"
       d={ribbon(7)}
       fill="url(#tc-film)"
       mask="url(#tc-breakup)"></path>
@@ -84,7 +92,13 @@ const ribbon = (t: number) =>
       opacity="0.45"></path>
 
     <!-- Meniscos nas duas margens: encolhem junto com o filme. -->
-    <g class="tc-meniscus" stroke="#3dc4d4" stroke-linecap="round" fill="none">
+    <g
+      class="tc-meniscus"
+      data-tear-meniscus
+      stroke="#3dc4d4"
+      stroke-linecap="round"
+      fill="none"
+    >
       <path d="M40 162 Q 108 186 158 196"></path>
       <path d="M600 162 Q 532 186 482 196"></path>
     </g>
@@ -92,7 +106,7 @@ const ribbon = (t: number) =>
     <!-- Pálpebra: em repouso o ponto mais baixo da borda fica em y=-10, fora
          do viewBox. Antes parava em y=50 e desenhava um arco permanente sobre
          a córnea, visível em todos os quadros. -->
-    <g class="tc-lid">
+    <g class="tc-lid" data-tear-lid>
       <path d="M20 -230 L 620 -230 L 620 -34 Q 320 14 20 -34 Z" fill="#f4f7f7"
       ></path>
       <path
@@ -238,6 +252,13 @@ const ribbon = (t: number) =>
   .tear-cycle figcaption p {
     margin: 0;
     color: var(--ink-soft);
+  }
+
+  /* GSAP assume o ciclo; o CSS fica como fallback sem JS. */
+  .tear-cycle[data-engine="gsap"] .tc-film,
+  .tear-cycle[data-engine="gsap"] .tc-meniscus,
+  .tear-cycle[data-engine="gsap"] .tc-lid {
+    animation: none;
   }
 
   /* Sem movimento: fica o quadro da ruptura, que é o estado explicado. */

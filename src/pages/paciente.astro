@@ -2,6 +2,7 @@
 import Layout from "@/layouts/Layout.astro";
 import EducationalFigure from "@/components/EducationalFigure.astro";
 import NewsletterSignupForm from "@/components/NewsletterSignupForm.astro";
+import MechanismScrolly from "@/components/science/MechanismScrolly.astro";
 import TearFilmCycle from "@/components/TearFilmCycle.astro";
 import { figures } from "@/lib/figures";
 import { patientStarters } from "@/lib/home";
@@ -13,8 +14,8 @@ import { toolCatalog } from "@/lib/tools/catalog";
  * públicos e carregava onze seções: revista, livros, conselho editorial e
  * jornadas conviviam com o conteúdo de quem só queria saber o que fazer com a
  * ardência. Aqui ficam os blocos de partida, na ordem em que a dúvida costuma
- * aparecer, com figuras do catálogo e a animação do filme lacrimal — o único
- * conceito central que imagem parada não mostra.
+ * aparecer, com figuras do catálogo, a animação do filme lacrimal e o
+ * scrolly do círculo vicioso — os dois conceitos que imagem parada não mostra.
  */
 const figureSizes = "(max-width: 900px) calc(100vw - 2.5rem), min(560px, 42vw)";
 const wideFigureSizes = "(max-width: 850px) calc(100vw - 2.5rem), 780px";
@@ -35,7 +36,7 @@ const quickGuides = guides
   title="Olho seco: sintomas, causas e cuidados | Portal do paciente"
   description="Entenda os sintomas do olho seco, como o diagnóstico é feito, o que os tratamentos pretendem e o que dá para fazer no dia a dia."
   schemaType="MedicalWebPage"
-  dateModified="2026-09-14"
+  dateModified="2026-09-15"
 >
   <section class="patient-hero" aria-labelledby="patient-title">
     <div class="page-shell hero-grid">
@@ -61,7 +62,7 @@ const quickGuides = guides
       </div>
 
       <figure class="hero-visual">
-        <div class="hero-frame">
+        <div class="hero-frame" data-motion-depth>
           <picture>
             <source
               type="image/avif"
@@ -130,6 +131,8 @@ const quickGuides = guides
       </a>
     </div>
   </section>
+
+  <MechanismScrolly />
 
   <section class="starters" aria-labelledby="starters-title">
     <div class="page-shell">
@@ -432,6 +435,12 @@ const quickGuides = guides
     overflow: hidden;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow);
+  }
+
+  .hero-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
   }
 
   .hero-visual figcaption {
