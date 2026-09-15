@@ -113,10 +113,10 @@ const pageLastmods: Record<string, string> = {
   "/politica-editorial": "2026-08-25",
   "/politica-de-correcao": "2026-08-25",
   "/privacidade": "2026-08-08",
-  "/profissional": "2026-08-24",
+  "/profissional": "2026-09-15",
   "/sinais-de-alerta": "2026-07-26",
   "/sintomas": "2026-07-26",
-  "/superficie": "2026-08-08",
+  "/superficie": "2026-09-15",
   "/superficie/artigos": "2026-08-15",
   "/superficie/edicao-00": "2026-08-07",
   "/superficie/edicoes": "2026-08-15",
@@ -188,7 +188,7 @@ const contentLastmods = (): Map<string, string> => {
     ...guides.map((guide) => guide.dateModified ?? guide.datePublished),
   );
 
-  remember("/superficie", latestArticle);
+  remember("/superficie", laterDay(latestArticle, latestRadar));
   remember("/superficie/artigos", latestArticle);
   remember("/superficie/edicao-00", latestArticle);
   remember("/superficie/radar", latestRadar);
