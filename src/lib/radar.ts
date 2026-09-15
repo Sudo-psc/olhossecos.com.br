@@ -95,6 +95,108 @@ export interface RadarReport {
 export const getRadarReportPath = (report: RadarReport) =>
   `/superficie/radar/${report.slug}`;
 
+const setembro2026: RadarReport = {
+  slug: "setembro-2026",
+  label: "Setembro 2026",
+  title:
+    "Ciclosporina, via nasal e higiene palpebral — o que julho–agosto muda (e o que não muda)",
+  period: "Varredura de julho e agosto de 2026",
+  publishedAt: "2026-09-15",
+  executiveSummary:
+    "O período não entrega classe nova. Entrega o cheque de três ferramentas que o consultório já usa. Ciclosporina tópica pode ajudar; a certeza é baixa a moderada e a descontinuação sobe. O spray nasal de vareniclina sobe o Schirmer e não fecha o sintoma. O lenço de higiene ganha do soro em quatro semanas e não prova superioridade sobre o ácido hipocloroso. A pergunta deixa de ser «funciona?» e passa a ser o que cada ferramenta muda, em quanto tempo, e o que ela não promete.",
+  highlights: [
+    {
+      title:
+        "Cochrane da ciclosporina tópica: efeito possível, certeza baixa a moderada",
+      whyItMatters:
+        "Não tira a molécula da prateleira. Tira a frase «funciona para todo olho seco» e obriga a dizer o tamanho do efeito e o preço do abandono.",
+    },
+    {
+      title:
+        "CsA 0,1% sem água: a coloração cede cedo; o sintoma no desfecho primário é menos limpo",
+      whyItMatters:
+        "Útil quando a prioridade é epitelizar cedo e a gota precisa ser tolerável. Não é confronto com a 0,05% clássica nem prova de classe mais forte.",
+    },
+    {
+      title:
+        "Vareniclina nasal sobe o Schirmer e não fecha o Eye Dryness Score",
+      whyItMatters:
+        "Ferramenta de produção aquosa, não de conforto imediato. Não substitui higiene nem anti-inflamatório.",
+    },
+    {
+      title:
+        "Lenço de higiene ganha do soro em quatro semanas — não elege marca",
+      whyItMatters:
+        "Higiene mecânica com lenço pronto bateu o soro no sintoma curto. Isso não é ranking de ácido hipocloroso nem generaliza para Demodex grave.",
+    },
+  ],
+  findings: [
+    {
+      title: "Topical cyclosporine A therapy for dry eye disease",
+      source: "Cochrane Database of Systematic Reviews, 2026;7(7):CD010051",
+      date: "17/07/2026",
+      url: "https://pubmed.ncbi.nlm.nih.gov/42464966/",
+      doi: "10.1002/14651858.CD010051.pub3",
+      summary:
+        "Atualização da Cochrane de 2019 (Priyadarshini, Sadhu, Tzang et al.). 58 ensaios, 10.225 participantes; busca até 17 de março de 2026. CsA 0,05% versus veículo, lágrima ou ambos: pode melhorar sintoma aos 3 meses (SMD −0,33; IC 95% −0,65 a −0,01; I² 86%; 13 estudos, 1.396 participantes; certeza baixa) e coloração corneana (SMD −0,20; IC −0,31 a −0,09; 7 estudos, 1.355; certeza baixa). A descontinuação por evento adverso sobe (RR 1,99; IC 1,02 a 3,87; 9 estudos, 2.109; certeza moderada). CsA 0,1% provavelmente melhora coloração corneana (SMD −0,16; IC −0,24 a −0,08; 7 estudos, 2.940) e conjuntival (SMD −0,20; IC −0,28 a −0,12; 5 estudos, 2.303), ambas com certeza moderada; a descontinuação também sobe (RR 1,58; IC 1,04 a 2,41; certeza moderada). Os autores pedem estratificar por subtipo e gravidade.",
+      whyItMatters:
+        "Dá o chão GRADE da molécula que o consultório já prescreve. Comunicar ardor e abandono; não prometer alívio uniforme em três meses.",
+      evidenceLevel: "Revisão sistemática Cochrane / GRADE baixo a moderado",
+      section: "Farmacologia e pipeline",
+    },
+    {
+      title:
+        "Water-Free Cyclosporine 0.1% in Dry Eye Disease: Formulation Rationale, Clinical Evidence, and Unresolved Questions",
+      source: "Drug Design, Development and Therapy, 2026;20:620553",
+      date: "14/08/2026",
+      url: "https://doi.org/10.2147/DDDT.S620553",
+      doi: "10.2147/DDDT.S620553",
+      summary:
+        "Revisão narrativa (Chatzimichail, Elalfy, Empeslidis, Panos, Gatzioufas) da ciclosporina 0,1% sem água no veículo perfluorobutilpentano (F4H5). Percorre fase 2, ESSENCE-1, ESSENCE-2, um fase 3 na China e extensão de um ano. A coloração corneana total se separa do veículo em duas semanas nos pivotais. Análise conjunta ESSENCE, n = 1.162: mais de 50% tiveram queda de pelo menos três graus na coloração em duas semanas. A superioridade de sintoma nos desfechos primários precoces é menos consistente; o veículo lubrifica e isso confunde. Sem confronto direto com outros imunomoduladores. A base é sobretudo veículo-controlada e ligada à indústria.",
+      whyItMatters:
+        "Não é «CsA mais forte». Entra quando a coloração precisa ceder cedo e a gota precisa ser tolerável. Não substitui fenótipo e não é confronto com a 0,05% clássica.",
+      evidenceLevel: "Revisão narrativa / programa de ensaios",
+      section: "Farmacologia e pipeline",
+    },
+    {
+      title:
+        "Efficacy and safety of varenicline nasal spray in dry eye disease: a systematic review and meta-analysis of randomized controlled trials",
+      source: "International Ophthalmology, 2026;46(1)",
+      date: "21/07/2026",
+      url: "https://doi.org/10.1007/s10792-026-04178-5",
+      doi: "10.1007/s10792-026-04178-5",
+      summary:
+        "Revisão sistemática e meta-análise (Almutawtah, AlFoudari, Mohammad et al.) de sete ensaios de vareniclina nasal. Na dose 0,06 mg duas vezes ao dia, o Schirmer médio sobe 5,52 mm (IC 95% 4,08–6,97) e o ganho de pelo menos 10 mm tem RR 1,86 (IC 1,50–2,30). Eye Dryness Score: −4,38 (IC −12,02 a 3,25; P = 0,26) — não fecha. Coloração corneana sem ganho significativo. Espirro é o evento extra; eventos oculares comparáveis. A busca foi até fevereiro de 2026.",
+      whyItMatters:
+        "Dizer que o Schirmer sobe e o escore de secura não fechou. Disponibilidade e registro local não são afirmados neste ciclo.",
+      evidenceLevel: "Revisão sistemática / meta-análise",
+      section: "Farmacologia e pipeline",
+    },
+    {
+      title:
+        "Comparative efficacy of eyelid cleansing wipes, hypochlorous acid, and saline for blepharitis-associated ocular surface disease: a randomized trial",
+      source: "Scientific Reports, 2026;16(1)",
+      date: "11/07/2026",
+      url: "https://doi.org/10.1038/s41598-026-62115-z",
+      doi: "10.1038/s41598-026-62115-z",
+      summary:
+        "Ensaio unicêntrico, randomizado, mascaramento do avaliador, três braços (Shi, Guo, Li, Tian, Jie). Adultos com doença de superfície associada a blefarite receberam quatro semanas de lenço pronto, higiene com ácido hipocloroso ou higiene com soro. 72 randomizados; 64 na análise completa; 59 com VAS na semana 4. VAS ajustada: lenço 27,47; hipocloroso 33,16; soro 40,83 (P global 0,007). Lenço versus soro: −13,35 (IC 95% −21,51 a −5,20; Holm P = 0,005). Lenço versus hipocloroso não sobreviveu ao ajuste. Schirmer, coloração e expressibilidade são secundários.",
+      whyItMatters:
+        "Higiene mecânica com lenço ganha do soro no sintoma curto. Isso não elege marca e não generaliza para Demodex grave nem para disfunção meibomiana atrófica.",
+      evidenceLevel: "RCT / um centro / n = 72 randomizados",
+      section: "Tecnologias diagnósticas e terapêuticas",
+    },
+  ],
+  industry: [],
+  transparencyNote:
+    "Núcleo selado em 01/09/2026 (ed.0, pp. 77–78): quatro achados, todos com PubMed e DOI conferidos de novo em 15/09/2026 no Crossref e no PubMed. O DOI da Cochrane resolve; o link publicado é o PubMed porque o Wiley devolveu 403 ao verificador automático. Chen (DOI 10.1177/10807683261424112) permanece fora — corte de data Crossref do Revisor. Sem bloco de indústria neste ciclo: não houve fonte primária FDA/ANVISA no recorte. Itens posteriores a 01/09 ficaram como candidatos na descrição do PR, sem entrar nos achados.",
+  seo: {
+    title: "RADAR Científico — Setembro 2026 | SUPERFÍCIE",
+    description:
+      "Curadoria de julho e agosto de 2026: Cochrane da ciclosporina tópica, CsA 0,1% sem água, vareniclina nasal e higiene palpebral.",
+  },
+};
+
 const agosto2026: RadarReport = {
   slug: "agosto-2026",
   label: "Agosto 2026",
@@ -444,7 +546,11 @@ const julho2026: RadarReport = {
 };
 
 /** Relatórios publicados, do mais recente para o mais antigo. */
-export const radarReports: RadarReport[] = [agosto2026, julho2026];
+export const radarReports: RadarReport[] = [
+  setembro2026,
+  agosto2026,
+  julho2026,
+];
 
 export const latestRadarReport = (): RadarReport | undefined => radarReports[0];
 
