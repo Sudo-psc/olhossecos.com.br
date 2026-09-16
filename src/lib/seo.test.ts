@@ -28,13 +28,26 @@ test("o sitemap omite redirects, páginas noindex e o laboratório da revista", 
   assert.equal(isIndexableSitemapPath("/rss.xml"), false);
   assert.equal(isIndexableSitemapPath("/llms.txt"), false);
   assert.equal(isIndexableSitemapPath("/.well-known/security.txt"), false);
-  assert.equal(isIndexableSitemapPath("/contato"), true);
   assert.equal(isIndexableSitemapPath("/quiz"), false);
   assert.equal(
     isIndexableSitemapPath("/blog/sintomas-olho-seco-caratinga"),
     false,
   );
   assert.equal(isIndexableSitemapPath("/tratamentos/luz-pulsada-irpl"), false);
+});
+
+test("o sitemap omite /contato e mantém o RADAR de setembro", () => {
+  assert.equal(isIndexableSitemapPath("/contato"), false);
+  assert.equal(isIndexableSitemapPath("/contato/"), false);
+  assert.equal(
+    isIndexableSitemapPath("https://olhossecos.com.br/contato"),
+    false,
+  );
+  assert.equal(
+    isIndexableSitemapPath("https://olhossecos.com.br/contato/"),
+    false,
+  );
+  assert.equal(isIndexableSitemapPath("/superficie/radar/setembro-2026"), true);
 });
 
 test("lastmod dos artigos publicados usa a data editorial, não o fallback de julho", () => {
