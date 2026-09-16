@@ -32,6 +32,8 @@ const staticPages: Record<string, string> = {
   "/autocuidado": "2026-07-26",
   "/autor/philipe-saraiva-cruz": "2026-08-07",
   "/causas": "2026-07-26",
+  // Página stub no repo; o sitemap a omite (410 no nginx). lastmod fica
+  // registrado só para não cair no piso de lançamento se a exclusão falhar.
   "/contato": "2026-09-13",
   "/diagnostico": "2026-08-25",
   "/ferramentas": "2026-08-25",

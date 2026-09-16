@@ -72,6 +72,8 @@ const sitemapExcludedExact = new Set([
   "/videos",
   "/exames",
   "/profissionais",
+  // Nginx responde 410 em produção; a página do repo não deve ser anunciada.
+  "/contato",
   "/newsletter/descadastrar",
   "/newsletter/confirmar",
   "/404",

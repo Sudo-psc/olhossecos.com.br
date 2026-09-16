@@ -370,12 +370,19 @@ try {
     "/superficie/edicoes",
     "/superficie/artigos",
     "/newsletter",
+    "/superficie/radar/setembro-2026",
   ]) {
     if (
       !sitemap.includes(`<loc>${publicOrigin}${path === "/" ? "" : path}</loc>`)
     ) {
       throw new Error(`sitemap: ${path} ausente`);
     }
+  }
+  if (
+    sitemap.includes(`<loc>${publicOrigin}/contato</loc>`) ||
+    sitemap.includes(`<loc>${publicOrigin}/contato/</loc>`)
+  ) {
+    throw new Error("sitemap: /contato não deve aparecer (410 no nginx)");
   }
 
   // O lastmod é derivado dos módulos de conteúdo, mas quem serializa é o
