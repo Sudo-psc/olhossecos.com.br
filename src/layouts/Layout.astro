@@ -6,7 +6,6 @@ import GlobalSearchModal from "@/components/GlobalSearchModal.astro";
 import PortalMotion from "@/components/PortalMotion.astro";
 import { author } from "@/lib/books";
 import {
-  clinicLocalBusinessSchema,
   physician,
   physicianCredentials,
   portalMedicalConditions,
@@ -184,7 +183,6 @@ const structuredData = {
       ? [person]
       : []),
     page,
-    clinicLocalBusinessSchema(siteUrl),
     ...(breadcrumbSchema ? [breadcrumbSchema] : []),
     ...extraSchemas,
   ],
@@ -852,39 +850,6 @@ const structuredData = {
       transparent 1.5px
     );
     background-size: 14px 14px;
-  }
-
-  .footer-clinic {
-    padding-block: 1.35rem 0.35rem;
-    border-top: 1px solid var(--on-inverse-line);
-  }
-
-  .footer-clinic p {
-    margin: 0 0 0.45rem;
-    color: var(--on-inverse-soft);
-    font-size: 0.875rem;
-  }
-
-  .footer-clinic span {
-    display: block;
-    margin-bottom: 0.35rem;
-    color: var(--on-inverse-accent);
-    font-size: 0.875rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-
-  .footer-clinic strong {
-    color: var(--on-inverse);
-    font-family: var(--serif);
-    font-weight: 600;
-  }
-
-  .footer-clinic a {
-    color: inherit;
-    text-decoration: underline;
-    text-underline-offset: 0.18em;
   }
 
   /* Registro do responsável técnico: exigido pelo CFM, então fica acima da

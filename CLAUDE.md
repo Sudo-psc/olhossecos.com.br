@@ -4,9 +4,11 @@ Orientação para o Claude Code (claude.ai/code) trabalhando neste repositório.
 
 ## Visão geral
 
-**olhossecos.com.br** é um portal editorial sobre olho seco e superfície ocular,
-da Saraiva Vision (Caratinga/MG). Não é um site institucional de clínica: o
-conteúdo é a entrega.
+**olhossecos.com.br** é um portal editorial sobre olho seco e superfície ocular.
+Não oferece agendamento de consultas: o conteúdo é a entrega. O atendimento
+anteriormente divulgado em Caratinga foi encerrado; não publique contatos,
+horários ou dados estruturados de clínica. Afiliações em artigos datados e
+citações bibliográficas permanecem como registros históricos.
 
 **A raiz é uma pré-página, não uma home.** `/` só separa os dois públicos e sai
 da frente. Cada portal tem home própria, navegação própria e rodapé próprio:
@@ -89,7 +91,7 @@ Para publicar conteúdo novo, edite o módulo — não crie HTML solto na págin
 
 ## Rotas SSR e dados
 
-Quase tudo é pré-renderizado. Só quatro rotas têm `export const prerender = false`:
+Quase tudo é pré-renderizado. As APIs abaixo têm `export const prerender = false`:
 
 ```
 src/pages/api/analytics.ts             → analytics.sqlite
@@ -97,6 +99,10 @@ src/pages/api/newsletter.ts            → newsletter.sqlite
 src/pages/api/newsletter-unsubscribe.ts
 src/pages/api/superficie-parceiros.ts  → superficie-partner-inquiries.sqlite
 ```
+
+`src/pages/contato.astro` também é SSR e responde HTTP 410 com `noindex`.
+`/contato/` mantém a normalização canônica 301 para `/contato`, cujo destino é 410. A rota permanece fora do sitemap. O build remove `dist/client/contato`
+para impedir que um HTML estático de release anterior contorne esse bloqueio.
 
 Em produção os bancos ficam em `/var/lib/olhossecos/`, pertencendo a `www-data`.
 

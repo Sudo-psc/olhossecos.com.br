@@ -22,7 +22,7 @@ execFileSync("astro", ["build"], {
   stdio: "inherit",
 });
 
-// Caminhos que existem sob public/ mas não devem ir para produção.
+// Caminhos que não podem permanecer no client do release.
 //
 // As placas em art/ e os PNGs de origem dos heros são INSUMOS dos geradores
 // (generate-superficie-edicao-00-assets.mjs, build-og-cards.mjs): moram sob
@@ -30,6 +30,8 @@ execFileSync("astro", ["build"], {
 // pages/*.webp pelo manifest e nunca toca em art/ — eram 65 MB de PNG servidos
 // publicamente sem nenhuma referência, 57% do build.
 const leftovers = [
+  // A rota é SSR com HTTP 410; um HTML de build anterior bypassaria o bloqueio.
+  "contato",
   "superficie/lab/flipbook",
   "superficie/issues/poc",
   "superficie/issues/edicao-00/art",

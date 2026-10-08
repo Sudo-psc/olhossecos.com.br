@@ -1,4 +1,5 @@
 import { defineMiddleware } from "astro:middleware";
+import { clinicUnavailableNotice } from "./lib/clinic";
 import { discoveryContentTypes } from "./lib/discovery";
 import { resolveLegacyRedirect } from "./lib/legacy-redirects";
 import { normalizeBasePath, withBasePath } from "./lib/site-path";
@@ -78,6 +79,19 @@ const logicalPathname = (pathname: string) => {
 };
 
 export const onRequest = defineMiddleware(async (context, next) => {
+  // Cobre /contato e /contato/, inclusive no preview com base path.
+  if (logicalPathname(context.url.pathname) === "/contato") {
+    return applySecurityHeaders(
+      new Response(clinicUnavailableNotice, {
+        status: 410,
+        headers: {
+          "Content-Type": "text/plain; charset=utf-8",
+          "X-Robots-Tag": "noindex, nofollow, noarchive",
+        },
+      }),
+    );
+  }
+
   const legacyTarget = resolveLegacyRedirect(
     logicalPathname(context.url.pathname),
   );
