@@ -25,7 +25,7 @@ arquitetura, sistema de design, deploy e conformidade — está em `CLAUDE.md`.
 npm run dev     # http://localhost:4321
 npm run check   # test + lint + format:check + build + test:routes
 npm test        # 67 testes (node:test)
-npm run lint    # ESLint 9
+npm run lint    # ESLint 10
 npm run format  # Prettier + prettier-plugin-astro
 ```
 
