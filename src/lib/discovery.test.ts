@@ -15,6 +15,8 @@ test("llms.txt descreve escopo, citação e atribuição com CRM", () => {
   assert.match(llmsTxt, /não substitui/i);
   assert.match(llmsTxt, /Como atribuir/);
   assert.match(llmsTxt, /O que pode ser citado/);
+  assert.match(llmsTxt, /não oferece agendamento/iu);
+  assert.doesNotMatch(llmsTxt, /Saraiva Vision|saraivavision\.com\.br/u);
   assert.doesNotMatch(
     llmsTxt,
     /melhor do mercado|resultado garantido|antes e depois/i,

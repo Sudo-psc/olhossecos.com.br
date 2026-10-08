@@ -1,5 +1,4 @@
 import { author, books } from "./books.ts";
-import { clinic } from "./clinic.ts";
 import { responsibleDoctor } from "./doctor.ts";
 import { exactRedirects } from "./legacy-redirects.ts";
 import { guides } from "./guides.ts";
@@ -19,9 +18,6 @@ export const physician = {
   description: author.description,
   crm: responsibleDoctor.crm,
   rqe: responsibleDoctor.rqe,
-  affiliation: "Saraiva Vision",
-  affiliationLocality: "Caratinga",
-  affiliationRegion: "MG",
   sameAs: [
     "https://www.amazon.com/author/drphilipesaraiva",
     responsibleDoctor.orcid,
@@ -265,50 +261,8 @@ export const physicianSchema = (siteUrl: URL) => ({
     name: "Ophthalmology",
   },
   worksFor: { "@id": organizationId(siteUrl) },
-  affiliation: {
-    "@type": "Organization",
-    name: physician.affiliation,
-    url: clinic.url,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: clinic.streetAddress,
-      addressLocality: physician.affiliationLocality,
-      addressRegion: physician.affiliationRegion,
-      postalCode: clinic.postalCode,
-      addressCountry: "BR",
-    },
-  },
   sameAs: [...physician.sameAs],
   hasCredential: [...physicianCredentials],
-});
-
-export const clinicLocalBusinessId = `${clinic.url}/#localbusiness`;
-
-/**
- * Complemento de SEO local. Não é MedicalBusiness nem CTA de funil: só
- * endereço e telefone da clínica presencial, no domínio dela.
- */
-export const clinicLocalBusinessSchema = (_siteUrl: URL) => ({
-  "@type": "LocalBusiness",
-  "@id": clinicLocalBusinessId,
-  name: clinic.name,
-  legalName: clinic.legalName,
-  url: clinic.url,
-  telephone: clinic.telephoneE164,
-  taxID: clinic.taxId,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: clinic.streetAddress,
-    addressLocality: clinic.addressLocality,
-    addressRegion: clinic.addressRegion,
-    postalCode: clinic.postalCode,
-    addressCountry: clinic.addressCountry,
-  },
-  areaServed: {
-    "@type": "City",
-    name: clinic.addressLocality,
-  },
-  openingHours: [...clinic.openingHours],
 });
 
 export interface FaqItem {

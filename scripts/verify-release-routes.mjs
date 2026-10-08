@@ -71,6 +71,18 @@ const assertStatus = async (path, expectedStatus = 200) => {
   return response;
 };
 
+const assertNoRetiredClinic = (html, path) => {
+  if (
+    /LocalBusiness|Rua Catarina Maria Passos|5533998601427|99860-1427|Agendar na clínica|https:\/\/saraivavision\.com\.br/u.test(
+      html,
+    )
+  ) {
+    throw new Error(
+      `${path}: atendimento encerrado em Caratinga ainda anunciado`,
+    );
+  }
+};
+
 const assertPage = async (path, canonicalPath) => {
   const response = await assertStatus(path);
   const html = await response.text();
@@ -152,12 +164,7 @@ try {
   if (responseCsp && /googletagmanager|doubleclick/u.test(responseCsp)) {
     throw new Error("homepage: CSP ainda abre host de tag quebrada");
   }
-  if (!homeHtml.includes("https://saraivavision.com.br")) {
-    throw new Error("homepage: ponte ética da clínica ausente no rodapé");
-  }
-  if (!homeHtml.includes("LocalBusiness")) {
-    throw new Error("homepage: schema LocalBusiness ausente");
-  }
+  assertNoRetiredClinic(homeHtml, "/");
   if (!homeHtml.includes(`href="${publicPath("/newsletter")}"`)) {
     throw new Error("homepage: link global para /newsletter ausente");
   }
@@ -268,9 +275,11 @@ try {
       "/sintomass: o catch-all deve renderizar src/pages/404.astro, não text/plain",
     );
   }
-  await assertPage("/contato", "/contato");
   await assertStatus("/superficie/lab/flipbook", 404);
-  await assertStatus("/superficie/lab/edicao-00", 200);
+  const labHtml = await (
+    await assertStatus("/superficie/lab/edicao-00")
+  ).text();
+  assertNoRetiredClinic(labHtml, "/superficie/lab/edicao-00");
   await assertStatus("/superficie/issues/poc/manifest.json", 404);
   await assertStatus("/superficie/issues/edicao-00/manifest.json", 200);
 
@@ -420,6 +429,7 @@ try {
   const oversized = [];
   for (const [path] of emitted) {
     const html = await (await assertStatus(path)).text();
+    assertNoRetiredClinic(html, path);
     const title = html.match(/<title>([^<]*)<\/title>/u)?.[1] ?? "";
     const description =
       html.match(/<meta name="description" content="([^"]*)"/u)?.[1] ?? "";
@@ -454,10 +464,44 @@ try {
   // MedicalWebPage arrasta `about: MedicalCondition`. Declarar privacidade ou
   // política editorial como conteúdo médico afirmava que aquelas páginas
   // tratam da doença do olho seco.
-  for (const path of ["/privacidade", "/politica-editorial", "/contato"]) {
+  for (const path of ["/privacidade", "/politica-editorial"]) {
     const html = await (await assertStatus(path)).text();
     if (html.includes("MedicalWebPage")) {
       throw new Error(`${path}: página institucional tipada como médica`);
+    }
+  }
+
+  for (const path of ["/contato", "/contato/"]) {
+    let response = await fetch(`${localOrigin}${publicPath(path)}`, {
+      redirect: "manual",
+    });
+    // O adapter normaliza a barra antes do middleware; esse 301 continua
+    // válido somente se terminar na rota retirada, nunca em uma página ativa.
+    if (path === "/contato/" && response.status === 301) {
+      const target = new URL(
+        response.headers.get("location") ?? "",
+        localOrigin,
+      );
+      if (
+        target.origin !== localOrigin ||
+        target.pathname !== publicPath("/contato")
+      ) {
+        throw new Error(`${path}: redirecionamento deve terminar em /contato`);
+      }
+      response = await fetch(target, { redirect: "manual" });
+    }
+    if (response.status !== 410 || response.headers.has("location")) {
+      throw new Error(
+        `${path}: esperado destino HTTP 410 sem redirecionamento`,
+      );
+    }
+    if (!response.headers.get("x-robots-tag")?.includes("noindex")) {
+      throw new Error(`${path}: resposta 410 deve declarar noindex`);
+    }
+    const body = await response.text();
+    assertNoRetiredClinic(body, path);
+    if (!body.includes("não estão mais disponíveis")) {
+      throw new Error(`${path}: aviso de atendimento indisponível ausente`);
     }
   }
 

@@ -1,8 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { clinic } from "./clinic.ts";
 import {
-  clinicLocalBusinessSchema,
   definedTermSetSchema,
   faqPageSchema,
   isIndexableSitemapPath,
@@ -118,18 +116,9 @@ test("Organization e médico compartilham o mesmo @id canônico do portal", () =
   assert.equal(person.hasCredential[0]?.name, physician.crm);
   assert.equal(portalMedicalConditions.length, 3);
   assert.equal(portalMedicalConditions[0]?.name, "Síndrome do olho seco");
-  assert.equal(person.affiliation.url, clinic.url);
-  assert.equal(person.affiliation.address.streetAddress, clinic.streetAddress);
-});
-
-test("LocalBusiness descreve a clínica, não o portal editorial", () => {
-  const siteUrl = new URL("https://olhossecos.com.br/");
-  const local = clinicLocalBusinessSchema(siteUrl);
-
-  assert.equal(local["@type"], "LocalBusiness");
-  assert.equal(local.url, clinic.url);
-  assert.equal(local.address.addressLocality, "Caratinga");
-  assert.doesNotMatch(JSON.stringify(local), /MedicalBusiness|cupom/u);
+  assert.equal("affiliation" in person, false);
+  assert.equal("address" in person, false);
+  assert.equal("telephone" in person, false);
 });
 
 test("FAQ e glossário geram schema visível para rich results", () => {

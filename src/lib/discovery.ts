@@ -31,7 +31,7 @@ const attribution = `Dr. ${responsibleDoctor.name}, ${responsibleDoctor.registra
 
 export const llmsTxt = `# Olhos Secos
 
-> Portal editorial sobre olho seco e superfície ocular, da Saraiva Vision (Caratinga/MG). Conteúdo educativo. Não substitui diagnóstico, avaliação ou orientação profissional individualizada. Sem promessa de resultado.
+> Portal editorial sobre olho seco e superfície ocular. Conteúdo educativo. Não oferece agendamento de consultas. Não substitui diagnóstico, avaliação ou orientação profissional individualizada. Sem promessa de resultado.
 
 Responsável técnico: ${attribution}
 
