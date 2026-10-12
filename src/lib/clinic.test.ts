@@ -21,8 +21,14 @@ test("os rodapés carregam a ponte ética sem cupom nem diagnóstico online", as
 
   for (const path of footers) {
     const source = await readFile(path, "utf8");
-    assert.match(source, /clinic\.url/u, `${path} sem link da clínica`);
-    assert.match(source, /clinic\.whatsappUrl/u, `${path} sem WhatsApp`);
+    // Rodapé não leva para fora: o agendamento (site da clínica e WhatsApp)
+    // fica concentrado em /contato.
+    assert.match(source, /href="\/contato"/u, `${path} sem link para /contato`);
+    assert.doesNotMatch(
+      source,
+      /clinic\.url|clinic\.whatsappUrl|apos-olhoseco/u,
+      `${path} com link externo no rodapé`,
+    );
     assert.match(
       source,
       /responsibleDoctor\.registration/u,

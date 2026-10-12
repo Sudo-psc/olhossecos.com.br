@@ -37,16 +37,6 @@ const columns =
             {column.links.map((link) => (
               <a href={link.href}>{link.label}</a>
             ))}
-            {column.title === "Cuide-se" && (
-              <a
-                href="https://apos-olhoseco.com.br"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                APOS — associação de pacientes
-                <span class="visually-hidden"> (abre em nova aba)</span>
-              </a>
-            )}
           </div>
         ))
       }
@@ -70,11 +60,7 @@ const columns =
       {responsibleDoctor.registration}
     </p>
     <p>
-      <a href={clinic.whatsappUrl} rel="noopener noreferrer">
-        WhatsApp {clinic.telephoneDisplay}
-      </a>
-      <span aria-hidden="true"> · </span>
-      <a href={clinic.url} rel="noopener noreferrer">Agendar na clínica</a>
+      <a href="/contato">Como agendar uma consulta</a>
     </p>
     <p>
       Este portal é educativo. Não faz diagnóstico online e não oferece cupom.
