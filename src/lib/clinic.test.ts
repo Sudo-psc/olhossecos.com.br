@@ -21,12 +21,12 @@ test("os rodapés carregam a ponte ética sem cupom nem diagnóstico online", as
 
   for (const path of footers) {
     const source = await readFile(path, "utf8");
-    // Rodapé não leva para fora: o agendamento (site da clínica e WhatsApp)
+    // Rodapé não leva para a clínica (APOS é permitida): o agendamento (site da clínica e WhatsApp)
     // fica concentrado em /contato.
     assert.match(source, /href="\/contato"/u, `${path} sem link para /contato`);
     assert.doesNotMatch(
       source,
-      /clinic\.url|clinic\.whatsappUrl|apos-olhoseco/u,
+      /clinic\.url|clinic\.whatsappUrl|saraivavision\.com\.br|wa\.me/u,
       `${path} com link externo no rodapé`,
     );
     assert.match(
