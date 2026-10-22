@@ -19,6 +19,8 @@ export const physician = {
   description: author.description,
   crm: responsibleDoctor.crm,
   rqe: responsibleDoctor.rqe,
+  crmSc: responsibleDoctor.crmSc,
+  rqeSc: responsibleDoctor.rqeSc,
   affiliation: "Saraiva Vision",
   affiliationLocality: "Caratinga",
   affiliationRegion: "MG",
@@ -62,6 +64,21 @@ export const physicianCredentials = [
     "@type": "EducationalOccupationalCredential",
     credentialCategory: "board certification",
     name: physician.rqe,
+    competencyRequired: "Oftalmologia",
+  },
+  {
+    "@type": "EducationalOccupationalCredential",
+    credentialCategory: "MedicalLicense",
+    name: physician.crmSc,
+    recognizedBy: {
+      "@type": "Organization",
+      name: "Conselho Regional de Medicina do Estado de Santa Catarina",
+    },
+  },
+  {
+    "@type": "EducationalOccupationalCredential",
+    credentialCategory: "board certification",
+    name: physician.rqeSc,
     competencyRequired: "Oftalmologia",
   },
 ] as const;
@@ -258,6 +275,16 @@ export const physicianSchema = (siteUrl: URL) => ({
       "@type": "PropertyValue",
       name: "RQE",
       value: physician.rqe,
+    },
+    {
+      "@type": "PropertyValue",
+      name: "CRM",
+      value: physician.crmSc,
+    },
+    {
+      "@type": "PropertyValue",
+      name: "RQE",
+      value: physician.rqeSc,
     },
   ],
   medicalSpecialty: {

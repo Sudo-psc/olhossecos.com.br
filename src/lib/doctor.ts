@@ -10,6 +10,9 @@
 
 const crm = "CRM-MG 69.870";
 const rqe = "RQE 71.903";
+/** Registro em Santa Catarina (CRM/SC 44633, RQE 30355, desde 06/10/2026). */
+const crmSc = "CRM-SC 44633";
+const rqeSc = "RQE 30355";
 
 export const responsibleDoctor = {
   /** Sem o "Dr." — os templates que precisam do tratamento o acrescentam. */
@@ -17,8 +20,10 @@ export const responsibleDoctor = {
   role: "Médico Oftalmologista",
   crm,
   rqe,
-  /** Redação canônica exibida ao lado do nome. */
-  registration: `${crm} · ${rqe}`,
+  crmSc,
+  rqeSc,
+  /** Redação canônica exibida ao lado do nome: os dois registros. */
+  registration: `${crm} · ${rqe} | ${crmSc} · ${rqeSc}`,
   /** Identificadores públicos já documentados. */
   orcid: "https://orcid.org/0000-0002-4073-8371",
   lattes: "https://lattes.cnpq.br/7365253786880035",
