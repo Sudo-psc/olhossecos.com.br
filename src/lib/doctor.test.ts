@@ -31,7 +31,12 @@ test("os artigos publicados da SUPERFÍCIE assinam o responsável técnico", asy
 test("o registro segue a redação exigida pelo CFM", () => {
   assert.equal(responsibleDoctor.crm, "CRM-MG 69.870");
   assert.equal(responsibleDoctor.rqe, "RQE 71.903");
-  assert.equal(responsibleDoctor.registration, "CRM-MG 69.870 · RQE 71.903");
+  assert.equal(responsibleDoctor.crmSc, "CRM-SC 44633");
+  assert.equal(responsibleDoctor.rqeSc, "RQE 30355");
+  assert.equal(
+    responsibleDoctor.registration,
+    "CRM-MG 69.870 · RQE 71.903 | CRM-SC 44633 · RQE 30355",
+  );
 });
 
 test("o LinkedIn público usa o slug confirmado, não uma grafia aproximada", () => {

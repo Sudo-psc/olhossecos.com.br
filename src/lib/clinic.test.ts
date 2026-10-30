@@ -47,5 +47,8 @@ test("os rodapés carregam a ponte ética sem cupom nem diagnóstico online", as
 });
 
 test("o registro do rodapé continua vindo do módulo do médico", () => {
-  assert.equal(responsibleDoctor.registration, "CRM-MG 69.870 · RQE 71.903");
+  assert.equal(
+    responsibleDoctor.registration,
+    "CRM-MG 69.870 · RQE 71.903 | CRM-SC 44633 · RQE 30355",
+  );
 });
