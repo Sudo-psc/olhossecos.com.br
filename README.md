@@ -15,7 +15,7 @@ Sanity, Tailwind, Next.js, Docker, Vercel e Netlify não fazem parte da implemen
 
 ## Requisitos
 
-- Node.js 22.12 ou superior; produção e CI usam Node 24;
+- Node.js 22.22.3+, 24.16.0+ ou 26.3.0+ nas respectivas linhas; produção e CI usam Node 24;
 - npm;
 - Linux, macOS ou ambiente compatível para desenvolvimento.
 
